@@ -1,0 +1,426 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Fish_Factory.exe"
+		},
+		{
+			"path" : "Fish_Factory.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"target_include_directories",
+			"target_precompile_headers"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 41,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd"
+				},
+				{
+					"fragment" : "-Xclang -emit-pch -Xclang -include -Xclang C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/CMakeFiles/Fish_Factory.dir/cmake_pch.hxx -x c++-header"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/core"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/headers"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/external"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Core.h"
+				},
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Wrapper.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd"
+				},
+				{
+					"fragment" : "-Xclang -include-pch -Xclang C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/CMakeFiles/Fish_Factory.dir/cmake_pch.hxx.pch -Xclang -include -Xclang C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/CMakeFiles/Fish_Factory.dir/cmake_pch.hxx"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/core"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/headers"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/external"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Core.h"
+				},
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Wrapper.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16
+			]
+		},
+		{
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/core"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/headers"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/external"
+				}
+			],
+			"language" : "RC",
+			"precompileHeaders" : 
+			[
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Core.h"
+				},
+				{
+					"backtrace" : 5,
+					"header" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/internal/precompiled/Wrapper.hpp"
+				}
+			],
+			"sourceIndexes" : 
+			[
+				17
+			]
+		}
+	],
+	"id" : "Fish_Factory::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Xlinker /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-fuse-ld=lld-link",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "C:\\Users\\kayla\\Documents\\Programming\\Programs\\C++\\Fish_Factory\\modules\\lib\\SDL3.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "C:\\Users\\kayla\\Documents\\Programming\\Programs\\C++\\Fish_Factory\\modules\\lib\\SDL3_ttf.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "C:\\Users\\kayla\\Documents\\Programming\\Programs\\C++\\Fish_Factory\\modules\\lib\\SDL3_image.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Fish_Factory",
+	"nameOnDisk" : "Fish_Factory.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17
+			]
+		},
+		{
+			"name" : "Precompile Header File",
+			"sourceIndexes" : 
+			[
+				18
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/CMakeFiles/Fish_Factory.dir/cmake_pch.hxx.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/core/Fish_Factory.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/core/Preloader.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Audio_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Data_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Fish_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Grid_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Render_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Interface_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Item_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Pipe_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Recipe_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Terminal_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Transition_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Tutorial_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/UI_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "internal/source/Wire_Handler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 2,
+			"path" : "modules/neutral/resource.rc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"path" : "build/CMakeFiles/Fish_Factory.dir/cmake_pch.hxx",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

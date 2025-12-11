@@ -1,0 +1,10 @@
+^C:\USERS\KAYLA\DOCUMENTS\PROGRAMMING\PROGRAMS\C++\FISH_FACTORY\MODULES\TMP\CMAKEFILES\EDA154645F1B3ACBF0E1C808A4D536B9\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/external/SDL3 -BC:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/SDL3.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+@echo off
+git init
+git add .
+git config --global user.email "therealarcticsnow@gmail.com"
+git config --global user.name "lily-cdev"
+git commit -m "fish"
+git branch -m main
+git remote remove origin
+git remote add origin https://github.com/lily-cdev/fish-factory.git
+git push -u origin main --force

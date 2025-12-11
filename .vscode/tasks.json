@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "debug fish factory",
+            "type": "shell",
+            "command": "${workspaceFolder}\\debug.bat",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean build folder",
+            "type": "shell",
+            "command": "${workspaceFolder}\\clean.bat",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "release build",
+            "type": "shell",
+            "command": "${workspaceFolder}/_pkg.exe",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "preconfigure",
+            "type": "shell",
+            "command": "${workspaceFolder}/preconfig.bat",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "ultrasave",
+            "type": "shell",
+            "command": "${workspaceFolder}/update.bat",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
