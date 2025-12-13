@@ -1,0 +1,21 @@
+# ninja log v7
+3	93	7872906962907729	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-mkdir	682f9de2507c6b49
+3	93	7872906962907729	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-mkdir	682f9de2507c6b49
+94	158	7872906963556359	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-download	12189fb9f37ec636
+94	158	7872906963556359	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-download	12189fb9f37ec636
+158	225	7872906964219785	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-update	eafdcd0330c57a1d
+158	225	7872906964219785	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-update	eafdcd0330c57a1d
+225	289	7872906964852663	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-patch	195a2d440ca5c082
+225	289	7872906964852663	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-patch	195a2d440ca5c082
+289	351	7872906965494957	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-configure	863b17ad0c527908
+289	351	7872906965494957	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-configure	863b17ad0c527908
+351	420	7872906966164131	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-build	73ff234b6c6dd03c
+351	420	7872906966164131	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-build	73ff234b6c6dd03c
+420	501	7872906966962994	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-install	10260e9aaf252f38
+420	501	7872906966962994	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-install	10260e9aaf252f38
+502	583	7872906967786933	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-test	9d0a4a18164a93dd
+502	583	7872906967786933	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-test	9d0a4a18164a93dd
+583	683	7872906968797601	CMakeFiles/sdl3_mirror-populate-complete	8323776a000f8213
+583	683	7872906968797601	sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-done	8323776a000f8213
+583	683	7872906968797601	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/sdl3_mirror-populate-complete	8323776a000f8213
+583	683	7872906968797601	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-done	8323776a000f8213

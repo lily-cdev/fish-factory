@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/sdl3_mirror-populate"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/sdl3_mirror-populate.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/sdl3_mirror-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/sdl3_mirror-populate-prefix/src/sdl3_mirror-populate-stamp/sdl3_mirror-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"sdl3_mirror-populate"
+		],
+		"name" : "sdl3_mirror-populate"
+	}
+}

@@ -1,0 +1,3 @@
+C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/sdl3_mirror-populate.dir
+C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_mirror-subbuild/CMakeFiles/rebuild_cache.dir

@@ -31,9 +31,9 @@
 /* #undef SDL_VENDOR_INFO */
 
 #ifdef SDL_VENDOR_INFO
-#define SDL_REVISION "SDL-3.2.28-HEAD-HASH-NOTFOUND (" SDL_VENDOR_INFO ")"
+#define SDL_REVISION "SDL-3.2.28-93781ef (" SDL_VENDOR_INFO ")"
 #else
-#define SDL_REVISION "SDL-3.2.28-HEAD-HASH-NOTFOUND"
+#define SDL_REVISION "SDL-3.2.28-93781ef"
 #endif
 
 #endif /* SDL_revision_h_ */

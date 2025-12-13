@@ -57,7 +57,7 @@ rule CXX_COMPILER__Fish_Factory_unscanned_Debug
 rule RC_COMPILER__Fish_Factory_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\CLANG_~1.EXE $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -MD -MF $DEP_FILE -x c -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -MD -MF $DEP_FILE /fo $out $out.pp
+  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\clang.exe $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -MD -MF $DEP_FILE -x c -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -MD -MF $DEP_FILE /fo $out $out.pp
   description = Building RC object $out
 
 

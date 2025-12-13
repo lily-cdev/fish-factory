@@ -1,0 +1,21 @@
+# ninja log v7
+4	84	7872906972589444	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-mkdir	ef1faded3023e914
+4	84	7872906972589444	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-mkdir	ef1faded3023e914
+84	153	7872906973284979	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-download	ed0bbe7226e4af8b
+84	153	7872906973284979	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-download	ed0bbe7226e4af8b
+155	222	7872906973962783	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-update	ba677e05f36fedd9
+155	222	7872906973962783	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-update	ba677e05f36fedd9
+222	299	7872906974732661	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-patch	65ec2724fdde7887
+222	299	7872906974732661	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-patch	65ec2724fdde7887
+300	374	7872906975484917	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-configure	3e7ca2b15cd74c8a
+300	374	7872906975484917	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-configure	3e7ca2b15cd74c8a
+374	445	7872906976194200	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-build	e6aeb2bff69efed8
+374	445	7872906976194200	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-build	e6aeb2bff69efed8
+445	517	7872906976922469	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-install	379f7597a8604481
+445	517	7872906976922469	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-install	379f7597a8604481
+517	587	7872906977593414	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-test	462eb1576f05902a
+517	587	7872906977593414	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-test	462eb1576f05902a
+588	682	7872906978572457	CMakeFiles/sdl3_ttf_mirror-populate-complete	df5d06bbf7fcc274
+588	682	7872906978572457	sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-done	df5d06bbf7fcc274
+588	682	7872906978572457	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/CMakeFiles/sdl3_ttf_mirror-populate-complete	df5d06bbf7fcc274
+588	682	7872906978572457	C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/build/_deps/sdl3_ttf_mirror-subbuild/sdl3_ttf_mirror-populate-prefix/src/sdl3_ttf_mirror-populate-stamp/sdl3_ttf_mirror-populate-done	df5d06bbf7fcc274

@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
-project(Fish_Factory LANGUAGES CXX)
+project(Fish_Factory LANGUAGES C CXX)
+include(FetchContent)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,22 +10,22 @@ if(NOT CMAKE_CXX_COMPILER)
 endif()
 
 add_executable(Fish_Factory
-    internal/core/Fish_Factory.cpp
-    internal/core/Preloader.cpp
-	internal/source/Audio_Handler.cpp
-	internal/source/Data_Handler.cpp
-	internal/source/Fish_Handler.cpp
-	internal/source/Grid_Handler.cpp
-	internal/source/Render_Handler.cpp
-	internal/source/Interface_Handler.cpp
-	internal/source/Item_Handler.cpp
-	internal/source/Pipe_Handler.cpp
-	internal/source/Recipe_Handler.cpp
-	internal/source/Terminal_Handler.cpp
-	internal/source/Transition_Handler.cpp
-	internal/source/Tutorial_Handler.cpp
-	internal/source/UI_Handler.cpp
-	internal/source/Wire_Handler.cpp
+    internal/core/Fish_Factory.cxx
+    internal/core/Preloader.cxx
+	internal/source/Audio_Handler.cxx
+	internal/source/Data_Handler.cxx
+	internal/source/Fish_Handler.cxx
+	internal/source/Grid_Handler.cxx
+	internal/source/Render_Handler.cxx
+	internal/source/Interface_Handler.cxx
+	internal/source/Item_Handler.cxx
+	internal/source/Pipe_Handler.cxx
+	internal/source/Recipe_Handler.cxx
+	internal/source/Terminal_Handler.cxx
+	internal/source/Transition_Handler.cxx
+	internal/source/Tutorial_Handler.cxx
+	internal/source/UI_Handler.cxx
+	internal/source/Wire_Handler.cxx
 	modules/neutral/resource.rc
 )
 
@@ -35,16 +36,34 @@ target_include_directories(Fish_Factory PRIVATE
 )
 
 target_include_directories(Fish_Factory PUBLIC
-    external
+    external/include
 )
+
+if (UNIX)
+	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+	else()
+
+	endif()
+else()
+	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+		target_link_libraries(Fish_Factory PRIVATE
+			"${CMAKE_SOURCE_DIR}/external/lib/win64/SDL3.lib"
+			"${CMAKE_SOURCE_DIR}/external/lib/win64/SDL3_ttf.lib"
+			"${CMAKE_SOURCE_DIR}/external/lib/win64/SDL3_image.lib"
+		)
+	else()
+		target_link_libraries(Fish_Factory PRIVATE
+			"${CMAKE_SOURCE_DIR}/external/lib/win32/SDL3.lib"
+			"${CMAKE_SOURCE_DIR}/external/lib/win32/SDL3_ttf.lib"
+			"${CMAKE_SOURCE_DIR}/external/lib/win32/SDL3_image.lib"
+		)
+	endif()
+endif()
 
 target_precompile_headers(Fish_Factory PRIVATE
 	"internal/precompiled/Core.h"
 	"internal/precompiled/Wrapper.hpp"
 )
 
-target_link_libraries(Fish_Factory PRIVATE
-	"${CMAKE_SOURCE_DIR}/modules/lib/SDL3.lib"
-	"${CMAKE_SOURCE_DIR}/modules/lib/SDL3_ttf.lib"
-	"${CMAKE_SOURCE_DIR}/modules/lib/SDL3_image.lib"
-)
+target_link_libraries(Fish_Factory PRIVATE)

@@ -10,6 +10,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
+robocopy "../modules/dll/win32/*.dll" "../build" /e /NFL /NDL /NJH /NJS /nc /ns /np
 robocopy "../modules/neutral" "../build" /e /NFL /NDL /NJH /NJS /nc /ns /np
 
 Fish_Factory.exe

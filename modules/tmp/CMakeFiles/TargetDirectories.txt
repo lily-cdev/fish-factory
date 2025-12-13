@@ -1,8 +1,0 @@
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/SDL3-shared.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/SDL3_test.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/SDL_uclibc.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/uninstall.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/PACKAGE.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/INSTALL.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/ALL_BUILD.dir
-C:/Users/kayla/Documents/Programming/Programs/C++/Fish_Factory/modules/tmp/CMakeFiles/ZERO_CHECK.dir
