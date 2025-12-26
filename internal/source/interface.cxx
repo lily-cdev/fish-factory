@@ -1,0 +1,288 @@
+#include <interface.h>
+
+void Close_Prompt() {
+	Interface.Prompt_Identifier = P_None;
+	Interface.Subprompt_Identifier = LDE_INVALID;
+}
+
+void (*Prompt_Functions[12])(int X, int Y) = {
+    Handle_None,
+    Handle_Help,
+    Handle_Shop,
+    Handle_Daily_Report,
+    Handle_Spawning_Pool,
+    Handle_Transmitter,
+    Handle_Dock,
+    Handle_Exchanger,
+    Handle_Money_Generator,
+    Handle_Fluid_Generator,
+    Handle_Catalog,
+    Handle_Turbine
+};
+
+void Process_Inputs() {
+	int X = Interface.Target_Tile.X;
+	int Y = Interface.Target_Tile.Y;
+	SDL_Event Application_Event;
+	while (SDL_PollEvent(&Application_Event)) {
+		switch (Application_Event.type) {
+		case SDL_EVENT_KEY_DOWN:
+			if (!Interface.Animation_Locked) {
+				Process_Tutorial(Application_Event.key.key);
+				if (Interface.Prompt_Identifier == P_None) {
+					switch (Interface.UI_Tab) {
+					case LDE_INVALID:
+						break;
+					case 0:
+						if (Application_Event.key.key == Keybinds.Keybind_List[4]) {
+							if (Interface.Tool == 0) {
+								Interface.Tool = LDE_INVALID;
+							} else {
+								Interface.Tool = 0;
+								SDL_ShowCursor();
+							}
+							Interface.Placing_Rotation = 0;
+							Cache_Blueprint();
+							Clear_Unconnected_Wires();
+							Clear_Unconnected_Pipes();
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[5]) {
+							if (Interface.Tool == 1) {
+								Interface.Tool = LDE_INVALID;
+								SDL_ShowCursor();
+							} else {
+								Interface.Tool = 1;
+								SDL_HideCursor();
+							}
+							Interface.Placing_Rotation = 0;
+							Cache_Blueprint();
+							Clear_Unconnected_Wires();
+							Clear_Unconnected_Pipes();
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[6]) {
+							if (Interface.Tool == 2) {
+								Interface.Tool = LDE_INVALID;
+								SDL_ShowCursor();
+							} else {
+								Interface.Tool = 2;
+								SDL_HideCursor();
+							}
+							Interface.Placing_Rotation = 0;
+							Cache_Blueprint();
+							Clear_Unconnected_Wires();
+							Clear_Unconnected_Pipes();
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[7]) {
+							if (Interface.Tool == 3) {
+								Interface.Tool = LDE_INVALID;
+								SDL_ShowCursor();
+							} else {
+								Interface.Tool = 3;
+								SDL_HideCursor();
+							}
+							Interface.Placing_Rotation = 0;
+							Cache_Blueprint();
+							Clear_Unconnected_Wires();
+							Clear_Unconnected_Pipes();
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[8]) {
+							if (Interface.Tool == 4) {
+								Interface.Tool = LDE_INVALID;
+								SDL_ShowCursor();
+							} else {
+								Interface.Tool = 4;
+								SDL_HideCursor();
+							}
+							Interface.Placing_Rotation = 0;
+							Cache_Blueprint();
+							Clear_Unconnected_Wires();
+							Clear_Unconnected_Pipes();
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
+							if (Interface.Tool == Building) {
+								Interface.Prompt_Identifier = P_Shop;
+								Interface.Building = false;
+							}
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
+							if (Interface.Tool == No_Tool) {
+								Render_Interaction();
+							}
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[11]) {
+							if (Interface.Tool == Building) {
+								Interface.Placing_Rotation++;
+								if (Interface.Placing_Rotation > 3) {
+									Interface.Placing_Rotation = 0;
+								}
+								Cache_Blueprint();
+							}
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[12]) {
+							if (!Interface.Sprinting) {
+								Interface.Sprinting = true;
+							}
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[0]) {
+							Interface.UD_Input = 0;
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[1]) {
+							Interface.UD_Input = 1;
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[2]) {
+							Interface.LR_Input = 0;
+						} else if (Application_Event.key.key == Keybinds.Keybind_List[3]) {
+							Interface.LR_Input = 1;
+						}
+						break;
+					case 3:
+						if (Interface.Registering_Keybind != LDE_INVALID) {
+							Keybinds.Keybind_Settings[Interface.Registering_Keybind] =
+								Application_Event.key.key;
+							Interface.Registering_Keybind = LDE_INVALID;
+						}
+						break;
+					default:
+						break;
+					}
+				} else if (Interface.Prompt_Identifier == P_Help) {
+					if (Application_Event.key.key == Keybinds.Keybind_List[13]) {
+						Close_Prompt();
+					}
+				} else if (Interface.Prompt_Identifier == P_Shop) {
+					if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
+						Close_Prompt();
+						Interface.Subtab = 0;
+					}
+				} else {
+					if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
+						Close_Prompt();
+						Interface.Terminal_Logs.clear();
+						Temporary.Dialogue_Position = 0;
+					}
+				}
+			}
+			break;
+		case SDL_EVENT_KEY_UP:
+			if (Interface.UI_Tab == 0 && !Interface.Animation_Locked) {
+				if (Application_Event.key.key == Keybinds.Keybind_List[0] ||
+					Application_Event.key.key == Keybinds.Keybind_List[1]) {
+					Interface.UD_Input = LDE_INVALID;
+				}
+				if (Application_Event.key.key == Keybinds.Keybind_List[2] ||
+					Application_Event.key.key == Keybinds.Keybind_List[3]) {
+					Interface.LR_Input = LDE_INVALID;
+				}
+				if (Application_Event.key.key == Keybinds.Keybind_List[12] && Interface.Sprinting) {
+					Interface.Sprinting = false;
+				}
+			}
+			break;
+		case SDL_EVENT_MOUSE_WHEEL:
+			if (Interface.UI_Tab == 4 || Interface.UI_Tab == 5) {
+				int Log = Changelog;
+				if (Interface.UI_Tab == 5) {
+					if (Interface.Slider_Positions[2] == 0) {
+						Log = Credits;
+					} else {
+						Log = Legal;
+					}
+				}
+				if (Application_Event.wheel.y > 0) {
+					if (Interface.Log_Offset > 0) {
+						Interface.Log_Offset = std::max(Interface.Log_Offset - (32 * Settings.Screen_Size),
+							static_cast<long double>(0));
+					}
+				} else if (Application_Event.wheel.y < 0) {
+					if (Interface.Log_Offset < Interface.Log_Heights[Log]) {
+						Interface.Log_Offset = std::min(Interface.Log_Offset + (32 * Settings.Screen_Size),
+							Interface.Log_Heights[Log]);
+					}
+				}
+				Temporary.Scroll_Percent = static_cast<double>((
+					Interface.Log_Offset / Interface.Log_Heights[Log]) * 100);
+			}
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+			if (Interface.UI_Tab == 0) {
+				if (Interface.Prompt_Identifier == P_None && Interface.Engagement == 0) {
+					Interface.Building = false;
+				} else if (Interface.Engagement > 0) {
+					switch (Interface.Prompt_Identifier) {
+					case P_Spawning_Pool:
+						Print_Input();
+						if (Data.Settings_Grid[X][Y][5] > 0) {
+							Print_Error(Fish_Present);
+							Interface.Slider_Positions[1] = static_cast<int>(Data.Settings_Grid
+								[X][Y][6]);
+						} else {
+							Data.Settings_Grid[X][Y][6] =
+								Interface.Slider_Positions[1];
+							Print_Response("set fish type to " + Interface.Slider_Texts[1][Interface.Slider_Positions[1]]);
+						}
+						break;
+					case P_Exchanger:
+						Print_Input();
+						if (Interface.Engagement == 2) {
+							Data.Settings_Grid[X][Y][3] =
+								Interface.Valve300_Postions[Interface.Slider_Positions[7]];
+							Print_Response("set primary valve to " + std::to_string(static_cast<int>(
+								Data.Settings_Grid[X]
+								[Y][3])) + "L/s");
+						} else {
+							Data.Settings_Grid[X][Y][4] =
+								Interface.Valve300_Postions[Interface.Slider_Positions[13]];
+							Print_Response("set feedwater valve to " + std::to_string(static_cast<int>(
+								Data.Settings_Grid[X]
+								[Y][4])) + "L/s");
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			if (Interface.Engagement > 0) {
+				Interface.Engagement = 0;
+			}			
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			if (!Interface.Animation_Locked) {
+				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
+					if (Interface.UI_Tab == 0) {
+						Process_Tutorial(Interface.UI_Selection);
+					}
+					Prompt_Functions[Interface.Prompt_Identifier + 1](X, Y);
+					if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
+						Play_Sound(&Audio.Click, false);
+					}
+				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
+					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == 0) {
+						std::vector<int> Coordinates = { LDE_INVALID, LDE_INVALID };
+						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
+							Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Interface.Camera_X) *
+								Settings.Screen_Size);
+							for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
+								Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Interface.Camera_Y) *
+									Settings.Screen_Size);
+								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
+									if (Data.Visual_Grid[Column][Row] != 0) {
+										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
+											Coordinates = { static_cast<int>(Data.Settings_Grid[Column][Row][1]),
+												static_cast<int>(Data.Settings_Grid[Column][Row][2]) };
+										} else {
+											Coordinates = { Column, Row };
+										}
+									}
+								}
+							}
+						}
+						if (Coordinates[0] != LDE_INVALID) {
+							Interface.Placing_Item = Visual_To_ID(Data.Visual_Grid[
+								Coordinates[0]][Coordinates[1]]) + 1;
+							Cache_Price();
+							Cache_Blueprint();
+							Interface.Building = false;
+						}
+					}
+				}
+			}
+			break;
+		case SDL_EVENT_QUIT:
+			Core.Is_Running = false;
+			break;
+		default:
+			break;
+		}
+	}
+	Interface.UI_Selection = 0;
+}

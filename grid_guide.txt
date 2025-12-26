@@ -1,0 +1,11 @@
+data_grid:
+4 - ooo spooky
+5 - wire node X position
+6 - wire node Y position
+settings_grid:
+0 - pumping in or out
+1 (for parent tile) - recipe progress
+2 (for parent tile) - recipe ID
+1 (for child tile) - parent X position
+2 (for child tile) - parent Y position
+3+ - free
