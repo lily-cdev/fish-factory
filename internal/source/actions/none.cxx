@@ -163,7 +163,7 @@ void Handle_None(int X, int Y) {
             break;
         case 3:
             Temporary.Scroll_Percent = 100;
-            Interface.Log_Offset = Interface.Log_Heights[Changelog];
+            Interface.Log_Offset = Interface_L.Log_Heights[Changelog];
             break;
         case 4:
             Temporary.Scroll_Percent = 0;

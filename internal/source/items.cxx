@@ -30,9 +30,9 @@ Item_Stack ID_To_Item(const int ID) {
 
 Item_Stack Get_Item_Stack_Data() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Interface.Camera_X) * Settings.Screen_Size);
+		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) * Settings.Screen_Size);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Interface.Camera_Y) * Settings.Screen_Size);
+			Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Get_Item(Column, Row);
 			}
@@ -45,7 +45,7 @@ Item_Stack Get_Item_Stack_Data() {
 void Purge_Items() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			if (Data.Data_Grid[Column][Row][Stored_Fluids] < 0.1) {
+			if (Data_L.Data_Grid[Column][Row][Stored_Fluids] < 0.1) {
 				Data.Items_Grid[Column][Row] = LDE_INVALID;
 				Data.Temperature_Grid[Column][Row] = LDE_ROOMTEMP;
 			}

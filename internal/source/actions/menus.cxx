@@ -146,21 +146,21 @@ void Handle_Shop(int X, int Y) {
     } else if (Interface.Subtab > 0) {
         if (Interface.Subtab < 9) {
             if (Interface.UI_Selection > 2) {
-                if (Interface.UI_Selection > Metadata.Subcategory_Positions
-                    [Interface.Subtab - 1].size() + 2) {
-                    Interface.Placing_Item = Metadata.Item_Labels
-                        [Interface.Subtab - 1][Interface.UI_Selection -
-                        Metadata.Subcategory_Positions
-                        [Interface.Subtab - 1].size() - 3] + 1;
+                if (Interface.UI_Selection > Metadata_L.Subcategory_Positions[
+                    Interface.Subtab - 1].size() + 2) {
+                    Interface.Placing_Item = Metadata_L.Item_Labels[
+                        Interface.Subtab - 1][Interface.UI_Selection -
+                        Metadata_L.Subcategory_Positions[
+                        Interface.Subtab - 1].size() - 3] + 1;
                     Cache_Blueprint();
                 } else {
-                    Interface.Subtab = Metadata.Subcategory_Positions
-                        [Interface.Subtab - 1][Interface.UI_Selection - 3] + 9;
+                    Interface.Subtab = Metadata_L.Subcategory_Positions[
+                        Interface.Subtab - 1][Interface.UI_Selection - 3] + 9;
                 }
             }
         } else if (Interface.UI_Selection > 2) {
-            Interface.Placing_Item = Metadata.Subcontents
-                [Interface.Subtab - 9][Interface.UI_Selection - 3] + 1;
+            Interface.Placing_Item = Metadata_L.Subcontents[
+                Interface.Subtab - 9][Interface.UI_Selection - 3] + 1;
             Cache_Blueprint();
         }
     }

@@ -4,9 +4,9 @@
 void Preclear_Temporaries() {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			Data.Animation_Grid[X][Y].clear();
+			Data_L.Animation_Grid[X][Y].clear();
 			for (int Counter = 0; Counter < 3; Counter++) {
-				Data.Animation_Grid[X][Y].push_back(LDE_INVALID);
+				Data_L.Animation_Grid[X][Y].push_back(LDE_INVALID);
 			}
 		}
 	}
@@ -152,11 +152,11 @@ bool Save_Data(int Slot) {
 	};
 	File["Visual Grid"] = Convert_Simple_Grid(Data.Visual_Grid);
 	File["Connection Grid"] = Convert_Simple_Grid(Data.Connection_Grid);
-	File["Behaviour Grid"] = Convert_Simple_Grid(Data.Behaviour_Grid);
+	File["Behaviour Grid"] = Convert_Simple_Grid(Data.Behavior_Grid);
 	File["Wiring Grid"] = Convert_Simple_Grid(Data.Wiring_Grid);
 	File["Plumbing Grid"] = Convert_Simple_Grid(Data.Plumbing_Grid);
-	File["Data Grid"] = Convert_Complex_Grid(Data.Data_Grid);
-	File["Settings Grid"] = Convert_Complex_Grid(Data.Settings_Grid);
+	File["Data Grid"] = Convert_Complex_Grid(Data_L.Data_Grid);
+	File["Settings Grid"] = Convert_Complex_Grid(Data_L.Settings_Grid);
 	File["Wires List"] = Wires_List;
 	File["Pipes List"] = Pipes_List;
 	File["Items List"] = Convert_Simple_Grid(Data.Items_Grid);
@@ -186,10 +186,10 @@ bool Load_Data(int Slot) {
 	File.at("Funds").get_to(Data.Funds);
 	Recieve_Simple_Grid(File.at("Visual Grid"), Data.Visual_Grid);
 	Recieve_Simple_Grid(File.at("Connection Grid"), Data.Connection_Grid);
-	Recieve_Simple_Grid(File.at("Behaviour Grid"), Data.Behaviour_Grid);
+	Recieve_Simple_Grid(File.at("Behaviour Grid"), Data.Behavior_Grid);
 	Recieve_Simple_Grid(File.at("Wiring Grid"), Data.Wiring_Grid);
 	Recieve_Simple_Grid(File.at("Plumbing Grid"), Data.Plumbing_Grid);
-	Recieve_Complex_Grid(File.at("Data Grid"), Data.Data_Grid, 7);
+	Recieve_Complex_Grid(File.at("Data Grid"), Data_L.Data_Grid, 7);
 	Wires_List = File.at("Wires List").get<std::vector<Wire>>();
 	Pipes_List = File.at("Pipes List").get<std::vector<Pipe>>();
 	if (Data.Version < 1) {
@@ -205,7 +205,7 @@ bool Load_Data(int Slot) {
 		Recieve_Items_Grid(File.at("Items List"), Legacy_Item_Grid);
 	}
 	if (Data.Version < 2) {
-		Recieve_Complex_Grid(File.at("Settings Grid"), Data.Settings_Grid, 3);
+		Recieve_Complex_Grid(File.at("Settings Grid"), Data_L.Settings_Grid, 3);
 		Data.Version = 2;
 		Data.Time = 0;
 		Data.Day = 0;
@@ -213,7 +213,7 @@ bool Load_Data(int Slot) {
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 				for (int Counter = 0; Counter < 5; Counter++) {
-					Data.Settings_Grid[Column][Row].push_back(LDE_INVALID);
+					Data_L.Settings_Grid[Column][Row].push_back(LDE_INVALID);
 				}
 			}
 		}
@@ -244,16 +244,16 @@ bool Load_Data(int Slot) {
 	}
 	if (Data.Version < 5) {
 		Data.Version = 5;
-		Recieve_Complex_Grid(File.at("Settings Grid"), Data.Settings_Grid, 8);
+		Recieve_Complex_Grid(File.at("Settings Grid"), Data_L.Settings_Grid, 8);
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 				for (int Counter = 0; Counter < 8; Counter++) {
-					Data.Settings_Grid[Column][Row].push_back(LDE_INVALID);
+					Data_L.Settings_Grid[Column][Row].push_back(LDE_INVALID);
 				}
 			}
 		}
 	} else {
-		Recieve_Complex_Grid(File.at("Settings Grid"), Data.Settings_Grid, 16);
+		Recieve_Complex_Grid(File.at("Settings Grid"), Data_L.Settings_Grid, 16);
 	}
 	Preclear_Temporaries();
 	return true;
@@ -262,18 +262,18 @@ bool Load_Data(int Slot) {
 bool Update_Metadata() {
 	int Index = SDL_GetDisplayForWindow(Core.Window);
 	const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
-	Metadata.Monitor_Size = std::to_string(Display->w) + "x" + std::to_string(Display->h);
+	Metadata_L.Monitor_Size = std::to_string(Display->w) + "x" + std::to_string(Display->h);
 	std::vector<std::string> Resolution_Names = { "nHD", "HD", "FHD", "QHD", "QHD+", "4K" };
-	for (int Counter = 0; Counter < Metadata.Supported_Resolutions.size(); Counter++) {
-		if (Display->w == Metadata.Supported_Resolutions[Counter][0] &&
-			Display->h == Metadata.Supported_Resolutions[Counter][1]) {
-			Metadata.Monitor_Size = Metadata.Monitor_Size + " (" + Resolution_Names[Counter] + ")";
+	for (int Counter = 0; Counter < Metadata_L.Supported_Resolutions.size(); Counter++) {
+		if (Display->w == Metadata_L.Supported_Resolutions[Counter][0] &&
+			Display->h == Metadata_L.Supported_Resolutions[Counter][1]) {
+			Metadata_L.Monitor_Size = Metadata_L.Monitor_Size + " (" + Resolution_Names[Counter] + ")";
 			break;
 		}
 	}
-	Metadata.Monitor_Size = "Detected Resolution: " + Metadata.Monitor_Size;
+	Metadata_L.Monitor_Size = "Detected Resolution: " + Metadata_L.Monitor_Size;
 	nlohmann::json File;
-	std::string Path = "Assets/Data/Metadata.json";
+	std::string Path = "Assets/Data/Metadata_L.json";
 	std::ifstream Source(Path.c_str());
 	if (Source) {
 		Source >> File;
@@ -281,11 +281,11 @@ bool Update_Metadata() {
 		return false;
 	}
 	Source.close();
-	Metadata.Logs.clear();
-	Metadata.Logs.resize(3);
-	File.at("Changelog").get_to(Metadata.Logs[Changelog]);
-	File.at("Crediting").get_to(Metadata.Logs[Credits]);
-	File.at("Licensing").get_to(Metadata.Logs[Legal]);
+	Metadata_L.Logs.clear();
+	Metadata_L.Logs.resize(3);
+	File.at("Changelog").get_to(Metadata_L.Logs[Changelog]);
+	File.at("Crediting").get_to(Metadata_L.Logs[Credits]);
+	File.at("Licensing").get_to(Metadata_L.Logs[Legal]);
 	return true;
 }
 
@@ -307,7 +307,7 @@ void Clear_File(std::string Path) {
 bool Save_Settings() {
 	nlohmann::json Keybinds_Vector = nlohmann::json::array();
 	for (int Counter = 0; Counter < 14; Counter++) {
-		Keybinds_Vector.push_back(static_cast<int>(Keybinds.Keybind_List[Counter]));
+		Keybinds_Vector.push_back(static_cast<int>(Keybinds_L.Keybind_List[Counter]));
 	}
 	Clear_File("Assets/Data/Settings");
 	nlohmann::json File = nlohmann::json {
@@ -348,7 +348,7 @@ void Load_Settings() {
 			Save_File.at("Volume").get_to(Settings.Volume);
 			Save_File.at("FPS_Cap").get_to(Settings.Raw_FPS);
 			for (int Counter = 0; Counter < 14; Counter++) {
-				Keybinds.Keybind_List[Counter] = Save_File.at("Keybinds").at(Counter).get<int>();
+				Keybinds_L.Keybind_List[Counter] = Save_File.at("Keybinds").at(Counter).get<int>();
 			}
 		} else {
 			Clear_File("Assets/Data/Settings");
@@ -357,9 +357,9 @@ void Load_Settings() {
 		File.close();
 		int Index = SDL_GetDisplayForWindow(Core.Window);
 		const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
-		for (int Counter = 0; Counter < Metadata.Supported_Resolutions.size(); Counter++) {
-			if (Display->w >= Metadata.Supported_Resolutions[Counter][0] &&
-				Display->h >= Metadata.Supported_Resolutions[Counter][1]) {
+		for (int Counter = 0; Counter < Metadata_L.Supported_Resolutions.size(); Counter++) {
+			if (Display->w >= Metadata_L.Supported_Resolutions[Counter][0] &&
+				Display->h >= Metadata_L.Supported_Resolutions[Counter][1]) {
 				Settings.Screen_Size++;
 			} else {
 				break;
@@ -378,8 +378,8 @@ void Clear_Settings() {
 	Interface.Slider_Positions[6] = Settings.Fullscreen;
 	Settings.AA_Temporary = static_cast<bool>(Settings.Anti_Aliasing);
 	Settings.VS_Temporary = static_cast<bool>(Settings.VSync);
-	for (int Counter = 0; Counter < Keybinds.Keybind_List.size(); Counter++) {
-		Keybinds.Keybind_Settings[Counter] = Keybinds.Keybind_List[Counter];
+	for (int Counter = 0; Counter < Keybinds_L.Keybind_List.size(); Counter++) {
+		Keybinds_L.Keybind_Settings[Counter] = Keybinds_L.Keybind_List[Counter];
 	}
 }
 
@@ -390,8 +390,8 @@ void Recalibrate_Settings() {
 	Settings.Fullscreen = Interface.Slider_Positions[6];
 	Settings.Anti_Aliasing = static_cast<int>(Settings.AA_Temporary);
 	Settings.VSync = static_cast<int>(Settings.VS_Temporary);
-	for (int Counter = 0; Counter < Keybinds.Keybind_List.size(); Counter++) {
-		Keybinds.Keybind_List[Counter] = Keybinds.Keybind_Settings[Counter];
+	for (int Counter = 0; Counter < Keybinds_L.Keybind_List.size(); Counter++) {
+		Keybinds_L.Keybind_List[Counter] = Keybinds_L.Keybind_Settings[Counter];
 	}
 	Reload_All();
 }
@@ -500,7 +500,6 @@ void Render_Loadscreen() {
 
 void Reload_All() {
 	uint64_t Start = SDL_GetTicks();
-	Metadata.Machine_Count = Metadata.Machine_Names.size();
 	Preload_Recipes();
 	Cleanup_Assets();
 	SDL_SetWindowSize(Core.Window, 640 *
@@ -508,9 +507,9 @@ void Reload_All() {
 	Preload_Fonts();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
-	Interface.Slider_Texts[9].resize(Preset_Items.Item_List.size());
+	Interface_L.Slider_Texts[9].resize(Preset_Items.Item_List.size());
 	for (int Counter = 0; Counter < Preset_Items.Item_List.size(); Counter++) {
-		Interface.Slider_Texts[9][Counter] = Preset_Items.Item_List[Counter].Display_Name;
+		Interface_L.Slider_Texts[9][Counter] = Preset_Items.Item_List[Counter].Display_Name;
 	}
 	Adjust_Sound(Settings.Volume * 0.01f);
 	Interface.Frame_Rate = static_cast<int>(15 * std::pow(2, Settings.Raw_FPS));

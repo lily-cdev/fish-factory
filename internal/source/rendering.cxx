@@ -1,17 +1,21 @@
-#include <ui.h>
+extern "C" {
+	#include <rendering.h>
+}
+#include <preloader.h>
+#include <clib.hpp>
 
 void Render_Grid() {
 	for (int Counter = 0; Counter < 2; Counter++) {
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			Update_Tilestack(false, static_cast<int>((Column * LDE_TILESIZE) -
-				Interface.Camera_X), true, LDE_INVALID);
+				Core.Camera.X), true, LDE_INVALID);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 				Update_Tilestack(true, LDE_INVALID, false, static_cast<int>((Row *
-					LDE_TILESIZE) - Interface.Camera_Y));
+					LDE_TILESIZE) - Core.Camera.Y));
 				SDL_FRect Selected_Rectangle;
 				std::vector<int> Connections;
 				SDL_FPoint Centerpoint;
-				std::vector<std::vector<int>> Offset;
+				Point Offset[4];
 				SDL_FRect Source;
 				SDL_FRect Destination;
 				const int Valid_Pipes[2] = { Reinforced_Pipe, Large_Pipe };
@@ -39,46 +43,44 @@ void Render_Grid() {
 					case Ram_Pump:
 						SDL_RenderTexture(Core.Renderer, Textures
 							.R_Pump.Data[1], NULL, &Rects.Tile_1x1);
-						if (Data.Animation_Grid[Column][Row][0] == 0) {
-							Data.Animation_Grid[Column][Row][1] += 60.0 / Interface.Frame_Rate;
-							if (Data.Animation_Grid[Column][Row][1] >= 360) {
-								Data.Animation_Grid[Column][Row][1] = 0;
+						if (Data_L.Animation_Grid[Column][Row][0] == 0) {
+							Data_L.Animation_Grid[Column][Row][1] += 60.0 / Interface.Frame_Rate;
+							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
+								Data_L.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTextureRotated(Core.Renderer, Textures
-							.R_Pump.Data[2], NULL, &Rects.Tile_1x1, Data
-							.Animation_Grid[Column][Row][1], &Interface.Tile_Centrepoint, SDL_FLIP_NONE);
+							.R_Pump.Data[2], NULL, &Rects.Tile_1x1, Data_L
+							.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint, SDL_FLIP_NONE);
 						Connections.resize(4, LDE_INVALID);
-						if ((Data.Plumbing_Grid[Column - 1][Row] == 3 || Data.Plumbing_Grid
-							[Column - 1][Row] == 0) && (Data.Settings_Grid[Column - 1][Row][0] == 1 ||
-							Data.Settings_Grid[Column - 1][Row][0] == 0)) {
+						if ((Data.Plumbing_Grid[Column - 1][Row] == 3 || Data.Plumbing_Grid[
+							Column - 1][Row] == 0) && (Data_L.Settings_Grid[Column - 1][Row][0] == 1 ||
+							Data_L.Settings_Grid[Column - 1][Row][0] == 0)) {
 							Connections[0] = 0;
 						}
-						if ((Data.Plumbing_Grid[Column][Row - 1] == 4 || Data.Plumbing_Grid
-							[Column][Row - 1] == 0) && (Data.Settings_Grid[Column][Row - 1][0] == 1 ||
-							Data.Settings_Grid[Column][Row - 1][0] == 0)) {
+						if ((Data.Plumbing_Grid[Column][Row - 1] == 4 || Data.Plumbing_Grid[
+							Column][Row - 1] == 0) && (Data_L.Settings_Grid[Column][Row - 1][0] == 1 ||
+							Data_L.Settings_Grid[Column][Row - 1][0] == 0)) {
 							Connections[1] = 0;
 						}
-						if ((Data.Plumbing_Grid[Column + 1][Row] == 1 || Data.Plumbing_Grid
-							[Column + 1][Row] == 0) && (Data.Settings_Grid[Column + 1][Row][0] == 1 ||
-							Data.Settings_Grid[Column + 1][Row][0] == 0)) {
+						if ((Data.Plumbing_Grid[Column + 1][Row] == 1 || Data.Plumbing_Grid[
+							Column + 1][Row] == 0) && (Data_L.Settings_Grid[Column + 1][Row][0] == 1 ||
+							Data_L.Settings_Grid[Column + 1][Row][0] == 0)) {
 							Connections[2] = 0;
 						}
-						if ((Data.Plumbing_Grid[Column][Row + 1] == 2 || Data.Plumbing_Grid
-							[Column][Row + 1] == 0) && (Data.Settings_Grid[Column][Row + 1][0] == 1 ||
-							Data.Settings_Grid[Column][Row + 1][0] == 0)) {
+						if ((Data.Plumbing_Grid[Column][Row + 1] == 2 || Data.Plumbing_Grid[
+							Column][Row + 1] == 0) && (Data_L.Settings_Grid[Column][Row + 1][0] == 1 ||
+							Data_L.Settings_Grid[Column][Row + 1][0] == 0)) {
 							Connections[3] = 0;
 						}
-						Offset = {
-							{ -1, 0 },
-							{ 0, -1 },
-							{ 1, 0 },
-							{ 0, 1 }
-						};
+						Offset[0] = { -1, 0 };
+						Offset[1] = { 0, -1 };
+						Offset[2] = { 1, 0 };
+						Offset[3] = { 0, 1 };
 						for (int Counter1 = 0; Counter1 < 2; Counter1++) {
 							for (int Counter2 = 0; Counter2 < 4; Counter2++) {
-								if (Visual_To_ID(Data.Visual_Grid[Column + Offset[Counter2][0]]
-									[Row + Offset[Counter2][1]]) == Valid_Pipes[Counter1]) {
+								if (Visual_To_ID(Data.Visual_Grid[Column + Offset[Counter2].X][
+									Row + Offset[Counter2].Y]) == Valid_Pipes[Counter1]) {
 									Connections[Counter2] = Counter1 + 1;
 								}							
 							}
@@ -92,9 +94,9 @@ void Render_Grid() {
 						}
 						break;
 					case Incinerator:
-						Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
-						if (Data.Animation_Grid[Column][Row][0] >= 9) {
-							Data.Animation_Grid[Column][Row][0] = 0;
+						Data_L.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
+						if (Data_L.Animation_Grid[Column][Row][0] >= 9) {
+							Data_L.Animation_Grid[Column][Row][0] = 0;
 						}
 						Source = {
 							0,
@@ -105,15 +107,15 @@ void Render_Grid() {
 						Destination = {
 							(((Settings.Screen_Size * LDE_TILESIZE) - Source.w) * 0.5f) +
 								(Column * Settings.Screen_Size * LDE_TILESIZE) -
-								static_cast<float>(Interface.Camera_X * Settings.Screen_Size),
+								static_cast<float>(Core.Camera.X * Settings.Screen_Size),
 							(((Settings.Screen_Size * LDE_TILESIZE) - Source.w) * 0.5f) +
 								(Row * Settings.Screen_Size * LDE_TILESIZE) -
-								static_cast<float>(Interface.Camera_Y * Settings.Screen_Size),
+								static_cast<float>(Core.Camera.Y * Settings.Screen_Size),
 							Settings.Screen_Size * 21.0f,
 							Settings.Screen_Size * 21.0f
 						};
 						SDL_RenderTexture(Core.Renderer, Textures
-							.Fire.Data[static_cast<int>(Data.Animation_Grid[
+							.Fire.Data[static_cast<int>(Data_L.Animation_Grid[
 							Column][Row][0])], &Source, &Destination);
 						SDL_RenderTexture(Core.Renderer, Textures.Incinerator
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_1x1);
@@ -131,14 +133,14 @@ void Render_Grid() {
 							60.0f * Settings.Screen_Size };
 						SDL_RenderTexture(Core.Renderer, Textures.B_Generator
 							.Data[Rotation].Data[3], NULL, &Rects.Tile_3x3);
-						if (Data.Animation_Grid[Column][Row][0] == 1) {
-							Data.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
-							if (Data.Animation_Grid[Column][Row][1] >= 360) {
-								Data.Animation_Grid[Column][Row][1] = 0;
+						if (Data_L.Animation_Grid[Column][Row][0] == 1) {
+							Data_L.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
+							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
+								Data_L.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTextureRotated(Core.Renderer, Textures.B_Generator
-							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid
+							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data_L.Animation_Grid
 							[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
 						SDL_RenderTexture(Core.Renderer, Textures.B_Generator
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_3x3);
@@ -198,23 +200,23 @@ void Render_Grid() {
 							SDL_RenderTexture(Core.Renderer, Textures
 								.E_Plant.Data[0], NULL, &Rects.Tile_3x2);
 						} else {
-							SDL_RenderTexture(Core.Renderer, Textures.E_Plant.Data
-								[Data.Visual_Grid[Column][Row] - 95], NULL, &Selected_Rectangle);
+							SDL_RenderTexture(Core.Renderer, Textures.E_Plant.Data[
+								Data.Visual_Grid[Column][Row] - 95], NULL, &Selected_Rectangle);
 						}
 						break;
 					case Fluid_Mixer:
 						Centerpoint = { 60.0f * Settings.Screen_Size,
 							60.0f * Settings.Screen_Size };
-						if (Data.Animation_Grid[Column][Row][0] == 1) {
-							Data.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
-							if (Data.Animation_Grid[Column][Row][1] >= 360) {
-								Data.Animation_Grid[Column][Row][1] = 0;
+						if (Data_L.Animation_Grid[Column][Row][0] == 1) {
+							Data_L.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
+							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
+								Data_L.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTexture(Core.Renderer, Textures.F_Mixer
 							.Data[Rotation].Data[3], NULL, &Rects.Tile_3x3);
 						SDL_RenderTextureRotated(Core.Renderer, Textures.F_Mixer
-							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid
+							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data_L.Animation_Grid
 							[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
 						SDL_RenderTexture(Core.Renderer, Textures.F_Mixer
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_3x3);
@@ -234,9 +236,9 @@ void Render_Grid() {
 							NULL, &Rects.Tile_1x1);
 						break;
 					case Distillery:
-						Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
-						if (Data.Animation_Grid[Column][Row][0] >= 9) {
-							Data.Animation_Grid[Column][Row][0] = 0;
+						Data_L.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
+						if (Data_L.Animation_Grid[Column][Row][0] >= 9) {
+							Data_L.Animation_Grid[Column][Row][0] = 0;
 						}
 						Source = {
 							0,
@@ -257,16 +259,16 @@ void Render_Grid() {
 							Destination.y = 43.0f;
 						}
 						Destination.x = ((Column * LDE_TILESIZE) + Destination.x -
-							Interface.Camera_X) * Settings.Screen_Size;
+							Core.Camera.X) * Settings.Screen_Size;
 						Destination.y = ((Row * LDE_TILESIZE) + Destination.y -
-							Interface.Camera_Y) * Settings.Screen_Size;
+							Core.Camera.Y) * Settings.Screen_Size;
 						SDL_RenderTexture(Core.Renderer, Textures
-							.Fire.Data[static_cast<int>(Data.Animation_Grid[
+							.Fire.Data[static_cast<int>(Data_L.Animation_Grid[
 							Column][Row][0])], &Source, &Destination);
 						SDL_RenderTexture(Core.Renderer,
 							Textures.Distillery.Data[Rotation].Data[2], NULL,
 							&Rects.Tile_2x2);
-						if (Data.Settings_Grid[Column][Row][1] > 0) {
+						if (Data_L.Settings_Grid[Column][Row][1] > 0) {
 							SDL_RenderTexture(Core.Renderer,
 								Textures.Distillery.Data[Rotation].Data[3],
 								NULL, &Rects.Tile_2x2);
@@ -283,23 +285,23 @@ void Render_Grid() {
 						break;
 					case Turbine_Impulse: {
 							SDL_Color Lightcolor = { 255, 0, 0 };
-							if (Data.Settings_Grid[Column][Row][3] == 1) {
+							if (Data_L.Settings_Grid[Column][Row][3] == 1) {
 								Lightcolor = { 255, 255, 0 };
 							}
 							//if active, set lights green
 							SDL_FRect Lightplate = {
-								static_cast<float>((Column * LDE_TILESIZE) - Interface
-									.Camera_X) * Settings.Screen_Size,
-								static_cast<float>((Row * LDE_TILESIZE) + 21.0 - Interface
-									.Camera_Y) * Settings.Screen_Size,
+								static_cast<float>((Column * LDE_TILESIZE) - Core
+									.Camera.X) * Settings.Screen_Size,
+								static_cast<float>((Row * LDE_TILESIZE) + 21.0 - Core
+									.Camera.Y) * Settings.Screen_Size,
 								Settings.Screen_Size * 120.0f,
 								Settings.Screen_Size * 38.0f
 							};
 							if (evn_i(Rotation)) {
 								Lightplate = {
-									static_cast<float>((Column * LDE_TILESIZE) + 21.0 - Interface
-										.Camera_X) * Settings.Screen_Size,
-									static_cast<float>((Row * LDE_TILESIZE) - Interface.Camera_Y) *
+									static_cast<float>((Column * LDE_TILESIZE) + 21.0 - Core
+										.Camera.X) * Settings.Screen_Size,
+									static_cast<float>((Row * LDE_TILESIZE) - Core.Camera.Y) *
 										Settings.Screen_Size,
 									Settings.Screen_Size * 38.0f,
 									Settings.Screen_Size * 120.0f
@@ -319,7 +321,7 @@ void Render_Grid() {
 						break;
 					case Turbine_Output: {
 							SDL_Color Lightcolor = { 255, 0, 0 };
-							if (Data.Settings_Grid[Column][Row][3] == 1) {
+							if (Data_L.Settings_Grid[Column][Row][3] == 1) {
 								Lightcolor = { 255, 255, 0 };
 							}
 							//if active, set lights green
@@ -357,8 +359,8 @@ void Render_Grid() {
 							default:
 								break;
 							}
-							Lightplate.x += ((Column * LDE_TILESIZE) - Interface.Camera_X) * Settings.Screen_Size;
-							Lightplate.y += ((Row * LDE_TILESIZE) - Interface.Camera_Y) * Settings.Screen_Size;
+							Lightplate.x += ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+							Lightplate.y += ((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
@@ -367,8 +369,7 @@ void Render_Grid() {
 							break;
 						}
 					case Algae_Bed:
-						Selected_Rectangle = evn_i(Rotation) ? Rects.Tile_2x3 :
-							Rects.Tile_3x2;
+						Selected_Rectangle = evn_i(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
 						SDL_RenderTexture(Core.Renderer, Textures
 							.G_Bed.Data[Rotation].Data[2], NULL, &Selected_Rectangle);
 						//bubbles
@@ -380,9 +381,9 @@ void Render_Grid() {
 					}
 					if (Data.Visual_Grid[Column][Row] == 21) {
 						Rects.Tunnel.Data[0].x = ((Column * LDE_TILESIZE) -
-							Interface.Camera_X) * Settings.Screen_Size;
+							Core.Camera.X) * Settings.Screen_Size;
 						Rects.Tunnel.Data[0].y = (((Row - 2.25f) * LDE_TILESIZE) -
-							Interface.Camera_Y) * Settings.Screen_Size;
+							Core.Camera.Y) * Settings.Screen_Size;
 						SDL_RenderTexture(Core.Renderer, Textures
 							.S_Dock.Data[0], NULL, &Rects.Tile_6x4);
 						SDL_RenderTexture(Core.Renderer, Textures
@@ -391,20 +392,20 @@ void Render_Grid() {
 						SDL_RenderTexture(Core.Renderer, Textures
 							.F_Plant.Data[2], NULL, &Rects.Tile_2x3);
 						SDL_FRect Offset_Rectangle = Rects.Tile_2x3;
-						if (Data.Animation_Grid[Column][Row][0] == 0) {
-							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
+						if (Data_L.Animation_Grid[Column][Row][0] == 0) {
+							Data_L.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
 							SDL_FRect Progress_Rectangle = { Rects.Tile_2x3.x + (19 *
 								Settings.Screen_Size), Rects.Tile_2x3.y + (57 *
-								Settings.Screen_Size), static_cast<float>((50 * Data.Animation_Grid
+								Settings.Screen_Size), static_cast<float>((50 * Data_L.Animation_Grid
 								[Column][Row][1]) *	Settings.Screen_Size), 7.0f * Settings.Screen_Size };
 							Set_Renderer_Color(Colors.Cherry_Blossom);
 							SDL_RenderFillRect(Core.Renderer, &Progress_Rectangle);
 							Clear_Renderer();
-							Data.Animation_Grid[Column][Row][2] += 64.0f / Interface.Frame_Rate;
-							if (Data.Animation_Grid[Column][Row][2] > ((double)32 / 6)) {
-								Data.Animation_Grid[Column][Row][2] = 0;
+							Data_L.Animation_Grid[Column][Row][2] += 64.0f / Interface.Frame_Rate;
+							if (Data_L.Animation_Grid[Column][Row][2] > ((double)32 / 6)) {
+								Data_L.Animation_Grid[Column][Row][2] = 0;
 							}
-							Offset_Rectangle.y += Data.Animation_Grid[Column][Row][2] * Settings.Screen_Size;
+							Offset_Rectangle.y += Data_L.Animation_Grid[Column][Row][2] * Settings.Screen_Size;
 						}
 						SDL_RenderTexture(Core.Renderer, Textures
 							.F_Plant.Data[3], NULL, &Offset_Rectangle);
@@ -431,7 +432,7 @@ void Render_Grid() {
 					} else if (Data.Visual_Grid[Column][Row] == 50) {
 						SDL_RenderTexture(Core.Renderer, Textures
 							.T_Tower.Data[0], NULL,	&Rects.Tile_3x3);
-						if (Data.Settings_Grid[Column][Row][3] == 0) {
+						if (Data_L.Settings_Grid[Column][Row][3] == 0) {
 							Rects.R_Flash.x = Rects.Tile_3x3.x +
 								(57 * Settings.Screen_Size);
 							Rects.R_Flash.y = Rects.Tile_3x3.y +
@@ -451,7 +452,7 @@ void Render_Grid() {
 					} else if (Data.Visual_Grid[Column][Row] > 59 && Data.Visual_Grid[Column][Row] < 63) {
 						SDL_RenderTexture(Core.Renderer, Textures.T_Tower.Data[
 							Data.Visual_Grid[Column][Row] - 59], NULL, &Rects.Tile_3x3);
-						if (Data.Settings_Grid[Column][Row][3] == 0) {
+						if (Data_L.Settings_Grid[Column][Row][3] == 0) {
 							int X = 57;
 							int Y = 57;
 							switch (Data.Visual_Grid[Column][Row] - 60) {
@@ -479,14 +480,14 @@ void Render_Grid() {
 						SDL_RenderTexture(Core.Renderer, Textures.C_Node, NULL,
 							&Rects.Tile_1x1);
 					} else if (Data.Visual_Grid[Column][Row] > 63 && Data.Visual_Grid[Column][Row] < 67) {
-						SDL_RenderTexture(Core.Renderer, Textures.B_Scrubber.Data
-							[Data.Visual_Grid[Column][Row] - 63], NULL, &Rects.Tile_2x2);
+						SDL_RenderTexture(Core.Renderer, Textures.B_Scrubber.Data[
+							Data.Visual_Grid[Column][Row] - 63], NULL, &Rects.Tile_2x2);
 					} else if (Data.Visual_Grid[Column][Row] == 67 || Data.Visual_Grid[Column][Row] == 69) {
-						SDL_RenderTexture(Core.Renderer, Textures.G_Well.Data
-							[Data.Visual_Grid[Column][Row] - 67], NULL, &Rects.Tile_2x3);
+						SDL_RenderTexture(Core.Renderer, Textures.G_Well.Data[
+							Data.Visual_Grid[Column][Row] - 67], NULL, &Rects.Tile_2x3);
 					} else if (Data.Visual_Grid[Column][Row] == 68 || Data.Visual_Grid[Column][Row] == 70) {
-						SDL_RenderTexture(Core.Renderer, Textures.G_Well.Data
-							[Data.Visual_Grid[Column][Row] - 67], NULL, &Rects.Tile_3x2);
+						SDL_RenderTexture(Core.Renderer, Textures.G_Well.Data[
+							Data.Visual_Grid[Column][Row] - 67], NULL, &Rects.Tile_3x2);
 					}
 					break;
 				default:

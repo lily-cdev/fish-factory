@@ -1,12 +1,12 @@
 #pragma once
 extern "C" {
 	#include <core.h>
+	#include <transitions.h>
 }
 #include <preloader.h>
 #include <items.h>
 #include <connectables.h>
 #include <Data_Handler.h>
-#include <Transition_Handler.h>
 #include <ui.h>
 #include <Tutorial_Handler.h>
 

@@ -27,7 +27,7 @@ add_executable(Fish_Factory
 	internal/source/pipes.cxx
 	internal/source/recipes.cxx
 	internal/source/terminals.cxx
-	internal/source/transitions.cxx
+	internal/source/transitions.c
 	internal/source/tutorials.cxx
 	internal/source/ui.cxx
 	internal/source/wires.cxx
@@ -48,6 +48,12 @@ add_executable(Fish_Factory
 	internal/source/prompts/help.cxx
 	internal/source/prompts/machines.cxx
 	internal/source/prompts/shop.cxx
+	internal/source/prepping/cleanup.c
+	internal/source/prepping/definitions.c
+	internal/source/prepping/machines.c
+	internal/source/prepping/other.c
+	internal/source/prepping/preloaders.c
+	internal/source/prepping/ui.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
 	modules/neutral/resource.rc

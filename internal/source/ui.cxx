@@ -19,14 +19,14 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 		static_cast<float>(Size_Y * 40) * Settings.Screen_Size };
 	SDL_FRect Invisible_Hitbox = { 0, 0, 40.0f * Settings.Screen_Size, 40.0f * Settings.Screen_Size };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Hitbox.x = static_cast<int>((Column * 40) - Interface.Camera_X) * Settings.Screen_Size;
-		Invisible_Hitbox.x = static_cast<int>((Column * 40) - Interface.Camera_X) * Settings.Screen_Size;
+		Hitbox.x = static_cast<int>((Column * 40) - Core.Camera.X) * Settings.Screen_Size;
+		Invisible_Hitbox.x = static_cast<int>((Column * 40) - Core.Camera.X) * Settings.Screen_Size;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Hitbox.y = static_cast<int>((Row * 40) - Interface.Camera_Y) * Settings.Screen_Size;
-			Invisible_Hitbox.y = static_cast<int>((Row * 40) - Interface.Camera_Y) * Settings.Screen_Size;
+			Hitbox.y = static_cast<int>((Row * 40) - Core.Camera.Y) * Settings.Screen_Size;
+			Invisible_Hitbox.y = static_cast<int>((Row * 40) - Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * 40) - Interface.Camera_X) * Settings.Screen_Size &&
-					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * 40) - Interface.Camera_Y) * Settings.Screen_Size)
+				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * 40) - Core.Camera.X) * Settings.Screen_Size &&
+					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * 40) - Core.Camera.Y) * Settings.Screen_Size)
 					|| (Size_X != 2 && Size_Y != 2)) {
 					bool Placeable = Check_Clearance(Column, Row, Size_X, Size_Y);
 					if ((Interface.Placing_Item == Command_Platform + 1 && Data.CMD_Placed) ||
@@ -34,11 +34,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 						Placeable = false;
 					}
 					if (Placeable) {
-						Render_Outline(Hitbox, Colors.Pure_White);
+						Render_Outline(Hitbox, Colors.Pure_White, 1);
 					} else {
 						SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r,
 							Colors.Hostile_Red.g, Colors.Hostile_Red.b);
-						Render_Outline(Hitbox, Colors.Hostile_Red);
+						Render_Outline(Hitbox, Colors.Hostile_Red, 1);
 					}
 					SDL_RenderTexture(Core.Renderer, Cache.Blueprint_Cache,
 						NULL, &Hitbox);
@@ -95,10 +95,10 @@ void Render_Game_UI() {
 		Time += "AM";
 	}
 	Render_Dynamic_Text(Fonts.Halftext_Font, Abbreviate_Number(Data.Funds) + "LA", Colors.Abyss_Black, 10, 30);
-	Render_Dynamic_Text(Fonts.Halftext_Font, Time + ", " + Metadata.Days[Data.Day] + "day",
+	Render_Dynamic_Text(Fonts.Halftext_Font, Time + ", " + Metadata_L.Days[Data.Day] + "day",
 		Colors.Abyss_Black, 10, 50);
 	if (Interface.Tool == 2) {
-		std::vector<double> Content_Vector = Get_Grid_Data(Data.Data_Grid);
+		std::vector<double> Content_Vector = Get_Grid_Data(Data_L.Data_Grid);
 		Item_Stack Returned_Item = Get_Item_Stack_Data();
 		if (Returned_Item.Identifier != LDE_INVALID) {
 			Queried_Data_Fragments.push_back("Item: " + Returned_Item.Display_Name);
@@ -223,11 +223,11 @@ void Render_Slider(std::vector<std::string> Labels, int Engagement, int Nodes, i
 				SDL_RenderLine(Core.Renderer, static_cast<float>(Separators[Counter]),
 					0, static_cast<float>(Separators[Counter]), 360.0f * Settings.Screen_Size);
 			}
-			if (Interface.X_Mouse_Position < Separators[0]) {
+			if (Core.Mouse.X < Separators[0]) {
 				Position = 0;
-			} else if (Interface.X_Mouse_Position >= Separators[Nodes - 1]) {
+			} else if (Core.Mouse.X >= Separators[Nodes - 1]) {
 				Position = Nodes;
-			} else if (Interface.X_Mouse_Position >= Separators[Counter] && Interface.X_Mouse_Position < Separators[Counter + 1]) {
+			} else if (Core.Mouse.X >= Separators[Counter] && Core.Mouse.X < Separators[Counter + 1]) {
 				Position = Counter + 1;
 			}
 		}
@@ -260,26 +260,26 @@ void Render_Slider(std::vector<std::string> Labels, int Engagement, int Nodes, i
 }
 
 void Drain_Query() {
-	for (int Counter1 = 0; Counter1 < Temporary.Query.size(); Counter1++) {
-		if (Temporary.ID_Query[Counter1] == 0) {
-			Render_Outline(Temporary.Query[Counter1], Temporary.Color_Query[Counter1]);
-		} else if (Temporary.ID_Query[Counter1] == 1) {
-			double Length = std::sqrt(std::pow(Temporary.Query[Counter1].x -
-				Temporary.Query[Counter1].w, 2) + std::pow(Temporary
-				.Query[Counter1].y - Temporary.Query[Counter1].h, 2));
-			double Rotation = std::atan2(Temporary.Query[Counter1].y -
-				Temporary.Query[Counter1].h, Temporary.Query[Counter1].x -
-				Temporary.Query[Counter1].w) / (M_PI / 180);
+	for (int Counter1 = 0; Counter1 < Temporary_L.Query.size(); Counter1++) {
+		if (Temporary_L.ID_Query[Counter1] == 0) {
+			Render_Outline(Temporary_L.Query[Counter1], Temporary_L.Color_Query[Counter1], 1);
+		} else if (Temporary_L.ID_Query[Counter1] == 1) {
+			double Length = std::sqrt(std::pow(Temporary_L.Query[Counter1].x -
+				Temporary_L.Query[Counter1].w, 2) + std::pow(Temporary_L
+				.Query[Counter1].y - Temporary_L.Query[Counter1].h, 2));
+			double Rotation = std::atan2(Temporary_L.Query[Counter1].y -
+				Temporary_L.Query[Counter1].h, Temporary_L.Query[Counter1].x -
+				Temporary_L.Query[Counter1].w) / (M_PI / 180);
 			SDL_FPoint Centerpoint = { 5.0f * Settings.Screen_Size,
 				5.0f * Settings.Screen_Size };
 			for (int Counter2 = 0; Counter2 < std::floor(Length /
 				(Settings.Screen_Size * 10)); Counter2++) {
 				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Screen_Size *
 					10.0f, Settings.Screen_Size * 10.0f };
-				Tilebox.x = static_cast<float>(Temporary.Query[Counter1].x -
+				Tilebox.x = static_cast<float>(Temporary_L.Query[Counter1].x -
 					((Counter2 * Settings.Screen_Size * 10) * cos(Rotation *
 					(M_PI / 180))) - (5 * Settings.Screen_Size));
-				Tilebox.y = static_cast<float>(Temporary.Query[Counter1].y -
+				Tilebox.y = static_cast<float>(Temporary_L.Query[Counter1].y -
 					((Counter2 * Settings.Screen_Size * 10) * sin(Rotation *
 					(M_PI / 180))) - (5 * Settings.Screen_Size));
 				SDL_RenderTextureRotated(Core.Renderer,
@@ -288,9 +288,9 @@ void Drain_Query() {
 			}
 		}
 	}
-	Temporary.ID_Query.clear();
-	Temporary.Query.clear();
-	Temporary.Color_Query.clear();
+	Temporary_L.ID_Query.clear();
+	Temporary_L.Query.clear();
+	Temporary_L.Color_Query.clear();
 }
 
 void Render_Toolbar() {
@@ -326,7 +326,7 @@ void Render_Toolbar() {
 			.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
 	}
 	if (Interface.Tool == 0) {
-		std::string Machine_Text = Metadata.Machine_Names[Interface.Placing_Item - 1] + " | " +
+		std::string Machine_Text = Metadata_L.Machine_Names[Interface.Placing_Item - 1] + " | " +
 			Abbreviate_Number(Interface.Queried_Price) + "LA";
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text.c_str(),
 			Machine_Text.size(), Colors.Abyss_Black);
@@ -356,8 +356,8 @@ void Render_Toolbar() {
 
 void Verify_Settings() {
 	bool Keybinds_Altered = false;
-	for (int Counter = 0; Counter < Keybinds.Keybind_Settings.size(); Counter++) {
-		if (Keybinds.Keybind_Settings[Counter] != Keybinds.Keybind_List[Counter]) {
+	for (int Counter = 0; Counter < Keybinds_L.Keybind_Settings.size(); Counter++) {
+		if (Keybinds_L.Keybind_Settings[Counter] != Keybinds_L.Keybind_List[Counter]) {
 			Keybinds_Altered = true;
 			break;
 		}
@@ -375,15 +375,15 @@ void Verify_Settings() {
 void Render_Tile_Prompts() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) -
-			Interface.Camera_X) * Settings.Screen_Size);
+			Core.Camera.X) * Settings.Screen_Size);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = static_cast<int>(((Row * 40) -
-				Interface.Camera_Y) * Settings.Screen_Size);
+				Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int Counter = 0; Counter < Metadata.Quirk_Positions[2].size(); Counter++) {
+				for (int Counter = 0; Counter < Metadata_L.Quirk_Positions[2].size(); Counter++) {
 						if (Visual_To_ID(Data.Visual_Grid[Column][Row]) ==
-							Metadata.Quirk_Positions[2][Counter]) {
-						std::string Subcore = SDL_GetKeyName(Keybinds.Keybind_List[10]);
+							Metadata_L.Quirk_Positions[2][Counter]) {
+						std::string Subcore = SDL_GetKeyName(Keybinds_L.Keybind_List[10]);
 						for (int Counter = 0; Counter < Subcore.size(); Counter++) {
 							Subcore[Counter] = static_cast<char>(std::tolower(Subcore[Counter]));
 						}
@@ -415,31 +415,31 @@ void Render_Interaction() {
 	int Indexes[7] = { 4, 3, 5, 6, 7, 8, 10 };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) -
-			Interface.Camera_X) * Settings.Screen_Size);
+			Core.Camera.X) * Settings.Screen_Size);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = static_cast<int>(((Row * 40) -
-				Interface.Camera_Y) * Settings.Screen_Size);
+				Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int Counter = 0; Counter < Metadata.Quirk_Positions[2].size(); Counter++) {
+				for (int Counter = 0; Counter < Metadata_L.Quirk_Positions[2].size(); Counter++) {
 					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) ==
-						Metadata.Quirk_Positions[2][Counter]) {
+						Metadata_L.Quirk_Positions[2][Counter]) {
 						Interface.Prompt_Identifier = Indexes[Counter];
 						Interface.Building = false;
 						Interface.Target_Tile.X = Column;
 						Interface.Target_Tile.Y = Row;
 						switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
 						case Money_Generator:
-							Interface.Slider_Positions[8] = Data.Settings_Grid
-								[Interface.Target_Tile.X][Interface.Target_Tile.Y][3];
+							Interface.Slider_Positions[8] = Data_L.Settings_Grid[
+								Interface.Target_Tile.X][Interface.Target_Tile.Y][3];
 							break;
 						case Fluid_Generator:
-							Interface.Slider_Positions[9] = Data.Settings_Grid
+							Interface.Slider_Positions[9] = Data_L.Settings_Grid
 								[Interface.Target_Tile.X][Interface.Target_Tile.Y][3];
-							Interface.Slider_Positions[10] = Data.Settings_Grid
+							Interface.Slider_Positions[10] = Data_L.Settings_Grid
 								[Interface.Target_Tile.X][Interface.Target_Tile.Y][4] / 5;
-							for (int Counter = 0; Counter < Interface.Valve300_Postions.size(); Counter++) {
-								if (Data.Settings_Grid[Interface.Target_Tile.X]
-									[Interface.Target_Tile.Y][5] == Interface.Valve300_Postions[Counter]) {
+							for (int Counter = 0; Counter < Interface_L.Valve300_Postions.size(); Counter++) {
+								if (Data_L.Settings_Grid[Interface.Target_Tile.X]
+									[Interface.Target_Tile.Y][5] == Interface_L.Valve300_Postions[Counter]) {
 									Interface.Slider_Positions[11] = Counter;
 									break;
 								}
@@ -458,20 +458,20 @@ void Render_Interaction() {
 }
 
 void Render_Effects() {
-	if (Interface.Effects[Heat] > 0) {
+	if (Interface_L.Effects[Heat] > 0) {
 		//std::cout << "boilin'" << " ";
 	}
 }
 
 void Find_Effect() {
-	Interface.Effects[Heat] = 0;
+	Interface_L.Effects[Heat] = 0;
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			for (int Counter = 0; Counter < Metadata.Heating_Machines.size(); Counter++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[Counter] &&
-					X * 40 > Interface.Camera_X && Y * 40 > Interface.Camera_Y && X * 40 <
-					Interface.Camera_X + 640 && Y * 40 < Interface.Camera_Y + 360) {
-					Interface.Effects[Heat] += 0.1;
+			for (int Counter = 0; Counter < Metadata_L.Heating_Machines.size(); Counter++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata_L.Heating_Machines[Counter] &&
+					X * 40 > Core.Camera.X && Y * 40 > Core.Camera.Y && X * 40 <
+					Core.Camera.X + 640 && Y * 40 < Core.Camera.Y + 360) {
+					Interface_L.Effects[Heat] += 0.1;
 				}
 			}
 		}
@@ -481,7 +481,7 @@ void Find_Effect() {
 void Cache_Blueprint() {
 	int Width;
 	int Height;
-	ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, Width, Height);
+	ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &Width, &Height);
 	int Maximum = (Width > Height ? Width : Height) * Settings.Screen_Size * 40;
 	SDL_DestroyTexture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer,
@@ -505,19 +505,19 @@ void Cache_Blueprint() {
 	SDL_RenderTexture(Core.Renderer, Backing, NULL, NULL);
 	SDL_DestroyTexture(Backing);
 	int Rotation = Interface.Placing_Rotation * 90;
-	for (int Counter = 0; Counter < Metadata.Quirk_Positions[0].size(); Counter++) {
-		if (Metadata.Quirk_Positions[0][Counter] == Interface.Placing_Item - 1) {
+	for (int Counter = 0; Counter < Metadata_L.Quirk_Positions[0].size(); Counter++) {
+		if (Metadata_L.Quirk_Positions[0][Counter] == Interface.Placing_Item - 1) {
 			Rotation = 0;
 		}
 	}
 	SDL_FPoint Centerpoint = { Maximum * 0.5f, Maximum * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites
-		[Interface.Placing_Item - 1], NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(Core.Renderer, Metadata_L.Machine_Sprites[
+		Interface.Placing_Item - 1], NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = static_cast<int>((Metadata.Machine_Prices[Interface.Placing_Item - 1] *
-		1.1)) +	Metadata.Machine_Taxes[Interface.Placing_Item - 1] + 1;
+	Interface.Queried_Price = static_cast<int>((Metadata_L.Machine_Prices[Interface.Placing_Item - 1] *
+		1.1)) +	Metadata_L.Machine_Taxes[Interface.Placing_Item - 1] + 1;
 }

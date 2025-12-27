@@ -1,6 +1,9 @@
 ﻿#include <clib.hpp>
 extern "C" {
 	#include <core.h>
+	#include <prepping.h>
+	#include <transitions.h>
+	#include <rendering.h>
 }
 #include <preloader.h>
 #include <items.h>
@@ -8,26 +11,18 @@ extern "C" {
 #include <grid.h>
 #include <interface.h>
 #include <legacy.hpp>
-#include <Transition_Handler.h>
 #include <Tutorial_Handler.h>
 #include <ui.h>
 
-CORE Core;
-METADATA Metadata;
-DATA Data;
-SETTINGS Settings;
-TEXTURES Textures;
-RECTS Rects;
-COLORS Colors;
-FONTS Fonts;
-KEYBINDS Keybinds;
-TEMPORARY Temporary;
-CACHE Cache;
-INTERFACE Interface;
-PRECONFIGURATIONS Preconfigurations;
+OLD_METADATA Metadata_L;
+OLD_DATA Data_L;
+OLD_KEYBINDS Keybinds_L;
+OLD_TEMPORARY Temporary_L;
+OLD_CACHE Cache_L;
+OLD_INTERFACE Interface_L;
+OLD_PRECONFIGURATIONS Preconfigurations_L;
 PRESET_ITEMS Preset_Items;
 PRESET_CATEGORIES Preset_Categories;
-TRANSITION Transition;
 PRESET_FISH Preset_Fish;
 PRESET_IO_RECIPES Preset_IO_Recipes;
 PRESET_I_RECIPES Preset_I_Recipes;
@@ -54,7 +49,7 @@ int main(int argc, char* args[]) {
 		SDL_SetRenderDrawColor(Core.Renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(Core.Renderer);
 		Clear_Renderer();
-		SDL_GetMouseState(&Interface.X_Mouse_Position, &Interface.Y_Mouse_Position);
+		SDL_GetMouseState(&Core.Mouse.X, &Core.Mouse.Y);
 		if (Interface.UI_Tab == LDE_INVALID) {
 			if (Transition.Transition_Frames < Transition.Maximum_Transition_Frames) {
 				Transition.Transition_Frames++;
@@ -63,7 +58,7 @@ int main(int argc, char* args[]) {
 				Transition.Transition_Phase = 2;
 				Interface.UI_Tab = Transition.Queried_Tab;
 				Transition.Transition_Frames = 0;
-				Transition.Maximum_Transition_Frames = static_cast<int>(Interface.Frame_Rate / 2);
+				Transition.Maximum_Transition_Frames = static_cast<int>(Interface.Frame_Rate * 0.5);
 			}
 			SDL_RenderTexture(Core.Renderer, Textures
 				.Door.Data[0], NULL, &Rects.Door[0]);
@@ -95,17 +90,17 @@ int main(int argc, char* args[]) {
 			for (int Counter1 = 0; Counter1 < 3; Counter1++) {
 				for (int Counter2 = 0; Counter2 < 3; Counter2++) {
 					Ocean_Rectangle.x = (Counter1 * Ocean_Rectangle.w) -
-						((Interface.Camera_X + LDE_BUFFERSIZE) * Settings.Screen_Size);
+						((Core.Camera.X + LDE_BUFFERSIZE) * Settings.Screen_Size);
 					Ocean_Rectangle.y = (Counter2 * Ocean_Rectangle.h) -
-						((Interface.Camera_Y + LDE_BUFFERSIZE) * Settings.Screen_Size);
+						((Core.Camera.Y + LDE_BUFFERSIZE) * Settings.Screen_Size);
 					SDL_RenderTexture(Core.Renderer, Textures.None
 						.Data[static_cast<int>(Interface.Ocean_Cycle)], NULL, &Ocean_Rectangle);
 				}
 			}
 			float Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2)) * Settings.Screen_Size;
 			SDL_FRect Mesh_Rectangle = {
-				static_cast<float>(-(Interface.Camera_X + 70)) * Settings.Screen_Size,
-				static_cast<float>(-(Interface.Camera_Y + 70)) * Settings.Screen_Size,
+				static_cast<float>(-(Core.Camera.X + 70)) * Settings.Screen_Size,
+				static_cast<float>(-(Core.Camera.Y + 70)) * Settings.Screen_Size,
 				((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size,
 				((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size
 			};
@@ -115,10 +110,10 @@ int main(int argc, char* args[]) {
 				for (int Y = 0; Y < 2; Y++) {
 					SDL_FRect Pyramid_Rectangle = {
 						static_cast<float>(Width * X) - static_cast<float>(
-							Interface.Camera_X * Settings.Screen_Size) -
+							Core.Camera.X * Settings.Screen_Size) -
 							(LDE_BUFFERSIZE * Settings.Screen_Size),
 						static_cast<float>(Width * Y) - static_cast<float>(
-							Interface.Camera_Y * Settings.Screen_Size) -
+							Core.Camera.Y * Settings.Screen_Size) -
 							(LDE_BUFFERSIZE * Settings.Screen_Size),
 						Width,
 						Width
@@ -128,8 +123,8 @@ int main(int argc, char* args[]) {
 						&Pyramid_Rectangle);
 				}
 			}
-			if (Interface.Building && Data.Funds - Metadata.Machine_Prices
-				[Interface.Placing_Item - 1] > 0) {
+			if (Interface.Building && Data.Funds - Metadata_L.Machine_Prices[
+				Interface.Placing_Item - 1] > 0) {
 				Build_Grid();
 				Update_Grid();
 			}
@@ -162,11 +157,11 @@ int main(int argc, char* args[]) {
 				Offset_X *= 20 * LDE_GRIDSIZE;
 				Offset_Y *= 20 * LDE_GRIDSIZE;
 				Cache.Wire_Box.x = static_cast<int>(Offset_X -
-					Interface.Camera_X) * Settings.Screen_Size;
+					Core.Camera.X) * Settings.Screen_Size;
 				Cache.Wire_Box.y = static_cast<int>(Offset_Y -
-					Interface.Camera_Y) * Settings.Screen_Size;
-				SDL_RenderTexture(Core.Renderer, Cache
-					.Wire_Cache.Data[Counter], NULL, &Cache.Wire_Box);
+					Core.Camera.Y) * Settings.Screen_Size;
+				SDL_RenderTexture(Core.Renderer, Cache.Wire_Cache.Data[
+					Counter], NULL, &Cache.Wire_Box);
 			}
 			if (Interface.Tool == 4) {
 				Render_Pipes();
@@ -174,7 +169,7 @@ int main(int argc, char* args[]) {
 			if (Interface.Tool == 0 && Interface.UI_Selection == 0) {
 				int X;
 				int Y;
-				ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, X, Y);
+				ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &X, &Y);
 				Render_Blueprint(X, Y);
 			}
 			Render_Submarine();
@@ -187,17 +182,17 @@ int main(int argc, char* args[]) {
 					static_cast<float>(LDE_TILESIZE * Settings.Screen_Size),
 					static_cast<float>(LDE_TILESIZE * Settings.Screen_Size)
 				};
-				Hitbox.x = static_cast<int>((static_cast<int>((Interface.X_Mouse_Position +
-					(Interface.Camera_X * Settings.Screen_Size)) / (LDE_TILESIZE * Settings
-					.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Interface
-					.Camera_X * Settings.Screen_Size));
-				Hitbox.y = static_cast<int>((static_cast<int>((Interface.Y_Mouse_Position +
-					(Interface.Camera_Y * Settings.Screen_Size)) / (LDE_TILESIZE * Settings
-					.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Interface
-					.Camera_Y * Settings.Screen_Size));
+				Hitbox.x = static_cast<int>((static_cast<int>((Core.Mouse.X +
+					(Core.Camera.X * Settings.Screen_Size)) / (LDE_TILESIZE * Settings
+					.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Core
+					.Camera.X * Settings.Screen_Size));
+				Hitbox.y = static_cast<int>((static_cast<int>((Core.Mouse.Y +
+					(Core.Camera.Y * Settings.Screen_Size)) / (LDE_TILESIZE * Settings
+					.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Core
+					.Camera.Y * Settings.Screen_Size));
 				SDL_RenderTexture(Core.Renderer, Textures.Crosshair, NULL, &Hitbox);
-				Hitbox.x = Interface.X_Mouse_Position - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
-				Hitbox.y = Interface.Y_Mouse_Position - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
+				Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
+				Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
 				SDL_RenderTexture(Core.Renderer, Textures.Cursor, NULL, &Hitbox);
 				bool Targeting = false;
 				switch (Interface.Tool) {
@@ -225,25 +220,25 @@ int main(int argc, char* args[]) {
 			Render_Button(Textures.Credits, Rects.Credits, 4);
 			Render_Button(Textures.Quit_Game, Rects.Quit_Game, 5);
 			Render_Opening();
-			Render_Closing();
+			Render_Closing(false);
 		} else if (Interface.UI_Tab == 2) {
 			Render_Saveloader();
 			Render_Button(Textures.Return, Rects.Return, 1);
 			Render_Opening();
-			Render_Closing();
+			Render_Closing(false);
 		} else if (Interface.UI_Tab == 3) {
 			for (int Counter = 0; Counter < Textures.Settings_Label.Length; Counter++) {
 				SDL_RenderTexture(Core.Renderer, Textures.Settings_Label
 					.Data[Counter], NULL, &Rects.Settings_Label.Data[Counter]);
 			}
 			Render_Button(Textures.Return, Rects.Return, 1);
-			Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
+			Render_Slider(Interface_L.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
+			Render_Slider(Interface_L.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, Interface.Slider_Positions[5], 50, 210, 220,
+			Render_Slider(Interface_L.Slider_Texts[5], 3, 100, 21, Interface.Slider_Positions[5], 50, 210, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, Interface.Slider_Positions[6], 50, 280, 220,
+			Render_Slider(Interface_L.Slider_Texts[6], 4, 2, 22, Interface.Slider_Positions[6], 50, 280, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 			if (Settings.AA_Temporary) {
 				Render_Button(Textures.Anti_Aliasing.Data[0],
@@ -260,9 +255,9 @@ int main(int argc, char* args[]) {
 			if (Temporary.Settings_Changed) {
 				Render_Button(Textures.Save_Settings, Rects.Save_Settings, 23);
 			}
-			Render_Dynamic_Text(Fonts.Subtext_Font, Metadata.Monitor_Size, Colors.Abyss_Black, 50, 40);
-			for (int Counter1 = 0; Counter1 < Keybinds.Keybind_Texts.size(); Counter1++) {
-				std::string Text = Keybinds.Keybind_Texts[Counter1] + "...";
+			Render_Dynamic_Text(Fonts.Subtext_Font, Metadata_L.Monitor_Size, Colors.Abyss_Black, 50, 40);
+			for (int Counter1 = 0; Counter1 < Keybinds_L.Keybind_Texts.size(); Counter1++) {
+				std::string Text = Keybinds_L.Keybind_Texts[Counter1] + "...";
 				SDL_Surface* Prefix_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Text.c_str(),
 					Text.size(), Colors.Abyss_Black);
 				SDL_Texture* Prefix_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Prefix_Surface);
@@ -281,7 +276,7 @@ int main(int argc, char* args[]) {
 					SDL_DestroySurface(Registering_Surface);
 					SDL_DestroyTexture(Registering_Texture);
 				} else {
-					std::string Subcore = SDL_GetKeyName(Keybinds.Keybind_Settings[Counter1]);
+					std::string Subcore = SDL_GetKeyName(Keybinds_L.Keybind_Settings[Counter1]);
 					for (int Counter2 = 0; Counter2 < Subcore.length(); Counter2++) {
 						Subcore[Counter2] = static_cast<char>(std::tolower(Subcore[Counter2]));
 					}
@@ -324,10 +319,10 @@ int main(int argc, char* args[]) {
 			}
 			Verify_Settings();
 			Render_Opening();
-			Render_Closing();
+			Render_Closing(false);
 		} else if (Interface.UI_Tab == 4) {
 			for (int Counter = 0; Counter < Cache.Log_Cache.Data[Changelog].Length; Counter++) {
-				SDL_FRect Log_Rectangle = Cache.Log_Rectangles[Changelog][Counter];
+				SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Changelog][Counter];
 				Log_Rectangle.y -= Interface.Log_Offset;
 				SDL_RenderTexture(Core.Renderer, Cache.Log_Cache
 					.Data[Changelog].Data[Counter], NULL, &Log_Rectangle);
@@ -355,18 +350,18 @@ int main(int argc, char* args[]) {
 			switch (Interface.Slider_Positions[2]) {
 			case 0:
 				for (int Counter = 0; Counter < Cache.Log_Cache.Data[Credits].Length; Counter++) {
-					SDL_FRect Log_Rectangle = Cache.Log_Rectangles[Credits][Counter];
+					SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Credits][Counter];
 					Log_Rectangle.y -= Interface.Log_Offset;
-					SDL_RenderTexture(Core.Renderer, Cache
-						.Log_Cache.Data[Credits].Data[Counter], NULL, &Log_Rectangle);
+					SDL_RenderTexture(Core.Renderer, Cache.Log_Cache.Data[
+						Credits].Data[Counter], NULL, &Log_Rectangle);
 				}
 				break;
 			case 1:
 				for (int Counter = 0; Counter < Cache.Log_Cache.Data[Legal].Length; Counter++) {
-					SDL_FRect Log_Rectangle = Cache.Log_Rectangles[Legal][Counter];
+					SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Legal][Counter];
 					Log_Rectangle.y -= Interface.Log_Offset;
-					SDL_RenderTexture(Core.Renderer, Cache
-						.Log_Cache.Data[Legal].Data[Counter], NULL, &Log_Rectangle);
+					SDL_RenderTexture(Core.Renderer, Cache.Log_Cache.Data[
+						Legal].Data[Counter], NULL, &Log_Rectangle);
 				}
 				Prefix = "Legal";
 				break;
@@ -379,7 +374,7 @@ int main(int argc, char* args[]) {
 				Truncate(Temporary.Scroll_Percent, 0) +
 				"%", Colors.Abyss_Black, LDE_INVALID, 10);
 			Render_Button(Textures.Return, Rects.Return, 1);
-			Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
+			Render_Slider(Interface_L.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 			Render_Opening();
 			Render_Closing(true);
@@ -392,11 +387,11 @@ int main(int argc, char* args[]) {
 			} else {
 				Interface.Subtime_Frames = 0;
 				double Sum = 0;
-				for (int Counter = 0; Counter < Temporary.FPS_Query.size(); Counter++) {
-					Sum += Temporary.FPS_Query[Counter];
+				for (int Counter = 0; Counter < Temporary_L.FPS_Query.size(); Counter++) {
+					Sum += Temporary_L.FPS_Query[Counter];
 				}
-				Temporary.Temporary_FPS = static_cast<int>(Sum / Temporary.FPS_Query.size());
-				Temporary.FPS_Query.clear();
+				Temporary.Temporary_FPS = static_cast<int>(Sum / Temporary_L.FPS_Query.size());
+				Temporary_L.FPS_Query.clear();
 			}
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
@@ -427,32 +422,32 @@ int main(int argc, char* args[]) {
 				int Increment = (Interface.Movespeed / Interface.Frame_Rate) *
 					(1 + (static_cast<int>(Interface.Sprinting) * 4));
 				if (Interface.UD_Input == 0) {
-					Interface.Camera_Y = Interface.Camera_Y - Increment;
+					Core.Camera.Y = Core.Camera.Y - Increment;
 					Find_Effect();
-					if (Interface.Camera_Y < -LDE_BUFFERSIZE) {
-						Interface.Camera_Y = -LDE_BUFFERSIZE;
+					if (Core.Camera.Y < -LDE_BUFFERSIZE) {
+						Core.Camera.Y = -LDE_BUFFERSIZE;
 						Interface.UD_Input = LDE_INVALID;
 					}
 				} else if (Interface.UD_Input == 1) {
-					Interface.Camera_Y = Interface.Camera_Y + Increment;
+					Core.Camera.Y = Core.Camera.Y + Increment;
 					Find_Effect();
-					if (Interface.Camera_Y > Interface.Map_Y) {
-						Interface.Camera_Y = Interface.Map_Y;
+					if (Core.Camera.Y > Interface.Map_Y) {
+						Core.Camera.Y = Interface.Map_Y;
 						Interface.UD_Input = LDE_INVALID;
 					}
 				}
 				if (Interface.LR_Input == 0) {
-					Interface.Camera_X = Interface.Camera_X - Increment;
+					Core.Camera.X = Core.Camera.X - Increment;
 					Find_Effect();
-					if (Interface.Camera_X < -LDE_BUFFERSIZE) {
-						Interface.Camera_X = -LDE_BUFFERSIZE;
+					if (Core.Camera.X < -LDE_BUFFERSIZE) {
+						Core.Camera.X = -LDE_BUFFERSIZE;
 						Interface.LR_Input = LDE_INVALID;
 					}
 				} else if (Interface.LR_Input == 1) {
-					Interface.Camera_X = Interface.Camera_X + Increment;
+					Core.Camera.X = Core.Camera.X + Increment;
 					Find_Effect();
-					if (Interface.Camera_X > Interface.Map_X) {
-						Interface.Camera_X = Interface.Map_X;
+					if (Core.Camera.X > Interface.Map_X) {
+						Core.Camera.X = Interface.Map_X;
 						Interface.LR_Input = LDE_INVALID;
 					}
 				}
@@ -466,7 +461,7 @@ int main(int argc, char* args[]) {
 			Render_Prompts();
 			Render_Tutorial();
 			Render_Opening();
-			Render_Closing();
+			Render_Closing(false);
 			break;
 		default:
 			break;
@@ -481,7 +476,7 @@ int main(int argc, char* args[]) {
 		if (True_Rate > Interface.Frame_Rate) {
 			True_Rate = Interface.Frame_Rate;
 		}
-		Temporary.FPS_Query.push_back(True_Rate);
+		Temporary_L.FPS_Query.push_back(True_Rate);
 		SDL_Delay(static_cast<uint32_t>(std::max(Remaining_Delay, 0.0)));
 	}
 	Shutdown_Miniaudio();

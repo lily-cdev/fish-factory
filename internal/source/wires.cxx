@@ -21,19 +21,19 @@ void Clear_Unconnected_Wires() {
 void Render_Wire(int Counter, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
 	SDL_RenderLine(Core.Renderer,
 		static_cast<float>((((Wires_List[Counter].X1 * 40) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
 		Counter].X1][Wires_List[Counter].Y1][5] *
 		Settings.Screen_Size) - X_Offset) - X_Offset2),
 		static_cast<float>((((Wires_List[Counter].Y1 * 40) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
 		Counter].X1][Wires_List[Counter].Y1][6] *
 		Settings.Screen_Size) - Y_Offset) - Y_Offset2),
 		static_cast<float>((((Wires_List[Counter].X2 * 40) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
 		Counter].X2][Wires_List[Counter].Y2][5] *
 		Settings.Screen_Size) - X_Offset) - X_Offset2),
 		static_cast<float>((((Wires_List[Counter].Y2 * 40) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
 		Counter].X2][Wires_List[Counter].Y2][6] *
 		Settings.Screen_Size) - Y_Offset) - Y_Offset2));
 }
@@ -70,9 +70,9 @@ void Render_Wires() {
 				}
 			} else {
 				Rects.Node.x = static_cast<int>((Wires_List[Counter2].X1 * 40) -
-					Interface.Camera_X) * Settings.Screen_Size;
+					Core.Camera.X) * Settings.Screen_Size;
 				Rects.Node.y = static_cast<int>((Wires_List[Counter2].Y1 * 40) -
-					Interface.Camera_Y) * Settings.Screen_Size;
+					Core.Camera.Y) * Settings.Screen_Size;
 				SDL_RenderTexture(Core.Renderer, Textures.Node,
 					NULL, &Rects.Node);
 			}
@@ -89,14 +89,16 @@ void Render_Wire_Nodes() {
 			if (Interface.Node_Cycle > 360) {
 				Interface.Node_Cycle = 0;
 			}
-			SDL_FPoint Centerpoint = { Settings.Screen_Size * 20.0f,
-				Settings.Screen_Size * 20.0f };
-			Rects.Node.x = static_cast<int>((Wires_List[Counter].X1 * 40) +
-				(Data.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][5]) -
-				Interface.Camera_X - 20) * Settings.Screen_Size;
-			Rects.Node.y = static_cast<int>((Wires_List[Counter].Y1 * 40) +
-				(Data.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][6]) -
-				Interface.Camera_Y - 20) * Settings.Screen_Size;
+			SDL_FPoint Centerpoint = {
+				Settings.Screen_Size * LDE_TILESIZE * 0.5f,
+				Settings.Screen_Size * LDE_TILESIZE * 0.5f
+			};
+			Rects.Node.x = static_cast<int>((Wires_List[Counter].X1 * LDE_TILESIZE) +
+				(Data_L.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][5]) -
+				Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
+			Rects.Node.y = static_cast<int>((Wires_List[Counter].Y1 * LDE_TILESIZE) +
+				(Data_L.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][6]) -
+				Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
 			SDL_RenderTextureRotated(Core.Renderer, Textures.Node,
 				NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint, SDL_FLIP_NONE);
 		}
@@ -141,14 +143,14 @@ void Connect_Wire(int X, int Y) {
 void Place_Wire() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = static_cast<int>((Column * 40) -
-			Interface.Camera_X) * Settings.Screen_Size;
+			Core.Camera.X) * Settings.Screen_Size;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = static_cast<int>((Row * 40) -
-				Interface.Camera_Y) * Settings.Screen_Size;
+				Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-					Connect_Wire(static_cast<int>(Data.Settings_Grid[Column][Row][1]),
-						static_cast<int>(Data.Settings_Grid[Column][Row][2]));
+					Connect_Wire(static_cast<int>(Data_L.Settings_Grid[Column][Row][1]),
+						static_cast<int>(Data_L.Settings_Grid[Column][Row][2]));
 				} else {
 					Connect_Wire(Column, Row);
 				}
@@ -160,22 +162,22 @@ void Place_Wire() {
 
 void Distribute_Power(std::vector<std::vector<Wire>> &Grouped_List) {
 	for (int Counter1 = 0; Counter1 < Grouped_List.size(); Counter1++) {
-		double Remaining_Power = Data.Data_Grid[Grouped_List[Counter1][0].X1]
+		double Remaining_Power = Data_L.Data_Grid[Grouped_List[Counter1][0].X1]
 			[Grouped_List[Counter1][0].Y1][Stored_Power];
 		double Used_Power = 0;
 		for (int Counter2 = 0; Counter2 < Grouped_List[Counter1].size(); Counter2++) {
-			double Minimum = std::min(Remaining_Power, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2]
-				[Grouped_List[Counter1][Counter2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[Counter1]
+			double Minimum = std::min(Remaining_Power, Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2]
+				[Grouped_List[Counter1][Counter2].Y2][Power_Cap] - Data_L.Data_Grid[Grouped_List[Counter1]
 				[Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power]);
-			Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
+			Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
 				[Counter1][Counter2].Y2][Stored_Power] =
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2]
+				Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2]
 				[Grouped_List[Counter1][Counter2].Y2][Stored_Power] + Minimum;
 			Remaining_Power = Remaining_Power - Minimum;
 			Used_Power = Used_Power + Minimum;
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List
-			[Counter1][0].Y1][Stored_Power] = Data.Data_Grid[Grouped_List
+		Data_L.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List
+			[Counter1][0].Y1][Stored_Power] = Data_L.Data_Grid[Grouped_List
 			[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
 	}
 }

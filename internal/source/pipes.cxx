@@ -17,10 +17,10 @@ void Clear_Unconnected_Pipes() {
 void Place_Pipe() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = static_cast<int>((Column * 40) -
-			Interface.Camera_X) * Settings.Screen_Size;
+			Core.Camera.X) * Settings.Screen_Size;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = static_cast<int>((Row * 40) -
-				Interface.Camera_Y) * Settings.Screen_Size;
+				Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Pipes_List.size() > 0 && !Pipes_List[Pipes_List.size() - 1].Filled) {
 					bool Is_Adjacent = false;
@@ -55,8 +55,8 @@ void Place_Pipe() {
 					}
 					if (Is_Pipe_Adjacent && (Data.Connection_Grid[Column][Row] != LDE_INVALID ||
 						Data.Plumbing_Grid[Column][Row] != LDE_INVALID) &&
-						(Data.Settings_Grid[Column][Row][0] == 0 ||
-						Data.Settings_Grid[Column][Row][0] == 1)) {
+						(Data_L.Settings_Grid[Column][Row][0] == 0 ||
+						Data_L.Settings_Grid[Column][Row][0] == 1)) {
 						Pipes_List[Pipes_List.size() - 1].X2 = Column;
 						Pipes_List[Pipes_List.size() - 1].Y2 = Row;
 						Pipes_List[Pipes_List.size() - 1].Filled = true;
@@ -81,8 +81,8 @@ void Place_Pipe() {
 				} else {
 					if ((Data.Connection_Grid[Column][Row] != LDE_INVALID ||
 						Data.Plumbing_Grid[Column][Row] > LDE_INVALID) &&
-						(Data.Settings_Grid[Column][Row][0] == 0 ||
-						Data.Settings_Grid[Column][Row][0] == 2)) {
+						(Data_L.Settings_Grid[Column][Row][0] == 0 ||
+						Data_L.Settings_Grid[Column][Row][0] == 2)) {
 						Pipe New_Pipe;
 						New_Pipe.X1 = Column;
 						New_Pipe.Y1 = Row;
@@ -98,16 +98,16 @@ void Render_Pipes() {
 	for (int Counter = 0; Counter < Pipes_List.size(); Counter++) {
 		if (Pipes_List[Counter].Filled) {
 			Rects.Tile_1x1.x = static_cast<int>((Pipes_List[Counter].X1 * 40) +
-				Pipes_List[Counter].X_Offset - Interface.Camera_X) * Settings.Screen_Size;
+				Pipes_List[Counter].X_Offset - Core.Camera.X) * Settings.Screen_Size;
 			Rects.Tile_1x1.y = static_cast<int>((Pipes_List[Counter].Y1 * 40) +
-				Pipes_List[Counter].Y_Offset - Interface.Camera_Y) * Settings.Screen_Size;
+				Pipes_List[Counter].Y_Offset - Core.Camera.Y) * Settings.Screen_Size;
 			SDL_RenderTexture(Core.Renderer, Textures.Arrow
 				.Data[Pipes_List[Counter].Orienation], NULL, &Rects.Tile_1x1);
 		} else {
 			Rects.Sapling.x = static_cast<int>((Pipes_List[Counter].X1 * 40) -
-				Interface.Camera_X) * Settings.Screen_Size;
+				Core.Camera.X) * Settings.Screen_Size;
 			Rects.Sapling.y = static_cast<int>((Pipes_List[Counter].Y1 * 40) -
-				Interface.Camera_Y) * Settings.Screen_Size;
+				Core.Camera.Y) * Settings.Screen_Size;
 			SDL_RenderTexture(Core.Renderer, Textures.Sapling, NULL,
 				&Rects.Sapling);
 		}
@@ -116,36 +116,36 @@ void Render_Pipes() {
 
 void Distribute_Fluid(std::vector<std::vector<Pipe>> &Grouped_List) {
 	for (int Counter1 = 0; Counter1 < Grouped_List.size(); Counter1++) {
-		double Remaining_Fluid = Data.Data_Grid[Grouped_List
+		double Remaining_Fluid = Data_L.Data_Grid[Grouped_List
 			[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids];
 		double Used_Fluid = 0;
 		for (int Counter2 = 0; Counter2 < Grouped_List[Counter1].size(); Counter2++) {
-			if (Data.Items_Grid[Grouped_List[Counter1][Counter2].X2]
-				[Grouped_List[Counter1][Counter2].Y2] == LDE_INVALID ||
-				Data.Items_Grid[Grouped_List[Counter1][Counter2].X1]
-				[Grouped_List[Counter1][Counter2].Y1] == Data.Items_Grid
-				[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1]
-				[Counter2].Y2]) {
-				double Minimum = std::min(Remaining_Fluid, Data.Data_Grid[Grouped_List[Counter1]
-					[Counter2].X2][Grouped_List[Counter1][Counter2].Y2][1]
-					- Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
+			if (Data.Items_Grid[Grouped_List[Counter1][Counter2].X2][
+				Grouped_List[Counter1][Counter2].Y2] == LDE_INVALID ||
+				Data.Items_Grid[Grouped_List[Counter1][Counter2].X1][
+				Grouped_List[Counter1][Counter2].Y1] == Data.Items_Grid[
+				Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+				Counter2].Y2]) {
+				double Minimum = std::min(Remaining_Fluid, Data_L.Data_Grid[Grouped_List[Counter1][
+					Counter2].X2][Grouped_List[Counter1][Counter2].Y2][1]
+					- Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
 					[Counter1][Counter2].Y2][Stored_Fluids]);
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1]
-					[Counter2].Y2][Stored_Fluids] = Data.Data_Grid[Grouped_List[Counter1][Counter2].X2]
-					[Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] + Minimum;
-				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1]
-					[Counter2].Y2, Data.Items_Grid[Grouped_List[Counter1]
-					[Counter2].X1][Grouped_List[Counter1][Counter2].Y1],
-					Data.Temperature_Grid[Grouped_List[Counter1][Counter2].X1]
-					[Grouped_List[Counter1][Counter2].Y1]);
+				Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+					Counter2].Y2][Stored_Fluids] = Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][
+					Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] + Minimum;
+				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1][
+					Counter2].Y2, Data.Items_Grid[Grouped_List[Counter1][
+					Counter2].X1][Grouped_List[Counter1][Counter2].Y1],
+					Data.Temperature_Grid[Grouped_List[Counter1][Counter2].X1][
+					Grouped_List[Counter1][Counter2].Y1]);
 				Remaining_Fluid = Remaining_Fluid - Minimum;
 				Used_Fluid = Used_Fluid + Minimum;
 			}
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1]
-			[Grouped_List[Counter1][0].Y1][Stored_Fluids] =
-			Data.Data_Grid[Grouped_List[Counter1][0].X1]
-			[Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
+		Data_L.Data_Grid[Grouped_List[Counter1][0].X1][
+			Grouped_List[Counter1][0].Y1][Stored_Fluids] =
+			Data_L.Data_Grid[Grouped_List[Counter1][0].X1][
+			Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
 	}
 }
 

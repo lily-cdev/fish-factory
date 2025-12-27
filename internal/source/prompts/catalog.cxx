@@ -8,7 +8,7 @@ void Render_Catalog(int X, int Y) {
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
-		for (int Counter = 0; Counter < Metadata.Machine_Count; Counter++) {
+		for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
 			if (I_Recipes[Counter].empty() && O_Recipes[Counter].empty()
 				&& IO_Recipes[Counter].empty()) {
 				continue;
@@ -40,15 +40,14 @@ void Render_Catalog(int X, int Y) {
 			Set_Renderer_Color(Colors.Pure_White);
 			SDL_RenderFillRect(Core.Renderer, &Inner_Rectangle);
 			Clear_Renderer();
-			bool r=true;
 			SDL_FRect Machine_Rectangle = {
 				Inner_Rectangle.x + Base_Subpadding,
 				Inner_Rectangle.y + Base_Subpadding,
 				36.0f * Settings.Screen_Size,
 				36.0f * Settings.Screen_Size
 			};
-			float XY_Ratio = Metadata.Machine_Rectangles[Counter].w /
-				Metadata.Machine_Rectangles[Counter].h;
+			float XY_Ratio = Metadata_L.Machine_Rectangles[Counter].w /
+				Metadata_L.Machine_Rectangles[Counter].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
 				Machine_Rectangle.y = Machine_Rectangle.y +	(18.0f *
@@ -59,7 +58,7 @@ void Render_Catalog(int X, int Y) {
 					Settings.Screen_Size) - (Machine_Rectangle.w * 0.5);
 			}
 			SDL_RenderTexture(Core.Renderer,
-				Metadata.Machine_Sprites[Counter], NULL,
+				Metadata_L.Machine_Sprites[Counter], NULL,
 				&Machine_Rectangle);
 			Index++;
 		}

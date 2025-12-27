@@ -24,7 +24,6 @@ void Render_Effects();
 void Find_Effect();
 void Cache_Blueprint();
 void Cache_Price();
-void Render_Grid();
 void Render_Backing();
 void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitboxes);
 void Print_Error(int Input);

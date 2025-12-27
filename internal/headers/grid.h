@@ -1,6 +1,8 @@
 #pragma once
 extern "C" {
 	#include <core.h>
+	#include <prepping.h>
+	#include <transitions.h>
 }
 #include <preloader.h>
 #include <items.h>

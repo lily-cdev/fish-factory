@@ -31,7 +31,7 @@ std::string To_Code(int Input) {
 }
 
 void Print_Error(int Input) {
-	Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(),
+	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(),
 		": ERROR 0x" + To_Code(Input) + " -> " + Errors[Input]);
 }
 
@@ -53,7 +53,7 @@ void Print_Fatal_Error(int Input) {
 	SDL_DestroyTexture(Carrying_Texture);
 	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3);
 	if (Interface.UI_Selection == 3) {
-		Interface.Terminal_Entry = Return_Command(Execute, { "quit" });
+		Interface_L.Terminal_Entry = Return_Command(Execute, { "quit" });
 	}
 	Tick_Input(3);
 }
@@ -78,30 +78,30 @@ void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitbox
 }
 
 void Print_Response(std::string Response) {
-	Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(), ": " + Response + ".");
+	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), ": " + Response + ".");
 }
 
 void Print_JSON(std::vector<std::string> Input) {
-	Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(), "{");
+	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "{");
 	std::string Comma = ",";
 	for (int Counter = 0; Counter < Input.size(); Counter++) {
 		if (Counter == Input.size() - 1) {
 			Comma = "";
 		}
-		Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(), "    \"" + Input[Counter] + "\"" + Comma);
+		Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "    \"" + Input[Counter] + "\"" + Comma);
 	}
-	Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(), "}");
+	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "}");
 }
 
 void Print_Input() {
-	Interface.Terminal_Logs.insert(Interface.Terminal_Logs.begin(), "> " + Interface.Terminal_Entry);
+	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "> " + Interface_L.Terminal_Entry);
 	Temporary.Ticker_Position = 0;
 	Temporary.Ticker_Frames = 0;
 }
 
 void Purge_Excess() {
-	while (Interface.Terminal_Logs.size() > 11) {
-		Interface.Terminal_Logs.pop_back();
+	while (Interface_L.Terminal_Logs.size() > 11) {
+		Interface_L.Terminal_Logs.pop_back();
 	}
 }
 
@@ -111,12 +111,12 @@ void Forward_Essentials(int Buttons, int Sliders) {
 		Print_Input();
 	}
 	if (Interface.UI_Selection == Buttons + 1) {
-		Interface.Terminal_Logs.clear();
+		Interface_L.Terminal_Logs.clear();
 		Interface.Terminal_Clearing = true;
 	} else if (Interface.UI_Selection == Buttons + 2) {
 		Interface.Prompt_Identifier = LDE_INVALID;
 		Interface.Subprompt_Identifier = LDE_INVALID;
-		Interface.Terminal_Logs.clear();
+		Interface_L.Terminal_Logs.clear();
 	}
 }
 
@@ -130,21 +130,21 @@ void Render_Necessities(std::string Machine, std::string Prefix) {
 	Render_Dynamic_Text(Fonts.Terminal_Font, "librenectere/" + Machine + ".exe",
 		Colors.Cherry_Blossom, 50, 50);
 	Render_Dynamic_Text(Fonts.Terminal_Font, "> ", Colors.Cherry_Blossom, 50, 300);
-	if (Interface.Terminal_Entry.size() > 0) {
-		Interface.Terminal_Entry = Prefix + "." + Interface.Terminal_Entry + ";";
+	if (Interface_L.Terminal_Entry.size() > 0) {
+		Interface_L.Terminal_Entry = Prefix + "." + Interface_L.Terminal_Entry + ";";
 		std::string Result = { };
-		for (int Counter = 0; Counter < Interface.Terminal_Entry.size(); Counter++) {
-			if (Counter >= Temporary.Ticker_Position || Counter > Interface.Terminal_Entry.size()) {
+		for (int Counter = 0; Counter < Interface_L.Terminal_Entry.size(); Counter++) {
+			if (Counter >= Temporary.Ticker_Position || Counter > Interface_L.Terminal_Entry.size()) {
 				break;
 			}
-			Result.push_back(Interface.Terminal_Entry[Counter]);
+			Result.push_back(Interface_L.Terminal_Entry[Counter]);
 		}
 		if (Result.size() > 0) {
 			Render_Dynamic_Text(Fonts.Terminal_Font, Result, Colors.Cherry_Blossom, 64, 300);
 		}
 	}
-	for (int Counter = static_cast<int>(Interface.Terminal_Logs.size()) - 1; Counter > LDE_INVALID; Counter--) {
-		Render_Dynamic_Text(Fonts.Terminal_Font, Interface.Terminal_Logs[Counter],
+	for (int Counter = static_cast<int>(Interface_L.Terminal_Logs.size()) - 1; Counter > LDE_INVALID; Counter--) {
+		Render_Dynamic_Text(Fonts.Terminal_Font, Interface_L.Terminal_Logs[Counter],
 			Colors.Cherry_Blossom, 50, 280 - (Counter * 20));
 	}
 }
@@ -204,7 +204,7 @@ void Process_Commands(std::vector<int> Types, std::vector<std::vector<std::strin
 	Parameters.push_back({ "quit" });
 	for (int Counter = 0; Counter < Types.size(); Counter++) {
 		if (Interface.UI_Selection == Counter + 3) {
-			Interface.Terminal_Entry = Return_Command(Types[Counter], Parameters[Counter]);
+			Interface_L.Terminal_Entry = Return_Command(Types[Counter], Parameters[Counter]);
 		}
 	}
 	for (int Counter = 3; Counter < Types.size() + 3; Counter++) {

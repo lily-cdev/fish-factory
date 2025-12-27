@@ -1,74 +1,13 @@
 #include <preloader.h>
 
-AUDIO Audio;
-
-void Clear_Renderer() {
-	SDL_SetRenderDrawColor(Core.Renderer, 0, 0, 0, SDL_ALPHA_TRANSPARENT);
-}
-
-void Set_Renderer_Color(const SDL_Color &Color) {
-	SDL_SetRenderDrawColor(Core.Renderer, Color.r, Color.g, Color.b, SDL_ALPHA_OPAQUE);
-}
-
 bool Detect_Mouse_Collision(const SDL_FRect &Target) {
-	return (Interface.X_Mouse_Position >= Target.x && Interface.X_Mouse_Position <= Target.x + Target.w &&
-		Interface.Y_Mouse_Position >= Target.y && Interface.Y_Mouse_Position <= Target.y + Target.h);
+	return (Core.Mouse.X >= Target.x && Core.Mouse.X <= Target.x + Target.w &&
+		Core.Mouse.Y >= Target.y && Core.Mouse.Y <= Target.y + Target.h);
 }
 
 SDL_FRect Buffer_Rectangle(const SDL_FRect &Source, const int X, const int Y) {
 	return { Source.x - (X * Settings.Screen_Size), Source.y - (Y * Settings.Screen_Size),
 		Source.w + ((X * 2) * Settings.Screen_Size), Source.h + ((Y * 2) * Settings.Screen_Size) };
-}
-
-void Clear_Texture_Array(Texture_Array &Target) {
-	if (Target.Data != nullptr) {
-		for (int Counter = 0; Counter < Target.Length; Counter++) {
-			SDL_DestroyTexture(Target.Data[Counter]);
-		}
-		free(Target.Data);
-	}
-}
-
-void Clear_Texture2_Array(Texture2_Array &Target) {
-	if (Target.Data != nullptr) {
-		for (int Counter = 0; Counter < Target.Length; Counter++) {
-			Clear_Texture_Array(Target.Data[Counter]);
-		}
-		free(Target.Data);
-	}
-}
-
-void Clear_Texture3_Array(Texture3_Array &Target) {
-	if (Target.Data != nullptr) {
-		for (int Counter = 0; Counter < Target.Length; Counter++) {
-			Clear_Texture2_Array(Target.Data[Counter]);
-		}
-		free(Target.Data);
-	}
-}
-
-void Clear_Rect_Array(Rect_Array &Target) {
-	if (Target.Data != nullptr) {
-		free(Target.Data);
-	}
-}
-
-void Clear_Rect2_Array(Rect2_Array &Target) {
-	if (Target.Data != nullptr) {
-		for (int Counter = 0; Counter < Target.Length; Counter++) {
-			Clear_Rect_Array(Target.Data[Counter]);
-		}
-		free(Target.Data);
-	}
-}
-
-void Clear_Rect3_Array(Rect3_Array &Target) {
-	if (Target.Data != nullptr) {
-		for (int Counter = 0; Counter < Target.Length; Counter++) {
-			Clear_Rect2_Array(Target.Data[Counter]);
-		}
-		free(Target.Data);
-	}
 }
 
 bool Check_Clearance(const int X, const int Y, const int W, const int H) {
@@ -90,8 +29,8 @@ void Fill_Clearance(const int Identifier, const int X, const int Y, const int W,
 		for (int Counter2 = 0; Counter2 < H; Counter2++) {
 			Data.Visual_Grid[X + Counter1][Y + Counter2] = Identifier;
 			if (Counter1 > 0 || Counter2 > 0) {
-				Data.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
-				Data.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
+				Data_L.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
+				Data_L.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
 			}
 		}
 	}
@@ -136,7 +75,7 @@ void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 
 std::string Abbreviate_Number(long double Number) {
 	int Marker = 0;
-	for (int Counter = 0; Counter < Core.Suffixes.size() - 1; Counter++) {
+	for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 		if (Number >= 1000) {
 			Marker++;
 			Number = Number / 1000;
@@ -154,20 +93,9 @@ std::string Abbreviate_Number(long double Number) {
 	return Returning_String;
 }
 
-int Get_Depth(double Number) {
-	for (int Counter = 0; Counter < Core.Suffixes.size() - 1; Counter++) {
-		if (Number > 1000) {
-			Number = Number / 1000;
-		} else {
-			return Counter;
-		}
-	}
-	return LDE_INVALID;
-}
-
 std::string Truncate(double Number, int Depth = LDE_INVALID) {
 	if (Depth == LDE_INVALID) {
-		for (int Counter = 0; Counter < Core.Suffixes.size() - 1; Counter++) {
+		for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 			if (Number > 1000) {
 				Number = Number / 1000;
 			} else {
@@ -313,7 +241,7 @@ Texture_Array Load_Modular(std::string Path, int Size) {
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[5],
 		NULL, NULL, 270, &Tile_Centrepoint, SDL_FLIP_NONE);
 	Yield.Data[15] = Cap4_Texture;
-	Clear_Texture_Array(Subtextures);
+	Clear_Texture_Array(&Subtextures);
 	SDL_DestroySurface(Spritesheet_Surface);
 	SDL_DestroyTexture(Spritesheet_Texture);
 	SDL_SetRenderTarget(Core.Renderer, nullptr);
@@ -569,26 +497,9 @@ Texture2_Array Load_Animated_Rotational(const std::string &Path, const int Heigh
 				NULL, NULL, Counter1 * 90, &Center, SDL_FLIP_NONE);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
 		}
-		Clear_Texture_Array(Subyield);
+		Clear_Texture_Array(&Subyield);
 	}
 	return Yield;
-}
-
-void Preload_Fonts() {
-	Fonts.Logo_Font = TTF_OpenFont("Assets/Core/Fonts/Oxygen/Oxygen_Regular.ttf",
-		Settings.Screen_Size * 32);
-	Fonts.Large_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf",
-		Settings.Screen_Size * 24);
-	Fonts.Text_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf",
-		Settings.Screen_Size * 18);
-	Fonts.Halftext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf",
-		Settings.Screen_Size * 16);
-	Fonts.Subtext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf",
-		Settings.Screen_Size * 12);
-	Fonts.Microtext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf",
-		Settings.Screen_Size * 10);
-	Fonts.Terminal_Font = TTF_OpenFont("Assets/Core/Fonts/Oxygen/Oxygen_Regular.ttf",
-		Settings.Screen_Size * 12);
 }
 
 SDL_Texture* Preload_Sidebutton(std::string Path, SDL_FRect &Rectangle, float Y) {
@@ -628,8 +539,8 @@ Texture2_Array Preload_Terminal_Sidebar(std::vector<std::string> Texts, Rect2_Ar
 
 void Reload_Commandlist(Texture3_Array &Commandlist, Rect3_Array &Boxlist,
 	std::vector<std::vector<std::string>> Contents) {
-	Clear_Rect3_Array(Boxlist);
-	Clear_Texture3_Array(Commandlist);
+	Clear_Rect3_Array(&Boxlist);
+	Clear_Texture3_Array(&Commandlist);
 	Boxlist.Length = Contents.size();
 	Boxlist.Data = static_cast<Rect2_Array*>(
 		malloc(sizeof(Rect2_Array) * Contents.size()));
@@ -643,26 +554,26 @@ void Reload_Commandlist(Texture3_Array &Commandlist, Rect3_Array &Boxlist,
 }
 
 void Recache_TT_Commands() {
-	Metadata.TT_Texts[1] = { "Return" };
-	Metadata.TT_Parameters[1] = { { "transmit", "EXIT" } };
-	Metadata.TT_Types[1] = { Execute };
-	for (int Counter = 0; Counter < Temporary.Docks.size(); Counter++) {
-		Metadata.TT_Texts[1].push_back("Dock " + std::to_string(Counter + 1));
-		Metadata.TT_Parameters[1].push_back({ "transmit", "POS_DOCK_" +
+	Metadata_L.TT_Texts[1] = { "Return" };
+	Metadata_L.TT_Parameters[1] = { { "transmit", "EXIT" } };
+	Metadata_L.TT_Types[1] = { Execute };
+	for (int Counter = 0; Counter < Temporary_L.Docks.size(); Counter++) {
+		Metadata_L.TT_Texts[1].push_back("Dock " + std::to_string(Counter + 1));
+		Metadata_L.TT_Parameters[1].push_back({ "transmit", "POS_DOCK_" +
 			std::to_string(Counter + 1) });
 	}
-	Reload_Commandlist(Textures.TT_Buttons, Rects.TT_Buttons, Metadata.TT_Texts);
+	Reload_Commandlist(Textures.TT_Buttons, Rects.TT_Buttons, Metadata_L.TT_Texts);
 }
 
 void Preload_Assets() {
 	Core.Game_Texture = SDL_GenerateTexture(Core.Renderer, SDL_PIXELFORMAT_RGBA8888,
 		SDL_TEXTUREACCESS_TARGET, 640 * Settings.Screen_Size, 360 * Settings.Screen_Size);
-	for (int Counter = 0; Counter < Metadata.Machine_Count; Counter++) {
-		Metadata.Machine_Quirks.push_back({ false, false, false, false });
+	for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
+		Metadata_L.Machine_Quirks.push_back({ false, false, false, false });
 	}
-	for (int Counter1 = 0; Counter1 < Metadata.Quirk_Positions.size(); Counter1++) {
-		for (int Counter2 = 0; Counter2 < Metadata.Quirk_Positions[Counter1].size(); Counter2++) {
-			Metadata.Machine_Quirks[Metadata.Quirk_Positions[Counter1][Counter2]][Counter1] = true;
+	for (int Counter1 = 0; Counter1 < Metadata_L.Quirk_Positions.size(); Counter1++) {
+		for (int Counter2 = 0; Counter2 < Metadata_L.Quirk_Positions[Counter1].size(); Counter2++) {
+			Metadata_L.Machine_Quirks[Metadata_L.Quirk_Positions[Counter1][Counter2]][Counter1] = true;
 		}
 	}
 	SDL_Surface* Carrying_Surface = nullptr;
@@ -675,9 +586,9 @@ void Preload_Assets() {
 	};
 	Interface.Maximum_Time_Frames = Interface.Frame_Rate;
 	Interface.Maximum_Subtime_Frames = Interface.Frame_Rate / 3;
-	Interface.Slider_Texts[5].resize(101, std::string());
+	Interface_L.Slider_Texts[5].resize(101, std::string());
 	for (int Counter = 0; Counter < 101; Counter++) {
-		Interface.Slider_Texts[5][Counter] = std::to_string(Counter) + "%";
+		Interface_L.Slider_Texts[5][Counter] = std::to_string(Counter) + "%";
 	}
 	const std::vector<int> Queried = {
 		7,
@@ -685,17 +596,17 @@ void Preload_Assets() {
 		13
 	};
 	for (int Counter1 = 0; Counter1 < Queried.size(); Counter1++) {
-		Interface.Slider_Texts[Queried[Counter1]].resize(Interface.Valve300_Postions.size(), std::string());
-		for (int Counter2 = 0; Counter2 < Interface.Valve300_Postions.size(); Counter2++) {
-			Interface.Slider_Texts[Queried[Counter1]][Counter2] = std::to_string(
-				Interface.Valve300_Postions[Counter2]) + "L/s";
+		Interface_L.Slider_Texts[Queried[Counter1]].resize(Interface_L.Valve300_Postions.size(), std::string());
+		for (int Counter2 = 0; Counter2 < Interface_L.Valve300_Postions.size(); Counter2++) {
+			Interface_L.Slider_Texts[Queried[Counter1]][Counter2] = std::to_string(
+				Interface_L.Valve300_Postions[Counter2]) + "L/s";
 		}
 	}
-	Interface.Slider_Texts[10].resize(241, std::string());
+	Interface_L.Slider_Texts[10].resize(241, std::string());
 	for (int Counter = 0; Counter < 241; Counter++) {
-		Interface.Slider_Texts[10][Counter] = std::to_string(Counter * 5) + " °F";
+		Interface_L.Slider_Texts[10][Counter] = std::to_string(Counter * 5) + " °F";
 	}
-	Interface.Tile_Centrepoint = { 20.0f * Settings.Screen_Size, 20.0f * Settings.Screen_Size };
+	Interface.Tile_Centerpoint = { 20.0f * Settings.Screen_Size, 20.0f * Settings.Screen_Size };
 	Load_Sound(&Audio.Primary_Ambience, "Assets/Core/Audio/Ambient/Background.wav");
 	Load_Sound(&Audio.Filtration_Loop, "Assets/Core/Audio/Machines/Filtration_Loop.wav");
 	Load_Sound(&Audio.Ram_Loop, "Assets/Core/Audio/Machines/Ram_Loop.wav");
@@ -732,22 +643,22 @@ void Preload_Assets() {
 	Rects.Next_Day.Data[0] = { LDE_INVALID, 300.0f * Settings.Screen_Size, 0, 0 };
 	Interface.Map_X = (LDE_TILESIZE * LDE_GRIDSIZE) - 640 + LDE_BUFFERSIZE;
 	Interface.Map_Y = (LDE_TILESIZE * LDE_GRIDSIZE) - 360 + LDE_BUFFERSIZE;
-	Rects.Subcategories.Length = Metadata.Subcategory_Positions.size();
+	Rects.Subcategories.Length = Metadata_L.Subcategory_Positions.size();
 	Rects.Subcategories.Data = static_cast<Rect2_Array*>(
-		malloc(sizeof(Rect2_Array) * Metadata.Subcategory_Positions.size()));
-	Textures.Subcategories.Length = Metadata.Subcategory_Positions.size();
+		malloc(sizeof(Rect2_Array) * Metadata_L.Subcategory_Positions.size()));
+	Textures.Subcategories.Length = Metadata_L.Subcategory_Positions.size();
 	Textures.Subcategories.Data = static_cast<Texture2_Array*>(
-		malloc(sizeof(Texture2_Array) * Metadata.Subcategory_Positions.size()));
-	for (int Counter1 = 0; Counter1 < Metadata.Subcategory_Positions.size(); Counter1++) {
+		malloc(sizeof(Texture2_Array) * Metadata_L.Subcategory_Positions.size()));
+	for (int Counter1 = 0; Counter1 < Metadata_L.Subcategory_Positions.size(); Counter1++) {
 		Rects.Subcategories.Data[Counter1].Length = 
-			Metadata.Subcategory_Positions[Counter1].size();
+			Metadata_L.Subcategory_Positions[Counter1].size();
 		Rects.Subcategories.Data[Counter1].Data = static_cast<Rect_Array*>(
-			malloc(sizeof(Rect_Array) * Metadata.Subcategory_Positions[Counter1].size()));
+			malloc(sizeof(Rect_Array) * Metadata_L.Subcategory_Positions[Counter1].size()));
 		Textures.Subcategories.Data[Counter1].Length = 
-			Metadata.Subcategory_Positions[Counter1].size();
+			Metadata_L.Subcategory_Positions[Counter1].size();
 		Textures.Subcategories.Data[Counter1].Data = static_cast<Texture_Array*>(
-			malloc(sizeof(Texture_Array) * Metadata.Subcategory_Positions[Counter1].size()));
-		for (int Counter2 = 0; Counter2 < Metadata.Subcategory_Positions[Counter1].size(); Counter2++) {
+			malloc(sizeof(Texture_Array) * Metadata_L.Subcategory_Positions[Counter1].size()));
+		for (int Counter2 = 0; Counter2 < Metadata_L.Subcategory_Positions[Counter1].size(); Counter2++) {
 			Rects.Subcategories.Data[Counter1].Data[Counter2].Length = 2;
 			Rects.Subcategories.Data[Counter1].Data[Counter2].Data =
 				static_cast<SDL_FRect*>(calloc(2, sizeof(SDL_FRect)));
@@ -755,25 +666,25 @@ void Preload_Assets() {
 				LDE_INVALID, static_cast<float>(40 + (Counter2 *
 				30)) * Settings.Screen_Size, 0, 0 };
 			Textures.Subcategories.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font, Metadata.Subcategory_Names[
-				Metadata.Subcategory_Positions[Counter1][Counter2]],
+				Load_Button(Fonts.Halftext_Font, Metadata_L.Subcategory_Names[
+				Metadata_L.Subcategory_Positions[Counter1][Counter2]],
 				Rects.Subcategories.Data[Counter1].Data[Counter2]);
 		}
 	}
 	Rects.Subcontents.Data = static_cast<Rect2_Array*>(malloc(
-		sizeof(Rect2_Array) * Metadata.Subcontents.size()));
-	Rects.Subcontents.Length = Metadata.Subcontents.size();
+		sizeof(Rect2_Array) * Metadata_L.Subcontents.size()));
+	Rects.Subcontents.Length = Metadata_L.Subcontents.size();
 	Textures.Subcontents.Data = static_cast<Texture2_Array*>(
-		malloc(sizeof(Texture2_Array) * Metadata.Subcontents.size()));
-	Textures.Subcontents.Length = Metadata.Subcontents.size();
-	for (int Counter1 = 0; Counter1 < Metadata.Subcontents.size(); Counter1++) {
+		malloc(sizeof(Texture2_Array) * Metadata_L.Subcontents.size()));
+	Textures.Subcontents.Length = Metadata_L.Subcontents.size();
+	for (int Counter1 = 0; Counter1 < Metadata_L.Subcontents.size(); Counter1++) {
 		Rects.Subcontents.Data[Counter1].Data = static_cast<Rect_Array*>(malloc(
-			sizeof(Rect_Array) * Metadata.Subcontents[Counter1].size()));
-		Rects.Subcontents.Data[Counter1].Length = Metadata.Subcontents[Counter1].size();
+			sizeof(Rect_Array) * Metadata_L.Subcontents[Counter1].size()));
+		Rects.Subcontents.Data[Counter1].Length = Metadata_L.Subcontents[Counter1].size();
 		Textures.Subcontents.Data[Counter1].Data = static_cast<Texture_Array*>(
-			malloc(sizeof(Texture_Array) * Metadata.Subcontents[Counter1].size()));
-		Textures.Subcontents.Data[Counter1].Length = Metadata.Subcontents[Counter1].size();
-		for (int Counter2 = 0; Counter2 < Metadata.Subcontents[Counter1].size(); Counter2++) {
+			malloc(sizeof(Texture_Array) * Metadata_L.Subcontents[Counter1].size()));
+		Textures.Subcontents.Data[Counter1].Length = Metadata_L.Subcontents[Counter1].size();
+		for (int Counter2 = 0; Counter2 < Metadata_L.Subcontents[Counter1].size(); Counter2++) {
 			Rects.Subcontents.Data[Counter1].Data[Counter2].Length = 2;
 			Rects.Subcontents.Data[Counter1].Data[Counter2].Data =
 				static_cast<SDL_FRect*>(calloc(2, sizeof(SDL_FRect)));
@@ -781,46 +692,46 @@ void Preload_Assets() {
 				LDE_INVALID, static_cast<float>(40 + (Counter2 * 30)) *
 				Settings.Screen_Size, 0, 0 };
 			Textures.Subcontents.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font, Metadata.Machine_Names[
-				Metadata.Subcontents[Counter1][Counter2]],
+				Load_Button(Fonts.Halftext_Font, Metadata_L.Machine_Names[
+				Metadata_L.Subcontents[Counter1][Counter2]],
 				Rects.Subcontents.Data[Counter1].Data[Counter2]);
 		}
 	}
-	Rects.Item_Labels.Length = Metadata.Item_Labels.size();
+	Rects.Item_Labels.Length = Metadata_L.Item_Labels.size();
 	Rects.Item_Labels.Data = static_cast<Rect2_Array*>(
-		malloc(sizeof(Rect2_Array) * Metadata.Item_Labels.size()));
+		malloc(sizeof(Rect2_Array) * Metadata_L.Item_Labels.size()));
 	Textures.Item_Labels.Data = static_cast<Texture2_Array*>(
-		malloc(sizeof(Texture2_Array) *	Metadata.Item_Labels.size()));
-	Textures.Item_Labels.Length = Metadata.Item_Labels.size();
-	for (int Counter1 = 0; Counter1 < Metadata.Item_Labels.size(); Counter1++) {
+		malloc(sizeof(Texture2_Array) *	Metadata_L.Item_Labels.size()));
+	Textures.Item_Labels.Length = Metadata_L.Item_Labels.size();
+	for (int Counter1 = 0; Counter1 < Metadata_L.Item_Labels.size(); Counter1++) {
 		Rects.Item_Labels.Data[Counter1].Data = static_cast<Rect_Array*>(
-			malloc(sizeof(Rect_Array) * Metadata.Item_Labels[Counter1].size()));
+			malloc(sizeof(Rect_Array) * Metadata_L.Item_Labels[Counter1].size()));
 		Rects.Item_Labels.Data[Counter1].Length =
-			Metadata.Item_Labels[Counter1].size();
+			Metadata_L.Item_Labels[Counter1].size();
 		Textures.Item_Labels.Data[Counter1].Data = static_cast<Texture_Array*>(
-			malloc(sizeof(Texture_Array) * Metadata.Item_Labels[Counter1].size()));
+			malloc(sizeof(Texture_Array) * Metadata_L.Item_Labels[Counter1].size()));
 		Textures.Item_Labels.Data[Counter1].Length =
-			Metadata.Item_Labels[Counter1].size();
-		for (int Counter2 = 0; Counter2 < Metadata.Item_Labels[Counter1].size(); Counter2++) {
+			Metadata_L.Item_Labels[Counter1].size();
+		for (int Counter2 = 0; Counter2 < Metadata_L.Item_Labels[Counter1].size(); Counter2++) {
 			Rects.Item_Labels.Data[Counter1].Data[Counter2].Length = 2;
 			Rects.Item_Labels.Data[Counter1].Data[Counter2].Data =
 				static_cast<SDL_FRect*>(calloc(2, sizeof(SDL_FRect)));
 			Rects.Item_Labels.Data[Counter1].Data[Counter2].Data[0] =
-				{ LDE_INVALID, static_cast<float>(40 + ((Counter2 + Metadata
+				{ LDE_INVALID, static_cast<float>(40 + ((Counter2 + Metadata_L
 				.Subcategory_Positions[Counter1].size()) * 30)) * Settings.Screen_Size, 0, 0 };
 			Textures.Item_Labels.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font,	Metadata.Machine_Names[
-				Metadata.Item_Labels[Counter1][Counter2]], Rects
+				Load_Button(Fonts.Halftext_Font,	Metadata_L.Machine_Names[
+				Metadata_L.Item_Labels[Counter1][Counter2]], Rects
 				.Item_Labels.Data[Counter1].Data[Counter2]);
 		}
 	}
 	Textures.Categories.Data = static_cast<Texture_Array*>(
-		malloc(sizeof(Texture_Array) * Metadata.Categories.size()));
-	Textures.Categories.Length = Metadata.Categories.size();
+		malloc(sizeof(Texture_Array) * Metadata_L.Categories.size()));
+	Textures.Categories.Length = Metadata_L.Categories.size();
 	Rects.Categories.Data = static_cast<Rect_Array*>(
-		malloc(sizeof(Rect_Array) * Metadata.Categories.size()));
-	Rects.Categories.Length = Metadata.Categories.size();
-	for (int Counter = 0; Counter < Metadata.Categories.size(); Counter++) {
+		malloc(sizeof(Rect_Array) * Metadata_L.Categories.size()));
+	Rects.Categories.Length = Metadata_L.Categories.size();
+	for (int Counter = 0; Counter < Metadata_L.Categories.size(); Counter++) {
 		Rects.Categories.Data[Counter].Data = static_cast<
 			SDL_FRect*>(calloc(2, sizeof(SDL_FRect)));
 		Rects.Categories.Data[Counter].Length = 2;
@@ -828,7 +739,7 @@ void Preload_Assets() {
 			LDE_INVALID, static_cast<float>(40 + (Counter * 30)) *
 			Settings.Screen_Size, 0, 0 };
 		Textures.Categories.Data[Counter] = Load_Button(
-			Fonts.Text_Font, Metadata.Categories[Counter],
+			Fonts.Text_Font, Metadata_L.Categories[Counter],
 			Rects.Categories.Data[Counter]);
 	}
 	Rects.Error_Exit.Length = 2;
@@ -1132,7 +1043,7 @@ void Preload_Assets() {
 		Textures.Cheats.Data[Counter] = Load_Button(Fonts.Halftext_Font,
 			Cheat_Labels[Counter].c_str(), Rects.Cheats.Data[Counter]);
 	}
-	std::string Keycore = SDL_GetKeyName(Keybinds.Keybind_List[13]);
+	std::string Keycore = SDL_GetKeyName(Keybinds_L.Keybind_List[13]);
 	Keycore = "Press \"" + Keycore + "\" to close.";
 	Carrying_Surface = TTF_RenderText_Blended(Fonts.Text_Font, Keycore.c_str(),
 		Keycore.size(), Colors.Abyss_Black);
@@ -1308,7 +1219,7 @@ void Preload_Assets() {
 		.Submarine.w / 3) * Settings.Screen_Size);
 	Rects.Submarine.h = static_cast<int>(((double)Rects
 		.Submarine.h / 6) * Settings.Screen_Size);
-	Metadata.Machine_Sprites = {
+	Metadata_L.Machine_Sprites = {
 		Textures.R_Pipe.Data[1], Textures.R_Pump.Data[0], Textures.Incinerator
 		.Data[0].Data[0], Textures.P_Generator, Textures.Tile_Texture, Textures
 		.S_Dock.Data[0], Textures.F_Plant.Data[0], Textures.B_Generator.Data[0].Data[0],
@@ -1324,7 +1235,7 @@ void Preload_Assets() {
 		Textures.SC_Transferor.Data[0], Textures.SC_Output.Data[0], Textures.ST_Input.Data[0],
 		Textures.STIT_Block.Data[0].Data[0], Textures.ST_Output.Data[0].Data[0]
 	};
-	Metadata.Machine_Rectangles = {
+	Metadata_L.Machine_Rectangles = {
 		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
 		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4,
 		Rects.Tile_2x3, Rects.Tile_3x3,	Rects.Tile_1x1,
@@ -1340,18 +1251,18 @@ void Preload_Assets() {
 		Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3,
 		Rects.Tile_2x2
 	};
-	Interface.Log_Heights.clear();
-	Interface.Log_Heights.resize(3);
-	Cache.Log_Rectangles.clear();
-	Cache.Log_Rectangles.resize(3);
+	Interface_L.Log_Heights.clear();
+	Interface_L.Log_Heights.resize(3);
+	Cache_L.Log_Rectangles.clear();
+	Cache_L.Log_Rectangles.resize(3);
 	Cache.Log_Cache.Data = static_cast<Texture_Array*>(
 		malloc(sizeof(Texture_Array) * 3));
 	Cache.Log_Cache.Length = 3;
-	for (int Counter1 = 0; Counter1 < Metadata.Logs.size(); Counter1++) {
-		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[Counter1],
+	for (int Counter1 = 0; Counter1 < Metadata_L.Logs.size(); Counter1++) {
+		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata_L.Logs[Counter1],
 			0, 0, Temporary.Log_Inversions[Counter1], true) - (210 * Settings.Screen_Size);
-		Interface.Log_Heights[Counter1] = Height;
-		Cache.Log_Rectangles[Counter1].clear();
+		Interface_L.Log_Heights[Counter1] = Height;
+		Cache_L.Log_Rectangles[Counter1].clear();
 		int Cap = std::ceil((double)Height / (682 / 2 * Settings.Screen_Size));
 		Cache.Log_Cache.Data[Counter1].Data = static_cast<SDL_Texture**>(
 			malloc(sizeof(SDL_Texture*) * Cap));
@@ -1367,11 +1278,11 @@ void Preload_Assets() {
 				Counter1].Data[Counter2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Cache
 				.Log_Cache.Data[Counter1].Data[Counter2]);
-			Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[Counter1],
+			Render_Rich_Text(Fonts.Halftext_Font, Metadata_L.Logs[Counter1],
 				52, 52 - (New_Rectangle.y / Settings.Screen_Size),
 				Temporary.Log_Inversions[Counter1], false);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
-			Cache.Log_Rectangles[Counter1].push_back(New_Rectangle);			
+			Cache_L.Log_Rectangles[Counter1].push_back(New_Rectangle);			
 		}
 	}
 	Cache.Wire_Cache.Data = static_cast<SDL_Texture**>(
@@ -1475,162 +1386,6 @@ void Preload_Assets() {
 	Clear_Renderer();
 }
 
-void Cleanup_Assets() {
-	SDL_DestroyTexture(Core.Game_Texture);
-	Free_Sound(&Audio.Primary_Ambience);
-	Free_Sound(&Audio.Filtration_Loop);
-	Free_Sound(&Audio.Ram_Loop);
-	Free_Sound(&Audio.Click);
-	TTF_CloseFont(Fonts.Logo_Font);
-	TTF_CloseFont(Fonts.Large_Font);
-	TTF_CloseFont(Fonts.Text_Font);
-	TTF_CloseFont(Fonts.Halftext_Font);
-	TTF_CloseFont(Fonts.Subtext_Font);
-	TTF_CloseFont(Fonts.Microtext_Font);
-	TTF_CloseFont(Fonts.Terminal_Font);
-	Clear_Texture_Array(Textures.Tool);
-	Clear_Texture_Array(Textures.Help_Content);
-	Clear_Texture_Array(Textures.Door);
-	SDL_DestroyTexture(Textures.Recipe_Content);
-	Clear_Texture3_Array(Textures.Item_Labels);
-	Clear_Rect3_Array(Rects.Item_Labels);
-	Clear_Texture3_Array(Textures.Subcategories);
-	Clear_Rect3_Array(Rects.Subcategories);
-	Clear_Texture3_Array(Textures.Subcontents);
-	Clear_Rect3_Array(Rects.Subcontents);
-	Clear_Texture2_Array(Textures.Tutorials);
-	Clear_Rect2_Array(Rects.Tutorials);
-	Clear_Rect_Array(Rects.Tutorial_Hitbox);
-	Clear_Texture2_Array(Textures.Cheats);
-	Clear_Rect2_Array(Rects.Cheats);
-	Clear_Texture2_Array(Textures.Cap_Button);
-	Clear_Rect_Array(Rects.Cap_Hitbox);
-	Clear_Texture2_Array(Textures.New);
-	Clear_Rect2_Array(Rects.New);
-	Clear_Texture2_Array(Textures.Load);
-	Clear_Rect2_Array(Rects.Load);
-	Clear_Texture2_Array(Textures.Clear);
-	Clear_Rect2_Array(Rects.Clear);
-	Clear_Texture2_Array(Textures.Categories);
-	Clear_Rect2_Array(Rects.Categories);
-	Clear_Texture_Array(Textures.Error_Exit);
-	Clear_Rect_Array(Rects.Error_Exit);
-	Clear_Texture2_Array(Textures.MSP_Buttons);
-	Clear_Rect2_Array(Rects.MSP_Buttons);
-	Clear_Texture2_Array(Textures.SD_Buttons);
-	Clear_Rect2_Array(Rects.SD_Buttons);
-	Clear_Texture2_Array(Textures.HX_Buttons);
-	Clear_Rect2_Array(Rects.HX_Buttons);
-	Clear_Texture3_Array(Textures.TT_Buttons);
-	Clear_Rect3_Array(Rects.TT_Buttons);
-	Clear_Texture2_Array(Textures.MT_Buttons);
-	Clear_Rect2_Array(Rects.MT_Buttons);
-	Clear_Texture2_Array(Textures.Anti_Aliasing);
-	Clear_Rect2_Array(Rects.Anti_Aliasing);
-	Clear_Texture2_Array(Textures.V_Sync);
-	Clear_Rect2_Array(Rects.V_Sync);
-	Clear_Texture2_Array(Textures.Sort);
-	Clear_Rect2_Array(Rects.Sort);
-	Clear_Texture2_Array(Textures.TBW_Texture);
-	Clear_Rect2_Array(Rects.TBW_Rectangle);
-	Clear_Texture_Array(Textures.Clear_Tutorial);
-	Clear_Rect_Array(Rects.Clear_Tutorial);
-	Clear_Texture_Array(Textures.Settings_Label);
-	Clear_Rect_Array(Rects.Settings_Label);
-	Clear_Texture_Array(Textures.Save_Settings);
-	Clear_Rect_Array(Rects.Save_Settings);
-	Clear_Texture_Array(Textures.Cap);
-	Clear_Texture_Array(Textures.R_Pipe);
-	Clear_Texture_Array(Textures.L_Pipe);
-	Clear_Texture_Array(Textures.MS_Pool);
-	Clear_Texture_Array(Textures.Arrow);
-	Clear_Texture_Array(Textures.S_Dock);
-	Clear_Texture_Array(Textures.Tunnel);
-	Clear_Rect_Array(Rects.Tunnel);
-	Clear_Texture_Array(Textures.Return);
-	Clear_Rect_Array(Rects.Return);
-	Clear_Texture_Array(Textures.New_Game);
-	Clear_Rect_Array(Rects.New_Game);
-	Clear_Texture_Array(Textures.Settings);
-	Clear_Rect_Array(Rects.Settings);
-	Clear_Texture_Array(Textures.Update_Logs);
-	Clear_Rect_Array(Rects.Update_Logs);
-	Clear_Texture_Array(Textures.Credits);
-	Clear_Rect_Array(Rects.Credits);
-	Clear_Texture_Array(Textures.Quit_Game);
-	Clear_Rect_Array(Rects.Quit_Game);
-	Clear_Texture_Array(Textures.Apply);
-	Clear_Rect_Array(Rects.Apply);
-	Clear_Texture_Array(Textures.Cancel);
-	Clear_Rect_Array(Rects.Cancel);
-	Clear_Texture_Array(Textures.Next_Day);
-	Clear_Rect_Array(Rects.Next_Day);
-	Clear_Texture_Array(Textures.Quirk);
-	Clear_Texture_Array(Textures.Quirk_Label);
-	SDL_DestroyTexture(Textures.Logo);
-	SDL_DestroyTexture(Textures.Crosshair);
-	SDL_DestroyTexture(Textures.Cursor_Core);
-	SDL_DestroyTexture(Textures.Sapling);
-	SDL_DestroyTexture(Textures.Node);
-	SDL_DestroyTexture(Textures.Log_Background);
-	SDL_DestroyTexture(Textures.Saveloader);
-	SDL_DestroyTexture(Textures.Help_Sidebutton);
-	SDL_DestroyTexture(Textures.Save_Sidebutton);
-	SDL_DestroyTexture(Textures.Recipe_Sidebutton);
-	SDL_DestroyTexture(Textures.Exit_Sidebutton);
-	SDL_DestroyTexture(Textures.R_Flash);
-	SDL_DestroyTexture(Textures.Bubble);
-	SDL_DestroyTexture(Textures.Floor_Texture);
-	SDL_DestroyTexture(Textures.Frame_Texture);
-	SDL_DestroyTexture(Textures.Tile_Texture);
-	Clear_Texture_Array(Textures.R_Pump);
-	Clear_Texture2_Array(Textures.Incinerator);
-	SDL_DestroyTexture(Textures.P_Generator);
-	Clear_Texture_Array(Textures.F_Plant);
-	Clear_Texture2_Array(Textures.B_Generator);
-	Clear_Texture2_Array(Textures.Distillery);
-	Clear_Texture2_Array(Textures.G_Bed);
-	Clear_Texture_Array(Textures.C_Platform);
-	Clear_Texture_Array(Textures.B_Scrubber);
-	SDL_DestroyTexture(Textures.MS_Controller);
-	SDL_DestroyTexture(Textures.MS_Output);
-	SDL_DestroyTexture(Textures.MS_Input);
-	Clear_Texture_Array(Textures.E_Plant);
-	Clear_Texture2_Array(Textures.F_Mixer);
-	Clear_Texture_Array(Textures.T_Tower);
-	SDL_DestroyTexture(Textures.Flowerpot);
-	Clear_Texture_Array(Textures.A_Shelf);
-	Clear_Texture_Array(Textures.Submarine);
-	SDL_DestroyTexture(Textures.C_Node);
-	Clear_Texture_Array(Textures.G_Well);
-	Clear_Texture_Array(Textures.H_Exchanger);
-	SDL_DestroyTexture(Textures.P_Wood);
-	SDL_DestroyTexture(Textures.B_Tile);
-	SDL_DestroyTexture(Textures.S_Carpet);
-	SDL_DestroyTexture(Textures.H_Strip);
-	SDL_DestroyTexture(Textures.M_Generator);
-	SDL_DestroyTexture(Textures.F_Generator);
-	Clear_Texture_Array(Textures.R_Intersection);
-	Clear_Texture_Array(Textures.L_Intersection);
-	Clear_Texture_Array(Textures.SC_Input);
-	Clear_Texture_Array(Textures.SCH_Sink);
-	Clear_Texture_Array(Textures.SC_Transferor);
-	Clear_Texture_Array(Textures.SC_Output);
-	Clear_Texture_Array(Textures.ST_Input);
-	Clear_Texture2_Array(Textures.STIT_Block);
-	Clear_Texture2_Array(Textures.ST_Output);
-	SDL_DestroyTexture(Textures.Scrap);
-	Clear_Texture2_Array(Textures.Confirmation);
-	Clear_Rect2_Array(Rects.Confirmation);
-	Clear_Texture_Array(Textures.Pyramid);
-	SDL_DestroyTexture(Textures.Mesh);
-	Clear_Texture_Array(Textures.Fire);
-	Clear_Texture_Array(Textures.None);
-	Clear_Texture_Array(Cache.Wire_Cache);
-	SDL_DestroyTexture(Cache.Blueprint_Cache);
-	Clear_Texture2_Array(Cache.Log_Cache);
-}
-
 void Render_Dynamic_Text(TTF_Font* Selected_Font, std::string Text, SDL_Color Color, int X, int Y) {
 	SDL_Surface* Text_Surface = TTF_RenderText_Blended(Selected_Font, Text.c_str(), Text.size(), Color);
 	SDL_Texture* Text_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Text_Surface);
@@ -1711,18 +1466,6 @@ int Render_Rich_Text(TTF_Font* Selected_Font, std::string Raw_Text, int X, int Y
 	return Offset;
 }
 
-void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
-	Set_Renderer_Color(Color);
-	for (int Counter = 0; Counter < LDE_BORDERWIDTH * Settings.Screen_Size * Multiplier; Counter++) {
-		SDL_RenderRect(Core.Renderer, &Rectangle);
-		Rectangle.x++;
-		Rectangle.y++;
-		Rectangle.w -= 2;
-		Rectangle.h -= 2;
-	}
-	Clear_Renderer();
-}
-
 std::vector<Point> Return_Nodes(const int Column, const int Row, const int Rotation,
 	const std::vector<Point>(&Preconfiguration)[4]) {
 	std::vector<Point> Yield(Preconfiguration[Rotation].size());
@@ -1733,194 +1476,4 @@ std::vector<Point> Return_Nodes(const int Column, const int Row, const int Rotat
 		};
 	}
 	return Yield;
-}
-
-int Visual_To_ID(const int Identifier) {
-	if (Identifier > 0 && Identifier < 17) {
-		return Reinforced_Pipe;
-	} else if (Identifier > 16 && Identifier < 24) {
-		return Identifier - 16;
-	} else if (Identifier > 23 && Identifier < 41) {
-		return Spawning_Pool;
-	} else if (Identifier > 40 && Identifier < 52) {
-		return Identifier - 32;
-	} else if (Identifier > 51 && Identifier < 56) {
-		return Ammunition_Shelf;
-	} else if (Identifier > 55 && Identifier < 59) {
-		return Command_Platform;
-	} else if (Identifier > 59 && Identifier < 63) {
-		return Signal_Tower;
-	} else if (Identifier > 62 && Identifier < 64) {
-		return Identifier - 42;
-	} else if (Identifier > 63 && Identifier < 67) {
-		return Basic_Scrubber;
-	} else if (Identifier > 66 && Identifier < 71) {
-		return Geo_Well;
-	} else if (Identifier > 70 && Identifier < 87) {
-		return Large_Pipe;
-	} else if (Identifier > 86 && Identifier < 91) {
-		return Heat_Exchanger;
-	} else if (Identifier > 90 && Identifier < 96) {
-		return Identifier - 66;
-	} else if (Identifier > 95 && Identifier < 99) {
-		return Electrolytic_Cell;
-	} else if (Identifier > 98 && Identifier < 102) {
-		return Fluid_Mixer;
-	} else if (Identifier > 101 && Identifier < 105) {
-		return Bio_Generator;
-	} else if (Identifier > 104 && Identifier < 109) {
-		return R_Intersection;
-	} else if (Identifier > 108 && Identifier < 113) {
-		return L_Intersection;
-	} else if (Identifier == 113) {
-		return Hazard_Strip;
-	} else if (Identifier > 113 && Identifier < 117) {
-		return Incinerator;
-	} else if (Identifier > 116 && Identifier < 120) {
-		return Distillery;
-	} else if (Identifier > 119 && Identifier < 124) {
-		return Turbine_Input;
-	} else if (Identifier > 123 && Identifier < 128) {
-		return Turbine_Impulse;
-	} else if (Identifier > 127 && Identifier < 132) {
-		return Turbine_Output;
-	} else if (Identifier > 131 && Identifier < 135) {
-		return Algae_Bed;
-	}
-	return LDE_INVALID;
-}
-
-int Visual_To_Rotation(const int Identifier) {
-	if (Identifier > 52 && Identifier < 56) {
-		return Identifier - 52;
-	} else if (Identifier > 55 && Identifier < 59) {
-		return Identifier - 55;
-	} else if (Identifier > 59 && Identifier < 63) {
-		return Identifier - 59;
-	} else if (Identifier > 63 && Identifier < 67) {
-		return Identifier - 63;
-	} else if (Identifier > 67 && Identifier < 71) {
-		return Identifier - 67;
-	} else if (Identifier > 87 && Identifier < 91) {
-		return Identifier - 87;
-	} else if (Identifier > 95 && Identifier < 99) {
-		return Identifier - 95;
-	} else if (Identifier > 98 && Identifier < 102) {
-		return Identifier - 98;
-	} else if (Identifier > 101 && Identifier < 105) {
-		return Identifier - 101;
-	} else if (Identifier > 105 && Identifier < 109) {
-		return Identifier - 105;
-	} else if (Identifier > 109 && Identifier < 113) {
-		return Identifier - 109;
-	} else if (Identifier > 113 && Identifier < 117) {
-		return Identifier - 113;
-	} else if (Identifier > 116 && Identifier < 120) {
-		return Identifier - 116;
-	} else if (Identifier > 120 && Identifier < 124) {
-		return Identifier - 120;
-	} else if (Identifier > 124 && Identifier < 128) {
-		return Identifier - 124;
-	} else if (Identifier > 128 && Identifier < 132) {
-		return Identifier - 128;
-	} else if (Identifier > 131 && Identifier < 135) {
-		return Identifier - 131;
-	}
-	return 0;
-}
-
-void ID_To_Size(const int ID, const int Rotation, int &X, int &Y) {
-	X = 1;
-	Y = 1;
-	switch (ID) {
-	case Ammunition_Shelf:
-		if (evn_i(Rotation)) {
-			X = 2;
-		} else {
-			Y = 2;
-		}
-		break;
-	case Distillery:
-	case Basic_Scrubber:
-	case Turbine_Output:
-		X = 2;
-		Y = 2;
-		break;
-	case Filtration_Plant:
-	case Algae_Bed:
-		if (evn_i(Rotation)) {
-			X = 2;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 2;
-		}
-		break;
-	case Electrolytic_Cell:
-		if (evn_i(Rotation)) {
-			X = 3;
-			Y = 2;
-		} else {
-			X = 2;
-			Y = 3;
-		}
-		break;
-	case Bio_Generator:
-	case Fluid_Mixer:
-	case Signal_Tower:
-	case R_Intersection:
-	case L_Intersection:
-		X = 3;
-		Y = 3;
-		break;
-	case Submarine_Dock:
-		X = 6;
-		Y = 4;
-		break;
-	case Command_Platform:
-		if (evn_i(Rotation)) {
-			X = 8;
-			Y = 6;
-		} else {
-			X = 6;
-			Y = 8;
-		}
-		break;
-	case Geo_Well:
-	case Turbine_Input:
-	case Turbine_Impulse:
-		if (evn_i(Rotation)) {
-			X = 2;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 2;
-		}
-		break;
-	case Heat_Exchanger:
-		if (evn_i(Rotation)) {
-			X = 4;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 4;
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { static_cast<float>(X - 4) * Settings.Screen_Size,
-		static_cast<float>(Y - 4) * Settings.Screen_Size, static_cast<float>(W + 8) *
-		Settings.Screen_Size, static_cast<float>(H + 8) * Settings.Screen_Size };
-	Set_Renderer_Color(Outer_Color);
-	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
-	SDL_FRect Internal_Rectangle = { static_cast<float>(X * Settings.Screen_Size),
-		static_cast<float>(Y * Settings.Screen_Size), static_cast<float>(W *
-		Settings.Screen_Size), static_cast<float>(H * Settings.Screen_Size) };
-	Set_Renderer_Color(Inner_Color);
-	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
-	Clear_Renderer();
 }

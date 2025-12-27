@@ -12,9 +12,12 @@
 #define LDE_INVALID -1
 #define LDE_ITEMCOUNT 11
 #define LDE_LARGECAP 150
+#define LDE_MACHINES 40
 #define LDE_REINFORCEDCAP 30
 #define LDE_ROOMTEMP 65
+#define LDE_SLIDERS 14
 #define LDE_STATICRATE 24.0
+#define LDE_SUFFIXES 5
 #define LDE_TILESIZE 40
 #define LDE_TURBINECOEFFICIENT 0.15
 #define LDE_VESSELSPEED 4
@@ -179,6 +182,16 @@ typedef struct {
     int X;
     int Y;
 } Point;
+
+typedef struct {
+    float X;
+    float Y;
+} Point_f;
+
+typedef struct {
+    double X;
+    double Y;
+} Point_d;
 
 typedef struct {
     int Length;
