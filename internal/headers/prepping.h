@@ -27,7 +27,9 @@ typedef struct {
 	int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Items_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Temperature_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	long double Funds;
+	double Animation_Grid[3][LDE_GRIDSIZE][LDE_GRIDSIZE];
+	double Data_Grid[7][LDE_GRIDSIZE][LDE_GRIDSIZE];
+	uint64_t Funds;
 } DATA;
 
 typedef struct {

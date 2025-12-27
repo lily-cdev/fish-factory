@@ -14,7 +14,7 @@ CORE Core = {
 };
 DATA Data = {
 	.CMD_Placed = false,
-	.Version = 5,
+	.Version = 0,
 	.Time = 0,
 	.Day = 0,
 	.Visual_Grid = { },
@@ -24,6 +24,8 @@ DATA Data = {
 	.Plumbing_Grid = { },
 	.Items_Grid = { },
 	.Temperature_Grid = { },
+	.Animation_Grid = { },
+	.Data_Grid = { },
 	.Funds = 0
 };
 SETTINGS Settings = {

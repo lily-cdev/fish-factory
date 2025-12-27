@@ -21,19 +21,19 @@ void Clear_Unconnected_Wires() {
 void Render_Wire(int Counter, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
 	SDL_RenderLine(Core.Renderer,
 		static_cast<float>((((Wires_List[Counter].X1 * 40) *
-		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
 		Counter].X1][Wires_List[Counter].Y1][5] *
 		Settings.Screen_Size) - X_Offset) - X_Offset2),
 		static_cast<float>((((Wires_List[Counter].Y1 * 40) *
-		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
 		Counter].X1][Wires_List[Counter].Y1][6] *
 		Settings.Screen_Size) - Y_Offset) - Y_Offset2),
 		static_cast<float>((((Wires_List[Counter].X2 * 40) *
-		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
 		Counter].X2][Wires_List[Counter].Y2][5] *
 		Settings.Screen_Size) - X_Offset) - X_Offset2),
 		static_cast<float>((((Wires_List[Counter].Y2 * 40) *
-		Settings.Screen_Size) + (Data_L.Data_Grid[Wires_List[
+		Settings.Screen_Size) + (Data.Data_Grid[Wires_List[
 		Counter].X2][Wires_List[Counter].Y2][6] *
 		Settings.Screen_Size) - Y_Offset) - Y_Offset2));
 }
@@ -63,8 +63,8 @@ void Render_Wires() {
 		Set_Renderer_Color(Colors.Copper_Wire);
 		for (int Counter2 = 0; Counter2 < Wires_List.size(); Counter2++) {
 			if (Wires_List[Counter2].Filled) {
-				for (int X = 0; X < static_cast<int>(std::ceil(Settings.Screen_Size / 2.0f)); X++) {
-					for (int Y = 0; Y < static_cast<int>(std::ceil(Settings.Screen_Size / 2.0f)); Y++) {
+				for (int X = 0; X < static_cast<int>(std::ceil(Settings.Screen_Size * 0.5f)); X++) {
+					for (int Y = 0; Y < static_cast<int>(std::ceil(Settings.Screen_Size * 0.5f)); Y++) {
 						Render_Wire(Counter2, X, Y, Offset_X, Offset_Y);
 					}
 				}
@@ -94,10 +94,10 @@ void Render_Wire_Nodes() {
 				Settings.Screen_Size * LDE_TILESIZE * 0.5f
 			};
 			Rects.Node.x = static_cast<int>((Wires_List[Counter].X1 * LDE_TILESIZE) +
-				(Data_L.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][5]) -
+				(Data.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][5]) -
 				Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
 			Rects.Node.y = static_cast<int>((Wires_List[Counter].Y1 * LDE_TILESIZE) +
-				(Data_L.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][6]) -
+				(Data.Data_Grid[Wires_List[Counter].X1][Wires_List[Counter].Y1][6]) -
 				Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
 			SDL_RenderTextureRotated(Core.Renderer, Textures.Node,
 				NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint, SDL_FLIP_NONE);
@@ -162,23 +162,23 @@ void Place_Wire() {
 
 void Distribute_Power(std::vector<std::vector<Wire>> &Grouped_List) {
 	for (int Counter1 = 0; Counter1 < Grouped_List.size(); Counter1++) {
-		double Remaining_Power = Data_L.Data_Grid[Grouped_List[Counter1][0].X1]
+		double Remaining_Power = Data.Data_Grid[Grouped_List[Counter1][0].X1]
 			[Grouped_List[Counter1][0].Y1][Stored_Power];
 		double Used_Power = 0;
 		for (int Counter2 = 0; Counter2 < Grouped_List[Counter1].size(); Counter2++) {
-			double Minimum = std::min(Remaining_Power, Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2]
-				[Grouped_List[Counter1][Counter2].Y2][Power_Cap] - Data_L.Data_Grid[Grouped_List[Counter1]
-				[Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power]);
-			Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
-				[Counter1][Counter2].Y2][Stored_Power] =
-				Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2]
-				[Grouped_List[Counter1][Counter2].Y2][Stored_Power] + Minimum;
+			double Minimum = std::min(Remaining_Power, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][
+				Grouped_List[Counter1][Counter2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[Counter1][
+				Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power]);
+			Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
+				Counter1][Counter2].Y2][Stored_Power] =
+				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][
+				Grouped_List[Counter1][Counter2].Y2][Stored_Power] + Minimum;
 			Remaining_Power = Remaining_Power - Minimum;
 			Used_Power = Used_Power + Minimum;
 		}
-		Data_L.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List
-			[Counter1][0].Y1][Stored_Power] = Data_L.Data_Grid[Grouped_List
-			[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
+		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[
+			Counter1][0].Y1][Stored_Power] = Data.Data_Grid[Grouped_List[
+			Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
 	}
 }
 

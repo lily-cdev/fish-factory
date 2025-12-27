@@ -4,13 +4,13 @@ extern "C" {
 	#include <prepping.h>
 	#include <transitions.h>
 	#include <rendering.h>
+	#include <data.h>
 }
 #include <preloader.h>
 #include <items.h>
 #include <connectables.h>
 #include <grid.h>
 #include <interface.h>
-#include <legacy.hpp>
 #include <Tutorial_Handler.h>
 #include <ui.h>
 
@@ -29,10 +29,8 @@ PRESET_I_RECIPES Preset_I_Recipes;
 PRESET_O_RECIPES Preset_O_Recipes;
 
 SDL_ScaleMode Scaling_Quality;
-Legacy_Item_Stack Legacy_Item_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 
 int main(int argc, char* args[]) {
-	std::cout << "main";
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	Startup_Miniaudio();

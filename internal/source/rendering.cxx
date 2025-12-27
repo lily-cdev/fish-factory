@@ -43,14 +43,14 @@ void Render_Grid() {
 					case Ram_Pump:
 						SDL_RenderTexture(Core.Renderer, Textures
 							.R_Pump.Data[1], NULL, &Rects.Tile_1x1);
-						if (Data_L.Animation_Grid[Column][Row][0] == 0) {
-							Data_L.Animation_Grid[Column][Row][1] += 60.0 / Interface.Frame_Rate;
-							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
-								Data_L.Animation_Grid[Column][Row][1] = 0;
+						if (Data.Animation_Grid[Column][Row][0] == 0) {
+							Data.Animation_Grid[Column][Row][1] += 60.0 / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][1] >= 360) {
+								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTextureRotated(Core.Renderer, Textures
-							.R_Pump.Data[2], NULL, &Rects.Tile_1x1, Data_L
+							.R_Pump.Data[2], NULL, &Rects.Tile_1x1, Data
 							.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint, SDL_FLIP_NONE);
 						Connections.resize(4, LDE_INVALID);
 						if ((Data.Plumbing_Grid[Column - 1][Row] == 3 || Data.Plumbing_Grid[
@@ -94,9 +94,9 @@ void Render_Grid() {
 						}
 						break;
 					case Incinerator:
-						Data_L.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
-						if (Data_L.Animation_Grid[Column][Row][0] >= 9) {
-							Data_L.Animation_Grid[Column][Row][0] = 0;
+						Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
+						if (Data.Animation_Grid[Column][Row][0] >= 9) {
+							Data.Animation_Grid[Column][Row][0] = 0;
 						}
 						Source = {
 							0,
@@ -115,7 +115,7 @@ void Render_Grid() {
 							Settings.Screen_Size * 21.0f
 						};
 						SDL_RenderTexture(Core.Renderer, Textures
-							.Fire.Data[static_cast<int>(Data_L.Animation_Grid[
+							.Fire.Data[static_cast<int>(Data.Animation_Grid[
 							Column][Row][0])], &Source, &Destination);
 						SDL_RenderTexture(Core.Renderer, Textures.Incinerator
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_1x1);
@@ -133,14 +133,14 @@ void Render_Grid() {
 							60.0f * Settings.Screen_Size };
 						SDL_RenderTexture(Core.Renderer, Textures.B_Generator
 							.Data[Rotation].Data[3], NULL, &Rects.Tile_3x3);
-						if (Data_L.Animation_Grid[Column][Row][0] == 1) {
-							Data_L.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
-							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
-								Data_L.Animation_Grid[Column][Row][1] = 0;
+						if (Data.Animation_Grid[Column][Row][0] == 1) {
+							Data.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][1] >= 360) {
+								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTextureRotated(Core.Renderer, Textures.B_Generator
-							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data_L.Animation_Grid
+							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid
 							[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
 						SDL_RenderTexture(Core.Renderer, Textures.B_Generator
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_3x3);
@@ -207,16 +207,16 @@ void Render_Grid() {
 					case Fluid_Mixer:
 						Centerpoint = { 60.0f * Settings.Screen_Size,
 							60.0f * Settings.Screen_Size };
-						if (Data_L.Animation_Grid[Column][Row][0] == 1) {
-							Data_L.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
-							if (Data_L.Animation_Grid[Column][Row][1] >= 360) {
-								Data_L.Animation_Grid[Column][Row][1] = 0;
+						if (Data.Animation_Grid[Column][Row][0] == 1) {
+							Data.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][1] >= 360) {
+								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
 						SDL_RenderTexture(Core.Renderer, Textures.F_Mixer
 							.Data[Rotation].Data[3], NULL, &Rects.Tile_3x3);
 						SDL_RenderTextureRotated(Core.Renderer, Textures.F_Mixer
-							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data_L.Animation_Grid
+							.Data[Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid
 							[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
 						SDL_RenderTexture(Core.Renderer, Textures.F_Mixer
 							.Data[Rotation].Data[1], NULL, &Rects.Tile_3x3);
@@ -236,9 +236,9 @@ void Render_Grid() {
 							NULL, &Rects.Tile_1x1);
 						break;
 					case Distillery:
-						Data_L.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
-						if (Data_L.Animation_Grid[Column][Row][0] >= 9) {
-							Data_L.Animation_Grid[Column][Row][0] = 0;
+						Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
+						if (Data.Animation_Grid[Column][Row][0] >= 9) {
+							Data.Animation_Grid[Column][Row][0] = 0;
 						}
 						Source = {
 							0,
@@ -263,7 +263,7 @@ void Render_Grid() {
 						Destination.y = ((Row * LDE_TILESIZE) + Destination.y -
 							Core.Camera.Y) * Settings.Screen_Size;
 						SDL_RenderTexture(Core.Renderer, Textures
-							.Fire.Data[static_cast<int>(Data_L.Animation_Grid[
+							.Fire.Data[static_cast<int>(Data.Animation_Grid[
 							Column][Row][0])], &Source, &Destination);
 						SDL_RenderTexture(Core.Renderer,
 							Textures.Distillery.Data[Rotation].Data[2], NULL,
@@ -392,20 +392,20 @@ void Render_Grid() {
 						SDL_RenderTexture(Core.Renderer, Textures
 							.F_Plant.Data[2], NULL, &Rects.Tile_2x3);
 						SDL_FRect Offset_Rectangle = Rects.Tile_2x3;
-						if (Data_L.Animation_Grid[Column][Row][0] == 0) {
-							Data_L.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
+						if (Data.Animation_Grid[Column][Row][0] == 0) {
+							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
 							SDL_FRect Progress_Rectangle = { Rects.Tile_2x3.x + (19 *
 								Settings.Screen_Size), Rects.Tile_2x3.y + (57 *
-								Settings.Screen_Size), static_cast<float>((50 * Data_L.Animation_Grid
+								Settings.Screen_Size), static_cast<float>((50 * Data.Animation_Grid
 								[Column][Row][1]) *	Settings.Screen_Size), 7.0f * Settings.Screen_Size };
 							Set_Renderer_Color(Colors.Cherry_Blossom);
 							SDL_RenderFillRect(Core.Renderer, &Progress_Rectangle);
 							Clear_Renderer();
-							Data_L.Animation_Grid[Column][Row][2] += 64.0f / Interface.Frame_Rate;
-							if (Data_L.Animation_Grid[Column][Row][2] > ((double)32 / 6)) {
-								Data_L.Animation_Grid[Column][Row][2] = 0;
+							Data.Animation_Grid[Column][Row][2] += 64.0f / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][2] > ((double)32 / 6)) {
+								Data.Animation_Grid[Column][Row][2] = 0;
 							}
-							Offset_Rectangle.y += Data_L.Animation_Grid[Column][Row][2] * Settings.Screen_Size;
+							Offset_Rectangle.y += Data.Animation_Grid[Column][Row][2] * Settings.Screen_Size;
 						}
 						SDL_RenderTexture(Core.Renderer, Textures
 							.F_Plant.Data[3], NULL, &Offset_Rectangle);

@@ -116,7 +116,7 @@ void Render_Pipes() {
 
 void Distribute_Fluid(std::vector<std::vector<Pipe>> &Grouped_List) {
 	for (int Counter1 = 0; Counter1 < Grouped_List.size(); Counter1++) {
-		double Remaining_Fluid = Data_L.Data_Grid[Grouped_List
+		double Remaining_Fluid = Data.Data_Grid[Grouped_List
 			[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids];
 		double Used_Fluid = 0;
 		for (int Counter2 = 0; Counter2 < Grouped_List[Counter1].size(); Counter2++) {
@@ -126,12 +126,12 @@ void Distribute_Fluid(std::vector<std::vector<Pipe>> &Grouped_List) {
 				Grouped_List[Counter1][Counter2].Y1] == Data.Items_Grid[
 				Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
 				Counter2].Y2]) {
-				double Minimum = std::min(Remaining_Fluid, Data_L.Data_Grid[Grouped_List[Counter1][
-					Counter2].X2][Grouped_List[Counter1][Counter2].Y2][1]
-					- Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List
-					[Counter1][Counter2].Y2][Stored_Fluids]);
-				Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
-					Counter2].Y2][Stored_Fluids] = Data_L.Data_Grid[Grouped_List[Counter1][Counter2].X2][
+				double Minimum = std::min(Remaining_Fluid, Data.Data_Grid[Grouped_List[Counter1][
+					Counter2].X2][Grouped_List[Counter1][Counter2].Y2][1] -
+					Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
+					Counter1][Counter2].Y2][Stored_Fluids]);
+				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+					Counter2].Y2][Stored_Fluids] = Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][
 					Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] + Minimum;
 				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1][
 					Counter2].Y2, Data.Items_Grid[Grouped_List[Counter1][
@@ -142,9 +142,9 @@ void Distribute_Fluid(std::vector<std::vector<Pipe>> &Grouped_List) {
 				Used_Fluid = Used_Fluid + Minimum;
 			}
 		}
-		Data_L.Data_Grid[Grouped_List[Counter1][0].X1][
+		Data.Data_Grid[Grouped_List[Counter1][0].X1][
 			Grouped_List[Counter1][0].Y1][Stored_Fluids] =
-			Data_L.Data_Grid[Grouped_List[Counter1][0].X1][
+			Data.Data_Grid[Grouped_List[Counter1][0].X1][
 			Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
 	}
 }

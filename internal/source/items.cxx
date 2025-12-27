@@ -45,7 +45,7 @@ Item_Stack Get_Item_Stack_Data() {
 void Purge_Items() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			if (Data_L.Data_Grid[Column][Row][Stored_Fluids] < 0.1) {
+			if (Data.Data_Grid[Column][Row][Stored_Fluids] < 0.1) {
 				Data.Items_Grid[Column][Row] = LDE_INVALID;
 				Data.Temperature_Grid[Column][Row] = LDE_ROOMTEMP;
 			}

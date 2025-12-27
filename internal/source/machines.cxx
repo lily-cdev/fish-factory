@@ -23,14 +23,6 @@ bool (*Placing_Functions[40])(int X, int Y) = {
 	Place_Turbine_Impulse, Place_Turbine_Output
 };
 
-void Clear_Grid(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Placeholder) {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Grid[Column][Row] = Placeholder;
-		}
-	}
-}
-
 Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
@@ -284,10 +276,13 @@ void Destroy_Clearance(int X, int Y, int Width, int Height) {
 			Data.Wiring_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
 			Data.Plumbing_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
 			Data.Behavior_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			Data_L.Data_Grid[X + Counter1][Y + Counter2] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+			memset(Data.Data_Grid[X + Counter1][Y + Counter2], 0,
+				sizeof(Data.Data_Grid[X + Counter1][Y + Counter2]));
+			Data.Data_Grid[X + Counter1][Y + Counter2][4] = LDE_INVALID;
 			Data_L.Settings_Grid[X + Counter1][Y + Counter2] = { LDE_INVALID, LDE_INVALID, LDE_INVALID,
 				LDE_INVALID, LDE_INVALID, LDE_INVALID, LDE_INVALID, LDE_INVALID };
-			Data_L.Animation_Grid[X + Counter1][Y + Counter2] = { LDE_INVALID, LDE_INVALID };
+			memset(Data.Animation_Grid[X + Counter1][Y + Counter2], LDE_INVALID,
+				sizeof(Data.Animation_Grid[X + Counter1][Y + Counter2]));
 			Update_Item(X + Counter1, Y + Counter2, LDE_INVALID);
 		}
 	}
@@ -306,10 +301,11 @@ void Remove_Machine(int X, int Y) {
 		Data.Wiring_Grid[X][Y] = LDE_INVALID;
 		Data.Plumbing_Grid[X][Y] = LDE_INVALID;
 		Data.Behavior_Grid[X][Y] = LDE_INVALID;
-		Data_L.Data_Grid[X][Y] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+		memset(Data.Data_Grid[X][Y], 0, sizeof(Data.Data_Grid[X][Y]));
+		Data.Data_Grid[X][Y][4] = LDE_INVALID;
 		Data_L.Settings_Grid[X][Y] = { LDE_INVALID, LDE_INVALID, LDE_INVALID,
 			LDE_INVALID, LDE_INVALID, LDE_INVALID, LDE_INVALID, LDE_INVALID };
-		Data_L.Animation_Grid[X][Y] = { LDE_INVALID, LDE_INVALID };
+		memset(Data.Animation_Grid[X][Y], LDE_INVALID, sizeof(Data.Animation_Grid[X][Y]));
 		Update_Item(X, Y, LDE_INVALID);
 	} else {
 		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Submarine_Dock) {
@@ -406,9 +402,9 @@ void Update_Machines() {
 			switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
 			case Incinerator:
 				{
-					double Resulting_Fluid = std::max(Data_L.Data_Grid[
+					double Resulting_Fluid = std::max(Data.Data_Grid[
 						Column][Row][Stored_Fluids] - 8.0, 0.0);
-					Data_L.Data_Grid[Column][Row][Stored_Fluids] = Resulting_Fluid;
+					Data.Data_Grid[Column][Row][Stored_Fluids] = Resulting_Fluid;
 				}
 				break;
 			case Bio_Generator:
@@ -427,14 +423,14 @@ void Update_Machines() {
 						break;
 					}
 					Item_Stack Target_Item = Get_Item(Column + Offset[0], Row + Offset[1]);
-					Data_L.Animation_Grid[Column][Row][0] = 0;
+					Data.Animation_Grid[Column][Row][0] = 0;
 					if (Check_Category(Target_Item.Identifier, Preset_Categories.Biomass) > 0 &&
-						Data_L.Data_Grid[Column + Offset[0]][Row + Offset[1]][Stored_Fluids] >= 2) {
-						Data_L.Data_Grid[Column + Offset[0]][Row + Offset[1]][Stored_Fluids] -= 2;
-						Data_L.Data_Grid[Column][Row][Stored_Power] = std::min(Data_L.Data_Grid[
+						Data.Data_Grid[Column + Offset[0]][Row + Offset[1]][Stored_Fluids] >= 2) {
+						Data.Data_Grid[Column + Offset[0]][Row + Offset[1]][Stored_Fluids] -= 2;
+						Data.Data_Grid[Column][Row][Stored_Power] = std::min(Data.Data_Grid[
 							Column][Row][Stored_Power] + (Target_Item.Chemical_Energy / 100),
-							Data_L.Data_Grid[Column][Row][Power_Cap]);
-						Data_L.Animation_Grid[Column][Row][0] = 1;
+							Data.Data_Grid[Column][Row][Power_Cap]);
+						Data.Animation_Grid[Column][Row][0] = 1;
 					}
 				}
 				break;
@@ -446,8 +442,8 @@ void Update_Machines() {
 				Process_Recipe(Preset_IO_Recipes.D_Water, Column, Row, Inputs, Outputs);
 				break;
 			case Algae_Bed:
-				if (Data_L.Data_Grid[Column][Row][Stored_Power] > 120 && Data_L.Data_Grid[
-					Column][Row + 2][Stored_Fluids] <= 2 && Data_L.Data_Grid[
+				if (Data.Data_Grid[Column][Row][Stored_Power] > 120 && Data.Data_Grid[
+					Column][Row + 2][Stored_Fluids] <= 2 && Data.Data_Grid[
 					Column + 1][Row + 2][Stored_Fluids] <= 2 && Data_L.Settings_Grid[Column][Row][1] <= 0) {
 					Data_L.Settings_Grid[Column][Row][1] = 2;
 				}
@@ -481,12 +477,12 @@ void Update_Machines() {
 					Preset_IO_Recipes.FM_Hydrochloric_Acid
 				};
 				for (int Counter = 0; Counter < Selected_Recipes.size(); Counter++) {
-					Data_L.Animation_Grid[Column][Row][0] = 0;
+					Data.Animation_Grid[Column][Row][0] = 0;
 					if (Process_Recipe(Selected_Recipes[Counter], Column, Row, Return_Nodes(Column, Row,
 						Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigurations_L.FM_Inputs),
 						Return_Nodes(Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
 						Preconfigurations_L.FM_Outputs))) {
-						Data_L.Animation_Grid[Column][Row][0] = 1;
+						Data.Animation_Grid[Column][Row][0] = 1;
 						break;
 					}
 				}
@@ -500,14 +496,14 @@ void Update_Machines() {
 				break;
 			case Geo_Well:
 				Conditional = true;
-				if (Data_L.Data_Grid[Column][Row][Stored_Power] < 2500) {
+				if (Data.Data_Grid[Column][Row][Stored_Power] < 2500) {
 					Conditional = false;
 				}
 				Inputs = { { 0, 2 }, { 2, 0 }, { 1, 0 }, { 0, 1 } };
 				Outputs = { { 0, 0 }, { 0, 0 }, { 1, 2 }, { 2, 1 } };
-				if (Data_L.Data_Grid[Column + Inputs[Rotation].X][
+				if (Data.Data_Grid[Column + Inputs[Rotation].X][
 					Row + Inputs[Rotation].Y][Stored_Fluids] < 8 ||
-					Data_L.Data_Grid[Column + Outputs[Rotation].X][
+					Data.Data_Grid[Column + Outputs[Rotation].X][
 					Row + Outputs[Rotation].Y][Stored_Fluids] > 0) {
 					Conditional = false;
 				}
@@ -516,9 +512,9 @@ void Update_Machines() {
 					Conditional = false;
 				}
 				if (Conditional) {
-					Data_L.Data_Grid[Column][Row][Stored_Power] -= 2500;
-					Data_L.Data_Grid[Column + Inputs[Rotation].X][Row + Inputs[Rotation].Y][Stored_Fluids] -= 8;
-					Data_L.Data_Grid[Column + Outputs[Rotation].X][Row + Outputs[Rotation].Y][Stored_Fluids] += 8;
+					Data.Data_Grid[Column][Row][Stored_Power] -= 2500;
+					Data.Data_Grid[Column + Inputs[Rotation].X][Row + Inputs[Rotation].Y][Stored_Fluids] -= 8;
+					Data.Data_Grid[Column + Outputs[Rotation].X][Row + Outputs[Rotation].Y][Stored_Fluids] += 8;
 					int Temperature = Data.Temperature_Grid[Column + Inputs[Rotation].X][
 						Row + Inputs[Rotation].Y];
 					if (Temperature == 328) {
@@ -543,14 +539,14 @@ void Update_Machines() {
 			case Fluid_Generator:
 				if (Data.Items_Grid[Column][Row] != Data_L.Settings_Grid[Column][Row][3] ||
 					Data.Temperature_Grid[Column][Row] != Data_L.Settings_Grid[Column][Row][4]) {
-					Data_L.Data_Grid[Column][Row][Stored_Fluids] = 0;
+					Data.Data_Grid[Column][Row][Stored_Fluids] = 0;
 					Data.Items_Grid[Column][Row] = Data_L.Settings_Grid[Column][Row][3];
 					Data.Temperature_Grid[Column][Row] = Data_L.Settings_Grid[Column][Row][4];
 				}
-				Data_L.Data_Grid[Column][Row][Stored_Fluids] = std::min(
+				Data.Data_Grid[Column][Row][Stored_Fluids] = std::min(
 					Data_L.Settings_Grid[Column][Row][5] +
-					Data_L.Data_Grid[Column][Row][Stored_Fluids],
-					Data_L.Data_Grid[Column][Row][Fluid_Cap]);
+					Data.Data_Grid[Column][Row][Stored_Fluids],
+					Data.Data_Grid[Column][Row][Fluid_Cap]);
 				break;
 			case R_Intersection:
 			case L_Intersection:
@@ -566,13 +562,13 @@ void Update_Machines() {
 					int OY = Outputs[Counter].Y;
 					int IX = Inputs[Counter].X;
 					int IY = Inputs[Counter].Y;
-					double Difference = Data_L.Data_Grid[OX][OY][Fluid_Cap] -
-						Data_L.Data_Grid[OX][OY][Stored_Fluids];
-					Difference = std::min(Difference, Data_L.Data_Grid[IX][IY][Stored_Fluids]);
+					double Difference = Data.Data_Grid[OX][OY][Fluid_Cap] -
+						Data.Data_Grid[OX][OY][Stored_Fluids];
+					Difference = std::min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
 					if (Difference > 0 && (Data.Items_Grid[IX][IY] ==
 						Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == LDE_INVALID)) {
-						Data_L.Data_Grid[OX][OY][Stored_Fluids] += Difference;
-						Data_L.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
+						Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
+						Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
 						Update_Item(Outputs[Counter].X, OY, Data.Items_Grid[IX][IY],
 							Data.Temperature_Grid[IX][IY]);
 					}
@@ -594,15 +590,15 @@ void Update_Machines() {
 					Preset_Items.Steam.Identifier &&
 					Data.Items_Grid[Outputs[0].X][Outputs[0].Y] ==
 					Preset_Items.Steam.Identifier) {
-					double Transferred = Data_L.Data_Grid[Outputs[0].X][
-						Outputs[0].Y][Fluid_Cap] - Data_L.Data_Grid[
+					double Transferred = Data.Data_Grid[Outputs[0].X][
+						Outputs[0].Y][Fluid_Cap] - Data.Data_Grid[
 						Outputs[0].X][Outputs[0].Y][Stored_Fluids];
-					Transferred = std::min(Transferred, Data_L.Data_Grid[
+					Transferred = std::min(Transferred, Data.Data_Grid[
 						Inputs[0].X][Inputs[0].Y][Stored_Fluids]);
 					if (Transferred > 0) {
-						Data_L.Data_Grid[Inputs[0].X][Inputs[0].Y][
+						Data.Data_Grid[Inputs[0].X][Inputs[0].Y][
 							Stored_Fluids] -= Transferred;
-						Data_L.Data_Grid[Outputs[0].X][Outputs[0].Y][
+						Data.Data_Grid[Outputs[0].X][Outputs[0].Y][
 							Stored_Fluids] += Transferred;
 						double Generated = Transferred * LDE_TURBINECOEFFICIENT *
 							log(sqr_d(Data.Temperature_Grid[Inputs[0].X][Inputs[0].Y])) *
@@ -614,8 +610,8 @@ void Update_Machines() {
 							Generated = 0;
 						}
 						Data_L.Settings_Grid[Column][Row][7] = Generated;
-						Data_L.Data_Grid[Column][Row][Stored_Power] = std::min(
-							Data_L.Data_Grid[Column][Row][Power_Cap], Data_L
+						Data.Data_Grid[Column][Row][Stored_Power] = std::min(
+							Data.Data_Grid[Column][Row][Power_Cap], Data
 							.Data_Grid[Column][Row][Stored_Power] + Generated);
 					}
 				}
@@ -625,23 +621,23 @@ void Update_Machines() {
 			}
 			if (Data.Visual_Grid[Column][Row] == 17) {
 				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, Column, Row, { { Column, Row } })) {
-					Data_L.Animation_Grid[Column][Row][0] = 0;
+					Data.Animation_Grid[Column][Row][0] = 0;
 					Play_Sound(&Audio.Ram_Loop, false);
-				} else if (Data_L.Animation_Grid[Column][Row][0] == 0) {
-					Data_L.Animation_Grid[Column][Row][0] = LDE_INVALID;
+				} else if (Data.Animation_Grid[Column][Row][0] == 0) {
+					Data.Animation_Grid[Column][Row][0] = LDE_INVALID;
 				}
 			} else if (Data.Visual_Grid[Column][Row] == 19) {
-				Data_L.Data_Grid[Column][Row][Stored_Power] = std::min(Data_L.Data_Grid[
-					Column][Row][Stored_Power] + 0.5, Data_L.Data_Grid[Column][Row][Power_Cap]);
+				Data.Data_Grid[Column][Row][Stored_Power] = std::min(Data.Data_Grid[
+					Column][Row][Stored_Power] + 0.5, Data.Data_Grid[Column][Row][Power_Cap]);
 			} else if (Data.Visual_Grid[Column][Row] == 21) {
 				for (int Counter = 0; Counter < 2; Counter++) {
-					if (Data_L.Data_Grid[Column + Counter][Row + 3][Stored_Fluids] > 0) {
+					if (Data.Data_Grid[Column + Counter][Row + 3][Stored_Fluids] > 0) {
 						if (Data_L.Settings_Grid[Column][Row][Counter + 5] == Get_Item(Column + Counter, Row + 3).Identifier ||
 							Data_L.Settings_Grid[Column][Row][Counter + 5] == LDE_INVALID) {
 							Data_L.Settings_Grid[Column][Row][Counter + 3] = std::min(Data_L.Settings_Grid[
-								Column][Row][Counter + 3] + Data_L.Data_Grid[
+								Column][Row][Counter + 3] + Data.Data_Grid[
 								Column + Counter][Row + 3][Stored_Fluids], LDE_DOCKCAPACITY);
-							Data_L.Data_Grid[Column + Counter][Row + 3][Stored_Fluids] = 0;
+							Data.Data_Grid[Column + Counter][Row + 3][Stored_Fluids] = 0;
 							Data_L.Settings_Grid[Column][Row][Counter + 5] = Get_Item(Column + Counter, Row + 3).Identifier;
 						}
 					}
@@ -653,13 +649,13 @@ void Update_Machines() {
 				bool Running2 = Process_Recipe(Preset_IO_Recipes.FP_Biopaste,
 					Column, Row, { { Column, Row + 1 } }, { { Column + 1, Row },
 					{ Column + 1, Row + 1 }, { Column + 1, Row + 2 } });
-				Data_L.Animation_Grid[Column][Row][0] = 0;
-				Data_L.Animation_Grid[Column][Row][1] = 0;
+				Data.Animation_Grid[Column][Row][0] = 0;
+				Data.Animation_Grid[Column][Row][1] = 0;
 				if (Running1 || Running2) {
 					Play_Sound(&Audio.Filtration_Loop, false);
-				} else if (Data_L.Animation_Grid[Column][Row][0] == 0) {
-					Data_L.Animation_Grid[Column][Row][0] = LDE_INVALID;
-					Data_L.Animation_Grid[Column][Row][1] = 0;
+				} else if (Data.Animation_Grid[Column][Row][0] == 0) {
+					Data.Animation_Grid[Column][Row][0] = LDE_INVALID;
+					Data.Animation_Grid[Column][Row][1] = 0;
 				}
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				if (Data_L.Settings_Grid[Column][Row][5] != 0) {
@@ -681,9 +677,9 @@ void Update_Machines() {
 						Point Coordinate = Find_Linked(14, Column, Row);
 						Item_Stack Fish = Get_Fish_Item(static_cast<int>(Data_L.Settings_Grid[Column][Row][6]));
 						Update_Item(Coordinate.X, Coordinate.Y, Fish.Identifier);
-						Data_L.Data_Grid[Coordinate.X][Coordinate.Y][0] = std::min(
+						Data.Data_Grid[Coordinate.X][Coordinate.Y][0] = std::min(
 							Data_L.Settings_Grid[Column][Row][5],
-							Data_L.Data_Grid[Coordinate.X][Coordinate.Y][Fluid_Cap]);
+							Data.Data_Grid[Coordinate.X][Coordinate.Y][Fluid_Cap]);
 					}
 					Data_L.Settings_Grid[Column][Row][7] += 1;
 				}
@@ -698,10 +694,10 @@ void Update_Machines() {
 				} else if (Data.Items_Grid[Column][Row] == Preset_Items.Biopaste.Identifier) {
 					Food_Multiplier = 0.65;
 				}
-				if (Data_L.Data_Grid[Column][Row][Stored_Fluids] > 0 && Food_Multiplier > 0) {
-					Data_L.Settings_Grid[Parent_X][Parent_Y][4] += Data_L.Data_Grid[
+				if (Data.Data_Grid[Column][Row][Stored_Fluids] > 0 && Food_Multiplier > 0) {
+					Data_L.Settings_Grid[Parent_X][Parent_Y][4] += Data.Data_Grid[
 						Column][Row][Stored_Fluids] * Food_Multiplier;
-					Data_L.Data_Grid[Column][Row][Stored_Fluids] = 0;
+					Data.Data_Grid[Column][Row][Stored_Fluids] = 0;
 				}
 			} else if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Heat_Exchanger) {
 				bool Boiling = false;
@@ -726,9 +722,9 @@ void Update_Machines() {
 				for (int Counter = 0; Counter < 2; Counter++) {
 					Point Output_Pos = Outputs[Counter][Visual_To_Rotation(Data.Visual_Grid[Column][Row])];
 					if ((Data.Items_Grid[Output_Pos.X][Output_Pos.Y] == LDE_INVALID || (
-						Data_L.Settings_Grid[Column][Row][Counter + 9] == Data.Items_Grid
-						[Output_Pos.X][Output_Pos.Y] && !Boiling) || (Data.Items_Grid
-						[Output_Pos.X][Output_Pos.Y] == Preset_Items.Steam.Identifier &&
+						Data_L.Settings_Grid[Column][Row][Counter + 9] == Data.Items_Grid[
+						Output_Pos.X][Output_Pos.Y] && !Boiling) || (Data.Items_Grid[
+						Output_Pos.X][Output_Pos.Y] == Preset_Items.Steam.Identifier &&
 						Boiling && Counter == 1)) &&
 						Data_L.Settings_Grid[Column][Row][Counter + 5] > 0) {
 						if (Boiling && Counter == 1) {
@@ -740,10 +736,10 @@ void Update_Machines() {
 						}
 						double Draining_Amount = std::min(Data_L.Settings_Grid[Column][Row][Counter + 3],
 							Data_L.Settings_Grid[Column][Row][Counter + 5]);
-						Draining_Amount = std::min(Draining_Amount, Data_L.Data_Grid
-							[Output_Pos.X][Output_Pos.Y][Fluid_Cap] - Data_L.Data_Grid
-							[Output_Pos.X][Output_Pos.Y][Stored_Fluids]);
-						Data_L.Data_Grid[Output_Pos.X][Output_Pos.Y][Stored_Fluids] += Draining_Amount;
+						Draining_Amount = std::min(Draining_Amount, Data.Data_Grid[
+							Output_Pos.X][Output_Pos.Y][Fluid_Cap] - Data.Data_Grid[
+							Output_Pos.X][Output_Pos.Y][Stored_Fluids]);
+						Data.Data_Grid[Output_Pos.X][Output_Pos.Y][Stored_Fluids] += Draining_Amount;
 						Data_L.Settings_Grid[Column][Row][Counter + 5] -= Draining_Amount;
 					}
 				}
@@ -775,17 +771,17 @@ void Update_Machines() {
 							[Input_Pos.X][Input_Pos.Y];
 						int Volume = Data_L.Settings_Grid[Column][Row][Counter + 5];
 						int Intake = 0;
-						if (Data_L.Data_Grid[Input_Pos.X][Input_Pos.Y]
+						if (Data.Data_Grid[Input_Pos.X][Input_Pos.Y]
 							[Stored_Fluids] > 0 && Volume < LDE_HXCAPACITY) {
-							if (Volume + Data_L.Data_Grid
+							if (Volume + Data.Data_Grid
 								[Input_Pos.X][Input_Pos.Y][Stored_Fluids] > LDE_HXCAPACITY) {
 								Intake = LDE_HXCAPACITY - Volume;
-								Data_L.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] -= Intake;
+								Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] -= Intake;
 								Data_L.Settings_Grid[Column][Row][Counter + 5] = LDE_HXCAPACITY;
 							} else {
-								Intake = Data_L.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids];
+								Intake = Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids];
 								Data_L.Settings_Grid[Column][Row][Counter + 5] += Intake;
-								Data_L.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] = 0;
+								Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] = 0;
 							}
 						}
 						if (Volume + Intake != 0) {
@@ -885,19 +881,6 @@ void Recast_Machines() {
 	}
 }
 
-std::vector<double> Get_Grid_Data(std::vector<double> Grid[LDE_GRIDSIZE][LDE_GRIDSIZE]) {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) * Settings.Screen_Size);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Core.Camera.Y) * Settings.Screen_Size);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				return Grid[Column][Row];
-			}
-		}
-	}
-	return { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
-}
-
 int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) * Settings.Screen_Size);
@@ -914,15 +897,20 @@ int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
 void Reset_Statistics() {
 	Data.Funds = 750;
 	Data.CMD_Placed = false;
-	Clear_Grid(Data.Visual_Grid, 0);
-	Clear_Grid(Data.Connection_Grid, LDE_INVALID);
-	Clear_Grid(Data.Behavior_Grid, LDE_INVALID);
-	Clear_Grid(Data.Wiring_Grid, LDE_INVALID);
-	Clear_Grid(Data.Plumbing_Grid, LDE_INVALID);
-	Clear_Grid(Data.Items_Grid, LDE_ROOMTEMP);
-	Clear_Grid(Data.Temperature_Grid, LDE_INVALID);
-	std::vector<double> Empty_Data = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
-	Clear_Vector_Grid(Data_L.Data_Grid, Empty_Data);
+	memset(Data.Visual_Grid, 0, sizeof(Data.Visual_Grid));
+	memset(Data.Connection_Grid, LDE_INVALID, sizeof(Data.Connection_Grid));
+	memset(Data.Behavior_Grid, LDE_INVALID, sizeof(Data.Behavior_Grid));
+	memset(Data.Wiring_Grid, LDE_INVALID, sizeof(Data.Wiring_Grid));
+	memset(Data.Plumbing_Grid, LDE_INVALID, sizeof(Data.Plumbing_Grid));
+	memset(Data.Items_Grid, LDE_ROOMTEMP, sizeof(Data.Items_Grid));
+	memset(Data.Temperature_Grid, LDE_INVALID, sizeof(Data.Temperature_Grid));
+	memset(Data.Data_Grid, 0, sizeof(Data.Data_Grid));
+	for (int X = 0; X < LDE_GRIDSIZE; X++) {
+		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			Data.Data_Grid[X][Y][4] = LDE_INVALID;
+		}
+	}
+	std::vector<double> Empty_Data;
 	Empty_Data.resize(16, LDE_INVALID);
 	Clear_Vector_Grid(Data_L.Settings_Grid, Empty_Data);
 	Clear_Wires();

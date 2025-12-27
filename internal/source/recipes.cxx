@@ -10,26 +10,26 @@ void Extend_I_Recipe() {
 
 bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Output_Locations) {
 	if (Selected_Recipe.Time == 1) {
-		if (Data_L.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
+		if (Data.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
 			if (Selected_Recipe.Voiding_Excess) {
 				for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
-					if (Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations
+					if (Data.Data_Grid[Output_Locations[Counter].X][Output_Locations
 						[Counter].Y][Stored_Fluids] + Selected_Recipe.Output_Counts[Counter] <
-						Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations
+						Data.Data_Grid[Output_Locations[Counter].X][Output_Locations
 						[Counter].Y][Fluid_Cap]) {
 						return false;
 					}
 				}
 			}
-			Data_L.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
+			Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
 			for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
 				Update_Item(Output_Locations[Counter].X, Output_Locations[Counter].Y,
 					Selected_Recipe.Output_Items[Counter].Identifier);
 			}
 			for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
-				Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] =
-					std::min(Selected_Recipe.Output_Counts[Counter], Data_L.Data_Grid[Output_Locations[Counter].X]
-					[Output_Locations[Counter].Y][Fluid_Cap]);
+				Data.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] =
+					std::min(Selected_Recipe.Output_Counts[Counter], Data.Data_Grid[Output_Locations[Counter].X][
+					Output_Locations[Counter].Y][Fluid_Cap]);
 			}
 			return true;
 		}
@@ -46,42 +46,42 @@ void Extend_O_Recipe() {
 bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Input_Locations,
 	std::vector<Point> Output_Locations) {
 	if (Selected_Recipe.Time == 1) {
-		if (Data_L.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
+		if (Data.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
 			if (Selected_Recipe.Shuffling_Barred) {
 				for (int Counter = 0; Counter < Input_Locations.size(); Counter++) {
-					if (Data_L.Data_Grid[Input_Locations[Counter].X][Input_Locations
-						[Counter].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[Counter]) {
+					if (Data.Data_Grid[Input_Locations[Counter].X][Input_Locations[
+						Counter].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[Counter]) {
 						return false;
 					}
 				}
 				for (int Counter = 0; Counter < Selected_Recipe.Input_Items.size(); Counter++) {
-					if (Data.Items_Grid[Input_Locations[Counter].X][Input_Locations
-						[Counter].Y] !=	Selected_Recipe.Input_Items[Counter].Identifier) {
+					if (Data.Items_Grid[Input_Locations[Counter].X][Input_Locations[
+						Counter].Y] !=	Selected_Recipe.Input_Items[Counter].Identifier) {
 						return false;
 					}
 				}
 				if (!Selected_Recipe.Voiding_Excess) {
 					for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
-						if (Data_L.Data_Grid[Output_Locations[Counter].X]
-							[Output_Locations[Counter].Y][Stored_Fluids] >
-							Data_L.Data_Grid[Output_Locations[Counter].X]
-							[Output_Locations[Counter].Y][Fluid_Cap] -
+						if (Data.Data_Grid[Output_Locations[Counter].X][
+							Output_Locations[Counter].Y][Stored_Fluids] >
+							Data.Data_Grid[Output_Locations[Counter].X][
+							Output_Locations[Counter].Y][Fluid_Cap] -
 							Selected_Recipe.Output_Counts[Counter]) {
 							return false;
 						}
 					}
 				}
 				for (int Counter = 0; Counter < Input_Locations.size(); Counter++) {
-					Data_L.Data_Grid[Input_Locations[Counter].X][Input_Locations
-						[Counter].Y][Stored_Fluids] -= Selected_Recipe.Input_Counts[Counter];
+					Data.Data_Grid[Input_Locations[Counter].X][Input_Locations[
+						Counter].Y][Stored_Fluids] -= Selected_Recipe.Input_Counts[Counter];
 				}
 				for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
 					Update_Item(Output_Locations[Counter].X, Output_Locations[Counter].Y,
 						Selected_Recipe.Output_Items[Counter].Identifier);
 				}
 				for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
-					Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] =
-						std::min(Selected_Recipe.Output_Counts[Counter], Data_L.Data_Grid[Output_Locations[Counter].X]
+					Data.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] =
+						std::min(Selected_Recipe.Output_Counts[Counter], Data.Data_Grid[Output_Locations[Counter].X]
 						[Output_Locations[Counter].Y][Fluid_Cap]);
 				}
 			} else {
@@ -109,7 +109,7 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 					}
 				}
 				for (int Counter = 0; Counter < Positions.size(); Counter++) {
-					if (Data_L.Data_Grid[Input_Locations[Positions[Counter]].X]
+					if (Data.Data_Grid[Input_Locations[Positions[Counter]].X]
 						[Input_Locations[Positions[Counter]].Y][Stored_Fluids] <
 						Selected_Recipe.Input_Counts[Counter]) {
 						return false;
@@ -117,15 +117,15 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 				}
 				if (!Selected_Recipe.Voiding_Excess) {
 					for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
-						if (Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] >
-							Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Fluid_Cap] -
+						if (Data.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] >
+							Data.Data_Grid[Output_Locations[Counter].X][Output_Locations[Counter].Y][Fluid_Cap] -
 							Selected_Recipe.Output_Counts[Counter]) {
 							return false;
 						}
 					}
 				}
 				for (int Counter = 0; Counter < Positions.size(); Counter++) {
-					Data_L.Data_Grid[Input_Locations[Positions[Counter]].X]
+					Data.Data_Grid[Input_Locations[Positions[Counter]].X]
 						[Input_Locations[Positions[Counter]].Y][Stored_Fluids] -= Selected_Recipe.Input_Counts[Counter];
 				}
 				for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
@@ -133,23 +133,23 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 						Selected_Recipe.Output_Items[Counter].Identifier);
 				}
 				for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
-					Data_L.Data_Grid[Output_Locations[Counter].X][Output_Locations
-						[Counter].Y][Stored_Fluids] = std::min(Data_L.Data_Grid
-						[Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] +
-						Selected_Recipe.Output_Counts[Counter], Data_L.Data_Grid
-						[Output_Locations[Counter].X][Output_Locations[Counter].Y][Fluid_Cap]);
+					Data.Data_Grid[Output_Locations[Counter].X][Output_Locations[
+						Counter].Y][Stored_Fluids] = std::min(Data.Data_Grid[
+						Output_Locations[Counter].X][Output_Locations[Counter].Y][Stored_Fluids] +
+						Selected_Recipe.Output_Counts[Counter], Data.Data_Grid[
+						Output_Locations[Counter].X][Output_Locations[Counter].Y][Fluid_Cap]);
 				}
 			}
-			Data_L.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
+			Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
 			return true;
 		}
 	} else {
 		if (Data_L.Settings_Grid[X][Y][1] <= 0) {
-			if (Data_L.Data_Grid[X][Y][Stored_Power] > Selected_Recipe.Power * Selected_Recipe.Time) {
+			if (Data.Data_Grid[X][Y][Stored_Power] > Selected_Recipe.Power * Selected_Recipe.Time) {
 				if (Selected_Recipe.Shuffling_Barred) {
 					for (int Counter = 0; Counter < Input_Locations.size(); Counter++) {
-						if (Data_L.Data_Grid[Input_Locations[Counter].X]
-							[Input_Locations[Counter].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[Counter]) {
+						if (Data.Data_Grid[Input_Locations[Counter].X][
+							Input_Locations[Counter].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[Counter]) {
 							return false;
 						}
 					}
@@ -161,17 +161,17 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 					}
 					if (!Selected_Recipe.Voiding_Excess) {
 						for (int Counter = 0; Counter < Output_Locations.size(); Counter++) {
-							if (Data_L.Data_Grid[Output_Locations[Counter].X]
-								[Output_Locations[Counter].Y][Stored_Fluids] >
-								Data_L.Data_Grid[Output_Locations[Counter].X]
-								[Output_Locations[Counter].Y][Fluid_Cap] -
+							if (Data.Data_Grid[Output_Locations[Counter].X][
+								Output_Locations[Counter].Y][Stored_Fluids] >
+								Data.Data_Grid[Output_Locations[Counter].X][
+								Output_Locations[Counter].Y][Fluid_Cap] -
 								Selected_Recipe.Output_Counts[Counter]) {
 								return false;
 							}
 						}
 					}
 					for (int Counter = 0; Counter < Input_Locations.size(); Counter++) {
-						Data_L.Data_Grid[Input_Locations[Counter].X][Input_Locations[Counter].Y]
+						Data.Data_Grid[Input_Locations[Counter].X][Input_Locations[Counter].Y]
 							[Stored_Fluids] -= Selected_Recipe.Input_Counts[Counter];
 					}
 					Data_L.Settings_Grid[X][Y][1] = Selected_Recipe.Time;
@@ -188,7 +188,7 @@ void Extend_Recipe(Recipe Selected_Recipe, int X, int Y,
 	const std::vector<Point> (&Preconfiguration)[4]) {
 	std::vector<Point> Nodes = Return_Nodes(X, Y, Visual_To_Rotation(
 		Data.Visual_Grid[X][Y]), Preconfiguration);
-	Data_L.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
+	Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
 	if (Data_L.Settings_Grid[X][Y][1] <= 0) {
 		Data_L.Settings_Grid[X][Y][1] = 0;
 		for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
@@ -196,9 +196,9 @@ void Extend_Recipe(Recipe Selected_Recipe, int X, int Y,
 				Selected_Recipe.Output_Items[Counter].Identifier);
 		}
 		for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
-			Data_L.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Stored_Fluids] =
-				std::min(Data_L.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Stored_Fluids] +
-				Selected_Recipe.Output_Counts[Counter], Data_L.Data_Grid[Nodes[Counter].X]
+			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Stored_Fluids] =
+				std::min(Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Stored_Fluids] +
+				Selected_Recipe.Output_Counts[Counter], Data.Data_Grid[Nodes[Counter].X]
 				[Nodes[Counter].Y][Fluid_Cap]);
 		}
 	}

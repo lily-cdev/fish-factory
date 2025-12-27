@@ -2,6 +2,7 @@
 extern "C" {
 	#include <core.h>
 	#include <transitions.h>
+	#include <data.h>
 }
 #include <preloader.h>
 #include <items.h>

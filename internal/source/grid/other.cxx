@@ -8,10 +8,10 @@ bool Place_Incinerator(int X, int Y) {
 			Interface.Placing_Rotation + 113;
 	}
 	Data.Connection_Grid[X][Y] = 0;
-	Data_L.Data_Grid[X][Y][Fluid_Cap] = 12;
+	Data.Data_Grid[X][Y][Fluid_Cap] = 12;
 	Data.Plumbing_Grid[X][Y] = Any;
 	Data_L.Settings_Grid[X][Y][0] = F_In;
-	Data_L.Animation_Grid[X][Y][0] = 0;
+	Data.Animation_Grid[X][Y][0] = 0;
 	return true;
 }
 
@@ -102,6 +102,6 @@ bool Place_Fluid_Generator(int X, int Y) {
 	Data_L.Settings_Grid[X][Y][4] = LDE_ROOMTEMP;
 	Data_L.Settings_Grid[X][Y][5] = 0;
 	Data.Plumbing_Grid[X][Y] = Any;
-	Data_L.Data_Grid[X][Y][Fluid_Cap] = 900;
+	Data.Data_Grid[X][Y][Fluid_Cap] = 900;
 	return true;
 }

@@ -54,6 +54,8 @@ add_executable(Fish_Factory
 	internal/source/prepping/other.c
 	internal/source/prepping/preloaders.c
 	internal/source/prepping/ui.c
+	internal/source/data/files.c
+	internal/source/data/setup.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
 	modules/neutral/resource.rc

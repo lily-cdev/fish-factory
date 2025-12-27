@@ -98,7 +98,16 @@ void Render_Game_UI() {
 	Render_Dynamic_Text(Fonts.Halftext_Font, Time + ", " + Metadata_L.Days[Data.Day] + "day",
 		Colors.Abyss_Black, 10, 50);
 	if (Interface.Tool == 2) {
-		std::vector<double> Content_Vector = Get_Grid_Data(Data_L.Data_Grid);
+		double Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
+			Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) * Settings.Screen_Size);
+			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
+				Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Core.Camera.Y) * Settings.Screen_Size);
+				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
+					memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
+				}
+			}
+		}
 		Item_Stack Returned_Item = Get_Item_Stack_Data();
 		if (Returned_Item.Identifier != LDE_INVALID) {
 			Queried_Data_Fragments.push_back("Item: " + Returned_Item.Display_Name);

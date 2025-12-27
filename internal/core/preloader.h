@@ -231,9 +231,7 @@ public:
 
 struct OLD_DATA {
 public:
-	std::vector<double> Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
 	std::vector<double> Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
-	std::vector<double> Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
 };
 
 struct OLD_KEYBINDS {

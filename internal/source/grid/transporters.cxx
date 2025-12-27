@@ -3,7 +3,7 @@
 bool Place_Reinforced_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 1;
 	Data.Connection_Grid[X][Y] = 1;
-	Data_L.Data_Grid[X][Y][Fluid_Cap] = LDE_REINFORCEDCAP;
+	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_REINFORCEDCAP;
 	Data_L.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;
 	return true;
@@ -17,8 +17,8 @@ bool Place_Submarine_Dock(int X, int Y) {
 		Data.Plumbing_Grid[X + 1][Y + 3] = Down;
 		Data_L.Settings_Grid[X][Y + 3][0] = F_In;
 		Data_L.Settings_Grid[X + 1][Y + 3][0] = F_In;
-		Data_L.Data_Grid[X][Y + 3][Fluid_Cap] = 200;
-		Data_L.Data_Grid[X + 1][Y + 3][Fluid_Cap] = 200;
+		Data.Data_Grid[X][Y + 3][Fluid_Cap] = 200;
+		Data.Data_Grid[X + 1][Y + 3][Fluid_Cap] = 200;
 		Data_L.Settings_Grid[X][Y][3] = 0;
 		Data_L.Settings_Grid[X][Y][4] = 0;
 		Data_L.Settings_Grid[X][Y][5] = LDE_INVALID;
@@ -34,16 +34,16 @@ bool Place_Submarine_Dock(int X, int Y) {
 bool Place_Cable_Node(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 63;
 	Data.Wiring_Grid[X][Y] = 2;
-	Data_L.Data_Grid[X][Y][Power_Cap] = 12000;
-	Data_L.Data_Grid[X][Y][5] = 20;
-	Data_L.Data_Grid[X][Y][6] = 20;
+	Data.Data_Grid[X][Y][Power_Cap] = 12000;
+	Data.Data_Grid[X][Y][5] = 20;
+	Data.Data_Grid[X][Y][6] = 20;
 	return true;
 }
 
 bool Place_Large_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 71;
 	Data.Connection_Grid[X][Y] = 1;
-	Data_L.Data_Grid[X][Y][Fluid_Cap] = LDE_LARGECAP;
+	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_LARGECAP;
 	Data_L.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;
 	return true;
@@ -75,10 +75,10 @@ bool Place_RL_Intersection(int X, int Y) {
 			}
 			for (int Counter2 = 0; Counter2 < 2; Counter2++) {
 				if (Interface.Placing_Item - 1 == R_Intersection) {
-					Data_L.Data_Grid[Nodes[Counter2].X][
+					Data.Data_Grid[Nodes[Counter2].X][
 						Nodes[Counter2].Y][Fluid_Cap] = LDE_REINFORCEDCAP;
 				} else {
-					Data_L.Data_Grid[Nodes[Counter2].X][
+					Data.Data_Grid[Nodes[Counter2].X][
 						Nodes[Counter2].Y][Fluid_Cap] = LDE_LARGECAP;
 				}
 				Data_L.Settings_Grid[Nodes[Counter2].X][
