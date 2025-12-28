@@ -249,6 +249,7 @@ void Reload_All() {
 	} else {
 		SDL_SetRenderVSync(Core.Renderer, 1);
 	}
+	Preload_Assets_L();
 	Preload_Assets();
 	Preload_Noise();
 	double Loading_Time = (SDL_GetTicks() - Start) / 1000.0;

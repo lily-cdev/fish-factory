@@ -9,138 +9,6 @@ struct OLD_METADATA {
 public:
 	std::vector<std::string> Logs;
 	std::string Monitor_Size;
-	const std::vector<std::string> Machine_Names = {
-		"Reinforced Pipe",
-		"Ram Pump",
-		"Incinerator",
-		"Piezoelectric Generator",
-		"Decoration",
-		"Submarine Dock",
-		"Filtration Plant",
-		"Bioelectric Generator",
-		"Pool",
-		"Distillery",
-		"Algae Growth Bed",
-		"Command Platform",
-		"[NF] Basic Scrubber",
-		"Controller",
-		"Output",
-		"Input",
-		"Electrolytic Cell",
-		"Fluid Mixer",
-		"Signal Tower",
-		"Flowerpot",
-		"Ammunition Shelf",
-		"Cable Node",
-		"Geothermal Well",
-		"Large Pipe",
-		"Heat Exchanger",
-		"Petrified Wood Tile",
-		"Basalt Tile",
-		"Silicone Carpet",
-		"Money Generator",
-		"Fluid Generator",
-		"Reinforced Intersection",
-		"Large Intersection",
-		"Hazard Strip",
-		"Input",
-		"Heat Sink",
-		"Transferor",
-		"Output",
-		"Input",
-		"Impulse Block",
-		"Output"
-	};
-	const std::vector<std::string> Machine_Descriptions = {
-		"A Steel-shelled pipe bearing an internal lining of silicon carbide. It's resistant to pretty much everything,"
-			" save for fluorine.",
-		"A low-power pump that uses the natural pressure of the Ocean to force seawater into pipes."
-			" It's literally just a glorified valve.",
-		"Disposes of unwanted fluids by degrading them with 1,500 °F temperatures, before"
-			" safely releasing them into the Ocean.",
-		"Converts friction from the Ocean into miniscule amounts of power.",
-		"Functionally inert, but looks a whole heck of a lot prettier than raw seabed.",
-		"A dock allowing for products to be exported and shipped. Must be placed against a wall in order to function.",
-		"Filters liquids, using very little electricity to operate.",
-		"Containes genetically-engineered microbes which consume biomass and directly yield electricity.",
-		"A pool in which to grow fish.",
-		"Distills fluids. Useful for purification jobs beyond what the filtration plant can handle.",
-		"An enclosed chamber, holding perfect conditions for rapid algae growth.",
-		"A space for the staff of two to work and sleep, containing a small armoury, command centre, bunk bed, and bathroom."
-			" Required for the factory to function.",
-		"[NOT FUNCTIONAL] Intakes lye to remove carbon dioxide from the atmosphere. Produces waste as a byproduct.",
-		"A controller required for a Modular Spawning Pool to function.",
-		"A valve that can output the remaining fish.",
-		"An input for fish-compatible biomass.",
-		"Uses electrolysis to rip apart fluids into their separate ions.",
-		"Mixes fluids inside of an armoured chamber.",
-		"Broadcasts Morse code signals on a 2kHz bandwidth.",
-		"A large flowerpot bearing the oversized Ceracanth flower, genetically engineered to bear a pleasant smell",
-		"An ammunition rack holding an array of 40×399mm anti-aircraft rounds.",
-		"A node able to group cables together.",
-		"Uses the heat of underground magma to raise the temperature of a heating medium.",
-		"A plain Steel pipe that can transport non-hazardous liquids in bulk.",
-		"A large boiler that intakes feedwater and a heating medium in order to yield steam.",
-		"A thick slab of synthetic petrified wood. Non-flammable, pretty, and VERY expensive.",
-		"Heavy floor tiles made of locally-sourced basalt. Non-flammable, pretty, and slippery when wet.",
-		"A soft and fluffy carpet made from dyed silicone. Non-flammable, pretty, and quite comfortable.",
-		"Creates a set amount of money per second.",
-		"Creates a set amount of a set fluid per second. Temperature can be adjusted as well.",
-		"Allows for two different reinforced pipelines to cross over each other.",
-		"Allows for two different large pipelines to cross over each other.",
-		"A strip of high-visibility dyed polycarbonate platic, used for marking hazardous zones.",
-		"The input of a modular condenser. Accepts steam of any temperature.",
-		"Cools the contained steam using an electric fan.",
-		"Cools the contained steam using an input of cold water.",
-		"Outputs condensed water.",
-		"Intakes fresh steam and feeds it to the rest of the turbine.",
-		"Expands the turbine, and generates torque at the cost of steam energy.",
-		"The last item in a turbine. Outputs low-temperature steam."
-	};
-	const std::vector<std::string> Machine_Comments = {
-		"it can't transport fluorine, but that's okay because we never liked that diva of an element anyways.",
-		"it's literally just a pretty valve.",
-		"a wonderful place to put junk mail!",
-		"free energy that might even power a single desk lamp!",
-		"a technician actually got paid to make this. be nice.",
-		"half the sub captains drink salted coffee.",
-		"turns mystery fluids into cleaner mystery fluids.",
-		"it's safe, but i still wouldn't sit on it.",
-		"please don't swim here. for both your sake and mine.",
-		"saltwater is not an acquired taste, contrary to what sub crews tell you.",
-		"basically a fancy box of green sludge.",
-		"a tiny home, but it's more fun because there's a gun rack!",
-		"the filters get kinda icky after a while, so it's best to have the interns clean it out.",
-		"it monitors fish, so it's kinda like their equivalent of 1984.",
-		"a technician legitimately woke up and thought making a valve that spits out fish would be a good idea.",
-		"i sometimes put my dinner leftovers in here.",
-		"it makes water flammable! it does other things too, but that was the most enjoyable function i found.",
-		"boring fluids go in, silly chemicals come out. need i say more?",
-		"..--- -.- .... --.. / -.. .. ...- .-",
-		"smells nice, looks pretty, and stays quiet. it's pretty much the opposite of PR employees.",
-		"gun? more like 40×399mm fun!",
-		"kinda like a hairtie, but for wires!",
-		"it looks complex to operate, but in reality all it does is pump water down then back up.",
-		"apparently you can shove a lot more liquid in a pipe if you just strip away the protective lining!",
-		"it has way more pipes than it really needs.",
-		"i think you can see where all of our funding went.",
-		"easy to clean and quite scratch resistant too. it's a janitor's dream.",
-		"for carpet pretty much woven from industrial-grade insulation, it's surprisingly sit to stand on.",
-		"MONEY!!!",
-		"LIQUIDS!!!",
-		"it's literally just two pipes slapped on top of each other.",
-		"same as the reinforced intersection, but without the protective lining.",
-		"studies prove that placing a visible border on the floor makes people think twice before"
-			" crossing it. studies also prove that whoever cares about that little fact is a nerd.",
-		"apparently one steam input just wasn't enough.",
-		"they should kinda put a grate over the fan, but then again, nobody in their right mind"
-			" would jump into rapidly-spinning fan blades.",
-		"[under construction]",
-		"[to be added]",
-		"typing on a console positioned directly next to a high voltage cable anchor is certainly an... experience.",
-		"[tba]",
-		"[tba]"
-	};
 	const std::vector<int> Machine_Taxes = {
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1,
@@ -209,8 +77,6 @@ public:
 		{ },
 		{ }
 	};
-	std::vector<SDL_Texture*> Machine_Sprites = { };
-	std::vector<SDL_FRect> Machine_Rectangles = { };
 	const std::vector<std::string> Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" };
 	std::vector<std::vector<std::string>> TT_Texts = {
 		{ "Sell Exports" },
@@ -371,21 +237,18 @@ extern OLD_CACHE Cache_L;
 extern OLD_INTERFACE Interface_L;
 extern OLD_PRECONFIGURATIONS Preconfigurations_L;
 
-bool Detect_Mouse_Collision(const SDL_FRect &Target);
 SDL_FRect Buffer_Rectangle(const SDL_FRect &Source, const int X, const int Y);
 bool Check_Clearance(const int X, const int Y, const int W, const int H);
 void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H);
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 std::string Abbreviate_Number(long double Number);
 std::string Truncate(double Number, int Depth);
-Texture_Array Load_Button(TTF_Font* Font, std::string Text, Rect_Array &Rectangles,
+Texture_Array Load_Button_L(TTF_Font* Font, std::string Text, Rect_Array &Rectangles,
 	SDL_Color Primary_Color, SDL_Color Secondary_Color);
-void Render_Button(const Texture_Array &Button, const Rect_Array &Hitbox, int Selection,
-	SDL_Color Underline_Color = Colors.Cherry_Blossom);
 void Reload_Commandlist(Texture3_Array &Commandlist, Rect3_Array &Boxlist,
 	std::vector<std::vector<std::string>> Contents);
 void Recache_TT_Commands();
-void Preload_Assets();
+void Preload_Assets_L();
 void Render_Dynamic_Text(TTF_Font* Selected_Font, std::string Text, SDL_Color Color, int X, int Y);
 int Render_Rich_Text(TTF_Font* Selected_Font, std::string Raw_Text, int X, int Y,
 	bool Inverted = false, bool Disabled = false);

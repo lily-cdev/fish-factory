@@ -198,13 +198,13 @@ void Update_Grid() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Reinforced_Pipe) {
-				Temporary_Grid[Column][Row] = 1 + Modular_Detection(
+				Temporary_Grid[Column][Row] = Modular_Detection(
 					Data.Connection_Grid, Data.Plumbing_Grid,
-					Data.Behavior_Grid, Column, Row, 0, 1, LDE_INVALID, true);
+					Data.Behavior_Grid, Column, Row, 0, 1, LDE_INVALID, true) + 1;
 			} else if (Data.Visual_Grid[Column][Row] > 23 && Data.Visual_Grid[Column][Row] < 41) {
-				Temporary_Grid[Column][Row] = 24 + Modular_Detection(
+				Temporary_Grid[Column][Row] = Modular_Detection(
 					Data.Connection_Grid, Data.Plumbing_Grid,
-					Data.Behavior_Grid, Column, Row, LDE_INVALID, LDE_INVALID, 0, false);
+					Data.Behavior_Grid, Column, Row, LDE_INVALID, LDE_INVALID, 0, false) + 24;
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				Temporary.First_Coordinate = { Column, Row };
 				Data_L.Settings_Grid[Column][Row][3] = Find_Modular_Size(Column, Row, 8, 13, 14, 15);

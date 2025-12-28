@@ -28,6 +28,7 @@ DATA Data = {
 	.Data_Grid = { },
 	.Funds = 0
 };
+METADATA Metadata;
 SETTINGS Settings = {
 	.AA_Temporary = true,
 	.VS_Temporary = false,

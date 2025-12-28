@@ -16,7 +16,7 @@
 #define LDE_REINFORCEDCAP 30
 #define LDE_ROOMTEMP 65
 #define LDE_SLIDERS 14
-#define LDE_STATICRATE 24.0
+#define LDE_STATICRATE 15
 #define LDE_SUFFIXES 5
 #define LDE_TILESIZE 40
 #define LDE_TURBINECOEFFICIENT 0.15
@@ -28,6 +28,9 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <corecrt_math_defines.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 extern SDL_ScaleMode Scaling_Quality;
 
@@ -177,6 +180,11 @@ enum Flows {
     F_In,
     F_Out
 };
+
+typedef struct {
+    char* Content;
+    int Length;
+} Char_Array;
 
 typedef struct {
     int X;

@@ -1,10 +1,5 @@
 #include <preloader.h>
 
-bool Detect_Mouse_Collision(const SDL_FRect &Target) {
-	return (Core.Mouse.X >= Target.x && Core.Mouse.X <= Target.x + Target.w &&
-		Core.Mouse.Y >= Target.y && Core.Mouse.Y <= Target.y + Target.h);
-}
-
 SDL_FRect Buffer_Rectangle(const SDL_FRect &Source, const int X, const int Y) {
 	return { Source.x - (X * Settings.Screen_Size), Source.y - (Y * Settings.Screen_Size),
 		Source.w + ((X * 2) * Settings.Screen_Size), Source.h + ((Y * 2) * Settings.Screen_Size) };
@@ -349,7 +344,7 @@ Texture_Array Load_Mirrored(std::string Path, SDL_FRect &Rectangle) {
 	return Yield;
 }
 
-Texture_Array Load_Button(TTF_Font* Font, std::string Text, Rect_Array &Rectangles,
+Texture_Array Load_Button_L(TTF_Font* Font, std::string Text, Rect_Array &Rectangles,
 	SDL_Color Primary_Color = Colors.Abyss_Black, SDL_Color Secondary_Color = Colors.Cherry_Blossom) {
 	Texture_Array Yield;
 	Yield.Length = 2;
@@ -375,22 +370,6 @@ Texture_Array Load_Button(TTF_Font* Font, std::string Text, Rect_Array &Rectangl
 		static_cast<float>(Button_Surface->w), static_cast<float>(Button_Surface->h) };
 	SDL_DestroySurface(Button_Surface);
 	return Yield;
-}
-
-void Render_Button(const Texture_Array &Button, const Rect_Array &Hitbox,
-	int Selection, SDL_Color Underline_Color) {
-	if (Detect_Mouse_Collision(Hitbox.Data[0])) {
-		Interface.UI_Selection = Selection;
-		SDL_FRect Underline_Rectangle = { Hitbox.Data[0].x, Hitbox.Data[0].y +
-			Hitbox.Data[0].h + 2, Hitbox.Data[0].w, Hitbox.Data[0].h / 10 };
-		SDL_SetRenderDrawColor(Core.Renderer, Underline_Color.r, Underline_Color.g,
-			Underline_Color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
-		Clear_Renderer();
-		SDL_RenderTexture(Core.Renderer, Button.Data[1], NULL, &Hitbox.Data[1]);
-	} else {
-		SDL_RenderTexture(Core.Renderer, Button.Data[0], NULL, &Hitbox.Data[0]);
-	}
 }
 
 Texture_Array Load_Animated(std::string Path, const int Height,
@@ -528,7 +507,7 @@ Texture2_Array Preload_Terminal_Sidebar(std::vector<std::string> Texts, Rect2_Ar
 			calloc(2, sizeof(SDL_FRect)));
 		Rectangles.Data[Counter1].Data[0] = { LDE_INVALID, static_cast<float>(50 +
 			(Counter1 * 30)) * Settings.Screen_Size, 0, 0 };
-		Yield.Data[Counter1] = Load_Button(Fonts.Terminal_Font, Texts[Counter1],
+		Yield.Data[Counter1] = Load_Button_L(Fonts.Terminal_Font, Texts[Counter1],
 			Rectangles.Data[Counter1], Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
 			Rectangles.Data[Counter1].Data[Counter2].x += 210 * Settings.Screen_Size;
@@ -565,7 +544,7 @@ void Recache_TT_Commands() {
 	Reload_Commandlist(Textures.TT_Buttons, Rects.TT_Buttons, Metadata_L.TT_Texts);
 }
 
-void Preload_Assets() {
+void Preload_Assets_L() {
 	Core.Game_Texture = SDL_GenerateTexture(Core.Renderer, SDL_PIXELFORMAT_RGBA8888,
 		SDL_TEXTUREACCESS_TARGET, 640 * Settings.Screen_Size, 360 * Settings.Screen_Size);
 	for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
@@ -666,7 +645,7 @@ void Preload_Assets() {
 				LDE_INVALID, static_cast<float>(40 + (Counter2 *
 				30)) * Settings.Screen_Size, 0, 0 };
 			Textures.Subcategories.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font, Metadata_L.Subcategory_Names[
+				Load_Button_L(Fonts.Halftext_Font, Metadata_L.Subcategory_Names[
 				Metadata_L.Subcategory_Positions[Counter1][Counter2]],
 				Rects.Subcategories.Data[Counter1].Data[Counter2]);
 		}
@@ -691,9 +670,9 @@ void Preload_Assets() {
 			Rects.Subcontents.Data[Counter1].Data[Counter2].Data[0] = {
 				LDE_INVALID, static_cast<float>(40 + (Counter2 * 30)) *
 				Settings.Screen_Size, 0, 0 };
+			std::string tmp = Metadata.Names[Metadata_L.Subcontents[Counter1][Counter2]].Content;
 			Textures.Subcontents.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font, Metadata_L.Machine_Names[
-				Metadata_L.Subcontents[Counter1][Counter2]],
+				Load_Button_L(Fonts.Halftext_Font, tmp,
 				Rects.Subcontents.Data[Counter1].Data[Counter2]);
 		}
 	}
@@ -719,9 +698,9 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[Counter1].Data[Counter2].Data[0] =
 				{ LDE_INVALID, static_cast<float>(40 + ((Counter2 + Metadata_L
 				.Subcategory_Positions[Counter1].size()) * 30)) * Settings.Screen_Size, 0, 0 };
+			std::string str = Metadata.Names[Metadata_L.Item_Labels[Counter1][Counter2]].Content;
 			Textures.Item_Labels.Data[Counter1].Data[Counter2] =
-				Load_Button(Fonts.Halftext_Font,	Metadata_L.Machine_Names[
-				Metadata_L.Item_Labels[Counter1][Counter2]], Rects
+				Load_Button_L(Fonts.Halftext_Font, str, Rects
 				.Item_Labels.Data[Counter1].Data[Counter2]);
 		}
 	}
@@ -738,7 +717,7 @@ void Preload_Assets() {
 		Rects.Categories.Data[Counter].Data[0] = {
 			LDE_INVALID, static_cast<float>(40 + (Counter * 30)) *
 			Settings.Screen_Size, 0, 0 };
-		Textures.Categories.Data[Counter] = Load_Button(
+		Textures.Categories.Data[Counter] = Load_Button_L(
 			Fonts.Text_Font, Metadata_L.Categories[Counter],
 			Rects.Categories.Data[Counter]);
 	}
@@ -746,7 +725,7 @@ void Preload_Assets() {
 	Rects.Error_Exit.Data = static_cast<SDL_FRect*>(
 		calloc(2, sizeof(SDL_FRect)));
 	Rects.Error_Exit.Data[0] = { LDE_INVALID, Settings.Screen_Size * 50.0f, 0, 0 };
-	Textures.Error_Exit = Load_Button(Fonts.Terminal_Font, "Exit",
+	Textures.Error_Exit = Load_Button_L(Fonts.Terminal_Font, "Exit",
 		Rects.Error_Exit, Colors.Cherry_Blossom, Colors.Pure_White);
 	for (int Counter = 0; Counter < 2; Counter++) {
 		Rects.Error_Exit.Data[Counter].x += Settings.Screen_Size * 210;
@@ -786,7 +765,7 @@ void Preload_Assets() {
 		Rects.New.Data[Counter].Data[0] = {
 			340.0f * Settings.Screen_Size, static_cast<float>(
 			160 + (Counter * 40)) * Settings.Screen_Size, 0, 0 };
-		Textures.New.Data[Counter] = Load_Button(Fonts.Subtext_Font,
+		Textures.New.Data[Counter] = Load_Button_L(Fonts.Subtext_Font,
 			"New Factory", Rects.New.Data[Counter]);
 		Rects.Load.Data[Counter].Length = 2;
 		Rects.Load.Data[Counter].Data = static_cast<
@@ -794,7 +773,7 @@ void Preload_Assets() {
 		Rects.Load.Data[Counter].Data[0] = {
 			340.0f * Settings.Screen_Size, static_cast<float>(
 			160 + (Counter * 40)) * Settings.Screen_Size, 0, 0 };
-		Textures.Load.Data[Counter] = Load_Button(Fonts.Subtext_Font,
+		Textures.Load.Data[Counter] = Load_Button_L(Fonts.Subtext_Font,
 			"Load Factory", Rects.Load.Data[Counter]);
 		Rects.Clear.Data[Counter].Length = 2;
 		Rects.Clear.Data[Counter].Data = static_cast<
@@ -802,7 +781,7 @@ void Preload_Assets() {
 		Rects.Clear.Data[Counter].Data[0] = {
 			490.0f * Settings.Screen_Size, static_cast<float>(
 			160 + (Counter * 40)) * Settings.Screen_Size, 0, 0 };
-		Textures.Clear.Data[Counter] = Load_Button(Fonts.Subtext_Font,
+		Textures.Clear.Data[Counter] = Load_Button_L(Fonts.Subtext_Font,
 			"Clear Factory", Rects.Clear.Data[Counter]);
 	}
 	std::string Tool_Texts[5] = { "Building", "Deleting", "Inspecting", "Wiring", "Plumbing" };
@@ -833,9 +812,9 @@ void Preload_Assets() {
 	}
 	Textures.Anti_Aliasing.Data = static_cast<Texture_Array*>(
 		malloc(sizeof(Texture_Array) * 2));
-	Textures.Anti_Aliasing.Data[0] = Load_Button(Fonts.Subtext_Font,
+	Textures.Anti_Aliasing.Data[0] = Load_Button_L(Fonts.Subtext_Font,
 		"Scaling Quality: High", Rects.Anti_Aliasing.Data[0]);
-	Textures.Anti_Aliasing.Data[1] = Load_Button(Fonts.Subtext_Font,
+	Textures.Anti_Aliasing.Data[1] = Load_Button_L(Fonts.Subtext_Font,
 		"Scaling Quality: Low", Rects.Anti_Aliasing.Data[1]);
 	Rects.V_Sync.Length = 2;
 	Rects.V_Sync.Data = static_cast<Rect_Array*>(
@@ -852,9 +831,9 @@ void Preload_Assets() {
 	Textures.V_Sync.Data = static_cast<Texture_Array*>(
 		malloc(sizeof(Texture_Array) * 2));
 	Textures.V_Sync.Length = 2;
-	Textures.V_Sync.Data[0] = Load_Button(Fonts.Subtext_Font,
+	Textures.V_Sync.Data[0] = Load_Button_L(Fonts.Subtext_Font,
 		"V-Sync: Off", Rects.V_Sync.Data[0]);
-	Textures.V_Sync.Data[1] = Load_Button(Fonts.Subtext_Font,
+	Textures.V_Sync.Data[1] = Load_Button_L(Fonts.Subtext_Font,
 		"V-Sync: On", Rects.V_Sync.Data[1]);
 	Textures.Sort.Data = static_cast<Texture_Array*>(
 		malloc(sizeof(Texture_Array) * 2));
@@ -869,9 +848,9 @@ void Preload_Assets() {
 		Rects.Sort.Data[Counter].Data[0] =
 			{ LDE_INVALID, 334.0f * Settings.Screen_Size, 0, 0 };
 	}
-	Textures.Sort.Data[0] = Load_Button(Fonts.Subtext_Font,
+	Textures.Sort.Data[0] = Load_Button_L(Fonts.Subtext_Font,
 		"Sort: Newest", Rects.Sort.Data[0]);
-	Textures.Sort.Data[1] = Load_Button(Fonts.Subtext_Font,
+	Textures.Sort.Data[1] = Load_Button_L(Fonts.Subtext_Font,
 		"Sort: Oldest", Rects.Sort.Data[1]);
 	Textures.TBW_Texture.Data = static_cast<Texture_Array*>(
 		malloc(sizeof(Texture_Array) * 2));
@@ -886,9 +865,9 @@ void Preload_Assets() {
 		Rects.TBW_Rectangle.Data[Counter].Data[0] =
 			{ 0, 334.0f * Settings.Screen_Size, 0, 0 };
 	}
-	Textures.TBW_Texture.Data[0] = Load_Button(Fonts.Subtext_Font,
+	Textures.TBW_Texture.Data[0] = Load_Button_L(Fonts.Subtext_Font,
 		"Go to bottom", Rects.TBW_Rectangle.Data[0]);
-	Textures.TBW_Texture.Data[1] = Load_Button(Fonts.Subtext_Font,
+	Textures.TBW_Texture.Data[1] = Load_Button_L(Fonts.Subtext_Font,
 		"Go to top", Rects.TBW_Rectangle.Data[1]);
 	for (int Counter = 0; Counter < 2; Counter++) {
 		Rects.TBW_Rectangle.Data[Counter].Data[0].x =
@@ -976,7 +955,7 @@ void Preload_Assets() {
 	Rects.Save_Settings.Data = static_cast<SDL_FRect*>(
 		calloc(2, sizeof(SDL_FRect)));
 	Rects.Save_Settings.Data[0] = { 0, 334.0f * Settings.Screen_Size, 0, 0 };
-	Textures.Save_Settings = Load_Button(Fonts.Subtext_Font, "Save Settings",
+	Textures.Save_Settings = Load_Button_L(Fonts.Subtext_Font, "Save Settings",
 		Rects.Save_Settings);
 	Rects.Save_Settings.Data[0].x = (630 * Settings.Screen_Size) -
 		Rects.Save_Settings.Data[0].w;
@@ -1004,7 +983,7 @@ void Preload_Assets() {
 	Rects.Clear_Tutorial.Data = static_cast<SDL_FRect*>(
 		calloc(2, sizeof(SDL_FRect)));
 	Rects.Clear_Tutorial.Data[0] = { LDE_INVALID, 160, 0, 0 };
-	Textures.Clear_Tutorial = Load_Button(Fonts.Halftext_Font,
+	Textures.Clear_Tutorial = Load_Button_L(Fonts.Halftext_Font,
 		"Cancel Tutorial", Rects.Clear_Tutorial);
 	std::string Tutorial_Labels[3] = { "The Command Platform", "Simple Generator", "[NF] Simple Fish Farm" };
 	Textures.Tutorials.Data = static_cast<Texture_Array*>(
@@ -1020,7 +999,7 @@ void Preload_Assets() {
 		Rects.Tutorials.Data[Counter].Data[0] = {
 			LDE_INVALID, static_cast<float>(160 + (Counter * 40)) *
 			Settings.Screen_Size, 0, 0 };
-		Textures.Tutorials.Data[Counter] = Load_Button(Fonts.Halftext_Font,
+		Textures.Tutorials.Data[Counter] = Load_Button_L(Fonts.Halftext_Font,
 			Tutorial_Labels[Counter].c_str(), Rects.Tutorials.Data[Counter]);
 	}
 	Rects.Tutorial_Hitbox.Length = 2;
@@ -1040,7 +1019,7 @@ void Preload_Assets() {
 		Rects.Cheats.Data[Counter].Data[0] = {
 			LDE_INVALID, static_cast<float>(160 + (Counter * 40)) *
 			Settings.Screen_Size, 0, 0 };
-		Textures.Cheats.Data[Counter] = Load_Button(Fonts.Halftext_Font,
+		Textures.Cheats.Data[Counter] = Load_Button_L(Fonts.Halftext_Font,
 			Cheat_Labels[Counter].c_str(), Rects.Cheats.Data[Counter]);
 	}
 	std::string Keycore = SDL_GetKeyName(Keybinds_L.Keybind_List[13]);
@@ -1180,23 +1159,23 @@ void Preload_Assets() {
 	Textures.STIT_Block = Load_Animated_Rotational("Machines/STIT_Block", 3, true, { });
 	Textures.ST_Output = Load_Animated_Rotational("Machines/ST_Output", 2, true, { });
 	Textures.Scrap = Preload_Texture("Tiles/Scrap");
-	Textures.Return= Load_Button(Fonts.Subtext_Font,
+	Textures.Return= Load_Button_L(Fonts.Subtext_Font,
 		"Back", Rects.Return);
-	Textures.New_Game = Load_Button(Fonts.Text_Font,
+	Textures.New_Game = Load_Button_L(Fonts.Text_Font,
 		"Play", Rects.New_Game);
-	Textures.Settings = Load_Button(Fonts.Text_Font,
+	Textures.Settings = Load_Button_L(Fonts.Text_Font,
 		"Settings", Rects.Settings);
-	Textures.Update_Logs = Load_Button(Fonts.Text_Font,
+	Textures.Update_Logs = Load_Button_L(Fonts.Text_Font,
 		"Changelog", Rects.Update_Logs);
-	Textures.Credits = Load_Button(Fonts.Text_Font,
+	Textures.Credits = Load_Button_L(Fonts.Text_Font,
 		"Credits", Rects.Credits);
-	Textures.Quit_Game = Load_Button(Fonts.Text_Font,
+	Textures.Quit_Game = Load_Button_L(Fonts.Text_Font,
 		"Quit", Rects.Quit_Game);
-	Textures.Apply = Load_Button(Fonts.Subtext_Font,
+	Textures.Apply = Load_Button_L(Fonts.Subtext_Font,
 		"Apply", Rects.Apply);
-	Textures.Cancel = Load_Button(Fonts.Subtext_Font,
+	Textures.Cancel = Load_Button_L(Fonts.Subtext_Font,
 		"Cancel", Rects.Cancel);
-	Textures.Next_Day = Load_Button(Fonts.Subtext_Font,
+	Textures.Next_Day = Load_Button_L(Fonts.Subtext_Font,
 		"Proceed", Rects.Next_Day);
 	Carrying_Surface = Load_BMP("Assets/Core/Images/Other/Submarine.bmp");
 	Textures.Submarine.Data = static_cast<SDL_Texture**>(
@@ -1219,38 +1198,6 @@ void Preload_Assets() {
 		.Submarine.w / 3) * Settings.Screen_Size);
 	Rects.Submarine.h = static_cast<int>(((double)Rects
 		.Submarine.h / 6) * Settings.Screen_Size);
-	Metadata_L.Machine_Sprites = {
-		Textures.R_Pipe.Data[1], Textures.R_Pump.Data[0], Textures.Incinerator
-		.Data[0].Data[0], Textures.P_Generator, Textures.Tile_Texture, Textures
-		.S_Dock.Data[0], Textures.F_Plant.Data[0], Textures.B_Generator.Data[0].Data[0],
-		Textures.MS_Pool.Data[0], Textures.Distillery.Data[0].Data[0], Textures
-		.G_Bed.Data[0].Data[0], Textures.C_Platform.Data[0], Textures.B_Scrubber.Data[0], Textures
-		.MS_Controller, Textures.MS_Output, Textures.MS_Input, Textures.E_Plant
-		.Data[0], Textures.F_Mixer.Data[0].Data[0], Textures.T_Tower.Data[0],
-		Textures.Flowerpot, Textures.A_Shelf.Data[0], Textures.C_Node, Textures
-		.G_Well.Data[0], Textures.L_Pipe.Data[1], Textures.H_Exchanger.Data[0], Textures
-		.P_Wood, Textures.B_Tile, Textures.S_Carpet, Textures.M_Generator, Textures
-		.F_Generator, Textures.R_Intersection.Data[0], Textures.L_Intersection.Data[0],
-		Textures.H_Strip, Textures.SC_Input.Data[0], Textures.SCH_Sink.Data[0],
-		Textures.SC_Transferor.Data[0], Textures.SC_Output.Data[0], Textures.ST_Input.Data[0],
-		Textures.STIT_Block.Data[0].Data[0], Textures.ST_Output.Data[0].Data[0]
-	};
-	Metadata_L.Machine_Rectangles = {
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4,
-		Rects.Tile_2x3, Rects.Tile_3x3,	Rects.Tile_1x1,
-		Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6,
-		Rects.Tile_2x2, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_3x2,	Rects.Tile_3x3,
-		Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
-		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1,
-		Rects.Tile_4x3, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_3x3, Rects.Tile_3x3,	Rects.Tile_1x1,
-		Rects.Tile_2x1, Rects.Tile_2x1,	Rects.Tile_2x3,
-		Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3,
-		Rects.Tile_2x2
-	};
 	Interface_L.Log_Heights.clear();
 	Interface_L.Log_Heights.resize(3);
 	Cache_L.Log_Rectangles.clear();
@@ -1308,7 +1255,7 @@ void Preload_Assets() {
 		Rects.Confirmation.Data[Counter1].Length = 2;
 		Rects.Confirmation.Data[Counter1].Data =
 			static_cast<SDL_FRect*>(calloc(2, sizeof(SDL_FRect)));
-		Textures.Confirmation.Data[Counter1] = Load_Button(Fonts.Halftext_Font,
+		Textures.Confirmation.Data[Counter1] = Load_Button_L(Fonts.Halftext_Font,
 			Labels[Counter1], Rects.Confirmation.Data[Counter1]);
 		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
 			Rects.Confirmation.Data[Counter1].Data[Counter2].x =

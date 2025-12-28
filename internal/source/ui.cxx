@@ -190,13 +190,10 @@ void Render_Saveloader() {
 		NULL, &Rects.Saveloader);
 	for (int Counter = 0; Counter < 4; Counter++) {
 		if (Core.Save_Filesizes[Counter] > 0) {
-			Render_Button(Textures.Load.Data[Counter],
-				Rects.Load.Data[Counter], 6 + Counter);
-			Render_Button(Textures.Clear.Data[Counter],
-				Rects.Clear.Data[Counter], 10 + Counter);
+			Render_Button(Textures.Load.Data[Counter], Rects.Load.Data[Counter], Counter + 6, Colors.Cherry_Blossom);
+			Render_Button(Textures.Clear.Data[Counter], Rects.Clear.Data[Counter], Counter + 10, Colors.Cherry_Blossom);
 		} else {
-			Render_Button(Textures.New.Data[Counter],
-				Rects.New.Data[Counter], 2 + Counter);
+			Render_Button(Textures.New.Data[Counter], Rects.New.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
 		}
 	}
 	for (int Counter = 0; Counter < 4; Counter++) {
@@ -320,7 +317,7 @@ void Render_Toolbar() {
 		Rects.Cap_Button.x = Rects.Cap.x + Rects.Cap.w + 12;
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(Textures.Cap_Button.Data[0], Rects.Cap_Hitbox, 4);
+		Render_Button(Textures.Cap_Button.Data[0], Rects.Cap_Hitbox, 4, Colors.Cherry_Blossom);
 		SDL_RenderTexture(Core.Renderer, Textures
 			.Cap.Data[0], NULL, &Rects.Cap);
 		Rects.Cap.x = Backing_Rectangle.x - Rects.Cap.w;
@@ -328,15 +325,15 @@ void Render_Toolbar() {
 			Rects.Cap_Button.w - 12;
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(Textures.Cap_Button.Data[1], Rects.Cap_Hitbox, 5);
+		Render_Button(Textures.Cap_Button.Data[1], Rects.Cap_Hitbox, 5, Colors.Cherry_Blossom);
 		SDL_RenderTexture(Core.Renderer, Textures.Cap
 			.Data[1], NULL, &Rects.Cap);
 		SDL_RenderTexture(Core.Renderer, Textures.Tool
 			.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
 	}
 	if (Interface.Tool == 0) {
-		std::string Machine_Text = Metadata_L.Machine_Names[Interface.Placing_Item - 1] + " | " +
-			Abbreviate_Number(Interface.Queried_Price) + "LA";
+		std::string Machine_Text = Metadata.Names[Interface.Placing_Item - 1].Content;
+		Machine_Text += " | " + Abbreviate_Number(Interface.Queried_Price) + "LA";
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text.c_str(),
 			Machine_Text.size(), Colors.Abyss_Black);
 		SDL_FRect Machine_Rectangle = { static_cast<float>(312 * Settings.Screen_Size) -
@@ -376,8 +373,8 @@ void Verify_Settings() {
 		static_cast<int>(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS !=
 		Interface.Slider_Positions[4] || Settings.Volume != Interface.Slider_Positions[5] ||
 		Interface.Slider_Positions[6] != Settings.Fullscreen) {
-		Render_Button(Textures.Apply, Rects.Apply, 2);
-		Render_Button(Textures.Cancel, Rects.Cancel, 3);
+		Render_Button(Textures.Apply, Rects.Apply, 2, Colors.Cherry_Blossom);
+		Render_Button(Textures.Cancel, Rects.Cancel, 3, Colors.Cherry_Blossom);
 	}
 }
 
@@ -520,7 +517,7 @@ void Cache_Blueprint() {
 		}
 	}
 	SDL_FPoint Centerpoint = { Maximum * 0.5f, Maximum * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata_L.Machine_Sprites[
+	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[
 		Interface.Placing_Item - 1], NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);

@@ -9,7 +9,7 @@ void Render_M_Generator(int X, int Y) {
 		4]) + "LA/s", Colors.Abyss_Black, -1, 120);
 	for (int Counter = 0; Counter < 2; Counter++) {
 		Render_Button(Textures.Confirmation.Data[Counter],
-			Rects.Confirmation.Data[Counter], Counter + 3);
+			Rects.Confirmation.Data[Counter], Counter + 3, Colors.Cherry_Blossom);
 	}
 }
 
@@ -29,7 +29,7 @@ void Render_F_Generator(int X, int Y) {
 		ID_To_Item(Data_L.Settings_Grid[X][Y][3]).Display_Name,
 		Colors.Abyss_Black, -1, 200);
 	for (int Counter = 0; Counter < 2; Counter++) {
-		Render_Button(Textures.Confirmation.Data[Counter],
-			Rects.Confirmation.Data[Counter], Counter + 5);
+		Render_Button(Textures.Confirmation.Data[Counter], Rects.Confirmation.Data[Counter],
+			Counter + 5, Colors.Cherry_Blossom);
 	}
 }

@@ -51,7 +51,7 @@ void Print_Fatal_Error(int Input) {
 		NULL, &Destination);
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_DestroyTexture(Carrying_Texture);
-	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3);
+	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
 		Interface_L.Terminal_Entry = Return_Command(Execute, { "quit" });
 	}

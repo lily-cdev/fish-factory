@@ -88,10 +88,9 @@ void Render_Tutorial() {
 			} else {
 				std::string Subcore = "";
 				if (Tutorial_Stack[Temporary.Tutorial_Step].ID_Override) {
-					Subcore = Metadata_L.Machine_Names[Tutorial_Stack[Temporary.Tutorial_Step].Item];
+					Subcore = Metadata.Names[Tutorial_Stack[Temporary.Tutorial_Step].Item].Content;
 				} else {
-					Subcore = Metadata_L.Machine_Names[Visual_To_ID(
-						Tutorial_Stack[Temporary.Tutorial_Step].Item)];
+					Subcore = Metadata.Names[Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item)].Content;
 				}
 				Text = Text + "Place " + std::to_string(Remaining) + "x " +
 					Subcore + " in the space" + Suffix + " shown.";

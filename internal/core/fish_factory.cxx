@@ -34,6 +34,7 @@ int main(int argc, char* args[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	Startup_Miniaudio();
+	Load_Text();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
 	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY,
 		&Core.Window, &Core.Renderer);
@@ -75,52 +76,8 @@ int main(int argc, char* args[]) {
 			}
 		} else if (Interface.UI_Tab == 0) {
 			SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
-			Interface.Ocean_Cycle += LDE_STATICRATE / Interface.Frame_Rate;
-			if (Interface.Ocean_Cycle > 9) {
-				Interface.Ocean_Cycle = 0;
-			}
-			SDL_FRect Ocean_Rectangle = {
-				0,
-				0,
-				1200.0f * Settings.Screen_Size,
-				1200.0f * Settings.Screen_Size
-			};
-			for (int Counter1 = 0; Counter1 < 3; Counter1++) {
-				for (int Counter2 = 0; Counter2 < 3; Counter2++) {
-					Ocean_Rectangle.x = (Counter1 * Ocean_Rectangle.w) -
-						((Core.Camera.X + LDE_BUFFERSIZE) * Settings.Screen_Size);
-					Ocean_Rectangle.y = (Counter2 * Ocean_Rectangle.h) -
-						((Core.Camera.Y + LDE_BUFFERSIZE) * Settings.Screen_Size);
-					SDL_RenderTexture(Core.Renderer, Textures.None
-						.Data[static_cast<int>(Interface.Ocean_Cycle)], NULL, &Ocean_Rectangle);
-				}
-			}
-			float Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2)) * Settings.Screen_Size;
-			SDL_FRect Mesh_Rectangle = {
-				static_cast<float>(-(Core.Camera.X + 70)) * Settings.Screen_Size,
-				static_cast<float>(-(Core.Camera.Y + 70)) * Settings.Screen_Size,
-				((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size,
-				((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size
-			};
-			SDL_RenderTexture(Core.Renderer,
-				Textures.Mesh, NULL,	&Mesh_Rectangle);
-			for (int X = 0; X < 2; X++) {
-				for (int Y = 0; Y < 2; Y++) {
-					SDL_FRect Pyramid_Rectangle = {
-						static_cast<float>(Width * X) - static_cast<float>(
-							Core.Camera.X * Settings.Screen_Size) -
-							(LDE_BUFFERSIZE * Settings.Screen_Size),
-						static_cast<float>(Width * Y) - static_cast<float>(
-							Core.Camera.Y * Settings.Screen_Size) -
-							(LDE_BUFFERSIZE * Settings.Screen_Size),
-						Width,
-						Width
-					};
-					SDL_RenderTexture(Core.Renderer,
-						Textures.Pyramid.Data[(X * 2) + Y], NULL,
-						&Pyramid_Rectangle);
-				}
-			}
+			Render_Ocean();
+			Render_Pyramid();
 			if (Interface.Building && Data.Funds - Metadata_L.Machine_Prices[
 				Interface.Placing_Item - 1] > 0) {
 				Build_Grid();
@@ -212,16 +169,16 @@ int main(int argc, char* args[]) {
 				NULL, &Rects.Logo);
 			Render_Dynamic_Text(Fonts.Logo_Font, "fish", Colors.Abyss_Black, 325, 44);
 			Render_Dynamic_Text(Fonts.Logo_Font, "factory", Colors.Abyss_Black, 325, 78);
-			Render_Button(Textures.New_Game, Rects.New_Game, 1);
-			Render_Button(Textures.Settings, Rects.Settings, 2);
-			Render_Button(Textures.Update_Logs, Rects.Update_Logs, 3);
-			Render_Button(Textures.Credits, Rects.Credits, 4);
-			Render_Button(Textures.Quit_Game, Rects.Quit_Game, 5);
+			Render_Button(Textures.New_Game, Rects.New_Game, 1, Colors.Cherry_Blossom);
+			Render_Button(Textures.Settings, Rects.Settings, 2, Colors.Cherry_Blossom);
+			Render_Button(Textures.Update_Logs, Rects.Update_Logs, 3, Colors.Cherry_Blossom);
+			Render_Button(Textures.Credits, Rects.Credits, 4, Colors.Cherry_Blossom);
+			Render_Button(Textures.Quit_Game, Rects.Quit_Game, 5, Colors.Cherry_Blossom);
 			Render_Opening();
 			Render_Closing(false);
 		} else if (Interface.UI_Tab == 2) {
 			Render_Saveloader();
-			Render_Button(Textures.Return, Rects.Return, 1);
+			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
 			Render_Opening();
 			Render_Closing(false);
 		} else if (Interface.UI_Tab == 3) {
@@ -229,7 +186,7 @@ int main(int argc, char* args[]) {
 				SDL_RenderTexture(Core.Renderer, Textures.Settings_Label
 					.Data[Counter], NULL, &Rects.Settings_Label.Data[Counter]);
 			}
-			Render_Button(Textures.Return, Rects.Return, 1);
+			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
 			Render_Slider(Interface_L.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 			Render_Slider(Interface_L.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
@@ -240,18 +197,18 @@ int main(int argc, char* args[]) {
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 			if (Settings.AA_Temporary) {
 				Render_Button(Textures.Anti_Aliasing.Data[0],
-					Rects.Anti_Aliasing.Data[0], 5);
+					Rects.Anti_Aliasing.Data[0], 5, Colors.Cherry_Blossom);
 			} else {
 				Render_Button(Textures.Anti_Aliasing.Data[1],
-					Rects.Anti_Aliasing.Data[1], 5);
+					Rects.Anti_Aliasing.Data[1], 5, Colors.Cherry_Blossom);
 			}
 			if (Settings.VS_Temporary) {
-				Render_Button(Textures.V_Sync.Data[1], Rects.V_Sync.Data[1], 24);
+				Render_Button(Textures.V_Sync.Data[1], Rects.V_Sync.Data[1], 24, Colors.Cherry_Blossom);
 			} else {
-				Render_Button(Textures.V_Sync.Data[0], Rects.V_Sync.Data[0], 24);
+				Render_Button(Textures.V_Sync.Data[0], Rects.V_Sync.Data[0], 24, Colors.Cherry_Blossom);
 			}
 			if (Temporary.Settings_Changed) {
-				Render_Button(Textures.Save_Settings, Rects.Save_Settings, 23);
+				Render_Button(Textures.Save_Settings, Rects.Save_Settings, 23, Colors.Cherry_Blossom);
 			}
 			Render_Dynamic_Text(Fonts.Subtext_Font, Metadata_L.Monitor_Size, Colors.Abyss_Black, 50, 40);
 			for (int Counter1 = 0; Counter1 < Keybinds_L.Keybind_Texts.size(); Counter1++) {
@@ -330,16 +287,16 @@ int main(int argc, char* args[]) {
 			Render_Dynamic_Text(Fonts.Subtext_Font, "Changelog - " +
 				Truncate(Temporary.Scroll_Percent, 0) +
 				"%", Colors.Abyss_Black, LDE_INVALID, 10);
-			Render_Button(Textures.Return, Rects.Return, 1);
+			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
 			if (Temporary.Log_Inversions[Changelog]) {
-				Render_Button(Textures.Sort.Data[0], Rects.Sort.Data[0], 2);
+				Render_Button(Textures.Sort.Data[0], Rects.Sort.Data[0], 2, Colors.Cherry_Blossom);
 			} else {
-				Render_Button(Textures.Sort.Data[1], Rects.Sort.Data[1], 2);
+				Render_Button(Textures.Sort.Data[1], Rects.Sort.Data[1], 2, Colors.Cherry_Blossom);
 			}
 			if (Temporary.Scroll_Percent < 50) {
-				Render_Button(Textures.TBW_Texture.Data[0], Rects.TBW_Rectangle.Data[0], 3);
+				Render_Button(Textures.TBW_Texture.Data[0], Rects.TBW_Rectangle.Data[0], 3, Colors.Cherry_Blossom);
 			} else {
-				Render_Button(Textures.TBW_Texture.Data[1], Rects.TBW_Rectangle.Data[1], 4);
+				Render_Button(Textures.TBW_Texture.Data[1], Rects.TBW_Rectangle.Data[1], 4, Colors.Cherry_Blossom);
 			}
 			Render_Opening();
 			Render_Closing(true);
@@ -371,7 +328,7 @@ int main(int argc, char* args[]) {
 			Render_Dynamic_Text(Fonts.Subtext_Font, Prefix + " - " +
 				Truncate(Temporary.Scroll_Percent, 0) +
 				"%", Colors.Abyss_Black, LDE_INVALID, 10);
-			Render_Button(Textures.Return, Rects.Return, 1);
+			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
 			Render_Slider(Interface_L.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 			Render_Opening();
@@ -469,7 +426,7 @@ int main(int argc, char* args[]) {
 		double Remaining_Delay = (1000 / Interface.Frame_Rate) - Total_Time;
 		double True_Rate = 99999;
 		if (Total_Time > 0) {
-			True_Rate = 1 / Total_Time;
+			True_Rate = 1000 / Total_Time;
 		}
 		if (True_Rate > Interface.Frame_Rate) {
 			True_Rate = Interface.Frame_Rate;
@@ -477,6 +434,7 @@ int main(int argc, char* args[]) {
 		Temporary_L.FPS_Query.push_back(True_Rate);
 		SDL_Delay(static_cast<uint32_t>(std::max(Remaining_Delay, 0.0)));
 	}
+	Free_Text();
 	Shutdown_Miniaudio();
 	SDL_ShowCursor();
 	Cleanup_Assets();

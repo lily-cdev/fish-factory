@@ -28,23 +28,22 @@ void Render_Help(int X, int Y) {
 					Rects.Tutorial_Hitbox.Data[0].y -= 40 * Settings.Screen_Size;
 					Rects.Tutorial_Hitbox.Data[1].y -= 40 * Settings.Screen_Size;
 					Render_Button(Textures.Tutorials.Data[Counter],
-						Rects.Tutorial_Hitbox, Counter + 3);
+						Rects.Tutorial_Hitbox, Counter + 3, Colors.Cherry_Blossom);
 				}
 			} else {
 				Render_Dynamic_Text(Fonts.Subtext_Font, "The Command Platform must be placed"
 					" for full tutorial access!", Colors.Abyss_Black, LDE_INVALID, 90);
-				Render_Button(Textures.Tutorials.Data[0], Rects.Tutorials.Data[0], 3);
+				Render_Button(Textures.Tutorials.Data[0], Rects.Tutorials.Data[0], 3, Colors.Cherry_Blossom);
 			}
 		} else {
-			Render_Button(Textures.Clear_Tutorial, Rects.Clear_Tutorial, 2);
+			Render_Button(Textures.Clear_Tutorial, Rects.Clear_Tutorial, 2, Colors.Cherry_Blossom);
 		}
 		break;
 	case 2:
 		Render_Rich_Text(Fonts.Subtext_Font, "The following cheat items are intentionally unbalanced."
 			"| |You can use them for troubleshooting, bug-hunting, or just playing around.", 20, 60);
 		for (int Counter = 0; Counter < 2; Counter++) {
-			Render_Button(Textures.Cheats.Data[Counter],
-				Rects.Cheats.Data[Counter], Counter + 2);
+			Render_Button(Textures.Cheats.Data[Counter], Rects.Cheats.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
 		}
 		break;
 	default:

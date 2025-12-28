@@ -27,10 +27,17 @@ typedef struct {
 	int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Items_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Temperature_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	double Animation_Grid[3][LDE_GRIDSIZE][LDE_GRIDSIZE];
-	double Data_Grid[7][LDE_GRIDSIZE][LDE_GRIDSIZE];
+	double Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
+	double Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
 	uint64_t Funds;
 } DATA;
+
+typedef struct {
+	Char_Array Names[LDE_MACHINES];
+	Char_Array Descriptions[LDE_MACHINES];
+	SDL_Texture* Machine_Sprites[LDE_MACHINES];
+	SDL_FRect Machine_Rectangles[LDE_MACHINES];
+} METADATA;
 
 typedef struct {
 	bool AA_Temporary;
@@ -307,6 +314,7 @@ typedef struct {
 
 extern CORE Core;
 extern DATA Data;
+extern METADATA Metadata;
 extern SETTINGS Settings;
 extern TEXTURES Textures;
 extern RECTS Rects;
@@ -332,3 +340,6 @@ void Clear_Rect3_Array(Rect3_Array* Target);
 int Get_Depth(double Number);
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier);
 void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color);
+void Render_Button(const Texture_Array Button, const Rect_Array Hitbox, int Selection, SDL_Color Underline_Color);
+void Preload_Assets();
+bool Detect_Mouse_Collision(const SDL_FRect Target);

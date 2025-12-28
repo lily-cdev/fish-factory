@@ -21,7 +21,6 @@ add_executable(Fish_Factory
 	internal/source/data.cxx
 	internal/source/fish.cxx
 	internal/source/machines.cxx
-	internal/source/rendering.cxx
 	internal/source/interface.cxx
 	internal/source/items.cxx
 	internal/source/pipes.cxx
@@ -53,9 +52,14 @@ add_executable(Fish_Factory
 	internal/source/prepping/machines.c
 	internal/source/prepping/other.c
 	internal/source/prepping/preloaders.c
+	internal/source/prepping/tools.c
 	internal/source/prepping/ui.c
-	internal/source/data/files.c
+	internal/source/data/saving.c
 	internal/source/data/setup.c
+	internal/source/data/lang.c
+	internal/source/rendering/tiles.cxx
+	internal/source/rendering/effects.c
+	internal/source/rendering/ocean.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
 	modules/neutral/resource.rc

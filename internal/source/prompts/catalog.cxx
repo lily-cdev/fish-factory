@@ -46,8 +46,8 @@ void Render_Catalog(int X, int Y) {
 				36.0f * Settings.Screen_Size,
 				36.0f * Settings.Screen_Size
 			};
-			float XY_Ratio = Metadata_L.Machine_Rectangles[Counter].w /
-				Metadata_L.Machine_Rectangles[Counter].h;
+			float XY_Ratio = Metadata.Machine_Rectangles[Counter].w /
+				Metadata.Machine_Rectangles[Counter].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
 				Machine_Rectangle.y = Machine_Rectangle.y +	(18.0f *
@@ -57,8 +57,7 @@ void Render_Catalog(int X, int Y) {
 				Machine_Rectangle.x = Machine_Rectangle.x +	(18.0f *
 					Settings.Screen_Size) - (Machine_Rectangle.w * 0.5);
 			}
-			SDL_RenderTexture(Core.Renderer,
-				Metadata_L.Machine_Sprites[Counter], NULL,
+			SDL_RenderTexture(Core.Renderer, Metadata.Machine_Sprites[Counter], NULL,
 				&Machine_Rectangle);
 			Index++;
 		}
