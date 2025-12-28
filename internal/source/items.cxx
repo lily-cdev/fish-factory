@@ -1,4 +1,4 @@
-#include <items.h>
+#include <Legacy_Items.hpp>
 
 Item_Stack Get_Item(int X, int Y) {
 	for (int Counter = 0; Counter < Preset_Items.Item_List.size(); Counter++) {

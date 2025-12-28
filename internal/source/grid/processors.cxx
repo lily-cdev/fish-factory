@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Filtration_Plant(int X, int Y) {
 	if (Check_Clearance(X, Y, 2, 3)) {
@@ -17,10 +17,10 @@ bool Place_Filtration_Plant(int X, int Y) {
 		Data.Data_Grid[X + 1][Y][Fluid_Cap] = 12;
 		for (int Counter = 1; Counter < 3; Counter++) {
 			Data.Data_Grid[X + 1][Y + Counter][Fluid_Cap] = 4;
-			Data_L.Settings_Grid[X + 1][Y + Counter][0] = 2;
+			Data.Settings_Grid[X + 1][Y + Counter][0] = 2;
 		}
-		Data_L.Settings_Grid[X][Y + 1][0] = 1;
-		Data_L.Settings_Grid[X + 1][Y][0] = 2;
+		Data.Settings_Grid[X][Y + 1][0] = 1;
+		Data.Settings_Grid[X + 1][Y][0] = 2;
 	} else {
 		return false;
 	}
@@ -49,7 +49,7 @@ bool Place_Distillery(int X, int Y) {
 		std::vector<Point> Nodes = Return_Nodes(X, Y, Interface.Placing_Rotation,
 			Preconfigurations_L.D_Inputs);
 		for (int Counter = 0; Counter < Nodes.size(); Counter++) {
-			Data_L.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = 1;
+			Data.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = 1;
 			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Fluid_Cap] = 6;
 			Data.Plumbing_Grid[Nodes[Counter].X][Nodes[Counter].Y] =
 				Interface.Placing_Rotation + Left;
@@ -57,7 +57,7 @@ bool Place_Distillery(int X, int Y) {
 		Nodes = Return_Nodes(X, Y, Interface.Placing_Rotation,
 			Preconfigurations_L.D_Outputs);
 		for (int Counter = 0; Counter < Nodes.size(); Counter++) {
-			Data_L.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = 2;
+			Data.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = 2;
 			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Fluid_Cap] = 4;
 			Data.Plumbing_Grid[Nodes[Counter].X][Nodes[Counter].Y] =
 				(Interface.Placing_Rotation + Right == 4) ? 4 :
@@ -79,14 +79,14 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 					Interface.Placing_Rotation * 0.5) + Y][Fluid_Cap] = 20;
 				Data.Plumbing_Grid[X + Counter][static_cast<int>(
 					Interface.Placing_Rotation * 0.5) + Y] = Interface.Placing_Rotation + Up;
-				Data_L.Settings_Grid[X + Counter][static_cast<int>(
+				Data.Settings_Grid[X + Counter][static_cast<int>(
 					Interface.Placing_Rotation * 0.5) + Y][0] = 2;
 			}
 			Data.Data_Grid[X + 1][Y - static_cast<int>
 				(Interface.Placing_Rotation * 0.5) + 1][Fluid_Cap] = 16;
 			Data.Plumbing_Grid[X + 1][Y - static_cast<int>
 				(Interface.Placing_Rotation * 0.5) + 1] = Down - Interface.Placing_Rotation;
-			Data_L.Settings_Grid[X + 1][Y - static_cast<int>
+			Data.Settings_Grid[X + 1][Y - static_cast<int>
 				(Interface.Placing_Rotation * 0.5) + 1][0] = 1;
 			if (Interface.Placing_Rotation == 0) {
 				Data.Data_Grid[X][Y][5] = 44;
@@ -107,14 +107,14 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 				Data.Plumbing_Grid[X - static_cast<int>(
 					(Interface.Placing_Rotation - 1) * 0.5) + 1][Y +
 					Counter] = Right - (Interface.Placing_Rotation - 1);
-				Data_L.Settings_Grid[X - static_cast<int>(
+				Data.Settings_Grid[X - static_cast<int>(
 					(Interface.Placing_Rotation - 1) * 0.5) + 1][Y + Counter][0] = 2;
 			}
 			Data.Data_Grid[X + static_cast<int>((Interface
 				.Placing_Rotation - 1) * 0.5)][Y + 1][Fluid_Cap] = 16;
 			Data.Plumbing_Grid[X + static_cast<int>((Interface.Placing_Rotation -
 				1) * 0.5)][Y + 1] = (Interface.Placing_Rotation - 1) + Left;
-			Data_L.Settings_Grid[X + static_cast<int>((Interface.Placing_Rotation -
+			Data.Settings_Grid[X + static_cast<int>((Interface.Placing_Rotation -
 				1) * 0.5)][Y + 1][0] = 1;
 			if (Interface.Placing_Rotation == 1) {
 				Data.Data_Grid[X][Y][5] = 13;
@@ -150,7 +150,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 			Orientation -= Interface.Placing_Rotation;
 			Orientation = ((Orientation + 3) & 3) + 1;
 			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Fluid_Cap] = 24;
-			Data_L.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_In;
+			Data.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_In;
 			Data.Plumbing_Grid[Nodes[Counter].X][Nodes[Counter].Y] = Orientation;
 		}
 		Nodes = Return_Nodes(X, Y, Interface.Placing_Rotation,
@@ -160,7 +160,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 			Orientation -= Interface.Placing_Rotation;
 			Orientation = ((Orientation + 3) & 3) + 1;
 			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Fluid_Cap] = 36;
-			Data_L.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_Out;
+			Data.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_Out;
 			Data.Plumbing_Grid[Nodes[Counter].X][Nodes[Counter].Y] = Orientation;
 		}
 		if (Interface.Placing_Rotation == 0) {

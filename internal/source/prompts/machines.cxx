@@ -1,8 +1,8 @@
-#include <ui.h>
+#include <Legacy_UI.hpp>
 
 void Render_MSP_Controller(int X, int Y) {
 	Render_Backing();
-	if (Data_L.Settings_Grid[X][Y][3] > 3) {
+	if (Data.Settings_Grid[X][Y][3] > 3) {
 		Render_Sidebuttons(Textures.MSP_Buttons, Rects.MSP_Buttons);
 		Render_Slider(Interface_L.Slider_Texts[1], 1, 2, 9, Interface.Slider_Positions[1], 475, 210, 110,
 			Colors.Cherry_Blossom, Colors.Pure_White, false);
@@ -26,17 +26,17 @@ void Render_MSP_Controller(int X, int Y) {
 			Tick_Input(1, true);
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
-	} else if (Data_L.Settings_Grid[X][Y][3] == -6) {
+	} else if (Data.Settings_Grid[X][Y][3] == -6) {
 		Print_Fatal_Error(Too_Many_Inputs);
-	} else if (Data_L.Settings_Grid[X][Y][3] == -5) {
+	} else if (Data.Settings_Grid[X][Y][3] == -5) {
 		Print_Fatal_Error(Missing_Input);
-	} else if (Data_L.Settings_Grid[X][Y][3] == -4) {
+	} else if (Data.Settings_Grid[X][Y][3] == -4) {
 		Print_Fatal_Error(Too_Many_Outputs);
-	} else if (Data_L.Settings_Grid[X][Y][3] == -3) {
+	} else if (Data.Settings_Grid[X][Y][3] == -3) {
 		Print_Fatal_Error(Missing_Output);
-	} else if (Data_L.Settings_Grid[X][Y][3] == -2) {
+	} else if (Data.Settings_Grid[X][Y][3] == -2) {
 		Print_Fatal_Error(Too_Many_Controllers);
-	} else if (Data_L.Settings_Grid[X][Y][3] < 4) {
+	} else if (Data.Settings_Grid[X][Y][3] < 4) {
 		Print_Fatal_Error(Missing_Pool);					
 	}
 }

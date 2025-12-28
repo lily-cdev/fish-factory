@@ -1,4 +1,4 @@
-#include <connectables.h>
+#include <Legacy_Connectables.hpp>
 
 std::vector<Wire> Wires_List = { };
 
@@ -149,8 +149,8 @@ void Place_Wire() {
 				Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-					Connect_Wire(static_cast<int>(Data_L.Settings_Grid[Column][Row][1]),
-						static_cast<int>(Data_L.Settings_Grid[Column][Row][2]));
+					Connect_Wire(static_cast<int>(Data.Settings_Grid[Column][Row][1]),
+						static_cast<int>(Data.Settings_Grid[Column][Row][2]));
 				} else {
 					Connect_Wire(Column, Row);
 				}

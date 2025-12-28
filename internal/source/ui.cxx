@@ -1,4 +1,4 @@
-#include <ui.h>
+#include <Legacy_UI.hpp>
 
 void (*Interface_Functions[11])(int X, int Y) {
 	Render_Help,
@@ -435,16 +435,16 @@ void Render_Interaction() {
 						Interface.Target_Tile.Y = Row;
 						switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
 						case Money_Generator:
-							Interface.Slider_Positions[8] = Data_L.Settings_Grid[
+							Interface.Slider_Positions[8] = Data.Settings_Grid[
 								Interface.Target_Tile.X][Interface.Target_Tile.Y][3];
 							break;
 						case Fluid_Generator:
-							Interface.Slider_Positions[9] = Data_L.Settings_Grid
+							Interface.Slider_Positions[9] = Data.Settings_Grid
 								[Interface.Target_Tile.X][Interface.Target_Tile.Y][3];
-							Interface.Slider_Positions[10] = Data_L.Settings_Grid
+							Interface.Slider_Positions[10] = Data.Settings_Grid
 								[Interface.Target_Tile.X][Interface.Target_Tile.Y][4] / 5;
 							for (int Counter = 0; Counter < Interface_L.Valve300_Postions.size(); Counter++) {
-								if (Data_L.Settings_Grid[Interface.Target_Tile.X]
+								if (Data.Settings_Grid[Interface.Target_Tile.X]
 									[Interface.Target_Tile.Y][5] == Interface_L.Valve300_Postions[Counter]) {
 									Interface.Slider_Positions[11] = Counter;
 									break;

@@ -1,4 +1,4 @@
-#include <interface.h>
+#include <Legacy_Interface.hpp>
 
 void Close_Prompt() {
 	Interface.Prompt_Identifier = P_None;
@@ -200,12 +200,12 @@ void Process_Inputs() {
 					switch (Interface.Prompt_Identifier) {
 					case P_Spawning_Pool:
 						Print_Input();
-						if (Data_L.Settings_Grid[X][Y][5] > 0) {
+						if (Data.Settings_Grid[X][Y][5] > 0) {
 							Print_Error(Fish_Present);
-							Interface.Slider_Positions[1] = static_cast<int>(Data_L
+							Interface.Slider_Positions[1] = static_cast<int>(Data
 								.Settings_Grid[X][Y][6]);
 						} else {
-							Data_L.Settings_Grid[X][Y][6] = Interface.Slider_Positions[1];
+							Data.Settings_Grid[X][Y][6] = Interface.Slider_Positions[1];
 							Print_Response("set fish type to " + Interface_L
 								.Slider_Texts[1][Interface.Slider_Positions[1]]);
 						}
@@ -213,15 +213,15 @@ void Process_Inputs() {
 					case P_Exchanger:
 						Print_Input();
 						if (Interface.Engagement == 2) {
-							Data_L.Settings_Grid[X][Y][3] =
+							Data.Settings_Grid[X][Y][3] =
 								Interface_L.Valve300_Postions[Interface.Slider_Positions[7]];
 							Print_Response("set primary valve to " + std::to_string(static_cast<int>(
-								Data_L.Settings_Grid[X][Y][3])) + "L/s");
+								Data.Settings_Grid[X][Y][3])) + "L/s");
 						} else {
-							Data_L.Settings_Grid[X][Y][4] =
+							Data.Settings_Grid[X][Y][4] =
 								Interface_L.Valve300_Postions[Interface.Slider_Positions[13]];
 							Print_Response("set feedwater valve to " + std::to_string(static_cast<int>(
-								Data_L.Settings_Grid[X][Y][4])) + "L/s");
+								Data.Settings_Grid[X][Y][4])) + "L/s");
 						}
 						break;
 					default:
@@ -255,8 +255,8 @@ void Process_Inputs() {
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 									if (Data.Visual_Grid[Column][Row] != 0) {
 										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-											Coordinates = { static_cast<int>(Data_L.Settings_Grid[Column][Row][1]),
-												static_cast<int>(Data_L.Settings_Grid[Column][Row][2]) };
+											Coordinates = { static_cast<int>(Data.Settings_Grid[Column][Row][1]),
+												static_cast<int>(Data.Settings_Grid[Column][Row][2]) };
 										} else {
 											Coordinates = { Column, Row };
 										}

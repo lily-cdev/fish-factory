@@ -1,4 +1,4 @@
-#include <Tutorial_Handler.h>
+#include <Legacy_Tutorials.hpp>
 
 void Progress_Tutorial() {
 	Temporary.Tutorial_Step++;

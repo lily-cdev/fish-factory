@@ -1,4 +1,4 @@
-#include <ui.h>
+#include <Legacy_UI.hpp>
 
 void Render_Daily_Report(int X, int Y) {
 	Render_Box(40, 40, 560, 280, Colors.Light_Grey, Colors.Dark_Grey);

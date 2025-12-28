@@ -29,6 +29,7 @@ typedef struct {
 	int Temperature_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	double Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
 	double Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
+	double Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
 	uint64_t Funds;
 } DATA;
 
@@ -342,4 +343,5 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier);
 void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color);
 void Render_Button(const Texture_Array Button, const Rect_Array Hitbox, int Selection, SDL_Color Underline_Color);
 void Preload_Assets();
+void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);

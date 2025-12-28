@@ -5,17 +5,17 @@ extern "C" {
 	#include <transitions.h>
 	#include <rendering.h>
 	#include <data.h>
+	#include <grid.h>
 }
-#include <preloader.h>
-#include <items.h>
-#include <connectables.h>
-#include <grid.h>
-#include <interface.h>
-#include <Tutorial_Handler.h>
-#include <ui.h>
+#include <Legacy_Preloader.hpp>
+#include <Legacy_Items.hpp>
+#include <Legacy_Connectables.hpp>
+#include <Legacy_Grid.hpp>
+#include <Legacy_Interface.hpp>
+#include <Legacy_Tutorials.hpp>
+#include <Legacy_UI.hpp>
 
 OLD_METADATA Metadata_L;
-OLD_DATA Data_L;
 OLD_KEYBINDS Keybinds_L;
 OLD_TEMPORARY Temporary_L;
 OLD_CACHE Cache_L;

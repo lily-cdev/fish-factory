@@ -1,8 +1,8 @@
 #include <rendering.h>
 
 void Render_Ocean() {
-	Interface.Ocean_Cycle += LDE_STATICRATE / Interface.Frame_Rate;
-	if (Interface.Ocean_Cycle > 9) {
+	Interface.Ocean_Cycle += LDE_STATICRATE / ((double)Interface.Frame_Rate);
+	if (Interface.Ocean_Cycle >= 9) {
 		Interface.Ocean_Cycle = 0;
 	}
 	SDL_FRect Ocean_Rectangle = {

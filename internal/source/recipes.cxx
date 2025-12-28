@@ -1,4 +1,4 @@
-#include <items.h>
+#include <Legacy_Items.hpp>
 
 void Process_I_Recipe() {
 //do
@@ -144,7 +144,7 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 			return true;
 		}
 	} else {
-		if (Data_L.Settings_Grid[X][Y][1] <= 0) {
+		if (Data.Settings_Grid[X][Y][1] <= 0) {
 			if (Data.Data_Grid[X][Y][Stored_Power] > Selected_Recipe.Power * Selected_Recipe.Time) {
 				if (Selected_Recipe.Shuffling_Barred) {
 					for (int Counter = 0; Counter < Input_Locations.size(); Counter++) {
@@ -174,8 +174,8 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Inp
 						Data.Data_Grid[Input_Locations[Counter].X][Input_Locations[Counter].Y]
 							[Stored_Fluids] -= Selected_Recipe.Input_Counts[Counter];
 					}
-					Data_L.Settings_Grid[X][Y][1] = Selected_Recipe.Time;
-					Data_L.Settings_Grid[X][Y][2] = Selected_Recipe.ID;
+					Data.Settings_Grid[X][Y][1] = Selected_Recipe.Time;
+					Data.Settings_Grid[X][Y][2] = Selected_Recipe.ID;
 				}
 				return true;
 			}
@@ -189,8 +189,8 @@ void Extend_Recipe(Recipe Selected_Recipe, int X, int Y,
 	std::vector<Point> Nodes = Return_Nodes(X, Y, Visual_To_Rotation(
 		Data.Visual_Grid[X][Y]), Preconfiguration);
 	Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
-	if (Data_L.Settings_Grid[X][Y][1] <= 0) {
-		Data_L.Settings_Grid[X][Y][1] = 0;
+	if (Data.Settings_Grid[X][Y][1] <= 0) {
+		Data.Settings_Grid[X][Y][1] = 0;
 		for (int Counter = 0; Counter < Selected_Recipe.Output_Counts.size(); Counter++) {
 			Update_Item(Nodes[Counter].X, Nodes[Counter].Y,
 				Selected_Recipe.Output_Items[Counter].Identifier);

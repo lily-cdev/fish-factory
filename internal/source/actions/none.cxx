@@ -1,4 +1,4 @@
-#include <interface.h>
+#include <Legacy_Interface.hpp>
 
 void Handle_None(int X, int Y) {
     switch (Interface.UI_Tab) {

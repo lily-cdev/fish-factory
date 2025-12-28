@@ -57,9 +57,10 @@ add_executable(Fish_Factory
 	internal/source/data/saving.c
 	internal/source/data/setup.c
 	internal/source/data/lang.c
-	internal/source/rendering/tiles.cxx
+	internal/source/rendering/tiles.c
 	internal/source/rendering/effects.c
 	internal/source/rendering/ocean.c
+	internal/source/rendering/pyramid.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
 	modules/neutral/resource.rc

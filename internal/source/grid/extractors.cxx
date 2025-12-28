@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Ram_Pump(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 17;
@@ -9,6 +9,6 @@ bool Place_Ram_Pump(int X, int Y) {
 	Data.Data_Grid[X][Y][5] = 20;
 	Data.Data_Grid[X][Y][6] = 20;
 	Data.Plumbing_Grid[X][Y] = Any;
-	Data_L.Settings_Grid[X][Y][0] = F_Out;
+	Data.Settings_Grid[X][Y][0] = F_Out;
 	return true;
 }

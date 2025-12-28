@@ -1,10 +1,10 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Reinforced_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 1;
 	Data.Connection_Grid[X][Y] = 1;
 	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_REINFORCEDCAP;
-	Data_L.Settings_Grid[X][Y][0] = F_Either;
+	Data.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;
 	return true;
 }
@@ -15,14 +15,14 @@ bool Place_Submarine_Dock(int X, int Y) {
 		Data.Visual_Grid[X][Y] = 21;
 		Data.Plumbing_Grid[X][Y + 3] = Down;
 		Data.Plumbing_Grid[X + 1][Y + 3] = Down;
-		Data_L.Settings_Grid[X][Y + 3][0] = F_In;
-		Data_L.Settings_Grid[X + 1][Y + 3][0] = F_In;
+		Data.Settings_Grid[X][Y + 3][0] = F_In;
+		Data.Settings_Grid[X + 1][Y + 3][0] = F_In;
 		Data.Data_Grid[X][Y + 3][Fluid_Cap] = 200;
 		Data.Data_Grid[X + 1][Y + 3][Fluid_Cap] = 200;
-		Data_L.Settings_Grid[X][Y][3] = 0;
-		Data_L.Settings_Grid[X][Y][4] = 0;
-		Data_L.Settings_Grid[X][Y][5] = LDE_INVALID;
-		Data_L.Settings_Grid[X][Y][6] = LDE_INVALID;
+		Data.Settings_Grid[X][Y][3] = 0;
+		Data.Settings_Grid[X][Y][4] = 0;
+		Data.Settings_Grid[X][Y][5] = LDE_INVALID;
+		Data.Settings_Grid[X][Y][6] = LDE_INVALID;
 		Temporary_L.Docks.push_back({ X, Y });
 		Recache_TT_Commands();
 	} else {
@@ -44,7 +44,7 @@ bool Place_Large_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 71;
 	Data.Connection_Grid[X][Y] = 1;
 	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_LARGECAP;
-	Data_L.Settings_Grid[X][Y][0] = F_Either;
+	Data.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;
 	return true;
 }
@@ -81,7 +81,7 @@ bool Place_RL_Intersection(int X, int Y) {
 					Data.Data_Grid[Nodes[Counter2].X][
 						Nodes[Counter2].Y][Fluid_Cap] = LDE_LARGECAP;
 				}
-				Data_L.Settings_Grid[Nodes[Counter2].X][
+				Data.Settings_Grid[Nodes[Counter2].X][
 					Nodes[Counter2].Y][0] = Counter1 + 1;
 			}
 		}

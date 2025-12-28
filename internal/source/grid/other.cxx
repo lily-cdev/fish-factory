@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Incinerator(int X, int Y) {
 	if (Interface.Placing_Rotation == 0) {
@@ -10,7 +10,7 @@ bool Place_Incinerator(int X, int Y) {
 	Data.Connection_Grid[X][Y] = 0;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 12;
 	Data.Plumbing_Grid[X][Y] = Any;
-	Data_L.Settings_Grid[X][Y][0] = F_In;
+	Data.Settings_Grid[X][Y][0] = F_In;
 	Data.Animation_Grid[X][Y][0] = 0;
 	return true;
 }
@@ -81,7 +81,7 @@ bool Place_Signal_Tower(int X, int Y) {
 		} else {
 			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 59;
 		}
-		Data_L.Settings_Grid[X][Y][3] = 0;
+		Data.Settings_Grid[X][Y][3] = 0;
 	} else {
 		return false;
 	}
@@ -90,17 +90,17 @@ bool Place_Signal_Tower(int X, int Y) {
 
 bool Place_Money_Generator(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 94;
-	Data_L.Settings_Grid[X][Y][3] = 5;
-	Data_L.Settings_Grid[X][Y][4] = 0;
+	Data.Settings_Grid[X][Y][3] = 5;
+	Data.Settings_Grid[X][Y][4] = 0;
 	return true;
 }
 
 bool Place_Fluid_Generator(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 95;
-	Data_L.Settings_Grid[X][Y][0] = F_Out;
-	Data_L.Settings_Grid[X][Y][3] = 0;
-	Data_L.Settings_Grid[X][Y][4] = LDE_ROOMTEMP;
-	Data_L.Settings_Grid[X][Y][5] = 0;
+	Data.Settings_Grid[X][Y][0] = F_Out;
+	Data.Settings_Grid[X][Y][3] = 0;
+	Data.Settings_Grid[X][Y][4] = LDE_ROOMTEMP;
+	Data.Settings_Grid[X][Y][5] = 0;
 	Data.Plumbing_Grid[X][Y] = Any;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 900;
 	return true;

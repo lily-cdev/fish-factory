@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Piezo_Generator(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 19;
@@ -25,7 +25,7 @@ bool Place_Bio_Generator(int X, int Y) {
 		std::vector<Point> Nodes = Return_Nodes(X, Y, Interface.Placing_Rotation,
 			Preconfigurations_L.BG_Inputs);
 		Data.Data_Grid[Nodes[0].X][Nodes[0].Y][1] = 4;
-		Data_L.Settings_Grid[Nodes[0].X][Nodes[0].Y][0] = 1;
+		Data.Settings_Grid[Nodes[0].X][Nodes[0].Y][0] = 1;
 		{
 			int Orientation = Interface.Placing_Rotation + Down;
 			Orientation = ((Orientation + 3) & 3) + 1;
@@ -48,8 +48,8 @@ bool Place_Geo_Well(int X, int Y) {
 				if (Interface.Placing_Rotation == Counter * 2) {
 					Data.Data_Grid[X + Counter][Y][Fluid_Cap] = 10;
 					Data.Data_Grid[X + Counter][Y + 2][Fluid_Cap] = 10;
-					Data_L.Settings_Grid[X + Counter][Y][0] = 2 - Counter;
-					Data_L.Settings_Grid[X + Counter][Y + 2][0] = Counter + 1;
+					Data.Settings_Grid[X + Counter][Y][0] = 2 - Counter;
+					Data.Settings_Grid[X + Counter][Y + 2][0] = Counter + 1;
 					Data.Plumbing_Grid[X + Counter][Y] = Up;
 					Data.Plumbing_Grid[X + Counter][Y + 2] = Down;
 					Data.Data_Grid[X][Y][5] = std::abs((Counter * 80) - 28);
@@ -65,8 +65,8 @@ bool Place_Geo_Well(int X, int Y) {
 				if (Interface.Placing_Rotation == (Counter * 2) + 1) {
 					Data.Data_Grid[X][Y + Counter][Fluid_Cap] = 10;
 					Data.Data_Grid[X + 2][Y + Counter][Fluid_Cap] = 10;
-					Data_L.Settings_Grid[X][Y + Counter][0] = 2 - Counter;
-					Data_L.Settings_Grid[X + 2][Y + Counter][0] = Counter + 1;
+					Data.Settings_Grid[X][Y + Counter][0] = 2 - Counter;
+					Data.Settings_Grid[X + 2][Y + Counter][0] = Counter + 1;
 					Data.Plumbing_Grid[X][Y + Counter] = Left;
 					Data.Plumbing_Grid[X + 2][Y + Counter] = Right;
 					Data.Data_Grid[X][Y][6] = std::abs((Counter * 80) - 28);
@@ -96,9 +96,9 @@ bool Place_Heat_Exchanger(int X, int Y) {
 						[Y + (Counter1 * 2)] = Up + (Counter1 * 2);
 					Data.Data_Grid[X + (Counter2 * 3)]
 						[Y + (Counter1 * 2)][Fluid_Cap] = 300;
-					Data_L.Settings_Grid[X + (Counter2 * 3)]
+					Data.Settings_Grid[X + (Counter2 * 3)]
 						[Y][0] = 2 - (Interface.Placing_Rotation * 0.5);
-					Data_L.Settings_Grid[X + (Counter2 * 3)]
+					Data.Settings_Grid[X + (Counter2 * 3)]
 						[Y + 2][0] = 1 + (Interface.Placing_Rotation * 0.5);
 				}
 			}
@@ -113,9 +113,9 @@ bool Place_Heat_Exchanger(int X, int Y) {
 						Y + (Counter2 * 3)] = (Counter1 * 2) + Left;
 					Data.Data_Grid[(Counter1 * 2) + X][
 						Y + (Counter2 * 3)][Fluid_Cap] = 300;
-					Data_L.Settings_Grid[X][(Counter2 * 3) +
+					Data.Settings_Grid[X][(Counter2 * 3) +
 						Y][0] = (Interface.Placing_Rotation * 0.5) + 1;
-					Data_L.Settings_Grid[X + 2][(Counter2 * 3) +
+					Data.Settings_Grid[X + 2][(Counter2 * 3) +
 						Y][0] = 2 - (Interface.Placing_Rotation * 0.5);
 				}
 			}
@@ -124,13 +124,13 @@ bool Place_Heat_Exchanger(int X, int Y) {
 	if (Placed) {
 		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 87;
 		for (int Counter = 0; Counter < 4; Counter++) {
-			Data_L.Settings_Grid[X][Y][Counter + 3] = 0;
+			Data.Settings_Grid[X][Y][Counter + 3] = 0;
 		}
 		for (int Counter = 0; Counter < 2; Counter++) {
-			Data_L.Settings_Grid[X][Y][Counter + 7] = LDE_ROOMTEMP;
+			Data.Settings_Grid[X][Y][Counter + 7] = LDE_ROOMTEMP;
 		}
 		for (int Counter = 0; Counter < 2; Counter++) {
-			Data_L.Settings_Grid[X][Y][Counter + 9] = LDE_INVALID;
+			Data.Settings_Grid[X][Y][Counter + 9] = LDE_INVALID;
 		}
 	} else {
 		return false;
@@ -151,12 +151,12 @@ bool Place_Turbine_Input(int X, int Y) {
 		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 120;
 		Point Node = Return_Nodes(X, Y, Interface.Placing_Rotation,
 			Preconfigurations_L.STI_Inputs)[0];
-		Data_L.Settings_Grid[Interface.Target_Tile.X][
+		Data.Settings_Grid[Interface.Target_Tile.X][
 			Interface.Target_Tile.Y][3] = 0;
-		Data_L.Settings_Grid[Interface.Target_Tile.X][
+		Data.Settings_Grid[Interface.Target_Tile.X][
 			Interface.Target_Tile.Y][4] = 0;
 		Data.Data_Grid[Node.X][Node.Y][Fluid_Cap] = LDE_LARGECAP;
-		Data_L.Settings_Grid[Node.X][Node.Y][0] = F_In;
+		Data.Settings_Grid[Node.X][Node.Y][0] = F_In;
 		Data.Plumbing_Grid[Node.X][Node.Y] = Interface.Placing_Rotation + Left;
 	} else {
 		return false;
@@ -175,7 +175,7 @@ bool Place_Turbine_Impulse(int X, int Y) {
 	}
 	if (Placed) {
 		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 124;
-		Data_L.Settings_Grid[X][Y][3] = 0;
+		Data.Settings_Grid[X][Y][3] = 0;
 	} else {
 		return false;
 	}
@@ -189,11 +189,11 @@ bool Place_Turbine_Output(int X, int Y) {
 		Point Node = Return_Nodes(X, Y, Interface.Placing_Rotation,
 			Preconfigurations_L.STO_Outputs)[0];
 		Data.Data_Grid[Node.X][Node.Y][Fluid_Cap] = LDE_LARGECAP;
-		Data_L.Settings_Grid[Node.X][Node.Y][0] = F_Out;
+		Data.Settings_Grid[Node.X][Node.Y][0] = F_Out;
 		Data.Plumbing_Grid[Node.X][Node.Y] = Interface.Placing_Rotation + Left;
 		//do outputZ!
 	} else {
-		Data_L.Settings_Grid[X][Y][3] = 0;
+		Data.Settings_Grid[X][Y][3] = 0;
 		return false;
 	}
 	return true;

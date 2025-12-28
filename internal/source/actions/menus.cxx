@@ -1,4 +1,4 @@
-#include <interface.h>
+#include <Legacy_Interface.hpp>
 
 void Handle_Help(int X, int Y) {
     if (Interface.Engagement == 0) {

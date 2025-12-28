@@ -1,4 +1,4 @@
-#include <items.h>
+#include <Legacy_Items.hpp>
 
 int Get_Phase(int Fish, int Progress) {
 	double Percentage = std::min(((double)Progress / Fish_Catalog[Fish].Maximum_Growth) * 100, 100.0);

@@ -1,4 +1,4 @@
-#include <connectables.h>
+#include <Legacy_Connectables.hpp>
 
 std::vector<Pipe> Pipes_List = { };
 
@@ -55,8 +55,8 @@ void Place_Pipe() {
 					}
 					if (Is_Pipe_Adjacent && (Data.Connection_Grid[Column][Row] != LDE_INVALID ||
 						Data.Plumbing_Grid[Column][Row] != LDE_INVALID) &&
-						(Data_L.Settings_Grid[Column][Row][0] == 0 ||
-						Data_L.Settings_Grid[Column][Row][0] == 1)) {
+						(Data.Settings_Grid[Column][Row][0] == 0 ||
+						Data.Settings_Grid[Column][Row][0] == 1)) {
 						Pipes_List[Pipes_List.size() - 1].X2 = Column;
 						Pipes_List[Pipes_List.size() - 1].Y2 = Row;
 						Pipes_List[Pipes_List.size() - 1].Filled = true;
@@ -81,8 +81,8 @@ void Place_Pipe() {
 				} else {
 					if ((Data.Connection_Grid[Column][Row] != LDE_INVALID ||
 						Data.Plumbing_Grid[Column][Row] > LDE_INVALID) &&
-						(Data_L.Settings_Grid[Column][Row][0] == 0 ||
-						Data_L.Settings_Grid[Column][Row][0] == 2)) {
+						(Data.Settings_Grid[Column][Row][0] == 0 ||
+						Data.Settings_Grid[Column][Row][0] == 2)) {
 						Pipe New_Pipe;
 						New_Pipe.X1 = Column;
 						New_Pipe.Y1 = Row;

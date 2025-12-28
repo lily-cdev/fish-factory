@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Algae_Bed(int X, int Y) {
     bool Placed = false;
@@ -29,7 +29,7 @@ bool Place_Algae_Bed(int X, int Y) {
 		std::vector<Point> Nodes = Return_Nodes(X, Y,
 			Interface.Placing_Rotation, Preconfigurations_L.GB_Outputs);
 		for (int Counter = 0; Counter < Nodes.size(); Counter++) {
-			Data_L.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_Out;
+			Data.Settings_Grid[Nodes[Counter].X][Nodes[Counter].Y][0] = F_Out;
 			Data.Data_Grid[Nodes[Counter].X][Nodes[Counter].Y][Fluid_Cap] = 3;
 			Data.Plumbing_Grid[Nodes[Counter].X][Nodes[Counter].Y] =
 				(Interface.Placing_Rotation + Down == 4) ? 4 :
@@ -57,10 +57,10 @@ bool Place_Spawning_Pool(int X, int Y) {
 
 bool Place_Spawning_Controller(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 45;
-	Data_L.Settings_Grid[X][Y][4] = 0;
-	Data_L.Settings_Grid[X][Y][5] = 0;
-	Data_L.Settings_Grid[X][Y][6] = 0;
-	Data_L.Settings_Grid[X][Y][7] = 0;
+	Data.Settings_Grid[X][Y][4] = 0;
+	Data.Settings_Grid[X][Y][5] = 0;
+	Data.Settings_Grid[X][Y][6] = 0;
+	Data.Settings_Grid[X][Y][7] = 0;
 	Data.Behavior_Grid[X][Y] = 0;
 	return true;
 }
@@ -70,7 +70,7 @@ bool Place_Spawning_Output(int X, int Y) {
 	Data.Data_Grid[X][Y][Fluid_Cap] = 50;
 	Data.Plumbing_Grid[X][Y] = Down;
 	Data.Behavior_Grid[X][Y] = 0;
-	Data_L.Settings_Grid[X][Y][0] = F_Out;
+	Data.Settings_Grid[X][Y][0] = F_Out;
 	return true;
 }
 
@@ -79,6 +79,6 @@ bool Place_Spawning_Input(int X, int Y) {
 	Data.Data_Grid[X][Y][Fluid_Cap] = 12;
 	Data.Plumbing_Grid[X][Y] = Down;
 	Data.Behavior_Grid[X][Y] = 0;
-	Data_L.Settings_Grid[X][Y][0] = F_In;
+	Data.Settings_Grid[X][Y][0] = F_In;
 	return true;
 }

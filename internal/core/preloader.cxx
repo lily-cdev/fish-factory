@@ -1,4 +1,4 @@
-#include <preloader.h>
+#include <Legacy_Preloader.hpp>
 
 SDL_FRect Buffer_Rectangle(const SDL_FRect &Source, const int X, const int Y) {
 	return { Source.x - (X * Settings.Screen_Size), Source.y - (Y * Settings.Screen_Size),
@@ -24,47 +24,10 @@ void Fill_Clearance(const int Identifier, const int X, const int Y, const int W,
 		for (int Counter2 = 0; Counter2 < H; Counter2++) {
 			Data.Visual_Grid[X + Counter1][Y + Counter2] = Identifier;
 			if (Counter1 > 0 || Counter2 > 0) {
-				Data_L.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
-				Data_L.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
+				Data.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
+				Data.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
 			}
 		}
-	}
-}
-
-void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
-	X = X * Settings.Screen_Size;
-	Y = Y * Settings.Screen_Size;
-	if (!X_Lock) {
-		Rects.Tile_1x1.x = X;
-		Rects.Tile_1x2.x = X;
-		Rects.Tile_2x1.x = X;
-		Rects.Tile_2x2.x = X;
-		Rects.Tile_2x3.x = X;
-		Rects.Tile_3x2.x = X;
-		Rects.Tile_3x3.x = X;
-		Rects.Tile_3x4.x = X;
-		Rects.Tile_4x3.x = X;
-		Rects.Tile_4x6.x = X;
-		Rects.Tile_6x4.x = X;
-		Rects.Tile_6x8.x = X;
-		Rects.Tile_3x3.x = X;
-		Rects.Tile_8x6.x = X;
-	}
-	if (!Y_Lock) {
-		Rects.Tile_1x1.y = Y;
-		Rects.Tile_1x2.y = Y;
-		Rects.Tile_2x1.y = Y;
-		Rects.Tile_2x2.y = Y;
-		Rects.Tile_2x3.y = Y;
-		Rects.Tile_3x2.y = Y;
-		Rects.Tile_3x3.y = Y;
-		Rects.Tile_3x4.y = Y;
-		Rects.Tile_4x3.y = Y;
-		Rects.Tile_4x6.y = Y;
-		Rects.Tile_6x4.y = Y;
-		Rects.Tile_6x8.y = Y;
-		Rects.Tile_3x3.y = Y;
-		Rects.Tile_8x6.y = Y;
 	}
 }
 

@@ -1,4 +1,4 @@
-#include <grid.h>
+#include <Legacy_Grid.hpp>
 
 bool Place_Decoration(int X, int Y) {
     Data.Visual_Grid[X][Y] = 20;
