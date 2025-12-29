@@ -58,6 +58,7 @@ Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectang
 	String2 Carrier;
 	Carrier.Length = Texts.Length + 2;
 	Carrier.Data = malloc(sizeof(String1) * Carrier.Length);
+	if (Carrier.Data==NULL)printf("CARRIER FAILED");
 	memcpy(Carrier.Data, Texts.Data, sizeof(String1) * Texts.Length);
 	Carrier.Data[Carrier.Length - 1].Data = malloc(sizeof(char) * Metadata.Buttons[37].Length);
 	Carrier.Data[Carrier.Length - 2].Data = malloc(sizeof(char) * Metadata.Buttons[36].Length);
