@@ -329,7 +329,7 @@ void Render_Toolbar() {
 		SDL_RenderTexture(Core.Renderer, Textures.Tool.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
 	}
 	if (Interface.Tool == 0) {
-		std::string Machine_Text = Metadata.Names[Interface.Placing_Item - 1].Data;
+		std::string Machine_Text = Metadata.Names[Interface.Placing_Item - 1];
 		Machine_Text += " | " + Abbreviate_Number(Interface.Queried_Price) + "LA";
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text.c_str(),
 			Machine_Text.size(), Colors.Abyss_Black);

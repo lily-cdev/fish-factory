@@ -2,12 +2,7 @@
 
 typedef struct {
     int Length;
-    char* Data;
-} String1;
-
-typedef struct {
-    int Length;
-    String1* Data;
+    char** Data;
 } String2;
 
 typedef struct {

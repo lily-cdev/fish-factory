@@ -1,23 +1,21 @@
 #include <prepping.h>
 
 void Recache_TT_Commands() {
-	Metadata.TT_Texts[0].Data = realloc(Metadata.TT_Texts[0].Data, sizeof(String1));
+	Metadata.TT_Texts[0].Data = realloc(Metadata.TT_Texts[0].Data, sizeof(char*));
 	Metadata.TT_Texts[0].Length = 1;
 	Metadata.TT_Texts[1].Data = realloc(Metadata.TT_Texts[1].Data,
-		sizeof(String1) * (Temporary.Docks.Length + 1));
+		sizeof(char*) * (Temporary.Docks.Length + 1));
 	Metadata.TT_Texts[1].Length = Temporary.Docks.Length + 1;
-	Metadata.TT_Parameters[0].Data = realloc(Metadata.TT_Parameters[
-		0].Data, sizeof(String2));
+	Metadata.TT_Parameters[0].Data = realloc(Metadata.TT_Parameters[0].Data, sizeof(String2));
 	Metadata.TT_Parameters[0].Length = 1;
-	Metadata.TT_Parameters[0].Data[0].Data = realloc(Metadata.TT_Parameters[
-		0].Data[0].Data, sizeof(String1) * 2);
+	Metadata.TT_Parameters[0].Data[0].Data = realloc(Metadata.TT_Parameters[0].Data[0].Data, sizeof(char*) * 2);
 	Metadata.TT_Parameters[0].Data[0].Length = 2;
 	Metadata.TT_Parameters[1].Data = realloc(Metadata.TT_Parameters[
 		1].Data, sizeof(String2) * (Temporary.Docks.Length + 1));
 	Metadata.TT_Parameters[1].Length = Temporary.Docks.Length + 1;
 	for (int Counter = 0; Counter < Temporary.Docks.Length + 1; Counter++) {
 		Metadata.TT_Parameters[1].Data[Counter].Data = realloc(Metadata.TT_Parameters[
-			1].Data, sizeof(String1) * 2);
+			1].Data, sizeof(char*) * 2);
 		Metadata.TT_Parameters[1].Data[Counter].Length = 2;
 	}
 	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
@@ -36,18 +34,16 @@ void Recache_TT_Commands() {
 	for (int Counter = 0; Counter < Temporary.Docks.Length; Counter++) {
 		char Buffer[256];
 		snprintf(Buffer, sizeof(Buffer), "Dock %d", Counter + 1);
-		String1 Text_String;
-		Text_String.Data = malloc(sizeof(char) * (strlen(Buffer) + 1));
-		strcpy(Text_String.Data, Buffer);
-		Text_String.Data[strlen(Buffer)] = '\0';
-		Text_String.Length = strlen(Buffer) + 1;
+		char* Text_String;
+		Text_String = malloc(sizeof(char) * (strlen(Buffer) + 1));
+		strcpy(Text_String, Buffer);
+		Text_String[strlen(Buffer)] = '\0';
 		Metadata.TT_Texts[1].Data[Counter + 1] = Text_String;
 		snprintf(Buffer, sizeof(Buffer), "POS_DOCK_%d", Counter + 1);
-		String1 Parameter_String;
-		Parameter_String.Data = malloc(sizeof(char) * (strlen(Buffer) + 1));
-		strcpy(Parameter_String.Data, Buffer);
-		Parameter_String.Data[strlen(Buffer)] = '\0';
-		Parameter_String.Length = strlen(Buffer) + 1;
+		char* Parameter_String;
+		Parameter_String = malloc(sizeof(char) * (strlen(Buffer) + 1));
+		strcpy(Parameter_String, Buffer);
+		Parameter_String[strlen(Buffer)] = '\0';
 		Metadata.TT_Parameters[1].Data[Counter].Data[0] = Metadata.Buttons[40];
 		Metadata.TT_Parameters[1].Data[Counter].Data[1] = Parameter_String;
 	}
@@ -57,15 +53,15 @@ void Recache_TT_Commands() {
 Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles) {
 	String2 Carrier;
 	Carrier.Length = Texts.Length + 2;
-	Carrier.Data = malloc(sizeof(String1) * Carrier.Length);
-	if (Carrier.Data==NULL)printf("CARRIER FAILED");
-	memcpy(Carrier.Data, Texts.Data, sizeof(String1) * Texts.Length);
-	Carrier.Data[Carrier.Length - 1].Data = malloc(sizeof(char) * Metadata.Buttons[37].Length);
-	Carrier.Data[Carrier.Length - 2].Data = malloc(sizeof(char) * Metadata.Buttons[36].Length);
-	strcpy(Carrier.Data[Carrier.Length - 1].Data, Metadata.Buttons[37].Data);
-	strcpy(Carrier.Data[Carrier.Length - 2].Data, Metadata.Buttons[36].Data);
-	Carrier.Data[Carrier.Length - 1].Length = Metadata.Buttons[37].Length;
-	Carrier.Data[Carrier.Length - 2].Length = Metadata.Buttons[36].Length;
+	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
+	for (int Counter = 0; Counter < Texts.Length; Counter++) {
+		Carrier.Data[Counter] = malloc(sizeof(char) * (strlen(Texts.Data[Counter]) + 1));
+		strcpy(Carrier.Data[Counter], Texts.Data[Counter]);
+	}
+	Carrier.Data[Carrier.Length - 1] = malloc(sizeof(char) * (strlen(Metadata.Buttons[37]) + 1));
+	Carrier.Data[Carrier.Length - 2] = malloc(sizeof(char) * (strlen(Metadata.Buttons[36]) + 1));
+	strcpy(Carrier.Data[Carrier.Length - 1], Metadata.Buttons[37]);
+	strcpy(Carrier.Data[Carrier.Length - 2], Metadata.Buttons[36]);
 	Texture2_Array Yield;
 	Yield.Length = Carrier.Length;
 	Yield.Data = malloc(sizeof(Texture_Array) * Carrier.Length);
@@ -86,7 +82,7 @@ Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectang
 	}
 	printf("-----\n");
 	for (int x=0; x<Carrier.Length;x++) {
-		printf("%s\n", Carrier.Data[x].Data);
+		printf("%s\n", Carrier.Data[x]);
 	}
 	Free_String2(&Carrier);
 	return Yield;
@@ -100,16 +96,15 @@ void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, Strin
 	Commandlist->Length = LDE_TTSLIDES;
 	Commandlist->Data = malloc(sizeof(Texture2_Array) * LDE_TTSLIDES);
 	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
-		Commandlist->Data[Counter] = Preload_Terminal_Sidebar(
-			Contents[Counter], Boxlist->Data[Counter]);
+		Commandlist->Data[Counter] = Preload_Terminal_Sidebar(Contents[Counter], Boxlist->Data[Counter]);
 	}
 }
 
-Texture_Array Load_Button(TTF_Font* Font, const String1 Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2) {
+Texture_Array Load_Button(TTF_Font* Font, const char* Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2) {
 	Texture_Array Yield;
 	Yield.Length = 2;
 	Yield.Data = malloc(sizeof(SDL_Texture*) * 2);
-	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text.Data, Text.Length - 1, Color1);
+	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, strlen(Text), Color1);
 	Yield.Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	if (Rectangles.Data[0].x == LDE_INVALID) {
 		Rectangles.Data[0].x = (320 * Settings.Screen_Size) - (Button_Surface->w * 0.5);
@@ -120,7 +115,7 @@ Texture_Array Load_Button(TTF_Font* Font, const String1 Text, Rect_Array Rectang
 	Rectangles.Data[0].w = Button_Surface->w;
 	Rectangles.Data[0].h = Button_Surface->h;
 	char Buffer[256];
-	snprintf(Buffer, sizeof(Buffer), "> %s <", Text.Data);
+	snprintf(Buffer, sizeof(Buffer), "> %s <", Text);
 	SDL_DestroySurface(Button_Surface);
 	Button_Surface = TTF_RenderText_Blended(Font, "> ", 2, Color1);
 	int Offset = Button_Surface->w;

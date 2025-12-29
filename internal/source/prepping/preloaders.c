@@ -25,21 +25,21 @@ typedef struct {
 void Preload_Assets() {
 	String2 Carrier;
 	Carrier.Length = 4;
-	Carrier.Data = malloc(sizeof(String1) * Carrier.Length);
+	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int Counter = 0; Counter < 4; Counter++) {
 		Carrier.Data[Counter] = Metadata.Buttons[Counter + 27];
 	}
 	Textures.MSP_Buttons = Preload_Terminal_Sidebar(Carrier, Rects.MSP_Buttons);
 	free_c(Carrier.Data);
 	Carrier.Length = 4;
-	Carrier.Data = malloc(sizeof(String1) * Carrier.Length);
+	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int Counter = 0; Counter < 4; Counter++) {
 		Carrier.Data[Counter] = Metadata.Buttons[Counter + 31];
 	}
 	Textures.SD_Buttons = Preload_Terminal_Sidebar(Carrier, Rects.SD_Buttons);
 	free_c(Carrier.Data);
 	Carrier.Length = 1;
-	Carrier.Data = malloc(sizeof(String1) * Carrier.Length);
+	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	Carrier.Data[0] = Metadata.Buttons[35];
 	Textures.HX_Buttons = Preload_Terminal_Sidebar(Carrier, Rects.HX_Buttons);
 	Textures.MT_Buttons = Preload_Terminal_Sidebar(Carrier, Rects.MT_Buttons);

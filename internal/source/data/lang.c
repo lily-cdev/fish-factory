@@ -1,8 +1,8 @@
 #include <data.h>
 
-bool Load_TXT(String1 Input[], int Lines, const char* Path) {
+bool Load_TXT(char* Input[], int Lines, const char* Path) {
 	char Carrier[512];
-	snprintf(Carrier, sizeof(Carrier), "%s%s", Metadata.Data_Path.Data, Path);
+	snprintf(Carrier, sizeof(Carrier), "%s%s", Metadata.Data_Path, Path);
 	FILE* File = fopen(Carrier, "r");
 	if (File == NULL) {
 		return false;
@@ -16,19 +16,16 @@ bool Load_TXT(String1 Input[], int Lines, const char* Path) {
 		if (Counter == Lines - 1) {
 			Length = strlen(Buffer) + 1;
 		}
-		Input[Counter].Length = Length;
-		Input[Counter].Data = malloc(sizeof(char) * Length);
-		strcpy(Input[Counter].Data, Buffer);
-		Input[Counter].Data[Length - 1] = '\0';
+		Input[Counter] = malloc(sizeof(char) * Length);
+		strcpy(Input[Counter], Buffer);
+		Input[Counter][Length - 1] = '\0';
 	}
 	return true;
 }
 
 bool Load_Text() {
-	Metadata.Image_Path.Data = "Assets/Core/Images/";
-	Metadata.Image_Path.Length = 20;
-	Metadata.Data_Path.Data = "Assets/Data/";
-	Metadata.Data_Path.Length = 13;
+	Metadata.Image_Path = "Assets/Core/Images/";
+	Metadata.Data_Path = "Assets/Data/";
     bool Yield = Load_TXT(Metadata.Names, LDE_MACHINES, "names.txt");
 	Yield = Load_TXT(Metadata.Descriptions, LDE_MACHINES, "descriptions.txt");
 	Yield = Load_TXT(Metadata.Categories, LDE_CATEGORIES, "categories.txt");
@@ -39,17 +36,17 @@ bool Load_Text() {
 
 void Free_Text() {
     for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-    	free_d(Metadata.Names[Counter]);
-        free_d(Metadata.Descriptions[Counter]);
+    	free_c(Metadata.Names[Counter]);
+        free_c(Metadata.Descriptions[Counter]);
     }
     for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
-		free_d(Metadata.Categories[Counter]);
+		free_c(Metadata.Categories[Counter]);
 	}
     for (int Counter = 0; Counter < LDE_SUBCATEGORIES; Counter++) {
-		free_d(Metadata.Subcategories[Counter]);
+		free_c(Metadata.Subcategories[Counter]);
 	}
     for (int Counter = 0; Counter < LDE_BUTTONS; Counter++) {
-		free_d(Metadata.Buttons[Counter]);
+		free_c(Metadata.Buttons[Counter]);
 	}
 	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
 		Free_String2(&Metadata.TT_Texts[Counter]);

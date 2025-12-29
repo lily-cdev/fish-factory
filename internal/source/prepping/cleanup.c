@@ -2,7 +2,7 @@
 
 void Free_String2(String2* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		free_d((*Target).Data[Counter]);
+		free_c((*Target).Data[Counter]);
 	}
 	free_d((*Target));
 }

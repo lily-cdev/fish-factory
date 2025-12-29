@@ -34,13 +34,13 @@ typedef struct {
 } DATA;
 
 typedef struct {
-	String1 Data_Path;
-	String1 Image_Path;
-	String1 Names[LDE_MACHINES];
-	String1 Descriptions[LDE_MACHINES];
-	String1 Categories[LDE_CATEGORIES];
-	String1 Subcategories[LDE_SUBCATEGORIES];
-	String1 Buttons[LDE_BUTTONS];
+	char* Data_Path;
+	char* Image_Path;
+	char* Names[LDE_MACHINES];
+	char* Descriptions[LDE_MACHINES];
+	char* Categories[LDE_CATEGORIES];
+	char* Subcategories[LDE_SUBCATEGORIES];
+	char* Buttons[LDE_BUTTONS];
 	SDL_Texture* Machine_Sprites[LDE_MACHINES];
 	SDL_FRect Machine_Rectangles[LDE_MACHINES];
 	String2 TT_Texts[LDE_TTSLIDES];
@@ -385,4 +385,4 @@ void Pull_Docks(int Position);
 void Recache_TT_Commands();
 Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles);
 void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, String2 Contents[LDE_TTSLIDES]);
-Texture_Array Load_Button(TTF_Font* Font, const String1 Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);
+Texture_Array Load_Button(TTF_Font* Font, const char* Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);

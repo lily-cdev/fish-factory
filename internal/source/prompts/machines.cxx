@@ -50,7 +50,7 @@ void Render_T_Tower(int X, int Y) {
 	for (int A = 0; A < Metadata.TT_Parameters[Temporary.Dialogue_Position].Length; A++) {
 		Parameters[A].resize(Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Length);
 		for (int B = 0; B < Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Length; B++) {
-			Parameters[A][B] = Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Data[B].Data;
+			Parameters[A][B] = Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Data[B];
 		}
 	}
 	int Index = 0;
