@@ -4,56 +4,56 @@ void Free_String2(String2* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		free_d((*Target).Data[Counter]);
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Free_String3(String3* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		Free_String2(&((*Target).Data[Counter]));
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Free_String4(String4* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		Free_String3(&((*Target).Data[Counter]));
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Clear_Texture_Array(Texture_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		SDL_DestroyTexture((*Target).Data[Counter]);
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Clear_Texture2_Array(Texture2_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		Clear_Texture_Array(&((*Target).Data[Counter]));
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Clear_Texture3_Array(Texture3_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		Clear_Texture2_Array(&((*Target).Data[Counter]));
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Clear_Rect2_Array(Rect2_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		free_d((*Target).Data[Counter]);
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Clear_Rect3_Array(Rect3_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		Clear_Rect2_Array(&((*Target).Data[Counter]));
 	}
-	free_d(*Target);
+	free_d((*Target));
 }
 
 void Cleanup_Assets() {

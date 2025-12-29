@@ -1,0 +1,43 @@
+Back
+Play
+Settings
+Changelog
+Credits
+Quit
+Apply
+Cancel
+Proceed
+Money Generator
+Fluid Generator
+Cancel Tutorial
+The Command Platform
+Simple Generator
+[NF] Simple Fish Farm
+Save Settings
+Go to bottom
+Go to top
+Sort: Newest
+Sort: Oldest
+V-Sync: Off
+V-Sync: On
+Scaling Quality: High
+Scaling Quality: Low
+New Factory
+Load Factory
+Clear Factory
+Tank Info
+Fish Info
+Fill Pool
+Empty Pool
+Export Items
+View Manifest
+Drain Tank 1
+Drain Tank 2
+View Status
+Exit
+Clear Screen
+Sell Exports
+Return
+transmit
+EXIT
+REQUEST_EXPORT

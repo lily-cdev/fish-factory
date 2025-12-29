@@ -39,17 +39,17 @@ bool Load_Text() {
 
 void Free_Text() {
     for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-    	Free_String1(&Metadata.Names[Counter]);
-        Free_String1(&Metadata.Descriptions[Counter]);
+    	free_d(Metadata.Names[Counter]);
+        free_d(Metadata.Descriptions[Counter]);
     }
     for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
-		Free_String1(&Metadata.Categories[Counter]);
+		free_d(Metadata.Categories[Counter]);
 	}
     for (int Counter = 0; Counter < LDE_SUBCATEGORIES; Counter++) {
-		Free_String1(&Metadata.Subcategories[Counter]);
+		free_d(Metadata.Subcategories[Counter]);
 	}
     for (int Counter = 0; Counter < LDE_BUTTONS; Counter++) {
-		Free_String1(&Metadata.Buttons[Counter]);
+		free_d(Metadata.Buttons[Counter]);
 	}
 	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
 		Free_String2(&Metadata.TT_Texts[Counter]);
