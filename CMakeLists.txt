@@ -34,13 +34,13 @@ add_executable(Fish_Factory
 	internal/source/actions/machines.cxx
 	internal/source/actions/menus.cxx
 	internal/source/actions/none.cxx
-	internal/source/grid/cultivators.cxx
-	internal/source/grid/decorations.cxx
-	internal/source/grid/extractors.cxx
-	internal/source/grid/generators.cxx
-	internal/source/grid/other.cxx
-	internal/source/grid/processors.cxx
-	internal/source/grid/transporters.cxx
+	internal/source/grid/cultivators.c
+	internal/source/grid/decorations.c
+	internal/source/grid/extractors.c
+	internal/source/grid/generators.c
+	internal/source/grid/other.c
+	internal/source/grid/processors.c
+	internal/source/grid/transporters.c
 	internal/source/prompts/catalog.cxx
 	internal/source/prompts/cheats.cxx
 	internal/source/prompts/daily_report.cxx
@@ -51,7 +51,9 @@ add_executable(Fish_Factory
 	internal/source/prepping/definitions.c
 	internal/source/prepping/machines.c
 	internal/source/prepping/other.c
+	internal/source/prepping/preconfigurations.c
 	internal/source/prepping/preloaders.c
+	internal/source/prepping/text.c
 	internal/source/prepping/tools.c
 	internal/source/prepping/ui.c
 	internal/source/data/saving.c

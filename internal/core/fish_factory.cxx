@@ -20,7 +20,6 @@ OLD_KEYBINDS Keybinds_L;
 OLD_TEMPORARY Temporary_L;
 OLD_CACHE Cache_L;
 OLD_INTERFACE Interface_L;
-OLD_PRECONFIGURATIONS Preconfigurations_L;
 PRESET_ITEMS Preset_Items;
 PRESET_CATEGORIES Preset_Categories;
 PRESET_FISH Preset_Fish;
@@ -34,10 +33,13 @@ int main(int argc, char* args[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	Startup_Miniaudio();
-	Load_Text();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
 	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY,
 		&Core.Window, &Core.Renderer);
+	Temporary.Docks.Length = 0;
+	Temporary.Docks.Full_Size = 0;
+	Load_Text();
+	Generate_Preconfigurations();
 	Update_Metadata();
 	Load_Settings();
 	Clear_Settings();
@@ -435,6 +437,9 @@ int main(int argc, char* args[]) {
 		SDL_Delay(static_cast<uint32_t>(std::max(Remaining_Delay, 0.0)));
 	}
 	Free_Text();
+	Free_Preconfigurations();
+	free(Temporary.Docks.Data);
+	Temporary.Docks.Data = nullptr;
 	Shutdown_Miniaudio();
 	SDL_ShowCursor();
 	Cleanup_Assets();

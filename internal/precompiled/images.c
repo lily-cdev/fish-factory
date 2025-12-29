@@ -22,7 +22,7 @@ SDL_Surface* Load_BMP(const char* Path) {
     byte* Data = calloc(Length, sizeof(byte));
     fread(Data, sizeof(byte), Length, Image);
     if (Data[0] != 0x42 || Data[1] != 0x4D) {
-        free(Data);
+        free_c(Data);
         return NULL;
     }
     int Width = Read_Byte4(Data, 18);
@@ -50,6 +50,6 @@ SDL_Surface* Load_BMP(const char* Path) {
     }
     SDL_UnlockSurface(Yield);
     fclose(Image);
-    free(Data);
+    free_c(Data);
     return Yield;
 }

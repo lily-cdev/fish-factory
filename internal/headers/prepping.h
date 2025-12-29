@@ -34,10 +34,18 @@ typedef struct {
 } DATA;
 
 typedef struct {
-	Char_Array Names[LDE_MACHINES];
-	Char_Array Descriptions[LDE_MACHINES];
+	String1 Data_Path;
+	String1 Image_Path;
+	String1 Names[LDE_MACHINES];
+	String1 Descriptions[LDE_MACHINES];
+	String1 Categories[LDE_CATEGORIES];
+	String1 Subcategories[LDE_SUBCATEGORIES];
+	String1 Buttons[LDE_BUTTONS];
 	SDL_Texture* Machine_Sprites[LDE_MACHINES];
 	SDL_FRect Machine_Rectangles[LDE_MACHINES];
+	String2 TT_Texts[LDE_TTSLIDES];
+	String3 TT_Parameters[LDE_TTSLIDES];
+	int* TT_Types[LDE_TTSLIDES];
 } METADATA;
 
 typedef struct {
@@ -268,6 +276,7 @@ typedef struct {
 	int Dialogue_Maximum;
 	bool Log_Inversions[3];
 	Point First_Coordinate;
+	Node_d Docks;
 } TEMPORARY;
 
 typedef struct {
@@ -313,6 +322,23 @@ typedef struct {
 	SDL_FPoint Tile_Centerpoint;
 } INTERFACE;
 
+typedef struct {
+	Node EP_Inputs[4];
+	Node EP_Outputs[4];
+	Node FM_Inputs[4];
+	Node FM_Outputs[4];
+	Node BG_Inputs[4];
+	Node I_Inputs[4];
+	Node I_Outputs[4];
+	Node D_Inputs[4];
+	Node D_Outputs[4];
+	Node STI_Inputs[4];
+	Node GB_Outputs[4];
+	Node STO_Outputs[4];
+	Node GW_Inputs[4];
+	Node GW_Outputs[4];
+} PRECONFIGURATIONS;
+
 extern CORE Core;
 extern DATA Data;
 extern METADATA Metadata;
@@ -324,6 +350,7 @@ extern FONTS Fonts;
 extern TEMPORARY Temporary;
 extern CACHE Cache;
 extern INTERFACE Interface;
+extern PRECONFIGURATIONS Preconfigurations;
 
 void Preload_Fonts();
 int Visual_To_ID(const int Identifier);
@@ -332,10 +359,12 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H);
 void Clear_Renderer();
 void Set_Renderer_Color(const SDL_Color Color);
 void Cleanup_Assets();
+void Free_String2(String2* Target);
+void Free_String3(String3* Target);
+void Free_String4(String4* Target);
 void Clear_Texture_Array(Texture_Array* Target);
 void Clear_Texture2_Array(Texture2_Array* Target);
 void Clear_Texture3_Array(Texture3_Array* Target);
-void Clear_Rect_Array(Rect_Array* Target);
 void Clear_Rect2_Array(Rect2_Array* Target);
 void Clear_Rect3_Array(Rect3_Array* Target);
 int Get_Depth(double Number);
@@ -345,3 +374,15 @@ void Render_Button(const Texture_Array Button, const Rect_Array Hitbox, int Sele
 void Preload_Assets();
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
+void Generate_Preconfigurations();
+void Free_Preconfigurations();
+void Free_Node(Node Target);
+void Return_Nodes(Node Yield, const int Column, const int Row, const int Rotation, Node Preconfiguration[4]);
+bool Check_Clearance(const int X, const int Y, const int W, const int H);
+void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H);
+void Push_Docks(Point Input);
+void Pull_Docks(int Position);
+void Recache_TT_Commands();
+Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles);
+void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, String2 Contents[LDE_TTSLIDES]);
+Texture_Array Load_Button(TTF_Font* Font, const String1 Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);

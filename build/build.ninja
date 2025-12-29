@@ -239,70 +239,70 @@ build CMakeFiles/Fish_Factory.dir/internal/source/actions/none.cxx.obj: CXX_COMP
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/cultivators.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/cultivators.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/cultivators.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/cultivators.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\cultivators.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\cultivators.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/decorations.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/decorations.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/decorations.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/decorations.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\decorations.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\decorations.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/extractors.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/extractors.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/extractors.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/extractors.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\extractors.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\extractors.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/generators.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/generators.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/generators.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/generators.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\generators.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\generators.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/other.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/other.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/other.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/other.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\other.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\other.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/processors.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/processors.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/processors.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/processors.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\processors.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\processors.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
-build CMakeFiles/Fish_Factory.dir/internal/source/grid/transporters.cxx.obj: CXX_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/transporters.cxx || cmake_object_order_depends_target_Fish_Factory
+build CMakeFiles/Fish_Factory.dir/internal/source/grid/transporters.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/grid/transporters.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\transporters.cxx.obj.d
-  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu++20 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\grid\transporters.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
   OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\grid
@@ -409,9 +409,29 @@ build CMakeFiles/Fish_Factory.dir/internal/source/prepping/other.c.obj: C_COMPIL
   TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
   TARGET_PDB = Fish_Factory.pdb
 
+build CMakeFiles/Fish_Factory.dir/internal/source/prepping/preconfigurations.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/prepping/preconfigurations.c || cmake_object_order_depends_target_Fish_Factory
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\prepping\preconfigurations.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
+  OBJECT_DIR = CMakeFiles\Fish_Factory.dir
+  OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\prepping
+  TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
+  TARGET_PDB = Fish_Factory.pdb
+
 build CMakeFiles/Fish_Factory.dir/internal/source/prepping/preloaders.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/prepping/preloaders.c || cmake_object_order_depends_target_Fish_Factory
   CONFIG = Debug
   DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\prepping\preloaders.c.obj.d
+  FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
+  INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
+  OBJECT_DIR = CMakeFiles\Fish_Factory.dir
+  OBJECT_FILE_DIR = CMakeFiles\Fish_Factory.dir\internal\source\prepping
+  TARGET_COMPILE_PDB = CMakeFiles\Fish_Factory.dir\
+  TARGET_PDB = Fish_Factory.pdb
+
+build CMakeFiles/Fish_Factory.dir/internal/source/prepping/text.c.obj: C_COMPILER__Fish_Factory_unscanned_Debug C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/source/prepping/text.c || cmake_object_order_depends_target_Fish_Factory
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\Fish_Factory.dir\internal\source\prepping\text.c.obj.d
   FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -std=gnu23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   INCLUDES = -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/core -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/precompiled -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/internal/headers -IC:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/include
   OBJECT_DIR = CMakeFiles\Fish_Factory.dir
@@ -546,7 +566,7 @@ build CMakeFiles/Fish_Factory.dir/modules/neutral/resource.rc.res: RC_COMPILER__
 #############################################
 # Link the executable Fish_Factory.exe
 
-build Fish_Factory.exe: CXX_EXECUTABLE_LINKER__Fish_Factory_Debug CMakeFiles/Fish_Factory.dir/internal/core/fish_factory.cxx.obj CMakeFiles/Fish_Factory.dir/internal/core/preloader.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/audio.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/fish.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/interface.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/items.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/pipes.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/recipes.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/terminals.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/transitions.c.obj CMakeFiles/Fish_Factory.dir/internal/source/tutorials.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/ui.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/wires.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/cheats.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/menus.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/none.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/cultivators.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/decorations.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/extractors.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/generators.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/other.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/processors.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/transporters.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/catalog.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/cheats.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/daily_report.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/help.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/shop.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/cleanup.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/definitions.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/machines.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/other.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/preloaders.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/tools.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/ui.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/saving.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/setup.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/lang.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/tiles.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/effects.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/ocean.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/pyramid.c.obj CMakeFiles/Fish_Factory.dir/internal/precompiled/images.c.obj CMakeFiles/Fish_Factory.dir/internal/precompiled/tools.c.obj CMakeFiles/Fish_Factory.dir/modules/neutral/resource.rc.res | C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/lib/win64/SDL3.lib C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/lib/win64/SDL3_ttf.lib
+build Fish_Factory.exe: CXX_EXECUTABLE_LINKER__Fish_Factory_Debug CMakeFiles/Fish_Factory.dir/internal/core/fish_factory.cxx.obj CMakeFiles/Fish_Factory.dir/internal/core/preloader.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/audio.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/fish.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/interface.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/items.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/pipes.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/recipes.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/terminals.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/transitions.c.obj CMakeFiles/Fish_Factory.dir/internal/source/tutorials.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/ui.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/wires.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/cheats.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/menus.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/actions/none.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/cultivators.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/decorations.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/extractors.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/generators.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/other.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/processors.c.obj CMakeFiles/Fish_Factory.dir/internal/source/grid/transporters.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/catalog.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/cheats.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/daily_report.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/help.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/machines.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prompts/shop.cxx.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/cleanup.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/definitions.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/machines.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/other.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/preconfigurations.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/preloaders.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/text.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/tools.c.obj CMakeFiles/Fish_Factory.dir/internal/source/prepping/ui.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/saving.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/setup.c.obj CMakeFiles/Fish_Factory.dir/internal/source/data/lang.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/tiles.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/effects.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/ocean.c.obj CMakeFiles/Fish_Factory.dir/internal/source/rendering/pyramid.c.obj CMakeFiles/Fish_Factory.dir/internal/precompiled/images.c.obj CMakeFiles/Fish_Factory.dir/internal/precompiled/tools.c.obj CMakeFiles/Fish_Factory.dir/modules/neutral/resource.rc.res | C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/lib/win64/SDL3.lib C$:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory-main/external/lib/win64/SDL3_ttf.lib
   CONFIG = Debug
   FLAGS = -m64 -ferror-limit=0 -O0 -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd
   LINK_FLAGS = -Xlinker /subsystem:console -fuse-ld=lld-link

@@ -318,21 +318,18 @@ void Render_Toolbar() {
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
 		Render_Button(Textures.Cap_Button.Data[0], Rects.Cap_Hitbox, 4, Colors.Cherry_Blossom);
-		SDL_RenderTexture(Core.Renderer, Textures
-			.Cap.Data[0], NULL, &Rects.Cap);
+		SDL_RenderTexture(Core.Renderer, Textures.Cap.Data[0], NULL, &Rects.Cap);
 		Rects.Cap.x = Backing_Rectangle.x - Rects.Cap.w;
 		Rects.Cap_Button.x = Rects.Cap.x -
 			Rects.Cap_Button.w - 12;
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
 		Render_Button(Textures.Cap_Button.Data[1], Rects.Cap_Hitbox, 5, Colors.Cherry_Blossom);
-		SDL_RenderTexture(Core.Renderer, Textures.Cap
-			.Data[1], NULL, &Rects.Cap);
-		SDL_RenderTexture(Core.Renderer, Textures.Tool
-			.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
+		SDL_RenderTexture(Core.Renderer, Textures.Cap.Data[1], NULL, &Rects.Cap);
+		SDL_RenderTexture(Core.Renderer, Textures.Tool.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
 	}
 	if (Interface.Tool == 0) {
-		std::string Machine_Text = Metadata.Names[Interface.Placing_Item - 1].Content;
+		std::string Machine_Text = Metadata.Names[Interface.Placing_Item - 1].Data;
 		Machine_Text += " | " + Abbreviate_Number(Interface.Queried_Price) + "LA";
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text.c_str(),
 			Machine_Text.size(), Colors.Abyss_Black);

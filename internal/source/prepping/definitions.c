@@ -28,7 +28,7 @@ DATA Data = {
 	.Data_Grid = { },
 	.Funds = 0
 };
-METADATA Metadata;
+METADATA Metadata = { };
 SETTINGS Settings = {
 	.AA_Temporary = true,
 	.VS_Temporary = false,
@@ -39,8 +39,8 @@ SETTINGS Settings = {
 	.Volume = 50,
 	.Raw_FPS = 2
 };
-TEXTURES Textures;
-RECTS Rects;
+TEXTURES Textures = { };
+RECTS Rects = { };
 COLORS Colors = {
 	.Abyss_Black = { 0, 0, 0 },
 	.Pure_White = { 255, 255, 255 },
@@ -55,7 +55,7 @@ COLORS Colors = {
 	.Hostile_Red = { 187, 10, 30 },
 	.Ocean = { 6, 66, 116 }
 };
-FONTS Fonts;
+FONTS Fonts = { };
 TEMPORARY Temporary = {
 	.Settings_Changed = false,
 	.Modular1_Requirement = 0,
@@ -70,10 +70,14 @@ TEMPORARY Temporary = {
 	.Scroll_Percent = 0,
 	.Dialogue_Maximum = 0,
 	.Log_Inversions = { true, false, false },
-	.First_Coordinate = { 0, 0 }
+	.First_Coordinate = { 0, 0 },
+	.Docks.Data = NULL
 };
 CACHE Cache = {
-	.Wire_State = LDE_INVALID
+	.Wire_State = LDE_INVALID,
+	.Wire_Cache.Data = NULL,
+	.Blueprint_Cache = NULL,
+	.Log_Cache.Data = NULL
 };
 INTERFACE Interface = {
 	.Animation_Locked = false,
@@ -108,3 +112,4 @@ INTERFACE Interface = {
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
 	.Tile_Centerpoint = { 0, 0 }
 };
+PRECONFIGURATIONS Preconfigurations = { };

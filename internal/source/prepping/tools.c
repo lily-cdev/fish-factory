@@ -57,3 +57,52 @@ void Render_Button(const Texture_Array Button, const Rect_Array Hitbox,
 		SDL_RenderTexture(Core.Renderer, Button.Data[0], NULL, &Hitbox.Data[0]);
 	}
 }
+
+void Push_Docks(Point Input) {
+	if (Temporary.Docks.Length >= Temporary.Docks.Full_Size) {
+		Point* Buffer = malloc(sizeof(Point) * Temporary.Docks.Length);
+		memcpy(Buffer, Temporary.Docks.Data, sizeof(Point) * Temporary.Docks.Length);
+		free_c(Temporary.Docks.Data);
+		Temporary.Docks.Full_Size += 16;
+		Temporary.Docks.Data = malloc(sizeof(Point) * Temporary.Docks.Full_Size);
+		memcpy(Temporary.Docks.Data, Buffer, sizeof(Point) * Temporary.Docks.Length);
+		free_c(Buffer);
+	}
+	Temporary.Docks.Data[Temporary.Docks.Length] = Input;
+	Temporary.Docks.Length++;
+}
+
+void Pull_Docks(int Position) {
+	if (Temporary.Docks.Length > 0) {
+		for (int Counter = 0; Counter < Temporary.Docks.Length - Position - 1; Counter++) {
+			Temporary.Docks.Data[Position + Counter] = Temporary.Docks.Data[Position + Counter + 1];
+		}
+		Temporary.Docks.Length--;
+	}
+}
+
+bool Check_Clearance(const int X, const int Y, const int W, const int H) {
+	if (X + W > LDE_GRIDSIZE || Y + H > LDE_GRIDSIZE) {
+		return false;
+	} 
+	for (int Counter1 = 0; Counter1 < W; Counter1++) {
+		for (int Counter2 = 0; Counter2 < H; Counter2++) {
+			if (Data.Visual_Grid[X + Counter1][Y + Counter2] != 0) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H) {
+	for (int Counter1 = 0; Counter1 < W; Counter1++) {
+		for (int Counter2 = 0; Counter2 < H; Counter2++) {
+			Data.Visual_Grid[X + Counter1][Y + Counter2] = Identifier;
+			if (Counter1 > 0 || Counter2 > 0) {
+				Data.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
+				Data.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
+			}
+		}
+	}
+}

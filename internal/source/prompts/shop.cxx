@@ -64,7 +64,7 @@ void Render_Shop(int X, int Y) {
 			Offset += 32;
 		}
 		SDL_Surface* Name_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Metadata.Names[
-			Interface.Placing_Item - 1].Content, Metadata.Names[Interface.Placing_Item - 1].Length,
+			Interface.Placing_Item - 1].Data, Metadata.Names[Interface.Placing_Item - 1].Length,
 			Colors.Abyss_Black);
 		SDL_Texture* Name_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Name_Surface);
 		SDL_FRect Name_Rectangle = { static_cast<float>(103 * Settings.Screen_Size) - (Name_Surface->w / 2),
@@ -74,7 +74,7 @@ void Render_Shop(int X, int Y) {
 		SDL_DestroySurface(Name_Surface);
 		SDL_DestroyTexture(Name_Texture);
 		SDL_Surface* Carrying_Surface = TTF_RenderText_Blended_Wrapped(Fonts.Subtext_Font,
-			Metadata.Descriptions[Interface.Placing_Item - 1].Content,
+			Metadata.Descriptions[Interface.Placing_Item - 1].Data,
 			Metadata.Descriptions[Interface.Placing_Item - 1].Length,
 			Colors.Abyss_Black, 180 * Settings.Screen_Size);
 		SDL_FRect Description_Rectangle = { 16.0f * Settings.Screen_Size,
@@ -121,7 +121,7 @@ void Render_Shop(int X, int Y) {
 			std::to_string(Interface.Queried_Price) + "LA",
 			Colors.Abyss_Black, 456, 110);
 	} else {
-		for (int Counter = 0; Counter < Metadata_L.Categories.size(); Counter++) {
+		for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
 			Render_Button(Textures.Categories.Data[Counter],
 				Rects.Categories.Data[Counter],	Counter + 3, Colors.Cherry_Blossom);
 		}

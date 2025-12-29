@@ -1,57 +1,59 @@
 #include <data.h>
 
-void Load_Names(bool* Error) {
-	FILE* File = fopen("Assets/Data/names.txt", "r");
+bool Load_TXT(String1 Input[], int Lines, const char* Path) {
+	char Carrier[512];
+	snprintf(Carrier, sizeof(Carrier), "%s%s", Metadata.Data_Path.Data, Path);
+	FILE* File = fopen(Carrier, "r");
 	if (File == NULL) {
-		*Error = false;
-		return;
+		return false;
 	}
-	char Buffer[1024];
+	char Buffer[512];
 	size_t Length = 0;
 	size_t Size;
-	for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
+	for (int Counter = 0; Counter < Lines; Counter++) {
 		fgets(Buffer, sizeof(Buffer), File);
-		int Length = strlen(Buffer) + 1;
-		Metadata.Names[Counter].Length = Length - 1;
-		Metadata.Names[Counter].Content = malloc(sizeof(char) * Length);
-		Metadata.Names[Counter].Content[Length - 1] = '\0';
-		strcpy(Metadata.Names[Counter].Content, Buffer);
+		int Length = strlen(Buffer);
+		if (Counter == Lines - 1) {
+			Length = strlen(Buffer) + 1;
+		}
+		Input[Counter].Length = Length;
+		Input[Counter].Data = malloc(sizeof(char) * Length);
+		strcpy(Input[Counter].Data, Buffer);
+		Input[Counter].Data[Length - 1] = '\0';
 	}
-}
-
-void Load_Descriptions(bool* Error) {
-	FILE* File = fopen("Assets/Data/descriptions.txt", "r");
-	if (File == NULL) {
-		*Error = false;
-		return;
-	}
-	char Buffer[1024];
-	size_t Length = 0;
-	size_t Size;
-	for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-		fgets(Buffer, sizeof(Buffer), File);
-		int Length = strlen(Buffer) + 1;
-		Metadata.Descriptions[Counter].Length = Length - 1;
-		Metadata.Descriptions[Counter].Content = malloc(sizeof(char) * Length);
-		Metadata.Descriptions[Counter].Content[Length - 1] = '\0';
-		strcpy(Metadata.Descriptions[Counter].Content, Buffer);
-	}
+	return true;
 }
 
 bool Load_Text() {
-    bool Yield = true;
-    Load_Names(&Yield);
-    Load_Descriptions(&Yield);
+	Metadata.Image_Path.Data = "Assets/Core/Images/";
+	Metadata.Image_Path.Length = 20;
+	Metadata.Data_Path.Data = "Assets/Data/";
+	Metadata.Data_Path.Length = 13;
+    bool Yield = Load_TXT(Metadata.Names, LDE_MACHINES, "names.txt");
+	Yield = Load_TXT(Metadata.Descriptions, LDE_MACHINES, "descriptions.txt");
+	Yield = Load_TXT(Metadata.Categories, LDE_CATEGORIES, "categories.txt");
+	Yield = Load_TXT(Metadata.Subcategories, LDE_SUBCATEGORIES, "subcategories.txt");
+	Yield = Load_TXT(Metadata.Buttons, LDE_BUTTONS, "buttons.txt");
     return Yield;
 }
 
 void Free_Text() {
     for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-        if (Metadata.Names[Counter].Content != NULL) {
-            free(Metadata.Names[Counter].Content);
-        }
-        if (Metadata.Descriptions[Counter].Content != NULL) {
-            free(Metadata.Descriptions[Counter].Content);
-        }
+    	Free_String1(&Metadata.Names[Counter]);
+        Free_String1(&Metadata.Descriptions[Counter]);
     }
+    for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
+		Free_String1(&Metadata.Categories[Counter]);
+	}
+    for (int Counter = 0; Counter < LDE_SUBCATEGORIES; Counter++) {
+		Free_String1(&Metadata.Subcategories[Counter]);
+	}
+    for (int Counter = 0; Counter < LDE_BUTTONS; Counter++) {
+		Free_String1(&Metadata.Buttons[Counter]);
+	}
+	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
+		Free_String2(&Metadata.TT_Texts[Counter]);
+		Free_String3(&Metadata.TT_Parameters[Counter]);
+		free_c(Metadata.TT_Types[Counter]);
+	}
 }

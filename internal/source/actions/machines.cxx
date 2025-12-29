@@ -66,11 +66,11 @@ void Handle_Transmitter(int X, int Y) {
 			Print_Response("transmission disconnected");
 			Temporary.Dialogue_Position = 0;
 		} else if (Interface.UI_Selection > 3 && Interface.UI_Selection <
-			Temporary_L.Docks.size() + 4) {
+			Temporary.Docks.Length + 4) {
 			if (Transition.Submarine_Position.X == LDE_INVALID &&
 				Transition.Submarine_Position.Y == LDE_INVALID) {
 				Print_Response("submarine sent");
-				Transition.Submarine_Position = Temporary_L.Docks[
+				Transition.Submarine_Position = Temporary.Docks.Data[
 					Interface.UI_Selection - 4];
 				Transition.Submarine_Phase = 0;
 				Transition.Submarine_Offset = 3000;

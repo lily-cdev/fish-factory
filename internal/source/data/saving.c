@@ -19,7 +19,7 @@ void Get_Filesizes() {
 		fseek(File, 0L, SEEK_END);
 		Core.Save_Filesizes[Counter] = ftell(File);
 		fclose(File);
-		free(Path);
+		free_c(Path);
 	}
 }
 
@@ -42,7 +42,7 @@ void Read_2D_Array(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], FILE* File) {
 bool Save_Data(int Slot) {
 	char* Path = Get_Path_PKG(Slot);
 	FILE* File = fopen(Path, "wb");
-	free(Path);
+	free_c(Path);
 	if (File == NULL) {
 		return false;
 	}
@@ -86,7 +86,7 @@ bool Save_Data(int Slot) {
 bool Load_Data(int Slot) {
 	char* Path = Get_Path_PKG(Slot);
 	FILE* File = fopen(Path, "rb");
-	free(Path);
+	free_c(Path);
 	if (File == NULL) {
 		return false;
 	}

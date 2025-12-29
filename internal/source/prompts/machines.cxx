@@ -45,8 +45,19 @@ void Render_T_Tower(int X, int Y) {
 	Render_Backing();
 	Render_Sidebuttons(Textures.TT_Buttons.Data[Temporary.Dialogue_Position],
 		Rects.TT_Buttons.Data[Temporary.Dialogue_Position]);
-	std::vector<std::vector<std::string>> Parameters = Metadata_L.TT_Parameters[Temporary.Dialogue_Position];
-	std::vector<int> Command_Types = Metadata_L.TT_Types[Temporary.Dialogue_Position];
+	std::vector<std::vector<std::string>> Parameters;
+	Parameters.resize(Metadata.TT_Parameters[Temporary.Dialogue_Position].Length);
+	for (int A = 0; A < Metadata.TT_Parameters[Temporary.Dialogue_Position].Length; A++) {
+		Parameters[A].resize(Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Length);
+		for (int B = 0; B < Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Length; B++) {
+			Parameters[A][B] = Metadata.TT_Parameters[Temporary.Dialogue_Position].Data[A].Data[B].Data;
+		}
+	}
+	int Index = 0;
+	std::vector<int> Command_Types;
+	while (Metadata.TT_Types[Temporary.Dialogue_Position][Index] != LDE_INVALID) {
+		Command_Types.push_back(Metadata.TT_Types[Temporary.Dialogue_Position][Index]);
+	}
 	Process_Commands(Command_Types, Parameters);
 	Render_Necessities("transmitter", "tower");
 }

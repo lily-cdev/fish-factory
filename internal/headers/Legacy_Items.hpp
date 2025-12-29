@@ -392,10 +392,9 @@ void Purge_Items();
 void Update_Item(int X, int Y, int Identifier, int Temperature = LDE_ROOMTEMP);
 bool Check_Category(int Item, Item_Category Category);
 double Calculate_Pressure(int Temperature, double Boiling_Point, double H_Vaporisation);
-bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Output_Locations);
-bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, std::vector<Point> Input_Locations,
-	std::vector<Point> Output_Locations);
-void Extend_Recipe(Recipe Selected_Recipe, int X, int Y, const std::vector<Point> (&Preconfiguration)[4]);
+bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Locations);
+bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations);
+void Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]);
 void Preload_Recipes();
 int Get_Phase(int Fish, int Progress);
 std::string Get_Phase_Name(int Fish, int Progress, int Count);

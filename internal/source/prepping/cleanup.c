@@ -1,54 +1,59 @@
 #include <prepping.h>
 
-void Clear_Texture_Array(Texture_Array* Target) {
-	if ((*Target).Data != NULL) {
-		for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-			SDL_DestroyTexture((*Target).Data[Counter]);
-		}
-		free((*Target).Data);
+void Free_String2(String2* Target) {
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		free_d((*Target).Data[Counter]);
 	}
+	free_d(*Target);
+}
+
+void Free_String3(String3* Target) {
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		Free_String2(&((*Target).Data[Counter]));
+	}
+	free_d(*Target);
+}
+
+void Free_String4(String4* Target) {
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		Free_String3(&((*Target).Data[Counter]));
+	}
+	free_d(*Target);
+}
+
+void Clear_Texture_Array(Texture_Array* Target) {
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		SDL_DestroyTexture((*Target).Data[Counter]);
+	}
+	free_d(*Target);
 }
 
 void Clear_Texture2_Array(Texture2_Array* Target) {
-	if ((*Target).Data != NULL) {
-		for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-			Clear_Texture_Array(&((*Target).Data[Counter]));
-		}
-		free((*Target).Data);
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		Clear_Texture_Array(&((*Target).Data[Counter]));
 	}
+	free_d(*Target);
 }
 
 void Clear_Texture3_Array(Texture3_Array* Target) {
-	if ((*Target).Data != NULL) {
-		for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-			Clear_Texture2_Array(&((*Target).Data[Counter]));
-		}
-		free((*Target).Data);
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		Clear_Texture2_Array(&((*Target).Data[Counter]));
 	}
-}
-
-void Clear_Rect_Array(Rect_Array* Target) {
-	if ((*Target).Data != NULL) {
-		free((*Target).Data);
-	}
+	free_d(*Target);
 }
 
 void Clear_Rect2_Array(Rect2_Array* Target) {
-	if ((*Target).Data != NULL) {
-		for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-			Clear_Rect_Array(&(((*Target).Data)[Counter]));
-		}
-		free((*Target).Data);
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		free_d((*Target).Data[Counter]);
 	}
+	free_d(*Target);
 }
 
 void Clear_Rect3_Array(Rect3_Array* Target) {
-	if ((*Target).Data != NULL) {
-		for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-			Clear_Rect2_Array(&((*Target).Data[Counter]));
-		}
-		free((*Target).Data);
+	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
+		Clear_Rect2_Array(&((*Target).Data[Counter]));
 	}
+	free_d(*Target);
 }
 
 void Cleanup_Assets() {
@@ -76,11 +81,11 @@ void Cleanup_Assets() {
 	Clear_Rect3_Array(&Rects.Subcontents);
 	Clear_Texture2_Array(&Textures.Tutorials);
 	Clear_Rect2_Array(&Rects.Tutorials);
-	Clear_Rect_Array(&Rects.Tutorial_Hitbox);
+	free_d(Rects.Tutorial_Hitbox);
 	Clear_Texture2_Array(&Textures.Cheats);
 	Clear_Rect2_Array(&Rects.Cheats);
 	Clear_Texture2_Array(&Textures.Cap_Button);
-	Clear_Rect_Array(&Rects.Cap_Hitbox);
+	free_d(Rects.Cap_Hitbox);
 	Clear_Texture2_Array(&Textures.New);
 	Clear_Rect2_Array(&Rects.New);
 	Clear_Texture2_Array(&Textures.Load);
@@ -90,7 +95,7 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Textures.Categories);
 	Clear_Rect2_Array(&Rects.Categories);
 	Clear_Texture_Array(&Textures.Error_Exit);
-	Clear_Rect_Array(&Rects.Error_Exit);
+	free_d(Rects.Error_Exit);
 	Clear_Texture2_Array(&Textures.MSP_Buttons);
 	Clear_Rect2_Array(&Rects.MSP_Buttons);
 	Clear_Texture2_Array(&Textures.SD_Buttons);
@@ -110,11 +115,11 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Textures.TBW_Texture);
 	Clear_Rect2_Array(&Rects.TBW_Rectangle);
 	Clear_Texture_Array(&Textures.Clear_Tutorial);
-	Clear_Rect_Array(&Rects.Clear_Tutorial);
+	free_d(Rects.Clear_Tutorial);
 	Clear_Texture_Array(&Textures.Settings_Label);
-	Clear_Rect_Array(&Rects.Settings_Label);
+	free_d(Rects.Settings_Label);
 	Clear_Texture_Array(&Textures.Save_Settings);
-	Clear_Rect_Array(&Rects.Save_Settings);
+	free_d(Rects.Save_Settings);
 	Clear_Texture_Array(&Textures.Cap);
 	Clear_Texture_Array(&Textures.R_Pipe);
 	Clear_Texture_Array(&Textures.L_Pipe);
@@ -122,25 +127,25 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.Arrow);
 	Clear_Texture_Array(&Textures.S_Dock);
 	Clear_Texture_Array(&Textures.Tunnel);
-	Clear_Rect_Array(&Rects.Tunnel);
+	free_d(Rects.Tunnel);
 	Clear_Texture_Array(&Textures.Return);
-	Clear_Rect_Array(&Rects.Return);
+	free_d(Rects.Return);
 	Clear_Texture_Array(&Textures.New_Game);
-	Clear_Rect_Array(&Rects.New_Game);
+	free_d(Rects.New_Game);
 	Clear_Texture_Array(&Textures.Settings);
-	Clear_Rect_Array(&Rects.Settings);
+	free_d(Rects.Settings);
 	Clear_Texture_Array(&Textures.Update_Logs);
-	Clear_Rect_Array(&Rects.Update_Logs);
+	free_d(Rects.Update_Logs);
 	Clear_Texture_Array(&Textures.Credits);
-	Clear_Rect_Array(&Rects.Credits);
+	free_d(Rects.Credits);
 	Clear_Texture_Array(&Textures.Quit_Game);
-	Clear_Rect_Array(&Rects.Quit_Game);
+	free_d(Rects.Quit_Game);
 	Clear_Texture_Array(&Textures.Apply);
-	Clear_Rect_Array(&Rects.Apply);
+	free_d(Rects.Apply);
 	Clear_Texture_Array(&Textures.Cancel);
-	Clear_Rect_Array(&Rects.Cancel);
+	free_d(Rects.Cancel);
 	Clear_Texture_Array(&Textures.Next_Day);
-	Clear_Rect_Array(&Rects.Next_Day);
+	free_d(Rects.Next_Day);
 	Clear_Texture_Array(&Textures.Quirk);
 	Clear_Texture_Array(&Textures.Quirk_Label);
 	SDL_DestroyTexture(Textures.Logo);

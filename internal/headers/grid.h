@@ -1,2 +1,44 @@
+#pragma once
 #include <core.h>
 #include <prepping.h>
+
+bool Place_Reinforced_Pipe(int X, int Y);
+bool Place_Ram_Pump(int X, int Y);
+bool Place_Incinerator(int X, int Y);
+bool Place_Piezo_Generator(int X, int Y);
+bool Place_Decoration(int X, int Y);
+bool Place_Submarine_Dock(int X, int Y);
+bool Place_Filtration_Plant(int X, int Y);
+bool Place_Bio_Generator(int X, int Y);
+bool Place_Spawning_Pool(int X, int Y);
+bool Place_Distillery(int X, int Y);
+bool Place_Algae_Bed(int X, int Y);
+bool Place_Command_Platform(int X, int Y);
+bool Place_Basic_Scrubber(int X, int Y);
+bool Place_Spawning_Controller(int X, int Y);
+bool Place_Spawning_Output(int X, int Y);
+bool Place_Spawning_Input(int X, int Y);
+bool Place_Electrolytic_Cell(int X, int Y);
+bool Place_Fluid_Mixer(int X, int Y);
+bool Place_Signal_Tower(int X, int Y);
+bool Place_Flowerpot(int X, int Y);
+bool Place_Ammunition_Shelf(int X, int Y);
+bool Place_Cable_Node(int X, int Y);
+bool Place_Geo_Well(int X, int Y);
+bool Place_Large_Pipe(int X, int Y);
+bool Place_Heat_Exchanger(int X, int Y);
+bool Place_Petrified_Wood(int X, int Y);
+bool Place_Basalt_Tile(int X, int Y);
+bool Place_Silicone_Carpet(int X, int Y);
+bool Place_Money_Generator(int X, int Y);
+bool Place_Fluid_Generator(int X, int Y);
+bool Place_RL_Intersection(int X, int Y);
+bool Place_RL_Intersection(int X, int Y);
+bool Place_Hazard_Strip(int X, int Y);
+bool Place_Condenser_Input(int X, int Y);
+bool Place_Condenser_Transferor(int X, int Y);
+bool Place_Condenser_Heatsink(int X, int Y);
+bool Place_Condenser_Output(int X, int Y);
+bool Place_Turbine_Input(int X, int Y);
+bool Place_Turbine_Impulse(int X, int Y);
+bool Place_Turbine_Output(int X, int Y);

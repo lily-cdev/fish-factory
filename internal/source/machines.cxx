@@ -142,7 +142,7 @@ int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE]
 			Progressing = true;
 		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Self) {
 			if (Self_Accounted) {
-				return -LDE_INFINITY;
+				return -9999;
 			} else {
 				Self_Accounted = true;
 				Progressing = true;
@@ -250,10 +250,15 @@ void Build_Grid() {
 }
 
 void Restore_Cache() {
+	Temporary.Docks.Length = 0;
+	Temporary.Docks.Full_Size = 0;
+	free(Temporary.Docks.Data);
+	Temporary.Docks.Data = nullptr;
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			if (Visual_To_ID(Data.Visual_Grid[X][Y]) == 5) {
-				Temporary_L.Docks.push_back({ X, Y });
+				Point Location = { X, Y };
+				Push_Docks(Location);
 			}
 		}
 	}
@@ -300,9 +305,9 @@ void Remove_Machine(int X, int Y) {
 		Update_Item(X, Y, LDE_INVALID);
 	} else {
 		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Submarine_Dock) {
-			for (int Counter = 0; Counter < Temporary_L.Docks.size(); Counter++) {
-				if (Temporary_L.Docks[Counter].X == X && Temporary_L.Docks[Counter].Y == Y) {
-					Temporary_L.Docks.erase(Temporary_L.Docks.begin() + Counter);
+			for (int Counter = 0; Counter < Temporary.Docks.Length; Counter++) {
+				if (Temporary.Docks.Data[Counter].X == X && Temporary.Docks.Data[Counter].Y == Y) {
+					Pull_Docks(Counter);
 				}
 			}
 			if (Transition.Submarine_Position.X == X && Transition.Submarine_Position.X == Y) {
@@ -362,32 +367,27 @@ void Update_Machines() {
 					Data.Settings_Grid[Column][Row][1]--;
 					switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
 					case Distillery:
-						Extend_Recipe(Preset_IO_Recipes.D_Water, Column, Row,
-							Preconfigurations_L.D_Outputs);
+						Extend_Recipe(Preset_IO_Recipes.D_Water, Column, Row, Preconfigurations.D_Outputs);
 						break;
 					case Electrolytic_Cell:
 						if (Data.Settings_Grid[Column][Row][2] == 1) {
-							Extend_Recipe(Preset_IO_Recipes.EP_Water, Column, Row,
-								Preconfigurations_L.EP_Outputs);
+							Extend_Recipe(Preset_IO_Recipes.EP_Water, Column, Row, Preconfigurations.EP_Outputs);
 						} else if (Data.Settings_Grid[Column][Row][2] == 2) {
-							Extend_Recipe(Preset_IO_Recipes.EP_Saltwater, Column, Row,
-								Preconfigurations_L.EP_Outputs);
+							Extend_Recipe(Preset_IO_Recipes.EP_Saltwater, Column, Row, Preconfigurations.EP_Outputs);
 						} else {
-							Extend_Recipe(Preset_IO_Recipes.EP_Salt, Column, Row,
-								Preconfigurations_L.EP_Outputs);
+							Extend_Recipe(Preset_IO_Recipes.EP_Salt, Column, Row, Preconfigurations.EP_Outputs);
 						}
 						break;
 					case Algae_Bed:
-						Extend_Recipe(Preset_O_Recipes.GB_Algae, Column, Row,
-							Preconfigurations_L.GB_Outputs);
+						Extend_Recipe(Preset_O_Recipes.GB_Algae, Column, Row, Preconfigurations.GB_Outputs);
 						break;
 					default:
 						break;
 					}
 				}
 			}
-			std::vector<Point> Inputs;
-			std::vector<Point> Outputs;
+			Node Inputs;
+			Node Outputs;
 			std::vector<Recipe> Selected_Recipes;
 			bool Conditional;
 			switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
@@ -426,10 +426,10 @@ void Update_Machines() {
 				}
 				break;
 			case Distillery:
-				Inputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]), Preconfigurations_L.D_Inputs);
-				Outputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]), Preconfigurations_L.D_Outputs);
+				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[
+					Column][Row]), Preconfigurations.D_Inputs);
+				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[
+					Column][Row]), Preconfigurations.D_Outputs);
 				Process_Recipe(Preset_IO_Recipes.D_Water, Column, Row, Inputs, Outputs);
 				break;
 			case Algae_Bed:
@@ -438,9 +438,9 @@ void Update_Machines() {
 					Column + 1][Row + 2][Stored_Fluids] <= 2 && Data.Settings_Grid[Column][Row][1] <= 0) {
 					Data.Settings_Grid[Column][Row][1] = 2;
 				}
-				Outputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]), Preconfigurations_L.GB_Outputs);
-				Process_Recipe(Preset_O_Recipes.GB_Algae, Column, Row, { }, Outputs);
+				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[
+					Column][Row]), Preconfigurations.GB_Outputs);
+				Process_O_Recipe(Preset_O_Recipes.GB_Algae, Column, Row, Outputs);
 				break;
 			case Electrolytic_Cell:
 					Selected_Recipes = {
@@ -448,16 +448,12 @@ void Update_Machines() {
 						Preset_IO_Recipes.EP_Water,
 						Preset_IO_Recipes.EP_Salt
 					};
-					Outputs = Return_Nodes(Column, Row,
-						Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
-						Preconfigurations_L.EP_Outputs);
+					Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[
+						Column][Row]), Preconfigurations.EP_Inputs);
+					Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[
+						Column][Row]), Preconfigurations.EP_Outputs);
 					for (int Counter = 0; Counter < Selected_Recipes.size(); Counter++) {
-						if (Selected_Recipes[Counter].ID == Preset_IO_Recipes.EP_Water.ID) {
-							Outputs.erase(Outputs.begin() + 1);
-						}
-						Process_Recipe(Selected_Recipes[Counter], Column, Row, Return_Nodes(Column, Row,
-						Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
-						Preconfigurations_L.EP_Inputs), Outputs);
+						Process_Recipe(Selected_Recipes[Counter], Column, Row, Inputs, Outputs);
 					}
 				break;
 			case Fluid_Mixer:
@@ -469,13 +465,18 @@ void Update_Machines() {
 				};
 				for (int Counter = 0; Counter < Selected_Recipes.size(); Counter++) {
 					Data.Animation_Grid[Column][Row][0] = 0;
-					if (Process_Recipe(Selected_Recipes[Counter], Column, Row, Return_Nodes(Column, Row,
-						Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigurations_L.FM_Inputs),
-						Return_Nodes(Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
-						Preconfigurations_L.FM_Outputs))) {
+					Node Subinputs;
+					Node Suboutputs;
+					Return_Nodes(Subinputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+						Preconfigurations.FM_Inputs);
+					Return_Nodes(Suboutputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+						Preconfigurations.FM_Outputs);
+					if (Process_Recipe(Selected_Recipes[Counter], Column, Row, Subinputs, Suboutputs)) {
 						Data.Animation_Grid[Column][Row][0] = 1;
 						break;
 					}
+					Free_Node(Subinputs);
+					Free_Node(Suboutputs);
 				}
 				break;
 			case Signal_Tower:
@@ -490,30 +491,29 @@ void Update_Machines() {
 				if (Data.Data_Grid[Column][Row][Stored_Power] < 2500) {
 					Conditional = false;
 				}
-				Inputs = { { 0, 2 }, { 2, 0 }, { 1, 0 }, { 0, 1 } };
-				Outputs = { { 0, 0 }, { 0, 0 }, { 1, 2 }, { 2, 1 } };
-				if (Data.Data_Grid[Column + Inputs[Rotation].X][
-					Row + Inputs[Rotation].Y][Stored_Fluids] < 8 ||
-					Data.Data_Grid[Column + Outputs[Rotation].X][
-					Row + Outputs[Rotation].Y][Stored_Fluids] > 0) {
+				Return_Nodes(Inputs, Column, Row, Rotation, Preconfigurations.GW_Inputs);
+				Return_Nodes(Outputs, Column, Row, Rotation, Preconfigurations.GW_Outputs);
+				if (Data.Data_Grid[Inputs.Data[Rotation].X][
+					Inputs.Data[Rotation].Y][Stored_Fluids] < 8 ||
+					Data.Data_Grid[Outputs.Data[Rotation].X][
+					Outputs.Data[Rotation].Y][Stored_Fluids] > 0) {
 					Conditional = false;
 				}
-				if (Check_Category(Data.Items_Grid[Column + Outputs[Rotation].X][
-					Row + Outputs[Rotation].Y], Preset_Categories.Coolant)) {
+				if (Check_Category(Data.Items_Grid[Outputs.Data[Rotation].X][
+					Outputs.Data[Rotation].Y], Preset_Categories.Coolant)) {
 					Conditional = false;
 				}
 				if (Conditional) {
 					Data.Data_Grid[Column][Row][Stored_Power] -= 2500;
-					Data.Data_Grid[Column + Inputs[Rotation].X][Row + Inputs[Rotation].Y][Stored_Fluids] -= 8;
-					Data.Data_Grid[Column + Outputs[Rotation].X][Row + Outputs[Rotation].Y][Stored_Fluids] += 8;
-					int Temperature = Data.Temperature_Grid[Column + Inputs[Rotation].X][
-						Row + Inputs[Rotation].Y];
+					Data.Data_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y][Stored_Fluids] -= 8;
+					Data.Data_Grid[Outputs.Data[Rotation].X][Outputs.Data[Rotation].Y][Stored_Fluids] += 8;
+					int Temperature = Data.Temperature_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y];
 					if (Temperature == 328) {
 						Temperature = 327;
 					}
 					double Benchmark = std::log10((double)(328 - Temperature) / 263) / std::log10(0.64);
-					Update_Item(Column + Outputs[Rotation].X, Row + Outputs[Rotation].Y, Data.Items_Grid[
-						Column + Inputs[Rotation].X][Row + Inputs[Rotation].Y],
+					Update_Item(Outputs.Data[Rotation].X, Outputs.Data[Rotation].Y, Data.Items_Grid[
+						Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y],
 						(-263 * std::pow(0.64, Benchmark + 1)) + 328);
 				}
 				break;
@@ -542,17 +542,15 @@ void Update_Machines() {
 			case R_Intersection:
 			case L_Intersection:
 				//check4hazard!
-				Inputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]),
-					Preconfigurations_L.I_Inputs);
-				Outputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]),
-					Preconfigurations_L.I_Outputs);
+				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(
+					Data.Visual_Grid[Column][Row]), Preconfigurations.I_Inputs);
+				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(
+					Data.Visual_Grid[Column][Row]), Preconfigurations.I_Outputs);
 				for (int Counter = 0; Counter < 2; Counter++) {
-					int OX = Outputs[Counter].X;
-					int OY = Outputs[Counter].Y;
-					int IX = Inputs[Counter].X;
-					int IY = Inputs[Counter].Y;
+					int OX = Outputs.Data[Counter].X;
+					int OY = Outputs.Data[Counter].Y;
+					int IX = Inputs.Data[Counter].X;
+					int IY = Inputs.Data[Counter].Y;
 					double Difference = Data.Data_Grid[OX][OY][Fluid_Cap] -
 						Data.Data_Grid[OX][OY][Stored_Fluids];
 					Difference = std::min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
@@ -560,44 +558,43 @@ void Update_Machines() {
 						Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == LDE_INVALID)) {
 						Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
 						Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
-						Update_Item(Outputs[Counter].X, OY, Data.Items_Grid[IX][IY],
+						Update_Item(Outputs.Data[Counter].X, OY, Data.Items_Grid[IX][IY],
 							Data.Temperature_Grid[IX][IY]);
 					}
 				}
 				break;
 			case Turbine_Input:
 				Data.Settings_Grid[Column][Row][7] = 0;
-				Inputs = Return_Nodes(Column, Row, Visual_To_Rotation(
-					Data.Visual_Grid[Column][Row]),
-					Preconfigurations_L.STI_Inputs);
-				Outputs = Return_Nodes(Data.Settings_Grid[Column][Row][5],
+				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(
+					Data.Visual_Grid[Column][Row]), Preconfigurations.STI_Inputs);
+				Return_Nodes(Outputs, Data.Settings_Grid[Column][Row][5],
 					Data.Settings_Grid[Column][Row][6], Visual_To_Rotation(
 					Data.Visual_Grid[static_cast<int>(Data.Settings_Grid[
 					Column][Row][5])][static_cast<int>(Data.Settings_Grid[
-					Column][Row][6])]), Preconfigurations_L.STO_Outputs);
+					Column][Row][6])]), Preconfigurations.STO_Outputs);
 				if (Data.Settings_Grid[Column][Row][3] > 0 &&
 					Data.Settings_Grid[Column][Row][4] == 1 &&
-					Data.Items_Grid[Inputs[0].X][Inputs[0].Y] ==
+					Data.Items_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] ==
 					Preset_Items.Steam.Identifier &&
-					Data.Items_Grid[Outputs[0].X][Outputs[0].Y] ==
+					Data.Items_Grid[Outputs.Data[0].X][Outputs.Data[0].Y] ==
 					Preset_Items.Steam.Identifier) {
-					double Transferred = Data.Data_Grid[Outputs[0].X][
-						Outputs[0].Y][Fluid_Cap] - Data.Data_Grid[
-						Outputs[0].X][Outputs[0].Y][Stored_Fluids];
+					double Transferred = Data.Data_Grid[Outputs.Data[0].X][
+						Outputs.Data[0].Y][Fluid_Cap] - Data.Data_Grid[
+						Outputs.Data[0].X][Outputs.Data[0].Y][Stored_Fluids];
 					Transferred = std::min(Transferred, Data.Data_Grid[
-						Inputs[0].X][Inputs[0].Y][Stored_Fluids]);
+						Inputs.Data[0].X][Inputs.Data[0].Y][Stored_Fluids]);
 					if (Transferred > 0) {
-						Data.Data_Grid[Inputs[0].X][Inputs[0].Y][
+						Data.Data_Grid[Inputs.Data[0].X][Inputs.Data[0].Y][
 							Stored_Fluids] -= Transferred;
-						Data.Data_Grid[Outputs[0].X][Outputs[0].Y][
+						Data.Data_Grid[Outputs.Data[0].X][Outputs.Data[0].Y][
 							Stored_Fluids] += Transferred;
 						double Generated = Transferred * LDE_TURBINECOEFFICIENT *
-							log(sqr_d(Data.Temperature_Grid[Inputs[0].X][Inputs[0].Y])) *
+							log(sqr_d(Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y])) *
 							log(Data.Settings_Grid[Column][Row][3] * 1.5);
-						Update_Item(Outputs[0].X, Outputs[0].Y, Preset_Items
-							.Steam.Identifier, (Data.Temperature_Grid[Inputs[
-							0].X][Inputs[0].Y] * 0.1) + 32);
-						if (Data.Temperature_Grid[Inputs[0].X][Inputs[0].Y] < 200) {
+						Update_Item(Outputs.Data[0].X, Outputs.Data[0].Y, Preset_Items
+							.Steam.Identifier, (Data.Temperature_Grid[Inputs.Data[
+							0].X][Inputs.Data[0].Y] * 0.1) + 32);
+						if (Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] < 200) {
 							Generated = 0;
 						}
 						Data.Settings_Grid[Column][Row][7] = Generated;
@@ -611,12 +608,16 @@ void Update_Machines() {
 				break;
 			}
 			if (Data.Visual_Grid[Column][Row] == 17) {
-				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, Column, Row, { { Column, Row } })) {
+				Node tmp3;tmp3.Data=(Point*)malloc(sizeof(Point));tmp3.Length=1;
+				tmp3.Data[0].X = Column;tmp3.Data[0].Y=Row;
+				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, Column, Row, tmp3)) {
 					Data.Animation_Grid[Column][Row][0] = 0;
 					Play_Sound(&Audio.Ram_Loop, false);
 				} else if (Data.Animation_Grid[Column][Row][0] == 0) {
 					Data.Animation_Grid[Column][Row][0] = LDE_INVALID;
 				}
+				free(tmp3.Data);
+				tmp3.Data = nullptr;
 			} else if (Data.Visual_Grid[Column][Row] == 19) {
 				Data.Data_Grid[Column][Row][Stored_Power] = std::min(Data.Data_Grid[
 					Column][Row][Stored_Power] + 0.5, Data.Data_Grid[Column][Row][Power_Cap]);
@@ -634,12 +635,18 @@ void Update_Machines() {
 					}
 				}
 			} else if (Data.Visual_Grid[Column][Row] == 22) {
+				Node tmp1;tmp1.Data = (Point*)malloc(sizeof(Point));
+				tmp1.Length = 1;tmp1.Data[0].X = Column;
+				tmp1.Data[0].Y = Row + 1;
+				Node tmp2;tmp2.Data = (Point*)malloc(sizeof(Point)*3);
+				tmp2.Length = 3;tmp2.Data[0].X = Column + 1;
+				tmp2.Data[0].Y = Row;tmp2.Data[1].X = Column + 1;
+				tmp2.Data[1].Y = Row + 1;tmp2.Data[2].X = Column + 1;
+				tmp2.Data[2].Y = Row + 2;
 				bool Running1 = Process_Recipe(Preset_IO_Recipes.FP_Saltwater,
-					Column, Row, { { Column, Row + 1 } }, { { Column + 1, Row },
-					{ Column + 1, Row + 1 }, { Column + 1, Row + 2 } });
+					Column, Row, tmp1, tmp2);
 				bool Running2 = Process_Recipe(Preset_IO_Recipes.FP_Biopaste,
-					Column, Row, { { Column, Row + 1 } }, { { Column + 1, Row },
-					{ Column + 1, Row + 1 }, { Column + 1, Row + 2 } });
+					Column, Row, tmp1, tmp2);
 				Data.Animation_Grid[Column][Row][0] = 0;
 				Data.Animation_Grid[Column][Row][1] = 0;
 				if (Running1 || Running2) {
@@ -648,6 +655,10 @@ void Update_Machines() {
 					Data.Animation_Grid[Column][Row][0] = LDE_INVALID;
 					Data.Animation_Grid[Column][Row][1] = 0;
 				}
+				free(tmp1.Data);
+				tmp1.Data = nullptr;
+				free(tmp2.Data);
+				tmp2.Data = nullptr;
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				if (Data.Settings_Grid[Column][Row][5] != 0) {
 					if (Data.Settings_Grid[Column][Row][4] >= Data.Settings_Grid[Column][Row][5] *
@@ -754,12 +765,12 @@ void Update_Machines() {
 				};
 				for (int Counter = 0; Counter < 2; Counter++) {
 					Point Input_Pos = Inputs[Counter][Visual_To_Rotation(Data.Visual_Grid[Column][Row])];
-					if (Check_Category(ID_To_Item(Data.Items_Grid[Input_Pos.X]
-						[Input_Pos.Y]).Identifier, Categories[Counter]) && (Data.Settings_Grid[Column]
-						[Row][Counter + 9] == LDE_INVALID || Data.Settings_Grid[Column]
-						[Row][Counter + 9] == Data.Items_Grid[Input_Pos.X][Input_Pos.Y])) {
-						Data.Settings_Grid[Column][Row][Counter + 9] = Data.Items_Grid
-							[Input_Pos.X][Input_Pos.Y];
+					if (Check_Category(ID_To_Item(Data.Items_Grid[Input_Pos.X][
+						Input_Pos.Y]).Identifier, Categories[Counter]) && (Data.Settings_Grid[Column][
+						Row][Counter + 9] == LDE_INVALID || Data.Settings_Grid[Column][
+						Row][Counter + 9] == Data.Items_Grid[Input_Pos.X][Input_Pos.Y])) {
+						Data.Settings_Grid[Column][Row][Counter + 9] = Data.Items_Grid[
+							Input_Pos.X][Input_Pos.Y];
 						int Volume = Data.Settings_Grid[Column][Row][Counter + 5];
 						int Intake = 0;
 						if (Data.Data_Grid[Input_Pos.X][Input_Pos.Y]
@@ -800,6 +811,8 @@ void Update_Machines() {
 					Data.Settings_Grid[Column][Row][8] = FW_Yield;
 				}
 			}
+			Free_Node(Inputs);
+			Free_Node(Outputs);
 		}
 	}
 }
