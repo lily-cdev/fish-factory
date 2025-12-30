@@ -3,7 +3,8 @@
 #define NOMINMAX
 #define LDE_BORDERWIDTH 4
 #define LDE_BUFFERSIZE 360
-#define LDE_BUTTONS 43
+#define LDE_BUTTONS 49
+#define LDE_CAPTIONS 6
 #define LDE_CATEGORIES 8
 #define LDE_CHANNELS 1
 #define LDE_DOCKCAPACITY 750.0
@@ -30,19 +31,19 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <corecrt_math_defines.h>
-#include <enums.h>
 #include <types.h>
-#include <macros.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 
+#include <enums.h>
+#include <macros.h>
+
 extern SDL_ScaleMode Scaling_Quality;
 
 SDL_Surface* Load_BMP(const char* Path);
-SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, SDL_PixelFormat Format,
-    SDL_TextureAccess Access, int Width, int Height);
+SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height);
 SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface* Surface);
 SDL_Texture* IMG_GenerateTexture(SDL_Renderer* Renderer, const char* Path);
 int sgn(long double Input);

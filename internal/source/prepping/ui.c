@@ -33,3 +33,9 @@ void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Out
 	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
 	Clear_Renderer();
 }
+
+SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y) {
+	SDL_FRect Yield = { Source.x - (X * Settings.Screen_Size), Source.y - (Y * Settings.Screen_Size),
+		Source.w + ((X * 2) * Settings.Screen_Size), Source.h + ((Y * 2) * Settings.Screen_Size) };
+	return Yield;
+}

@@ -80,7 +80,7 @@ int main(int argc, char* args[]) {
 			SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
 			Render_Ocean();
 			Render_Pyramid();
-			if (Interface.Building && Data.Funds - Metadata_L.Machine_Prices[
+			if (Interface.Building && Data.Funds - Metadata.Machine_Prices[
 				Interface.Placing_Item - 1] > 0) {
 				Build_Grid();
 				Update_Grid();
@@ -428,7 +428,7 @@ int main(int argc, char* args[]) {
 		double Remaining_Delay = (1000 / Interface.Frame_Rate) - Total_Time;
 		double True_Rate = 99999;
 		if (Total_Time > 0) {
-			True_Rate = 1000 / Total_Time;
+			True_Rate = 1000.0 / Total_Time;
 		}
 		if (True_Rate > Interface.Frame_Rate) {
 			True_Rate = Interface.Frame_Rate;

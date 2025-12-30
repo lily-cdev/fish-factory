@@ -487,11 +487,9 @@ void Cache_Blueprint() {
 	ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &Width, &Height);
 	int Maximum = (Width > Height ? Width : Height) * Settings.Screen_Size * 40;
 	SDL_DestroyTexture(Cache.Blueprint_Cache);
-	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer,
-		SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Maximum, Maximum);
+	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer, Maximum, Maximum);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer,
-		SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Width *
+	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer, Width *
 		Settings.Screen_Size * 40, Height * Settings.Screen_Size * 40);
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
@@ -521,6 +519,6 @@ void Cache_Blueprint() {
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = static_cast<int>((Metadata_L.Machine_Prices[Interface.Placing_Item - 1] *
-		1.1)) +	Metadata_L.Machine_Taxes[Interface.Placing_Item - 1] + 1;
+	Interface.Queried_Price = static_cast<int>((Metadata.Machine_Prices[Interface.Placing_Item - 1] *
+		1.1)) +	Metadata.Machine_Taxes[Interface.Placing_Item - 1] + 1;
 }

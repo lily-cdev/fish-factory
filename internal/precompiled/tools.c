@@ -1,8 +1,8 @@
-#include "core.h"
+#include <core.h>
 
-SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, SDL_PixelFormat Format,
-	SDL_TextureAccess Access, int Width, int Height) {
-	SDL_Texture* Texture = SDL_CreateTexture(Renderer, Format, Access, Width, Height);
+SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) {
+	SDL_Texture* Texture = SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888,
+		SDL_TEXTUREACCESS_TARGET, Width, Height);
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	return Texture;
 }

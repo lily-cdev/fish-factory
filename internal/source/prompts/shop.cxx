@@ -4,20 +4,20 @@ void Render_Shop(int X, int Y) {
 	Render_Box(210, 10, 220, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	if (Interface.Subtab > 0) {
 		if (Interface.Subtab < 9) {
-			int Subcategories = Metadata_L.Subcategory_Positions[Interface.Subtab - 1].size();
+			int Subcategories = intlen(Metadata.Subcategory_Positions[Interface.Subtab - 1]);
 			for (int Counter = 0; Counter < Subcategories; Counter++) {
 				Render_Button(Textures.Subcategories.Data[Interface.Subtab - 1].Data[Counter], Rects
 					.Subcategories.Data[Interface.Subtab - 1].Data[Counter],
 					Counter + 3, Colors.Cherry_Blossom);
 			}
-			for (int Counter = 0; Counter < Metadata_L.Item_Labels[Interface.Subtab - 1].size(); Counter++) {
+			for (int Counter = 0; Counter < intlen(Metadata.Item_Labels[Interface.Subtab - 1]); Counter++) {
 				Render_Button(Textures.Item_Labels.Data[Interface.Subtab - 1].Data[Counter], Rects
 					.Item_Labels.Data[Interface.Subtab - 1].Data[Counter],
 					Counter + Subcategories + 3, Colors.Cherry_Blossom);
 			}
 		} else {
-			for (int Counter = 0; Counter < Metadata_L.Subcontents[
-				Interface.Subtab - 9].size(); Counter++) {
+			for (int Counter = 0; Counter < intlen(Metadata.Subcontents[
+				Interface.Subtab - 9]); Counter++) {
 				Render_Button(Textures.Subcontents.Data[Interface.Subtab - 9].Data[Counter], Rects
 					.Subcontents.Data[Interface.Subtab - 9].Data[Counter], Counter + 3, Colors.Cherry_Blossom);
 			}
@@ -106,13 +106,13 @@ void Render_Shop(int X, int Y) {
 		Render_Dynamic_Text(Fonts.Halftext_Font, "Price Sum:",
 			Colors.Abyss_Black, 446, 10);
 		Render_Dynamic_Text(Fonts.Subtext_Font, "Base: " +
-			std::to_string(Metadata_L.Machine_Prices[
+			std::to_string(Metadata.Machine_Prices[
 			Interface.Placing_Item - 1]) + "LA", Colors.Abyss_Black, 456, 30);
 		Render_Dynamic_Text(Fonts.Subtext_Font, "Tax: " +
-			std::to_string(Metadata_L.Machine_Prices[
+			std::to_string(Metadata.Machine_Prices[
 			Interface.Placing_Item - 1] / 10) + "LA", Colors.Abyss_Black, 456, 50);
 		Render_Dynamic_Text(Fonts.Subtext_Font, "Shipping Fee: " +
-			std::to_string(Metadata_L.Machine_Taxes[
+			std::to_string(Metadata.Machine_Taxes[
 			Interface.Placing_Item - 1]) + "LA", Colors.Abyss_Black, 456, 70);
 		Render_Dynamic_Text(Fonts.Subtext_Font, "Processing Fee: 1LA",
 			Colors.Abyss_Black, 456, 90);

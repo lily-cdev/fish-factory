@@ -286,8 +286,7 @@ void Destroy_Clearance(int X, int Y, int Width, int Height) {
 }
 
 void Remove_Machine(int X, int Y) {
-	Data.Funds += Metadata_L.Machine_Prices[
-		Visual_To_ID(Data.Visual_Grid[X][Y])];
+	Data.Funds += Metadata.Machine_Prices[Visual_To_ID(Data.Visual_Grid[X][Y])];
 	int Width;
 	int Height;
 	ID_To_Size(Visual_To_ID(Data.Visual_Grid[X][Y]),

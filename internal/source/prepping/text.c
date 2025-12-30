@@ -71,18 +71,12 @@ Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectang
 		Rectangles.Data[Counter1].Length = 2;
 		Rectangles.Data[Counter1].Data = calloc(2, sizeof(SDL_FRect));
 		Rectangles.Data[Counter1].Data[0].x = LDE_INVALID;
-		Rectangles.Data[Counter1].Data[0].y = (float)(50 + (Counter1 * 30)) * Settings.Screen_Size;
-		Rectangles.Data[Counter1].Data[0].w = 0;
-		Rectangles.Data[Counter1].Data[0].h = 0;
-		Yield.Data[Counter1] = Load_Button(Fonts.Terminal_Font, Carrier.Data[Counter1],
-			Rectangles.Data[Counter1], Colors.Cherry_Blossom, Colors.Pure_White);
+		Rectangles.Data[Counter1].Data[0].y = (float)((Counter1 * 30) + 50) * Settings.Screen_Size;
+		Load_Button(Fonts.Terminal_Font, Carrier.Data[Counter1], &Yield.Data[Counter1], Rectangles.Data[Counter1],
+			Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-			Rectangles.Data[Counter1].Data[Counter2].x += 210 * Settings.Screen_Size;
+			Rectangles.Data[Counter1].Data[Counter2].x += Settings.Screen_Size * 210;
 		}
-	}
-	printf("-----\n");
-	for (int x=0; x<Carrier.Length;x++) {
-		printf("%s\n", Carrier.Data[x]);
 	}
 	Free_String2(&Carrier);
 	return Yield;
@@ -100,12 +94,12 @@ void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, Strin
 	}
 }
 
-Texture_Array Load_Button(TTF_Font* Font, const char* Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2) {
-	Texture_Array Yield;
-	Yield.Length = 2;
-	Yield.Data = malloc(sizeof(SDL_Texture*) * 2);
+void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,
+	SDL_Color Color1, SDL_Color Color2) {
+	Yield->Length = 2;
+	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, strlen(Text), Color1);
-	Yield.Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
+	Yield->Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	if (Rectangles.Data[0].x == LDE_INVALID) {
 		Rectangles.Data[0].x = (320 * Settings.Screen_Size) - (Button_Surface->w * 0.5);
 	}
@@ -121,11 +115,10 @@ Texture_Array Load_Button(TTF_Font* Font, const char* Text, Rect_Array Rectangle
 	int Offset = Button_Surface->w;
 	SDL_DestroySurface(Button_Surface);
 	Button_Surface = TTF_RenderText_Blended(Font, Buffer, strlen(Buffer), Color2);
-	Yield.Data[1] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
+	Yield->Data[1] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	Rectangles.Data[1].x = Rectangles.Data[0].x - Offset;
 	Rectangles.Data[1].y = Rectangles.Data[0].y;
 	Rectangles.Data[1].w = (float)(Button_Surface->w);
 	Rectangles.Data[1].h = (float)(Button_Surface->h);
 	SDL_DestroySurface(Button_Surface);
-	return Yield;
 }

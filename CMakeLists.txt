@@ -53,6 +53,7 @@ add_executable(Fish_Factory
 	internal/source/prepping/other.c
 	internal/source/prepping/preconfigurations.c
 	internal/source/prepping/preloaders.c
+	internal/source/prepping/subloaders.c
 	internal/source/prepping/text.c
 	internal/source/prepping/tools.c
 	internal/source/prepping/ui.c

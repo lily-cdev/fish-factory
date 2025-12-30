@@ -41,3 +41,9 @@ Return
 transmit
 EXIT
 REQUEST_EXPORT
+Resolution
+Framerate Cap
+Volume
+Fullscreen
+Toggles
+Keybinds

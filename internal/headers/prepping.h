@@ -46,6 +46,11 @@ typedef struct {
 	String2 TT_Texts[LDE_TTSLIDES];
 	String3 TT_Parameters[LDE_TTSLIDES];
 	int* TT_Types[LDE_TTSLIDES];
+	int Subcategory_Positions[LDE_CATEGORIES][8];
+	int Item_Labels[LDE_CATEGORIES][16];
+	int Subcontents[LDE_SUBCATEGORIES][16];
+	int Machine_Taxes[LDE_MACHINES];
+	int Machine_Prices[LDE_MACHINES];
 } METADATA;
 
 typedef struct {
@@ -385,4 +390,14 @@ void Pull_Docks(int Position);
 void Recache_TT_Commands();
 Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles);
 void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, String2 Contents[LDE_TTSLIDES]);
-Texture_Array Load_Button(TTF_Font* Font, const char* Text, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);
+void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,
+	SDL_Color Color1, SDL_Color Color2);
+SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y);
+void Load_Modular(const char* Path, Texture_Array* Yield, int Size);
+void Load_Rotational(const char* Path, Texture_Array* Yield);
+void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Rectangle);
+void Load_Mirrored(const char* Path, Texture_Array* Yield,  SDL_FRect* Rectangle);
+void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, int* Rotationals);
+void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals);
+SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y);
+SDL_Texture* Preload_Texture (const char* Path);

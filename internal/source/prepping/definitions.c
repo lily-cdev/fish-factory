@@ -28,7 +28,44 @@ DATA Data = {
 	.Data_Grid = { },
 	.Funds = 0
 };
-METADATA Metadata = { };
+METADATA Metadata = {
+	.Item_Labels = {
+		{ Submarine_Dock, Cable_Node, LDE_INVALID },
+		{ Ram_Pump, LDE_INVALID },
+		{ Algae_Bed, LDE_INVALID },
+		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_INVALID },
+		{ Piezo_Generator, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_INVALID },
+		{ Flowerpot, Ammunition_Shelf, LDE_INVALID },
+		{ Incinerator, Signal_Tower, Basic_Scrubber, LDE_INVALID },
+		{ Command_Platform, LDE_INVALID }
+	},
+	.Subcategory_Positions = {
+		{ Reinforced, Large, LDE_INVALID },
+		{ LDE_INVALID },
+		{ Modular_Spawning_Pool, LDE_INVALID },
+		{ Condenser, LDE_INVALID },
+		{ Turbine, LDE_INVALID },
+		{ Flooring, LDE_INVALID },
+		{ LDE_INVALID },
+		{ LDE_INVALID }
+	},
+	.Subcontents = {
+		{ Spawning_Controller, Spawning_Output, Spawning_Input, Spawning_Pool, LDE_INVALID },
+		{ Decoration, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Hazard_Strip, LDE_INVALID },
+		{ Reinforced_Pipe, R_Intersection, LDE_INVALID },
+		{ Large_Pipe, L_Intersection, LDE_INVALID },
+		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_INVALID },
+		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_INVALID }
+	},
+	.Machine_Taxes = {
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	},
+	.Machine_Prices = {
+		4, 15, 20, 4, 1, 30, 40, 35, 12, 70, 50, 0, 40, 4, 3, 3, 20, 40, 10, 2,
+		4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4, 30, 20, 90, 30, 50, 46, 20
+	}
+};
 SETTINGS Settings = {
 	.AA_Temporary = true,
 	.VS_Temporary = false,
