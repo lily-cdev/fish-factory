@@ -5,7 +5,7 @@ void Render_Help(int X, int Y) {
 	for (int Counter = 0; Counter < 2; Counter++) {
 		SDL_RenderTexture(Core.Renderer, Textures.Help_Content.Data[Counter], NULL, &Rects.Help_Content[Counter]);
 	}
-	Render_Slider(Interface.Slider_Texts[3], 1, 2, 1, Interface.Slider_Positions[3], 130, 300, 380,
+	Render_Slider(Interface.Slider_Texts[3], 1, 2, 1, &Interface.Slider_Positions[3], 130, 300, 380,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	switch (Interface.Slider_Positions[3]) {
 	case 0:

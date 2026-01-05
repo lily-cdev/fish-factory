@@ -4,7 +4,7 @@ void Render_MSP_Controller(int X, int Y) {
 	Render_Backing();
 	if (Data.Settings_Grid[X][Y][3] > 3) {
 		Render_Sidebuttons(Textures.MSP_Buttons, Rects.MSP_Buttons);
-		Render_Slider(Interface.Slider_Texts[1], 1, 2, 9, Interface.Slider_Positions[1], 475, 210, 110,
+		Render_Slider(Interface.Slider_Texts[1], 1, 2, 9, &Interface.Slider_Positions[1], 475, 210, 110,
 			Colors.Cherry_Blossom, Colors.Pure_White, false);
 		if (Interface.Engagement == 0) {
 			std::vector<std::vector<std::string>> Parameters = {
@@ -76,9 +76,9 @@ void Render_S_Dock(int X, int Y) {
 void Render_H_Exchanger(int X, int Y) {
 	Render_Backing();
 	Render_Sidebuttons(Textures.HX_Buttons, Rects.HX_Buttons);
-	Render_Slider(Interface.Slider_Texts[13], 3, LDE_VALVE300LENGTH - 1, 6, Interface.Slider_Positions[13],
+	Render_Slider(Interface.Slider_Texts[13], 3, LDE_VALVE300LENGTH - 1, 6, &Interface.Slider_Positions[13],
 		475, 190, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
-	Render_Slider(Interface.Slider_Texts[7], 2, LDE_VALVE300LENGTH - 1, 7, Interface.Slider_Positions[7],
+	Render_Slider(Interface.Slider_Texts[7], 2, LDE_VALVE300LENGTH - 1, 7, &Interface.Slider_Positions[7],
 		475, 150, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	if (Interface.Engagement == 0) {
 		std::vector<std::vector<std::string>> Parameters = {

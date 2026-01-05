@@ -180,20 +180,18 @@ int main(int argc, char* args[]) {
 					.Data[Counter], NULL, &Rects.Settings_Label.Data[Counter]);
 			}
 			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
-			Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
+			Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, &Interface.Slider_Positions[0], 50, 70, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
+			Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, &Interface.Slider_Positions[4], 50, 140, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, Interface.Slider_Positions[5], 50, 210, 220,
+			Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, &Interface.Slider_Positions[5], 50, 210, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, Interface.Slider_Positions[6], 50, 280, 220,
+			Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, &Interface.Slider_Positions[6], 50, 280, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 			if (Settings.AA_Temporary) {
-				Render_Button(Textures.Anti_Aliasing.Data[0],
-					Rects.Anti_Aliasing.Data[0], 5, Colors.Cherry_Blossom);
+				Render_Button(Textures.Anti_Aliasing.Data[0], Rects.Anti_Aliasing.Data[0], 5, Colors.Cherry_Blossom);
 			} else {
-				Render_Button(Textures.Anti_Aliasing.Data[1],
-					Rects.Anti_Aliasing.Data[1], 5, Colors.Cherry_Blossom);
+				Render_Button(Textures.Anti_Aliasing.Data[1], Rects.Anti_Aliasing.Data[1], 5, Colors.Cherry_Blossom);
 			}
 			if (Settings.VS_Temporary) {
 				Render_Button(Textures.V_Sync.Data[1], Rects.V_Sync.Data[1], 24, Colors.Cherry_Blossom);
@@ -327,7 +325,7 @@ int main(int argc, char* args[]) {
 			snprintf(Buffer, sizeof(Buffer), "%s - %s%%", Prefix.c_str(), Subbuffer);
 			Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 10);
 			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
-			Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
+			Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, &Interface.Slider_Positions[2], 200, 340, 240,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 			Render_Opening();
 			Render_Closing(true);

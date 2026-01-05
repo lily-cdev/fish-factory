@@ -22,7 +22,7 @@ void Render_Shop(int X, int Y) {
 		Render_Box(10, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		SDL_FRect Icon_Rectangle = Metadata.Machine_Rectangles[Interface.Placing_Item - 1];
 		double Multiplier = ((double)120 * Settings.Screen_Size) / Icon_Rectangle.w;
-		Icon_Rectangle = {
+		Icon_Rectangle = (SDL_FRect){
 			(Settings.Screen_Size * 103) - (Icon_Rectangle.w * 0.5),
 			(Settings.Screen_Size * 24),
 			(int)(Icon_Rectangle.w * Multiplier),
@@ -46,9 +46,12 @@ void Render_Shop(int X, int Y) {
 		float Start = (float)((Settings.Screen_Size * 103) - (((intlen(Quirk_Stack) * Settings.Screen_Size * 20) +
 			((intlen(Quirk_Stack) - 1) * Settings.Screen_Size * 10)) * 0.5));
 		for (int Counter = 0; Counter < intlen(Quirk_Stack); Counter++) {
-			SDL_FRect Quirk_Rectangle = { Start + (30 * Counter * Settings.Screen_Size),
-				static_cast<float>(16 + Offset) * Settings.Screen_Size, 20.0f *
-				Settings.Screen_Size, 20.0f * Settings.Screen_Size };
+			SDL_FRect Quirk_Rectangle = {
+				(Counter * Settings.Screen_Size * 30) + Start,
+				(float)(Offset + 16) * Settings.Screen_Size,
+				Settings.Screen_Size * 20.0f,
+				Settings.Screen_Size * 20.0f
+			};
 			SDL_RenderTexture(Core.Renderer, Textures.Quirk.Data[Quirk_Stack[Counter]], NULL, &Quirk_Rectangle);
 			if (Detect_Mouse_Collision(Quirk_Rectangle)) {
 				SDL_GetTextureSize(Textures.Quirk_Label.Data[Quirk_Stack[Counter]], &Label_Rects[Counter].w,
@@ -63,9 +66,12 @@ void Render_Shop(int X, int Y) {
 		SDL_Surface* Name_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Metadata.Names[Interface.Placing_Item - 1],
 			strlen(Metadata.Names[Interface.Placing_Item - 1]), Colors.Abyss_Black);
 		SDL_Texture* Name_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Name_Surface);
-		SDL_FRect Name_Rectangle = { static_cast<float>(103 * Settings.Screen_Size) - (Name_Surface->w / 2),
-			static_cast<float>(10 + Offset) * Settings.Screen_Size, static_cast<float>(Name_Surface->w),
-			static_cast<float>(Name_Surface->h) };
+		SDL_FRect Name_Rectangle = {
+			(float)(Settings.Screen_Size * 103) - (Name_Surface->w * 0.5),
+			(float)(Offset + 10) * Settings.Screen_Size,
+			(float)(Name_Surface->w),
+			(float)(Name_Surface->h)
+		};
 		SDL_RenderTexture(Core.Renderer, Name_Texture, NULL, &Name_Rectangle);
 		SDL_DestroySurface(Name_Surface);
 		SDL_DestroyTexture(Name_Texture);
@@ -94,7 +100,7 @@ void Render_Shop(int X, int Y) {
 		SDL_RenderTexture(Core.Renderer, Comment_Texture, NULL, &Comment_Rectangle);
 		SDL_DestroySurface(Carrying_Surface);
 		SDL_DestroyTexture(Comment_Texture);
-		for (int Counter = 0; Counter < Quirk_Stack.size(); Counter++) {
+		for (int Counter = 0; Counter < intlen(Quirk_Stack); Counter++) {
 			Set_Renderer_Color(Colors.Light_Grey);
 			SDL_FRect Temporary_Rectangle = Buffer_Rectangle(Label_Rects[Counter], 4, 1);
 			SDL_RenderFillRect(Core.Renderer, &Temporary_Rectangle);
@@ -106,7 +112,7 @@ void Render_Shop(int X, int Y) {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "Base: %iLA", Metadata.Machine_Prices[Interface.Placing_Item - 1]);
 		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 30);
-		snprintf(Buffer, sizeof(Buffer), "Tax: %iLA", Metadata.Machine_Prices[Interface.Placing_Item - 1] * 0.1);
+		snprintf(Buffer, sizeof(Buffer), "Tax: %iLA", (int)(Metadata.Machine_Prices[Interface.Placing_Item - 1] * 0.1));
 		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 50);
 		snprintf(Buffer, sizeof(Buffer), "Shipping Fee: %iLA", Metadata.Machine_Taxes[Interface.Placing_Item - 1]);
 		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 70);

@@ -15,8 +15,6 @@ void Render_Blueprint(int Size_X, int Size_Y);
 void Render_Game_UI();
 void Render_Saveloader();
 void Render_Prompts();
-void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int &Position,
-	int X, int Y, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
 void Drain_Query();
 void Render_Backing();
 void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitboxes);

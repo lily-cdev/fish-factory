@@ -224,3 +224,67 @@ void Cache_Price() {
 	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Placing_Item - 1] * 1.1)) +
 		Metadata.Machine_Taxes[Interface.Placing_Item - 1] + 1;
 }
+
+void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position,
+	int X, int Y, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible) {
+	bool Active = false;
+	SDL_FRect Background_Rectangle = {
+		(float)(X * Settings.Screen_Size),
+		(float)(Y - 3) * Settings.Screen_Size,
+		(float)(Width * Settings.Screen_Size),
+		Settings.Screen_Size * 6.0f
+	};
+	if (Interface.Engagement == Engagement) {
+		Active = true;
+		int Separators[512];
+		for (int Counter = 0; Counter < Nodes; Counter++) {
+			Separators[Counter] = (int)(((((double)Counter / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
+				Settings.Screen_Size;
+		}
+		Separators[Nodes] = LDE_TERMINATOR;
+		for (int Counter = 0; Counter < Nodes; Counter++) {
+			if (Core.Debug_Mode) {
+				SDL_RenderLine(Core.Renderer, (float)(Separators[Counter]), 0, (float)(Separators[Counter]),
+					Settings.Screen_Size * 360.0f);
+			}
+			if (Core.Mouse.X < Separators[0]) {
+				*Position = 0;
+			} else if (Core.Mouse.X >= Separators[Nodes - 1]) {
+				*Position = Nodes;
+			} else if (Core.Mouse.X >= Separators[Counter] && Core.Mouse.X < Separators[Counter + 1]) {
+				*Position = Counter + 1;
+			}
+		}
+	}
+	Set_Renderer_Color(Primary);
+	SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
+	if (Active) {
+		Set_Renderer_Color(Secondary);
+	}
+	SDL_FRect Node_Rectangle = {
+		(float)((((double)(*Position) / Nodes) * Width) + X - 6) * Settings.Screen_Size,
+		(float)(Y - 6) * Settings.Screen_Size,
+		Settings.Screen_Size * 12.0f,
+		Settings.Screen_Size * 12.0f
+	};
+	if (Detect_Mouse_Collision(Node_Rectangle)) {
+		Interface.UI_Selection = Selection;
+		Set_Renderer_Color(Secondary);
+	}
+	SDL_RenderFillRect(Core.Renderer, &Node_Rectangle);
+	Clear_Renderer();
+	if (Text_Visible) {
+		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position],
+			strlen(Labels[*Position]), Primary);
+		SDL_FRect Caption_Rectangle = {
+			(float)(((((double)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
+			(float)(Y + 10) * Settings.Screen_Size,
+			(float)(Caption_Surface->w),
+			(float)(Caption_Surface->h)
+		};
+		SDL_Texture* Caption_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Caption_Surface);
+		SDL_RenderTexture(Core.Renderer, Caption_Texture, NULL, &Caption_Rectangle);
+		SDL_DestroySurface(Caption_Surface);
+		SDL_DestroyTexture(Caption_Texture);
+	}
+}
