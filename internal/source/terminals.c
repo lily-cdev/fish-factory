@@ -16,35 +16,47 @@ char Errors[LDE_ERRORS][32] = {
 	"NO POOL TILES"
 };
 
-std::string To_Code(int Input) {
-	std::string Yield;
+void Push_Terminal(const char* Line) {
+	for (int Counter = LDE_LOGMAX - 1; Counter > 0; Counter++) {
+		strcpy(Interface.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter - 1]);
+	}
+	strcpy(Interface.Terminal_Logs[0], Line);
+}
+
+char* To_Code(int Input) {
+	char Yield[3];
+	bool Position = 0;
 	while (Input != 0) {
 		int Intermediate = Input & 15;
-		Yield.push_back(static_cast<char>(Intermediate < 10 ? Intermediate + 48 : Intermediate + 55));
+		Yield[Position] = (char)(Intermediate < 10 ? Intermediate + 48 : Intermediate + 55);
+		Position++;
 		Input /= 16;
 	}
-	if (Yield.size() < 2) {
-		Yield.insert(Yield.begin(), '0');
+	if (Position != 2) {
+		Yield[1] = Yield[0];
+		Yield[0] = '0';
 	}
+	Yield[2] = '\0';
 	return Yield;
 }
 
 void Print_Error(int Input) {
-	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(),
-		": ERROR 0x" + To_Code(Input) + " -> " + Errors[Input]);
+	char Carrier[256];
+	snprintf(Carrier, sizeof(Carrier), ": ERROR 0x%s -> %s", To_Code(Input), Errors[Input]);
+	Push_Terminal(Carrier);
 }
 
 void Print_Fatal_Error(int Input) {
-	std::string Text = "FATAL ERROR 0x" + To_Code(Input) + " -> " + Errors[Input];
-	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font,
-		Text.c_str(), Text.size(), Colors.Cherry_Blossom);
-	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(
-		Core.Renderer, Carrying_Surface);
+	char Carrier[256];
+	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", To_Code(Input), Errors[Input]);
+	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, strlen(Carrier),
+		Colors.Cherry_Blossom);
+	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_FRect Destination = {
 		(Settings.Screen_Size * 230.0f) - (Carrying_Surface->w * 0.5f),
 		(Settings.Screen_Size * 180.0f) - (Carrying_Surface->h * 0.5f),
-		static_cast<float>(Carrying_Surface->w),
-		static_cast<float>(Carrying_Surface->h)
+		(float)(Carrying_Surface->w),
+		(float)(Carrying_Surface->h)
 	};
 	SDL_RenderTexture(Core.Renderer, Carrying_Texture,
 		NULL, &Destination);
@@ -52,7 +64,7 @@ void Print_Fatal_Error(int Input) {
 	SDL_DestroyTexture(Carrying_Texture);
 	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
-		Interface_L.Terminal_Entry = Return_Command(Execute, { "quit" });
+		Interface.Terminal_Entry = Return_Command(Execute, { "quit" });
 	}
 	Tick_Input(3);
 }
@@ -69,20 +81,16 @@ void Render_Backing() {
 	Render_Box(460, 40, 140, 280, Colors.Abyss_Black, Colors.Dark_Grey);
 }
 
-void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitboxes) {
+void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes) {
 	for (int Counter = 0; Counter < Hitboxes.Length; Counter++) {
-		Render_Button(Buttons.Data[Counter], Hitboxes.Data[Counter],
-			Counter + 3, Colors.Pure_White);
+		Render_Button((*Buttons).Data[Counter], (*Hitboxes).Data[Counter], Counter + 3, Colors.Pure_White);
 	}
 }
 
-void Print_Response(char* Response) {
+void Print_Response(const char* Response) {
 	char Carrier[256];
 	snprintf(Carrier, sizeof(Carrier), ": %s.", Response);
-	for (int Counter = LDE_LOGMAX - 1; Counter > 0; Counter++) {
-		strcpy(Interface.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter - 1]);
-	}
-	strcpy(Interface.Terminal_Logs[0], Carrier);
+	Push_Terminal(Carrier);
 }
 
 void Print_JSON(std::vector<std::string> Input) {
@@ -175,12 +183,13 @@ void Tick_Input(int Target, bool Slider) {
 	}
 }
 
-std::string Return_Command(int Type, std::vector<std::string> Parameters) {
-	std::string Yield = "call";
+char* Return_Command(int Type, std::vector<std::string> Parameters) {
+	char Yield[128];
 	if (Type == Get_Data) {
-		Yield = "open";
+		Yield = "open(";
+	} else {
+		Yield = "call(";
 	}
-	Yield.push_back('(');
 	for (int Counter = 0; Counter < Parameters.size(); Counter++) {
 		Yield.push_back('\"');
 		Yield += Parameters[Counter];
