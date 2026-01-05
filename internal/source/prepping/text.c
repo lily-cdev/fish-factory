@@ -1,56 +1,19 @@
 #include <prepping.h>
 
 void Recache_TT_Commands() {
-	Metadata.TT_Texts[0].Data = realloc(Metadata.TT_Texts[0].Data, sizeof(char*));
-	Metadata.TT_Texts[0].Length = 1;
-	Metadata.TT_Texts[1].Data = realloc(Metadata.TT_Texts[1].Data,
-		sizeof(char*) * (Temporary.Docks.Length + 1));
-	Metadata.TT_Texts[1].Length = Temporary.Docks.Length + 1;
-	Metadata.TT_Parameters[0].Data = realloc(Metadata.TT_Parameters[0].Data, sizeof(String2));
-	Metadata.TT_Parameters[0].Length = 1;
-	Metadata.TT_Parameters[0].Data[0].Data = realloc(Metadata.TT_Parameters[0].Data[0].Data, sizeof(char*) * 2);
-	Metadata.TT_Parameters[0].Data[0].Length = 2;
-	Metadata.TT_Parameters[1].Data = realloc(Metadata.TT_Parameters[
-		1].Data, sizeof(String2) * (Temporary.Docks.Length + 1));
-	Metadata.TT_Parameters[1].Length = Temporary.Docks.Length + 1;
-	for (int Counter = 0; Counter < Temporary.Docks.Length + 1; Counter++) {
-		Metadata.TT_Parameters[1].Data[Counter].Data = realloc(Metadata.TT_Parameters[
-			1].Data, sizeof(char*) * 2);
-		Metadata.TT_Parameters[1].Data[Counter].Length = 2;
-	}
-	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
-		Metadata.TT_Types[Counter] = malloc(sizeof(int) * 2);
-	}
-	Metadata.TT_Texts[0].Data[0] = Metadata.Buttons[38];
-	Metadata.TT_Texts[1].Data[0] = Metadata.Buttons[39];
-	Metadata.TT_Parameters[0].Data[0].Data[0] = Metadata.Buttons[40];
-	Metadata.TT_Parameters[0].Data[0].Data[1] = Metadata.Buttons[42];
-	Metadata.TT_Parameters[1].Data[0].Data[0] = Metadata.Buttons[40];
-	Metadata.TT_Parameters[1].Data[0].Data[1] = Metadata.Buttons[41];
-	Metadata.TT_Types[0][0] = Execute;
-	Metadata.TT_Types[0][1] = Execute;
-	Metadata.TT_Types[1][0] = LDE_INVALID;
-	Metadata.TT_Types[1][1] = LDE_INVALID;
-	for (int Counter = 0; Counter < Temporary.Docks.Length; Counter++) {
-		char Buffer[256];
+	String2 Carrier;
+	Carrier.Length = Temporary.Docks.Length;
+	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
+	for (int Counter = 0; Counter < Carrier.Length; Counter++) {
+		char Buffer[128];
 		snprintf(Buffer, sizeof(Buffer), "Dock %d", Counter + 1);
-		char* Text_String;
-		Text_String = malloc(sizeof(char) * (strlen(Buffer) + 1));
-		strcpy(Text_String, Buffer);
-		Text_String[strlen(Buffer)] = '\0';
-		Metadata.TT_Texts[1].Data[Counter + 1] = Text_String;
-		snprintf(Buffer, sizeof(Buffer), "POS_DOCK_%d", Counter + 1);
-		char* Parameter_String;
-		Parameter_String = malloc(sizeof(char) * (strlen(Buffer) + 1));
-		strcpy(Parameter_String, Buffer);
-		Parameter_String[strlen(Buffer)] = '\0';
-		Metadata.TT_Parameters[1].Data[Counter].Data[0] = Metadata.Buttons[40];
-		Metadata.TT_Parameters[1].Data[Counter].Data[1] = Parameter_String;
+		Carrier.Data[Counter] = Buffer;
 	}
-	Reload_Commandlist(&Textures.TT_Buttons, &Rects.TT_Buttons, Metadata.TT_Texts);
+	Preload_Terminal_Sidebar(Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
+	free_d(Carrier);
 }
 
-Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles) {
+void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_Array* Rectangles) {
 	String2 Carrier;
 	Carrier.Length = Texts.Length + 2;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
@@ -62,36 +25,22 @@ Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectang
 	Carrier.Data[Carrier.Length - 2] = malloc(sizeof(char) * (strlen(Metadata.Buttons[36]) + 1));
 	strcpy(Carrier.Data[Carrier.Length - 1], Metadata.Buttons[37]);
 	strcpy(Carrier.Data[Carrier.Length - 2], Metadata.Buttons[36]);
-	Texture2_Array Yield;
-	Yield.Length = Carrier.Length;
-	Yield.Data = malloc(sizeof(Texture_Array) * Carrier.Length);
-	Rectangles.Length = Carrier.Length;
-	Rectangles.Data = malloc(sizeof(Rect_Array) * Carrier.Length);
+	Yield->Length = Carrier.Length;
+	Yield->Data = malloc(sizeof(Texture_Array) * Carrier.Length);
+	Rectangles->Length = Carrier.Length;
+	Rectangles->Data = malloc(sizeof(Rect_Array) * Carrier.Length);
 	for (int Counter1 = 0; Counter1 < Carrier.Length; Counter1++) {
-		Rectangles.Data[Counter1].Length = 2;
-		Rectangles.Data[Counter1].Data = calloc(2, sizeof(SDL_FRect));
-		Rectangles.Data[Counter1].Data[0].x = LDE_INVALID;
-		Rectangles.Data[Counter1].Data[0].y = (float)((Counter1 * 30) + 50) * Settings.Screen_Size;
-		Load_Button(Fonts.Terminal_Font, Carrier.Data[Counter1], &Yield.Data[Counter1], Rectangles.Data[Counter1],
+		Rectangles->Data[Counter1].Length = 2;
+		Rectangles->Data[Counter1].Data = calloc(2, sizeof(SDL_FRect));
+		Rectangles->Data[Counter1].Data[0].x = LDE_INVALID;
+		Rectangles->Data[Counter1].Data[0].y = (float)((Counter1 * 30) + 50) * Settings.Screen_Size;
+		Load_Button(Fonts.Terminal_Font, Carrier.Data[Counter1], &Yield->Data[Counter1], Rectangles->Data[Counter1],
 			Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-			Rectangles.Data[Counter1].Data[Counter2].x += Settings.Screen_Size * 210;
+			Rectangles->Data[Counter1].Data[Counter2].x += Settings.Screen_Size * 210;
 		}
 	}
 	Free_String2(&Carrier);
-	return Yield;
-}
-
-void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, String2 Contents[LDE_TTSLIDES]) {
-	Clear_Rect3_Array(Boxlist);
-	Clear_Texture3_Array(Commandlist);
-	Boxlist->Length = LDE_TTSLIDES;
-	Boxlist->Data = malloc(sizeof(Rect2_Array) * LDE_TTSLIDES);
-	Commandlist->Length = LDE_TTSLIDES;
-	Commandlist->Data = malloc(sizeof(Texture2_Array) * LDE_TTSLIDES);
-	for (int Counter = 0; Counter < LDE_TTSLIDES; Counter++) {
-		Commandlist->Data[Counter] = Preload_Terminal_Sidebar(Contents[Counter], Boxlist->Data[Counter]);
-	}
 }
 
 void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,

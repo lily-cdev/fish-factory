@@ -1,7 +1,20 @@
 #pragma once
 #include <core.h>
 #include <prepping.h>
+#include <data.h>
+#include <items.h>
+#include <connectables.h>
+#include <transitions.h>
 
+void Restore_Cache();
+void Destroy_Clearance(int X, int Y, int Width, int Height);
+void Update_Grid();
+void Build_Grid();
+bool Destroy_Grid();
+void Update_Machines();
+void Recast_Machines();
+Point Find_Linked(int Identifier, int Parent_X, int Parent_Y);
+int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral);
 bool Place_Reinforced_Pipe(int X, int Y);
 bool Place_Ram_Pump(int X, int Y);
 bool Place_Incinerator(int X, int Y);

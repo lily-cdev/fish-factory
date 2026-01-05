@@ -2,11 +2,12 @@
 extern "C" {
 	#include <core.h>
 	#include <prepping.h>
+	#include <data.h>
+	#include <ui.h>
+	#include <grid.h>
+	#include <items.h>
 }
 #include <Legacy_Preloader.hpp>
-#include <Legacy_Items.hpp>
-#include <Legacy_Grid.hpp>
-#include <Legacy_Data.hpp>
 
 extern std::vector<std::string> Errors;
 
@@ -14,17 +15,9 @@ void Render_Blueprint(int Size_X, int Size_Y);
 void Render_Game_UI();
 void Render_Saveloader();
 void Render_Prompts();
-void Render_Slider(std::vector<std::string> Labels, int Engagement, int Nodes, int Selection, int &Position,
+void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int &Position,
 	int X, int Y, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
 void Drain_Query();
-void Render_Toolbar();
-void Verify_Settings();
-void Render_Tile_Prompts();
-void Render_Interaction();
-void Render_Effects();
-void Find_Effect();
-void Cache_Blueprint();
-void Cache_Price();
 void Render_Backing();
 void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitboxes);
 void Print_Error(int Input);
@@ -42,7 +35,6 @@ std::string Return_Command(int Type, std::vector<std::string> Parameters);
 void Process_Commands(std::vector<int> Types, std::vector<std::vector<std::string>> Parameters);
 void Render_Help(int X, int Y);
 void Render_Shop(int X, int Y);
-void Render_Daily_Report(int X, int Y);
 void Render_MSP_Controller(int X, int Y);
 void Render_T_Tower(int X, int Y);
 void Render_S_Dock(int X, int Y);

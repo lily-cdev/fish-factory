@@ -7,20 +7,6 @@ void Free_String2(String2* Target) {
 	free_d((*Target));
 }
 
-void Free_String3(String3* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		Free_String2(&((*Target).Data[Counter]));
-	}
-	free_d((*Target));
-}
-
-void Free_String4(String4* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		Free_String3(&((*Target).Data[Counter]));
-	}
-	free_d((*Target));
-}
-
 void Clear_Texture_Array(Texture_Array* Target) {
 	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
 		SDL_DestroyTexture((*Target).Data[Counter]);
@@ -54,6 +40,13 @@ void Clear_Rect3_Array(Rect3_Array* Target) {
 		Clear_Rect2_Array(&((*Target).Data[Counter]));
 	}
 	free_d((*Target));
+}
+
+void Clear_File(const char* Path) {
+	char Buffer[512];
+	snprintf(Buffer, sizeof(Buffer), "Assets/Data/%s", Path);
+	FILE* File = fopen(Path, "w");
+	fclose(File);
 }
 
 void Cleanup_Assets() {
@@ -102,8 +95,8 @@ void Cleanup_Assets() {
 	Clear_Rect2_Array(&Rects.SD_Buttons);
 	Clear_Texture2_Array(&Textures.HX_Buttons);
 	Clear_Rect2_Array(&Rects.HX_Buttons);
-	Clear_Texture3_Array(&Textures.TT_Buttons);
-	Clear_Rect3_Array(&Rects.TT_Buttons);
+	Clear_Texture2_Array(&Textures.TT_Buttons);
+	Clear_Rect2_Array(&Rects.TT_Buttons);
 	Clear_Texture2_Array(&Textures.MT_Buttons);
 	Clear_Rect2_Array(&Rects.MT_Buttons);
 	Clear_Texture2_Array(&Textures.Anti_Aliasing);
@@ -210,4 +203,5 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Cache.Wire_Cache);
 	SDL_DestroyTexture(Cache.Blueprint_Cache);
 	Clear_Texture2_Array(&Cache.Log_Cache);
+	Clear_Rect2_Array(&Cache.Log_Rectangles);
 }

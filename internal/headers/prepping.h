@@ -34,8 +34,7 @@ typedef struct {
 } DATA;
 
 typedef struct {
-	char* Data_Path;
-	char* Image_Path;
+	char Monitor_Size[64];
 	char* Names[LDE_MACHINES];
 	char* Descriptions[LDE_MACHINES];
 	char* Categories[LDE_CATEGORIES];
@@ -43,14 +42,17 @@ typedef struct {
 	char* Buttons[LDE_BUTTONS];
 	SDL_Texture* Machine_Sprites[LDE_MACHINES];
 	SDL_FRect Machine_Rectangles[LDE_MACHINES];
-	String2 TT_Texts[LDE_TTSLIDES];
-	String3 TT_Parameters[LDE_TTSLIDES];
-	int* TT_Types[LDE_TTSLIDES];
 	int Subcategory_Positions[LDE_CATEGORIES][8];
 	int Item_Labels[LDE_CATEGORIES][16];
 	int Subcontents[LDE_SUBCATEGORIES][16];
 	int Machine_Taxes[LDE_MACHINES];
 	int Machine_Prices[LDE_MACHINES];
+	char* Logs[LDE_LOGS];
+	int* Heating_Machines;
+	int Quirk_Positions[LDE_QUIRKS][64];
+	bool Machine_Quirks[LDE_MACHINES][LDE_QUIRKS];
+	char* Days[LDE_DAYS];
+	Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
 } METADATA;
 
 typedef struct {
@@ -77,7 +79,7 @@ typedef struct {
 	Texture2_Array MSP_Buttons;
 	Texture2_Array SD_Buttons;
 	Texture2_Array HX_Buttons;
-	Texture3_Array TT_Buttons;
+	Texture2_Array TT_Buttons;
 	Texture2_Array MT_Buttons;
 	Texture_Array R_Pipe;
 	Texture_Array L_Pipe;
@@ -185,7 +187,7 @@ typedef struct {
 	Rect2_Array SD_Buttons;
 	Rect2_Array HX_Buttons;
 	Rect2_Array MT_Buttons;
-	Rect3_Array TT_Buttons;
+	Rect2_Array TT_Buttons;
 	Rect_Array Tunnel;
 	Rect_Array Return;
 	Rect_Array New_Game;
@@ -266,10 +268,15 @@ typedef struct {
 } FONTS;
 
 typedef struct {
+	char* Keybind_Texts[LDE_KEYBINDS];
+	SDL_Keycode Keybind_List[LDE_KEYBINDS];
+	SDL_Keycode Keybind_Settings[LDE_KEYBINDS];
+} KEYBINDS;
+
+typedef struct {
 	bool Settings_Changed;
 	int Modular1_Requirement;
 	int Modular2_Requirement;
-	int Dialogue_Position;
 	int Ticker_Target;
 	int Ticker_Position;
 	int Ticker_Frames;
@@ -278,7 +285,6 @@ typedef struct {
 	Point Tutorial_Offset;
 	int Temporary_FPS;
 	double Scroll_Percent;
-	int Dialogue_Maximum;
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
@@ -290,6 +296,7 @@ typedef struct {
 	SDL_FRect Wire_Box;
 	SDL_Texture* Blueprint_Cache;
 	Texture2_Array Log_Cache;
+	Rect2_Array Log_Rectangles;
 } CACHE;
 
 typedef struct {
@@ -325,6 +332,10 @@ typedef struct {
 	int Registering_Keybind;
 	int Slider_Positions[LDE_SLIDERS];
 	SDL_FPoint Tile_Centerpoint;
+	long double Log_Heights[LDE_LOGS];
+	int Valve300_Postions[LDE_VALVE300LENGTH];
+	char Slider_Texts[LDE_SLIDERS][256][32];
+	double Effects[LDE_EFFECTS];
 } INTERFACE;
 
 typedef struct {
@@ -342,7 +353,7 @@ typedef struct {
 	Node STO_Outputs[4];
 	Node GW_Inputs[4];
 	Node GW_Outputs[4];
-} PRECONFIGURATIONS;
+} PRECONFIGS;
 
 extern CORE Core;
 extern DATA Data;
@@ -352,10 +363,11 @@ extern TEXTURES Textures;
 extern RECTS Rects;
 extern COLORS Colors;
 extern FONTS Fonts;
+extern KEYBINDS Keybinds;
 extern TEMPORARY Temporary;
 extern CACHE Cache;
 extern INTERFACE Interface;
-extern PRECONFIGURATIONS Preconfigurations;
+extern PRECONFIGS Preconfigs;
 
 void Preload_Fonts();
 int Visual_To_ID(const int Identifier);
@@ -364,9 +376,8 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H);
 void Clear_Renderer();
 void Set_Renderer_Color(const SDL_Color Color);
 void Cleanup_Assets();
+void Clear_File(const char* Path);
 void Free_String2(String2* Target);
-void Free_String3(String3* Target);
-void Free_String4(String4* Target);
 void Clear_Texture_Array(Texture_Array* Target);
 void Clear_Texture2_Array(Texture2_Array* Target);
 void Clear_Texture3_Array(Texture3_Array* Target);
@@ -379,17 +390,16 @@ void Render_Button(const Texture_Array Button, const Rect_Array Hitbox, int Sele
 void Preload_Assets();
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
-void Generate_Preconfigurations();
-void Free_Preconfigurations();
+void Generate_Preconfigs();
+void Free_Preconfigs();
 void Free_Node(Node Target);
-void Return_Nodes(Node Yield, const int Column, const int Row, const int Rotation, Node Preconfiguration[4]);
+void Return_Nodes(Node Yield, const int Column, const int Row, const int Rotation, Node Preconfig[4]);
 bool Check_Clearance(const int X, const int Y, const int W, const int H);
 void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H);
 void Push_Docks(Point Input);
 void Pull_Docks(int Position);
 void Recache_TT_Commands();
-Texture2_Array Preload_Terminal_Sidebar(const String2 Texts, Rect2_Array Rectangles);
-void Reload_Commandlist(Texture3_Array* Commandlist, Rect3_Array* Boxlist, String2 Contents[LDE_TTSLIDES]);
+void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
 void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,
 	SDL_Color Color1, SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y);
@@ -400,4 +410,11 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield,  SDL_FRect* Rectangle
 void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, int* Rotationals);
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals);
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y);
-SDL_Texture* Preload_Texture (const char* Path);
+SDL_Texture* Preload_Texture(const char* Path);
+void Abbreviate_Number(long double Number, char* Buffer, int Size);
+void Truncate(double Number, int Depth, char* Buffer, int Size);
+void Render_Dynamic_Text(TTF_Font* Selected_Font, const char* Text, SDL_Color Color, int X, int Y);
+int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool Inverted, bool Disabled);
+void Preload_Noise();
+void Preclear_Temporaries();
+void Render_Loadscreen();

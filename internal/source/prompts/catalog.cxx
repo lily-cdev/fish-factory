@@ -9,8 +9,8 @@ void Render_Catalog(int X, int Y) {
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
 		for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-			if (I_Recipes[Counter].empty() && O_Recipes[Counter].empty()
-				&& IO_Recipes[Counter].empty()) {
+			if (reclen((*I_Recipes)[Counter]) == 0 && reclen((*O_Recipes)[Counter]) == 0 &&
+				reclen((*IO_Recipes)[Counter]) == 0) {
 				continue;
 			}
 			float Base_Subwidth = Settings.Screen_Size * 44.0f;
@@ -69,44 +69,53 @@ void Render_Catalog(int X, int Y) {
 		std::string Candidate;
 		int Number = 1;
 		for (int Counter1 = 0; Counter1 < 3; Counter1++) {
-			std::vector<std::vector<Recipe*>> Table;
-			Table = All_Recipes[Counter1];
-			for (int Counter2 = 0; Counter2 < Table[Index].size(); Counter2++, Number++) {
+			for (int Counter2 = 0; Counter2 < reclen((*All_Recipes)[Counter1][Index]); Counter2++, Number++) {
 				Candidate = "Recipe No. ";
 				if (Number < 10) {
 					Candidate += "0";
 				}
-				Candidate += std::to_string(Number) + " -> " + Abbreviate_Number(Table
-					[Index][Counter2]->Power) + "J/s, " + std::to_string(Table
-					[Index][Counter2]->Time) + "s";
-				if (Table[Index][Counter2]->Voiding_Excess) {
+				char Buffer[128];
+				char Subbuffer[64];
+				Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Power, Subbuffer, sizeof(Subbuffer));
+				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer,
+					All_Recipes[Counter1][Index][Counter2]->Time);
+				std::string tmp = Buffer;
+				Candidate += tmp;
+				if (All_Recipes[Counter1][Index][Counter2]->Voiding_Excess) {
 					Candidate += ", cannot overflow";
 				}
-				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate,
+				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate.c_str(),
 					Colors.Abyss_Black, 16, Offset);
 				Offset += 20;
 				Candidate = "Inputs -> ";
-				for (int Counter3 = 0; Counter3 < Table[Index][Counter2]->Input_Items.size(); Counter3++) {
-					Candidate += Abbreviate_Number(Table[Index][Counter2]->Input_Counts[Counter3] /
-						Table[Index][Counter2]->Time) + "L/s " + Table[Index]
+				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs; Counter3++) {
+					memset(Buffer, 0, sizeof(Buffer));
+					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Input_Counts[Counter3] /
+						All_Recipes[Counter1][Index][Counter2]->Time, Buffer, sizeof(Buffer));
+					std::string tmp = Buffer;
+					Candidate += tmp + "L/s " + All_Recipes[Counter1][Index]
 						[Counter2]->Input_Items[Counter3].Display_Name;
-					if (Counter3 < Table[Index][Counter2]->Input_Items.size() - 1) {
+					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs - 1) {
 						Candidate += ", ";
 					}
 				}
-				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate,
-					Colors.Abyss_Black, 26, Offset);
+				const char* tfmp = Candidate.c_str();
+				memset(Buffer, 0, sizeof(Buffer));
+				strcpy(Buffer, tfmp);
+				Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				Candidate = "Outputs -> ";
-				for (int Counter3 = 0; Counter3 < Table[Index][Counter2]->Output_Items.size(); Counter3++) {
-					Candidate += Abbreviate_Number(Table[Index][Counter2]->Output_Counts[Counter3] /
-						Table[Index][Counter2]->Time) + "L/s " + Table[Index]
+				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs; Counter3++) {
+					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Output_Counts[Counter3] /
+						All_Recipes[Counter1][Index][Counter2]->Time, Buffer, sizeof(Buffer));
+					std::string tmp = Buffer;
+					Candidate += tmp + "L/s " + All_Recipes[Counter1][Index]
 						[Counter2]->Output_Items[Counter3].Display_Name;
-					if (Counter3 < Table[Index][Counter2]->Output_Items.size() - 1) {
+					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs - 1) {
 						Candidate += ", ";
 					}
 				}
-				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate,
+				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate.c_str(),
 					Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				//io recipes

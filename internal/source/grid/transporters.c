@@ -59,19 +59,19 @@ bool Place_RL_Intersection(int X, int Y) {
 			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 109;
 		}
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, 0, Preconfigurations.I_Inputs);
+		Return_Nodes(Nodes, X, Y, 0, Preconfigs.I_Inputs);
 		for (int Counter = 0; Counter < 2; Counter++) {
 			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Counter + 1;
 		}
-		Return_Nodes(Nodes, X, Y, 0, Preconfigurations.I_Outputs);
+		Return_Nodes(Nodes, X, Y, 0, Preconfigs.I_Outputs);
 		for (int Counter = 0; Counter < 2; Counter++) {
 			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Counter + 3;
 		}
 		for (int Counter1 = 0; Counter1 < 2; Counter1++) {
 			if (Counter1 == 1) {
-				Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigurations.I_Outputs);
+				Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.I_Outputs);
 			} else {
-				Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigurations.I_Inputs);
+				Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.I_Inputs);
 			}
 			for (int Counter2 = 0; Counter2 < 2; Counter2++) {
 				if (Interface.Placing_Item - 1 == R_Intersection) {

@@ -1,4 +1,5 @@
 #pragma once
+
 enum Machine {
     Reinforced_Pipe,
     Ram_Pump,
@@ -67,7 +68,7 @@ enum Prompts {
 };
 
 enum Effect {
-    Heat
+    E_Heat
 };
 
 enum State {
@@ -102,6 +103,13 @@ enum Value {
     Normal,
     Expensive,
     Exotic
+};
+
+enum Quirks {
+    Q_Non_Rotatable,
+    Q_Modular,
+    Q_Interactable,
+    Q_Omnidirectional
 };
 
 enum Commands {

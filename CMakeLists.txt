@@ -16,24 +16,22 @@ endif()
 
 add_executable(Fish_Factory
     internal/core/fish_factory.cxx
-    internal/core/preloader.cxx
 	internal/source/audio.c
-	internal/source/data.cxx
-	internal/source/fish.cxx
-	internal/source/machines.cxx
+	internal/source/machines.c
+	internal/source/updates.c
 	internal/source/interface.cxx
-	internal/source/items.cxx
-	internal/source/pipes.cxx
-	internal/source/recipes.cxx
+	internal/source/pipes.c
 	internal/source/terminals.cxx
 	internal/source/transitions.c
+	internal/source/tutorials.c
 	internal/source/tutorials.cxx
+	internal/source/ui.c
 	internal/source/ui.cxx
-	internal/source/wires.cxx
+	internal/source/wires.c
 	internal/source/actions/cheats.cxx
 	internal/source/actions/machines.cxx
 	internal/source/actions/menus.cxx
-	internal/source/actions/none.cxx
+	internal/source/actions/none.c
 	internal/source/grid/cultivators.c
 	internal/source/grid/decorations.c
 	internal/source/grid/extractors.c
@@ -43,7 +41,7 @@ add_executable(Fish_Factory
 	internal/source/grid/transporters.c
 	internal/source/prompts/catalog.cxx
 	internal/source/prompts/cheats.cxx
-	internal/source/prompts/daily_report.cxx
+	internal/source/prompts/daily_report.c
 	internal/source/prompts/help.cxx
 	internal/source/prompts/machines.cxx
 	internal/source/prompts/shop.cxx
@@ -51,19 +49,25 @@ add_executable(Fish_Factory
 	internal/source/prepping/definitions.c
 	internal/source/prepping/machines.c
 	internal/source/prepping/other.c
-	internal/source/prepping/preconfigurations.c
+	internal/source/prepping/preconfigs.c
 	internal/source/prepping/preloaders.c
 	internal/source/prepping/subloaders.c
 	internal/source/prepping/text.c
 	internal/source/prepping/tools.c
 	internal/source/prepping/ui.c
+	internal/source/prepping/setup.c
 	internal/source/data/saving.c
-	internal/source/data/setup.c
+	internal/source/data/settings.c
 	internal/source/data/lang.c
 	internal/source/rendering/tiles.c
 	internal/source/rendering/effects.c
 	internal/source/rendering/ocean.c
 	internal/source/rendering/pyramid.c
+	internal/source/items/tools.c
+	internal/source/items/fish.c
+	internal/source/items/definitions.c
+	internal/source/items/recipes.c
+	internal/source/items/setup.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
 	modules/neutral/resource.rc

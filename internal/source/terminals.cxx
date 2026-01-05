@@ -127,8 +127,9 @@ void Backward_Essentials() {
 }
 
 void Render_Necessities(std::string Machine, std::string Prefix) {
-	Render_Dynamic_Text(Fonts.Terminal_Font, "librenectere/" + Machine + ".exe",
-		Colors.Cherry_Blossom, 50, 50);
+	char Buffer[64];
+	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.exe", Machine.c_str());
+	Render_Dynamic_Text(Fonts.Terminal_Font, Buffer, Colors.Cherry_Blossom, 50, 50);
 	Render_Dynamic_Text(Fonts.Terminal_Font, "> ", Colors.Cherry_Blossom, 50, 300);
 	if (Interface_L.Terminal_Entry.size() > 0) {
 		Interface_L.Terminal_Entry = Prefix + "." + Interface_L.Terminal_Entry + ";";
@@ -140,11 +141,13 @@ void Render_Necessities(std::string Machine, std::string Prefix) {
 			Result.push_back(Interface_L.Terminal_Entry[Counter]);
 		}
 		if (Result.size() > 0) {
-			Render_Dynamic_Text(Fonts.Terminal_Font, Result, Colors.Cherry_Blossom, 64, 300);
+			Render_Dynamic_Text(Fonts.Terminal_Font, Result.c_str(), Colors.Cherry_Blossom, 64, 300);
 		}
 	}
 	for (int Counter = static_cast<int>(Interface_L.Terminal_Logs.size()) - 1; Counter > LDE_INVALID; Counter--) {
-		Render_Dynamic_Text(Fonts.Terminal_Font, Interface_L.Terminal_Logs[Counter],
+		char Buffer[256];
+		strcpy(Buffer, Interface_L.Terminal_Logs[Counter].c_str());
+		Render_Dynamic_Text(Fonts.Terminal_Font, Buffer,
 			Colors.Cherry_Blossom, 50, 280 - (Counter * 20));
 	}
 }

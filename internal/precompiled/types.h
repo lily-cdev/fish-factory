@@ -1,19 +1,12 @@
 #pragma once
+#define NULLPOINT { LDE_TERMINATOR, LDE_TERMINATOR }
+#define NULLSTRING "NULL"
+#define NULLRECIPE { .ID = LDE_TERMINATOR }
 
 typedef struct {
     int Length;
     char** Data;
 } String2;
-
-typedef struct {
-    int Length;
-    String2* Data;
-} String3;
-
-typedef struct {
-    int Length;
-    String3* Data;
-} String4;
 
 typedef struct {
     int X;

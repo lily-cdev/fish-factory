@@ -30,32 +30,32 @@ DATA Data = {
 };
 METADATA Metadata = {
 	.Item_Labels = {
-		{ Submarine_Dock, Cable_Node, LDE_INVALID },
-		{ Ram_Pump, LDE_INVALID },
-		{ Algae_Bed, LDE_INVALID },
-		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_INVALID },
-		{ Piezo_Generator, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_INVALID },
-		{ Flowerpot, Ammunition_Shelf, LDE_INVALID },
-		{ Incinerator, Signal_Tower, Basic_Scrubber, LDE_INVALID },
-		{ Command_Platform, LDE_INVALID }
+		{ Submarine_Dock, Cable_Node, LDE_TERMINATOR },
+		{ Ram_Pump, LDE_TERMINATOR },
+		{ Algae_Bed, LDE_TERMINATOR },
+		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_TERMINATOR },
+		{ Piezo_Generator, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_TERMINATOR },
+		{ Flowerpot, Ammunition_Shelf, LDE_TERMINATOR },
+		{ Incinerator, Signal_Tower, Basic_Scrubber, LDE_TERMINATOR },
+		{ Command_Platform, LDE_TERMINATOR }
 	},
 	.Subcategory_Positions = {
-		{ Reinforced, Large, LDE_INVALID },
-		{ LDE_INVALID },
-		{ Modular_Spawning_Pool, LDE_INVALID },
-		{ Condenser, LDE_INVALID },
-		{ Turbine, LDE_INVALID },
-		{ Flooring, LDE_INVALID },
-		{ LDE_INVALID },
-		{ LDE_INVALID }
+		{ Reinforced, Large, LDE_TERMINATOR },
+		{ LDE_TERMINATOR },
+		{ Modular_Spawning_Pool, LDE_TERMINATOR },
+		{ Condenser, LDE_TERMINATOR },
+		{ Turbine, LDE_TERMINATOR },
+		{ Flooring, LDE_TERMINATOR },
+		{ LDE_TERMINATOR },
+		{ LDE_TERMINATOR }
 	},
 	.Subcontents = {
-		{ Spawning_Controller, Spawning_Output, Spawning_Input, Spawning_Pool, LDE_INVALID },
-		{ Decoration, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Hazard_Strip, LDE_INVALID },
-		{ Reinforced_Pipe, R_Intersection, LDE_INVALID },
-		{ Large_Pipe, L_Intersection, LDE_INVALID },
-		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_INVALID },
-		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_INVALID }
+		{ Spawning_Controller, Spawning_Output, Spawning_Input, Spawning_Pool, LDE_TERMINATOR },
+		{ Decoration, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Hazard_Strip, LDE_TERMINATOR },
+		{ Reinforced_Pipe, R_Intersection, LDE_TERMINATOR },
+		{ Large_Pipe, L_Intersection, LDE_TERMINATOR },
+		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_TERMINATOR },
+		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_TERMINATOR }
 	},
 	.Machine_Taxes = {
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -64,7 +64,20 @@ METADATA Metadata = {
 	.Machine_Prices = {
 		4, 15, 20, 4, 1, 30, 40, 35, 12, 70, 50, 0, 40, 4, 3, 3, 20, 40, 10, 2,
 		4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4, 30, 20, 90, 30, 50, 46, 20
-	}
+	},
+	.Quirk_Positions = {
+		{ Reinforced_Pipe, Ram_Pump, Piezo_Generator, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip,
+			Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node,
+			Large_Pipe, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, LDE_TERMINATOR },
+		{ Reinforced_Pipe, Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Large_Pipe,
+			Condenser_Input, Condenser_Heatsink, Condenser_Transferor, Turbine_Input, Turbine_Impulse,
+			Turbine_Output, LDE_TERMINATOR },
+		{ Signal_Tower, Spawning_Controller, Submarine_Dock, Heat_Exchanger, Money_Generator, Fluid_Generator,
+			Turbine_Input, LDE_TERMINATOR },
+		{ Reinforced_Pipe, Spawning_Pool, Ram_Pump, Large_Pipe, Money_Generator, Fluid_Generator, LDE_TERMINATOR }
+	},
+	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
+	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } }
 };
 SETTINGS Settings = {
 	.AA_Temporary = true,
@@ -93,19 +106,15 @@ COLORS Colors = {
 	.Ocean = { 6, 66, 116 }
 };
 FONTS Fonts = { };
+KEYBINDS Keybinds = {
+	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
+		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE },
+	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
+		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE }
+};
 TEMPORARY Temporary = {
 	.Settings_Changed = false,
-	.Modular1_Requirement = 0,
-	.Modular2_Requirement = 0,
-	.Dialogue_Position = 0,
-	.Ticker_Target = 0,
-	.Ticker_Position = 0,
-	.Ticker_Frames = 0,
 	.Tutorial_Step = LDE_INVALID,
-	.Tutorial_Size = { },
-	.Tutorial_Offset = { },
-	.Scroll_Percent = 0,
-	.Dialogue_Maximum = 0,
 	.Log_Inversions = { true, false, false },
 	.First_Coordinate = { 0, 0 },
 	.Docks.Data = NULL
@@ -146,7 +155,25 @@ INTERFACE Interface = {
 	.Map_X = 0,
 	.Map_Y = 0,
 	.Registering_Keybind = LDE_INVALID,
+	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 15, 20, 50, 100, 150, 300 },
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
+	.Slider_Texts = {
+		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", NULLSTRING },
+		{ "Milkfish", "Mojarra", "Menhaden", NULLSTRING },
+		{ "Credits", "Legal", NULLSTRING },
+		{ "Overview", "Tutorials", "Cheats", NULLSTRING },
+		{ "15 FPS", "30 FPS", "60 FPS", "120 FPS", "240 FPS", NULLSTRING },
+		{ NULLSTRING },
+		{ "Windowed", "Borderless", "Fullscreen", NULLSTRING },
+		{ NULLSTRING },
+		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s",
+			NULLSTRING },
+		{ NULLSTRING },
+		{ NULLSTRING },
+		{ NULLSTRING },
+		{ NULLSTRING },
+		{ NULLSTRING }
+	},
 	.Tile_Centerpoint = { 0, 0 }
 };
-PRECONFIGURATIONS Preconfigurations = { };
+PRECONFIGS Preconfigs = { };

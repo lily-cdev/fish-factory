@@ -6,26 +6,17 @@ extern "C" {
 	#include <rendering.h>
 	#include <data.h>
 	#include <grid.h>
+	#include <connectables.h>
+	#include <tutorials.h>
+	#include <items.h>
 }
 #include <Legacy_Preloader.hpp>
-#include <Legacy_Items.hpp>
-#include <Legacy_Connectables.hpp>
-#include <Legacy_Grid.hpp>
 #include <Legacy_Interface.hpp>
 #include <Legacy_Tutorials.hpp>
 #include <Legacy_UI.hpp>
 
-OLD_METADATA Metadata_L;
-OLD_KEYBINDS Keybinds_L;
 OLD_TEMPORARY Temporary_L;
-OLD_CACHE Cache_L;
 OLD_INTERFACE Interface_L;
-PRESET_ITEMS Preset_Items;
-PRESET_CATEGORIES Preset_Categories;
-PRESET_FISH Preset_Fish;
-PRESET_IO_RECIPES Preset_IO_Recipes;
-PRESET_I_RECIPES Preset_I_Recipes;
-PRESET_O_RECIPES Preset_O_Recipes;
 
 SDL_ScaleMode Scaling_Quality;
 
@@ -34,13 +25,12 @@ int main(int argc, char* args[]) {
 	TTF_Init();
 	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
-	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY,
-		&Core.Window, &Core.Renderer);
+	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY, &Core.Window, &Core.Renderer);
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
 	Load_Text();
-	Generate_Preconfigurations();
-	Update_Metadata();
+	Generate_Preconfigs();
+	Prep_Items();
 	Load_Settings();
 	Clear_Settings();
 	Reload_All();
@@ -167,10 +157,11 @@ int main(int argc, char* args[]) {
 				}
 			}
 		} else if (Interface.UI_Tab == 1) {
-			SDL_RenderTexture(Core.Renderer, Textures.Logo,
-				NULL, &Rects.Logo);
-			Render_Dynamic_Text(Fonts.Logo_Font, "fish", Colors.Abyss_Black, 325, 44);
-			Render_Dynamic_Text(Fonts.Logo_Font, "factory", Colors.Abyss_Black, 325, 78);
+			SDL_RenderTexture(Core.Renderer, Textures.Logo, NULL, &Rects.Logo);
+			char Buffer1[] = "fish";
+			char Buffer2[] = "factory";
+			Render_Dynamic_Text(Fonts.Logo_Font, Buffer1, Colors.Abyss_Black, 325, 44);
+			Render_Dynamic_Text(Fonts.Logo_Font, Buffer2, Colors.Abyss_Black, 325, 78);
 			Render_Button(Textures.New_Game, Rects.New_Game, 1, Colors.Cherry_Blossom);
 			Render_Button(Textures.Settings, Rects.Settings, 2, Colors.Cherry_Blossom);
 			Render_Button(Textures.Update_Logs, Rects.Update_Logs, 3, Colors.Cherry_Blossom);
@@ -189,13 +180,13 @@ int main(int argc, char* args[]) {
 					.Data[Counter], NULL, &Rects.Settings_Label.Data[Counter]);
 			}
 			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
-			Render_Slider(Interface_L.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
+			Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, Interface.Slider_Positions[0], 50, 70, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface_L.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
+			Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, Interface.Slider_Positions[4], 50, 140, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface_L.Slider_Texts[5], 3, 100, 21, Interface.Slider_Positions[5], 50, 210, 220,
+			Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, Interface.Slider_Positions[5], 50, 210, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-			Render_Slider(Interface_L.Slider_Texts[6], 4, 2, 22, Interface.Slider_Positions[6], 50, 280, 220,
+			Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, Interface.Slider_Positions[6], 50, 280, 220,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 			if (Settings.AA_Temporary) {
 				Render_Button(Textures.Anti_Aliasing.Data[0],
@@ -212,11 +203,12 @@ int main(int argc, char* args[]) {
 			if (Temporary.Settings_Changed) {
 				Render_Button(Textures.Save_Settings, Rects.Save_Settings, 23, Colors.Cherry_Blossom);
 			}
-			Render_Dynamic_Text(Fonts.Subtext_Font, Metadata_L.Monitor_Size, Colors.Abyss_Black, 50, 40);
-			for (int Counter1 = 0; Counter1 < Keybinds_L.Keybind_Texts.size(); Counter1++) {
-				std::string Text = Keybinds_L.Keybind_Texts[Counter1] + "...";
-				SDL_Surface* Prefix_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Text.c_str(),
-					Text.size(), Colors.Abyss_Black);
+			Render_Dynamic_Text(Fonts.Subtext_Font, Metadata.Monitor_Size, Colors.Abyss_Black, 50, 40);
+			for (int Counter1 = 0; Counter1 < LDE_KEYBINDS; Counter1++) {
+				char Text[64];
+				snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[Counter1]);
+				SDL_Surface* Prefix_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Text,
+					strlen(Text), Colors.Abyss_Black);
 				SDL_Texture* Prefix_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Prefix_Surface);
 				SDL_FRect Prefix_Rectangle = { 370.0f * Settings.Screen_Size, static_cast<float>(
 					40 + (16 * Counter1)) * Settings.Screen_Size, static_cast<float>(
@@ -233,7 +225,7 @@ int main(int argc, char* args[]) {
 					SDL_DestroySurface(Registering_Surface);
 					SDL_DestroyTexture(Registering_Texture);
 				} else {
-					std::string Subcore = SDL_GetKeyName(Keybinds_L.Keybind_Settings[Counter1]);
+					std::string Subcore = SDL_GetKeyName(Keybinds.Keybind_Settings[Counter1]);
 					for (int Counter2 = 0; Counter2 < Subcore.length(); Counter2++) {
 						Subcore[Counter2] = static_cast<char>(std::tolower(Subcore[Counter2]));
 					}
@@ -279,16 +271,18 @@ int main(int argc, char* args[]) {
 			Render_Closing(false);
 		} else if (Interface.UI_Tab == 4) {
 			for (int Counter = 0; Counter < Cache.Log_Cache.Data[Changelog].Length; Counter++) {
-				SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Changelog][Counter];
+				SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Changelog].Data[Counter];
 				Log_Rectangle.y -= Interface.Log_Offset;
 				SDL_RenderTexture(Core.Renderer, Cache.Log_Cache
 					.Data[Changelog].Data[Counter], NULL, &Log_Rectangle);
 			}
 			SDL_RenderTexture(Core.Renderer, Textures.Log_Background, NULL,
 				&Rects.Log_Background);
-			Render_Dynamic_Text(Fonts.Subtext_Font, "Changelog - " +
-				Truncate(Temporary.Scroll_Percent, 0) +
-				"%", Colors.Abyss_Black, LDE_INVALID, 10);
+			char Buffer[64];
+			char Subbuffer[64];
+			Truncate(Temporary.Scroll_Percent, 0, Subbuffer, sizeof(Subbuffer));
+			snprintf(Buffer, sizeof(Buffer), "Changelog - %s%%", Subbuffer);
+			Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 10);
 			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
 			if (Temporary.Log_Inversions[Changelog]) {
 				Render_Button(Textures.Sort.Data[0], Rects.Sort.Data[0], 2, Colors.Cherry_Blossom);
@@ -307,7 +301,7 @@ int main(int argc, char* args[]) {
 			switch (Interface.Slider_Positions[2]) {
 			case 0:
 				for (int Counter = 0; Counter < Cache.Log_Cache.Data[Credits].Length; Counter++) {
-					SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Credits][Counter];
+					SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Credits].Data[Counter];
 					Log_Rectangle.y -= Interface.Log_Offset;
 					SDL_RenderTexture(Core.Renderer, Cache.Log_Cache.Data[
 						Credits].Data[Counter], NULL, &Log_Rectangle);
@@ -315,7 +309,7 @@ int main(int argc, char* args[]) {
 				break;
 			case 1:
 				for (int Counter = 0; Counter < Cache.Log_Cache.Data[Legal].Length; Counter++) {
-					SDL_FRect Log_Rectangle = Cache_L.Log_Rectangles[Legal][Counter];
+					SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Legal].Data[Counter];
 					Log_Rectangle.y -= Interface.Log_Offset;
 					SDL_RenderTexture(Core.Renderer, Cache.Log_Cache.Data[
 						Legal].Data[Counter], NULL, &Log_Rectangle);
@@ -327,11 +321,13 @@ int main(int argc, char* args[]) {
 			}
 			SDL_RenderTexture(Core.Renderer, Textures.Log_Background, NULL,
 				&Rects.Log_Background);
-			Render_Dynamic_Text(Fonts.Subtext_Font, Prefix + " - " +
-				Truncate(Temporary.Scroll_Percent, 0) +
-				"%", Colors.Abyss_Black, LDE_INVALID, 10);
+			char Buffer[64];
+			char Subbuffer[64];
+			Truncate(Temporary.Scroll_Percent, 0, Subbuffer, sizeof(Subbuffer));
+			snprintf(Buffer, sizeof(Buffer), "%s - %s%%", Prefix.c_str(), Subbuffer);
+			Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 10);
 			Render_Button(Textures.Return, Rects.Return, 1, Colors.Cherry_Blossom);
-			Render_Slider(Interface_L.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
+			Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, Interface.Slider_Positions[2], 200, 340, 240,
 				Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 			Render_Opening();
 			Render_Closing(true);
@@ -368,7 +364,8 @@ int main(int argc, char* args[]) {
 					Interface.Tool = LDE_INVALID;
 				}
 			} else {
-				Render_Dynamic_Text(Fonts.Text_Font, "Time will not progress until a command platform is placed!",
+				char tmp[] = "Time will not progress until a command platform is placed!";
+				Render_Dynamic_Text(Fonts.Text_Font, tmp,
 					Colors.Cherry_Blossom, LDE_INVALID, 120);
 			}
 			if (!Interface.Animation_Locked && Interface.Prompt_Identifier ==
@@ -411,8 +408,11 @@ int main(int argc, char* args[]) {
 			}
 			Drain_Query();
 			Render_Toolbar();
-			Render_Dynamic_Text(Fonts.Halftext_Font, std::to_string(static_cast<int>(Temporary.Temporary_FPS)) +
-				"/" + std::to_string(Interface.Frame_Rate) + " FPS", Colors.Abyss_Black, 10, 10);
+			{
+				char Buffer[256];
+				snprintf(Buffer, sizeof(Buffer), "%i/%i FPS", Temporary.Temporary_FPS, Interface.Frame_Rate);
+				Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, 10, 10);
+			}
 			Render_Effects();
 			Render_Game_UI();
 			Render_Prompts();
@@ -437,7 +437,7 @@ int main(int argc, char* args[]) {
 		SDL_Delay(static_cast<uint32_t>(std::max(Remaining_Delay, 0.0)));
 	}
 	Free_Text();
-	Free_Preconfigurations();
+	Free_Preconfigs();
 	free(Temporary.Docks.Data);
 	Temporary.Docks.Data = nullptr;
 	Shutdown_Miniaudio();

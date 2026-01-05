@@ -13,7 +13,7 @@ void Shutdown_Miniaudio() {
 	ma_engine_uninit(&Audio.Audio_Engine);
 }
 
-void Load_Sound(ma_sound* Target, const char* Path) {
+void Load_Sound(const char* Path, ma_sound* Target) {
     ma_sound_init_from_file(&Audio.Audio_Engine, Path,
         0, NULL, NULL, Target);
 }

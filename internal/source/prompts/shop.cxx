@@ -35,11 +35,10 @@ void Render_Shop(int X, int Y) {
 			(Icon_Rectangle.w / Settings.Screen_Size) + 8,
 			(Icon_Rectangle.h / Settings.Screen_Size) + 8,
 			Colors.Light_Grey, Colors.Dark_Grey);
-		SDL_RenderTexture(Core.Renderer, Metadata.Machine_Sprites[Interface.Placing_Item - 1],
-			NULL, &Icon_Rectangle);
+		SDL_RenderTexture(Core.Renderer, Metadata.Machine_Sprites[Interface.Placing_Item - 1], NULL, &Icon_Rectangle);
 		std::vector<int> Quirk_Stack = { };
 		for (int Counter = 0; Counter < 4; Counter++) {
-			if (Metadata_L.Machine_Quirks[Interface.Placing_Item - 1][Counter]) {
+			if (Metadata.Machine_Quirks[Interface.Placing_Item - 1][Counter]) {
 				Quirk_Stack.push_back(Counter);
 			}
 		}
@@ -103,23 +102,18 @@ void Render_Shop(int X, int Y) {
 				.Data[Quirk_Stack[Counter]], NULL, &Label_Rectangles[Counter]);
 		}
 		Render_Box(444, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
-		Render_Dynamic_Text(Fonts.Halftext_Font, "Price Sum:",
-			Colors.Abyss_Black, 446, 10);
-		Render_Dynamic_Text(Fonts.Subtext_Font, "Base: " +
-			std::to_string(Metadata.Machine_Prices[
-			Interface.Placing_Item - 1]) + "LA", Colors.Abyss_Black, 456, 30);
-		Render_Dynamic_Text(Fonts.Subtext_Font, "Tax: " +
-			std::to_string(Metadata.Machine_Prices[
-			Interface.Placing_Item - 1] / 10) + "LA", Colors.Abyss_Black, 456, 50);
-		Render_Dynamic_Text(Fonts.Subtext_Font, "Shipping Fee: " +
-			std::to_string(Metadata.Machine_Taxes[
-			Interface.Placing_Item - 1]) + "LA", Colors.Abyss_Black, 456, 70);
-		Render_Dynamic_Text(Fonts.Subtext_Font, "Processing Fee: 1LA",
-			Colors.Abyss_Black, 456, 90);
+		Render_Dynamic_Text(Fonts.Halftext_Font, "Price Sum:", Colors.Abyss_Black, 446, 10);
+		char Buffer[64];
+		snprintf(Buffer, sizeof(Buffer), "Base: %iLA", Metadata.Machine_Prices[Interface.Placing_Item - 1]);
+		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 30);
+		snprintf(Buffer, sizeof(Buffer), "Tax: %iLA", Metadata.Machine_Prices[Interface.Placing_Item - 1] / 10);
+		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 50);
+		snprintf(Buffer, sizeof(Buffer), "Shipping Fee: %iLA", Metadata.Machine_Taxes[Interface.Placing_Item - 1]);
+		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 70);
+		Render_Dynamic_Text(Fonts.Subtext_Font, "Processing Fee: 1LA", Colors.Abyss_Black, 456, 90);
 		Cache_Price();
-		Render_Dynamic_Text(Fonts.Subtext_Font, "Total: " +
-			std::to_string(Interface.Queried_Price) + "LA",
-			Colors.Abyss_Black, 456, 110);
+		snprintf(Buffer, sizeof(Buffer), "Total: %iLA", Interface.Queried_Price);
+		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 456, 110);
 	} else {
 		for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
 			Render_Button(Textures.Categories.Data[Counter],

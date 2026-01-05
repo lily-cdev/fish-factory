@@ -3,17 +3,16 @@ extern "C" {
 	#include <core.h>
 	#include <transitions.h>
 	#include <data.h>
+	#include <interface.h>
+	#include <connectables.h>
+	#include <items.h>
 }
 #include <Legacy_Preloader.hpp>
-#include <Legacy_Items.hpp>
-#include <Legacy_Connectables.hpp>
-#include <Legacy_Data.hpp>
 #include <Legacy_UI.hpp>
 #include <Legacy_Tutorials.hpp>
 
 void Close_Prompt();
 void Process_Inputs();
-void Handle_None(int X, int Y);
 void Handle_Help(int X, int Y);
 void Handle_Shop(int X, int Y);
 void Handle_Daily_Report(int X, int Y);

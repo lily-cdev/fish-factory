@@ -27,7 +27,7 @@ bool Place_Algae_Bed(int X, int Y) {
 	}
 	if (Placed) {
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigurations.GB_Outputs);
+		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.GB_Outputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = F_Out;
 			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 3;

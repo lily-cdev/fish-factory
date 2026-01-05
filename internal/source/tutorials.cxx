@@ -2,8 +2,12 @@
 
 void Progress_Tutorial() {
 	Temporary.Tutorial_Step++;
-	if (Temporary.Tutorial_Step >= Tutorial_Stack.size()) {
-		Tutorial_Stack.clear();
+	int Limiter = 0;
+	while (Tutorial_Stack[Limiter].Type != T_Terminator) {
+		Limiter++;
+	}
+	if (Temporary.Tutorial_Step >= Limiter) {
+		memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
 		Temporary.Tutorial_Step = LDE_INVALID;
 	}
 }
@@ -12,7 +16,7 @@ void Process_Tutorial(int Input) {
 	if (Temporary.Tutorial_Step > LDE_INVALID) {
 		bool Step_Completed = false;
 		if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 0 && Input != LDE_INVALID) {
-			if (static_cast<SDL_Keycode>(Input) == Keybinds_L.Keybind_List[
+			if (static_cast<SDL_Keycode>(Input) == Keybinds.Keybind_List[
 				 Tutorial_Stack[Temporary.Tutorial_Step].Hotkey]) {
 				Step_Completed = true;
 			}
@@ -45,31 +49,31 @@ void Render_Tutorial() {
 		Render_Box(140, 20, 360, 30, Colors.Light_Grey, Colors.Dark_Grey);
 		std::string Text = "Step " + std::to_string(Temporary.Tutorial_Step + 1) + ": ";
 		if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 0) {
-			std::string Keycore = SDL_GetKeyName(Keybinds_L.Keybind_List[Tutorial_Stack[
+			std::string Keycore = SDL_GetKeyName(Keybinds.Keybind_List[Tutorial_Stack[
 				Temporary.Tutorial_Step].Hotkey]);
-			Text = Text + "Press \"" + Keycore + "\" (" + Keybinds_L.Keybind_Texts[
+			Text = Text + "Press \"" + Keycore + "\" (" + Keybinds.Keybind_Texts[
 				Tutorial_Stack[Temporary.Tutorial_Step].Hotkey] + ").";
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 1) {
 			Text = Text + "Click on the \"" + Tutorial_Stack[Temporary.Tutorial_Step].Label + "\" button.";
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 2) {
 			int Remaining = 0;
-			for (int Counter = 0; Counter < Tutorial_Stack[Temporary.Tutorial_Step]
-				.Placement_Locations.size(); Counter++) {
+			for (int Counter = 0; Counter < ptlen(Tutorial_Stack[Temporary.Tutorial_Step]
+				.Placement_Locations); Counter++) {
 				if ((Data.Visual_Grid[Tutorial_Stack[Temporary.Tutorial_Step]
-					.Placement_Locations[Counter][0]][Tutorial_Stack[Temporary.Tutorial_Step]
-					.Placement_Locations[Counter][1]] != Tutorial_Stack[Temporary.Tutorial_Step]
+					.Placement_Locations[Counter].X][Tutorial_Stack[Temporary.Tutorial_Step]
+					.Placement_Locations[Counter].Y] != Tutorial_Stack[Temporary.Tutorial_Step]
 					.Item && !Tutorial_Stack[Temporary.Tutorial_Step].ID_Override) || (Visual_To_ID(
-					Data.Visual_Grid[Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations
-					[Counter][0]][Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
-					Counter][1]]) != Tutorial_Stack[Temporary.Tutorial_Step].Item && Tutorial_Stack[
+					Data.Visual_Grid[Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+					Counter].X][Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+					Counter].Y]) != Tutorial_Stack[Temporary.Tutorial_Step].Item && Tutorial_Stack[
 					Temporary.Tutorial_Step].ID_Override)) {
 					int X;
 					int Y;
 					ID_To_Size(Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item), 0, &X, &Y);
-					SDL_FRect Outline_Rectangle = { static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter][0] * LDE_TILESIZE * Settings.Screen_Size) -
-						(Core.Camera.X * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter][1] * LDE_TILESIZE * Settings.Screen_Size) -
+					SDL_FRect Outline_Rectangle = { static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter].X * LDE_TILESIZE * Settings.Screen_Size) -
+						(Core.Camera.X * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter].Y * LDE_TILESIZE * Settings.Screen_Size) -
 						(Core.Camera.Y * Settings.Screen_Size)), static_cast<float>(X * LDE_TILESIZE *
 						Settings.Screen_Size), static_cast<float>(Y * LDE_TILESIZE * Settings.Screen_Size) };
 					Temporary_L.ID_Query.push_back(0);
@@ -101,42 +105,42 @@ void Render_Tutorial() {
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 3 ||
 			Tutorial_Stack[Temporary.Tutorial_Step].Type == 4) {
 			int Remaining = 0;
-			for (int Counter1 = 0; Counter1 < Tutorial_Stack
-				[Temporary.Tutorial_Step].Placement_Locations.size(); Counter1 += 2) {
+			for (int Counter1 = 0; Counter1 < ptlen(Tutorial_Stack[Temporary.Tutorial_Step]
+				.Placement_Locations); Counter1 += 2) {
 				bool Incomplete = true;
 				if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 3) {
-					for (int Counter2 = 0; Counter2 < Pipes_List.size(); Counter2++) {
-						if (Pipes_List[Counter2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations
-							[Counter1][0] && Pipes_List[Counter2].Y1 == Tutorial_Stack
-							[Temporary.Tutorial_Step].Placement_Locations[Counter1][1] &&
-							Pipes_List[Counter2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations
-							[Counter1 + 1][0] && Pipes_List[Counter2].Y2 == Tutorial_Stack
-							[Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1][1]) {
+					for (int Counter2 = 0; Counter2 < Pipes_List.Length; Counter2++) {
+						if (Pipes_List.Data[Counter2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+							Counter1].X && Pipes_List.Data[Counter2].Y1 == Tutorial_Stack[
+							Temporary.Tutorial_Step].Placement_Locations[Counter1].Y &&
+							Pipes_List.Data[Counter2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+							Counter1 + 1].X && Pipes_List.Data[Counter2].Y2 == Tutorial_Stack[
+							Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1].Y) {
 							Incomplete = false;
 						}
 					}
 				} else {
-					for (int Counter2 = 0; Counter2 < Wires_List.size(); Counter2++) {
-						if (Wires_List[Counter2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations
-							[Counter1][0] && Wires_List[Counter2].Y1 == Tutorial_Stack
-							[Temporary.Tutorial_Step].Placement_Locations[Counter1][1] &&
-							Wires_List[Counter2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations
-							[Counter1 + 1][0] && Wires_List[Counter2].Y2 == Tutorial_Stack
-							[Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1][1]) {
+					for (int Counter2 = 0; Counter2 < Wires_List.Length; Counter2++) {
+						if (Wires_List.Data[Counter2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+							Counter1].X && Wires_List.Data[Counter2].Y1 == Tutorial_Stack[
+							Temporary.Tutorial_Step].Placement_Locations[Counter1].Y &&
+							Wires_List.Data[Counter2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
+							Counter1 + 1].X && Wires_List.Data[Counter2].Y2 == Tutorial_Stack[
+							Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1].Y) {
 							Incomplete = false;
 						}
 					}
 				}
 				if (Incomplete) {
-					SDL_FRect Temporary_Rectangle = { static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter1][0] * Settings.Screen_Size *
-						40) + ((20 - Core.Camera.X) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter1][1] * Settings.Screen_Size * 40) +
-						((20 - Core.Camera.Y) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1][0] * Settings.Screen_Size *
-						40) + ((20 - Core.Camera.X) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack
-						[Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1][1] * Settings.Screen_Size *
-						40) + ((20 - Core.Camera.Y) * Settings.Screen_Size)) };
+					SDL_FRect Temporary_Rectangle = { static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter1].X * Settings.Screen_Size *
+						LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter1].Y * Settings.Screen_Size * LDE_TILESIZE) +
+						((20 - Core.Camera.Y) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1].X * Settings.Screen_Size *
+						LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Screen_Size)), static_cast<float>((Tutorial_Stack[
+						Temporary.Tutorial_Step].Placement_Locations[Counter1 + 1].Y * Settings.Screen_Size *
+						LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Screen_Size)) };
 					Temporary_L.Query.push_back(Temporary_Rectangle);
 					Temporary_L.ID_Query.push_back(1);
 					Temporary_L.Color_Query.push_back(Colors.Carnage_Pink);
@@ -184,7 +188,7 @@ void Render_Tutorial() {
 				break;
 			}
 			Text = Text + "Hold down \"" + static_cast<char>(std::tolower(
-				SDL_GetKeyName(Keybinds_L.Keybind_List[Keybind])[
+				SDL_GetKeyName(Keybinds.Keybind_List[Keybind])[
 				0])) + "\" to drift the camera " + std::to_string(
 				static_cast<int>(Position)) + "/" + std::to_string(
 				static_cast<int>(Tutorial_Stack[Temporary.Tutorial_Step]
@@ -198,12 +202,11 @@ void Render_Tutorial() {
 		}
 		if (Detect_Mouse_Collision({ 170.0f * Settings.Screen_Size, 20.0f * Settings.Screen_Size,
 			300.0f * Settings.Screen_Size, 30.0f * Settings.Screen_Size })) {
-			Render_Dynamic_Text(Fonts.Subtext_Font, "This will " + Tutorial_Stack[
-				Temporary.Tutorial_Step].Context + ".", Colors.Abyss_Black, LDE_INVALID, 26);
+			char Buffer[128];
+			snprintf(Buffer, sizeof(Buffer), "This will %s.", Tutorial_Stack[Temporary.Tutorial_Step].Context);
+			Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 26);
 		} else {
-			Render_Dynamic_Text(Fonts.Subtext_Font, Text, Colors.Abyss_Black, LDE_INVALID, 26);
+			Render_Dynamic_Text(Fonts.Subtext_Font, Text.c_str(), Colors.Abyss_Black, LDE_INVALID, 26);
 		}
 	}
 }
-
-std::vector<Tutorial_Step> Tutorial_Stack = { };

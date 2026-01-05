@@ -15,7 +15,7 @@ extern AUDIO Audio;
 
 void Startup_Miniaudio();
 void Shutdown_Miniaudio();
-void Load_Sound(ma_sound* Target, const char* Path);
+void Load_Sound(const char* Path, ma_sound* Target);
 void Play_Sound(ma_sound* Target, bool Looping);
 void Terminate_Sound(ma_sound* Target);
 void Adjust_Sound(float Volume);

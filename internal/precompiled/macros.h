@@ -1,4 +1,7 @@
 #pragma once
 #define free_c(Victim) do { if ((Victim) != NULL) { free(Victim); (Victim) = NULL; } } while(0)
 #define free_d(Victim) do { free_c(Victim.Data); } while(0)
-#define intlen(Victim) ({ int Yield = 0; while (Victim[Yield] != LDE_INVALID) { Yield++; } Yield; })
+#define intlen(Victim) ({ int Yield = 0; while (Victim[Yield] != LDE_TERMINATOR) { Yield++; } Yield; })
+#define reclen(Victim) ({ int Yield = 0; while (Victim[Yield].ID != LDE_TERMINATOR) { Yield++; } Yield; })
+#define ptlen(Victim) ({ int Yield = 0; while (Victim[Yield].X != LDE_TERMINATOR || Victim[Yield].Y != LDE_TERMINATOR) { Yield++; } Yield; })
+#define clamp_c(Victim, A, B) ({ int Yield = (Victim); if ((A) < (B)) { if ((Victim) < (A)) { Yield = (A); } else if ((Victim) > (B)) { Yield = (B); } } else { if ((Victim) < (B)) { Yield = (B); } else if ((Victim) > (A)) { Yield = (A); } } Yield; })

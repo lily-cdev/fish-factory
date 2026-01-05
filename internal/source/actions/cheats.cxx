@@ -29,14 +29,12 @@ void Handle_Fluid_Generator(int X, int Y) {
 		} else if (Interface.UI_Selection == 5) {
 			Data.Settings_Grid[X][Y][3] = Interface.Slider_Positions[9];
 			Data.Settings_Grid[X][Y][4] = Interface.Slider_Positions[10] * 5;
-			Data.Settings_Grid[X][Y][5] = Interface_L.Valve300_Postions[
-				Interface.Slider_Positions[11]];
+			Data.Settings_Grid[X][Y][5] = Interface.Valve300_Postions[Interface.Slider_Positions[11]];
 		} else if (Interface.UI_Selection == 6) {
 			Interface.Slider_Positions[9] = Data.Settings_Grid[X][Y][3];
 			Interface.Slider_Positions[10] = Data.Settings_Grid[X][Y][4] / 5;
-			for (int Counter = 0; Counter < Interface_L.Valve300_Postions.size(); Counter++) {
-				if (Data.Settings_Grid[X][
-					Y][5] == Interface_L.Valve300_Postions[Counter]) {
+			for (int Counter = 0; Counter < LDE_VALVE300LENGTH; Counter++) {
+				if (Data.Settings_Grid[X][Y][5] == Interface.Valve300_Postions[Counter]) {
 					Interface.Slider_Positions[11] = Counter;
 					break;
 				}

@@ -5,17 +5,26 @@ void Handle_Spawning_Pool(int X, int Y) {
 		if (Interface.Engagement == 0) {
 			Forward_Essentials(Rects.MSP_Buttons.Length, 1);
 			if (Interface.UI_Selection == 3) {
-				Print_JSON({ "volume\", \"" + Abbreviate_Number(Data.Settings_Grid[X]
-					[Y][3] * 90) + "L", "food\", \"" + Abbreviate_Number(
-					Data.Settings_Grid[X][Y][4]) + "g" });
+				char Buffer1[64];
+				char Subbuffer[64];
+				Abbreviate_Number(Data.Settings_Grid[X][Y][3] * 90, Subbuffer, sizeof(Subbuffer));
+				snprintf(Buffer1, sizeof(Buffer1), "volume\", \"%sL", Subbuffer);
+				char Buffer2[64];
+				Abbreviate_Number(Data.Settings_Grid[X][Y][4], Subbuffer, sizeof(Subbuffer));
+				snprintf(Buffer2, sizeof(Buffer2), "food\", \"%sg", Subbuffer);
+				std::string tmp1 = Buffer1;
+				std::string tmp2 = Buffer2;
+				Print_JSON({ tmp1, tmp2 });
 			} else if (Interface.UI_Selection == 4) {
 				if (Data.Settings_Grid[X][Y][5] > 0) {
-					Print_JSON({ "type\", \"" + Fish_Catalog[static_cast<int>(Data
-						.Settings_Grid[X][Y][6])].Name + " " + Get_Phase_Name(
-						static_cast<int>(Data.Settings_Grid[X]
-						[Y][6]), static_cast<int>(Data.Settings_Grid
-						[X][Y][7]), static_cast<int>(Data.Settings_Grid[X][Y][5])),
-						"quantity\", \"" + std::to_string(static_cast<int>(
+					char Buffer[64];
+					char Subbuffer[64];
+					Get_Phase_Name(Subbuffer, sizeof(Subbuffer), (int)(Data.Settings_Grid[X][Y][6]),
+						(int)(Data.Settings_Grid[X][Y][7]), static_cast<int>(Data.Settings_Grid[X][Y][5]));
+					snprintf(Buffer, sizeof(Buffer), "type\", \"%s %s", Fish_Catalog[static_cast<int>(Data
+						.Settings_Grid[X][Y][6])].Name, Subbuffer);
+					std::string tmp = Buffer;
+					Print_JSON({ Buffer, "quantity\", \"" + std::to_string(static_cast<int>(
 						Data.Settings_Grid[X][Y][5])) });
 				} else {
 					Print_Error(No_File);
@@ -52,36 +61,20 @@ void Handle_Spawning_Pool(int X, int Y) {
 }
 
 void Handle_Transmitter(int X, int Y) {
-	Forward_Essentials(Rects.TT_Buttons.Data[
-		Temporary.Dialogue_Position].Length, 0);
-	switch (Temporary.Dialogue_Position) {
-	case 0:
-		if (Interface.UI_Selection == 3) {
-			Print_Response("input docking position");
-			Temporary.Dialogue_Position = 1;
+	Forward_Essentials(Rects.TT_Buttons.Length, 0);
+	if (Interface.UI_Selection > 3 && Interface.UI_Selection <
+		Temporary.Docks.Length + 4) {
+		if (Transition.Submarine_Position.X == LDE_INVALID &&
+			Transition.Submarine_Position.Y == LDE_INVALID) {
+			Print_Response("submarine sent");
+			Transition.Submarine_Position = Temporary.Docks.Data[
+				Interface.UI_Selection - 4];
+			Transition.Submarine_Phase = 0;
+			Transition.Submarine_Offset = 3000;
+			Transition.Submarine_Vertical = 105;
+		} else {
+			Print_Error(Docked_Sub);
 		}
-		break;
-	case 1:
-		if (Interface.UI_Selection == 3) {
-			Print_Response("transmission disconnected");
-			Temporary.Dialogue_Position = 0;
-		} else if (Interface.UI_Selection > 3 && Interface.UI_Selection <
-			Temporary.Docks.Length + 4) {
-			if (Transition.Submarine_Position.X == LDE_INVALID &&
-				Transition.Submarine_Position.Y == LDE_INVALID) {
-				Print_Response("submarine sent");
-				Transition.Submarine_Position = Temporary.Docks.Data[
-					Interface.UI_Selection - 4];
-				Transition.Submarine_Phase = 0;
-				Transition.Submarine_Offset = 3000;
-				Transition.Submarine_Vertical = 105;
-			} else {
-				Print_Error(Docked_Sub);
-			}
-		}
-		break;
-	default:
-		break;
 	}
 	Backward_Essentials();
 	Purge_Excess();
@@ -135,10 +128,16 @@ void Handle_Dock(int X, int Y) {
 				Data.Settings_Grid[X][Y][Counter1 + 5])).Value < 1) {
 				Carrier1 = "low_value";
 			}
-			JSON.push_back("capacity_" + std::to_string(Counter1 + 1) + "\", \"" +
-				Truncate(std::abs(Data.Settings_Grid[X][Y][Counter1 + 3]),
-				Get_Depth(LDE_DOCKCAPACITY)) + "/" + Abbreviate_Number(LDE_DOCKCAPACITY) + "L");
-				JSON.push_back("flags_" + std::to_string(Counter1 + 1) + "\", \"" + Carrier1);
+			char Buffer[128];
+			char Subbuffer1[64];
+			Truncate(std::abs(Data.Settings_Grid[X][Y][Counter1 + 3]),
+				Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
+			char Subbuffer2[64];
+			Abbreviate_Number(LDE_DOCKCAPACITY, Subbuffer2, sizeof(Subbuffer2));
+			snprintf(Buffer, sizeof(Buffer), "capacity_%d\", \"%s/%sL", Counter1 + 1, Subbuffer1, Subbuffer2);
+			std::string tmp = Buffer;
+			JSON.push_back(tmp);
+			JSON.push_back("flags_" + std::to_string(Counter1 + 1) + "\", \"" + Carrier1);
 			std::string Carrier2 = "none";
 			if (Data.Settings_Grid[X][Y][Counter1 + 5] != LDE_INVALID) {
 				Carrier2 = ID_To_Item(static_cast<int>(Data.Settings_Grid[
@@ -154,9 +153,12 @@ void Handle_Dock(int X, int Y) {
 		}
 		Print_JSON(JSON);
 	} else if (Interface.UI_Selection == 5 || Interface.UI_Selection == 6) {
-		Print_Response(Abbreviate_Number(Data.Settings_Grid[X][
-			Y][Interface.UI_Selection - 2]) + " liters drained from tank_" +
-			std::to_string(Interface.UI_Selection - 4));
+		char Buffer[64];
+		char Subbuffer[64];
+		Abbreviate_Number(Data.Settings_Grid[X][Y][Interface.UI_Selection - 2], Subbuffer, sizeof(Subbuffer));
+		snprintf(Buffer, sizeof(Buffer), "%s liters drained from tank_%i", Subbuffer, Interface.UI_Selection - 4);
+		std::string tmp = Buffer;
+		Print_Response(tmp);
 		Data.Settings_Grid[X][Y][Interface.UI_Selection - 2] = 0;
 		Data.Settings_Grid[X][Y][Interface.UI_Selection] = LDE_INVALID;
 	}
@@ -167,21 +169,45 @@ void Handle_Dock(int X, int Y) {
 void Handle_Exchanger(int X, int Y) {
     if (Interface.Engagement == 0) {
 		std::string Position;
+		char Buffer[256];
+		std::string tmp1;
+		std::string tmp2;
+		std::string tmp3;
+		std::string tmp0;
+		std::string tmp4;
+		std::string tmp5;
 		Forward_Essentials(Rects.HX_Buttons.Length, 2);
 		switch (Interface.UI_Selection) {
 		case 3:
+			Abbreviate_Number(Data.Settings_Grid
+				[X][Y][5], Buffer, sizeof(Buffer));
+			tmp1 = Buffer;
+			tmp1 = tmp1 + "/";
+			Truncate(LDE_HXCAPACITY, 0, Buffer, sizeof(Buffer));;
+			tmp0 = Buffer;
+			tmp1 = tmp1 + tmp0;
+			Abbreviate_Number(Data.Settings_Grid
+					[X][Y][6], Buffer, sizeof(Buffer));
+			tmp2 = Buffer;
+			tmp2 += "/";
+			Truncate(LDE_HXCAPACITY, 0, Buffer, sizeof(Buffer));
+			tmp0 = Buffer;
+			tmp2 += tmp0;
+			Abbreviate_Number(Data.Settings_Grid[
+					X][Y][7], Buffer, sizeof(Buffer));
+			tmp4 = Buffer;
+			Abbreviate_Number(
+					Data.Settings_Grid[X][Y][8], Buffer, sizeof(Buffer)); 
+			tmp5 = Buffer;
 			Print_JSON({
 				"primary_valve\", \"" + std::to_string(static_cast<int>(
 				Data.Settings_Grid[X][Y][3])) + "L/s",
 				"feedwater_valve\", \"" + std::to_string(static_cast<int>(
 				Data.Settings_Grid[X][Y][4])) + "L/s",
-				"primary_loop\", \"" + Abbreviate_Number(Data.Settings_Grid
-					[X][Y][5]) + "/" + Truncate(LDE_HXCAPACITY, 0) + "L",
-				"feedwater_loop\", \"" + Abbreviate_Number(Data.Settings_Grid
-					[X][Y][6]) + "/" + Truncate(LDE_HXCAPACITY, 0) + "L",
-				"primary_temp\", \"" + Abbreviate_Number(Data.Settings_Grid[
-					X][Y][7]) + " °F", "feedwater_temp\", \"" + Abbreviate_Number(
-					Data.Settings_Grid[X][Y][8]) + " °F"
+				"primary_loop\", \"" + tmp1 + "L",
+				"feedwater_loop\", \"" + tmp2 + "L",
+				"primary_temp\", \"" + tmp4 + " °F",
+				"feedwater_temp\", \"" + tmp5+ " °F"
 			});
 			break;
         case 6:
@@ -203,9 +229,12 @@ void Handle_Exchanger(int X, int Y) {
 void Handle_Turbine(int X, int Y) {
 	Forward_Essentials(Rects.MT_Buttons.Length, 0);
 	if (Interface.UI_Selection == 3) {
+		char Buffer[256];
+		Truncate((Data.Settings_Grid[X][Y][3] * 1.5) + 0.5 +
+		(static_cast<bool>(Data.Settings_Grid[X][Y][4]) ? 0.5 : 0), 0, Buffer, sizeof(Buffer));
+		std::string tmp = Buffer;
 		Print_JSON({
-			"length\", \"" + Truncate((Data.Settings_Grid[
-			X][Y][3] * 1.5) + 0.5 + (static_cast<bool>(Data.Settings_Grid[X][Y][4]) ? 0.5 : 0), 0) + "m"
+			"length\", \"" + tmp + "m"
 		});
 	}
 	Backward_Essentials();
