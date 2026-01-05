@@ -42,9 +42,9 @@ add_executable(Fish_Factory
 	internal/source/prompts/catalog.cxx
 	internal/source/prompts/cheats.cxx
 	internal/source/prompts/daily_report.c
-	internal/source/prompts/help.cxx
+	internal/source/prompts/help.c
 	internal/source/prompts/machines.cxx
-	internal/source/prompts/shop.cxx
+	internal/source/prompts/shop.c
 	internal/source/prepping/cleanup.c
 	internal/source/prepping/definitions.c
 	internal/source/prepping/machines.c

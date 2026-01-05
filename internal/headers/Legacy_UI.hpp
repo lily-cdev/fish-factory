@@ -33,8 +33,6 @@ void Render_Necessities(std::string Machine, std::string Prefix);
 void Tick_Input(int Target, bool Slider = false);
 std::string Return_Command(int Type, std::vector<std::string> Parameters);
 void Process_Commands(std::vector<int> Types, std::vector<std::vector<std::string>> Parameters);
-void Render_Help(int X, int Y);
-void Render_Shop(int X, int Y);
 void Render_MSP_Controller(int X, int Y);
 void Render_T_Tower(int X, int Y);
 void Render_S_Dock(int X, int Y);

@@ -12,3 +12,5 @@ void Find_Effect();
 void Cache_Blueprint();
 void Cache_Price();
 void Render_Daily_Report(int X, int Y);
+void Render_Help(int X, int Y);
+void Render_Shop(int X, int Y);
