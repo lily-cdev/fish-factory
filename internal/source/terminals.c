@@ -1,6 +1,6 @@
-#include <Legacy_UI.hpp>
+#include <ui.h>
 
-std::vector<std::string> Errors = {
+char Errors[LDE_ERRORS][32] = {
 	"NO DOCKED SUB",
 	"SUB DOCKED",
 	"TARGET EMPTY",
@@ -20,8 +20,7 @@ std::string To_Code(int Input) {
 	std::string Yield;
 	while (Input != 0) {
 		int Intermediate = Input & 15;
-		Yield.push_back(static_cast<char>(Intermediate < 10 ?
-			Intermediate + 48 : Intermediate + 55));
+		Yield.push_back(static_cast<char>(Intermediate < 10 ? Intermediate + 48 : Intermediate + 55));
 		Input /= 16;
 	}
 	if (Yield.size() < 2) {
@@ -77,8 +76,13 @@ void Render_Sidebuttons(const Texture2_Array &Buttons, const Rect2_Array &Hitbox
 	}
 }
 
-void Print_Response(std::string Response) {
-	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), ": " + Response + ".");
+void Print_Response(char* Response) {
+	char Carrier[256];
+	snprintf(Carrier, sizeof(Carrier), ": %s.", Response);
+	for (int Counter = LDE_LOGMAX - 1; Counter > 0; Counter++) {
+		strcpy(Interface.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter - 1]);
+	}
+	strcpy(Interface.Terminal_Logs[0], Carrier);
 }
 
 void Print_JSON(std::vector<std::string> Input) {
@@ -97,12 +101,6 @@ void Print_Input() {
 	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "> " + Interface_L.Terminal_Entry);
 	Temporary.Ticker_Position = 0;
 	Temporary.Ticker_Frames = 0;
-}
-
-void Purge_Excess() {
-	while (Interface_L.Terminal_Logs.size() > 11) {
-		Interface_L.Terminal_Logs.pop_back();
-	}
 }
 
 void Forward_Essentials(int Buttons, int Sliders) {
@@ -126,29 +124,32 @@ void Backward_Essentials() {
 	}
 }
 
-void Render_Necessities(std::string Machine, std::string Prefix) {
+void Render_Necessities(char* Machine, char* Prefix) {
 	char Buffer[64];
-	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.exe", Machine.c_str());
+	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.exe", Machine);
 	Render_Dynamic_Text(Fonts.Terminal_Font, Buffer, Colors.Cherry_Blossom, 50, 50);
 	Render_Dynamic_Text(Fonts.Terminal_Font, "> ", Colors.Cherry_Blossom, 50, 300);
-	if (Interface_L.Terminal_Entry.size() > 0) {
-		Interface_L.Terminal_Entry = Prefix + "." + Interface_L.Terminal_Entry + ";";
-		std::string Result = { };
-		for (int Counter = 0; Counter < Interface_L.Terminal_Entry.size(); Counter++) {
-			if (Counter >= Temporary.Ticker_Position || Counter > Interface_L.Terminal_Entry.size()) {
+	if (strlen(Interface.Terminal_Entry) > 0) {
+		char Carrier[128];
+		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
+		strcpy(Interface.Terminal_Entry, Carrier);
+		char* Result = malloc(sizeof(Char) * (strlen(Interface.Terminal_Entry) + 1));
+		int Index = 0;
+		for (int Counter = 0; Counter < strlen(Interface.Terminal_Entry); Counter++) {
+			if (Counter >= Temporary.Ticker_Position || Counter > strlen(Interface.Terminal_Entry)) {
 				break;
 			}
-			Result.push_back(Interface_L.Terminal_Entry[Counter]);
+			Result[Index] = Interface.Terminal_Entry[Counter];
+			Index++;
 		}
-		if (Result.size() > 0) {
-			Render_Dynamic_Text(Fonts.Terminal_Font, Result.c_str(), Colors.Cherry_Blossom, 64, 300);
+		Result[Index] = '\0';
+		if (strlen(Result) > 0) {
+			Render_Dynamic_Text(Fonts.Terminal_Font, Result, Colors.Cherry_Blossom, 64, 300);
 		}
 	}
-	for (int Counter = static_cast<int>(Interface_L.Terminal_Logs.size()) - 1; Counter > LDE_INVALID; Counter--) {
-		char Buffer[256];
-		strcpy(Buffer, Interface_L.Terminal_Logs[Counter].c_str());
-		Render_Dynamic_Text(Fonts.Terminal_Font, Buffer,
-			Colors.Cherry_Blossom, 50, 280 - (Counter * 20));
+	for (int Counter = LDE_LOGMAX - 1; Counter > LDE_INVALID; Counter--) {
+		Render_Dynamic_Text(Fonts.Terminal_Font, Interface.Terminal_Logs[Counter], Colors.Cherry_Blossom,
+			50, 280 - (Counter * 20));
 	}
 }
 

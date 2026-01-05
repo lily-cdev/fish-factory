@@ -1,10 +1,9 @@
-#include <Legacy_UI.hpp>
+#include <ui.h>
 
 void Render_Catalog(int X, int Y) {
 	int Index;
 	Render_Box(10, 10, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
-	SDL_RenderTexture(Core.Renderer, Textures.Recipe_Content,
-		NULL, &Rects.Recipe_Content);
+	SDL_RenderTexture(Core.Renderer, Textures.Recipe_Content, NULL, &Rects.Recipe_Content);
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;

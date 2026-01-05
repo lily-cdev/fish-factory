@@ -1,4 +1,4 @@
-#include <Legacy_UI.hpp>
+#include <ui.h>
 
 void Render_M_Generator(int X, int Y) {
 	char Buffer[256];

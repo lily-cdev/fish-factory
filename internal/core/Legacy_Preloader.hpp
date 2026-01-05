@@ -15,9 +15,7 @@ public:
 
 struct OLD_INTERFACE {
 public:
-	std::vector<std::string> Terminal_Logs = { };
 	std::vector<int> Default_Positions = { 0 };
-	std::string Terminal_Entry;
 };
 
 extern OLD_TEMPORARY Temporary_L;

@@ -336,6 +336,9 @@ typedef struct {
 	int Valve300_Postions[LDE_VALVE300LENGTH];
 	char Slider_Texts[LDE_SLIDERS][256][32];
 	double Effects[LDE_EFFECTS];
+	char Terminal_Logs[LDE_LOGMAX][128];
+	char Terminal_Entry[128];
+	int Terminal_Length;
 } INTERFACE;
 
 typedef struct {

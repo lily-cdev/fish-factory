@@ -10,6 +10,7 @@
 #define LDE_DAYS 7
 #define LDE_DOCKCAPACITY 750.0
 #define LDE_EFFECTS 1
+#define LDE_ERRORS 13
 #define LDE_FISH 3
 #define LDE_FISHPHASES 6
 #define LDE_GRIDSIZE 48
@@ -19,6 +20,7 @@
 #define LDE_ITEMS 21
 #define LDE_KEYBINDS 14
 #define LDE_LARGECAP 150
+#define LDE_LOGMAX 11
 #define LDE_LOGS 3
 #define LDE_MACHINES 40
 #define LDE_QUIRKS 4

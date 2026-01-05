@@ -213,8 +213,8 @@ int main(int argc, char* args[]) {
 						Prefix_Surface->w), static_cast<float>(Prefix_Surface->h) };
 				SDL_RenderTexture(Core.Renderer, Prefix_Texture, NULL, &Prefix_Rectangle);
 				if (Interface.Registering_Keybind == Counter1) {
-					SDL_Surface* Registering_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font,
-						"...", 3, Colors.Abyss_Black);
+					SDL_Surface* Registering_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "...", 3,
+						Colors.Abyss_Black);
 					SDL_Texture* Registering_Texture = SDL_GenerateTextureFromSurface(Core.Renderer,
 						Registering_Surface);
 					SDL_FRect Registering_Rectangle = { Prefix_Rectangle.x + Prefix_Rectangle.w + 20, Prefix_Rectangle.y,
