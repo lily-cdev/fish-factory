@@ -311,6 +311,8 @@ void Preload_Assets() {
 	}
 	Interface.Maximum_Time_Frames = Interface.Frame_Rate;
 	Interface.Maximum_Subtime_Frames = Interface.Frame_Rate / 3;
+	Cache.FPS_Cache = malloc(sizeof(float) * ((int)ceil(Interface.Frame_Rate / 3) + 1));
+	Cache.FPS_Length = 0;
 	for (int Counter = 0; Counter < 101; Counter++) {
 		char Buffer[32];
 		snprintf(Buffer, sizeof(Buffer), "%i%%", Counter);

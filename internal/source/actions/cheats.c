@@ -1,4 +1,4 @@
-#include <Legacy_Interface.hpp>
+#include <interface.h>
 
 void Handle_Money_Generator(int X, int Y) {
     if (Interface.Engagement == 0) {
@@ -8,8 +8,8 @@ void Handle_Money_Generator(int X, int Y) {
             break;
         case 3:
             Data.Settings_Grid[X][Y][3] = Interface.Slider_Positions[8];
-            Data.Settings_Grid[X][Y][4] = sgn(Interface.Slider_Positions[8] -
-                5) * std::pow(1000, std::abs(Interface.Slider_Positions[8] - 5) - 1);
+            Data.Settings_Grid[X][Y][4] = sgn(Interface.Slider_Positions[8] - 5) * pow(1000, abs(
+				Interface.Slider_Positions[8] - 5) - 1);
             break;
         case 4:
             Interface.Slider_Positions[8] = Data.Settings_Grid[X][Y][3];
@@ -32,7 +32,7 @@ void Handle_Fluid_Generator(int X, int Y) {
 			Data.Settings_Grid[X][Y][5] = Interface.Valve300_Postions[Interface.Slider_Positions[11]];
 		} else if (Interface.UI_Selection == 6) {
 			Interface.Slider_Positions[9] = Data.Settings_Grid[X][Y][3];
-			Interface.Slider_Positions[10] = Data.Settings_Grid[X][Y][4] / 5;
+			Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[X][Y][4] * 0.2f);
 			for (int Counter = 0; Counter < LDE_VALVE300LENGTH; Counter++) {
 				if (Data.Settings_Grid[X][Y][5] == Interface.Valve300_Postions[Counter]) {
 					Interface.Slider_Positions[11] = Counter;

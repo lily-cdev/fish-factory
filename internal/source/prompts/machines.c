@@ -3,26 +3,38 @@
 void Render_MSP_Controller(int X, int Y) {
 	Render_Backing();
 	if (Data.Settings_Grid[X][Y][3] > 3) {
-		Render_Sidebuttons(Textures.MSP_Buttons, Rects.MSP_Buttons);
+		Render_Sidebuttons(&Textures.MSP_Buttons, &Rects.MSP_Buttons);
 		Render_Slider(Interface.Slider_Texts[1], 1, 2, 9, &Interface.Slider_Positions[1], 475, 210, 110,
 			Colors.Cherry_Blossom, Colors.Pure_White, false);
 		if (Interface.Engagement == 0) {
-			std::vector<std::vector<std::string>> Parameters = {
-				{ "tank_info" },
-				{ "fish_info" },
-				{ "fill_pool" },
-				{ "drain_pool" }
+			char* Parameters[5][4] = {
+				{ "tank_info", NULLSTRING },
+				{ "fish_info", NULLSTRING },
+				{ "fill_pool", NULLSTRING },
+				{ "drain_pool", NULLSTRING },
+				{ NULLSTRING }
 			};
-			std::vector<int> Command_Types = {
+			for (int Counter1 = 0; Counter1 < 5; Counter1++) {
+				for (int Counter2 = 0; Counter2 < veclen(Parameters[Counter2]) + 1; Counter2++) {
+					strcpy(Buffers.Parameters[Counter1][Counter2], Parameters[Counter1][Counter2]);
+				}
+			}
+			int Command_Types[5] = {
 				Get_Data,
 				Get_Data,
 				Execute,
-				Execute
+				Execute,
+				LDE_TERMINATOR
 			};
-			Process_Commands(Command_Types, Parameters);
+			memcpy(Buffers.Commands, Command_Types, sizeof(Command_Types));
+			Process_Commands();
 		} else {
-			Interface_L.Terminal_Entry = Return_Command(Execute, { "set_fish", Interface
-				.Slider_Texts[1][Interface.Slider_Positions[1]] });
+			const char* Parameters[4] = {
+				"set_fish",
+				Interface.Slider_Texts[1][Interface.Slider_Positions[1]],
+				NULLSTRING
+			};
+			Return_Command(Execute, Parameters, Interface.Terminal_Entry);
 			Tick_Input(1, true);
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
@@ -43,58 +55,80 @@ void Render_MSP_Controller(int X, int Y) {
 
 void Render_T_Tower(int X, int Y) {
 	Render_Backing();
-	Render_Sidebuttons(Textures.TT_Buttons, Rects.TT_Buttons);
-	std::vector<int> Command_Types = { };
-	std::vector<std::vector<std::string>> Parameters = { };
-	for (int Counter = 0; Counter < Temporary.Docks.Length; Counter++) {
-		Command_Types.push_back(Execute);
-		Parameters.push_back({ "SEND_DOCK_" + std::to_string(Counter + 1) });
+	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons);
+	int Limiter = min(Temporary.Docks.Length, LDE_CMDMAX - 1);
+	for (int Counter = 0; Counter < Limiter; Counter++) {
+		Buffers.Commands[Counter] = Execute;
+		char Buffer[32];
+		snprintf(Buffer, sizeof(Buffer), "SEND_DOCK_%i", Counter + 1);
+		strcpy(Buffers.Parameters[Counter][0], Buffer);
+		strcpy(Buffers.Parameters[Counter][1], NULLSTRING);
 	}
-	Process_Commands(Command_Types, Parameters);
+	Buffers.Commands[Limiter] = LDE_TERMINATOR;
+	Buffers.Parameters[Limiter][0] = NULLSTRING;
+	Process_Commands();
 	Render_Necessities("transmitter", "tower");
 }
 
 void Render_S_Dock(int X, int Y) {
 	Render_Backing();
-	Render_Sidebuttons(Textures.SD_Buttons, Rects.SD_Buttons);
-	std::vector<std::vector<std::string>> Parameters = {
-		{ "link" },
-		{ "manifest" },
-		{ "drain_silo", "1" },
-		{ "drain_silo", "2" },
+	Render_Sidebuttons(&Textures.SD_Buttons, &Rects.SD_Buttons);
+	char* Parameters[5][4] = {
+		{ "link", NULLSTRING },
+		{ "manifest", NULLSTRING },
+		{ "drain_silo", "1", NULLSTRING },
+		{ "drain_silo", "2", NULLSTRING },
+		{ NULLSTRING }
 	};
-	std::vector<int> Command_Types = {
+	for (int Counter1 = 0; Counter1 < 5; Counter1++) {
+		for (int Counter2 = 0; Counter2 < veclen(Parameters[Counter2]) + 1; Counter2++) {
+			strcpy(Buffers.Parameters[Counter1][Counter2], Parameters[Counter1][Counter2]);
+		}
+	}
+	int Command_Types[5] = {
 		Execute,
 		Get_Data,
 		Execute,
-		Execute
+		Execute,
+		LDE_TERMINATOR
 	};
-	Process_Commands(Command_Types, Parameters);
+	memcpy(Buffers.Commands, Command_Types, sizeof(Command_Types));
+	Process_Commands();
 	Render_Necessities("submarine_dock", "dock");
 }
 
 void Render_H_Exchanger(int X, int Y) {
 	Render_Backing();
-	Render_Sidebuttons(Textures.HX_Buttons, Rects.HX_Buttons);
+	Render_Sidebuttons(&Textures.HX_Buttons, &Rects.HX_Buttons);
 	Render_Slider(Interface.Slider_Texts[13], 3, LDE_VALVE300LENGTH - 1, 6, &Interface.Slider_Positions[13],
 		475, 190, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	Render_Slider(Interface.Slider_Texts[7], 2, LDE_VALVE300LENGTH - 1, 7, &Interface.Slider_Positions[7],
 		475, 150, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	if (Interface.Engagement == 0) {
-		std::vector<std::vector<std::string>> Parameters = {
-			{ "diagnostics" }
-		};
-		std::vector<int> Command_Types = {
-			Get_Data
-		};
-		Process_Commands(Command_Types, Parameters);
+		strcpy(Buffers.Parameters[0][0], "diagnostics");
+		strcpy(Buffers.Parameters[0][1], NULLSTRING);
+		Buffers.Commands[0] = Get_Data;
+		Buffers.Commands[1] = LDE_TERMINATOR;
+		Process_Commands();
 	} else if (Interface.Engagement == 2) {
-		Interface_L.Terminal_Entry = Return_Command(Execute, { "set_primary_valve", std::to_string(
-			static_cast<int>(Interface.Valve300_Postions[Interface.Slider_Positions[7]])) });
+		char Buffer[64];
+		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[7]]);
+		const char* Subparameters[4] = {
+			"set_primary_valve",
+			Buffer,
+			NULLSTRING
+		};
+		Return_Command(Execute, Subparameters, Interface.Terminal_Entry);
 		Tick_Input(2, true);
 	} else {
-		Interface_L.Terminal_Entry = Return_Command(Execute, { "set_feedwater_valve", std::to_string(
-			static_cast<int>(Interface.Valve300_Postions[Interface.Slider_Positions[13]])) });
+		char Buffer[64];
+		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[13]]);
+		const char* Subparameters[4] = {
+			"set_feedwater_valve",
+			Buffer,
+			NULLSTRING
+		};
+		Return_Command(Execute, Subparameters, Interface.Terminal_Entry);
 		Tick_Input(3, true);
 	}
 	Render_Necessities("heat_exchanger", "exchanger");
@@ -102,13 +136,11 @@ void Render_H_Exchanger(int X, int Y) {
 
 void Render_MT_Input(int X, int Y) {
 	Render_Backing();
-	Render_Sidebuttons(Textures.MT_Buttons, Rects.MT_Buttons);
-	std::vector<std::vector<std::string>> Parameters = {
-		{ "diagnostics" }
-	};
-	std::vector<int> Command_Types = {
-		Get_Data
-	};
-	Process_Commands(Command_Types, Parameters);
+	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons);
+	strcpy(Buffers.Parameters[0][0], "diagnostics");
+	strcpy(Buffers.Parameters[0][1], NULLSTRING);
+	Buffers.Commands[0] = Get_Data;
+	Buffers.Commands[1] = LDE_TERMINATOR;
+	Process_Commands();
 	Render_Necessities("modular_turbine", "turbine");
 }

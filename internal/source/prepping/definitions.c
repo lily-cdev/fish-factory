@@ -176,4 +176,5 @@ INTERFACE Interface = {
 	},
 	.Tile_Centerpoint = { 0, 0 }
 };
+BUFFERS Buffers = { };
 PRECONFIGS Preconfigs = { };

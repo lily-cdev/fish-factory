@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[11])(int X, int Y) {
+void (*Interface_Functions[11])(int X, int Y) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -55,18 +55,19 @@ SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y) {
 }
 
 void Render_Blueprint(int Size_X, int Size_Y) {
-	SDL_FRect Hitbox = { 0, 0, static_cast<float>(Size_X * 40) * Settings.Screen_Size,
-		static_cast<float>(Size_Y * 40) * Settings.Screen_Size };
-	SDL_FRect Invisible_Hitbox = { 0, 0, 40.0f * Settings.Screen_Size, 40.0f * Settings.Screen_Size };
+	SDL_FRect Hitbox = { 0, 0, (float)(Size_X * LDE_TILESIZE) * Settings.Screen_Size, (float)(Size_Y * LDE_TILESIZE) *
+		Settings.Screen_Size };
+	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Screen_Size * (float)LDE_TILESIZE, Settings.Screen_Size *
+		(float)LDE_TILESIZE };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Hitbox.x = static_cast<int>((Column * 40) - Core.Camera.X) * Settings.Screen_Size;
-		Invisible_Hitbox.x = static_cast<int>((Column * 40) - Core.Camera.X) * Settings.Screen_Size;
+		Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+		Invisible_Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Hitbox.y = static_cast<int>((Row * 40) - Core.Camera.Y) * Settings.Screen_Size;
-			Invisible_Hitbox.y = static_cast<int>((Row * 40) - Core.Camera.Y) * Settings.Screen_Size;
+			Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Invisible_Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * 40) - Core.Camera.X) * Settings.Screen_Size &&
-					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * 40) - Core.Camera.Y) * Settings.Screen_Size)
+				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size &&
+					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size)
 					|| (Size_X != 2 && Size_Y != 2)) {
 					bool Placeable = Check_Clearance(Column, Row, Size_X, Size_Y);
 					if ((Interface.Placing_Item == Command_Platform + 1 && Data.CMD_Placed) ||
@@ -76,12 +77,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 					if (Placeable) {
 						Render_Outline(Hitbox, Colors.Pure_White, 1);
 					} else {
-						SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r,
-							Colors.Hostile_Red.g, Colors.Hostile_Red.b);
+						SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r, Colors.Hostile_Red.g,
+							Colors.Hostile_Red.b);
 						Render_Outline(Hitbox, Colors.Hostile_Red, 1);
 					}
-					SDL_RenderTexture(Core.Renderer, Cache.Blueprint_Cache,
-						NULL, &Hitbox);
+					SDL_RenderTexture(Core.Renderer, Cache.Blueprint_Cache, NULL, &Hitbox);
 					SDL_SetTextureColorMod(Cache.Blueprint_Cache, 255, 255, 255);
 					return;
 				}
@@ -92,10 +92,10 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 
 void Render_Sidebar(SDL_Texture* Texture, SDL_FRect Rectangle, int Selection) {
 	if (Detect_Mouse_Collision(Rectangle)) {
-		Rectangle.x = (640 * Settings.Screen_Size) - Rectangle.w;
+		Rectangle.x = (Settings.Screen_Size * 640) - Rectangle.w;
 		Interface.UI_Selection = Selection;
 	} else {
-		Rectangle.x = (654 * Settings.Screen_Size) - Rectangle.w;
+		Rectangle.x = (Settings.Screen_Size * 654) - Rectangle.w;
 	}
 	SDL_RenderTexture(Core.Renderer, Texture, NULL, &Rectangle);
 }
@@ -107,7 +107,8 @@ void Render_Game_UI() {
 		Render_Sidebar(Textures.Recipe_Sidebutton, Rects.Recipe, 3);
 		Render_Sidebar(Textures.Exit_Sidebutton, Rects.Exit, 4);
 	}
-	std::vector<std::string> Queried_Data_Fragments = { };
+	char* Data_Fragments[16];
+	int Index = 0;
 	int Hour = Data.Time / 60;
 	int Minute =  Data.Time % 60;
 	bool Afternoon = false;
@@ -118,36 +119,22 @@ void Render_Game_UI() {
 	if (Hour == 0) {
 		Hour = 12;
 	}
-	std::string Time;
-	if (Hour < 10) {
-		Time = "0" + std::to_string(Hour) + ":";
-	} else {
-		Time = std::to_string(Hour) + ":";
-	}
-	if (Minute < 10) {
-		Time += "0" + std::to_string(Minute);
-	} else {
-		Time += std::to_string(Minute);
-	}
-	if (Afternoon) {
-		Time += "PM";
-	} else {
-		Time += "AM";
-	}
+	char Time[64];
+	snprintf(Time, sizeof(Time), "%02i:%02i%cM", Hour, Minute, (Afternoon) ? 'P' : 'A');
 	char Buffer[64];
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Funds, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%sLA", Subbuffer);
 	Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, 10, 30);
 	memset(Buffer, 0, sizeof(Buffer));
-	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time.c_str(), Metadata.Days[Data.Day]);
+	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
 	Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, 10, 50);
 	if (Interface.Tool == 2) {
 		double Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-			Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) * Settings.Screen_Size);
+			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-				Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Core.Camera.Y) * Settings.Screen_Size);
+				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
 				}
@@ -157,18 +144,19 @@ void Render_Game_UI() {
 		if (Returned_Item.Identifier != LDE_INVALID) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "Item: %s", Returned_Item.Display_Name);
-			std::string qmp = Buffer;
-			Queried_Data_Fragments.push_back(qmp);
+			strcpy(Data_Fragments[Index], Buffer);
+			Index++;
 			char Subbuffer[64];
 			Truncate(Returned_Item.Temperature, 0, Subbuffer, sizeof(Subbuffer));
-			snprintf(Buffer, sizeof(Buffer), "%s°F", Subbuffer);
-			std::string tmp = Buffer;
-			Queried_Data_Fragments.push_back(tmp);
+			snprintf(Buffer, sizeof(Buffer), "%s °F", Subbuffer);
+			strcpy(Data_Fragments[Index], Buffer);
+			Index++;
 			double Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
 				Returned_Item.Vaporisation_Enthalpy);
 			int Multiplier = 1;
 			if (Pressure == LDE_INVALID) {
-				Queried_Data_Fragments.push_back("gas");
+				strcpy(Data_Fragments[Index], "gas");
+				Index++;
 				Multiplier = 10;
 			} else {
 				if (Pressure < 1) {
@@ -178,19 +166,19 @@ void Render_Game_UI() {
 				char Subbuffer[64];
 				Abbreviate_Number(Pressure, Subbuffer, sizeof(Subbuffer));
 				snprintf(Buffer, sizeof(Buffer), "%s bar liquid", Subbuffer);
-				std::string tmp = Buffer;
-				Queried_Data_Fragments.push_back(tmp);
+				strcpy(Data_Fragments[Index], Buffer);
+				Index++;
 			}
 			if (Content_Vector[1] != 0) {
 				char Buffer[64];
 				char Subbuffer1[64];
-				Truncate(Content_Vector[0] * Multiplier, Get_Depth(Content_Vector[1] * Multiplier),
-					Subbuffer1, sizeof(Subbuffer1));
+				Truncate(Content_Vector[0] * Multiplier, Get_Depth(Content_Vector[1] * Multiplier), Subbuffer1,
+					sizeof(Subbuffer1));
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1] * Multiplier, Subbuffer2, sizeof(Subbuffer2));
 				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
-				std::string tmp = Buffer;
-				Queried_Data_Fragments.push_back(tmp);
+				strcpy(Data_Fragments[Index], Buffer);
+				Index++;
 			}
 		} else {
 			if (Content_Vector[1] != 0) {
@@ -200,8 +188,8 @@ void Render_Game_UI() {
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
 				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
-				std::string tmp = Buffer;
-				Queried_Data_Fragments.push_back(tmp);
+				strcpy(Data_Fragments[Index], Buffer);
+				Index++;
 			}
 		}
 		if (Content_Vector[3] != 0) {
@@ -211,48 +199,57 @@ void Render_Game_UI() {
 			Truncate(Content_Vector[2], Get_Depth(Content_Vector[3]), Subbuffer1, sizeof(Subbuffer1));
 			Abbreviate_Number(Content_Vector[3], Subbuffer2, sizeof(Subbuffer2));
 			snprintf(Buffer, sizeof(Buffer), "%s / %sJ.", Subbuffer1, Subbuffer2);
-			std::string str = Buffer;
-			Queried_Data_Fragments.push_back(str);
+			strcpy(Data_Fragments[Index], Buffer);
+			Index++;
 		}
-		if (Queried_Data_Fragments.size() <= 0) {
-			Queried_Data_Fragments.push_back("No data");
+		if (Index <= 0) {
+			strcpy(Data_Fragments[Index], "No data");
+			Index++;
 		}
+		strcpy(Data_Fragments[Index], NULLSTRING);
+		Index++;
+		int Fragment_Size = veclen(Data_Fragments);
 		int Maximum_Width = 0;
-		std::vector<SDL_Texture*> Fragment_Textures = { };
-		std::vector<SDL_FRect> Fragment_Rectangles = { };
-		for (int Counter = 0; Counter < Queried_Data_Fragments.size(); Counter++) {
-			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font,
-				Queried_Data_Fragments[Counter].c_str(), Queried_Data_Fragments
-				[Counter].size(), Colors.Abyss_Black);
+		SDL_Texture* Fragment_Textures[16];
+		SDL_FRect Fragment_Rectangles[16];
+		for (int Counter = 0; Counter < Fragment_Size; Counter++) {
+			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Data_Fragments[Counter],
+				strlen(Data_Fragments[Counter]), Colors.Abyss_Black);
 			if (Fragment_Surface->w > Maximum_Width) {
 				Maximum_Width = Fragment_Surface->w;
 			}
 			SDL_Texture* Fragment_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fragment_Surface);
-			Fragment_Textures.push_back(Fragment_Texture);
-			Fragment_Rectangles.push_back({ static_cast<float>(630 * Settings.Screen_Size) -
-				Fragment_Surface->w, static_cast<float>(10 + (Counter * 20)) *
-				Settings.Screen_Size, static_cast<float>(Fragment_Surface->w),
-				static_cast<float>(Fragment_Surface->h) });
+			Fragment_Textures[Counter] = Fragment_Texture;
+			Fragment_Rectangles[Counter] = (SDL_FRect){
+				(float)(Settings.Screen_Size * 630) - Fragment_Surface->w,
+				(float)((Counter * 20) + 10) * Settings.Screen_Size,
+				(float)(Fragment_Surface->w),
+				(float)(Fragment_Surface->h)
+			};
 			SDL_DestroySurface(Fragment_Surface);
 		}
-		int Total_Height = Fragment_Rectangles[Fragment_Rectangles.size() - 1].y + Fragment_Rectangles[Fragment_Rectangles.size() - 1].h;
+		int Total_Height = Fragment_Rectangles[Fragment_Size - 1].y + Fragment_Rectangles[Fragment_Size - 1].h;
 		Set_Renderer_Color(Colors.Dark_Grey);
-		SDL_FRect Background_Rectangle = { static_cast<float>(615 * Settings.Screen_Size) -
-			Maximum_Width, 0, Maximum_Width + static_cast<float>(25 * Settings.Screen_Size),
-			Total_Height + static_cast<float>(15 * Settings.Screen_Size) };
+		SDL_FRect Background_Rectangle = {
+			(float)(Settings.Screen_Size * 615) - Maximum_Width,
+			0,
+			(float)(Settings.Screen_Size * 25) + Maximum_Width,
+			(float)(Settings.Screen_Size * 15) + Total_Height
+		};
 		SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
 		Set_Renderer_Color(Colors.Light_Grey);
-		Background_Rectangle = { static_cast<float>(620 * Settings.Screen_Size) - Maximum_Width,
-			0, Maximum_Width + static_cast<float>(20 * Settings.Screen_Size), Total_Height +
-			static_cast<float>(10 * Settings.Screen_Size) };
+		Background_Rectangle = (SDL_FRect){
+			(float)(Settings.Screen_Size * 620) - Maximum_Width,
+			0,
+			(float)(Settings.Screen_Size * 20) + Maximum_Width,
+			(float)(Settings.Screen_Size * 10) + Total_Height
+		};
 		SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
 		Clear_Renderer();
-		for (int Counter = 0; Counter < Fragment_Textures.size(); Counter++) {
+		for (int Counter = 0; Counter < Fragment_Size; Counter++) {
 			SDL_RenderTexture(Core.Renderer, Fragment_Textures[Counter], NULL, &Fragment_Rectangles[Counter]);
 			SDL_DestroyTexture(Fragment_Textures[Counter]);
 		}
-		Fragment_Textures.clear();
-		Fragment_Rectangles.clear();
 	}
 	if (Interface.Save_Frames > 0) {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
@@ -284,41 +281,30 @@ void Render_Saveloader() {
 
 void Render_Prompts() {
 	if (Interface.Prompt_Identifier != LDE_INVALID) {
-		Interface_Functions[Interface.Prompt_Identifier](
-			Interface.Target_Tile.X, Interface.Target_Tile.Y);
+		Interface_Functions[Interface.Prompt_Identifier](Interface.Target_Tile.X, Interface.Target_Tile.Y);
 	}
 }
 
 void Drain_Query() {
-	for (int Counter1 = 0; Counter1 < Temporary_L.Query.size(); Counter1++) {
-		if (Temporary_L.ID_Query[Counter1] == 0) {
-			Render_Outline(Temporary_L.Query[Counter1], Temporary_L.Color_Query[Counter1], 1);
-		} else if (Temporary_L.ID_Query[Counter1] == 1) {
-			double Length = std::sqrt(std::pow(Temporary_L.Query[Counter1].x -
-				Temporary_L.Query[Counter1].w, 2) + std::pow(Temporary_L
-				.Query[Counter1].y - Temporary_L.Query[Counter1].h, 2));
-			double Rotation = std::atan2(Temporary_L.Query[Counter1].y -
-				Temporary_L.Query[Counter1].h, Temporary_L.Query[Counter1].x -
-				Temporary_L.Query[Counter1].w) / (M_PI / 180);
-			SDL_FPoint Centerpoint = { 5.0f * Settings.Screen_Size,
-				5.0f * Settings.Screen_Size };
-			for (int Counter2 = 0; Counter2 < std::floor(Length /
-				(Settings.Screen_Size * 10)); Counter2++) {
-				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Screen_Size *
-					10.0f, Settings.Screen_Size * 10.0f };
-				Tilebox.x = static_cast<float>(Temporary_L.Query[Counter1].x -
-					((Counter2 * Settings.Screen_Size * 10) * cos(Rotation *
-					(M_PI / 180))) - (5 * Settings.Screen_Size));
-				Tilebox.y = static_cast<float>(Temporary_L.Query[Counter1].y -
-					((Counter2 * Settings.Screen_Size * 10) * sin(Rotation *
-					(M_PI / 180))) - (5 * Settings.Screen_Size));
-				SDL_RenderTextureRotated(Core.Renderer,
-					Textures.Path_Arrow, NULL, &Tilebox,
-					Rotation + 90, &Centerpoint, SDL_FLIP_NONE);
+	for (int Counter1 = 0; Counter1 < Cache.Query_Length; Counter1++) {
+		if (Cache.ID_Query[Counter1] == 0) {
+			Render_Outline(Cache.Query[Counter1], Cache.Color_Query[Counter1], 1);
+		} else if (Cache.ID_Query[Counter1] == 1) {
+			float Length = sqrt(pow(Cache.Query[Counter1].x - Cache.Query[Counter1].w, 2) + pow(Cache.Query[Counter1].y -
+				Cache.Query[Counter1].h, 2));
+			float Rotation = atan2(Cache.Query[Counter1].y - Cache.Query[Counter1].h, Cache.Query[Counter1].x - Cache.Query[
+				Counter1].w) / (M_PI / 180);
+			SDL_FPoint Centerpoint = { Settings.Screen_Size * 5.0f, Settings.Screen_Size * 5.0f };
+			for (int Counter2 = 0; Counter2 < floor(Length / (Settings.Screen_Size * 10)); Counter2++) {
+				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Screen_Size * 10.0f, Settings.Screen_Size * 10.0f };
+				Tilebox.x = (float)(Cache.Query[Counter1].x - ((Counter2 * Settings.Screen_Size * 10) * cos(Rotation *
+					(M_PI / 180))) - (Settings.Screen_Size * 5));
+				Tilebox.y = (float)(Cache.Query[Counter1].y - ((Counter2 * Settings.Screen_Size * 10) * sin(Rotation *
+					(M_PI / 180))) - (Settings.Screen_Size * 5));
+				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
+					SDL_FLIP_NONE);
 			}
 		}
 	}
-	Temporary_L.ID_Query.clear();
-	Temporary_L.Query.clear();
-	Temporary_L.Color_Query.clear();
+	Cache.Query_Length = 0;
 }

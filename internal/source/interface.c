@@ -1,4 +1,4 @@
-#include <Legacy_Interface.hpp>
+#include <interface.h>
 
 void Close_Prompt() {
 	Interface.Prompt_Identifier = P_None;
@@ -146,7 +146,7 @@ void Process_Inputs() {
 				} else {
 					if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
 						Close_Prompt();
-						Interface_L.Terminal_Logs.clear();
+						Interface.Terminal_Length = 0;
 					}
 				}
 			}
@@ -178,17 +178,15 @@ void Process_Inputs() {
 				}
 				if (Application_Event.wheel.y > 0) {
 					if (Interface.Log_Offset > 0) {
-						Interface.Log_Offset = std::max(Interface.Log_Offset - (32 * Settings.Screen_Size),
-							static_cast<long double>(0));
+						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Screen_Size * 32), (long double)(0));
 					}
 				} else if (Application_Event.wheel.y < 0) {
 					if (Interface.Log_Offset < Interface.Log_Heights[Log]) {
-						Interface.Log_Offset = std::min(Interface.Log_Offset + (32 * Settings.Screen_Size),
+						Interface.Log_Offset = min(Interface.Log_Offset + (Settings.Screen_Size * 32),
 							Interface.Log_Heights[Log]);
 					}
 				}
-				Temporary.Scroll_Percent = static_cast<double>((
-					Interface.Log_Offset / Interface.Log_Heights[Log]) * 100);
+				Temporary.Scroll_Percent = (double)((Interface.Log_Offset / Interface.Log_Heights[Log]) * 100);
 			}
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_UP:
@@ -201,27 +199,27 @@ void Process_Inputs() {
 						Print_Input();
 						if (Data.Settings_Grid[X][Y][5] > 0) {
 							Print_Error(Fish_Present);
-							Interface.Slider_Positions[1] = static_cast<int>(Data
-								.Settings_Grid[X][Y][6]);
+							Interface.Slider_Positions[1] = (int)(Data.Settings_Grid[X][Y][6]);
 						} else {
 							Data.Settings_Grid[X][Y][6] = Interface.Slider_Positions[1];
 							char Buffer[64];
 							snprintf(Buffer, sizeof(Buffer), "set fish type to %s", Interface.Slider_Texts[1][
 								Interface.Slider_Positions[1]]);
-							std::string s = Buffer;
-							Print_Response(s);
+							Print_Response(Buffer);
 						}
 						break;
 					case P_Exchanger:
 						Print_Input();
 						if (Interface.Engagement == 2) {
 							Data.Settings_Grid[X][Y][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
-							Print_Response("set primary valve to " + std::to_string(static_cast<int>(
-								Data.Settings_Grid[X][Y][3])) + "L/s");
+							char Buffer[64];
+							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[X][Y][3]);
+							Print_Response(Buffer);
 						} else {
 							Data.Settings_Grid[X][Y][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
-							Print_Response("set feedwater valve to " + std::to_string(static_cast<int>(
-								Data.Settings_Grid[X][Y][4])) + "L/s");
+							char Buffer[64];
+							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[X][Y][4]);
+							Print_Response(Buffer);
 						}
 						break;
 					default:
@@ -245,28 +243,27 @@ void Process_Inputs() {
 					}
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == 0) {
-						std::vector<int> Coordinates = { LDE_INVALID, LDE_INVALID };
+						Point Coordinates = { LDE_INVALID, LDE_INVALID };
 						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-							Rects.Tile_1x1.x = static_cast<int>(((Column * 40) - Core.Camera.X) *
-								Settings.Screen_Size);
+							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
 							for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-								Rects.Tile_1x1.y = static_cast<int>(((Row * 40) - Core.Camera.Y) *
-									Settings.Screen_Size);
+								Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 									if (Data.Visual_Grid[Column][Row] != 0) {
 										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-											Coordinates = { static_cast<int>(Data.Settings_Grid[Column][Row][1]),
-												static_cast<int>(Data.Settings_Grid[Column][Row][2]) };
+											Coordinates = (Point){
+												(int)(Data.Settings_Grid[Column][Row][1]),
+												(int)(Data.Settings_Grid[Column][Row][2])
+											};
 										} else {
-											Coordinates = { Column, Row };
+											Coordinates = (Point){ Column, Row };
 										}
 									}
 								}
 							}
 						}
-						if (Coordinates[0] != LDE_INVALID) {
-							Interface.Placing_Item = Visual_To_ID(Data.Visual_Grid[
-								Coordinates[0]][Coordinates[1]]) + 1;
+						if (Coordinates.X != LDE_INVALID) {
+							Interface.Placing_Item = Visual_To_ID(Data.Visual_Grid[Coordinates.X][Coordinates.Y]) + 1;
 							Cache_Price();
 							Cache_Blueprint();
 							Interface.Building = false;

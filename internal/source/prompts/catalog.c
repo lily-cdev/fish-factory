@@ -16,10 +16,8 @@ void Render_Catalog(int X, int Y) {
 			float Base_Padding = Settings.Screen_Size * 7.0f;
 			float Base_Subpadding = Settings.Screen_Size * 2.0f;
 			SDL_FRect Outer_Rectangle = {
-				static_cast<float>((((Index % 10) * 58) + 30) *
-					Settings.Screen_Size) + Base_Padding,
-				static_cast<float>(((std::floor(Index / 10) * 58) + 60) *
-					Settings.Screen_Size) + Base_Padding,
+				(float)((((Index % 10) * 58) + 30) * Settings.Screen_Size) + Base_Padding,
+				(float)(((floor(Index * 0.1f) * 58) + 60) * Settings.Screen_Size) + Base_Padding,
 				Base_Subwidth,
 				Base_Subwidth
 			};
@@ -65,57 +63,48 @@ void Render_Catalog(int X, int Y) {
 		//i recipes
 		//o recipes
 		int Index = Interface.Subprompt_Identifier;
-		std::string Candidate;
+		char Candidate[256];
 		int Number = 1;
 		for (int Counter1 = 0; Counter1 < 3; Counter1++) {
 			for (int Counter2 = 0; Counter2 < reclen((*All_Recipes)[Counter1][Index]); Counter2++, Number++) {
-				Candidate = "Recipe No. ";
+				strcpy(Candidate, "Recipe No. ");
 				if (Number < 10) {
-					Candidate += "0";
+					charcat(Candidate, '0');
 				}
 				char Buffer[128];
 				char Subbuffer[64];
 				Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Power, Subbuffer, sizeof(Subbuffer));
-				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer,
-					All_Recipes[Counter1][Index][Counter2]->Time);
-				std::string tmp = Buffer;
-				Candidate += tmp;
+				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, All_Recipes[Counter1][
+					Index][Counter2]->Time);
+				strcat(Candidate, Buffer);
 				if (All_Recipes[Counter1][Index][Counter2]->Voiding_Excess) {
-					Candidate += ", cannot overflow";
+					strcat(Candidate, ", cannot overflow");
 				}
-				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate.c_str(),
-					Colors.Abyss_Black, 16, Offset);
+				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate, Colors.Abyss_Black, 16, Offset);
 				Offset += 20;
-				Candidate = "Inputs -> ";
+				strcpy(Candidate, "Inputs -> ");
 				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs; Counter3++) {
-					memset(Buffer, 0, sizeof(Buffer));
 					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Input_Counts[Counter3] /
 						All_Recipes[Counter1][Index][Counter2]->Time, Buffer, sizeof(Buffer));
-					std::string tmp = Buffer;
-					Candidate += tmp + "L/s " + All_Recipes[Counter1][Index]
-						[Counter2]->Input_Items[Counter3].Display_Name;
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[Counter1][Index][
+						Counter2]->Input_Items[Counter3].Display_Name);
 					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs - 1) {
-						Candidate += ", ";
+						strcat(Candidate, ", ");
 					}
 				}
-				const char* tfmp = Candidate.c_str();
-				memset(Buffer, 0, sizeof(Buffer));
-				strcpy(Buffer, tfmp);
-				Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 26, Offset);
+				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
-				Candidate = "Outputs -> ";
+				strcpy(Candidate, "Outputs -> ");
 				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs; Counter3++) {
 					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Output_Counts[Counter3] /
 						All_Recipes[Counter1][Index][Counter2]->Time, Buffer, sizeof(Buffer));
-					std::string tmp = Buffer;
-					Candidate += tmp + "L/s " + All_Recipes[Counter1][Index]
-						[Counter2]->Output_Items[Counter3].Display_Name;
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[Counter1][Index][Counter2]
+						->Output_Items[Counter3].Display_Name);
 					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs - 1) {
-						Candidate += ", ";
+						strcat(Candidate, ", ");
 					}
 				}
-				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate.c_str(),
-					Colors.Abyss_Black, 26, Offset);
+				Render_Dynamic_Text(Fonts.Subtext_Font, Candidate, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				//io recipes
 			}

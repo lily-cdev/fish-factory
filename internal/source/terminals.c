@@ -23,9 +23,8 @@ void Push_Terminal(const char* Line) {
 	strcpy(Interface.Terminal_Logs[0], Line);
 }
 
-char* To_Code(int Input) {
-	char Yield[3];
-	bool Position = 0;
+void To_Code(int Input, char* Yield) {
+	int Position = 0;
 	while (Input != 0) {
 		int Intermediate = Input & 15;
 		Yield[Position] = (char)(Intermediate < 10 ? Intermediate + 48 : Intermediate + 55);
@@ -37,18 +36,21 @@ char* To_Code(int Input) {
 		Yield[0] = '0';
 	}
 	Yield[2] = '\0';
-	return Yield;
 }
 
 void Print_Error(int Input) {
 	char Carrier[256];
-	snprintf(Carrier, sizeof(Carrier), ": ERROR 0x%s -> %s", To_Code(Input), Errors[Input]);
+	char Code[4];
+	To_Code(Input, Code);
+	snprintf(Carrier, sizeof(Carrier), ": ERROR 0x%s -> %s", Code, Errors[Input]);
 	Push_Terminal(Carrier);
 }
 
 void Print_Fatal_Error(int Input) {
 	char Carrier[256];
-	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", To_Code(Input), Errors[Input]);
+	char Code[4];
+	To_Code(Input, Code);
+	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", Code, Errors[Input]);
 	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, strlen(Carrier),
 		Colors.Cherry_Blossom);
 	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
@@ -64,9 +66,13 @@ void Print_Fatal_Error(int Input) {
 	SDL_DestroyTexture(Carrying_Texture);
 	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
-		Interface.Terminal_Entry = Return_Command(Execute, { "quit" });
+		const char* Parameters[2] = {
+			"quit",
+			NULLSTRING
+		};
+		Return_Command(Execute, Parameters, Interface.Terminal_Entry);
 	}
-	Tick_Input(3);
+	Tick_Input(3, false);
 }
 
 void Process_Exit() {
@@ -82,7 +88,7 @@ void Render_Backing() {
 }
 
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes) {
-	for (int Counter = 0; Counter < Hitboxes.Length; Counter++) {
+	for (int Counter = 0; Counter < Hitboxes->Length; Counter++) {
 		Render_Button((*Buttons).Data[Counter], (*Hitboxes).Data[Counter], Counter + 3, Colors.Pure_White);
 	}
 }
@@ -93,20 +99,24 @@ void Print_Response(const char* Response) {
 	Push_Terminal(Carrier);
 }
 
-void Print_JSON(std::vector<std::string> Input) {
-	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "{");
-	std::string Comma = ",";
-	for (int Counter = 0; Counter < Input.size(); Counter++) {
-		if (Counter == Input.size() - 1) {
-			Comma = "";
+void Print_JSON() {
+	Push_Terminal("{");
+	for (int Counter = 0; Counter < veclen(Buffers.JSON); Counter++) {
+		char Comma[4] = "\",";
+		if (Counter == veclen(Buffers.JSON) - 1) {
+			strcpy(Comma, "\"");
 		}
-		Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "    \"" + Input[Counter] + "\"" + Comma);
+		char Buffer[128];
+		snprintf(Buffer, sizeof(Buffer), "    \"%s%s", Buffers.JSON[Counter], Comma);
+		Push_Terminal(Buffer);
 	}
-	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "}");
+	Push_Terminal("}");
 }
 
 void Print_Input() {
-	Interface_L.Terminal_Logs.insert(Interface_L.Terminal_Logs.begin(), "> " + Interface_L.Terminal_Entry);
+	char Buffer[256];
+	snprintf(Buffer, sizeof(Buffer), "> %s", Interface.Terminal_Entry);
+	Push_Terminal(Buffer);
 	Temporary.Ticker_Position = 0;
 	Temporary.Ticker_Frames = 0;
 }
@@ -117,12 +127,12 @@ void Forward_Essentials(int Buttons, int Sliders) {
 		Print_Input();
 	}
 	if (Interface.UI_Selection == Buttons + 1) {
-		Interface_L.Terminal_Logs.clear();
 		Interface.Terminal_Clearing = true;
+		Interface.Terminal_Length = 0;
 	} else if (Interface.UI_Selection == Buttons + 2) {
 		Interface.Prompt_Identifier = LDE_INVALID;
 		Interface.Subprompt_Identifier = LDE_INVALID;
-		Interface_L.Terminal_Logs.clear();
+		Interface.Terminal_Length = 0;
 	}
 }
 
@@ -141,7 +151,7 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
 		strcpy(Interface.Terminal_Entry, Carrier);
-		char* Result = malloc(sizeof(Char) * (strlen(Interface.Terminal_Entry) + 1));
+		char* Result = malloc(sizeof(char) * (strlen(Interface.Terminal_Entry) + 1));
 		int Index = 0;
 		for (int Counter = 0; Counter < strlen(Interface.Terminal_Entry); Counter++) {
 			if (Counter >= Temporary.Ticker_Position || Counter > strlen(Interface.Terminal_Entry)) {
@@ -183,44 +193,45 @@ void Tick_Input(int Target, bool Slider) {
 	}
 }
 
-char* Return_Command(int Type, std::vector<std::string> Parameters) {
-	char Yield[128];
+void Return_Command(const int Type, const char* Parameters[], char* Yield) {
 	if (Type == Get_Data) {
-		Yield = "open(";
+		strcpy(Yield, "open(");
 	} else {
-		Yield = "call(";
+		strcpy(Yield, "call(");
 	}
-	for (int Counter = 0; Counter < Parameters.size(); Counter++) {
-		Yield.push_back('\"');
-		Yield += Parameters[Counter];
+	for (int Counter = 0; Counter < veclen(Parameters); Counter++) {
+		charcat(Yield, '\"');
+		strcat(Yield, Parameters[Counter]);
 		if (Counter == 0) {
-			Yield.push_back('.');
 			if (Type == Get_Data) {
-				Yield += "json";
+				strcat(Yield, ".json");
 			} else {
-				Yield += "dll";
+				strcat(Yield, ".so");
 			}
 		}
-		Yield.push_back('\"');
-		if (Counter < Parameters.size() - 1) {
-			Yield += ", ";
+		charcat(Yield, '\"');
+		if (Counter < veclen(Parameters) - 1) {
+			strcat(Yield, ", ");
 		}
 	}
-	Yield.push_back(')');
-	return Yield;
+	charcat(Yield, ')');
 }
 
-void Process_Commands(std::vector<int> Types, std::vector<std::vector<std::string>> Parameters) {
-	Types.push_back(Execute);
-	Parameters.push_back({ "clear" });
-	Types.push_back(Execute);
-	Parameters.push_back({ "quit" });
-	for (int Counter = 0; Counter < Types.size(); Counter++) {
+void Process_Commands() {
+	int Base = intlen(Buffers.Commands);
+	Buffers.Commands[Base] = Execute;
+	strcpy(Buffers.Parameters[Base][0], "clear");
+	strcpy(Buffers.Parameters[Base][1], NULLSTRING);
+	Buffers.Commands[Base + 1] = Execute;
+	strcpy(Buffers.Parameters[Base + 1][0], "quit");
+	strcpy(Buffers.Parameters[Base + 1][1], NULLSTRING);
+	Buffers.Commands[Base + 2] = LDE_TERMINATOR;
+	for (int Counter = 0; Counter < intlen(Buffers.Commands); Counter++) {
 		if (Interface.UI_Selection == Counter + 3) {
-			Interface_L.Terminal_Entry = Return_Command(Types[Counter], Parameters[Counter]);
+			Return_Command(Buffers.Commands[Counter], Buffers.Parameters[Counter], Interface.Terminal_Entry);
 		}
 	}
-	for (int Counter = 3; Counter < Types.size() + 3; Counter++) {
-		Tick_Input(Counter);
+	for (int Counter = 3; Counter < intlen(Buffers.Commands) + 3; Counter++) {
+		Tick_Input(Counter, false);
 	}
 }

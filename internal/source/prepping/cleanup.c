@@ -62,6 +62,7 @@ void Cleanup_Assets() {
 	TTF_CloseFont(Fonts.Subtext_Font);
 	TTF_CloseFont(Fonts.Microtext_Font);
 	TTF_CloseFont(Fonts.Terminal_Font);
+	free_c(Cache.FPS_Cache);
 	Clear_Texture_Array(&Textures.Tool);
 	Clear_Texture_Array(&Textures.Help_Content);
 	Clear_Texture_Array(&Textures.Door);

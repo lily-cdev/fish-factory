@@ -1,6 +1,7 @@
 #pragma once
 #include <core.h>
 #include <prepping.h>
+#include <connectables.h>
 
 enum Tutorial_Types {
     T_Terminator = LDE_INVALID,
@@ -18,5 +19,8 @@ typedef struct {
 	bool ID_Override;
 	char Context[128];
 } Tutorial_Step;
+
+void Process_Tutorial(int Input);
+void Render_Tutorial();
 
 extern Tutorial_Step Tutorial_Stack[256];

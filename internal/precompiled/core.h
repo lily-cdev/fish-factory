@@ -7,6 +7,7 @@
 #define LDE_CAPTIONS 6
 #define LDE_CATEGORIES 8
 #define LDE_CHANNELS 1
+#define LDE_CMDMAX 16
 #define LDE_DAYS 7
 #define LDE_DOCKCAPACITY 750.0
 #define LDE_EFFECTS 1
@@ -18,6 +19,7 @@
 #define LDE_HXEFFICIENCY 1200
 #define LDE_INVALID -1
 #define LDE_ITEMS 21
+#define LDE_JSONMAX 8
 #define LDE_KEYBINDS 14
 #define LDE_LARGECAP 150
 #define LDE_LOGMAX 11

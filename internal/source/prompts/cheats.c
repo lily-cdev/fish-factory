@@ -27,11 +27,10 @@ void Render_F_Generator(int X, int Y) {
 	char Subbuffer[256];
 	Abbreviate_Number(Data.Settings_Grid[X][Y][5], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "Producing %sL/s of %i °F ", Subbuffer, (int)Data.Settings_Grid[X][Y][4]);
-	std::string str = Buffer;
-	str += ID_To_Item(Data.Settings_Grid[X][Y][3]).Display_Name;
-	Render_Dynamic_Text(Fonts.Halftext_Font, str.c_str(), Colors.Abyss_Black, -1, 200);
+	strcat(Buffer, ID_To_Item(Data.Settings_Grid[X][Y][3]).Display_Name);
+	Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, -1, 200);
 	for (int Counter = 0; Counter < 2; Counter++) {
-		Render_Button(Textures.Confirmation.Data[Counter], Rects.Confirmation.Data[Counter],
-			Counter + 5, Colors.Cherry_Blossom);
+		Render_Button(Textures.Confirmation.Data[Counter], Rects.Confirmation.Data[Counter], Counter + 5,
+			Colors.Cherry_Blossom);
 	}
 }

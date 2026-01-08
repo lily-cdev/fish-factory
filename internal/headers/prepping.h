@@ -297,6 +297,12 @@ typedef struct {
 	SDL_Texture* Blueprint_Cache;
 	Texture2_Array Log_Cache;
 	Rect2_Array Log_Rectangles;
+	SDL_FRect Query[32];
+	int ID_Query[32];
+	SDL_Color Color_Query[32];
+	int Query_Length;
+	float* FPS_Cache;
+	int FPS_Length;
 } CACHE;
 
 typedef struct {
@@ -342,6 +348,12 @@ typedef struct {
 } INTERFACE;
 
 typedef struct {
+	char JSON[LDE_JSONMAX][128];
+	int Commands[LDE_CMDMAX];
+	char* Parameters[LDE_CMDMAX][4];
+} BUFFERS;
+
+typedef struct {
 	Node EP_Inputs[4];
 	Node EP_Outputs[4];
 	Node FM_Inputs[4];
@@ -370,6 +382,7 @@ extern KEYBINDS Keybinds;
 extern TEMPORARY Temporary;
 extern CACHE Cache;
 extern INTERFACE Interface;
+extern BUFFERS Buffers;
 extern PRECONFIGS Preconfigs;
 
 void Preload_Fonts();

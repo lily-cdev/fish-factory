@@ -15,22 +15,20 @@ if(NOT CMAKE_C_COMPILER)
 endif()
 
 add_executable(Fish_Factory
-    internal/core/fish_factory.cxx
+    internal/core/fish_factory.c
 	internal/source/audio.c
 	internal/source/machines.c
 	internal/source/updates.c
-	internal/source/interface.cxx
+	internal/source/interface.c
 	internal/source/pipes.c
-	internal/source/terminals.cxx
+	internal/source/terminals.c
 	internal/source/transitions.c
 	internal/source/tutorials.c
-	internal/source/tutorials.cxx
 	internal/source/ui.c
-	internal/source/ui.cxx
 	internal/source/wires.c
-	internal/source/actions/cheats.cxx
-	internal/source/actions/machines.cxx
-	internal/source/actions/menus.cxx
+	internal/source/actions/cheats.c
+	internal/source/actions/machines.c
+	internal/source/actions/menus.c
 	internal/source/actions/none.c
 	internal/source/grid/cultivators.c
 	internal/source/grid/decorations.c
@@ -39,11 +37,11 @@ add_executable(Fish_Factory
 	internal/source/grid/other.c
 	internal/source/grid/processors.c
 	internal/source/grid/transporters.c
-	internal/source/prompts/catalog.cxx
-	internal/source/prompts/cheats.cxx
+	internal/source/prompts/catalog.c
+	internal/source/prompts/cheats.c
 	internal/source/prompts/daily_report.c
 	internal/source/prompts/help.c
-	internal/source/prompts/machines.cxx
+	internal/source/prompts/machines.c
 	internal/source/prompts/shop.c
 	internal/source/prepping/cleanup.c
 	internal/source/prepping/definitions.c

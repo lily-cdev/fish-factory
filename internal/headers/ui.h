@@ -17,22 +17,22 @@ void Render_Daily_Report(int X, int Y);
 void Render_Help(int X, int Y);
 void Render_Shop(int X, int Y);
 void Render_Catalog(int X, int Y);
-void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position,
-	int X, int Y, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
+void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
+	SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
 void Render_Backing();
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes);
 void Print_Error(int Input);
 void Print_Fatal_Error(int Input);
 void Process_Exit();
 void Print_Response(const char* Response);
-void Print_JSON(std::vector<std::string> Input);
+void Print_JSON();
 void Print_Input();
 void Forward_Essentials(int Buttons, int Sliders);
 void Backward_Essentials();
 void Render_Necessities(char* Machine, char* Prefix);
-void Tick_Input(int Target, bool Slider = false);
-char* Return_Command(int Type, std::vector<std::string> Parameters);
-void Process_Commands(std::vector<int> Types, std::vector<std::vector<std::string>> Parameters);
+void Tick_Input(int Target, bool Slider);
+void Return_Command(const int Type, const char* Parameters[], char* Yield);
+void Process_Commands();
 void Render_Blueprint(int Size_X, int Size_Y);
 void Render_Game_UI();
 void Render_Saveloader();
