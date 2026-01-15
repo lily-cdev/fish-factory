@@ -11,14 +11,13 @@ void* Step_Noise(void* Counter) {
 unsigned long WINAPI Step_Noise(void* Counter) {
 #endif
 	int Index = (int)(intptr_t)Counter;
-	uint32_t Shade = (uint32_t)((SDL_GetTicks() * Index) & 255);
+	uint32_t Shade = (uint32_t)((SDL_GetTicks() * Index) & UINT8_MAX);
 	SDL_Surface* Noise_Surface = SDL_CreateSurface(Settings.Screen_Size * 1200, Settings.Screen_Size * 1200,
 		SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Noise_Surface);
 	uint32_t* Pixels = (uint32_t*)(Noise_Surface->pixels);
 	for (int Counter2 = 0; Counter2 < sqr_i(Settings.Screen_Size * 1200); Counter2++, Pixels++) {
-		Shade = (Shade * 2891336453u) + 747796405u;
-		Shade ^= Shade >> 16;
+		step_c(Shade);
 		*Pixels = Lookup_Table[(Shade & 31)];
 	}
 	SDL_UnlockSurface(Noise_Surface);
@@ -39,7 +38,7 @@ void Render_Loadscreen() {
 	Set_Renderer_Color(Colors.Pure_White);
 	SDL_RenderClear(Core.Renderer);
 	Clear_Renderer();
-	SDL_Surface* Text_Surface = TTF_RenderText_Blended(Fonts.Logo_Font, "loading assets", 14, Colors.Abyss_Black);
+	SDL_Surface* Text_Surface = TTF_RenderText_Blended(Fonts.Logo_Font, "loading assets", 0, Colors.Abyss_Black);
 	SDL_FRect Pasting_Rectangle = {
 		(Settings.Screen_Size * 320.0f) - (Text_Surface->w * 0.5),
 		(Settings.Screen_Size * 180.0f) - (Text_Surface->h * 0.5),
@@ -47,9 +46,9 @@ void Render_Loadscreen() {
 		(float)(Text_Surface->h)
 	};
 	SDL_Texture* Text_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Text_Surface);
-	SDL_RenderTexture(Core.Renderer, Text_Texture, NULL, &Pasting_Rectangle);
+	Render_Texture(Text_Texture, &Pasting_Rectangle);
 	SDL_DestroySurface(Text_Surface);
-	SDL_DestroyTexture(Text_Texture);
+	free_texture(Text_Texture);
 	SDL_RenderPresent(Core.Renderer);
 	SDL_PumpEvents();
 }
@@ -117,8 +116,7 @@ void Preload_Noise() {
 				Fire_Colors[(Random & 3)].g, Fire_Colors[(Random & 3)].b);
 		}
 		SDL_UnlockSurface(Fire_Surfaces[Counter1]);
-		Textures.Fire.Data[Counter1] = SDL_GenerateTextureFromSurface(
-			Core.Renderer, Fire_Surfaces[Counter1]);
+		Textures.Fire.Data[Counter1] = SDL_GenerateTextureFromSurface(Core.Renderer, Fire_Surfaces[Counter1]);
 		SDL_SetTextureScaleMode(Textures.Fire.Data[Counter1], SDL_SCALEMODE_NEAREST);
 		SDL_SetTextureBlendMode(Textures.Fire.Data[Counter1], SDL_BLENDMODE_BLEND);
 		SDL_DestroySurface(Fire_Surfaces[Counter1]);

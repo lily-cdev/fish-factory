@@ -3,15 +3,12 @@ project(Fish_Factory LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#C++ is only here so the project compiles on windows
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-if(NOT CMAKE_CXX_COMPILER)
-    message(FATAL_ERROR "CXX compiler failed to initialise")
-endif()
-
 if(NOT CMAKE_C_COMPILER)
-    message(FATAL_ERROR "C compiler failed to initialise")
+    message(FATAL_ERROR "compiler failed to initialise :(")
 endif()
 
 add_executable(Fish_Factory
@@ -57,6 +54,7 @@ add_executable(Fish_Factory
 	internal/source/data/saving.c
 	internal/source/data/settings.c
 	internal/source/data/lang.c
+	internal/source/rendering/supplier.c
 	internal/source/rendering/tiles.c
 	internal/source/rendering/effects.c
 	internal/source/rendering/ocean.c

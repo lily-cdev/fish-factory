@@ -34,7 +34,7 @@ METADATA Metadata = {
 		{ Ram_Pump, LDE_TERMINATOR },
 		{ Algae_Bed, LDE_TERMINATOR },
 		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_TERMINATOR },
-		{ Piezo_Generator, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_TERMINATOR },
+		{ RTG, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_TERMINATOR },
 		{ Flowerpot, Ammunition_Shelf, LDE_TERMINATOR },
 		{ Incinerator, Signal_Tower, Basic_Scrubber, LDE_TERMINATOR },
 		{ Command_Platform, LDE_TERMINATOR }
@@ -66,7 +66,7 @@ METADATA Metadata = {
 		4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4, 30, 20, 90, 30, 50, 46, 20
 	},
 	.Quirk_Positions = {
-		{ Reinforced_Pipe, Ram_Pump, Piezo_Generator, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip,
+		{ Reinforced_Pipe, Ram_Pump, RTG, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip,
 			Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node,
 			Large_Pipe, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, LDE_TERMINATOR },
 		{ Reinforced_Pipe, Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Large_Pipe,
@@ -125,6 +125,7 @@ CACHE Cache = {
 	.Blueprint_Cache = NULL,
 	.Log_Cache.Data = NULL
 };
+SUPPLIES Supplies = { };
 INTERFACE Interface = {
 	.Animation_Locked = false,
 	.Building = false,

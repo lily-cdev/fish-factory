@@ -58,11 +58,10 @@ bool Place_Distillery(int X, int Y) {
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = 2;
 			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 4;
-			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] =
-				(Interface.Placing_Rotation + Right == 4) ? 4 :
+			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = (Interface.Placing_Rotation + Right == 4) ? 4 :
 				((Interface.Placing_Rotation + Right) & 3);
 		}
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}
@@ -163,7 +162,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 		Data.Wiring_Grid[X][Y] = 0;
 		Data.Data_Grid[X][Y][5] = 60;
 		Data.Data_Grid[X][Y][6] = 60;
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}

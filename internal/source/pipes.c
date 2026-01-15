@@ -44,7 +44,7 @@ void Orient_Pipe(Pipe* Input) {
 void Clear_Pipes() {
 	Pipes_List.Length = 0;
 	Pipes_List.Full_Size = 0;
-	free_d(Pipes_List);
+	free_c(Pipes_List.Data);
 }
 
 void Clear_Unconnected_Pipes() {
@@ -74,42 +74,35 @@ void Place_Pipe() {
 					if (Is_Adjacent) {
 						if (Data.Plumbing_Grid[Column][Row] == 0) {
 							Is_Pipe_Adjacent = true;
-						} else if ((Data.Plumbing_Grid[Column][Row] == 1 ||
-							Data.Plumbing_Grid[Column][Row] == 5) && Column > 0 &&
-							Pipes_List.Data[Pipes_List.Length - 1].X1 == Column - 1) {
+						} else if ((Data.Plumbing_Grid[Column][Row] == 1 || Data.Plumbing_Grid[Column][Row] == 5) &&
+							Column > 0 && Pipes_List.Data[Pipes_List.Length - 1].X1 == Column - 1) {
 							Is_Pipe_Adjacent = true;
-						} else if ((Data.Plumbing_Grid[Column][Row] == 2 ||
-							Data.Plumbing_Grid[Column][Row] == 6) && Row > 0 &&
-							Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row - 1) {
+						} else if ((Data.Plumbing_Grid[Column][Row] == 2 || Data.Plumbing_Grid[Column][Row] == 6) &&
+							Row > 0 && Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row - 1) {
 							Is_Pipe_Adjacent = true;
-						} else if ((Data.Plumbing_Grid[Column][Row] == 3 ||
-							Data.Plumbing_Grid[Column][Row] == 7) && Column < LDE_GRIDSIZE &&
-							Pipes_List.Data[Pipes_List.Length - 1].X1 == Column + 1) {
+						} else if ((Data.Plumbing_Grid[Column][Row] == 3 || Data.Plumbing_Grid[Column][Row] == 7) &&
+							Column < LDE_GRIDSIZE && Pipes_List.Data[Pipes_List.Length - 1].X1 == Column + 1) {
 							Is_Pipe_Adjacent = true;
-						} else if ((Data.Plumbing_Grid[Column][Row] == 4 ||
-							Data.Plumbing_Grid[Column][Row] == 8) && Row < LDE_GRIDSIZE &&
-							Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row + 1) {
+						} else if ((Data.Plumbing_Grid[Column][Row] == 4 || Data.Plumbing_Grid[Column][Row] == 8) &&
+							Row < LDE_GRIDSIZE && Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row + 1) {
 							Is_Pipe_Adjacent = true;
 						}
 					}
-					if (Is_Pipe_Adjacent && (Data.Connection_Grid[Column][Row] != LDE_INVALID ||
-						Data.Plumbing_Grid[Column][Row] != LDE_INVALID) &&
-						(Data.Settings_Grid[Column][Row][0] == 0 ||
-						Data.Settings_Grid[Column][Row][0] == 1)) {
+					if (Is_Pipe_Adjacent && (Data.Connection_Grid[Column][Row] != LDE_INVALID || Data.Plumbing_Grid[Column][
+						Row] != LDE_INVALID) && (Data.Settings_Grid[Column][Row][0] == 0 || Data.Settings_Grid[Column][
+						Row][0] == 1)) {
 						Pipes_List.Data[Pipes_List.Length - 1].X2 = Column;
 						Pipes_List.Data[Pipes_List.Length - 1].Y2 = Row;
 						Pipes_List.Data[Pipes_List.Length - 1].Filled = true;
 						Orient_Pipe(&Pipes_List.Data[Pipes_List.Length - 1]);
 						for (int Counter = 0; Counter < Pipes_List.Length - 1; Counter++) {
 							int End = Pipes_List.Length - 1;
-							if ((Pipes_List.Data[Counter].X1 == Pipes_List.Data[End].X1 &&
-								Pipes_List.Data[Counter].Y1 == Pipes_List.Data[End].Y1 &&
-								Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X2 &&
-								Pipes_List.Data[Counter].Y2 == Pipes_List.Data[End].Y2) ||
-								(Pipes_List.Data[Counter].X1 == Pipes_List.Data[End].X2 &&
-									Pipes_List.Data[Counter].Y1 == Pipes_List.Data[End].Y2 &&
-									Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X1 &&
-									Pipes_List.Data[Counter].Y2 == Pipes_List.Data[End].Y1)) {
+							if ((Pipes_List.Data[Counter].X1 == Pipes_List.Data[End].X1 && Pipes_List.Data[Counter].Y1 ==
+								Pipes_List.Data[End].Y1 && Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X2 &&
+								Pipes_List.Data[Counter].Y2 == Pipes_List.Data[End].Y2) || (Pipes_List.Data[Counter].X1 ==
+								Pipes_List.Data[End].X2 && Pipes_List.Data[Counter].Y1 == Pipes_List.Data[End].Y2 &&
+								Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X1 && Pipes_List.Data[Counter].Y2 ==
+								Pipes_List.Data[End].Y1)) {
 								Pull_Pipe(Counter);
 								Pull_Pipe(Pipes_List.Length - 1);
 								break;
@@ -119,10 +112,8 @@ void Place_Pipe() {
 						Pull_Pipe(Pipes_List.Length - 1);
 					}
 				} else {
-					if ((Data.Connection_Grid[Column][Row] != LDE_INVALID ||
-						Data.Plumbing_Grid[Column][Row] > LDE_INVALID) &&
-						(Data.Settings_Grid[Column][Row][0] == 0 ||
-						Data.Settings_Grid[Column][Row][0] == 2)) {
+					if ((Data.Connection_Grid[Column][Row] != LDE_INVALID || Data.Plumbing_Grid[Column][Row] > LDE_INVALID) &&
+						(Data.Settings_Grid[Column][Row][0] == 0 || Data.Settings_Grid[Column][Row][0] == 2)) {
 						Pipe New_Pipe;
 						New_Pipe.X1 = Column;
 						New_Pipe.Y1 = Row;
@@ -137,46 +128,42 @@ void Place_Pipe() {
 void Render_Pipes() {
 	for (int Counter = 0; Counter < Pipes_List.Length; Counter++) {
 		if (Pipes_List.Data[Counter].Filled) {
-			Rects.Tile_1x1.x = (int)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) +
-				Pipes_List.Data[Counter].X_Offset - Core.Camera.X) * Settings.Screen_Size;
-			Rects.Tile_1x1.y = (int)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) +
-				Pipes_List.Data[Counter].Y_Offset - Core.Camera.Y) * Settings.Screen_Size;
-			SDL_RenderTexture(Core.Renderer, Textures.Arrow.Data[Pipes_List.Data[
-				Counter].Orienation], NULL, &Rects.Tile_1x1);
+			Rects.Tile_1x1.x = (int)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) + Pipes_List.Data[Counter].X_Offset -
+				Core.Camera.X) * Settings.Screen_Size;
+			Rects.Tile_1x1.y = (int)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) + Pipes_List.Data[Counter].Y_Offset -
+				Core.Camera.Y) * Settings.Screen_Size;
+			Render_Texture(Textures.Arrow.Data[Pipes_List.Data[Counter].Orienation], &Rects.Tile_1x1);
 		} else {
-			Rects.Sapling.x = (int)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-			Rects.Sapling.y = (int)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
-			SDL_RenderTexture(Core.Renderer, Textures.Sapling, NULL, &Rects.Sapling);
+			Rects.Sapling.x = (float)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+			Rects.Sapling.y = (float)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Render_Texture(Textures.Sapling, &Rects.Sapling);
 		}
 	}
 }
 
 void Distribute_Fluid(Pipe** Grouped_List, int Grouped, int* Sizes) {
 	for (int Counter1 = 0; Counter1 < Grouped; Counter1++) {
-		double Remaining_Fluid = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids];
-		double Used_Fluid = 0;
+		float Remaining_Fluid = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids];
+		float Used_Fluid = 0;
 		for (int Counter2 = 0; Counter2 < Sizes[Counter1]; Counter2++) {
 			if (Data.Items_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2] == LDE_INVALID ||
 				Data.Items_Grid[Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1] == Data.Items_Grid[
 				Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2]) {
-				double Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[Counter1][
-					Counter2].X2][Grouped_List[Counter1][Counter2].Y2][1] -
-					Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
-					Counter1][Counter2].Y2][Stored_Fluids]);
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
-					Counter2].Y2][Stored_Fluids] = Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][
-					Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] + Minimum;
-				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1][
-					Counter2].Y2, Data.Items_Grid[Grouped_List[Counter1][
-					Counter2].X1][Grouped_List[Counter1][Counter2].Y1],
-					Data.Temperature_Grid[Grouped_List[Counter1][Counter2].X1][
-					Grouped_List[Counter1][Counter2].Y1]);
+				float Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
+					Counter1][Counter2].Y2][1] - Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+					Counter2].Y2][Stored_Fluids]);
+				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] =
+					Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] +
+					Minimum;
+				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1][Counter2].Y2, Data.Items_Grid[
+					Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1], Data.Temperature_Grid[
+					Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1]);
 				Remaining_Fluid = Remaining_Fluid - Minimum;
 				Used_Fluid = Used_Fluid + Minimum;
 			}
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] =
-			Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
+		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] = Data.Data_Grid[
+			Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
 	}
 }
 
@@ -191,8 +178,8 @@ void Update_Pipes() {
 				if (Grouped > 0) {
 					bool Uncategorized = true;
 					for (int Counter2 = 0; Counter2 < Grouped; Counter2++) {
-						if (Temporary_Pipe.X1 == Grouped_List[Counter2][0].X1 &&
-							Temporary_Pipe.Y1 == Grouped_List[Counter2][0].Y1) {
+						if (Temporary_Pipe.X1 == Grouped_List[Counter2][0].X1 && Temporary_Pipe.Y1 == Grouped_List[
+							Counter2][0].Y1) {
 							Grouped_List[Counter2] = realloc(Grouped_List[Counter2], sizeof(Pipe) * (Counter2 + 1));
 							Grouped_List[Counter2][Counter2] = Temporary_Pipe;
 							Sizes[Counter2] = Counter2 + 1;

@@ -10,7 +10,7 @@ void Recache_TT_Commands() {
 		Carrier.Data[Counter] = Buffer;
 	}
 	Preload_Terminal_Sidebar(Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
-	free_d(Carrier);
+	free_c(Carrier.Data);
 }
 
 void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_Array* Rectangles) {
@@ -47,7 +47,7 @@ void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Ar
 	SDL_Color Color1, SDL_Color Color2) {
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
-	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, strlen(Text), Color1);
+	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, 0, Color1);
 	Yield->Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	if (Rectangles.Data[0].x == LDE_INVALID) {
 		Rectangles.Data[0].x = (320 * Settings.Screen_Size) - (Button_Surface->w * 0.5);
@@ -60,10 +60,10 @@ void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Ar
 	char Buffer[256];
 	snprintf(Buffer, sizeof(Buffer), "> %s <", Text);
 	SDL_DestroySurface(Button_Surface);
-	Button_Surface = TTF_RenderText_Blended(Font, "> ", 2, Color1);
+	Button_Surface = TTF_RenderText_Blended(Font, "> ", 0, Color1);
 	int Offset = Button_Surface->w;
 	SDL_DestroySurface(Button_Surface);
-	Button_Surface = TTF_RenderText_Blended(Font, Buffer, strlen(Buffer), Color2);
+	Button_Surface = TTF_RenderText_Blended(Font, Buffer, 0, Color2);
 	Yield->Data[1] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	Rectangles.Data[1].x = Rectangles.Data[0].x - Offset;
 	Rectangles.Data[1].y = Rectangles.Data[0].y;

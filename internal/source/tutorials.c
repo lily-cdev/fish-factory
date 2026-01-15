@@ -211,9 +211,9 @@ void Render_Tutorial() {
 			Settings.Screen_Size * 300.0f, Settings.Screen_Size * 30.0f })) {
 			char Buffer[128];
 			snprintf(Buffer, sizeof(Buffer), "This will %s.", Tutorial_Stack[Temporary.Tutorial_Step].Context);
-			Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 26);
+			Process_Supply(&Supplies.Tutorial, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 26);
 		} else {
-			Render_Dynamic_Text(Fonts.Subtext_Font, Text, Colors.Abyss_Black, LDE_INVALID, 26);
+			Process_Supply(&Supplies.Subtutorial, Text, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 26);
 		}
 	}
 }

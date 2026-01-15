@@ -32,13 +32,13 @@ void Truncate(double Number, int Depth, char* Buffer, int Size) {
 	if (Depth == LDE_INVALID) {
 		for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 			if (Number > 1000) {
-				Number = Number / 1000;
+				Number /= 1000;
 			} else {
 				break;
 			}
 		}
 	} else {
-		Number = Number / pow(1000, Depth);
+		Number /= pow(1000, Depth);
 	}
 	snprintf(Buffer, Size, "%.2f", Number);
 }

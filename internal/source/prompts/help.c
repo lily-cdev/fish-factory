@@ -3,7 +3,7 @@
 void Render_Help(int X, int Y) {
     Render_Box(10, 10, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	for (int Counter = 0; Counter < 2; Counter++) {
-		SDL_RenderTexture(Core.Renderer, Textures.Help_Content.Data[Counter], NULL, &Rects.Help_Content[Counter]);
+		Render_Texture(Textures.Help_Content.Data[Counter], &Rects.Help_Content[Counter]);
 	}
 	Render_Slider(Interface.Slider_Texts[3], 1, 2, 1, &Interface.Slider_Positions[3], 130, 300, 380,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
@@ -27,20 +27,18 @@ void Render_Help(int X, int Y) {
 		if (Temporary.Tutorial_Step == LDE_INVALID) {
 			if (Data.CMD_Placed) {
 				for (int Counter = 1; Counter < Textures.Tutorials.Length; Counter++) {
-					Rects.Tutorial_Hitbox.Data = Rects
-						.Tutorials.Data[Counter].Data;
-					Rects.Tutorial_Hitbox.Data[0].y -= 40 * Settings.Screen_Size;
-					Rects.Tutorial_Hitbox.Data[1].y -= 40 * Settings.Screen_Size;
-					Render_Button(Textures.Tutorials.Data[Counter],
-						Rects.Tutorial_Hitbox, Counter + 3, Colors.Cherry_Blossom);
+					Rects.Tutorial_Hitbox.Data = Rects.Tutorials.Data[Counter].Data;
+					Rects.Tutorial_Hitbox.Data[0].y -= LDE_TILESIZE * Settings.Screen_Size;
+					Rects.Tutorial_Hitbox.Data[1].y -= LDE_TILESIZE * Settings.Screen_Size;
+					Render_Button(&Textures.Tutorials.Data[Counter], &Rects.Tutorial_Hitbox, Counter + 3,
+						Colors.Cherry_Blossom);
 				}
 			} else {
-				char Buffer[] = "The Command Platform must be placed for full tutorial access!";
-				Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, LDE_INVALID, 90);
-				Render_Button(Textures.Tutorials.Data[0], Rects.Tutorials.Data[0], 3, Colors.Cherry_Blossom);
+				Render_Texture(Textures.CMD_Warning2, &Rects.CMD_Warning2);
+				Render_Button(&Textures.Tutorials.Data[0], &Rects.Tutorials.Data[0], 3, Colors.Cherry_Blossom);
 			}
 		} else {
-			Render_Button(Textures.Clear_Tutorial, Rects.Clear_Tutorial, 2, Colors.Cherry_Blossom);
+			Render_Button(&Textures.Clear_Tutorial, &Rects.Clear_Tutorial, 2, Colors.Cherry_Blossom);
 		}
 		break;
 	case 2:
@@ -50,7 +48,7 @@ void Render_Help(int X, int Y) {
 			Render_Rich_Text(Fonts.Subtext_Font, Flavor, 20, 60, false, false);
 		}
 		for (int Counter = 0; Counter < 2; Counter++) {
-			Render_Button(Textures.Cheats.Data[Counter], Rects.Cheats.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
+			Render_Button(&Textures.Cheats.Data[Counter], &Rects.Cheats.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
 		}
 		break;
 	default:

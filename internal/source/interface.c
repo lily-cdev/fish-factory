@@ -126,8 +126,7 @@ void Process_Inputs() {
 						break;
 					case 3:
 						if (Interface.Registering_Keybind != LDE_INVALID) {
-							Keybinds.Keybind_Settings[Interface.Registering_Keybind] =
-								Application_Event.key.key;
+							Keybinds.Keybind_Settings[Interface.Registering_Keybind] = Application_Event.key.key;
 							Interface.Registering_Keybind = LDE_INVALID;
 						}
 						break;
@@ -178,7 +177,7 @@ void Process_Inputs() {
 				}
 				if (Application_Event.wheel.y > 0) {
 					if (Interface.Log_Offset > 0) {
-						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Screen_Size * 32), (long double)(0));
+						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Screen_Size * 32), 0.0f);
 					}
 				} else if (Application_Event.wheel.y < 0) {
 					if (Interface.Log_Offset < Interface.Log_Heights[Log]) {
@@ -186,7 +185,7 @@ void Process_Inputs() {
 							Interface.Log_Heights[Log]);
 					}
 				}
-				Temporary.Scroll_Percent = (double)((Interface.Log_Offset / Interface.Log_Heights[Log]) * 100);
+				Temporary.Scroll_Percent = (float)((Interface.Log_Offset / Interface.Log_Heights[Log]) * 100);
 			}
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_UP:

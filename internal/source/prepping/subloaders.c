@@ -7,8 +7,10 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 16);
 	Yield->Length = 16;
 	SDL_Surface* Spritesheet_Surface = Load_BMP(Buffer);
-	SDL_Texture* Spritesheet_Texture = SDL_GenerateTextureFromSurface(
-		Core.Renderer, Spritesheet_Surface);
+	if (Spritesheet_Surface == NULL) {
+		puts("fail");
+	}
+	SDL_Texture* Spritesheet_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Spritesheet_Surface);
 	Texture_Array Subtextures;
 	Subtextures.Data = malloc(sizeof(SDL_Texture*) * 6);
 	Subtextures.Length = 6;
@@ -27,17 +29,17 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	SDL_Texture* Isolated_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Isolated_Texture);
 	SDL_SetTextureBlendMode(Isolated_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[0], NULL, NULL);
+	Render_Texture(Subtextures.Data[0], NULL);
 	Yield->Data[0] = Isolated_Texture;
 	SDL_Texture* Surrounded_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Surrounded_Texture);
 	SDL_SetTextureBlendMode(Surrounded_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[1], NULL, NULL);
+	Render_Texture(Subtextures.Data[1], NULL);
 	Yield->Data[1] = Surrounded_Texture;
 	SDL_Texture* Junction1_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction1_Texture);
 	SDL_SetTextureBlendMode(Junction1_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[2], NULL, NULL);
+	Render_Texture(Subtextures.Data[2], NULL);
 	Yield->Data[2] = Junction1_Texture;
 	SDL_Texture* Junction2_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction2_Texture);
@@ -57,7 +59,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	SDL_Texture* Vertical_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Vertical_Texture);
 	SDL_SetTextureBlendMode(Vertical_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[3], NULL, NULL);
+	Render_Texture(Subtextures.Data[3], NULL);
 	Yield->Data[6] = Vertical_Texture;
 	SDL_Texture* Horizontal_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Horizontal_Texture);
@@ -67,7 +69,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	SDL_Texture* Corner1_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner1_Texture);
 	SDL_SetTextureBlendMode(Corner1_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[4], NULL, NULL);
+	Render_Texture(Subtextures.Data[4], NULL);
 	Yield->Data[8] = Corner1_Texture;
 	SDL_Texture* Corner2_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner2_Texture);
@@ -87,7 +89,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	SDL_Texture* Cap1_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap1_Texture);
 	SDL_SetTextureBlendMode(Cap1_Texture, SDL_BLENDMODE_BLEND);
-	SDL_RenderTexture(Core.Renderer, Subtextures.Data[5], NULL, NULL);
+	Render_Texture(Subtextures.Data[5], NULL);
 	Yield->Data[12] = Cap1_Texture;
 	SDL_Texture* Cap2_Texture = SDL_GenerateTexture(Core.Renderer, LDE_TILESIZE * Size, LDE_TILESIZE * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap2_Texture);
@@ -106,7 +108,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	Yield->Data[15] = Cap4_Texture;
 	Clear_Texture_Array(&Subtextures);
 	SDL_DestroySurface(Spritesheet_Surface);
-	SDL_DestroyTexture(Spritesheet_Texture);
+	free_texture(Spritesheet_Texture);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
@@ -139,10 +141,13 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(Texture_Array) * 2);
 	for (int Counter = 0; Counter < 2; Counter++) {
-		Yield->Data[Counter].Data = malloc(sizeof(SDL_Texture**) * 2);
+		Yield->Data[Counter].Data = malloc(sizeof(SDL_Texture*) * 2);
 		Yield->Data[Counter].Length = 2;
 	}
 	SDL_Surface* Carrying_Surface = Load_BMP(Buffer);
+	if (Carrying_Surface == NULL) {
+		puts("fail");
+	}
 	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_Texture* First_Texture = SDL_GenerateTexture(Core.Renderer, Carrying_Surface->w * 0.5, Carrying_Surface->h);
 	SDL_FRect Separating_Rectangle = {
@@ -158,7 +163,7 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 	SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL);
 	Yield->Data[0].Data[0] = First_Texture;
 	SDL_Texture* Second_Texture = SDL_GenerateTexture(Core.Renderer, Carrying_Surface->w * 0.5, Carrying_Surface->h);
-		SDL_SetTextureBlendMode(Second_Texture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(Second_Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Second_Texture);
 	SDL_RenderTextureRotated(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL, 0, NULL, SDL_FLIP_HORIZONTAL);
 	Yield->Data[1].Data[0] = Second_Texture;
@@ -174,7 +179,7 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 	SDL_RenderTextureRotated(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL, 0, NULL, SDL_FLIP_HORIZONTAL);
 	Yield->Data[1].Data[1] = Fourth_Texture;
 	SDL_DestroySurface(Carrying_Surface);
-	SDL_DestroyTexture(Carrying_Texture);
+	free_texture(Carrying_Texture);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
@@ -184,6 +189,9 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface = Load_BMP(Buffer);
+	if (Primary_Surface == NULL) {
+		puts("fail");
+	}
 	Rectangle->w = (Primary_Surface->w / 6) * Settings.Screen_Size;
 	Rectangle->h = (Primary_Surface->h / 6) * Settings.Screen_Size;
 	SDL_Texture* Primary_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Primary_Surface);
@@ -240,22 +248,21 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 			SDL_FPoint Centerpoint = { Height * 120.0f, Height * 120.0f };
 			for (int Counter2 = 0; Counter2 < 4; Counter2++) {
 				SDL_Texture* Subtexture2 = SDL_GenerateTexture(Core.Renderer, Height * 240, Height * 240);
-					SDL_SetTextureBlendMode(Subtexture2, SDL_BLENDMODE_BLEND);
+				SDL_SetTextureBlendMode(Subtexture2, SDL_BLENDMODE_BLEND);
 				SDL_SetRenderTarget(Core.Renderer, Subtexture2);
-				SDL_RenderTextureRotated(Core.Renderer, Subtexture,
-					NULL, NULL, 90 * Counter2, &Centerpoint, SDL_FLIP_NONE);
+				SDL_RenderTextureRotated(Core.Renderer, Subtexture, NULL, NULL, 90 * Counter2, &Centerpoint, SDL_FLIP_NONE);
 				Yield->Data[Index] = Subtexture2;
 				Index++;
 			}
 			SDL_SetRenderTarget(Core.Renderer, NULL);
-			SDL_DestroyTexture(Subtexture);
+			free_texture(Subtexture);
 		} else {
 			Yield->Data[Index] = Subtexture;
 			Index++;
 		}
 	}
 	SDL_Texture* Root_Texture = SDL_GenerateTexture(Core.Renderer, Full_Width, Height * 240);
-		SDL_SetTextureBlendMode(Root_Texture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(Root_Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Root_Texture);
 	int Minimum = 1;
 	int Maximum = Yield->Length - 1;
@@ -264,7 +271,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 		if (Inverted) {
 			Selector = Maximum;
 		}
-		SDL_RenderTexture(Core.Renderer, Yield->Data[Selector], NULL, NULL);
+		Render_Texture(Yield->Data[Selector], NULL);
 		if (Inverted) {
 			Maximum--;
 		} else {
@@ -273,7 +280,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	Yield->Data[0] = Root_Texture;
-	SDL_DestroyTexture(Carrying_Texture);
+	free_texture(Carrying_Texture);
 }
 
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals) {
@@ -294,8 +301,8 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 			Yield->Data[Counter1].Data[Counter2] = SDL_GenerateTexture(Core.Renderer, Maximum, Maximum);
 			SDL_SetTextureBlendMode(Yield->Data[Counter1].Data[Counter2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Yield->Data[Counter1].Data[Counter2]);
-			SDL_RenderTextureRotated(Core.Renderer, Subyield.Data[Counter2],
-				NULL, NULL, Counter1 * 90, &Center, SDL_FLIP_NONE);
+			SDL_RenderTextureRotated(Core.Renderer, Subyield.Data[Counter2], NULL, NULL, Counter1 * 90, &Center,
+				SDL_FLIP_NONE);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
 		}
 		Clear_Texture_Array(&Subyield);
@@ -306,6 +313,9 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/UI/Sidebar/%s.bmp", Path);
 	SDL_Surface* Surface = Load_BMP(Buffer);
+	if (Surface == NULL) {
+		puts("fail");
+	}
 	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Screen_Size;
 	Rectangle->y = Y * Settings.Screen_Size;
 	Rectangle->w = (float)(Surface->w / 6) * Settings.Screen_Size;
@@ -319,7 +329,10 @@ SDL_Texture* Preload_Texture(const char* Path) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
 	SDL_Surface* Carrying_Surface = Load_BMP(Buffer);
+	if (Carrying_Surface == NULL) {
+		puts("fail");
+	}
 	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
 	return Carrying_Texture;
-};
+}

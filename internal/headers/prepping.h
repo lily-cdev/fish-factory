@@ -9,7 +9,7 @@ typedef struct {
 	bool Is_Running;
 	bool Debug_Mode;
 	char Suffixes[LDE_SUFFIXES];
-	double Save_Filesizes[4];
+	float Save_Filesizes[4];
 	int Selected_Save;
 	Point_d Camera;
 	Point_f Mouse;
@@ -27,9 +27,9 @@ typedef struct {
 	int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Items_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Temperature_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	double Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
-	double Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
-	double Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
+	float Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
+	float Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
+	float Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
 	uint64_t Funds;
 } DATA;
 
@@ -49,6 +49,7 @@ typedef struct {
 	int Machine_Prices[LDE_MACHINES];
 	char* Logs[LDE_LOGS];
 	int* Heating_Machines;
+	int* Irradiating_Machines;
 	int Quirk_Positions[LDE_QUIRKS][64];
 	bool Machine_Quirks[LDE_MACHINES][LDE_QUIRKS];
 	char* Days[LDE_DAYS];
@@ -67,6 +68,12 @@ typedef struct {
 } SETTINGS;
 
 typedef struct {
+	SDL_Texture* Logo1;
+	SDL_Texture* Logo2;
+	SDL_Texture* Terminal_Prompt;
+	SDL_Texture* Price_Header;
+	SDL_Texture* CMD_Warning1;
+	SDL_Texture* CMD_Warning2;
 	Texture3_Array Item_Labels;
 	Texture3_Array Subcategories;
 	Texture3_Array Subcontents;
@@ -112,7 +119,7 @@ typedef struct {
 	Texture_Array Help_Content;
 	SDL_Texture* Recipe_Content;
 	Texture_Array Door;
-	SDL_Texture* Logo;
+	SDL_Texture* Emblem;
 	SDL_Texture* Crosshair;
 	SDL_Texture* Cursor;
 	SDL_Texture* Cursor_Core;
@@ -175,6 +182,12 @@ typedef struct {
 } TEXTURES;
 
 typedef struct {
+	SDL_FRect Logo1;
+	SDL_FRect Logo2;
+	SDL_FRect Terminal_Prompt;
+	SDL_FRect Price_Header;
+	SDL_FRect CMD_Warning1;
+	SDL_FRect CMD_Warning2;
 	Rect3_Array Item_Labels;
 	Rect3_Array Subcategories;
 	Rect3_Array Subcontents;
@@ -212,7 +225,7 @@ typedef struct {
 	SDL_FRect Help_Content[2];
 	SDL_FRect Recipe_Content;
 	SDL_FRect Door[2];
-	SDL_FRect Logo;
+	SDL_FRect Emblem;
 	SDL_FRect Tile_1x1;
 	SDL_FRect Tile_1x2;
 	SDL_FRect Tile_2x1;
@@ -284,7 +297,7 @@ typedef struct {
 	Point Tutorial_Size;
 	Point Tutorial_Offset;
 	int Temporary_FPS;
-	double Scroll_Percent;
+	float Scroll_Percent;
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
@@ -306,14 +319,41 @@ typedef struct {
 } CACHE;
 
 typedef struct {
+	Texture_Supply FPS;
+	Texture_Supply Scroll_Percent;
+	Texture_Supply Changelog_Scroll;
+	Texture_Supply Report_Header;
+	Texture_Supply Monitor_Size;
+	Texture_Supply Tutorial;
+	Texture_Supply Subtutorial;
+	Texture_Supply Money_Production;
+	Texture_Supply Fluid_Production;
+	Texture_Supply Shop1;
+	Texture_Supply Shop2;
+	Texture_Supply Shop3;
+	Texture_Supply Shop4;
+	Texture_Supply Shop5;
+	Texture_Supply Money;
+	Texture_Supply Time;
+	Texture_Supply Save_Text;
+	Texture_Supply Terminal_Title;
+	Texture_Supply Terminal_Command;
+	Texture_Supply Terminal_Logs[LDE_LOGMAX];
+	Texture_Supply Catalog1[LDE_RECIPETYPES];
+	Texture_Supply Catalog2[LDE_RECIPETYPES];
+	Texture_Supply Catalog3[LDE_RECIPETYPES];
+	Texture_Supply Filesizes[LDE_SAVEFILES];
+} SUPPLIES;
+
+typedef struct {
 	bool Animation_Locked;
 	bool Building;
 	bool Sprinting;
 	bool Terminal_Clearing;
-	double Ocean_Cycle;
-	double Node_Cycle;
-	double Movespeed;
-	long double Log_Offset;
+	float Ocean_Cycle;
+	float Node_Cycle;
+	float Movespeed;
+	float Log_Offset;
 	Point Target_Tile;
 	int Prompt_Identifier;
 	int Subprompt_Identifier;
@@ -338,10 +378,10 @@ typedef struct {
 	int Registering_Keybind;
 	int Slider_Positions[LDE_SLIDERS];
 	SDL_FPoint Tile_Centerpoint;
-	long double Log_Heights[LDE_LOGS];
+	float Log_Heights[LDE_LOGS];
 	int Valve300_Postions[LDE_VALVE300LENGTH];
 	char Slider_Texts[LDE_SLIDERS][256][32];
-	double Effects[LDE_EFFECTS];
+	float Effects[LDE_EFFECTS];
 	char Terminal_Logs[LDE_LOGMAX][128];
 	char Terminal_Entry[128];
 	int Terminal_Length;
@@ -381,6 +421,7 @@ extern FONTS Fonts;
 extern KEYBINDS Keybinds;
 extern TEMPORARY Temporary;
 extern CACHE Cache;
+extern SUPPLIES Supplies;
 extern INTERFACE Interface;
 extern BUFFERS Buffers;
 extern PRECONFIGS Preconfigs;
@@ -402,13 +443,13 @@ void Clear_Rect3_Array(Rect3_Array* Target);
 int Get_Depth(double Number);
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier);
 void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color);
-void Render_Button(const Texture_Array Button, const Rect_Array Hitbox, int Selection, SDL_Color Underline_Color);
+void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, int Selection, SDL_Color Underline_Color);
 void Preload_Assets();
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
+bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2);
 void Generate_Preconfigs();
 void Free_Preconfigs();
-void Free_Node(Node Target);
 void Return_Nodes(Node Yield, const int Column, const int Row, const int Rotation, Node Preconfig[4]);
 bool Check_Clearance(const int X, const int Y, const int W, const int H);
 void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H);
@@ -429,8 +470,8 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 SDL_Texture* Preload_Texture(const char* Path);
 void Abbreviate_Number(long double Number, char* Buffer, int Size);
 void Truncate(double Number, int Depth, char* Buffer, int Size);
-void Render_Dynamic_Text(TTF_Font* Selected_Font, const char* Text, SDL_Color Color, int X, int Y);
 int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool Inverted, bool Disabled);
+void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preclear_Temporaries();
 void Render_Loadscreen();

@@ -18,7 +18,7 @@ int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral);
 bool Place_Reinforced_Pipe(int X, int Y);
 bool Place_Ram_Pump(int X, int Y);
 bool Place_Incinerator(int X, int Y);
-bool Place_Piezo_Generator(int X, int Y);
+bool Place_RTG(int X, int Y);
 bool Place_Decoration(int X, int Y);
 bool Place_Submarine_Dock(int X, int Y);
 bool Place_Filtration_Plant(int X, int Y);

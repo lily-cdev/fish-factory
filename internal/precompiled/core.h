@@ -10,7 +10,7 @@
 #define LDE_CMDMAX 16
 #define LDE_DAYS 7
 #define LDE_DOCKCAPACITY 750.0
-#define LDE_EFFECTS 1
+#define LDE_EFFECTS 2
 #define LDE_ERRORS 13
 #define LDE_FISH 3
 #define LDE_FISHPHASES 6
@@ -26,14 +26,17 @@
 #define LDE_LOGS 3
 #define LDE_MACHINES 40
 #define LDE_QUIRKS 4
+#define LDE_RECIPETYPES 3
 #define LDE_REINFORCEDCAP 30
 #define LDE_ROOMTEMP 65
+#define LDE_SAVEFILES 4
 #define LDE_SLIDERS 14
 #define LDE_STATICRATE 15
 #define LDE_SUBCATEGORIES 6
 #define LDE_SUFFIXES 5
 #define LDE_SUPPORTEDRESOLUTIONS 6
 #define LDE_TERMINATOR -105
+#define LDE_TEXTUREPERSISTENCE 16
 #define LDE_TILESIZE 40
 #define LDE_TURBINECOEFFICIENT 0.15
 #define LDE_VALVE300LENGTH 12
@@ -60,7 +63,7 @@ SDL_Surface* Load_BMP(const char* Path);
 SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height);
 SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface* Surface);
 SDL_Texture* IMG_GenerateTexture(SDL_Renderer* Renderer, const char* Path);
-int sgn(long double Input);
-long double sqr_d(long double Input);
+int sgn(float Input);
+float sqr_f(float Input);
 int sqr_i(int Input);
 bool evn_i(int Input);

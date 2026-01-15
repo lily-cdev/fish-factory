@@ -81,7 +81,7 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 							Colors.Hostile_Red.b);
 						Render_Outline(Hitbox, Colors.Hostile_Red, 1);
 					}
-					SDL_RenderTexture(Core.Renderer, Cache.Blueprint_Cache, NULL, &Hitbox);
+					Render_Texture(Cache.Blueprint_Cache, &Hitbox);
 					SDL_SetTextureColorMod(Cache.Blueprint_Cache, 255, 255, 255);
 					return;
 				}
@@ -97,7 +97,7 @@ void Render_Sidebar(SDL_Texture* Texture, SDL_FRect Rectangle, int Selection) {
 	} else {
 		Rectangle.x = (Settings.Screen_Size * 654) - Rectangle.w;
 	}
-	SDL_RenderTexture(Core.Renderer, Texture, NULL, &Rectangle);
+	Render_Texture(Texture, &Rectangle);
 }
 
 void Render_Game_UI() {
@@ -125,10 +125,10 @@ void Render_Game_UI() {
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Funds, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%sLA", Subbuffer);
-	Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, 10, 30);
+	Process_Supply(&Supplies.Money, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 30);
 	memset(Buffer, 0, sizeof(Buffer));
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
-	Render_Dynamic_Text(Fonts.Halftext_Font, Buffer, Colors.Abyss_Black, 10, 50);
+	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 50);
 	if (Interface.Tool == 2) {
 		double Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
@@ -213,8 +213,8 @@ void Render_Game_UI() {
 		SDL_Texture* Fragment_Textures[16];
 		SDL_FRect Fragment_Rectangles[16];
 		for (int Counter = 0; Counter < Fragment_Size; Counter++) {
-			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Data_Fragments[Counter],
-				strlen(Data_Fragments[Counter]), Colors.Abyss_Black);
+			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Data_Fragments[Counter], 0,
+				Colors.Abyss_Black);
 			if (Fragment_Surface->w > Maximum_Width) {
 				Maximum_Width = Fragment_Surface->w;
 			}
@@ -247,35 +247,35 @@ void Render_Game_UI() {
 		SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
 		Clear_Renderer();
 		for (int Counter = 0; Counter < Fragment_Size; Counter++) {
-			SDL_RenderTexture(Core.Renderer, Fragment_Textures[Counter], NULL, &Fragment_Rectangles[Counter]);
-			SDL_DestroyTexture(Fragment_Textures[Counter]);
+			Render_Texture(Fragment_Textures[Counter], &Fragment_Rectangles[Counter]);
+			free_texture(Fragment_Textures[Counter]);
 		}
 	}
 	if (Interface.Save_Frames > 0) {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
-		Fading_Color.a = (uint8_t)(ceil(((double)Interface.Save_Frames / (Interface.Frame_Rate * 2)) * 255));
-		char Buffer[] = "Data saved!";
-		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Fading_Color, LDE_INVALID, 300);
+		Fading_Color.a = (uint8_t)(ceil(((float)Interface.Save_Frames / (Interface.Frame_Rate * 2)) * 255));
+		char Buffer[16] = "Data saved!";
+		Process_Supply(&Supplies.Save_Text, Buffer, Fonts.Subtext_Font, Fading_Color, LDE_INVALID, 300);
 		Interface.Save_Frames--;
 	}
 }
 
 void Render_Saveloader() {
-	SDL_RenderTexture(Core.Renderer, Textures.Saveloader,
-		NULL, &Rects.Saveloader);
-	for (int Counter = 0; Counter < 4; Counter++) {
+	Render_Texture(Textures.Saveloader, &Rects.Saveloader);
+	for (int Counter = 0; Counter < LDE_SAVEFILES; Counter++) {
 		if (Core.Save_Filesizes[Counter] > 0) {
-			Render_Button(Textures.Load.Data[Counter], Rects.Load.Data[Counter], Counter + 6, Colors.Cherry_Blossom);
-			Render_Button(Textures.Clear.Data[Counter], Rects.Clear.Data[Counter], Counter + 10, Colors.Cherry_Blossom);
+			Render_Button(&Textures.Load.Data[Counter], &Rects.Load.Data[Counter], Counter + 6, Colors.Cherry_Blossom);
+			Render_Button(&Textures.Clear.Data[Counter], &Rects.Clear.Data[Counter], Counter + 10, Colors.Cherry_Blossom);
 		} else {
-			Render_Button(Textures.New.Data[Counter], Rects.New.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
+			Render_Button(&Textures.New.Data[Counter], &Rects.New.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
 		}
 	}
-	for (int Counter = 0; Counter < 4; Counter++) {
+	for (int Counter = 0; Counter < LDE_SAVEFILES; Counter++) {
 		char Buffer[64];
 		char Subbuffer[64];
 		Abbreviate_Number(Core.Save_Filesizes[Counter], Subbuffer, sizeof(Subbuffer));
-		Render_Dynamic_Text(Fonts.Subtext_Font, Buffer, Colors.Abyss_Black, 40, (Counter * 40) + 160);
+		snprintf(Buffer, sizeof(Buffer), "Slot %i (%sb)", Counter + 1, Subbuffer);
+		Process_Supply(&Supplies.Filesizes[Counter], Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 40, (Counter * 40) + 160);
 	}
 }
 

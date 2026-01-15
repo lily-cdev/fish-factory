@@ -75,17 +75,14 @@ bool Place_RL_Intersection(int X, int Y) {
 			}
 			for (int Counter2 = 0; Counter2 < 2; Counter2++) {
 				if (Interface.Placing_Item - 1 == R_Intersection) {
-					Data.Data_Grid[Nodes.Data[Counter2].X][
-						Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_REINFORCEDCAP;
+					Data.Data_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_REINFORCEDCAP;
 				} else {
-					Data.Data_Grid[Nodes.Data[Counter2].X][
-						Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_LARGECAP;
+					Data.Data_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_LARGECAP;
 				}
-				Data.Settings_Grid[Nodes.Data[Counter2].X][
-					Nodes.Data[Counter2].Y][0] = Counter1 + 1;
+				Data.Settings_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][0] = Counter1 + 1;
 			}
 		}
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}

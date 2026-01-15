@@ -8,23 +8,16 @@ void Render_Pyramid() {
 		((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size,
 		((LDE_GRIDSIZE * LDE_TILESIZE) + 140.0f) * Settings.Screen_Size
 	};
-	SDL_RenderTexture(Core.Renderer,
-		Textures.Mesh, NULL, &Mesh_Rectangle);
+	Render_Texture(Textures.Mesh, &Mesh_Rectangle);
 	for (int X = 0; X < 2; X++) {
 		for (int Y = 0; Y < 2; Y++) {
 			SDL_FRect Pyramid_Rectangle = {
-				(float)(Width * X) - (float)(
-					Core.Camera.X * Settings.Screen_Size) -
-					(LDE_BUFFERSIZE * Settings.Screen_Size),
-				(float)(Width * Y) - (float)(
-					Core.Camera.Y * Settings.Screen_Size) -
-					(LDE_BUFFERSIZE * Settings.Screen_Size),
+				(float)(Width * X) - (float)(Core.Camera.X * Settings.Screen_Size) - (LDE_BUFFERSIZE * Settings.Screen_Size),
+				(float)(Width * Y) - (float)(Core.Camera.Y * Settings.Screen_Size) - (LDE_BUFFERSIZE * Settings.Screen_Size),
 				Width,
 				Width
 			};
-			SDL_RenderTexture(Core.Renderer,
-				Textures.Pyramid.Data[(X * 2) + Y], NULL,
-				&Pyramid_Rectangle);
+			Render_Texture(Textures.Pyramid.Data[(X * 2) + Y], &Pyramid_Rectangle);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 #include <core.h>
 #include <prepping.h>
 #include <connectables.h>
+#include <rendering.h>
 
 enum Tutorial_Types {
     T_Terminator = LDE_INVALID,

@@ -28,7 +28,7 @@ void Pull_Wire(int Position) {
 void Clear_Wires() {
 	Wires_List.Full_Size = 0;
 	Wires_List.Length = 0;
-	free_d(Wires_List);
+	free_c(Wires_List.Data);
 }
 
 void Clear_Unconnected_Wires() {
@@ -96,7 +96,7 @@ void Render_Wires() {
 			} else {
 				Rects.Node.x = (int)((Wires_List.Data[Counter2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
 				Rects.Node.y = (int)((Wires_List.Data[Counter2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
-				SDL_RenderTexture(Core.Renderer, Textures.Node, NULL, &Rects.Node);
+				Render_Texture(Textures.Node, &Rects.Node);
 			}
 		}
 		Clear_Renderer();

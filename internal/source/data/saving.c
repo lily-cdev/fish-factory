@@ -5,6 +5,10 @@ void Get_Filesizes() {
 		char Path[64];
 		snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", Counter + 1);
 		FILE* File = fopen(Path, "rb");
+		if (File == NULL) {
+			Core.Save_Filesizes[Counter] = 0;
+			continue;
+		}
 		fseek(File, 0L, SEEK_END);
 		Core.Save_Filesizes[Counter] = ftell(File);
 		fclose(File);

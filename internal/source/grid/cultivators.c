@@ -43,7 +43,7 @@ bool Place_Algae_Bed(int X, int Y) {
 		}
 		Data.Wiring_Grid[X][Y] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 200;
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}

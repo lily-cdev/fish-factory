@@ -2,7 +2,7 @@
 
 bool (*Placing_Functions[40])(int X, int Y) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump,
-	Place_Incinerator, Place_Piezo_Generator,
+	Place_Incinerator, Place_RTG,
 	Place_Decoration, Place_Submarine_Dock,
 	Place_Filtration_Plant, Place_Bio_Generator,
 	Place_Spawning_Pool, Place_Distillery,
@@ -185,7 +185,7 @@ int Find_Modular_Size(int X, int Y, int Target, int Self, int Target1, int Targe
 void Restore_Cache() {
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
-	free_d(Temporary.Docks);
+	free_c(Temporary.Docks.Data);
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			if (Visual_To_ID(Data.Visual_Grid[X][Y]) == 5) {
@@ -205,13 +205,12 @@ void Destroy_Clearance(int X, int Y, int Width, int Height) {
 			Data.Wiring_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
 			Data.Plumbing_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
 			Data.Behavior_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			memset(Data.Data_Grid[X + Counter1][Y + Counter2], 0,
-				sizeof(Data.Data_Grid[X + Counter1][Y + Counter2]));
+			memset(Data.Data_Grid[X + Counter1][Y + Counter2], 0, sizeof(Data.Data_Grid[X + Counter1][Y + Counter2]));
 			Data.Data_Grid[X + Counter1][Y + Counter2][4] = LDE_INVALID;
-			memset(Data.Settings_Grid[X + Counter1][Y + Counter2], LDE_INVALID,
-				sizeof(Data.Settings_Grid[X + Counter1][Y + Counter2]));
-			memset(Data.Animation_Grid[X + Counter1][Y + Counter2], LDE_INVALID,
-				sizeof(Data.Animation_Grid[X + Counter1][Y + Counter2]));
+			memset(Data.Settings_Grid[X + Counter1][Y + Counter2], LDE_INVALID, sizeof(Data.Settings_Grid[X + Counter1][
+				Y + Counter2]));
+			memset(Data.Animation_Grid[X + Counter1][Y + Counter2], LDE_INVALID, sizeof(Data.Animation_Grid[X + Counter1][
+				Y + Counter2]));
 			Update_Item(X + Counter1, Y + Counter2, LDE_INVALID, LDE_ROOMTEMP);
 		}
 	}
@@ -227,12 +226,11 @@ void Update_Grid() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Reinforced_Pipe) {
-				Temporary_Grid[Column][Row] = Modular_Detection(
-					Data.Connection_Grid, Data.Plumbing_Grid,
-					Data.Behavior_Grid, Column, Row, 0, 1, LDE_INVALID, true) + 1;
+				Temporary_Grid[Column][Row] = Modular_Detection(Data.Connection_Grid, Data.Plumbing_Grid, Data.Behavior_Grid,
+					Column, Row, 0, 1, LDE_INVALID, true) + 1;
 			} else if (Data.Visual_Grid[Column][Row] > 23 && Data.Visual_Grid[Column][Row] < 41) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Data.Connection_Grid, Data.Plumbing_Grid,
-					Data.Behavior_Grid, Column, Row, LDE_INVALID, LDE_INVALID, 0, false) + 24;
+				Temporary_Grid[Column][Row] = Modular_Detection(Data.Connection_Grid, Data.Plumbing_Grid, Data.Behavior_Grid,
+					Column, Row, LDE_INVALID, LDE_INVALID, 0, false) + 24;
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				Temporary.First_Coordinate.X = Column;
 				Temporary.First_Coordinate.Y = Row;

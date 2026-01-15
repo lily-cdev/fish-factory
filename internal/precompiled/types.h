@@ -25,6 +25,13 @@ typedef struct {
 } Node_d;
 
 typedef struct {
+    char Stored[512];
+    SDL_Texture* Data;
+    SDL_FRect Bounds;
+    SDL_Color Color;
+} Texture_Supply;
+
+typedef struct {
     float X;
     float Y;
 } Point_f;

@@ -2,6 +2,7 @@
 #include <core.h>
 #include <prepping.h>
 #include <grid.h>
+#include <rendering.h>
 
 extern char Errors[LDE_ERRORS][32];
 

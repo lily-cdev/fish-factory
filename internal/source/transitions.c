@@ -55,10 +55,8 @@ void Render_Closing(bool Clearing) {
 				Interface.Slider_Positions[2] = 0;
 			}
 		}
-		SDL_RenderTexture(Core.Renderer, Textures
-			.Door.Data[0], NULL, &Rects.Door[0]);
-		SDL_RenderTexture(Core.Renderer, Textures
-			.Door.Data[1], NULL, &Rects.Door[1]);
+		Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
+		Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 	}
 }
 
@@ -71,14 +69,12 @@ void Render_Opening() {
 			Rects.Door[0].x = (int)(-((320 * Settings.Screen_Size) * Percentage));
 			Rects.Door[1].x = (int)((320 * Settings.Screen_Size) +
 				((320 * Settings.Screen_Size) * Percentage));
-			SDL_RenderTexture(Core.Renderer, Textures
-				.Door.Data[0], NULL, &Rects.Door[0]);
-			SDL_RenderTexture(Core.Renderer, Textures
-				.Door.Data[1], NULL, &Rects.Door[1]);
+			Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
+			Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 			SDL_FRect Indicator_Rectangle = { (float)(((2175 / 6.0f) + (320 * Percentage) - 20) *
 				Settings.Screen_Size), (float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
 				40.0f * Settings.Screen_Size, 40.0f * Settings.Screen_Size };
-			SDL_RenderTexture(Core.Renderer, Textures.R_Flash, NULL, &Indicator_Rectangle);
+			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
 			Transition.Transition_Phase = LDE_INVALID;
 			Interface.Animation_Locked = false;
@@ -133,17 +129,17 @@ void Render_Submarine() {
 		default:
 			break;
 		}
-		Rects.Submarine.x = (int)(((Transition.Submarine_Offset) -
-			(Core.Camera.X) - 900) * Settings.Screen_Size);
-		Rects.Submarine.y = (int)(((-Transition.Submarine_Vertical *
-			Settings.Screen_Size) - Rects.Submarine.h) - (Core.Camera.Y * Settings.Screen_Size));
+		Rects.Submarine.x = (int)(((Transition.Submarine_Offset) - (Core.Camera.X) - 900) * Settings.Screen_Size);
+		Rects.Submarine.y = (int)(((-Transition.Submarine_Vertical * Settings.Screen_Size) - Rects.Submarine.h) -
+			(Core.Camera.Y * Settings.Screen_Size));
 		for (int Counter = 0; Counter < 2; Counter++) {
-			SDL_FRect Subrectangle = { Rects.Submarine.x +
-				((Rects.Submarine.w / 2) * Counter),
-				Rects.Submarine.y, Rects
-				.Submarine.w / 2, Rects.Submarine.h };
-			SDL_RenderTexture(Core.Renderer, Textures
-				.Submarine.Data[Counter], NULL, &Subrectangle);
+			SDL_FRect Subrectangle = {
+				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * Counter),
+				Rects.Submarine.y,
+				Rects.Submarine.w * 0.5f,
+				Rects.Submarine.h
+			};
+			Render_Texture(Textures.Submarine.Data[Counter], &Subrectangle);
 		}
 	}
 }

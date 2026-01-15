@@ -30,15 +30,14 @@ SDL_Surface* Load_BMP(const char* Path) {
     SDL_Surface* Yield = SDL_CreateSurface(Width, Height, SDL_PIXELFORMAT_RGBA8888);
     SDL_LockSurface(Yield);
     uint32_t* Pixels = (uint32_t*)Yield->pixels;
-    uint64_t Row_Size = ceil(Width * BITSPERPIXEL * 0.03125) * 4;
+    uint64_t Row_Size = ceil(Width * BITSPERPIXEL * 0.03125f) * 4;
     uint64_t Index = 54;
     uint8_t Opacity;
     const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
     for (int Y = 0; Y < Height; Y++) {
         for (int X = 0; X < Width; X++) {
             Opacity = SDL_ALPHA_OPAQUE;
-            if (Data[Index + 2] == TRANSPARENT && Data[Index + 1] ==
-                TRANSPARENT && Data[Index] == TRANSPARENT) {
+            if (Data[Index + 2] == TRANSPARENT && Data[Index + 1] == TRANSPARENT && Data[Index] == TRANSPARENT) {
                 Opacity = SDL_ALPHA_TRANSPARENT;
             }
             Pixels[((Height - Y - 1) * Width) + X] = SDL_MapRGBA(

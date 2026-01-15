@@ -8,19 +8,25 @@ SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) 
 
 SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface* Surface) {
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
+	if (Texture == NULL) {
+		puts("fail2");
+	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	return Texture;
 }
 
 SDL_Texture* IMG_GenerateTexture(SDL_Renderer* Renderer, const char* Path) {
 	SDL_Surface* Surface = Load_BMP(Path);
+	if (Surface == NULL) {
+		puts("fail");
+	}
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	SDL_DestroySurface(Surface);
 	return Texture;
 }
 
-int sgn(long double Input) {
+int sgn(float Input) {
 	if (Input > 0) {
 		return 1;
 	} else if (Input < 0) {
@@ -29,7 +35,7 @@ int sgn(long double Input) {
 	return 0;
 }
 
-long double sqr_d(long double Input) {
+float sqr_f(float Input) {
 	return Input * Input;
 }
 

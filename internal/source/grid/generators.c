@@ -1,6 +1,6 @@
 #include <grid.h>
 
-bool Place_Piezo_Generator(int X, int Y) {
+bool Place_RTG(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 19;
 	Data.Data_Grid[X][Y][Power_Cap] = 5;
 	Data.Data_Grid[X][Y][5] = 20;
@@ -31,7 +31,7 @@ bool Place_Bio_Generator(int X, int Y) {
 			Orientation = ((Orientation + 3) & 3) + 1;
 			Data.Plumbing_Grid[Nodes.Data[0].X][Nodes.Data[0].Y] = Orientation;
 		}
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}
@@ -110,14 +110,10 @@ bool Place_Heat_Exchanger(int X, int Y) {
 			Placed = true;
 			for (int Counter1 = 0; Counter1 < 2; Counter1++) {
 				for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-					Data.Plumbing_Grid[X + (Counter1 * 2)][
-						Y + (Counter2 * 3)] = (Counter1 * 2) + Left;
-					Data.Data_Grid[(Counter1 * 2) + X][
-						Y + (Counter2 * 3)][Fluid_Cap] = 300;
-					Data.Settings_Grid[X][(Counter2 * 3) +
-						Y][0] = (Interface.Placing_Rotation * 0.5) + 1;
-					Data.Settings_Grid[X + 2][(Counter2 * 3) +
-						Y][0] = 2 - (Interface.Placing_Rotation * 0.5);
+					Data.Plumbing_Grid[X + (Counter1 * 2)][Y + (Counter2 * 3)] = (Counter1 * 2) + Left;
+					Data.Data_Grid[(Counter1 * 2) + X][Y + (Counter2 * 3)][Fluid_Cap] = 300;
+					Data.Settings_Grid[X][(Counter2 * 3) + Y][0] = (Interface.Placing_Rotation * 0.5) + 1;
+					Data.Settings_Grid[X + 2][(Counter2 * 3) + Y][0] = 2 - (Interface.Placing_Rotation * 0.5);
 				}
 			}
 		}
@@ -157,7 +153,7 @@ bool Place_Turbine_Input(int X, int Y) {
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][Fluid_Cap] = LDE_LARGECAP;
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = F_In;
 		Data.Plumbing_Grid[Nodes.Data[0].X][Nodes.Data[0].Y] = Interface.Placing_Rotation + Left;
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		return false;
 	}
@@ -192,7 +188,7 @@ bool Place_Turbine_Output(int X, int Y) {
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = F_Out;
 		Data.Plumbing_Grid[Nodes.Data[0].X][Nodes.Data[0].Y] = Interface.Placing_Rotation + Left;
 		//do outputZ!
-		Free_Node(Nodes);
+		free_c(Nodes.Data);
 	} else {
 		Data.Settings_Grid[X][Y][3] = 0;
 		return false;

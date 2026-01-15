@@ -5,6 +5,10 @@ bool Detect_Mouse_Collision(const SDL_FRect Target) {
 		Core.Mouse.Y >= Target.y && Core.Mouse.Y <= Target.y + Target.h);
 }
 
+bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2) {
+	return (Color1.r == Color2.r && Color1.g == Color2.g && Color1.b == Color2.b && Color1.a == Color2.a);
+}
+
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 	X = X * Settings.Screen_Size;
 	Y = Y * Settings.Screen_Size;
@@ -42,19 +46,20 @@ void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 	}
 }
 
-void Render_Button(const Texture_Array Button, const Rect_Array Hitbox,
-	int Selection, SDL_Color Underline_Color) {
-	if (Detect_Mouse_Collision(Hitbox.Data[0])) {
+void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, int Selection, SDL_Color Underline_Color) {
+	if (Detect_Mouse_Collision(Hitbox->Data[0])) {
 		Interface.UI_Selection = Selection;
-		SDL_FRect Underline_Rectangle = { Hitbox.Data[0].x, Hitbox.Data[0].y +
-			Hitbox.Data[0].h + 2, Hitbox.Data[0].w, Hitbox.Data[0].h / 10 };
-		SDL_SetRenderDrawColor(Core.Renderer, Underline_Color.r, Underline_Color.g,
-			Underline_Color.b, SDL_ALPHA_OPAQUE);
-			SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
+		SDL_FRect Underline_Rectangle = {
+			Hitbox->Data[0].x,
+			Hitbox->Data[0].y + Hitbox->Data[0].h + 2,
+			Hitbox->Data[0].w, Hitbox->Data[0].h * 0.1f
+		};
+		SDL_SetRenderDrawColor(Core.Renderer, Underline_Color.r, Underline_Color.g, Underline_Color.b, SDL_ALPHA_OPAQUE);
+		SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
 		Clear_Renderer();
-		SDL_RenderTexture(Core.Renderer, Button.Data[1], NULL, &Hitbox.Data[1]);
+		Render_Texture(Button->Data[1], &Hitbox->Data[1]);
 	} else {
-		SDL_RenderTexture(Core.Renderer, Button.Data[0], NULL, &Hitbox.Data[0]);
+		Render_Texture(Button->Data[0], &Hitbox->Data[0]);
 	}
 }
 
@@ -105,6 +110,13 @@ void Fill_Clearance(const int Identifier, const int X, const int Y, const int W,
 			}
 		}
 	}
+}
+
+void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect) {
+	if (Texture == NULL) {
+		puts("failf");
+	}
+	SDL_RenderTexture(Core.Renderer, Texture, NULL, Rect);
 }
 
 int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool Inverted, bool Disabled) {
@@ -173,7 +185,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
 		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - Counter1)],
-			strlen(Fragments[Multiplier * (Subtractor - Counter1)]), Colors.Abyss_Black);
+			0, Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = {
 			(float)(X * Settings.Screen_Size),
 			(float)(Y * Settings.Screen_Size) + Offset,
@@ -182,34 +194,15 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		};
 		if (!Disabled) {
 			SDL_Texture* Fragment_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fragment_Surface);
-			SDL_RenderTexture(Core.Renderer, Fragment_Texture, NULL, &Fragment_Rectangle);
-			SDL_DestroyTexture(Fragment_Texture);
+			Render_Texture(Fragment_Texture, &Fragment_Rectangle);
+			free_texture(Fragment_Texture);
 		}
 		SDL_DestroySurface(Fragment_Surface);
-		Offset = Offset + Fragment_Rectangle.h;
+		Offset += Fragment_Rectangle.h;
 	}
 	for (int Counter = 0; Counter < Fragment_Count; Counter++) {
 		free_c(Fragments[Counter]);
 	}
 	free_c(Fragments);
 	return Offset;
-}
-
-void Render_Dynamic_Text(TTF_Font* Selected_Font, const char* Text, SDL_Color Color, int X, int Y) {
-	SDL_Surface* Text_Surface = TTF_RenderText_Blended(Selected_Font, Text, strlen(Text), Color);
-	SDL_Texture* Text_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Text_Surface);
-	int Multiplier = Settings.Screen_Size;
-	if (X == LDE_INVALID) {
-		X = (320 * Settings.Screen_Size) - (Text_Surface->w * 0.5);
-		Multiplier = 1;
-	}
-	SDL_FRect Text_Rectangle = {
-		(float)(X * Multiplier),
-		(float)(Y * Settings.Screen_Size),
-		(float)(Text_Surface->w),
-		(float)(Text_Surface->h)
-	};
-	SDL_RenderTexture(Core.Renderer, Text_Texture, NULL, &Text_Rectangle);
-	SDL_DestroySurface(Text_Surface);
-	SDL_DestroyTexture(Text_Texture);
 }

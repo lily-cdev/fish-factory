@@ -4,13 +4,13 @@ void Render_Toolbar() {
 	if (Interface.Tool > LDE_INVALID) {
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_FRect Backing_Rectangle = Rects.Tool[Interface.Tool];
-		Backing_Rectangle.x = Backing_Rectangle.x - (2 * Settings.Screen_Size);
-		Backing_Rectangle.w = Backing_Rectangle.w + (4 * Settings.Screen_Size);
-		Backing_Rectangle.y = 330 * Settings.Screen_Size;
-		Backing_Rectangle.h = 38 * Settings.Screen_Size;
+		Backing_Rectangle.x = Backing_Rectangle.x - (Settings.Screen_Size * 2);
+		Backing_Rectangle.w = Backing_Rectangle.w + (Settings.Screen_Size * 4);
+		Backing_Rectangle.y = Settings.Screen_Size * 330;
+		Backing_Rectangle.h = Settings.Screen_Size * 38;
 		SDL_RenderFillRect(Core.Renderer, &Backing_Rectangle);
-		Backing_Rectangle.y = 334 * Settings.Screen_Size;
-		Backing_Rectangle.h = 34 * Settings.Screen_Size;
+		Backing_Rectangle.y = Settings.Screen_Size * 334;
+		Backing_Rectangle.h = Settings.Screen_Size * 34;
 		Set_Renderer_Color(Colors.Light_Grey);
 		SDL_RenderFillRect(Core.Renderer, &Backing_Rectangle);
 		Clear_Renderer();
@@ -18,26 +18,24 @@ void Render_Toolbar() {
 		Rects.Cap_Button.x = Rects.Cap.x + Rects.Cap.w + 12;
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(Textures.Cap_Button.Data[0], Rects.Cap_Hitbox, 4, Colors.Cherry_Blossom);
-		SDL_RenderTexture(Core.Renderer, Textures.Cap.Data[0], NULL, &Rects.Cap);
+		Render_Button(&Textures.Cap_Button.Data[0], &Rects.Cap_Hitbox, 4, Colors.Cherry_Blossom);
+		Render_Texture(Textures.Cap.Data[0], &Rects.Cap);
 		Rects.Cap.x = Backing_Rectangle.x - Rects.Cap.w;
-		Rects.Cap_Button.x = Rects.Cap.x -
-			Rects.Cap_Button.w - 12;
+		Rects.Cap_Button.x = Rects.Cap.x - Rects.Cap_Button.w - 12;
 		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
 		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(Textures.Cap_Button.Data[1], Rects.Cap_Hitbox, 5, Colors.Cherry_Blossom);
-		SDL_RenderTexture(Core.Renderer, Textures.Cap.Data[1], NULL, &Rects.Cap);
-		SDL_RenderTexture(Core.Renderer, Textures.Tool.Data[Interface.Tool], NULL, &Rects.Tool[Interface.Tool]);
+		Render_Button(&Textures.Cap_Button.Data[1], &Rects.Cap_Hitbox, 5, Colors.Cherry_Blossom);
+		Render_Texture(Textures.Cap.Data[1], &Rects.Cap);
+		Render_Texture(Textures.Tool.Data[Interface.Tool], &Rects.Tool[Interface.Tool]);
 	}
 	if (Interface.Tool == 0) {
 		char Machine_Text[64];
 		char Price_Query[64];
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Placing_Item - 1], Price_Query);
-		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text,
-			strlen(Machine_Text), Colors.Abyss_Black);
+		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text, 0, Colors.Abyss_Black);
 		SDL_FRect Machine_Rectangle = {
-			(float)(Settings.Screen_Size * 312) - (Machine_Surface->w * 0.5),
+			(float)(Settings.Screen_Size * 312) - (Machine_Surface->w * 0.5f),
 			Settings.Screen_Size * 290.0f,
 			Machine_Surface->w + (float)(Settings.Screen_Size * 16),
 			TTF_GetFontHeight(Fonts.Subtext_Font) + (float)(Settings.Screen_Size * 18)
@@ -56,9 +54,9 @@ void Render_Toolbar() {
 		Machine_Rectangle.w = Machine_Surface->w;
 		Machine_Rectangle.h = Machine_Surface->h;
 		SDL_Texture* Machine_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Machine_Surface);
-		SDL_RenderTexture(Core.Renderer, Machine_Texture, NULL, &Machine_Rectangle);
+		Render_Texture(Machine_Texture, &Machine_Rectangle);
 		SDL_DestroySurface(Machine_Surface);
-		SDL_DestroyTexture(Machine_Texture);
+		free_texture(Machine_Texture);
 	}
 }
 
@@ -70,13 +68,12 @@ void Verify_Settings() {
 			break;
 		}
 	}
-	if (Settings.Screen_Size != Interface.Slider_Positions[0] + 1 || Keybinds_Altered ||
-		(int)(Settings.AA_Temporary) != Settings.Anti_Aliasing ||
-		(int)(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS !=
-		Interface.Slider_Positions[4] || Settings.Volume != Interface.Slider_Positions[5] ||
-		Interface.Slider_Positions[6] != Settings.Fullscreen) {
-		Render_Button(Textures.Apply, Rects.Apply, 2, Colors.Cherry_Blossom);
-		Render_Button(Textures.Cancel, Rects.Cancel, 3, Colors.Cherry_Blossom);
+	if (Settings.Screen_Size != Interface.Slider_Positions[0] + 1 || Keybinds_Altered || (int)(Settings.AA_Temporary) !=
+		Settings.Anti_Aliasing || (int)(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS !=
+		Interface.Slider_Positions[4] || Settings.Volume != Interface.Slider_Positions[5] || Interface.Slider_Positions[6] !=
+		Settings.Fullscreen) {
+		Render_Button(&Textures.Apply, &Rects.Apply, 2, Colors.Cherry_Blossom);
+		Render_Button(&Textures.Cancel, &Rects.Cancel, 3, Colors.Cherry_Blossom);
 	}
 }
 
@@ -87,7 +84,7 @@ void Render_Tile_Prompts() {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				for (int Counter = 0; Counter < intlen(Metadata.Quirk_Positions[Q_Interactable]); Counter++) {
-						if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][Counter]) {
+					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][Counter]) {
 						char Subcore[64];
 						char Sub2core[64];
 						strcpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]));
@@ -95,8 +92,8 @@ void Render_Tile_Prompts() {
 							Sub2core[Counter] = (char)(tolower(Sub2core[Counter]));
 						}
 						snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
-						SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Subcore,
-							strlen(Subcore), Colors.Cherry_Blossom);
+						SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Subcore, 0,
+							Colors.Cherry_Blossom);
 						SDL_FRect Carrying_Rectangle = {
 							(float)(Settings.Screen_Size * 320) - (Carrying_Surface->w * 0.5),
 							Settings.Screen_Size * 320.0f,
@@ -109,9 +106,9 @@ void Render_Tile_Prompts() {
 							(Carrying_Rectangle.w / Settings.Screen_Size) + 8,
 							(Carrying_Rectangle.h / Settings.Screen_Size) + 8,
 							Colors.Light_Grey, Colors.Dark_Grey);
-						SDL_RenderTexture(Core.Renderer, Carrying_Texture, NULL, &Carrying_Rectangle);
+						Render_Texture(Carrying_Texture, &Carrying_Rectangle);
 						SDL_DestroySurface(Carrying_Surface);
-						SDL_DestroyTexture(Carrying_Texture);
+						free_texture(Carrying_Texture);
 					}
 				}
 			}
@@ -140,8 +137,8 @@ void Render_Interaction() {
 						case Fluid_Generator:
 							Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Target_Tile.X][
 								Interface.Target_Tile.Y][3];
-							Interface.Slider_Positions[10] = Data.Settings_Grid[Interface.Target_Tile.X][
-								Interface.Target_Tile.Y][4] / 5;
+							Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Target_Tile.X][
+								Interface.Target_Tile.Y][4] * 0.2f);
 							for (int Counter = 0; Counter < LDE_VALVE300LENGTH; Counter++) {
 								if (Data.Settings_Grid[Interface.Target_Tile.X][Interface.Target_Tile.Y][5] ==
 									Interface.Valve300_Postions[Counter]) {
@@ -166,10 +163,24 @@ void Render_Effects() {
 	if (Interface.Effects[E_Heat] > 0) {
 		//std::cout << "boilin'" << " ";
 	}
+	if (Interface.Effects[E_Radiation] > 0) {
+		Set_Renderer_Color(Colors.Pure_White);
+		uint32_t State = (uint32_t)(SDL_GetTicks() & UINT8_MAX);
+		for (int Counter = 0; Counter < floor(Interface.Effects[E_Radiation]); Counter++) {
+			step_c(State);
+			int X = State % (Settings.Screen_Size * 640);
+			step_c(State);
+			int Y = State % (Settings.Screen_Size * 320);
+			SDL_RenderPoint(Core.Renderer, (float)X, (float)Y);
+		}
+		Clear_Renderer();
+		//play geiger tick
+	}
 }
 
 void Find_Effect() {
 	Interface.Effects[E_Heat] = 0;
+	Interface.Effects[E_Radiation] = 0;
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			for (int Counter = 0; Counter < intlen(Metadata.Heating_Machines); Counter++) {
@@ -177,6 +188,17 @@ void Find_Effect() {
 					X * 40 > Core.Camera.X && Y * 40 > Core.Camera.Y && X * 40 <
 					Core.Camera.X + 640 && Y * 40 < Core.Camera.Y + 360) {
 					Interface.Effects[E_Heat] += 0.1;
+					return;
+				}
+			}
+			for (int Counter = 0; Counter < intlen(Metadata.Irradiating_Machines); Counter++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[Counter]) {
+					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
+					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
+					float Distance = sqrtf(sqr_f(A) + sqr_f(B)) / (float)LDE_TILESIZE;
+					Interface.Effects[E_Radiation] += fmax(((int)(-0.2625 * sqr_f(Distance)) + 105) * Settings.Screen_Size,
+						0.0f);
+					return;
 				}
 			}
 		}
@@ -187,26 +209,25 @@ void Cache_Blueprint() {
 	int Width;
 	int Height;
 	ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &Width, &Height);
-	int Maximum = (Width > Height ? Width : Height) * Settings.Screen_Size * 40;
-	SDL_DestroyTexture(Cache.Blueprint_Cache);
+	int Maximum = (Width > Height ? Width : Height) * Settings.Screen_Size * LDE_TILESIZE;
+	free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer, Maximum, Maximum);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer, Width *
-		Settings.Screen_Size * 40, Height * Settings.Screen_Size * 40);
+	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer, Width * Settings.Screen_Size * LDE_TILESIZE, Height *
+		Settings.Screen_Size * LDE_TILESIZE);
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
 	for (int X = 0; X < Width; X++) {
 		for (int Y = 0; Y < Height; Y++) {
 			SDL_FRect Pasting_Rectangle = Rects.Tile_1x1;
-			Pasting_Rectangle.x = X * Settings.Screen_Size * 40;
-			Pasting_Rectangle.y = Y * Settings.Screen_Size * 40;
-			SDL_RenderTexture(Core.Renderer, Textures.Tile_Texture,
-				NULL, &Pasting_Rectangle);
+			Pasting_Rectangle.x = X * Settings.Screen_Size * LDE_TILESIZE;
+			Pasting_Rectangle.y = Y * Settings.Screen_Size * LDE_TILESIZE;
+			Render_Texture(Textures.Tile_Texture, &Pasting_Rectangle);
 		}
 	}
 	SDL_SetRenderTarget(Core.Renderer, Cache.Blueprint_Cache);
-	SDL_RenderTexture(Core.Renderer, Backing, NULL, NULL);
-	SDL_DestroyTexture(Backing);
+	Render_Texture(Backing, NULL);
+	free_texture(Backing);
 	int Rotation = Interface.Placing_Rotation * 90;
 	for (int Counter = 0; Counter < intlen(Metadata.Quirk_Positions[Q_Non_Rotatable]); Counter++) {
 		if (Metadata.Quirk_Positions[Q_Non_Rotatable][Counter] == Interface.Placing_Item - 1) {
@@ -214,19 +235,19 @@ void Cache_Blueprint() {
 		}
 	}
 	SDL_FPoint Centerpoint = { Maximum * 0.5f, Maximum * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[
-		Interface.Placing_Item - 1], NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[Interface.Placing_Item - 1], NULL, NULL, Rotation,
+		&Centerpoint, SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Placing_Item - 1] * 1.1)) +
-		Metadata.Machine_Taxes[Interface.Placing_Item - 1] + 1;
+	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Placing_Item - 1] * 1.1)) + Metadata.Machine_Taxes[
+		Interface.Placing_Item - 1] + 1;
 }
 
-void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position,
-	int X, int Y, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible) {
+void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
+	SDL_Color Primary, SDL_Color Secondary, bool Text_Visible) {
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {
 		(float)(X * Settings.Screen_Size),
@@ -262,7 +283,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		Set_Renderer_Color(Secondary);
 	}
 	SDL_FRect Node_Rectangle = {
-		(float)((((double)(*Position) / Nodes) * Width) + X - 6) * Settings.Screen_Size,
+		(float)((((float)(*Position) / Nodes) * Width) + X - 6) * Settings.Screen_Size,
 		(float)(Y - 6) * Settings.Screen_Size,
 		Settings.Screen_Size * 12.0f,
 		Settings.Screen_Size * 12.0f
@@ -274,8 +295,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 	SDL_RenderFillRect(Core.Renderer, &Node_Rectangle);
 	Clear_Renderer();
 	if (Text_Visible) {
-		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position],
-			strlen(Labels[*Position]), Primary);
+		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position], 0, Primary);
 		SDL_FRect Caption_Rectangle = {
 			(float)(((((double)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
 			(float)(Y + 10) * Settings.Screen_Size,
@@ -283,8 +303,8 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 			(float)(Caption_Surface->h)
 		};
 		SDL_Texture* Caption_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Caption_Surface);
-		SDL_RenderTexture(Core.Renderer, Caption_Texture, NULL, &Caption_Rectangle);
+		Render_Texture(Caption_Texture, &Caption_Rectangle);
 		SDL_DestroySurface(Caption_Surface);
-		SDL_DestroyTexture(Caption_Texture);
+		free_texture(Caption_Texture);
 	}
 }

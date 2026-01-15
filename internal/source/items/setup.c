@@ -3,7 +3,7 @@
 Recipe* I_Recipes[LDE_MACHINES][8];
 Recipe* O_Recipes[LDE_MACHINES][8];
 Recipe* IO_Recipes[LDE_MACHINES][8];
-Recipe* All_Recipes[3][LDE_MACHINES][8];
+Recipe* All_Recipes[LDE_RECIPETYPES][LDE_MACHINES][8];
 
 void Prep_Items() {
     Fish_Catalog[0] = Preset_Fish.Milkfish;

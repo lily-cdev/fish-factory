@@ -51,8 +51,7 @@ void Print_Fatal_Error(int Input) {
 	char Code[4];
 	To_Code(Input, Code);
 	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", Code, Errors[Input]);
-	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, strlen(Carrier),
-		Colors.Cherry_Blossom);
+	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, 0, Colors.Cherry_Blossom);
 	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_FRect Destination = {
 		(Settings.Screen_Size * 230.0f) - (Carrying_Surface->w * 0.5f),
@@ -60,11 +59,10 @@ void Print_Fatal_Error(int Input) {
 		(float)(Carrying_Surface->w),
 		(float)(Carrying_Surface->h)
 	};
-	SDL_RenderTexture(Core.Renderer, Carrying_Texture,
-		NULL, &Destination);
+	Render_Texture(Carrying_Texture, &Destination);
 	SDL_DestroySurface(Carrying_Surface);
-	SDL_DestroyTexture(Carrying_Texture);
-	Render_Button(Textures.Error_Exit, Rects.Error_Exit, 3, Colors.Cherry_Blossom);
+	free_texture(Carrying_Texture);
+	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, 3, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
 		const char* Parameters[2] = {
 			"quit",
@@ -89,7 +87,7 @@ void Render_Backing() {
 
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes) {
 	for (int Counter = 0; Counter < Hitboxes->Length; Counter++) {
-		Render_Button((*Buttons).Data[Counter], (*Hitboxes).Data[Counter], Counter + 3, Colors.Pure_White);
+		Render_Button(&Buttons->Data[Counter], &Hitboxes->Data[Counter], Counter + 3, Colors.Pure_White);
 	}
 }
 
@@ -144,9 +142,9 @@ void Backward_Essentials() {
 
 void Render_Necessities(char* Machine, char* Prefix) {
 	char Buffer[64];
-	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.exe", Machine);
-	Render_Dynamic_Text(Fonts.Terminal_Font, Buffer, Colors.Cherry_Blossom, 50, 50);
-	Render_Dynamic_Text(Fonts.Terminal_Font, "> ", Colors.Cherry_Blossom, 50, 300);
+	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.elf", Machine);
+	Process_Supply(&Supplies.Terminal_Title, Buffer, Fonts.Terminal_Font, Colors.Cherry_Blossom, 50, 50);
+	Render_Texture(Textures.Terminal_Prompt, &Rects.Terminal_Prompt);
 	if (strlen(Interface.Terminal_Entry) > 0) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
@@ -162,12 +160,12 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		}
 		Result[Index] = '\0';
 		if (strlen(Result) > 0) {
-			Render_Dynamic_Text(Fonts.Terminal_Font, Result, Colors.Cherry_Blossom, 64, 300);
+			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, 64, 300);
 		}
 	}
 	for (int Counter = LDE_LOGMAX - 1; Counter > LDE_INVALID; Counter--) {
-		Render_Dynamic_Text(Fonts.Terminal_Font, Interface.Terminal_Logs[Counter], Colors.Cherry_Blossom,
-			50, 280 - (Counter * 20));
+		Process_Supply(&Supplies.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter], Fonts.Terminal_Font,
+			Colors.Cherry_Blossom, 50, 280 - (Counter * 20));
 	}
 }
 
@@ -228,7 +226,7 @@ void Process_Commands() {
 	Buffers.Commands[Base + 2] = LDE_TERMINATOR;
 	for (int Counter = 0; Counter < intlen(Buffers.Commands); Counter++) {
 		if (Interface.UI_Selection == Counter + 3) {
-			Return_Command(Buffers.Commands[Counter], Buffers.Parameters[Counter], Interface.Terminal_Entry);
+			Return_Command(Buffers.Commands[Counter], (const char**)Buffers.Parameters[Counter], Interface.Terminal_Entry);
 		}
 	}
 	for (int Counter = 3; Counter < intlen(Buffers.Commands) + 3; Counter++) {

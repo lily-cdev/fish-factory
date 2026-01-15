@@ -4,7 +4,7 @@ enum Machine {
     Reinforced_Pipe,
     Ram_Pump,
     Incinerator,
-    Piezo_Generator,
+    RTG,
     Decoration,
     Submarine_Dock,
     Filtration_Plant,
@@ -68,7 +68,8 @@ enum Prompts {
 };
 
 enum Effect {
-    E_Heat
+    E_Heat,
+    E_Radiation
 };
 
 enum State {

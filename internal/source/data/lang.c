@@ -41,6 +41,7 @@ void Load_Full(const char* Path, char** Input) {
 		fclose(File);
 		return;
 	}
+	rewind(File);
 	fread(*Input, sizeof(char), Length, File);
 	(*Input)[Length] = '\0';
 	fclose(File);
@@ -65,6 +66,9 @@ bool Load_Text() {
 	Metadata.Heating_Machines[0] = Incinerator;
 	Metadata.Heating_Machines[1] = Geo_Well;
 	Metadata.Heating_Machines[2] = LDE_TERMINATOR;
+	Metadata.Irradiating_Machines = malloc(sizeof(int) * 3);
+	Metadata.Irradiating_Machines[0] = RTG;
+	Metadata.Irradiating_Machines[1] = LDE_TERMINATOR;
     Load_TXT("names", Metadata.Names, LDE_MACHINES);
 	Load_TXT("descriptions", Metadata.Descriptions, LDE_MACHINES);
 	Load_TXT("categories", Metadata.Categories, LDE_CATEGORIES);
@@ -97,5 +101,7 @@ void Free_Text() {
 	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
 		free_c(Keybinds.Keybind_Texts[Counter]);
 	}
+	free_c(Metadata.Heating_Machines);
+	free_c(Metadata.Irradiating_Machines);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
 }
