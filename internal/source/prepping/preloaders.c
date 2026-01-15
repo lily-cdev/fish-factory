@@ -267,8 +267,7 @@ void Preload_Assets() {
 			Rects.Subcategories.Data[Counter1].Data[Counter2].Length = 2;
 			Rects.Subcategories.Data[Counter1].Data[Counter2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcategories.Data[Counter1].Data[Counter2].Data[0].x = LDE_INVALID;
-			Rects.Subcategories.Data[Counter1].Data[Counter2].Data[0].y = (float)(
-				(Counter2 * 30) + 40) * Settings.Screen_Size;
+			Rects.Subcategories.Data[Counter1].Data[Counter2].Data[0].y = (float)((Counter2 * 30) + 40) * Settings.Screen_Size;
 			Load_Button(Fonts.Halftext_Font, Metadata.Subcategories[Metadata.Subcategory_Positions[
 				Counter1][Counter2]], &Textures.Subcategories.Data[Counter1].Data[Counter2],
 				Rects.Subcategories.Data[Counter1].Data[Counter2], Colors.Abyss_Black, Colors.Cherry_Blossom);
@@ -417,10 +416,10 @@ void Preload_Assets() {
 	Rects.Log_Background.h = (float)(Carrying_Surface->h / 6) * Settings.Screen_Size;
 	SDL_DestroySurface(Carrying_Surface);
 	memset(Interface.Log_Heights, 0, sizeof(Interface.Log_Heights));
-	Cache.Log_Rectangles.Data = calloc(3, sizeof(Rect_Array));
-	Cache.Log_Rectangles.Length = 3;
-	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * 3);
-	Cache.Log_Cache.Length = 3;
+	Cache.Log_Rectangles.Data = calloc(LDE_LOGS, sizeof(Rect_Array));
+	Cache.Log_Rectangles.Length = LDE_LOGS;
+	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * LDE_LOGS);
+	Cache.Log_Cache.Length = LDE_LOGS;
 	for (int Counter1 = 0; Counter1 < LDE_LOGS; Counter1++) {
 		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[Counter1], 0, 0, Temporary.Log_Inversions[Counter1],
 			true) - (Settings.Screen_Size * 210);

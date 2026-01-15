@@ -47,14 +47,14 @@ bool Place_Distillery(int X, int Y) {
 		Data.Data_Grid[X][Y][Power_Cap] = 2500;
 		Data.Animation_Grid[X][Y][0] = 0;
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.D_Inputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.D_Inputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = 1;
 			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 6;
 			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] =
 				Interface.Placing_Rotation + Left;
 		}
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.D_Outputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.D_Outputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = 2;
 			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 4;
@@ -134,7 +134,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 	if (Check_Clearance(X, Y, 3, 3)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.FM_Inputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.FM_Inputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			int Orientation = (int)(floor(Counter / 3.0f) * 2) + Left;
 			Orientation -= Interface.Placing_Rotation;
@@ -143,7 +143,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = F_In;
 			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Orientation;
 		}
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.FM_Outputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.FM_Outputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			int Orientation = (Counter * 2) + Up;
 			Orientation -= Interface.Placing_Rotation;

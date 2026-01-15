@@ -450,7 +450,7 @@ bool Detect_Mouse_Collision(const SDL_FRect Target);
 bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2);
 void Generate_Preconfigs();
 void Free_Preconfigs();
-void Return_Nodes(Node Yield, const int Column, const int Row, const int Rotation, Node Preconfig[4]);
+void Return_Nodes(Node* Yield, const int Column, const int Row, const int Rotation, Node Preconfig[4]);
 bool Check_Clearance(const int X, const int Y, const int W, const int H);
 void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H);
 void Push_Docks(Point Input);

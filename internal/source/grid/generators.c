@@ -23,7 +23,7 @@ bool Place_Bio_Generator(int X, int Y) {
 		Data.Data_Grid[X][Y][5] = 60;
 		Data.Data_Grid[X][Y][6] = 60;
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.BG_Inputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.BG_Inputs);
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][1] = 4;
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = 1;
 		{
@@ -147,7 +147,7 @@ bool Place_Turbine_Input(int X, int Y) {
 	if (Placed) {
 		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 120;
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.STI_Inputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.STI_Inputs);
 		Data.Settings_Grid[Interface.Target_Tile.X][Interface.Target_Tile.Y][3] = 0;
 		Data.Settings_Grid[Interface.Target_Tile.X][Interface.Target_Tile.Y][4] = 0;
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][Fluid_Cap] = LDE_LARGECAP;
@@ -183,7 +183,7 @@ bool Place_Turbine_Output(int X, int Y) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 2);
 		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 128;
 		Node Nodes;
-		Return_Nodes(Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.STO_Outputs);
+		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.STO_Outputs);
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][Fluid_Cap] = LDE_LARGECAP;
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = F_Out;
 		Data.Plumbing_Grid[Nodes.Data[0].X][Nodes.Data[0].Y] = Interface.Placing_Rotation + Left;

@@ -65,8 +65,8 @@ void Update_Machines() {
 				}
 				break;
 			case Distillery:
-				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.D_Inputs);
-				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.D_Outputs);
+				Return_Nodes(&Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.D_Inputs);
+				Return_Nodes(&Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.D_Outputs);
 				Process_Recipe(Preset_IO_Recipes.D_Water, Column, Row, Inputs, Outputs);
 				break;
 			case Algae_Bed:
@@ -74,7 +74,7 @@ void Update_Machines() {
 					Data.Data_Grid[Column + 1][Row + 2][Stored_Fluids] <= 2 && Data.Settings_Grid[Column][Row][1] <= 0) {
 					Data.Settings_Grid[Column][Row][1] = 2;
 				}
-				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.GB_Outputs);
+				Return_Nodes(&Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.GB_Outputs);
 				Process_O_Recipe(Preset_O_Recipes.GB_Algae, Column, Row, Outputs);
 				break;
 			case Electrolytic_Cell:
@@ -84,8 +84,9 @@ void Update_Machines() {
 						Preset_IO_Recipes.EP_Water,
 						Preset_IO_Recipes.EP_Salt
 					};
-					Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.EP_Inputs);
-					Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+					Return_Nodes(&Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+						Preconfigs.EP_Inputs);
+					Return_Nodes(&Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
 						Preconfigs.EP_Outputs);
 					for (int Counter = 0; Counter < 3; Counter++) {
 						Process_Recipe(Selected_Recipes[Counter], Column, Row, Inputs, Outputs);
@@ -104,9 +105,9 @@ void Update_Machines() {
 						Data.Animation_Grid[Column][Row][0] = 0;
 						Node Subinputs;
 						Node Suboutputs;
-						Return_Nodes(Subinputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+						Return_Nodes(&Subinputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
 							Preconfigs.FM_Inputs);
-						Return_Nodes(Suboutputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
+						Return_Nodes(&Suboutputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]),
 							Preconfigs.FM_Outputs);
 						if (Process_Recipe(Selected_Recipes[Counter], Column, Row, Subinputs, Suboutputs)) {
 							Data.Animation_Grid[Column][Row][0] = 1;
@@ -129,8 +130,8 @@ void Update_Machines() {
 				if (Data.Data_Grid[Column][Row][Stored_Power] < 2500) {
 					Conditional = false;
 				}
-				Return_Nodes(Inputs, Column, Row, Rotation, Preconfigs.GW_Inputs);
-				Return_Nodes(Outputs, Column, Row, Rotation, Preconfigs.GW_Outputs);
+				Return_Nodes(&Inputs, Column, Row, Rotation, Preconfigs.GW_Inputs);
+				Return_Nodes(&Outputs, Column, Row, Rotation, Preconfigs.GW_Outputs);
 				if (Data.Data_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y][Stored_Fluids] < 8 || Data.Data_Grid[
 					Outputs.Data[Rotation].X][Outputs.Data[Rotation].Y][Stored_Fluids] > 0) {
 					Conditional = false;
@@ -173,8 +174,8 @@ void Update_Machines() {
 			case R_Intersection:
 			case L_Intersection:
 				//check4hazard!
-				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.I_Inputs);
-				Return_Nodes(Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.I_Outputs);
+				Return_Nodes(&Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.I_Inputs);
+				Return_Nodes(&Outputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.I_Outputs);
 				for (int Counter = 0; Counter < 2; Counter++) {
 					int OX = Outputs.Data[Counter].X;
 					int OY = Outputs.Data[Counter].Y;
@@ -192,8 +193,8 @@ void Update_Machines() {
 				break;
 			case Turbine_Input:
 				Data.Settings_Grid[Column][Row][7] = 0;
-				Return_Nodes(Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.STI_Inputs);
-				Return_Nodes(Outputs, Data.Settings_Grid[Column][Row][5], Data.Settings_Grid[Column][Row][6],
+				Return_Nodes(&Inputs, Column, Row, Visual_To_Rotation(Data.Visual_Grid[Column][Row]), Preconfigs.STI_Inputs);
+				Return_Nodes(&Outputs, Data.Settings_Grid[Column][Row][5], Data.Settings_Grid[Column][Row][6],
 					Visual_To_Rotation(Data.Visual_Grid[(int)(Data.Settings_Grid[Column][Row][5])][(int)(Data.Settings_Grid[
 					Column][Row][6])]), Preconfigs.STO_Outputs);
 				if (Data.Settings_Grid[Column][Row][3] > 0 && Data.Settings_Grid[Column][Row][4] == 1 && Data.Items_Grid[

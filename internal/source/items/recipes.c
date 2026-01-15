@@ -185,7 +185,7 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, 
 
 void Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]) {
 	Node Nodes;
-	Return_Nodes(Nodes, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfiguration);
+	Return_Nodes(&Nodes, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfiguration);
 	Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
 	if (Data.Settings_Grid[X][Y][1] <= 0) {
 		Data.Settings_Grid[X][Y][1] = 0;
