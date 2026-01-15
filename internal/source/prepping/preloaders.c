@@ -508,24 +508,27 @@ void Preload_Assets() {
 	String2 Carrier;
 	Carrier.Length = 4;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int Counter = 0; Counter < 4; Counter++) {
-		Carrier.Data[Counter] = Metadata.Buttons[Counter + 27];
+	for (int Counter = 0; Counter < Carrier.Length; Counter++) {
+		Carrier.Data[Counter] = malloc(sizeof(char) * strlen(Metadata.Buttons[Counter + 27]) + 1);
+		strcpy(Carrier.Data[Counter], Metadata.Buttons[Counter + 27]);
 	}
-	Preload_Terminal_Sidebar(Carrier, &Textures.MSP_Buttons, &Rects.MSP_Buttons);
-	free_c(Carrier.Data);
+	Preload_Terminal_Sidebar(&Carrier, &Textures.MSP_Buttons, &Rects.MSP_Buttons);
+	Free_String2(&Carrier);
 	Carrier.Length = 4;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int Counter = 0; Counter < 4; Counter++) {
-		Carrier.Data[Counter] = Metadata.Buttons[Counter + 31];
+	for (int Counter = 0; Counter < Carrier.Length; Counter++) {
+		Carrier.Data[Counter] = malloc(sizeof(char) * strlen(Metadata.Buttons[Counter + 31]) + 1);
+		strcpy(Carrier.Data[Counter], Metadata.Buttons[Counter + 31]);
 	}
-	Preload_Terminal_Sidebar(Carrier, &Textures.SD_Buttons, &Rects.SD_Buttons);
-	free_c(Carrier.Data);
+	Preload_Terminal_Sidebar(&Carrier, &Textures.SD_Buttons, &Rects.SD_Buttons);
+	Free_String2(&Carrier);
 	Carrier.Length = 1;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	Carrier.Data[0] = Metadata.Buttons[35];
-	Preload_Terminal_Sidebar(Carrier, &Textures.HX_Buttons, &Rects.HX_Buttons);
-	Preload_Terminal_Sidebar(Carrier, &Textures.MT_Buttons, &Rects.MT_Buttons);
-	free_c(Carrier.Data);
+	Carrier.Data[0] = malloc(sizeof(char) * strlen(Metadata.Buttons[35]) + 1);
+	strcpy(Carrier.Data[0], Metadata.Buttons[35]);
+	Preload_Terminal_Sidebar(&Carrier, &Textures.HX_Buttons, &Rects.HX_Buttons);
+	Preload_Terminal_Sidebar(&Carrier, &Textures.MT_Buttons, &Rects.MT_Buttons);
+	Free_String2(&Carrier);
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[0], &Textures.Return, Rects.Return, Colors.Abyss_Black,
 		Colors.Cherry_Blossom);
 	Load_Button(Fonts.Text_Font, Metadata.Buttons[1], &Textures.New_Game, Rects.New_Game, Colors.Abyss_Black,

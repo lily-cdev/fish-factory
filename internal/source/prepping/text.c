@@ -5,21 +5,20 @@ void Recache_TT_Commands() {
 	Carrier.Length = Temporary.Docks.Length;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int Counter = 0; Counter < Carrier.Length; Counter++) {
-		char Buffer[128];
-		snprintf(Buffer, sizeof(Buffer), "Dock %d", Counter + 1);
-		Carrier.Data[Counter] = Buffer;
+		Carrier.Data[Counter] = malloc(sizeof(char) * 128);
+		snprintf(Carrier.Data[Counter], 128, "Dock %d", Counter + 1);
 	}
-	Preload_Terminal_Sidebar(Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
-	free_c(Carrier.Data);
+	Preload_Terminal_Sidebar(&Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
+	Free_String2(&Carrier);
 }
 
-void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_Array* Rectangles) {
+void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles) {
 	String2 Carrier;
-	Carrier.Length = Texts.Length + 2;
+	Carrier.Length = Texts->Length + 2;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int Counter = 0; Counter < Texts.Length; Counter++) {
-		Carrier.Data[Counter] = malloc(sizeof(char) * (strlen(Texts.Data[Counter]) + 1));
-		strcpy(Carrier.Data[Counter], Texts.Data[Counter]);
+	for (int Counter = 0; Counter < Texts->Length; Counter++) {
+		Carrier.Data[Counter] = malloc(sizeof(char) * (strlen(Texts->Data[Counter]) + 1));
+		strcpy(Carrier.Data[Counter], Texts->Data[Counter]);
 	}
 	Carrier.Data[Carrier.Length - 1] = malloc(sizeof(char) * (strlen(Metadata.Buttons[37]) + 1));
 	Carrier.Data[Carrier.Length - 2] = malloc(sizeof(char) * (strlen(Metadata.Buttons[36]) + 1));
@@ -43,17 +42,17 @@ void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_
 	Free_String2(&Carrier);
 }
 
-void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,
-	SDL_Color Color1, SDL_Color Color2) {
+void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
+	SDL_Color Color2) {
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, 0, Color1);
 	Yield->Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Button_Surface);
 	if (Rectangles.Data[0].x == LDE_INVALID) {
-		Rectangles.Data[0].x = (320 * Settings.Screen_Size) - (Button_Surface->w * 0.5);
+		Rectangles.Data[0].x = (Settings.Screen_Size * 320) - (Button_Surface->w * 0.5);
 	}
 	if (Rectangles.Data[0].y == LDE_INVALID) {
-		Rectangles.Data[0].y = (180 * Settings.Screen_Size) - (Button_Surface->h * 0.5);
+		Rectangles.Data[0].y = (Settings.Screen_Size * 180) - (Button_Surface->h * 0.5);
 	}
 	Rectangles.Data[0].w = Button_Surface->w;
 	Rectangles.Data[0].h = Button_Surface->h;

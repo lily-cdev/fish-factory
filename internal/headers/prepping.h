@@ -456,7 +456,7 @@ void Fill_Clearance(const int Identifier, const int X, const int Y, const int W,
 void Push_Docks(Point Input);
 void Pull_Docks(int Position);
 void Recache_TT_Commands();
-void Preload_Terminal_Sidebar(const String2 Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
+void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
 void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles,
 	SDL_Color Color1, SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y);
