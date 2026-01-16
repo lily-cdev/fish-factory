@@ -66,7 +66,7 @@ bool Load_Text() {
 	Metadata.Heating_Machines[0] = Incinerator;
 	Metadata.Heating_Machines[1] = Geo_Well;
 	Metadata.Heating_Machines[2] = LDE_TERMINATOR;
-	Metadata.Irradiating_Machines = malloc(sizeof(int) * 3);
+	Metadata.Irradiating_Machines = malloc(sizeof(int) * 2);
 	Metadata.Irradiating_Machines[0] = RTG;
 	Metadata.Irradiating_Machines[1] = LDE_TERMINATOR;
     Load_TXT("names", Metadata.Names, LDE_MACHINES);
@@ -83,7 +83,7 @@ bool Load_Text() {
 
 void Free_Text() {
     for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-    	free_c(Metadata.Names[Counter]);
+    	free_c(Metadata.Names[Counter]);//sus
         free_c(Metadata.Descriptions[Counter]);
     }
     for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {

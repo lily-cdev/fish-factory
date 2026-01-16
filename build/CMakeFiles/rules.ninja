@@ -12,12 +12,17 @@
 # =============================================================================
 
 #############################################
+# localized /showIncludes string
+
+msvc_deps_prefix = Note: including file: 
+
+
+#############################################
 # Rule for compiling C files.
 
 rule C_COMPILER__Fish_Factory_unscanned_Debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
   description = Building C object $out
 
 
@@ -27,7 +32,7 @@ rule C_COMPILER__Fish_Factory_unscanned_Debug
 rule RC_COMPILER__Fish_Factory_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\clang.exe $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -MD -MF $DEP_FILE -x c -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -MD -MF $DEP_FILE /fo $out $out.pp
+  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\clang-cl.exe $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE  -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE /fo $out $out.pp
   description = Building RC object $out
 
 
@@ -35,7 +40,7 @@ rule RC_COMPILER__Fish_Factory_unscanned_Debug
 # Rule for linking C executable.
 
 rule C_EXECUTABLE_LINKER__Fish_Factory_Debug
-  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\LLVM\bin\clang.exe -nostartfiles -nostdlib $FLAGS $LINK_FLAGS $in -o $TARGET_FILE -Xlinker /MANIFEST:EMBED -Xlinker /implib:$TARGET_IMPLIB -Xlinker /pdb:$TARGET_PDB -Xlinker /version:0.0  $LINK_PATH $LINK_LIBRARIES $MANIFESTS && $POST_BUILD"
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --msvc-ver=1940 --intdir=$OBJECT_DIR --rc=C:\PROGRA~1\LLVM\bin\llvm-rc.exe --mt=C:\PROGRA~1\LLVM\bin\llvm-mt.exe --manifests $MANIFESTS -- C:\PROGRA~1\LLVM\bin\lld-link.exe /nologo $in  /out:$TARGET_FILE /implib:$TARGET_IMPLIB /pdb:$TARGET_PDB /version:0.0 $LINK_FLAGS $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking C executable $TARGET_FILE
   restat = $RESTAT
 

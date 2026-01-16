@@ -1,20 +1,29 @@
 #include <prepping.h>
 
+void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
+	char Carrier[128];
+	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Fonts/%s.ttf", Path);
+	(*Yield) = TTF_OpenFont(Carrier, (float)(Settings.Screen_Size * Height));
+	if ((*Yield) == NULL) {
+		puts("aw :(");
+	}
+}
+
 void Preload_Fonts() {
-	Fonts.Logo_Font = TTF_OpenFont("Assets/Core/Fonts/Oxygen/Oxygen_Regular.ttf", Settings.Screen_Size * 32);
-	Fonts.Large_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf", Settings.Screen_Size * 24);
-	Fonts.Text_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf", Settings.Screen_Size * 18);
-	Fonts.Halftext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf", Settings.Screen_Size * 16);
-	Fonts.Subtext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf", Settings.Screen_Size * 12);
-	Fonts.Microtext_Font = TTF_OpenFont("Assets/Core/Fonts/Cantarell/Cantarell_Regular.ttf", Settings.Screen_Size * 10);
-	Fonts.Terminal_Font = TTF_OpenFont("Assets/Core/Fonts/Oxygen/Oxygen_Regular.ttf", Settings.Screen_Size * 12);
+	Load_Font("Oxygen/Oxygen_Regular", &Fonts.Logo_Font, 32);
+	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Large_Font, 24);
+	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Text_Font, 18);
+	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Halftext_Font, 16);
+	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Subtext_Font, 12);
+	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Microtext_Font, 10);
+	Load_Font("Oxygen/Oxygen_Regular", &Fonts.Terminal_Font, 12);
 }
 
 void Preload_Sounds() {
-	Load_Sound("Assets/Core/Audio/Ambient/Background.wav", &Audio.Primary_Ambience);
-	Load_Sound("Assets/Core/Audio/Machines/Filtration_Loop.wav", &Audio.Filtration_Loop);
-	Load_Sound("Assets/Core/Audio/Machines/Ram_Loop.wav", &Audio.Ram_Loop);
-	Load_Sound("Assets/Core/Audio/UI/Click.wav", &Audio.Click);
+	Load_Sound("Ambient/Background", &Audio.Primary_Ambience);
+	Load_Sound("Machines/Filtration_Loop", &Audio.Filtration_Loop);
+	Load_Sound("Machines/Ram_Loop", &Audio.Ram_Loop);
+	Load_Sound("UI/Click", &Audio.Click);
 }
 
 typedef struct {

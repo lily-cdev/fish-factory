@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Debug",
-            "type": "cppvsdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/build/Fish_Factory.exe",
             "cwd": "${workspaceFolder}/build",

@@ -4,7 +4,7 @@ echo building fish factory debug
 rmdir /s /q "build/Assets"
 
 cd "build"
-cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-m64 -ferror-limit=0" -DCMAKE_C_COMPILER=clang -DCMAKE_C_FLAGS="-m64 -ferror-limit=0" ..
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang-cl -DCMAKE_C_FLAGS="-m64 -fsanitize=undefined -ferror-limit=0" ..
 ninja
 if errorlevel 1 (
   exit /b 1
