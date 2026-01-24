@@ -5,7 +5,8 @@ void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Fonts/%s.ttf", Path);
 	(*Yield) = TTF_OpenFont(Carrier, (float)(Settings.Screen_Size * Height));
 	if ((*Yield) == NULL) {
-		puts("aw :(");
+		snprintf(Exception_Text, sizeof(Exception_Text), "could not load font \"%s\"", Carrier);
+		longjmp(Exception, I_No_Font);
 	}
 }
 
@@ -433,7 +434,7 @@ void Preload_Assets() {
 		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[Counter1], 0, 0, Temporary.Log_Inversions[Counter1],
 			true) - (Settings.Screen_Size * 210);
 		Interface.Log_Heights[Counter1] = Height;
-		int Cap = ceil((double)Height / (Settings.Screen_Size * 341));
+		int Cap = ceil((float)Height / (Settings.Screen_Size * 341));
 		Cache.Log_Rectangles.Data[Counter1].Data = calloc(Cap, sizeof(SDL_FRect));
 		Cache.Log_Rectangles.Data[Counter1].Length = Cap;
 		Cache.Log_Cache.Data[Counter1].Data = malloc(sizeof(SDL_Texture*) * Cap);

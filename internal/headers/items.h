@@ -7,12 +7,12 @@ typedef struct {
 	int Hazard;
 	int Value;
 	char Display_Name[32];
-	double Sale_Value;
-	double Toxicity;
-	double Temperature;
-	double Chemical_Energy;
-	double Boiling_Point;
-	double Vaporisation_Enthalpy;
+	float Sale_Value;
+	float Toxicity;
+	float Temperature;
+	float Chemical_Energy;
+	float Boiling_Point;
+	float Vaporisation_Enthalpy;
 } Item_Stack;
 
 typedef struct {
@@ -21,10 +21,10 @@ typedef struct {
 	int Time;
 	int Power;
 	Item_Stack Input_Items[16];
-	double Input_Counts[16];
+	float Input_Counts[16];
     int Inputs;
 	Item_Stack Output_Items[16];
-	double Output_Counts[16];
+	float Output_Counts[16];
     int Outputs;
 	int ID;
 } Recipe;
@@ -33,7 +33,7 @@ typedef struct {
 	char Name[32];
 	int Identifier;
 	int Maximum_Growth;
-	double Food_Consumption;
+	float Food_Consumption;
 } Fish;
 
 typedef struct {
@@ -126,7 +126,7 @@ Item_Stack ID_To_Item(const int ID);
 Item_Stack Get_Item_Stack_Data();
 void Purge_Items();
 bool Check_Category(int Item, Item_Category Category);
-double Calculate_Pressure(int Temperature, double Boiling_Point, double H_Vaporisation);
+float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation);
 int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
 Item_Stack Get_Fish_Item(int Identifier);

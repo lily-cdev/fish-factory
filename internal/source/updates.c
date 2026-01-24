@@ -298,7 +298,7 @@ void Update_Machines() {
 			} else if (Data.Visual_Grid[Column][Row] == 47) {
 				int Parent_X = (int)(Data.Settings_Grid[Column][Row][3]);
 				int Parent_Y = (int)(Data.Settings_Grid[Column][Row][4]);
-				double Food_Multiplier = 0;
+				float Food_Multiplier = 0;
 				if (Data.Items_Grid[Column][Row] == Preset_Items.Marine_Snow.Identifier) {
 					Food_Multiplier = 0.35;
 				} else if (Data.Items_Grid[Column][Row] == Preset_Items.Raw_Algae.Identifier) {

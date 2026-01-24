@@ -11,6 +11,8 @@
 #include <ui.h>
 
 SDL_ScaleMode Scaling_Quality;
+jmp_buf Exception;
+char Exception_Text[128];
 
 int main(int argc, char* args[]) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -27,6 +29,7 @@ int main(int argc, char* args[]) {
 	Clear_Settings();
 	Reload_All();
 	Force_Opening();
+	Handle_Exceptions();
 	while (Core.Is_Running) {
 		uint64_t Frame_Beginning = SDL_GetTicks();
 		SDL_SetRenderDrawColor(Core.Renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -435,4 +438,6 @@ int main(int argc, char* args[]) {
 	TTF_Quit();
 	SDL_Quit();
 	return 0;
+	setjmp();
+	return LDE_INVALID;
 }

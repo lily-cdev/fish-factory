@@ -52,12 +52,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <setjmp.h>
 
 #include <types.h>
 #include <enums.h>
 #include <macros.h>
 
 extern SDL_ScaleMode Scaling_Quality;
+extern jmp_buf Exception;
+extern char Exception_Text[128];
 
 SDL_Surface* Load_BMP(const char* Path);
 SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height);

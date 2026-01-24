@@ -12,13 +12,13 @@ TRANSITION Transition = {
 	.Submarine_Vertical = 0
 };
 
-double Ease_Sine(double Time) {
-	return -(cos(M_PI * Time) - 1.0f) / 2.0f;
+float Ease_Sine(float Time) {
+	return -(cos(M_PI * Time) - 1.0f) * 0.5f;
 }
 
 void Start_Transition(int Tab) {
 	Transition.Queried_Tab = Tab;
-	Transition.Maximum_Transition_Frames = Interface.Frame_Rate / 2;
+	Transition.Maximum_Transition_Frames = Interface.Frame_Rate * 0.5f;
 	Transition.Transition_Frames = 0;
 	Transition.Transition_Phase = 0;
 	Interface.Animation_Locked = true;
@@ -28,7 +28,7 @@ void Force_Opening() {
 	Transition.Transition_Phase = 2;
 	Transition.Transition_Frames = 0;
 	Transition.Queried_Tab = Interface.UI_Tab;
-	Transition.Maximum_Transition_Frames = (int)(Interface.Frame_Rate / 2);
+	Transition.Maximum_Transition_Frames = (int)(Interface.Frame_Rate * 0.5f);
 	Trigger_Ambiance();
 }
 
@@ -36,19 +36,16 @@ void Render_Closing(bool Clearing) {
 	if (Transition.Transition_Phase == 0) {
 		if (Transition.Transition_Frames < Transition.Maximum_Transition_Frames) {
 			Transition.Transition_Frames++;
-			double Percentage = Ease_Sine((double)Transition.Transition_Frames /
-				Transition.Maximum_Transition_Frames);
-			Rects.Door[0].x = (int)(((320 * Settings.Screen_Size) * Percentage) -
-				(320 * Settings.Screen_Size));
-			Rects.Door[1].x = (int)((640 * Settings.Screen_Size) -
-				((320 * Settings.Screen_Size) * Percentage));
+			float Percentage = Ease_Sine((float)Transition.Transition_Frames / Transition.Maximum_Transition_Frames);
+			Rects.Door[0].x = (int)(((Settings.Screen_Size * 320) * Percentage) - (Settings.Screen_Size * 320));
+			Rects.Door[1].x = (int)((Settings.Screen_Size * 640) - ((Settings.Screen_Size * 320) * Percentage));
 		} else {
 			Transition.Transition_Phase = 1;
 			Interface.UI_Tab = LDE_INVALID;
 			Transition.Transition_Frames = 0;
 			Transition.Maximum_Transition_Frames = (int)(Interface.Frame_Rate / 1.5);
 			Rects.Door[0].x = 0;
-			Rects.Door[1].x = 320 * Settings.Screen_Size;
+			Rects.Door[1].x = Settings.Screen_Size * 320;
 			if (Clearing) {	
 				Interface.Log_Offset = 0;
 				Temporary.Scroll_Percent = 0;
@@ -64,16 +61,17 @@ void Render_Opening() {
 	if (Transition.Transition_Phase == 2) {
 		if (Transition.Transition_Frames < Transition.Maximum_Transition_Frames) {
 			Transition.Transition_Frames++;
-			double Percentage = Ease_Sine((double)Transition.Transition_Frames /
-				Transition.Maximum_Transition_Frames);
-			Rects.Door[0].x = (int)(-((320 * Settings.Screen_Size) * Percentage));
-			Rects.Door[1].x = (int)((320 * Settings.Screen_Size) +
-				((320 * Settings.Screen_Size) * Percentage));
+			float Percentage = Ease_Sine((float)Transition.Transition_Frames / Transition.Maximum_Transition_Frames);
+			Rects.Door[0].x = (int)(-((Settings.Screen_Size * 320) * Percentage));
+			Rects.Door[1].x = (int)((Settings.Screen_Size * 320) + ((Settings.Screen_Size * 320) * Percentage));
 			Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
 			Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
-			SDL_FRect Indicator_Rectangle = { (float)(((2175 / 6.0f) + (320 * Percentage) - 20) *
-				Settings.Screen_Size), (float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
-				40.0f * Settings.Screen_Size, 40.0f * Settings.Screen_Size };
+			SDL_FRect Indicator_Rectangle = {
+				(float)(((Percentage * 320) + 342.5f) * Settings.Screen_Size),
+				(float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
+				(float)Settings.Screen_Size * LDE_TILESIZE,
+				(float)Settings.Screen_Size * LDE_TILESIZE
+			};
 			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
 			Transition.Transition_Phase = LDE_INVALID;
@@ -97,9 +95,9 @@ void Render_Submarine() {
 	if (Transition.Submarine_Phase != LDE_INVALID) {
 		switch (Transition.Submarine_Phase) {
 		case 0:
-			Transition.Submarine_Offset -= (double)(LDE_VESSELSPEED * 40) / Interface.Frame_Rate;
-			if (Transition.Submarine_Offset < (Transition.Submarine_Position.X * 40) + 120) {
-				Transition.Submarine_Offset = (Transition.Submarine_Position.X * 40) + 120;
+			Transition.Submarine_Offset -= (float)(LDE_VESSELSPEED * LDE_TILESIZE) / Interface.Frame_Rate;
+			if (Transition.Submarine_Offset < (Transition.Submarine_Position.X * LDE_TILESIZE) + 120) {
+				Transition.Submarine_Offset = (Transition.Submarine_Position.X * LDE_TILESIZE) + 120;
 				Transition.Submarine_Phase = 1;
 			}
 			break;
@@ -118,7 +116,7 @@ void Render_Submarine() {
 			}
 			break;
 		case 4:
-			Transition.Submarine_Offset -= (double)(LDE_VESSELSPEED * 40) / Interface.Frame_Rate;
+			Transition.Submarine_Offset -= (float)(LDE_VESSELSPEED * LDE_TILESIZE) / Interface.Frame_Rate;
 			if (Transition.Submarine_Offset < -3000) {
 				Transition.Submarine_Offset = 3000;
 				Transition.Submarine_Phase = LDE_INVALID;

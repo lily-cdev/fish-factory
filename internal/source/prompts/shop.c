@@ -21,7 +21,7 @@ void Render_Shop(int X, int Y) {
 		}
 		Render_Box(10, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		SDL_FRect Icon_Rectangle = Metadata.Machine_Rectangles[Interface.Placing_Item - 1];
-		double Multiplier = ((double)120 * Settings.Screen_Size) / Icon_Rectangle.w;
+		float Multiplier = ((float)Settings.Screen_Size * 120) / Icon_Rectangle.w;
 		Icon_Rectangle = (SDL_FRect){
 			(Settings.Screen_Size * 103) - (Icon_Rectangle.w * 0.5),
 			(Settings.Screen_Size * 24),

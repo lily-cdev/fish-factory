@@ -174,7 +174,7 @@ void Render_Tutorial() {
 			strcat(Text, Carrier);
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 6) {
 			int Keybind = 0;
-			double Position = 0;
+			float Position = 0;
 			char Direction[16] = "up";
 			Position = Core.Camera.Y;
 			switch (Tutorial_Stack[Temporary.Tutorial_Step].Hotkey) {

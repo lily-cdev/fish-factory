@@ -53,21 +53,21 @@ bool Save_Data(int Slot) {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			for (int Z = 0; Z < 3; Z++) {
-				fwrite(&(double){ Data.Animation_Grid[X][Y][Z] }, sizeof(double), 1, File);
+				fwrite(&(float){ Data.Animation_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
 		}
 	}
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			for (int Z = 0; Z < 7; Z++) {
-				fwrite(&(double){ Data.Data_Grid[X][Y][Z] }, sizeof(double), 1, File);
+				fwrite(&(float){ Data.Data_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
 		}
 	}
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			for (int Z = 0; Z < 16; Z++) {
-				fwrite(&(double){ Data.Settings_Grid[X][Y][Z] }, sizeof(double), 1, File);
+				fwrite(&(float){ Data.Settings_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
 		}
 	}
@@ -101,21 +101,21 @@ bool Load_Data(int Slot) {
 			for (int X = 0; X < LDE_GRIDSIZE; X++) {
 				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 					for (int Z = 0; Z < 3; Z++) {
-						fread(&Data.Animation_Grid[X][Y][Z], sizeof(double), 1, File);
+						fread(&Data.Animation_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
 				}
 			}
 			for (int X = 0; X < LDE_GRIDSIZE; X++) {
 				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 					for (int Z = 0; Z < 7; Z++) {
-						fread(&Data.Data_Grid[X][Y][Z], sizeof(double), 1, File);
+						fread(&Data.Data_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
 				}
 			}
 			for (int X = 0; X < LDE_GRIDSIZE; X++) {
 				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 					for (int Z = 0; Z < 16; Z++) {
-						fread(&Data.Settings_Grid[X][Y][Z], sizeof(double), 1, File);
+						fread(&Data.Settings_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
 				}
 			}
@@ -193,6 +193,6 @@ void Reload_All() {
 	}
 	Preload_Assets();
 	Preload_Noise();
-	double Loading_Time = (SDL_GetTicks() - Start) / 1000.0;
+	float Loading_Time = (SDL_GetTicks() - Start) / 1000.0;
 	//do smth with loading time ig
 }

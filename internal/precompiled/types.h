@@ -37,8 +37,8 @@ typedef struct {
 } Point_f;
 
 typedef struct {
-    double X;
-    double Y;
+    float X;
+    float Y;
 } Point_d;
 
 typedef struct {

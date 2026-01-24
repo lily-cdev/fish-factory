@@ -185,8 +185,8 @@ void Find_Effect() {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			for (int Counter = 0; Counter < intlen(Metadata.Heating_Machines); Counter++) {
 				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[Counter] &&
-					X * 40 > Core.Camera.X && Y * 40 > Core.Camera.Y && X * 40 <
-					Core.Camera.X + 640 && Y * 40 < Core.Camera.Y + 360) {
+					X * LDE_TILESIZE > Core.Camera.X && Y * LDE_TILESIZE > Core.Camera.Y && X * LDE_TILESIZE <
+					Core.Camera.X + 640 && Y * LDE_TILESIZE < Core.Camera.Y + 360) {
 					Interface.Effects[E_Heat] += 0.1;
 					return;
 				}
@@ -259,7 +259,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		Active = true;
 		int Separators[512];
 		for (int Counter = 0; Counter < Nodes; Counter++) {
-			Separators[Counter] = (int)(((((double)Counter / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
+			Separators[Counter] = (int)(((((float)Counter / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
 				Settings.Screen_Size;
 		}
 		Separators[Nodes] = LDE_TERMINATOR;
@@ -297,7 +297,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 	if (Text_Visible) {
 		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position], 0, Primary);
 		SDL_FRect Caption_Rectangle = {
-			(float)(((((double)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
+			(((((float)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
 			(float)(Y + 10) * Settings.Screen_Size,
 			(float)(Caption_Surface->w),
 			(float)(Caption_Surface->h)

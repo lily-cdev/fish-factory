@@ -6,9 +6,7 @@ void Startup_Miniaudio() {
 	Audio.Configuration.sampleRate = 44100;
 	Audio.Configuration.channels = 2;
 	Audio.Configuration.periodSizeInFrames = 1024;
-	if (ma_engine_init(&Audio.Configuration, &Audio.Audio_Engine) != MA_SUCCESS) {
-		puts("oops");
-	}
+	ma_engine_init(&Audio.Configuration, &Audio.Audio_Engine);
 }
 
 void Shutdown_Miniaudio() {
@@ -18,9 +16,7 @@ void Shutdown_Miniaudio() {
 void Load_Sound(const char* Path, ma_sound* Target) {
 	char Carrier[128];
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Path);
-	if (ma_sound_init_from_file(&Audio.Audio_Engine, Carrier, 0, NULL, NULL, Target) != MA_SUCCESS) {
-		puts("frick");
-	}
+	ma_sound_init_from_file(&Audio.Audio_Engine, Carrier, 0, NULL, NULL, Target);
 }
 
 void Play_Sound(ma_sound* Target, bool Looping) {

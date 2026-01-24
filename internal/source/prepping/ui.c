@@ -130,7 +130,7 @@ void Render_Game_UI() {
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
 	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 50);
 	if (Interface.Tool == 2) {
-		double Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
@@ -151,7 +151,7 @@ void Render_Game_UI() {
 			snprintf(Buffer, sizeof(Buffer), "%s °F", Subbuffer);
 			strcpy(Data_Fragments[Index], Buffer);
 			Index++;
-			double Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
+			float Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
 				Returned_Item.Vaporisation_Enthalpy);
 			int Multiplier = 1;
 			if (Pressure == LDE_INVALID) {

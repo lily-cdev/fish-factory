@@ -1,6 +1,6 @@
 #include <prepping.h>
 
-int Get_Depth(double Number) {
+int Get_Depth(float Number) {
 	for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 		if (Number > 1000) {
 			Number = Number / 1000;
@@ -11,7 +11,7 @@ int Get_Depth(double Number) {
 	return LDE_INVALID;
 }
 
-void Abbreviate_Number(long double Number, char* Buffer, int Size) {
+void Abbreviate_Number(long float Number, char* Buffer, int Size) {
 	int Marker = 0;
 	for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 		if (Number >= 1000) {
@@ -28,7 +28,7 @@ void Abbreviate_Number(long double Number, char* Buffer, int Size) {
 	}
 }
 
-void Truncate(double Number, int Depth, char* Buffer, int Size) {
+void Truncate(float Number, int Depth, char* Buffer, int Size) {
 	if (Depth == LDE_INVALID) {
 		for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
 			if (Number > 1000) {

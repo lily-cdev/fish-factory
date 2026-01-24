@@ -10,8 +10,8 @@ typedef struct {
 	Point Submarine_Position;
 	int Submarine_Side;
 	int Submarine_Phase;
-	double Submarine_Offset;
-	double Submarine_Vertical;
+	float Submarine_Offset;
+	float Submarine_Vertical;
 } TRANSITION;
 
 void Start_Transition(int Tab);

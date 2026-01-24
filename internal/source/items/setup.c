@@ -35,10 +35,10 @@ void Prep_Items() {
 	Preset_IO_Recipes.D_Water = (Recipe){ true, false, 5, 400, { Preset_Items.Saltwater }, { 4 }, 1, { Preset_Items.Salt,
 		Preset_Items.Desalinated_Water }, { 1, 2.5 }, 2, 1 };
 	Preset_IO_Recipes.EP_Water = (Recipe){ true, false, 10, 5000, { Preset_Items.Desalinated_Water }, { 12 }, 1,
-		{ Preset_Items.Hydrogen, Preset_IO_Recipes.Blank_Item, Preset_Items.Oxygen }, { 12, 0, 12 }, 3, 1 };
+		{ Preset_IO_Recipes.Blank_Item, Preset_Items.Hydrogen, Preset_Items.Oxygen }, { 0, 12, 12 }, 3, 1 };
 	Preset_IO_Recipes.EP_Saltwater = (Recipe){ true, false, 10, 5000, { Preset_Items.Saltwater }, { 12 }, 1, {
-		Preset_Items.Hydrogen, Preset_Items.Sodium_Hydroxide, Preset_Items.Chlorine }, { 6, 12, 6 }, 3, 2 };
-	Preset_IO_Recipes.EP_Salt = (Recipe){ true, false, 10, 5000, { Preset_Items.Saltwater }, { 18 }, 1,
+		Preset_Items.Sodium_Hydroxide, Preset_Items.Hydrogen, Preset_Items.Chlorine }, { 12, 6, 6 }, 3, 2 };
+	Preset_IO_Recipes.EP_Salt = (Recipe){ true, false, 10, 5000, { Preset_Items.Salt }, { 18 }, 1,
 		{ Preset_Items.Hydrogen, Preset_Items.Sodium_Hydroxide, Preset_Items.Chlorine }, { 9, 18, 9 }, 3, 3 };
 	Preset_Categories.Coolant = (Item_Category){
 		.Identifier = 0,

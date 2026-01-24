@@ -62,15 +62,15 @@ bool Check_Category(int Item, Item_Category Category) {
 	return false;
 }
 
-double Calculate_Pressure(int Temperature, double Boiling_Point, double H_Vaporisation) {
-	double Temperature_K = (Temperature + 459.67) / 1.8;
+float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation) {
+	float Temperature_K = (Temperature + 459.67) / 1.8;
 	if (Boiling_Point == LDE_INVALID && H_Vaporisation == LDE_INVALID) {
 		return LDE_INVALID;
 	} else if (Boiling_Point == -2 && H_Vaporisation == -2) {
 		return -2;
 	} else {
-		double Boiling_Point_K = (Boiling_Point + 459.67) / 1.8;
-		double ATM = pow(M_E, ((H_Vaporisation * -1000) / 8.314462618) * ((1 / Temperature_K) - (1 / Boiling_Point_K)));
+		float Boiling_Point_K = (Boiling_Point + 459.67) / 1.8;
+		float ATM = pow(M_E, ((H_Vaporisation * -1000) / 8.314462618) * ((1 / Temperature_K) - (1 / Boiling_Point_K)));
 		return ATM * 1.01325;
 	}
 }

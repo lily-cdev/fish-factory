@@ -181,20 +181,20 @@ void Place_Wire() {
 
 void Distribute_Power(Wire** Grouped_List, int Grouped, int* Sizes) {
 	for (int Counter1 = 0; Counter1 < Grouped; Counter1++) {
-		double Remaining_Power = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power];
-		double Used_Power = 0;
+		float Remaining_Power = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power];
+		float Used_Power = 0;
 		for (int Counter2 = 0; Counter2 < Sizes[Counter1]; Counter2++) {
-			double Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][
-				Grouped_List[Counter1][Counter2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[Counter1][
-				Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power]);
+			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+				Counter2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
+				Counter2].Y2][Stored_Power]);
 			Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power] =
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
-				Counter1][Counter2].Y2][Stored_Power] + Minimum;
+				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power] +
+				Minimum;
 			Remaining_Power = Remaining_Power - Minimum;
 			Used_Power = Used_Power + Minimum;
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] =
-			Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
+		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] = Data.Data_Grid[
+			Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
 	}
 }
 
