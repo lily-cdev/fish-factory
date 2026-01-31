@@ -138,8 +138,13 @@ enum Issues {
 	I_No_Font,
 	I_No_Surface_Texture,
 	I_No_Texture,
-	I_No_Image
-}
+	I_No_Image,
+	I_No_SDL3,
+	I_No_TTF3,
+	I_No_Miniaudio,
+	I_No_Window,
+	I_No_Renderer
+};
 
 enum Error {
 	No_Docked_Sub,

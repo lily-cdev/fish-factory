@@ -20,5 +20,6 @@ void Render_Closing(bool Clearing);
 void Render_Opening();
 void Trigger_Ambiance();
 void Render_Submarine();
+void Render_Transitions();
 
 extern TRANSITION Transition;

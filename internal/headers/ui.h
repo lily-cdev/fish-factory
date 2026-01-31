@@ -20,6 +20,12 @@ void Render_Shop(int X, int Y);
 void Render_Catalog(int X, int Y);
 void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
 	SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
+void Render_Application();
+void Render_Main();
+void Render_Loader();
+void Render_Settings();
+void Render_Changelog();
+void Render_Credits();
 void Render_Backing();
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes);
 void Print_Error(int Input);

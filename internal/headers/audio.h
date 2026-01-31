@@ -13,7 +13,7 @@ typedef struct {
 
 extern AUDIO Audio;
 
-void Startup_Miniaudio();
+int Startup_Miniaudio();
 void Shutdown_Miniaudio();
 void Load_Sound(const char* Path, ma_sound* Target);
 void Play_Sound(ma_sound* Target, bool Looping);

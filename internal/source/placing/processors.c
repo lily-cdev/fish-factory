@@ -51,8 +51,7 @@ bool Place_Distillery(int X, int Y) {
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
 			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = 1;
 			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 6;
-			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] =
-				Interface.Placing_Rotation + Left;
+			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Interface.Placing_Rotation + Left;
 		}
 		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.D_Outputs);
 		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
@@ -75,8 +74,7 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 			Fill_Clearance(LDE_INVALID, X, Y, 3, 2);
 			for (int Counter = 0; Counter < 3; Counter++) {
 				Data.Data_Grid[X + Counter][(int)(Interface.Placing_Rotation * 0.5) + Y][Fluid_Cap] = 20;
-				Data.Plumbing_Grid[X + Counter][(int)(Interface.Placing_Rotation * 0.5) + Y] =
-					Interface.Placing_Rotation + Up;
+				Data.Plumbing_Grid[X + Counter][(int)(Interface.Placing_Rotation * 0.5) + Y] = Interface.Placing_Rotation + Up;
 				Data.Settings_Grid[X + Counter][(int)(Interface.Placing_Rotation * 0.5) + Y][0] = 2;
 			}
 			Data.Data_Grid[X + 1][Y - (int)(Interface.Placing_Rotation * 0.5) + 1][Fluid_Cap] = 16;
@@ -96,15 +94,14 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 		if (Check_Clearance(X, Y, 2, 3)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 			for (int Counter = 0; Counter < 3; Counter++) {
-				Data.Data_Grid[X - (int)((Interface.Placing_Rotation - 1) * 0.5) +
-					1][Y + Counter][Fluid_Cap] = 20;
-				Data.Plumbing_Grid[X - (int)((Interface.Placing_Rotation - 1) * 0.5) + 1][Y +
-					Counter] = Right - (Interface.Placing_Rotation - 1);
+				Data.Data_Grid[X - (int)((Interface.Placing_Rotation - 1) * 0.5) + 1][Y + Counter][Fluid_Cap] = 20;
+				Data.Plumbing_Grid[X - (int)((Interface.Placing_Rotation - 1) * 0.5) + 1][Y + Counter] = Right - (
+					Interface.Placing_Rotation - 1);
 				Data.Settings_Grid[X - (int)((Interface.Placing_Rotation - 1) * 0.5) + 1][Y + Counter][0] = 2;
 			}
 			Data.Data_Grid[X + (int)((Interface.Placing_Rotation - 1) * 0.5)][Y + 1][Fluid_Cap] = 16;
-			Data.Plumbing_Grid[X + (int)((Interface.Placing_Rotation - 1) * 0.5)][Y + 1] =
-				(Interface.Placing_Rotation - 1) + Left;
+			Data.Plumbing_Grid[X + (int)((Interface.Placing_Rotation - 1) * 0.5)][Y + 1] = (Interface.Placing_Rotation - 1) +
+				Left;
 			Data.Settings_Grid[X + (int)((Interface.Placing_Rotation - 1) * 0.5)][Y + 1][0] = 1;
 			if (Interface.Placing_Rotation == 1) {
 				Data.Data_Grid[X][Y][5] = 13;

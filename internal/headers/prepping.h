@@ -468,7 +468,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals);
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y);
 SDL_Texture* Preload_Texture(const char* Path);
-void Abbreviate_Number(long float Number, char* Buffer, int Size);
+void Abbreviate_Number(float Number, char* Buffer, int Size);
 void Truncate(float Number, int Depth, char* Buffer, int Size);
 int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool Inverted, bool Disabled);
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);

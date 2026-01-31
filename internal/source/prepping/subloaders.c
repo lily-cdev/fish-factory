@@ -6,10 +6,8 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	SDL_FPoint Tile_Centerpoint = { LDE_TILESIZE * Size * 0.5f, LDE_TILESIZE * Size * 0.5f };
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 16);
 	Yield->Length = 16;
-	SDL_Surface* Spritesheet_Surface = Load_BMP(Buffer);
-	if (Spritesheet_Surface == NULL) {
-		puts("fail");
-	}
+	SDL_Surface* Spritesheet_Surface;
+	load_bmp(Spritesheet_Surface, Buffer);
 	SDL_Texture* Spritesheet_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Spritesheet_Surface);
 	Texture_Array Subtextures;
 	Subtextures.Data = malloc(sizeof(SDL_Texture*) * 6);
@@ -117,7 +115,8 @@ void Load_Rotational(const char* Path, Texture_Array* Yield) {
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
 	Yield->Length = 4;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 4);
-	SDL_Surface* Primary_Surface = Load_BMP(Buffer);
+	SDL_Surface* Primary_Surface;
+	load_bmp(Primary_Surface, Buffer);
 	float Maximum = Primary_Surface->w;
 	if (Primary_Surface->h > Maximum) {
 		Maximum = Primary_Surface->h;
@@ -129,8 +128,7 @@ void Load_Rotational(const char* Path, Texture_Array* Yield) {
 		Yield->Data[Counter] = SDL_GenerateTexture(Core.Renderer, Maximum, Maximum);
 		SDL_SetTextureBlendMode(Yield->Data[Counter], SDL_BLENDMODE_BLEND);
 		SDL_SetRenderTarget(Core.Renderer, Yield->Data[Counter]);
-		SDL_RenderTextureRotated(Core.Renderer, Yield->Data[0], NULL,
-			NULL, Counter * 90, &Tile_Centerpoint, SDL_FLIP_NONE);
+		SDL_RenderTextureRotated(Core.Renderer, Yield->Data[0], NULL, NULL, Counter * 90, &Tile_Centerpoint, SDL_FLIP_NONE);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
@@ -144,10 +142,8 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 		Yield->Data[Counter].Data = malloc(sizeof(SDL_Texture*) * 2);
 		Yield->Data[Counter].Length = 2;
 	}
-	SDL_Surface* Carrying_Surface = Load_BMP(Buffer);
-	if (Carrying_Surface == NULL) {
-		puts("fail");
-	}
+	SDL_Surface* Carrying_Surface;
+	load_bmp(Carrying_Surface, Buffer);
 	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_Texture* First_Texture = SDL_GenerateTexture(Core.Renderer, Carrying_Surface->w * 0.5, Carrying_Surface->h);
 	SDL_FRect Separating_Rectangle = {
@@ -188,10 +184,8 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	Yield->Length = 2;
-	SDL_Surface* Primary_Surface = Load_BMP(Buffer);
-	if (Primary_Surface == NULL) {
-		puts("fail");
-	}
+	SDL_Surface* Primary_Surface;
+	load_bmp(Primary_Surface, Buffer);
 	Rectangle->w = (Primary_Surface->w / 6) * Settings.Screen_Size;
 	Rectangle->h = (Primary_Surface->h / 6) * Settings.Screen_Size;
 	SDL_Texture* Primary_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Primary_Surface);
@@ -312,10 +306,8 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/UI/Sidebar/%s.bmp", Path);
-	SDL_Surface* Surface = Load_BMP(Buffer);
-	if (Surface == NULL) {
-		puts("fail");
-	}
+	SDL_Surface* Surface;
+	load_bmp(Surface, Buffer);
 	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Screen_Size;
 	Rectangle->y = Y * Settings.Screen_Size;
 	Rectangle->w = (float)(Surface->w / 6) * Settings.Screen_Size;
@@ -328,11 +320,9 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 SDL_Texture* Preload_Texture(const char* Path) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
-	SDL_Surface* Carrying_Surface = Load_BMP(Buffer);
-	if (Carrying_Surface == NULL) {
-		puts("fail");
-	}
-	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
-	SDL_DestroySurface(Carrying_Surface);
+	SDL_Surface* Carrier;
+	load_bmp(Carrier, Buffer);
+	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrier);
+	SDL_DestroySurface(Carrier);
 	return Carrying_Texture;
 }

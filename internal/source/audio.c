@@ -1,12 +1,13 @@
 #define MINIAUDIO_IMPLEMENTATION
 #include <audio.h>
 
-void Startup_Miniaudio() {
+int Startup_Miniaudio() {
 	Audio.Configuration = ma_engine_config_init();
 	Audio.Configuration.sampleRate = 44100;
 	Audio.Configuration.channels = 2;
+	//Audio.Configuration.playb
 	Audio.Configuration.periodSizeInFrames = 1024;
-	ma_engine_init(&Audio.Configuration, &Audio.Audio_Engine);
+	return ma_engine_init(&Audio.Configuration, &Audio.Audio_Engine);
 }
 
 void Shutdown_Miniaudio() {
@@ -16,7 +17,10 @@ void Shutdown_Miniaudio() {
 void Load_Sound(const char* Path, ma_sound* Target) {
 	char Carrier[128];
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Path);
-	ma_sound_init_from_file(&Audio.Audio_Engine, Carrier, 0, NULL, NULL, Target);
+	if (ma_sound_init_from_file(&Audio.Audio_Engine, Carrier, 0, NULL, NULL, Target) != MA_SUCCESS) {
+		//error l8er
+		puts("oe");
+	}
 }
 
 void Play_Sound(ma_sound* Target, bool Looping) {

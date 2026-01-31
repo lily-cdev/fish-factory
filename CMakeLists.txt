@@ -11,26 +11,31 @@ endif()
 add_executable(Fish_Factory
     internal/core/fish_factory.c
 	internal/source/audio.c
-	internal/source/machines.c
-	internal/source/updates.c
-	internal/source/interface.c
 	internal/source/pipes.c
-	internal/source/terminals.c
 	internal/source/transitions.c
-	internal/source/tutorials.c
-	internal/source/ui.c
 	internal/source/wires.c
+	internal/source/ui/general.c
+	internal/source/ui/application.c
+	internal/source/ui/logs.c
+	internal/source/ui/other.c
+	internal/source/ui/settings.c
+	internal/source/interface/tutorials.c
+	internal/source/interface/general.c
+	internal/source/interface/terminals.c
+	internal/source/grid/updates.c
+	internal/source/grid/machines.c
+	internal/source/grid/movement.c
 	internal/source/actions/cheats.c
 	internal/source/actions/machines.c
 	internal/source/actions/menus.c
 	internal/source/actions/none.c
-	internal/source/grid/cultivators.c
-	internal/source/grid/decorations.c
-	internal/source/grid/extractors.c
-	internal/source/grid/generators.c
-	internal/source/grid/other.c
-	internal/source/grid/processors.c
-	internal/source/grid/transporters.c
+	internal/source/placing/cultivators.c
+	internal/source/placing/decorations.c
+	internal/source/placing/extractors.c
+	internal/source/placing/generators.c
+	internal/source/placing/other.c
+	internal/source/placing/processors.c
+	internal/source/placing/transporters.c
 	internal/source/prompts/catalog.c
 	internal/source/prompts/cheats.c
 	internal/source/prompts/daily_report.c

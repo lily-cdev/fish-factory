@@ -3,8 +3,7 @@
 SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) {
 	SDL_Texture* Texture = SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Width, Height);
 	if (Texture == NULL) {
-		strcpy(Exception_Text, "could not create texture");
-		longjmp(Exception, I_No_Texture);
+		jump(I_No_Texture, "could not create texture");
 	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	return Texture;
@@ -13,19 +12,15 @@ SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) 
 SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface* Surface) {
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	if (Texture == NULL) {
-		strcpy(Exception_Text, "could not create texture from surface");
-		longjmp(Exception, I_No_Surface_Texture);
+		jump(I_No_Surface_Texture, "could not create texture from surface");
 	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	return Texture;
 }
 
 SDL_Texture* IMG_GenerateTexture(SDL_Renderer* Renderer, const char* Path) {
-	SDL_Surface* Surface = Load_BMP(Path);
-	if (Surface == NULL) {
-		snprintf(Exception_Text, sizeof(Exception_Text), "could not load image \"%s\"", Path);
-		longjmp(Exception, I_No_Image);
-	}
+	SDL_Surface* Surface;
+	load_bmp(Surface, Path);
 	SDL_Texture* Texture = SDL_GenerateTextureFromSurface(Renderer, Surface);
 	SDL_DestroySurface(Surface);
 	return Texture;

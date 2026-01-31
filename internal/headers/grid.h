@@ -13,6 +13,7 @@ void Build_Grid();
 bool Destroy_Grid();
 void Update_Machines();
 void Recast_Machines();
+void Process_Movement();
 Point Find_Linked(int Identifier, int Parent_X, int Parent_Y);
 int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral);
 bool Place_Reinforced_Pipe(int X, int Y);

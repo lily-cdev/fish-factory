@@ -44,23 +44,17 @@ void Clear_Unconnected_Wires() {
 }
 
 void Render_Wire(int Counter, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
-	SDL_RenderLine(Core.Renderer,
-		(float)((((Wires_List.Data[Counter].X1 * LDE_TILESIZE) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X1][Wires_List.Data[Counter].Y1][5] *
-		Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires_List.Data[Counter].Y1 * LDE_TILESIZE) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X1][Wires_List.Data[Counter].Y1][6] *
-		Settings.Screen_Size) - Y_Offset) - Y_Offset2),
-		(float)((((Wires_List.Data[Counter].X2 * LDE_TILESIZE) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X2][Wires_List.Data[Counter].Y2][5] *
-		Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires_List.Data[Counter].Y2 * LDE_TILESIZE) *
-		Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X2][Wires_List.Data[Counter].Y2][6] *
-		Settings.Screen_Size) - Y_Offset) - Y_Offset2));
+	SDL_RenderLine(
+		Core.Renderer,
+		(float)((((Wires_List.Data[Counter].X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		Counter].X1][Wires_List.Data[Counter].Y1][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
+		(float)((((Wires_List.Data[Counter].Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		Counter].X1][Wires_List.Data[Counter].Y1][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2),
+		(float)((((Wires_List.Data[Counter].X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		Counter].X2][Wires_List.Data[Counter].Y2][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
+		(float)((((Wires_List.Data[Counter].Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		Counter].X2][Wires_List.Data[Counter].Y2][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2)
+	);
 }
 
 void Render_Wires() {

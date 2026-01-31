@@ -272,10 +272,10 @@ void Update_Machines() {
 				free_c(tmp2.Data);
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				if (Data.Settings_Grid[Column][Row][5] != 0) {
-					if (Data.Settings_Grid[Column][Row][4] >= Data.Settings_Grid[Column][Row][5] *
-						Fish_Catalog[(int)(Data.Settings_Grid[Column][Row][6])].Food_Consumption) {
-						Data.Settings_Grid[Column][Row][4] -= Data.Settings_Grid[Column][Row][5] *
-							Fish_Catalog[(int)(Data.Settings_Grid[Column][Row][6])].Food_Consumption;
+					if (Data.Settings_Grid[Column][Row][4] >= Data.Settings_Grid[Column][Row][5] * Fish_Catalog[(int)(
+						Data.Settings_Grid[Column][Row][6])].Food_Consumption) {
+						Data.Settings_Grid[Column][Row][4] -= Data.Settings_Grid[Column][Row][5] * Fish_Catalog[(int)(
+							Data.Settings_Grid[Column][Row][6])].Food_Consumption;
 					} else {
 						if (Data.Settings_Grid[Column][Row][5] > 1) {
 							Data.Settings_Grid[Column][Row][5]--;

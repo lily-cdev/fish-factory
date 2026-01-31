@@ -5,8 +5,9 @@ void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Fonts/%s.ttf", Path);
 	(*Yield) = TTF_OpenFont(Carrier, (float)(Settings.Screen_Size * Height));
 	if ((*Yield) == NULL) {
-		snprintf(Exception_Text, sizeof(Exception_Text), "could not load font \"%s\"", Carrier);
-		longjmp(Exception, I_No_Font);
+		char Subcarrier[128];
+		snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"", Carrier);
+		jump(I_No_Font, Subcarrier);
 	}
 }
 
@@ -199,7 +200,8 @@ void Preload_Assets() {
 	Rects.Cap_Button.y = Settings.Screen_Size * 330;
 	Rects.Cap_Hitbox.Length = 2;
 	Rects.Cap_Hitbox.Data = malloc(sizeof(SDL_FRect) * 2);
-	SDL_Surface* Carrying_Surface = Load_BMP("Assets/Core/Images/UI/Other/Logo.bmp");
+	SDL_Surface* Carrying_Surface;
+	load_bmp(Carrying_Surface, "Assets/Core/Images/UI/Other/Logo.bmp");
 	Textures.Emblem = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_SetWindowIcon(Core.Window, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
@@ -418,7 +420,7 @@ void Preload_Assets() {
 		Textures.Quirk_Label.Data[Counter] = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 		SDL_DestroySurface(Carrying_Surface);
 	}
-	Carrying_Surface = Load_BMP("Assets/Core/Images/UI/Backgrounds/Scrollframe.bmp");
+	load_bmp(Carrying_Surface, "Assets/Core/Images/UI/Backgrounds/Scrollframe.bmp");
 	Textures.Log_Background = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	Rects.Log_Background.x = 0.0f;
 	Rects.Log_Background.y = 0.0f;
@@ -733,7 +735,7 @@ void Preload_Assets() {
 	Rects.Tile_6x8.h = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
 	Rects.Tile_8x6.w = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
 	Rects.Tile_8x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Carrying_Surface = Load_BMP("Assets/Core/Images/Other/Submarine.bmp");
+	load_bmp(Carrying_Surface, "Assets/Core/Images/Other/Submarine.bmp");
 	Textures.Submarine.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Submarine.Length = 2;
 	for (int Counter = 0; Counter < 2; Counter++) {

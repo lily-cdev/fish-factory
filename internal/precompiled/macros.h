@@ -8,3 +8,5 @@
 #define charcat(Victim, A) do { int Length = strlen(Victim); (Victim)[Length] = (A); (Victim)[Length + 1] = '\0'; } while(0)
 #define step_c(Victim) do { (Victim) = ((Victim) * 2891336453u) + 747796405u; (Victim) ^= (Victim) >> 16; } while(0)
 #define free_texture(Victim) do { if (Victim != NULL) { SDL_DestroyTexture(Victim); Victim = NULL; } } while(0)
+#define jump(Value, Text) do { strcpy(Exception_Text, Text); Exception_Value = Value; longjmp(Exception, Value); } while(0)
+#define load_bmp(Victim, Path) do { (Victim) = Load_BMP(Path); if ((Victim) == NULL) { char Carrier[128]; snprintf(Carrier, sizeof(Carrier), "could not load image \"%s\"", Path); jump(I_No_Image, Carrier); } } while(0)

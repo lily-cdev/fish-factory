@@ -1,5 +1,4 @@
 #include <data.h>
-
 #define VERSION 0
 
 bool Save_Settings() {

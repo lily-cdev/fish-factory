@@ -141,3 +141,26 @@ void Render_Submarine() {
 		}
 	}
 }
+
+void Render_Transitions() {
+	if (Transition.Transition_Frames < Transition.Maximum_Transition_Frames) {
+		Transition.Transition_Frames++;
+	} else {
+		Trigger_Ambiance();
+		Transition.Transition_Phase = 2;
+		Interface.UI_Tab = Transition.Queried_Tab;
+		Transition.Transition_Frames = 0;
+		Transition.Maximum_Transition_Frames = (int)(Interface.Frame_Rate * 0.5);
+	}
+	Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
+	Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
+	if (Transition.Transition_Frames > (Transition.Maximum_Transition_Frames * 0.5) || Transition.Transition_Phase == 2) {
+		SDL_FRect Indicator_Rectangle = {
+			342.5f * Settings.Screen_Size,
+			(float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
+			(float)(LDE_TILESIZE * Settings.Screen_Size),
+			(float)(LDE_TILESIZE * Settings.Screen_Size)
+		};
+		Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
+	}
+}
