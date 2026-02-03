@@ -1,7 +1,7 @@
 #include <rendering.h>
 
 void Render_Grid() {
-	for (int Counter = 0; Counter < 2; Counter++) {
+	for (int C1 = 0; C1 < 2; C1++) {
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			Update_Tilestack(false, (int)((Column * LDE_TILESIZE) - Core.Camera.X), true, LDE_INVALID);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
@@ -14,7 +14,7 @@ void Render_Grid() {
 				SDL_FRect Destination;
 				const int Valid_Pipes[2] = { Reinforced_Pipe, Large_Pipe };
 				int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
-				switch (Counter) {
+				switch (C1) {
 				case 0:
 					if (Data.Visual_Grid[Column][Row] != 0) {
 						Render_Texture(Textures.Tile_Texture, &Rects.Tile_1x1);
@@ -64,17 +64,17 @@ void Render_Grid() {
 						Offset[2].Y = 0;
 						Offset[3].X = 0;
 						Offset[3].Y = 1;
-						for (int Counter1 = 0; Counter1 < 2; Counter1++) {
-							for (int Counter2 = 0; Counter2 < 4; Counter2++) {
-								if (Visual_To_ID(Data.Visual_Grid[Column + Offset[Counter2].X][Row + Offset[Counter2].Y]) ==
-									Valid_Pipes[Counter1]) {
-									Connections[Counter2] = Counter1 + 1;
+						for (int C1 = 0; C1 < 2; C1++) {
+							for (int C2 = 0; C2 < 4; C2++) {
+								if (Visual_To_ID(Data.Visual_Grid[Column + Offset[C2].X][Row + Offset[C2].Y]) ==
+									Valid_Pipes[C1]) {
+									Connections[C2] = C1 + 1;
 								}							
 							}
 						}
-						for (int Counter1 = 0; Counter1 < 4; Counter1++) {
-							if (Connections[Counter1] != LDE_INVALID) {
-								Render_Texture(Textures.R_Pump.Data[(Connections[Counter1] * 4) + Counter1 + 3],
+						for (int C1 = 0; C1 < 4; C1++) {
+							if (Connections[C1] != LDE_INVALID) {
+								Render_Texture(Textures.R_Pump.Data[(Connections[C1] * 4) + C1 + 3],
 									&Rects.Tile_1x1);
 							}
 						}

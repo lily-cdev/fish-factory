@@ -71,10 +71,10 @@ void Prep_Items() {
 		.Length = 6
 	};
 	Recipe Null_Carrier = NULLRECIPE;
-	for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-		I_Recipes[Counter][0] = &Null_Carrier;
-		O_Recipes[Counter][0] = &Null_Carrier;
-		IO_Recipes[Counter][0] = &Null_Carrier;
+	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		I_Recipes[C1][0] = &Null_Carrier;
+		O_Recipes[C1][0] = &Null_Carrier;
+		IO_Recipes[C1][0] = &Null_Carrier;
 	}
 	O_Recipes[Ram_Pump][0] = &Preset_O_Recipes.RP_Saltwater;
 	O_Recipes[Ram_Pump][1] = &Null_Carrier;

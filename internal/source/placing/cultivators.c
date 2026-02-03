@@ -2,13 +2,13 @@
 
 bool Place_Algae_Bed(int X, int Y) {
     bool Placed = false;
-	if (evn_i(Interface.Placing_Rotation)) {
+	if (evn_i(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 2, 3)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 			Placed = true;
 			Data.Data_Grid[X][Y][5] = 52;
 			Data.Data_Grid[X][Y][6] = 32;
-			if (Interface.Placing_Rotation == 0) {
+			if (Interface.Rotation == 0) {
 				Data.Data_Grid[X][Y][5] = 28;
 				Data.Data_Grid[X][Y][6] = 88;
 			}
@@ -19,7 +19,7 @@ bool Place_Algae_Bed(int X, int Y) {
 			Placed = true;
 			Data.Data_Grid[X][Y][5] = 88;
 			Data.Data_Grid[X][Y][6] = 52;
-			if (Interface.Placing_Rotation == 1) {
+			if (Interface.Rotation == 1) {
 				Data.Data_Grid[X][Y][5] = 32;
 				Data.Data_Grid[X][Y][6] = 28;
 			}
@@ -27,20 +27,14 @@ bool Place_Algae_Bed(int X, int Y) {
 	}
 	if (Placed) {
 		Node Nodes;
-		Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.GB_Outputs);
-		for (int Counter = 0; Counter < Nodes.Length; Counter++) {
-			Data.Settings_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][0] = F_Out;
-			Data.Data_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y][Fluid_Cap] = 3;
-			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] =
-				(Interface.Placing_Rotation + Down == 4) ? 4 :
-				((Interface.Placing_Rotation + Down) & 3);
+		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.GB_Outputs);
+		for (int C1 = 0; C1 < Nodes.Length; C1++) {
+			Data.Settings_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][0] = F_Out;
+			Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Fluid_Cap] = 3;
+			Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = (Interface.Rotation + Down == 4) ? 4 : ((
+				Interface.Rotation + Down) & 3);
 		}
-		if (Interface.Placing_Rotation == 0) {
-			Data.Visual_Grid[X][Y] = 42;
-		} else {
-			Data.Visual_Grid[X][Y] =
-				Interface.Placing_Rotation + 131;
-		}
+		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 42 : Interface.Rotation + 131;
 		Data.Wiring_Grid[X][Y] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 200;
 		free_c(Nodes.Data);

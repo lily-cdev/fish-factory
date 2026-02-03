@@ -18,8 +18,8 @@ void Push_Pipe(Pipe Input) {
 
 void Pull_Pipe(int Position) {
 	if (Pipes_List.Length > 0) {
-		for (int Counter = 0; Counter < Pipes_List.Length - Position - 1; Counter++) {
-			Pipes_List.Data[Position + Counter] = Pipes_List.Data[Position + Counter + 1];
+		for (int C1 = 0; C1 < Pipes_List.Length - Position - 1; C1++) {
+			Pipes_List.Data[Position + C1] = Pipes_List.Data[Position + C1 + 1];
 		}
 		Pipes_List.Length--;
 	}
@@ -48,9 +48,9 @@ void Clear_Pipes() {
 }
 
 void Clear_Unconnected_Pipes() {
-	for (int Counter = 0; Counter < Pipes_List.Length; Counter++) {
-		if (!Pipes_List.Data[Counter].Filled) {
-			Pull_Pipe(Counter);
+	for (int C1 = 0; C1 < Pipes_List.Length; C1++) {
+		if (!Pipes_List.Data[C1].Filled) {
+			Pull_Pipe(C1);
 		}
 	}
 }
@@ -95,15 +95,15 @@ void Place_Pipe() {
 						Pipes_List.Data[Pipes_List.Length - 1].Y2 = Row;
 						Pipes_List.Data[Pipes_List.Length - 1].Filled = true;
 						Orient_Pipe(&Pipes_List.Data[Pipes_List.Length - 1]);
-						for (int Counter = 0; Counter < Pipes_List.Length - 1; Counter++) {
+						for (int C1 = 0; C1 < Pipes_List.Length - 1; C1++) {
 							int End = Pipes_List.Length - 1;
-							if ((Pipes_List.Data[Counter].X1 == Pipes_List.Data[End].X1 && Pipes_List.Data[Counter].Y1 ==
-								Pipes_List.Data[End].Y1 && Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X2 &&
-								Pipes_List.Data[Counter].Y2 == Pipes_List.Data[End].Y2) || (Pipes_List.Data[Counter].X1 ==
-								Pipes_List.Data[End].X2 && Pipes_List.Data[Counter].Y1 == Pipes_List.Data[End].Y2 &&
-								Pipes_List.Data[Counter].X2 == Pipes_List.Data[End].X1 && Pipes_List.Data[Counter].Y2 ==
+							if ((Pipes_List.Data[C1].X1 == Pipes_List.Data[End].X1 && Pipes_List.Data[C1].Y1 ==
+								Pipes_List.Data[End].Y1 && Pipes_List.Data[C1].X2 == Pipes_List.Data[End].X2 &&
+								Pipes_List.Data[C1].Y2 == Pipes_List.Data[End].Y2) || (Pipes_List.Data[C1].X1 ==
+								Pipes_List.Data[End].X2 && Pipes_List.Data[C1].Y1 == Pipes_List.Data[End].Y2 &&
+								Pipes_List.Data[C1].X2 == Pipes_List.Data[End].X1 && Pipes_List.Data[C1].Y2 ==
 								Pipes_List.Data[End].Y1)) {
-								Pull_Pipe(Counter);
+								Pull_Pipe(C1);
 								Pull_Pipe(Pipes_List.Length - 1);
 								break;
 							}
@@ -126,44 +126,44 @@ void Place_Pipe() {
 }
 
 void Render_Pipes() {
-	for (int Counter = 0; Counter < Pipes_List.Length; Counter++) {
-		if (Pipes_List.Data[Counter].Filled) {
-			Rects.Tile_1x1.x = (int)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) + Pipes_List.Data[Counter].X_Offset -
+	for (int C1 = 0; C1 < Pipes_List.Length; C1++) {
+		if (Pipes_List.Data[C1].Filled) {
+			Rects.Tile_1x1.x = (int)((Pipes_List.Data[C1].X1 * LDE_TILESIZE) + Pipes_List.Data[C1].X_Offset -
 				Core.Camera.X) * Settings.Screen_Size;
-			Rects.Tile_1x1.y = (int)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) + Pipes_List.Data[Counter].Y_Offset -
+			Rects.Tile_1x1.y = (int)((Pipes_List.Data[C1].Y1 * LDE_TILESIZE) + Pipes_List.Data[C1].Y_Offset -
 				Core.Camera.Y) * Settings.Screen_Size;
-			Render_Texture(Textures.Arrow.Data[Pipes_List.Data[Counter].Orienation], &Rects.Tile_1x1);
+			Render_Texture(Textures.Arrow.Data[Pipes_List.Data[C1].Orienation], &Rects.Tile_1x1);
 		} else {
-			Rects.Sapling.x = (float)((Pipes_List.Data[Counter].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-			Rects.Sapling.y = (float)((Pipes_List.Data[Counter].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Rects.Sapling.x = (float)((Pipes_List.Data[C1].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+			Rects.Sapling.y = (float)((Pipes_List.Data[C1].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 			Render_Texture(Textures.Sapling, &Rects.Sapling);
 		}
 	}
 }
 
 void Distribute_Fluid(Pipe** Grouped_List, int Grouped, int* Sizes) {
-	for (int Counter1 = 0; Counter1 < Grouped; Counter1++) {
-		float Remaining_Fluid = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids];
+	for (int C1 = 0; C1 < Grouped; C1++) {
+		float Remaining_Fluid = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids];
 		float Used_Fluid = 0;
-		for (int Counter2 = 0; Counter2 < Sizes[Counter1]; Counter2++) {
-			if (Data.Items_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2] == LDE_INVALID ||
-				Data.Items_Grid[Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1] == Data.Items_Grid[
-				Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2]) {
-				float Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[
-					Counter1][Counter2].Y2][1] - Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
-					Counter2].Y2][Stored_Fluids]);
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] =
-					Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Fluids] +
+		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
+			if (Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2] == LDE_INVALID ||
+				Data.Items_Grid[Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1] == Data.Items_Grid[
+				Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2]) {
+				float Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[
+					C1][C2].Y2][1] - Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][
+					C2].Y2][Stored_Fluids]);
+				Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] =
+					Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] +
 					Minimum;
-				Update_Item(Grouped_List[Counter1][Counter2].X2, Grouped_List[Counter1][Counter2].Y2, Data.Items_Grid[
-					Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1], Data.Temperature_Grid[
-					Grouped_List[Counter1][Counter2].X1][Grouped_List[Counter1][Counter2].Y1]);
+				Update_Item(Grouped_List[C1][C2].X2, Grouped_List[C1][C2].Y2, Data.Items_Grid[
+					Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1], Data.Temperature_Grid[
+					Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1]);
 				Remaining_Fluid = Remaining_Fluid - Minimum;
 				Used_Fluid = Used_Fluid + Minimum;
 			}
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] = Data.Data_Grid[
-			Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Fluids] - Used_Fluid;
+		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids] = Data.Data_Grid[
+			Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids] - Used_Fluid;
 	}
 }
 
@@ -172,17 +172,17 @@ void Update_Pipes() {
 	int* Sizes = calloc(Pipes_List.Length, sizeof(int));
 	int Grouped = 0;
     if (Pipes_List.Length > 0) {
-		for (int Counter1 = 0; Counter1 < Pipes_List.Length; Counter1++) {
-			if (Pipes_List.Data[Counter1].Filled) {
-				Pipe Temporary_Pipe = Pipes_List.Data[Counter1];
+		for (int C1 = 0; C1 < Pipes_List.Length; C1++) {
+			if (Pipes_List.Data[C1].Filled) {
+				Pipe Temporary_Pipe = Pipes_List.Data[C1];
 				if (Grouped > 0) {
 					bool Uncategorized = true;
-					for (int Counter2 = 0; Counter2 < Grouped; Counter2++) {
-						if (Temporary_Pipe.X1 == Grouped_List[Counter2][0].X1 && Temporary_Pipe.Y1 == Grouped_List[
-							Counter2][0].Y1) {
-							Grouped_List[Counter2] = realloc(Grouped_List[Counter2], sizeof(Pipe) * (Counter2 + 1));
-							Grouped_List[Counter2][Counter2] = Temporary_Pipe;
-							Sizes[Counter2] = Counter2 + 1;
+					for (int C2 = 0; C2 < Grouped; C2++) {
+						if (Temporary_Pipe.X1 == Grouped_List[C2][0].X1 && Temporary_Pipe.Y1 == Grouped_List[
+							C2][0].Y1) {
+							Grouped_List[C2] = realloc(Grouped_List[C2], sizeof(Pipe) * (C2 + 1));
+							Grouped_List[C2][C2] = Temporary_Pipe;
+							Sizes[C2] = C2 + 1;
 							Uncategorized = false;
 							break;
 						}
@@ -203,8 +203,8 @@ void Update_Pipes() {
 		}
 		Distribute_Fluid(Grouped_List, Grouped, Sizes);
 	}
-	for (int Counter = 0; Counter < Grouped; Counter++) {
-		free_c(Grouped_List[Counter]);
+	for (int C1 = 0; C1 < Grouped; C1++) {
+		free_c(Grouped_List[C1]);
 	}
 	free_c(Grouped_List);
 	free_c(Sizes);

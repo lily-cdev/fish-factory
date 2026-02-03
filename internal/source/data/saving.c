@@ -1,16 +1,16 @@
 #include <data.h>
 
 void Get_Filesizes() {
-	for (int Counter = 0; Counter < 4; Counter++) {
+	for (int C1 = 0; C1 < 4; C1++) {
 		char Path[64];
-		snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", Counter + 1);
+		snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", C1 + 1);
 		FILE* File = fopen(Path, "rb");
 		if (File == NULL) {
-			Core.Save_Filesizes[Counter] = 0;
+			Core.Save_Filesizes[C1] = 0;
 			continue;
 		}
 		fseek(File, 0L, SEEK_END);
-		Core.Save_Filesizes[Counter] = ftell(File);
+		Core.Save_Filesizes[C1] = ftell(File);
 		fclose(File);
 	}
 }
@@ -159,8 +159,8 @@ void Reload_All() {
 	Preload_Fonts();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
-	for (int Counter = 0; Counter < LDE_ITEMS; Counter++) {
-		strcpy(Interface.Slider_Texts[9][Counter], Preset_Items.Item_List[Counter].Display_Name);
+	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+		strcpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name);
 	}
 	strcpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING);
 	Adjust_Sound(Settings.Volume * 0.01f);
@@ -181,16 +181,8 @@ void Reload_All() {
 	default:
 		break;
 	}
-	if (Settings.Anti_Aliasing == 0) {
-		Scaling_Quality = SDL_SCALEMODE_NEAREST;
-	} else {
-		Scaling_Quality = SDL_SCALEMODE_LINEAR;
-	}
-	if (Settings.VSync == 0) {
-		SDL_SetRenderVSync(Core.Renderer, 0);
-	} else {
-		SDL_SetRenderVSync(Core.Renderer, 1);
-	}
+	Scaling_Quality = (Settings.Anti_Aliasing == 0) ? SDL_SCALEMODE_NEAREST : SDL_SCALEMODE_LINEAR;
+	(Settings.VSync == 0) ? SDL_SetRenderVSync(Core.Renderer, 0) : SDL_SetRenderVSync(Core.Renderer, 1);
 	Preload_Assets();
 	Preload_Noise();
 	float Loading_Time = (SDL_GetTicks() - Start) / 1000.0;

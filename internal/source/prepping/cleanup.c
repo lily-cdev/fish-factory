@@ -1,48 +1,48 @@
 #include <prepping.h>
 
 void Free_String2(String2* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		free_c((*Target).Data[Counter]);
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		free_c((*Target).Data[C1]);
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Texture_Array(Texture_Array* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		free_texture((*Target).Data[Counter]);
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		free_texture((*Target).Data[C1]);
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Texture2_Array(Texture2_Array* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		Clear_Texture_Array(&((*Target).Data[Counter]));
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		Clear_Texture_Array(&((*Target).Data[C1]));
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Texture3_Array(Texture3_Array* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		Clear_Texture2_Array(&((*Target).Data[Counter]));
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		Clear_Texture2_Array(&((*Target).Data[C1]));
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Rect2_Array(Rect2_Array* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		free_c((*Target).Data[Counter].Data);
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		free_c((*Target).Data[C1].Data);
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Rect3_Array(Rect3_Array* Target) {
-	for (int Counter = 0; Counter < (*Target).Length; Counter++) {
-		Clear_Rect2_Array(&((*Target).Data[Counter]));
+	for (int C1 = 0; C1 < (*Target).Length; C1++) {
+		Clear_Rect2_Array(&((*Target).Data[C1]));
 	}
 	free_c((*Target).Data);
 	(*Target).Length = 0;

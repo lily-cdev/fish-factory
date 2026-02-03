@@ -1,11 +1,11 @@
 #include <prepping.h>
 
 int Get_Depth(float Number) {
-	for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
+	for (int C1 = 0; C1 < LDE_SUFFIXES - 1; C1++) {
 		if (Number > 1000) {
 			Number = Number / 1000;
 		} else {
-			return Counter;
+			return C1;
 		}
 	}
 	return LDE_INVALID;
@@ -13,7 +13,7 @@ int Get_Depth(float Number) {
 
 void Abbreviate_Number(float Number, char* Buffer, int Size) {
 	int Marker = 0;
-	for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
+	for (int C1 = 0; C1 < LDE_SUFFIXES - 1; C1++) {
 		if (Number >= 1000) {
 			Marker++;
 			Number = Number / 1000;
@@ -30,7 +30,7 @@ void Abbreviate_Number(float Number, char* Buffer, int Size) {
 
 void Truncate(float Number, int Depth, char* Buffer, int Size) {
 	if (Depth == LDE_INVALID) {
-		for (int Counter = 0; Counter < LDE_SUFFIXES - 1; Counter++) {
+		for (int C1 = 0; C1 < LDE_SUFFIXES - 1; C1++) {
 			if (Number > 1000) {
 				Number /= 1000;
 			} else {

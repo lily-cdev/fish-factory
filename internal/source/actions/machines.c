@@ -59,16 +59,13 @@ void Handle_Spawning_Pool(int X, int Y) {
 
 void Handle_Transmitter(int X, int Y) {
 	Forward_Essentials(Rects.TT_Buttons.Length, 0);
-	if (Interface.UI_Selection > 3 && Interface.UI_Selection <
-		Temporary.Docks.Length + 4) {
-		if (Transition.Submarine_Position.X == LDE_INVALID &&
-			Transition.Submarine_Position.Y == LDE_INVALID) {
+	if (Interface.UI_Selection > 3 && Interface.UI_Selection < Temporary.Docks.Length + 4) {
+		if (Transition.Sub_Pos.X == LDE_INVALID && Transition.Sub_Pos.Y == LDE_INVALID) {
 			Print_Response("submarine sent");
-			Transition.Submarine_Position = Temporary.Docks.Data[
-				Interface.UI_Selection - 4];
-			Transition.Submarine_Phase = 0;
-			Transition.Submarine_Offset = 3000;
-			Transition.Submarine_Vertical = 105;
+			Transition.Sub_Pos = Temporary.Docks.Data[Interface.UI_Selection - 4];
+			Transition.Sub_Phase = 0;
+			Transition.Sub_Offset = 3000;
+			Transition.Sub_Vertical = 105;
 		} else {
 			Print_Error(Docked_Sub);
 		}
@@ -79,34 +76,34 @@ void Handle_Transmitter(int X, int Y) {
 void Handle_Dock(int X, int Y) {
 	Forward_Essentials(Rects.SD_Buttons.Length, 0);
 	if (Interface.UI_Selection == 3) {
-		if (Transition.Submarine_Position.X == X &&
-			Transition.Submarine_Position.Y == Y &&
-			Transition.Submarine_Phase == 2) {
+		if (Transition.Sub_Pos.X == X &&
+			Transition.Sub_Pos.Y == Y &&
+			Transition.Sub_Phase == 2) {
 			int Issues[2] = { 0, 0 };
-			for (int Counter1 = 0; Counter1 < 2; Counter1++) {
-				if (ID_To_Item((int)(Data.Settings_Grid[X][Y][Counter1 + 5])).Value < 1 && Data.Settings_Grid[X][Y][
-					Counter1 + 5] != LDE_INVALID) {
-					Issues[Counter1] = 1;
+			for (int C1 = 0; C1 < 2; C1++) {
+				if (ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Value < 1 && Data.Settings_Grid[X][Y][C1 + 5] !=
+					LDE_INVALID) {
+					Issues[C1] = 1;
 				}
-				if (Data.Settings_Grid[X][Y][Counter1 + 5] == LDE_INVALID) {
-					Issues[Counter1] = 2;
+				if (Data.Settings_Grid[X][Y][C1 + 5] == LDE_INVALID) {
+					Issues[C1] = 2;
 				}
 			}
 			if (Issues[0] == 0 || Issues[1] == 0) {
-				for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-					if (Issues[Counter2] == 0) {
-						Data.Funds += Data.Settings_Grid[X][Y][Counter2 + 3] * ID_To_Item((int)(Data.Settings_Grid[X][Y][
-							Counter2 + 5])).Sale_Value;
-						Data.Settings_Grid[X][Y][Counter2 + 3] = 0;
-						Data.Settings_Grid[X][Y][Counter2 + 5] = LDE_INVALID;
+				for (int C2 = 0; C2 < 2; C2++) {
+					if (Issues[C2] == 0) {
+						Data.Funds += Data.Settings_Grid[X][Y][C2 + 3] * ID_To_Item((int)(Data.Settings_Grid[X][Y][C2 +
+							5])).Sale_Value;
+						Data.Settings_Grid[X][Y][C2 + 3] = 0;
+						Data.Settings_Grid[X][Y][C2 + 5] = LDE_INVALID;
 					}
 				}
 				Print_Response("Items sold");
-				Transition.Submarine_Phase = 3;
+				Transition.Sub_Phase = 3;
 			} else {
 				int Errors[2] = { Low_Value, Empty_Target };
-				for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-					Print_Error(Errors[Issues[Counter2] - 1]);
+				for (int C2 = 0; C2 < 2; C2++) {
+					Print_Error(Errors[Issues[C2] - 1]);
 				}
 			}
 		} else {
@@ -114,32 +111,32 @@ void Handle_Dock(int X, int Y) {
 		}
 	} else if (Interface.UI_Selection == 4) {
 		int Index = 0;
-		for (int Counter1 = 0; Counter1 < 2; Counter1++) {
+		for (int C1 = 0; C1 < 2; C1++) {
 			char Carrier1[32] = "none";
-			if (Data.Settings_Grid[X][Y][Counter1 + 5] != LDE_INVALID && ID_To_Item((int)(Data.Settings_Grid[X][Y][
-				Counter1 + 5])).Value < 1) {
+			if (Data.Settings_Grid[X][Y][C1 + 5] != LDE_INVALID && ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Value <
+				1) {
 				strcpy(Carrier1, "low_value");
 			}
 			char Subbuffer1[64];
-			Truncate(fabs(Data.Settings_Grid[X][Y][Counter1 + 3]), Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
+			Truncate(fabs(Data.Settings_Grid[X][Y][C1 + 3]), Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
 			char Subbuffer2[64];
 			Abbreviate_Number(LDE_DOCKCAPACITY, Subbuffer2, sizeof(Subbuffer2));
-			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "capacity_%d\", \"%s/%sL", Counter1 + 1,
-				Subbuffer1, Subbuffer2);
+			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "capacity_%d\", \"%s/%sL", C1 + 1, Subbuffer1,
+				Subbuffer2);
 			Index++;
-			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "flags_%i\", \"%s", Counter1 + 1, Carrier1);
+			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "flags_%i\", \"%s", C1 + 1, Carrier1);
 			Index++;
 			char Carrier2[32] = "none";
-			if (Data.Settings_Grid[X][Y][Counter1 + 5] != LDE_INVALID) {
-				strcpy(Carrier2, ID_To_Item((int)(Data.Settings_Grid[X][Y][Counter1 + 5])).Display_Name);
-				for (int Counter2 = 0; Counter2 < strlen(Carrier2); Counter2++) {
-					Carrier2[Counter2] = (char)(tolower(Carrier2[Counter2]));
-					if (Carrier2[Counter2] == ' ') {
-						Carrier2[Counter2] = '_';
+			if (Data.Settings_Grid[X][Y][C1 + 5] != LDE_INVALID) {
+				strcpy(Carrier2, ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Display_Name);
+				for (int C2 = 0; C2 < strlen(Carrier2); C2++) {
+					Carrier2[C2] = (char)(tolower(Carrier2[C2]));
+					if (Carrier2[C2] == ' ') {
+						Carrier2[C2] = '_';
 					}
 				}
 			}
-			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "item_%i\", \"%s", Counter1 + 1, Carrier2);
+			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "item_%i\", \"%s", C1 + 1, Carrier2);
 			Index++;
 		}
 		strcpy(Buffers.JSON[Index], NULLSTRING);

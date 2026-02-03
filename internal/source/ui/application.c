@@ -4,7 +4,7 @@ void Render_Application() {
     SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
 	Render_Ocean();
 	Render_Pyramid();
-	if (Interface.Building && Data.Funds - Metadata.Machine_Prices[Interface.Placing_Item - 1] > 0) {
+	if (Interface.Building && Data.Funds - Metadata.Machine_Prices[Interface.Item - 1] > 0) {
 		Build_Grid();
 		Update_Grid();
 	}
@@ -17,10 +17,10 @@ void Render_Application() {
 		Cache.Wire_State = LDE_INVALID;
 	}
 	Render_Wire_Nodes();
-	for (int Counter = 0; Counter < 4; Counter++) {
+	for (int C1 = 0; C1 < 4; C1++) {
 		int Offset_X = 0;
 		int Offset_Y = 0;
-		switch (Counter) {
+		switch (C1) {
 		case 1:
 			Offset_X = 1;
 			break;
@@ -38,7 +38,7 @@ void Render_Application() {
 		Offset_Y *= LDE_GRIDSIZE * 20;
 		Cache.Wire_Box.x = (int)(Offset_X - Core.Camera.X) * Settings.Screen_Size;
 		Cache.Wire_Box.y = (int)(Offset_Y - Core.Camera.Y) * Settings.Screen_Size;
-		Render_Texture(Cache.Wire_Cache.Data[Counter], &Cache.Wire_Box);
+		Render_Texture(Cache.Wire_Cache.Data[C1], &Cache.Wire_Box);
 	}
 	if (Interface.Tool == 4) {
 		Render_Pipes();
@@ -46,7 +46,7 @@ void Render_Application() {
 	if (Interface.Tool == 0 && Interface.UI_Selection == 0) {
 		int X;
 		int Y;
-		ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &X, &Y);
+		ID_To_Size(Interface.Item - 1, Interface.Rotation, &X, &Y);
 		Render_Blueprint(X, Y);
 	}
 	Render_Submarine();

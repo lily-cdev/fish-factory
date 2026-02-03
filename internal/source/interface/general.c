@@ -21,13 +21,12 @@ void (*Prompt_Functions[12])(int X, int Y) = {
 };
 
 void Process_Inputs() {
-	int X = Interface.Target_Tile.X;
-	int Y = Interface.Target_Tile.Y;
+	int X = Interface.Tile.X, Y = Interface.Tile.Y;
 	SDL_Event Application_Event;
 	while (SDL_PollEvent(&Application_Event)) {
 		switch (Application_Event.type) {
 		case SDL_EVENT_KEY_DOWN:
-			if (!Interface.Animation_Locked) {
+			if (!Interface.Locked) {
 				Process_Tutorial(Application_Event.key.key);
 				if (Interface.Prompt_Identifier == P_None) {
 					switch (Interface.UI_Tab) {
@@ -41,7 +40,7 @@ void Process_Inputs() {
 								Interface.Tool = 0;
 								SDL_ShowCursor();
 							}
-							Interface.Placing_Rotation = 0;
+							Interface.Rotation = 0;
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -53,7 +52,7 @@ void Process_Inputs() {
 								Interface.Tool = 1;
 								SDL_HideCursor();
 							}
-							Interface.Placing_Rotation = 0;
+							Interface.Rotation = 0;
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -65,7 +64,7 @@ void Process_Inputs() {
 								Interface.Tool = 2;
 								SDL_HideCursor();
 							}
-							Interface.Placing_Rotation = 0;
+							Interface.Rotation = 0;
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -77,7 +76,7 @@ void Process_Inputs() {
 								Interface.Tool = 3;
 								SDL_HideCursor();
 							}
-							Interface.Placing_Rotation = 0;
+							Interface.Rotation = 0;
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -89,7 +88,7 @@ void Process_Inputs() {
 								Interface.Tool = 4;
 								SDL_HideCursor();
 							}
-							Interface.Placing_Rotation = 0;
+							Interface.Rotation = 0;
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -104,9 +103,9 @@ void Process_Inputs() {
 							}
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[11]) {
 							if (Interface.Tool == Building) {
-								Interface.Placing_Rotation++;
-								if (Interface.Placing_Rotation > 3) {
-									Interface.Placing_Rotation = 0;
+								Interface.Rotation++;
+								if (Interface.Rotation > 3) {
+									Interface.Rotation = 0;
 								}
 								Cache_Blueprint();
 							}
@@ -151,7 +150,7 @@ void Process_Inputs() {
 			}
 			break;
 		case SDL_EVENT_KEY_UP:
-			if (Interface.UI_Tab == 0 && !Interface.Animation_Locked) {
+			if (Interface.UI_Tab == 0 && !Interface.Locked) {
 				if (Application_Event.key.key == Keybinds.Keybind_List[0] ||
 					Application_Event.key.key == Keybinds.Keybind_List[1]) {
 					Interface.UD_Input = LDE_INVALID;
@@ -231,7 +230,7 @@ void Process_Inputs() {
 			}			
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (!Interface.Animation_Locked) {
+			if (!Interface.Locked) {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
 					if (Interface.UI_Tab == 0) {
 						Process_Tutorial(Interface.UI_Selection);
@@ -262,7 +261,7 @@ void Process_Inputs() {
 							}
 						}
 						if (Coordinates.X != LDE_INVALID) {
-							Interface.Placing_Item = Visual_To_ID(Data.Visual_Grid[Coordinates.X][Coordinates.Y]) + 1;
+							Interface.Item = Visual_To_ID(Data.Visual_Grid[Coordinates.X][Coordinates.Y]) + 1;
 							Cache_Price();
 							Cache_Blueprint();
 							Interface.Building = false;

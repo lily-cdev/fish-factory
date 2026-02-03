@@ -14,9 +14,9 @@ void Render_MSP_Controller(int X, int Y) {
 				{ "drain_pool", NULLSTRING },
 				{ NULLSTRING }
 			};
-			for (int Counter1 = 0; Counter1 < 5; Counter1++) {
-				for (int Counter2 = 0; Counter2 < veclen(Parameters[Counter2]) + 1; Counter2++) {
-					strcpy(Buffers.Parameters[Counter1][Counter2], Parameters[Counter1][Counter2]);
+			for (int C1 = 0; C1 < 5; C1++) {
+				for (int C2 = 0; C2 < veclen(Parameters[C2]) + 1; C2++) {
+					strcpy(Buffers.Parameters[C1][C2], Parameters[C1][C2]);
 				}
 			}
 			int Command_Types[5] = {
@@ -57,12 +57,12 @@ void Render_T_Tower(int X, int Y) {
 	Render_Backing();
 	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons);
 	int Limiter = min(Temporary.Docks.Length, LDE_CMDMAX - 1);
-	for (int Counter = 0; Counter < Limiter; Counter++) {
-		Buffers.Commands[Counter] = Execute;
+	for (int C1 = 0; C1 < Limiter; C1++) {
+		Buffers.Commands[C1] = Execute;
 		char Buffer[32];
-		snprintf(Buffer, sizeof(Buffer), "SEND_DOCK_%i", Counter + 1);
-		strcpy(Buffers.Parameters[Counter][0], Buffer);
-		strcpy(Buffers.Parameters[Counter][1], NULLSTRING);
+		snprintf(Buffer, sizeof(Buffer), "SEND_DOCK_%i", C1 + 1);
+		strcpy(Buffers.Parameters[C1][0], Buffer);
+		strcpy(Buffers.Parameters[C1][1], NULLSTRING);
 	}
 	Buffers.Commands[Limiter] = LDE_TERMINATOR;
 	Buffers.Parameters[Limiter][0] = NULLSTRING;
@@ -80,9 +80,9 @@ void Render_S_Dock(int X, int Y) {
 		{ "drain_silo", "2", NULLSTRING },
 		{ NULLSTRING }
 	};
-	for (int Counter1 = 0; Counter1 < 5; Counter1++) {
-		for (int Counter2 = 0; Counter2 < veclen(Parameters[Counter2]) + 1; Counter2++) {
-			strcpy(Buffers.Parameters[Counter1][Counter2], Parameters[Counter1][Counter2]);
+	for (int C1 = 0; C1 < 5; C1++) {
+		for (int C2 = 0; C2 < veclen(Parameters[C2]) + 1; C2++) {
+			strcpy(Buffers.Parameters[C1][C2], Parameters[C1][C2]);
 		}
 	}
 	int Command_Types[5] = {

@@ -79,8 +79,8 @@ void Push_Docks(Point Input) {
 
 void Pull_Docks(int Position) {
 	if (Temporary.Docks.Length > 0) {
-		for (int Counter = 0; Counter < Temporary.Docks.Length - Position - 1; Counter++) {
-			Temporary.Docks.Data[Position + Counter] = Temporary.Docks.Data[Position + Counter + 1];
+		for (int C1 = 0; C1 < Temporary.Docks.Length - Position - 1; C1++) {
+			Temporary.Docks.Data[Position + C1] = Temporary.Docks.Data[Position + C1 + 1];
 		}
 		Temporary.Docks.Length--;
 	}
@@ -90,9 +90,9 @@ bool Check_Clearance(const int X, const int Y, const int W, const int H) {
 	if (X + W > LDE_GRIDSIZE || Y + H > LDE_GRIDSIZE) {
 		return false;
 	} 
-	for (int Counter1 = 0; Counter1 < W; Counter1++) {
-		for (int Counter2 = 0; Counter2 < H; Counter2++) {
-			if (Data.Visual_Grid[X + Counter1][Y + Counter2] != 0) {
+	for (int C1 = 0; C1 < W; C1++) {
+		for (int C2 = 0; C2 < H; C2++) {
+			if (Data.Visual_Grid[X + C1][Y + C2] != 0) {
 				return false;
 			}
 		}
@@ -101,12 +101,12 @@ bool Check_Clearance(const int X, const int Y, const int W, const int H) {
 }
 
 void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H) {
-	for (int Counter1 = 0; Counter1 < W; Counter1++) {
-		for (int Counter2 = 0; Counter2 < H; Counter2++) {
-			Data.Visual_Grid[X + Counter1][Y + Counter2] = Identifier;
-			if (Counter1 > 0 || Counter2 > 0) {
-				Data.Settings_Grid[X + Counter1][Y + Counter2][1] = X;
-				Data.Settings_Grid[X + Counter1][Y + Counter2][2] = Y;
+	for (int C1 = 0; C1 < W; C1++) {
+		for (int C2 = 0; C2 < H; C2++) {
+			Data.Visual_Grid[X + C1][Y + C2] = Identifier;
+			if (C1 > 0 || C2 > 0) {
+				Data.Settings_Grid[X + C1][Y + C2][1] = X;
+				Data.Settings_Grid[X + C1][Y + C2][2] = Y;
 			}
 		}
 	}
@@ -131,8 +131,8 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		Start = End + 1;
 	}
 	char** Fragments = malloc(sizeof(char*) * Fragment_Count);
-	for (int Counter = 0; Counter < Fragment_Count; Counter++) {
-		Fragments[Counter] = malloc(sizeof(char) * (strlen(Raw_Text) + 1));
+	for (int C1 = 0; C1 < Fragment_Count; C1++) {
+		Fragments[C1] = malloc(sizeof(char) * (strlen(Raw_Text) + 1));
 	}
 	Start = 0;
 	End = 0;
@@ -152,39 +152,39 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		Multiplier = 1;
 		Subtractor = Fragment_Count - 1;
 	}
-	for (size_t Counter = 0; Counter < Fragment_Count; Counter++) {
+	for (size_t C1 = 0; C1 < Fragment_Count; C1++) {
 		char* Position;
-		while ((Position = strstr(Fragments[Counter], "[c]")) != NULL) {
+		while ((Position = strstr(Fragments[C1], "[c]")) != NULL) {
 			memmove(Position, Position + 3, strlen(Position + 3) + 1);
 			strncpy(Position, "    ", 4);
 		}
 	}
-	for (size_t Counter1 = 0; Counter1 < Fragment_Count; Counter1++) {
+	for (size_t C1 = 0; C1 < Fragment_Count; C1++) {
 		int Type = LDE_INVALID;
 		char Targets[2][4] = { "[a]", "[b]" };
-		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
+		for (int C2 = 0; C2 < 2; C2++) {
 			bool Matched = true;
-			if (strcmp(Fragments[Multiplier * (Subtractor - Counter1)], " ") == 0) {
+			if (strcmp(Fragments[Multiplier * (Subtractor - C1)], " ") == 0) {
 				Matched = false;
 			} else {
-				for (int Counter3 = 0; Counter3 < 3; Counter3++) {
-					if (Fragments[Multiplier * (Subtractor - Counter1)][Counter3] != Targets[Counter2][Counter3]) {
+				for (int C3 = 0; C3 < 3; C3++) {
+					if (Fragments[Multiplier * (Subtractor - C1)][C3] != Targets[C2][C3]) {
 						Matched = false;
 					}
 				}
 			}
 			if (Matched) {
-				Type = Counter2;
+				Type = C2;
 				break;
 			}
 		}
 		if ((Type == 0 && Inverted) || (Type == 1 && !Inverted)) {
 			continue;
 		} else if (Type != LDE_INVALID) {
-			char* Subfragment = Fragments[Multiplier * (Subtractor - Counter1)];
+			char* Subfragment = Fragments[Multiplier * (Subtractor - C1)];
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
-		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - Counter1)],
+		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - C1)],
 			0, Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = {
 			(float)(X * Settings.Screen_Size),
@@ -200,8 +200,8 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		SDL_DestroySurface(Fragment_Surface);
 		Offset += Fragment_Rectangle.h;
 	}
-	for (int Counter = 0; Counter < Fragment_Count; Counter++) {
-		free_c(Fragments[Counter]);
+	for (int C1 = 0; C1 < Fragment_Count; C1++) {
+		free_c(Fragments[C1]);
 	}
 	free_c(Fragments);
 	return Offset;

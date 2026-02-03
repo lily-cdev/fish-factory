@@ -5,7 +5,6 @@ int Startup_Miniaudio() {
 	Audio.Configuration = ma_engine_config_init();
 	Audio.Configuration.sampleRate = 44100;
 	Audio.Configuration.channels = 2;
-	//Audio.Configuration.playb
 	Audio.Configuration.periodSizeInFrames = 1024;
 	return ma_engine_init(&Audio.Configuration, &Audio.Audio_Engine);
 }
@@ -17,10 +16,10 @@ void Shutdown_Miniaudio() {
 void Load_Sound(const char* Path, Sound* Target) {
 	char Carrier[128];
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Path);
+	memset(&(Target->Data), 0, sizeof(ma_sound));
 	if (ma_sound_init_from_file(&Audio.Audio_Engine, Carrier, 0, NULL, NULL, &(Target->Data)) != MA_SUCCESS) {
-		//error l8er
-		puts("oe");
-	}
+		puts("error");
+	}//here
 	Target->Allocated = true;
 }
 

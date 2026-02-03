@@ -53,33 +53,26 @@ bool Place_Large_Pipe(int X, int Y) {
 bool Place_RL_Intersection(int X, int Y) {
     if (Check_Clearance(X, Y, 3, 3)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
-		if (Interface.Placing_Item - 1 == R_Intersection) {
-			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 105;
-		} else {
-			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 109;
-		}
+		Data.Visual_Grid[X][Y] = Interface.Rotation + ((Interface.Item - 1 == R_Intersection) ? 105 : 109);
 		Node Nodes;
 		Return_Nodes(&Nodes, X, Y, 0, Preconfigs.I_Inputs);
-		for (int Counter = 0; Counter < 2; Counter++) {
-			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Counter + 1;
+		for (int C1 = 0; C1 < 2; C1++) {
+			Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = C1 + 1;
 		}
 		Return_Nodes(&Nodes, X, Y, 0, Preconfigs.I_Outputs);
-		for (int Counter = 0; Counter < 2; Counter++) {
-			Data.Plumbing_Grid[Nodes.Data[Counter].X][Nodes.Data[Counter].Y] = Counter + 3;
+		for (int C1 = 0; C1 < 2; C1++) {
+			Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = C1 + 3;
 		}
-		for (int Counter1 = 0; Counter1 < 2; Counter1++) {
-			if (Counter1 == 1) {
-				Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.I_Outputs);
+		for (int C1 = 0; C1 < 2; C1++) {
+			if (C1 == 1) {
+				Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.I_Outputs);
 			} else {
-				Return_Nodes(&Nodes, X, Y, Interface.Placing_Rotation, Preconfigs.I_Inputs);
+				Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.I_Inputs);
 			}
-			for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-				if (Interface.Placing_Item - 1 == R_Intersection) {
-					Data.Data_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_REINFORCEDCAP;
-				} else {
-					Data.Data_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][Fluid_Cap] = LDE_LARGECAP;
-				}
-				Data.Settings_Grid[Nodes.Data[Counter2].X][Nodes.Data[Counter2].Y][0] = Counter1 + 1;
+			for (int C2 = 0; C2 < 2; C2++) {
+				Data.Data_Grid[Nodes.Data[C2].X][Nodes.Data[C2].Y][Fluid_Cap] = (Interface.Item - 1 == R_Intersection) ?
+					LDE_REINFORCEDCAP : LDE_LARGECAP;
+				Data.Settings_Grid[Nodes.Data[C2].X][Nodes.Data[C2].Y][0] = C1 + 1;
 			}
 		}
 		free_c(Nodes.Data);

@@ -1,6 +1,6 @@
 #include <data.h>
 
-bool Yield;
+static bool Yield;
 
 void Load_TXT(const char* Path, char* Input[], int Lines) {
 	char Carrier[512];
@@ -12,15 +12,15 @@ void Load_TXT(const char* Path, char* Input[], int Lines) {
 	char Buffer[512];
 	size_t Length = 0;
 	size_t Size;
-	for (int Counter = 0; Counter < Lines; Counter++) {
+	for (int C1 = 0; C1 < Lines; C1++) {
 		fgets(Buffer, sizeof(Buffer), File);
 		int Length = strlen(Buffer);
 		if (Buffer[Length - 1] == '\n') {
 			Length--;
 		}
-		Input[Counter] = malloc(sizeof(char) * (Length + 1));
-		strcpy(Input[Counter], Buffer);
-		Input[Counter][Length] = '\0';
+		Input[C1] = malloc(sizeof(char) * (Length + 1));
+		strncpy(Input[C1], Buffer, Length);
+		Input[C1][Length] = '\0';
 	}
 	fclose(File);
 }
@@ -54,10 +54,10 @@ bool Load_Text() {
 	snprintf(Metadata.Monitor_Size, sizeof(Metadata.Monitor_Size), "%dx%d", Display->w, Display->h);
 	char Resolution_Names[LDE_SUPPORTEDRESOLUTIONS][8] = { "nHD", "HD", "FHD", "QHD", "QHD+", "4K" };
 	char Buffer[64];
-	for (int Counter = 0; Counter < LDE_SUPPORTEDRESOLUTIONS; Counter++) {
-		if (Display->w == Metadata.Supported_Resolutions[Counter].X &&
-			Display->h == Metadata.Supported_Resolutions[Counter].Y) {
-			snprintf(Buffer, sizeof(Buffer), "%s (%s)", Metadata.Monitor_Size, Resolution_Names[Counter]);
+	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
+		if (Display->w == Metadata.Supported_Resolutions[C1].X &&
+			Display->h == Metadata.Supported_Resolutions[C1].Y) {
+			snprintf(Buffer, sizeof(Buffer), "%s (%s)", Metadata.Monitor_Size, Resolution_Names[C1]);
 			break;
 		}
 	}
@@ -82,24 +82,24 @@ bool Load_Text() {
 }
 
 void Free_Text() {
-    for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-    	free_c(Metadata.Names[Counter]);//sus
-        free_c(Metadata.Descriptions[Counter]);
+    for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+    	free_c(Metadata.Names[C1]);//sus
+        free_c(Metadata.Descriptions[C1]);
     }
-    for (int Counter = 0; Counter < LDE_CATEGORIES; Counter++) {
-		free_c(Metadata.Categories[Counter]);
+    for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
+		free_c(Metadata.Categories[C1]);
 	}
-    for (int Counter = 0; Counter < LDE_SUBCATEGORIES; Counter++) {
-		free_c(Metadata.Subcategories[Counter]);
+    for (int C1 = 0; C1 < LDE_SUBCATEGORIES; C1++) {
+		free_c(Metadata.Subcategories[C1]);
 	}
-    for (int Counter = 0; Counter < LDE_BUTTONS; Counter++) {
-		free_c(Metadata.Buttons[Counter]);
+    for (int C1 = 0; C1 < LDE_BUTTONS; C1++) {
+		free_c(Metadata.Buttons[C1]);
 	}
-	for (int Counter = 0; Counter < LDE_LOGS; Counter++) {
-		free_c(Metadata.Logs[Counter]);
+	for (int C1 = 0; C1 < LDE_LOGS; C1++) {
+		free_c(Metadata.Logs[C1]);
 	}
-	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-		free_c(Keybinds.Keybind_Texts[Counter]);
+	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+		free_c(Keybinds.Keybind_Texts[C1]);
 	}
 	free_c(Metadata.Heating_Machines);
 	free_c(Metadata.Irradiating_Machines);

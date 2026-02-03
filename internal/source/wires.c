@@ -18,8 +18,8 @@ void Push_Wire(Wire Input) {
 
 void Pull_Wire(int Position) {
 	if (Wires_List.Length > 0) {
-		for (int Counter = 0; Counter < Wires_List.Length - Position - 1; Counter++) {
-			Wires_List.Data[Position + Counter] = Wires_List.Data[Position + Counter + 1];
+		for (int C1 = 0; C1 < Wires_List.Length - Position - 1; C1++) {
+			Wires_List.Data[Position + C1] = Wires_List.Data[Position + C1 + 1];
 		}
 		Wires_List.Length--;
 	}
@@ -43,26 +43,26 @@ void Clear_Unconnected_Wires() {
 	Interface.Node_Cycle = 0;
 }
 
-void Render_Wire(int Counter, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
+void Render_Wire(int C1, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
 	SDL_RenderLine(
 		Core.Renderer,
-		(float)((((Wires_List.Data[Counter].X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X1][Wires_List.Data[Counter].Y1][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires_List.Data[Counter].Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X1][Wires_List.Data[Counter].Y1][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2),
-		(float)((((Wires_List.Data[Counter].X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X2][Wires_List.Data[Counter].Y2][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires_List.Data[Counter].Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
-		Counter].X2][Wires_List.Data[Counter].Y2][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2)
+		(float)((((Wires_List.Data[C1].X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		C1].X1][Wires_List.Data[C1].Y1][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
+		(float)((((Wires_List.Data[C1].Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		C1].X1][Wires_List.Data[C1].Y1][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2),
+		(float)((((Wires_List.Data[C1].X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		C1].X2][Wires_List.Data[C1].Y2][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
+		(float)((((Wires_List.Data[C1].Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires_List.Data[
+		C1].X2][Wires_List.Data[C1].Y2][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2)
 	);
 }
 
 void Render_Wires() {
-	for (int Counter1 = 0; Counter1 < 4; Counter1++) {
-		SDL_SetRenderTarget(Core.Renderer, Cache.Wire_Cache.Data[Counter1]);
+	for (int C1 = 0; C1 < 4; C1++) {
+		SDL_SetRenderTarget(Core.Renderer, Cache.Wire_Cache.Data[C1]);
 		int Offset_X = 0;
 		int Offset_Y = 0;
-		switch (Counter1) {
+		switch (C1) {
 		case 1:
 			Offset_X = 1;
 			break;
@@ -80,16 +80,16 @@ void Render_Wires() {
 		Offset_Y *= LDE_GRIDSIZE * Settings.Screen_Size * 20;
 		SDL_RenderClear(Core.Renderer);
 		Set_Renderer_Color(Colors.Copper_Wire);
-		for (int Counter2 = 0; Counter2 < Wires_List.Length; Counter2++) {
-			if (Wires_List.Data[Counter2].Filled) {
+		for (int C2 = 0; C2 < Wires_List.Length; C2++) {
+			if (Wires_List.Data[C2].Filled) {
 				for (int X = 0; X < (int)(ceil(Settings.Screen_Size * 0.5f)); X++) {
 					for (int Y = 0; Y < (int)(ceil(Settings.Screen_Size * 0.5f)); Y++) {
-						Render_Wire(Counter2, X, Y, Offset_X, Offset_Y);
+						Render_Wire(C2, X, Y, Offset_X, Offset_Y);
 					}
 				}
 			} else {
-				Rects.Node.x = (int)((Wires_List.Data[Counter2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-				Rects.Node.y = (int)((Wires_List.Data[Counter2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+				Rects.Node.x = (int)((Wires_List.Data[C2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+				Rects.Node.y = (int)((Wires_List.Data[C2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 				Render_Texture(Textures.Node, &Rects.Node);
 			}
 		}
@@ -99,8 +99,8 @@ void Render_Wires() {
 }
 
 void Render_Wire_Nodes() {
-	for (int Counter = 0; Counter < Wires_List.Length; Counter++) {
-		if (!Wires_List.Data[Counter].Filled) {
+	for (int C1 = 0; C1 < Wires_List.Length; C1++) {
+		if (!Wires_List.Data[C1].Filled) {
 			Interface.Node_Cycle += 60.0 / Interface.Frame_Rate;
 			if (Interface.Node_Cycle > 360) {
 				Interface.Node_Cycle = 0;
@@ -109,14 +109,12 @@ void Render_Wire_Nodes() {
 				Settings.Screen_Size * LDE_TILESIZE * 0.5f,
 				Settings.Screen_Size * LDE_TILESIZE * 0.5f
 			};
-			Rects.Node.x = (int)((Wires_List.Data[Counter].X1 * LDE_TILESIZE) +
-				(Data.Data_Grid[Wires_List.Data[Counter].X1][Wires_List.Data[Counter].Y1][5]) -
-				Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
-			Rects.Node.y = (int)((Wires_List.Data[Counter].Y1 * LDE_TILESIZE) +
-				(Data.Data_Grid[Wires_List.Data[Counter].X1][Wires_List.Data[Counter].Y1][6]) -
-				Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
-			SDL_RenderTextureRotated(Core.Renderer, Textures.Node,
-				NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint, SDL_FLIP_NONE);
+			Rects.Node.x = (int)((Wires_List.Data[C1].X1 * LDE_TILESIZE) + (Data.Data_Grid[Wires_List.Data[C1].X1][
+				Wires_List.Data[C1].Y1][5]) - Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
+			Rects.Node.y = (int)((Wires_List.Data[C1].Y1 * LDE_TILESIZE) + (Data.Data_Grid[Wires_List.Data[C1].X1][
+				Wires_List.Data[C1].Y1][6]) - Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
+			SDL_RenderTextureRotated(Core.Renderer, Textures.Node, NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint,
+				SDL_FLIP_NONE);
 		}
 	}
 }
@@ -128,17 +126,13 @@ void Connect_Wire(int X, int Y) {
 			Wires_List.Data[Wires_List.Length - 1].Y2 = Y;
 			Wires_List.Data[Wires_List.Length - 1].Filled = true;
 			Cache.Wire_State = Recache;
-			for (int Counter = 0; Counter <= Wires_List.Length; Counter++) {
+			for (int C1 = 0; C1 <= Wires_List.Length; C1++) {
 				int End = Wires_List.Length - 1;
-				if ((Wires_List.Data[Counter].X1 == Wires_List.Data[End].X1 &&
-					Wires_List.Data[Counter].Y1 == Wires_List.Data[End].Y1 &&
-					Wires_List.Data[Counter].X2 == Wires_List.Data[End].X2 &&
-					Wires_List.Data[Counter].Y2 == Wires_List.Data[End].Y2) ||
-					(Wires_List.Data[Counter].X1 == Wires_List.Data[End].X2 &&
-					Wires_List.Data[Counter].Y1 == Wires_List.Data[End].Y2 &&
-					Wires_List.Data[Counter].X2 == Wires_List.Data[End].X1 &&
-					Wires_List.Data[Counter].Y2 == Wires_List.Data[End].Y1)) {
-					Pull_Wire(Counter);
+				if ((Wires_List.Data[C1].X1 == Wires_List.Data[End].X1 && Wires_List.Data[C1].Y1 == Wires_List.Data[End].Y1 &&
+					Wires_List.Data[C1].X2 == Wires_List.Data[End].X2 && Wires_List.Data[C1].Y2 == Wires_List.Data[End].Y2) ||
+					(Wires_List.Data[C1].X1 == Wires_List.Data[End].X2 && Wires_List.Data[C1].Y1 == Wires_List.Data[End].Y2 &&
+					Wires_List.Data[C1].X2 == Wires_List.Data[End].X1 && Wires_List.Data[C1].Y2 == Wires_List.Data[End].Y1)) {
+					Pull_Wire(C1);
 					Pull_Wire(Wires_List.Length - 1);
 					break;
 				}
@@ -174,21 +168,21 @@ void Place_Wire() {
 }
 
 void Distribute_Power(Wire** Grouped_List, int Grouped, int* Sizes) {
-	for (int Counter1 = 0; Counter1 < Grouped; Counter1++) {
-		float Remaining_Power = Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power];
+	for (int C1 = 0; C1 < Grouped; C1++) {
+		float Remaining_Power = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power];
 		float Used_Power = 0;
-		for (int Counter2 = 0; Counter2 < Sizes[Counter1]; Counter2++) {
-			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
-				Counter2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][
-				Counter2].Y2][Stored_Power]);
-			Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power] =
-				Data.Data_Grid[Grouped_List[Counter1][Counter2].X2][Grouped_List[Counter1][Counter2].Y2][Stored_Power] +
+		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
+			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][
+				C2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][
+				C2].Y2][Stored_Power]);
+			Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] =
+				Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] +
 				Minimum;
 			Remaining_Power = Remaining_Power - Minimum;
 			Used_Power = Used_Power + Minimum;
 		}
-		Data.Data_Grid[Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] = Data.Data_Grid[
-			Grouped_List[Counter1][0].X1][Grouped_List[Counter1][0].Y1][Stored_Power] - Used_Power;
+		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] = Data.Data_Grid[
+			Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] - Used_Power;
 	}
 }
 
@@ -197,17 +191,17 @@ void Update_Power() {
 	int* Sizes = calloc(Wires_List.Length, sizeof(int));
 	int Grouped = 0;
     if (Wires_List.Length > 0) {
-		for (int Counter1 = 0; Counter1 < Wires_List.Length; Counter1++) {
-			if (Wires_List.Data[Counter1].Filled) {
-				Wire Temporary_Wire = Wires_List.Data[Counter1];
+		for (int C1 = 0; C1 < Wires_List.Length; C1++) {
+			if (Wires_List.Data[C1].Filled) {
+				Wire Temporary_Wire = Wires_List.Data[C1];
 				if (Grouped > 0) {
 					bool Uncategorized = true;
-					for (int Counter2 = 0; Counter2 < Grouped; Counter2++) {
-						if (Temporary_Wire.X1 == Grouped_List[Counter2][0].X1 &&
-							Temporary_Wire.Y1 == Grouped_List[Counter2][0].Y1) {
-							Grouped_List[Counter2] = realloc(Grouped_List[Counter2], sizeof(Wire) * (Counter2 + 1));
-							Grouped_List[Counter2][Counter2] = Temporary_Wire;
-							Sizes[Counter2] = Counter2 + 1;
+					for (int C2 = 0; C2 < Grouped; C2++) {
+						if (Temporary_Wire.X1 == Grouped_List[C2][0].X1 &&
+							Temporary_Wire.Y1 == Grouped_List[C2][0].Y1) {
+							Grouped_List[C2] = realloc(Grouped_List[C2], sizeof(Wire) * (C2 + 1));
+							Grouped_List[C2][C2] = Temporary_Wire;
+							Sizes[C2] = C2 + 1;
 							Uncategorized = false;
 							break;
 						}
@@ -228,8 +222,8 @@ void Update_Power() {
 		}
 		Distribute_Power(Grouped_List, Grouped, Sizes);
 	}
-	for (int Counter = 0; Counter < Grouped; Counter++) {
-		free_c(Grouped_List[Counter]);
+	for (int C1 = 0; C1 < Grouped; C1++) {
+		free_c(Grouped_List[C1]);
 	}
 	free_c(Grouped_List);
 	free_c(Sizes);

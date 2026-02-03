@@ -12,7 +12,7 @@ bool Place_Flowerpot(int X, int Y) {
 
 bool Place_Ammunition_Shelf(int X, int Y) {
     bool Placed = false;
-	if (evn_i(Interface.Placing_Rotation)) {
+	if (evn_i(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 2, 1)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 1);
 			Placed = true;
@@ -24,7 +24,7 @@ bool Place_Ammunition_Shelf(int X, int Y) {
 		}
 	}
 	if (Placed) {
-		Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 52;
+		Data.Visual_Grid[X][Y] = Interface.Rotation + 52;
 	} else {
 		return false;
 	}

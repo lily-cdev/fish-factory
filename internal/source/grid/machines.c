@@ -198,20 +198,20 @@ void Restore_Cache() {
 }
 
 void Destroy_Clearance(int X, int Y, int Width, int Height) {
-	for (int Counter1 = 0; Counter1 < Width; Counter1++) {
-		for (int Counter2 = 0; Counter2 < Height; Counter2++) {
-			Data.Visual_Grid[X + Counter1][Y + Counter2] = 0;
-			Data.Connection_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			Data.Wiring_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			Data.Plumbing_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			Data.Behavior_Grid[X + Counter1][Y + Counter2] = LDE_INVALID;
-			memset(Data.Data_Grid[X + Counter1][Y + Counter2], 0, sizeof(Data.Data_Grid[X + Counter1][Y + Counter2]));
-			Data.Data_Grid[X + Counter1][Y + Counter2][4] = LDE_INVALID;
-			memset(Data.Settings_Grid[X + Counter1][Y + Counter2], LDE_INVALID, sizeof(Data.Settings_Grid[X + Counter1][
-				Y + Counter2]));
-			memset(Data.Animation_Grid[X + Counter1][Y + Counter2], LDE_INVALID, sizeof(Data.Animation_Grid[X + Counter1][
-				Y + Counter2]));
-			Update_Item(X + Counter1, Y + Counter2, LDE_INVALID, LDE_ROOMTEMP);
+	for (int C1 = 0; C1 < Width; C1++) {
+		for (int C2 = 0; C2 < Height; C2++) {
+			Data.Visual_Grid[X + C1][Y + C2] = 0;
+			Data.Connection_Grid[X + C1][Y + C2] = LDE_INVALID;
+			Data.Wiring_Grid[X + C1][Y + C2] = LDE_INVALID;
+			Data.Plumbing_Grid[X + C1][Y + C2] = LDE_INVALID;
+			Data.Behavior_Grid[X + C1][Y + C2] = LDE_INVALID;
+			memset(Data.Data_Grid[X + C1][Y + C2], 0, sizeof(Data.Data_Grid[X + C1][Y + C2]));
+			Data.Data_Grid[X + C1][Y + C2][4] = LDE_INVALID;
+			memset(Data.Settings_Grid[X + C1][Y + C2], LDE_INVALID, sizeof(Data.Settings_Grid[X + C1][
+				Y + C2]));
+			memset(Data.Animation_Grid[X + C1][Y + C2], LDE_INVALID, sizeof(Data.Animation_Grid[X + C1][
+				Y + C2]));
+			Update_Item(X + C1, Y + C2, LDE_INVALID, LDE_ROOMTEMP);
 		}
 	}
 }
@@ -238,16 +238,8 @@ void Update_Grid() {
 				if (Data.Settings_Grid[Column][Row][3] < 0) {
 					Data.Settings_Grid[Column][Row][3] = -2;
 				}
-				if (Temporary.Modular1_Requirement < 1) {
-					Data.Settings_Grid[Column][Row][3] = -3;
-				} else if (Temporary.Modular1_Requirement > 1) {
-					Data.Settings_Grid[Column][Row][3] = -4;
-				}
-				if (Temporary.Modular2_Requirement < 1) {
-					Data.Settings_Grid[Column][Row][3] = -5;
-				} else if (Temporary.Modular2_Requirement > 1) {
-					Data.Settings_Grid[Column][Row][3] = -6;
-				}
+				Data.Settings_Grid[Column][Row][3] = (Temporary.Modular1_Requirement < 1) ? -3 : -4;
+				Data.Settings_Grid[Column][Row][3] = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
 			} else if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Large_Pipe) {
@@ -271,7 +263,7 @@ void Build_Grid() {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == 0) {
-					if (Placing_Functions[Interface.Placing_Item - 1](Column, Row)) {
+					if (Placing_Functions[Interface.Item - 1](Column, Row)) {
 						Data.Funds -= Interface.Queried_Price;
 					}
 					Recast_Machines();
@@ -301,13 +293,13 @@ void Remove_Machine(int X, int Y) {
 		Update_Item(X, Y, LDE_INVALID, LDE_ROOMTEMP);
 	} else {
 		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Submarine_Dock) {
-			for (int Counter = 0; Counter < Temporary.Docks.Length; Counter++) {
-				if (Temporary.Docks.Data[Counter].X == X && Temporary.Docks.Data[Counter].Y == Y) {
-					Pull_Docks(Counter);
+			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
+				if (Temporary.Docks.Data[C1].X == X && Temporary.Docks.Data[C1].Y == Y) {
+					Pull_Docks(C1);
 				}
 			}
-			if (Transition.Submarine_Position.X == X && Transition.Submarine_Position.X == Y) {
-				Transition.Submarine_Phase = 3;
+			if (Transition.Sub_Pos.X == X && Transition.Sub_Pos.X == Y) {
+				Transition.Sub_Phase = 3;
 			}
 			Recache_TT_Commands();
 		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Command_Platform) {
@@ -315,16 +307,16 @@ void Remove_Machine(int X, int Y) {
 		}
 		Destroy_Clearance(X, Y, Width, Height);
 	}
-	for (int Counter = 0; Counter < Wires_List.Length; Counter++) {
-		if ((Wires_List.Data[Counter].X1 == X && Wires_List.Data[Counter].Y1 == Y) ||
-			(Wires_List.Data[Counter].X2 == X && Wires_List.Data[Counter].Y2 == Y)) {
-			Wires_List.Data[Counter].Filled = false;
+	for (int C1 = 0; C1 < Wires_List.Length; C1++) {
+		if ((Wires_List.Data[C1].X1 == X && Wires_List.Data[C1].Y1 == Y) ||
+			(Wires_List.Data[C1].X2 == X && Wires_List.Data[C1].Y2 == Y)) {
+			Wires_List.Data[C1].Filled = false;
 		}
 	}
-	for (int Counter = 0; Counter < Pipes_List.Length; Counter++) {
-		if ((Pipes_List.Data[Counter].X1 == X && Pipes_List.Data[Counter].Y1 == Y) ||
-			(Pipes_List.Data[Counter].X2 == X && Pipes_List.Data[Counter].Y2 == Y)) {
-			Pipes_List.Data[Counter].Filled = false;
+	for (int C1 = 0; C1 < Pipes_List.Length; C1++) {
+		if ((Pipes_List.Data[C1].X1 == X && Pipes_List.Data[C1].Y1 == Y) ||
+			(Pipes_List.Data[C1].X2 == X && Pipes_List.Data[C1].Y2 == Y)) {
+			Pipes_List.Data[C1].Filled = false;
 		}
 	}
 }

@@ -50,15 +50,15 @@ void Free_Supplies() {
 	free_texture(Supplies.Save_Text.Data);
 	free_texture(Supplies.Terminal_Title.Data);
 	free_texture(Supplies.Terminal_Command.Data);
-	for (int Counter = 0; Counter < LDE_LOGMAX; Counter++) {
-		free_texture(Supplies.Terminal_Logs[Counter].Data);
+	for (int C1 = 0; C1 < LDE_LOGMAX; C1++) {
+		free_texture(Supplies.Terminal_Logs[C1].Data);
 	}
-	for (int Counter = 0; Counter < LDE_RECIPETYPES; Counter++) {
-		free_texture(Supplies.Catalog1[Counter].Data);
-		free_texture(Supplies.Catalog2[Counter].Data);
-		free_texture(Supplies.Catalog3[Counter].Data);
+	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+		free_texture(Supplies.Catalog1[C1].Data);
+		free_texture(Supplies.Catalog2[C1].Data);
+		free_texture(Supplies.Catalog3[C1].Data);
 	}
-	for (int Counter = 0; Counter < LDE_SAVEFILES; Counter++) {
-		free_texture(Supplies.Filesizes[Counter].Data);
+	for (int C1 = 0; C1 < LDE_SAVEFILES; C1++) {
+		free_texture(Supplies.Filesizes[C1].Data);
 	}
 }

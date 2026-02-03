@@ -4,9 +4,9 @@ void Recache_TT_Commands() {
 	String2 Carrier;
 	Carrier.Length = Temporary.Docks.Length;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int Counter = 0; Counter < Carrier.Length; Counter++) {
-		Carrier.Data[Counter] = malloc(sizeof(char) * 128);
-		snprintf(Carrier.Data[Counter], 128, "Dock %d", Counter + 1);
+	for (int C1 = 0; C1 < Carrier.Length; C1++) {
+		Carrier.Data[C1] = malloc(sizeof(char) * 128);
+		snprintf(Carrier.Data[C1], 128, "Dock %d", C1 + 1);
 	}
 	Preload_Terminal_Sidebar(&Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
 	Free_String2(&Carrier);
@@ -16,9 +16,9 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 	String2 Carrier;
 	Carrier.Length = Texts->Length + 2;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int Counter = 0; Counter < Texts->Length; Counter++) {
-		Carrier.Data[Counter] = malloc(sizeof(char) * (strlen(Texts->Data[Counter]) + 1));
-		strcpy(Carrier.Data[Counter], Texts->Data[Counter]);
+	for (int C1 = 0; C1 < Texts->Length; C1++) {
+		Carrier.Data[C1] = malloc(sizeof(char) * (strlen(Texts->Data[C1]) + 1));
+		strcpy(Carrier.Data[C1], Texts->Data[C1]);
 	}
 	Carrier.Data[Carrier.Length - 1] = malloc(sizeof(char) * (strlen(Metadata.Buttons[37]) + 1));
 	Carrier.Data[Carrier.Length - 2] = malloc(sizeof(char) * (strlen(Metadata.Buttons[36]) + 1));
@@ -28,15 +28,15 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 	Yield->Data = malloc(sizeof(Texture_Array) * Carrier.Length);
 	Rectangles->Length = Carrier.Length;
 	Rectangles->Data = malloc(sizeof(Rect_Array) * Carrier.Length);
-	for (int Counter1 = 0; Counter1 < Carrier.Length; Counter1++) {
-		Rectangles->Data[Counter1].Length = 2;
-		Rectangles->Data[Counter1].Data = calloc(2, sizeof(SDL_FRect));
-		Rectangles->Data[Counter1].Data[0].x = LDE_INVALID;
-		Rectangles->Data[Counter1].Data[0].y = (float)((Counter1 * 30) + 50) * Settings.Screen_Size;
-		Load_Button(Fonts.Terminal_Font, Carrier.Data[Counter1], &Yield->Data[Counter1], Rectangles->Data[Counter1],
+	for (int C1 = 0; C1 < Carrier.Length; C1++) {
+		Rectangles->Data[C1].Length = 2;
+		Rectangles->Data[C1].Data = calloc(2, sizeof(SDL_FRect));
+		Rectangles->Data[C1].Data[0].x = LDE_INVALID;
+		Rectangles->Data[C1].Data[0].y = (float)((C1 * 30) + 50) * Settings.Screen_Size;
+		Load_Button(Fonts.Terminal_Font, Carrier.Data[C1], &Yield->Data[C1], Rectangles->Data[C1],
 			Colors.Cherry_Blossom, Colors.Pure_White);
-		for (int Counter2 = 0; Counter2 < 2; Counter2++) {
-			Rectangles->Data[Counter1].Data[Counter2].x += Settings.Screen_Size * 210;
+		for (int C2 = 0; C2 < 2; C2++) {
+			Rectangles->Data[C1].Data[C2].x += Settings.Screen_Size * 210;
 		}
 	}
 	Free_String2(&Carrier);

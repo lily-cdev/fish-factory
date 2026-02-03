@@ -4,14 +4,14 @@
 
 typedef struct {
 	int Queried_Tab;
-	int Transition_Frames;
-	int Maximum_Transition_Frames;
-	int Transition_Phase;
-	Point Submarine_Position;
-	int Submarine_Side;
-	int Submarine_Phase;
-	float Submarine_Offset;
-	float Submarine_Vertical;
+	int Frames;
+	int Max_Frames;
+	int Phase;
+	Point Sub_Pos;
+	int Sub_Side;
+	int Sub_Phase;
+	float Sub_Offset;
+	float Sub_Vertical;
 } TRANSITION;
 
 void Start_Transition(int Tab);

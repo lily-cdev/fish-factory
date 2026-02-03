@@ -5,18 +5,18 @@ SDL_Surface* None_Surfaces[10];
 
 #ifdef __unix__
 #include <pthread.h>
-void* Step_Noise(void* Counter) {
+void* Step_Noise(void* C1) {
 #elif defined(_WIN32)
 #include <Windows.h>
-unsigned long WINAPI Step_Noise(void* Counter) {
+unsigned long WINAPI Step_Noise(void* C1) {
 #endif
-	int Index = (int)(intptr_t)Counter;
+	int Index = (int)(intptr_t)C1;
 	uint32_t Shade = (uint32_t)((SDL_GetTicks() * Index) & UINT8_MAX);
 	SDL_Surface* Noise_Surface = SDL_CreateSurface(Settings.Screen_Size * 1200, Settings.Screen_Size * 1200,
 		SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Noise_Surface);
 	uint32_t* Pixels = (uint32_t*)(Noise_Surface->pixels);
-	for (int Counter2 = 0; Counter2 < sqr_i(Settings.Screen_Size * 1200); Counter2++, Pixels++) {
+	for (int C2 = 0; C2 < sqr_i(Settings.Screen_Size * 1200); C2++, Pixels++) {
 		step_c(Shade);
 		*Pixels = Lookup_Table[(Shade & 31)];
 	}
@@ -57,42 +57,42 @@ void Preload_Noise() {
 	Textures.None.Data = malloc(sizeof(SDL_Texture*) * 10);
 	Textures.None.Length = 10;
 	const SDL_PixelFormatDetails* Pixel_Format = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
-	for (int Counter = -16; Counter <= 16; Counter++) {
-		if (Counter != 0) {
+	for (int C1 = -16; C1 <= 16; C1++) {
+		if (C1 != 0) {
 			int Offset = 16;
-			if (Counter > 0) {
+			if (C1 > 0) {
 				Offset = 15;
 			}
-			Lookup_Table[Counter + Offset] = SDL_MapRGB(Pixel_Format, NULL,
-				clamp_c(Colors.Ocean.r + Counter, 0, 255),
-				clamp_c(Colors.Ocean.g + Counter, 0, 255),
-				clamp_c(Colors.Ocean.b + Counter, 0, 255)
+			Lookup_Table[C1 + Offset] = SDL_MapRGB(Pixel_Format, NULL,
+				clamp_c(Colors.Ocean.r + C1, 0, 255),
+				clamp_c(Colors.Ocean.g + C1, 0, 255),
+				clamp_c(Colors.Ocean.b + C1, 0, 255)
 			);
 		}
 	}
 	#ifdef __unix__
 		pthread_t Threads[10];
-		for (int Counter = 0; Counter < 10; Counter++) {
-			pthread_create(&Threads[Counter], NULL, Step_Noise, (void*)(intptr_t)Counter);
+		for (int C1 = 0; C1 < 10; C1++) {
+			pthread_create(&Threads[C1], NULL, Step_Noise, (void*)(intptr_t)C1);
 		}
-		for (int Counter = 0; Counter < 10; Counter++) {
-			pthread_join(Threads[Counter], NULL);
+		for (int C1 = 0; C1 < 10; C1++) {
+			pthread_join(Threads[C1], NULL);
 		}
 	#elif defined(_WIN32)
 		HANDLE Threads[10];
-		for (int Counter = 0; Counter < 10; Counter++) {
-			Threads[Counter] = CreateThread(NULL, 0, Step_Noise, (void*)(intptr_t)Counter, 0, NULL);
+		for (int C1 = 0; C1 < 10; C1++) {
+			Threads[C1] = CreateThread(NULL, 0, Step_Noise, (void*)(intptr_t)C1, 0, NULL);
 		}
 		WaitForMultipleObjects(10, Threads, true, INFINITE);
-		for (int Counter = 0; Counter < 10; Counter++) {
-			CloseHandle(Threads[Counter]);
+		for (int C1 = 0; C1 < 10; C1++) {
+			CloseHandle(Threads[C1]);
 		}
 	#endif
-	for (int Counter = 0; Counter < 10; Counter++) {
-		Textures.None.Data[Counter] = SDL_GenerateTextureFromSurface(Core.Renderer, None_Surfaces[Counter]);
-		SDL_SetTextureScaleMode(Textures.None.Data[Counter], SDL_SCALEMODE_NEAREST);
-		SDL_SetTextureBlendMode(Textures.None.Data[Counter], SDL_BLENDMODE_BLEND);
-		SDL_DestroySurface(None_Surfaces[Counter]);
+	for (int C1 = 0; C1 < 10; C1++) {
+		Textures.None.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, None_Surfaces[C1]);
+		SDL_SetTextureScaleMode(Textures.None.Data[C1], SDL_SCALEMODE_NEAREST);
+		SDL_SetTextureBlendMode(Textures.None.Data[C1], SDL_BLENDMODE_BLEND);
+		SDL_DestroySurface(None_Surfaces[C1]);
 	}
 	const SDL_Color Fire_Colors[4] = {
 		{ 255, 140, 0 },
@@ -104,21 +104,21 @@ void Preload_Noise() {
 	Textures.Fire.Length = 10;
 	SDL_Surface* Fire_Surfaces[10];
 	uint32_t Random = (uint32_t)(SDL_GetTicks() & 255);
-	for (int Counter1 = 0; Counter1 < 10; Counter1++) {
-		Fire_Surfaces[Counter1] = SDL_CreateSurface(Settings.Screen_Size * LDE_TILESIZE,
+	for (int C1 = 0; C1 < 10; C1++) {
+		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Screen_Size * LDE_TILESIZE,
 			Settings.Screen_Size * LDE_TILESIZE, SDL_PIXELFORMAT_RGBA8888);
-		SDL_LockSurface(Fire_Surfaces[Counter1]);
-		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[Counter1]->pixels);
-		for (int Counter2 = 0; Counter2 < sqr_i(Settings.Screen_Size * LDE_TILESIZE); Counter2++) {
+		SDL_LockSurface(Fire_Surfaces[C1]);
+		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
+		for (int C2 = 0; C2 < sqr_i(Settings.Screen_Size * LDE_TILESIZE); C2++) {
 			Random = (Random * 2891336453u) + 747796405u;
 			Random ^= Random >> 16;
-			Pixels[Counter2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r,
+			Pixels[C2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r,
 				Fire_Colors[(Random & 3)].g, Fire_Colors[(Random & 3)].b);
 		}
-		SDL_UnlockSurface(Fire_Surfaces[Counter1]);
-		Textures.Fire.Data[Counter1] = SDL_GenerateTextureFromSurface(Core.Renderer, Fire_Surfaces[Counter1]);
-		SDL_SetTextureScaleMode(Textures.Fire.Data[Counter1], SDL_SCALEMODE_NEAREST);
-		SDL_SetTextureBlendMode(Textures.Fire.Data[Counter1], SDL_BLENDMODE_BLEND);
-		SDL_DestroySurface(Fire_Surfaces[Counter1]);
+		SDL_UnlockSurface(Fire_Surfaces[C1]);
+		Textures.Fire.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, Fire_Surfaces[C1]);
+		SDL_SetTextureScaleMode(Textures.Fire.Data[C1], SDL_SCALEMODE_NEAREST);
+		SDL_SetTextureBlendMode(Textures.Fire.Data[C1], SDL_BLENDMODE_BLEND);
+		SDL_DestroySurface(Fire_Surfaces[C1]);
 	}
 }

@@ -1,22 +1,22 @@
 #include <interface.h>
 
 void Handle_Help(int X, int Y) {
-    if (Interface.Engagement == 0) {
-        if (Interface.UI_Selection == 1) {
-            Interface.Engagement = 1;
-        }
-        switch (Interface.Slider_Positions[3]) {
-        case 1:
-            if (Interface.UI_Selection > 2 && Interface.UI_Selection < 5) {
-                Temporary.Tutorial_Step = 0;
-                Close_Prompt();
-            }
-            switch (Interface.UI_Selection) {
+	if (Interface.Engagement == 0) {
+		if (Interface.UI_Selection == 1) {
+			Interface.Engagement = 1;
+		}
+		switch (Interface.Slider_Positions[3]) {
+		case 1:
+			if (Interface.UI_Selection > 2 && Interface.UI_Selection < 5) {
+				Temporary.Tutorial_Step = 0;
+				Close_Prompt();
+			}
+			switch (Interface.UI_Selection) {
 			case 2:
 				memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
-                Temporary.Tutorial_Step = LDE_INVALID;
-                break;
-            case 3:
+				Temporary.Tutorial_Step = LDE_INVALID;
+				break;
+			case 3:
 				{
 					Tutorial_Step Template[256] = {
 						{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "enable the build tool" },
@@ -32,10 +32,10 @@ void Handle_Help(int X, int Y) {
 					};
 					memcpy(Tutorial_Stack, Template, sizeof(Template));
 				}
-                Temporary.Tutorial_Size = (Point){ 320, 240 };
-                Temporary.Tutorial_Offset = (Point){ 0, 200 };
-                break;
-            case 4:
+				Temporary.Tutorial_Size = (Point){ 320, 240 };
+				Temporary.Tutorial_Offset = (Point){ 0, 200 };
+				break;
+			case 4:
 				{
 					Tutorial_Step Template[256] = {
 						{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "enable the build tool" },
@@ -102,80 +102,76 @@ void Handle_Help(int X, int Y) {
 					};
 					memcpy(Tutorial_Stack, Template, sizeof(Template));
 				}
-                Temporary.Tutorial_Size = (Point){ 320, 200 };
-                Temporary.Tutorial_Offset = (Point){ 0, 0 };
-                break;
-            case 5:
-                Temporary.Tutorial_Step = LDE_INVALID;
-                //here
-                break;
-            default:
-                break;
-            }
-            break;
-        case 2:
-            switch (Interface.UI_Selection) {
-            case 2:
-                Interface.Placing_Item = Money_Generator + 1;
-                break;
-            case 3:
-                Interface.Placing_Item = Fluid_Generator + 1;
-                break;
-            default:
-                break;
-            }
-            if (Interface.UI_Selection > 1 && Interface.UI_Selection < 4) {
-                Interface.Tool = Building;
-                Close_Prompt();
-                Cache_Blueprint();
-                Cache_Price();
-            }
-            break;
-        default:
-            break;
-        }
-    } else {
-        Interface.Engagement = 0;
-    }
+				Temporary.Tutorial_Size = (Point){ 320, 200 };
+				Temporary.Tutorial_Offset = (Point){ 0, 0 };
+				break;
+			case 5:
+				Temporary.Tutorial_Step = LDE_INVALID;
+				//here
+				break;
+			default:
+				break;
+			}
+			break;
+		case 2:
+			switch (Interface.UI_Selection) {
+			case 2:
+				Interface.Item = Money_Generator + 1;
+				break;
+			case 3:
+				Interface.Item = Fluid_Generator + 1;
+				break;
+			default:
+				break;
+			}
+			if (Interface.UI_Selection > 1 && Interface.UI_Selection < 4) {
+				Interface.Tool = Building;
+				Close_Prompt();
+				Cache_Blueprint();
+				Cache_Price();
+			}
+			break;
+		default:
+			break;
+		}
+	} else {
+		Interface.Engagement = 0;
+	}
 }
 
 void Handle_Shop(int X, int Y) {
-    if (Interface.Subtab == 0) {
-        if (Interface.UI_Selection > 2 && Interface.UI_Selection < 11) {
-            Interface.Subtab = Interface.UI_Selection - 2;
-        }
-    } else if (Interface.Subtab > 0) {
-        if (Interface.Subtab < 9) {
-            if (Interface.UI_Selection > 2) {
-                if (Interface.UI_Selection > intlen(Metadata.Subcategory_Positions[Interface.Subtab - 1]) + 2) {
-                    Interface.Placing_Item = Metadata.Item_Labels[
-                        Interface.Subtab - 1][Interface.UI_Selection -
-                        intlen(Metadata.Subcategory_Positions[
-                        Interface.Subtab - 1]) - 3] + 1;
-                    Cache_Blueprint();
-                } else {
-                    Interface.Subtab = Metadata.Subcategory_Positions[
-                        Interface.Subtab - 1][Interface.UI_Selection - 3] + 9;
-                }
-            }
-        } else if (Interface.UI_Selection > 2) {
-            Interface.Placing_Item = Metadata.Subcontents[
-                Interface.Subtab - 9][Interface.UI_Selection - 3] + 1;
-            Cache_Blueprint();
-        }
-    }
+	if (Interface.Subtab == 0) {
+		if (Interface.UI_Selection > 2 && Interface.UI_Selection < 11) {
+			Interface.Subtab = Interface.UI_Selection - 2;
+		}
+	} else if (Interface.Subtab > 0) {
+		if (Interface.Subtab < 9) {
+			if (Interface.UI_Selection > 2) {
+				if (Interface.UI_Selection > intlen(Metadata.Subcategory_Positions[Interface.Subtab - 1]) + 2) {
+					Interface.Item = Metadata.Item_Labels[Interface.Subtab - 1][Interface.UI_Selection - intlen(
+						Metadata.Subcategory_Positions[Interface.Subtab - 1]) - 3] + 1;
+					Cache_Blueprint();
+				} else {
+					Interface.Subtab = Metadata.Subcategory_Positions[Interface.Subtab - 1][Interface.UI_Selection - 3] + 9;
+				}
+			}
+		} else if (Interface.UI_Selection > 2) {
+			Interface.Item = Metadata.Subcontents[Interface.Subtab - 9][Interface.UI_Selection - 3] + 1;
+			Cache_Blueprint();
+		}
+	}
 }
 
 void Handle_Daily_Report(int X, int Y) {
-    if (Interface.UI_Selection == 1) {
-        Close_Prompt();
-        Data.Time = 0;
-        if (Data.Day < 6) {
-            Data.Day++;
-        } else {
-            Data.Day = 0;
-        }
-    }
+	if (Interface.UI_Selection == 1) {
+		Close_Prompt();
+		Data.Time = 0;
+		if (Data.Day < 6) {
+			Data.Day++;
+		} else {
+			Data.Day = 0;
+		}
+	}
 }
 
 void Handle_Catalog(int X, int Y) {

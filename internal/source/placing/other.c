@@ -1,12 +1,7 @@
 #include <grid.h>
 
 bool Place_Incinerator(int X, int Y) {
-	if (Interface.Placing_Rotation == 0) {
-		Data.Visual_Grid[X][Y] = 18;
-	} else {
-		Data.Visual_Grid[X][Y] =
-			Interface.Placing_Rotation + 113;
-	}
+	Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 18 : Interface.Rotation + 113;
 	Data.Connection_Grid[X][Y] = 0;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 12;
 	Data.Plumbing_Grid[X][Y] = Any;
@@ -18,7 +13,7 @@ bool Place_Incinerator(int X, int Y) {
 bool Place_Command_Platform(int X, int Y) {
 	bool Placed = false;
 	if (!Data.CMD_Placed) {
-		switch (Interface.Placing_Rotation) {
+		switch (Interface.Rotation) {
 		case 0:
 			if (Check_Clearance(X, Y, 8, 6)) {
 				Fill_Clearance(LDE_INVALID, X, Y, 8, 6);
@@ -62,11 +57,7 @@ bool Place_Command_Platform(int X, int Y) {
 bool Place_Basic_Scrubber(int X, int Y) {
 	if (Check_Clearance(X, Y, 2, 2)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 2);
-		if (Interface.Placing_Rotation == 0) {
-			Data.Visual_Grid[X][Y] = 44;
-		} else {
-			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 63;
-		}
+		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 44 : Interface.Rotation + 63;
 	} else {
 		return false;
 	}
@@ -76,11 +67,7 @@ bool Place_Basic_Scrubber(int X, int Y) {
 bool Place_Signal_Tower(int X, int Y) {
 	if (Check_Clearance(X, Y, 3, 3)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
-		if (Interface.Placing_Rotation == 0) {
-			Data.Visual_Grid[X][Y] = 50;
-		} else {
-			Data.Visual_Grid[X][Y] = Interface.Placing_Rotation + 59;
-		}
+		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 50 : Interface.Rotation + 59;
 		Data.Settings_Grid[X][Y][3] = 0;
 	} else {
 		return false;

@@ -1,9 +1,9 @@
 #include <items.h>
 
 Item_Stack Get_Item(int X, int Y) {
-	for (int Counter = 0; Counter < LDE_ITEMS; Counter++) {
-		if (Preset_Items.Item_List[Counter].Identifier == Data.Items_Grid[X][Y]) {
-			Item_Stack Selected_Item = Preset_Items.Item_List[Counter];
+	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+		if (Preset_Items.Item_List[C1].Identifier == Data.Items_Grid[X][Y]) {
+			Item_Stack Selected_Item = Preset_Items.Item_List[C1];
 			Selected_Item.Temperature = Data.Temperature_Grid[X][Y];
 			return Selected_Item;
 		}
@@ -16,9 +16,9 @@ Item_Stack Get_Item(int X, int Y) {
 }
 
 Item_Stack ID_To_Item(const int ID) {
-	for (int Counter = 0; Counter < LDE_ITEMS; Counter++) {
-		if (Preset_Items.Item_List[Counter].Identifier == ID) {
-			return Preset_Items.Item_List[Counter];
+	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+		if (Preset_Items.Item_List[C1].Identifier == ID) {
+			return Preset_Items.Item_List[C1];
 		}
 	}
 	Item_Stack Blank_Item;
@@ -54,8 +54,8 @@ void Purge_Items() {
 }
 
 bool Check_Category(int Item, Item_Category Category) {
-	for (int Counter = 0; Counter < Category.Length; Counter++) {
-		if (Item == Category.Contents[Counter].Identifier) {
+	for (int C1 = 0; C1 < Category.Length; C1++) {
+		if (Item == Category.Contents[C1].Identifier) {
 			return true;
 		}
 	}

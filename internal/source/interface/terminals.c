@@ -17,8 +17,8 @@ char Errors[LDE_ERRORS][32] = {
 };
 
 void Push_Terminal(const char* Line) {
-	for (int Counter = LDE_LOGMAX - 1; Counter > 0; Counter++) {
-		strcpy(Interface.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter - 1]);
+	for (int C1 = LDE_LOGMAX - 1; C1 > 0; C1++) {
+		strcpy(Interface.Terminal_Logs[C1], Interface.Terminal_Logs[C1 - 1]);
 	}
 	strcpy(Interface.Terminal_Logs[0], Line);
 }
@@ -86,8 +86,8 @@ void Render_Backing() {
 }
 
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes) {
-	for (int Counter = 0; Counter < Hitboxes->Length; Counter++) {
-		Render_Button(&Buttons->Data[Counter], &Hitboxes->Data[Counter], Counter + 3, Colors.Pure_White);
+	for (int C1 = 0; C1 < Hitboxes->Length; C1++) {
+		Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], C1 + 3, Colors.Pure_White);
 	}
 }
 
@@ -99,13 +99,13 @@ void Print_Response(const char* Response) {
 
 void Print_JSON() {
 	Push_Terminal("{");
-	for (int Counter = 0; Counter < veclen(Buffers.JSON); Counter++) {
+	for (int C1 = 0; C1 < veclen(Buffers.JSON); C1++) {
 		char Comma[4] = "\",";
-		if (Counter == veclen(Buffers.JSON) - 1) {
+		if (C1 == veclen(Buffers.JSON) - 1) {
 			strcpy(Comma, "\"");
 		}
 		char Buffer[128];
-		snprintf(Buffer, sizeof(Buffer), "    \"%s%s", Buffers.JSON[Counter], Comma);
+		snprintf(Buffer, sizeof(Buffer), "    \"%s%s", Buffers.JSON[C1], Comma);
 		Push_Terminal(Buffer);
 	}
 	Push_Terminal("}");
@@ -151,11 +151,11 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		strcpy(Interface.Terminal_Entry, Carrier);
 		char* Result = malloc(sizeof(char) * (strlen(Interface.Terminal_Entry) + 1));
 		int Index = 0;
-		for (int Counter = 0; Counter < strlen(Interface.Terminal_Entry); Counter++) {
-			if (Counter >= Temporary.Ticker_Position || Counter > strlen(Interface.Terminal_Entry)) {
+		for (int C1 = 0; C1 < strlen(Interface.Terminal_Entry); C1++) {
+			if (C1 >= Temporary.Ticker_Position || C1 > strlen(Interface.Terminal_Entry)) {
 				break;
 			}
-			Result[Index] = Interface.Terminal_Entry[Counter];
+			Result[Index] = Interface.Terminal_Entry[C1];
 			Index++;
 		}
 		Result[Index] = '\0';
@@ -163,9 +163,9 @@ void Render_Necessities(char* Machine, char* Prefix) {
 			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, 64, 300);
 		}
 	}
-	for (int Counter = LDE_LOGMAX - 1; Counter > LDE_INVALID; Counter--) {
-		Process_Supply(&Supplies.Terminal_Logs[Counter], Interface.Terminal_Logs[Counter], Fonts.Terminal_Font,
-			Colors.Cherry_Blossom, 50, 280 - (Counter * 20));
+	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
+		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font,
+			Colors.Cherry_Blossom, 50, 280 - (C1 * 20));
 	}
 }
 
@@ -197,10 +197,10 @@ void Return_Command(const int Type, const char* Parameters[], char* Yield) {
 	} else {
 		strcpy(Yield, "call(");
 	}
-	for (int Counter = 0; Counter < veclen(Parameters); Counter++) {
+	for (int C1 = 0; C1 < veclen(Parameters); C1++) {
 		charcat(Yield, '\"');
-		strcat(Yield, Parameters[Counter]);
-		if (Counter == 0) {
+		strcat(Yield, Parameters[C1]);
+		if (C1 == 0) {
 			if (Type == Get_Data) {
 				strcat(Yield, ".json");
 			} else {
@@ -208,7 +208,7 @@ void Return_Command(const int Type, const char* Parameters[], char* Yield) {
 			}
 		}
 		charcat(Yield, '\"');
-		if (Counter < veclen(Parameters) - 1) {
+		if (C1 < veclen(Parameters) - 1) {
 			strcat(Yield, ", ");
 		}
 	}
@@ -224,12 +224,12 @@ void Process_Commands() {
 	strcpy(Buffers.Parameters[Base + 1][0], "quit");
 	strcpy(Buffers.Parameters[Base + 1][1], NULLSTRING);
 	Buffers.Commands[Base + 2] = LDE_TERMINATOR;
-	for (int Counter = 0; Counter < intlen(Buffers.Commands); Counter++) {
-		if (Interface.UI_Selection == Counter + 3) {
-			Return_Command(Buffers.Commands[Counter], (const char**)Buffers.Parameters[Counter], Interface.Terminal_Entry);
+	for (int C1 = 0; C1 < intlen(Buffers.Commands); C1++) {
+		if (Interface.UI_Selection == C1 + 3) {
+			Return_Command(Buffers.Commands[C1], (const char**)Buffers.Parameters[C1], Interface.Terminal_Entry);
 		}
 	}
-	for (int Counter = 3; Counter < intlen(Buffers.Commands) + 3; Counter++) {
-		Tick_Input(Counter, false);
+	for (int C1 = 3; C1 < intlen(Buffers.Commands) + 3; C1++) {
+		Tick_Input(C1, false);
 	}
 }

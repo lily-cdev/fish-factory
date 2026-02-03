@@ -7,9 +7,9 @@ void Render_Catalog(int X, int Y) {
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
-		for (int Counter = 0; Counter < LDE_MACHINES; Counter++) {
-			if (reclen((*I_Recipes)[Counter]) == 0 && reclen((*O_Recipes)[Counter]) == 0 &&
-				reclen((*IO_Recipes)[Counter]) == 0) {
+		for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+			if (reclen((*I_Recipes)[C1]) == 0 && reclen((*O_Recipes)[C1]) == 0 &&
+				reclen((*IO_Recipes)[C1]) == 0) {
 				continue;
 			}
 			float Base_Subwidth = Settings.Screen_Size * 44.0f;
@@ -23,7 +23,7 @@ void Render_Catalog(int X, int Y) {
 			};
 			if (Detect_Mouse_Collision(Outer_Rectangle) && Interface.UI_Selection == 0) {
 				Set_Renderer_Color(Colors.Cherry_Blossom);
-				Interface.UI_Selection = Counter + 3;
+				Interface.UI_Selection = C1 + 3;
 			} else {
 				Set_Renderer_Color(Colors.Abyss_Black);
 			}
@@ -43,8 +43,8 @@ void Render_Catalog(int X, int Y) {
 				36.0f * Settings.Screen_Size,
 				36.0f * Settings.Screen_Size
 			};
-			float XY_Ratio = Metadata.Machine_Rectangles[Counter].w /
-				Metadata.Machine_Rectangles[Counter].h;
+			float XY_Ratio = Metadata.Machine_Rectangles[C1].w /
+				Metadata.Machine_Rectangles[C1].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
 				Machine_Rectangle.y = Machine_Rectangle.y +	(18.0f *
@@ -54,7 +54,7 @@ void Render_Catalog(int X, int Y) {
 				Machine_Rectangle.x = Machine_Rectangle.x +	(18.0f *
 					Settings.Screen_Size) - (Machine_Rectangle.w * 0.5);
 			}
-			Render_Texture(Metadata.Machine_Sprites[Counter], &Machine_Rectangle);
+			Render_Texture(Metadata.Machine_Sprites[C1], &Machine_Rectangle);
 			Index++;
 		}
 	} else {
@@ -64,46 +64,46 @@ void Render_Catalog(int X, int Y) {
 		int Index = Interface.Subprompt_Identifier;
 		char Candidate[256];
 		int Number = 1;
-		for (int Counter1 = 0; Counter1 < LDE_RECIPETYPES; Counter1++) {
-			for (int Counter2 = 0; Counter2 < reclen((*All_Recipes)[Counter1][Index]); Counter2++, Number++) {
+		for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+			for (int C2 = 0; C2 < reclen((*All_Recipes)[C1][Index]); C2++, Number++) {
 				strcpy(Candidate, "Recipe No. ");
 				if (Number < 10) {
 					charcat(Candidate, '0');
 				}
 				char Buffer[128];
 				char Subbuffer[64];
-				Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Power, Subbuffer, sizeof(Subbuffer));
-				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, All_Recipes[Counter1][Index][
-					Counter2]->Time);
+				Abbreviate_Number(All_Recipes[C1][Index][C2]->Power, Subbuffer, sizeof(Subbuffer));
+				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, All_Recipes[C1][Index][
+					C2]->Time);
 				strcat(Candidate, Buffer);
-				if (All_Recipes[Counter1][Index][Counter2]->Voiding_Excess) {
+				if (All_Recipes[C1][Index][C2]->Voiding_Excess) {
 					strcat(Candidate, ", cannot overflow");
 				}
-				Process_Supply(&Supplies.Catalog1[Counter1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 16, Offset);
+				Process_Supply(&Supplies.Catalog1[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 16, Offset);
 				Offset += 20;
 				strcpy(Candidate, "Inputs -> ");
-				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs; Counter3++) {
-					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Input_Counts[Counter3] / All_Recipes[Counter1][
-						Index][Counter2]->Time, Buffer, sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[Counter1][Index][
-						Counter2]->Input_Items[Counter3].Display_Name);
-					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Inputs - 1) {
+				for (int C3 = 0; C3 < All_Recipes[C1][Index][C2]->Inputs; C3++) {
+					Abbreviate_Number(All_Recipes[C1][Index][C2]->Input_Counts[C3] / All_Recipes[C1][
+						Index][C2]->Time, Buffer, sizeof(Buffer));
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[C1][Index][
+						C2]->Input_Items[C3].Display_Name);
+					if (C3 < All_Recipes[C1][Index][C2]->Inputs - 1) {
 						strcat(Candidate, ", ");
 					}
 				}
-				Process_Supply(&Supplies.Catalog2[Counter1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
+				Process_Supply(&Supplies.Catalog2[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				strcpy(Candidate, "Outputs -> ");
-				for (int Counter3 = 0; Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs; Counter3++) {
-					Abbreviate_Number(All_Recipes[Counter1][Index][Counter2]->Output_Counts[Counter3] / All_Recipes[Counter1][
-						Index][Counter2]->Time, Buffer, sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[Counter1][Index][Counter2]
-						->Output_Items[Counter3].Display_Name);
-					if (Counter3 < All_Recipes[Counter1][Index][Counter2]->Outputs - 1) {
+				for (int C3 = 0; C3 < All_Recipes[C1][Index][C2]->Outputs; C3++) {
+					Abbreviate_Number(All_Recipes[C1][Index][C2]->Output_Counts[C3] / All_Recipes[C1][
+						Index][C2]->Time, Buffer, sizeof(Buffer));
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[C1][Index][C2]
+						->Output_Items[C3].Display_Name);
+					if (C3 < All_Recipes[C1][Index][C2]->Outputs - 1) {
 						strcat(Candidate, ", ");
 					}
 				}
-				Process_Supply(&Supplies.Catalog3[Counter1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
+				Process_Supply(&Supplies.Catalog3[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				//io recipes
 			}

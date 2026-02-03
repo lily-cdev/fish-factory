@@ -14,8 +14,8 @@ bool Save_Settings() {
 	fputc((uint8_t)Settings.Screen_Size, File);
 	fputc((uint8_t)Settings.Volume, File);
 	fputc((uint8_t)Settings.Raw_FPS, File);
-	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-		fwrite(&(uint32_t){ Keybinds.Keybind_List[Counter] }, sizeof(uint32_t), 1, File);
+	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+		fwrite(&(uint32_t){ Keybinds.Keybind_List[C1] }, sizeof(uint32_t), 1, File);
 	}
 	fclose(File);
 	return true;
@@ -36,8 +36,8 @@ void Load_Settings() {
 				Settings.Screen_Size = fgetc(File);
 				Settings.Volume = fgetc(File);
 				Settings.Raw_FPS = fgetc(File);
-				for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-					fread(&Keybinds.Keybind_List[Counter], sizeof(uint32_t), 1, File);
+				for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+					fread(&Keybinds.Keybind_List[C1], sizeof(uint32_t), 1, File);
 				}
 				fclose(File);
 				return;
@@ -48,9 +48,9 @@ void Load_Settings() {
 	Clear_File("settings.pkg");
 	SDL_DisplayID Index = SDL_GetDisplayForWindow(Core.Window);
 	const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
-	for (int Counter = 0; Counter < LDE_SUPPORTEDRESOLUTIONS; Counter++) {
-		if (Display->w >= Metadata.Supported_Resolutions[Counter].X &&
-			Display->h >= Metadata.Supported_Resolutions[Counter].Y) {
+	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
+		if (Display->w >= Metadata.Supported_Resolutions[C1].X &&
+			Display->h >= Metadata.Supported_Resolutions[C1].Y) {
 			Settings.Screen_Size++;
 		} else {
 			break;
@@ -69,8 +69,8 @@ void Clear_Settings() {
 	Interface.Slider_Positions[6] = Settings.Fullscreen;
 	Settings.AA_Temporary = (bool)(Settings.Anti_Aliasing);
 	Settings.VS_Temporary = (bool)(Settings.VSync);
-	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-		Keybinds.Keybind_Settings[Counter] = Keybinds.Keybind_List[Counter];
+	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+		Keybinds.Keybind_Settings[C1] = Keybinds.Keybind_List[C1];
 	}
 }
 
@@ -81,8 +81,8 @@ void Recalibrate_Settings() {
 	Settings.Fullscreen = Interface.Slider_Positions[6];
 	Settings.Anti_Aliasing = (int)(Settings.AA_Temporary);
 	Settings.VSync = (int)(Settings.VS_Temporary);
-	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-		Keybinds.Keybind_List[Counter] = Keybinds.Keybind_Settings[Counter];
+	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+		Keybinds.Keybind_List[C1] = Keybinds.Keybind_Settings[C1];
 	}
 	Reload_All();
 }

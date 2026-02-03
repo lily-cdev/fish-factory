@@ -32,7 +32,7 @@ typedef struct {
 typedef struct {
 	char Name[32];
 	int Identifier;
-	int Maximum_Growth;
+	int Max_Growth;
 	float Food_Consumption;
 } Fish;
 

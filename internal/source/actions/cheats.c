@@ -33,9 +33,9 @@ void Handle_Fluid_Generator(int X, int Y) {
 		} else if (Interface.UI_Selection == 6) {
 			Interface.Slider_Positions[9] = Data.Settings_Grid[X][Y][3];
 			Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[X][Y][4] * 0.2f);
-			for (int Counter = 0; Counter < LDE_VALVE300LENGTH; Counter++) {
-				if (Data.Settings_Grid[X][Y][5] == Interface.Valve300_Postions[Counter]) {
-					Interface.Slider_Positions[11] = Counter;
+			for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
+				if (Data.Settings_Grid[X][Y][5] == Interface.Valve300_Postions[C1]) {
+					Interface.Slider_Positions[11] = C1;
 					break;
 				}
 			}

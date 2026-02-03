@@ -2,8 +2,8 @@
 
 void Render_Help(int X, int Y) {
     Render_Box(10, 10, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
-	for (int Counter = 0; Counter < 2; Counter++) {
-		Render_Texture(Textures.Help_Content.Data[Counter], &Rects.Help_Content[Counter]);
+	for (int C1 = 0; C1 < 2; C1++) {
+		Render_Texture(Textures.Help_Content.Data[C1], &Rects.Help_Content[C1]);
 	}
 	Render_Slider(Interface.Slider_Texts[3], 1, 2, 1, &Interface.Slider_Positions[3], 130, 300, 380,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
@@ -26,11 +26,11 @@ void Render_Help(int X, int Y) {
 		}
 		if (Temporary.Tutorial_Step == LDE_INVALID) {
 			if (Data.CMD_Placed) {
-				for (int Counter = 1; Counter < Textures.Tutorials.Length; Counter++) {
-					Rects.Tutorial_Hitbox.Data = Rects.Tutorials.Data[Counter].Data;
+				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
+					Rects.Tutorial_Hitbox.Data = Rects.Tutorials.Data[C1].Data;
 					Rects.Tutorial_Hitbox.Data[0].y -= LDE_TILESIZE * Settings.Screen_Size;
 					Rects.Tutorial_Hitbox.Data[1].y -= LDE_TILESIZE * Settings.Screen_Size;
-					Render_Button(&Textures.Tutorials.Data[Counter], &Rects.Tutorial_Hitbox, Counter + 3,
+					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorial_Hitbox, C1 + 3,
 						Colors.Cherry_Blossom);
 				}
 			} else {
@@ -47,8 +47,8 @@ void Render_Help(int X, int Y) {
 				"| |You can use them for troubleshooting, bug-hunting, or just playing around.";
 			Render_Rich_Text(Fonts.Subtext_Font, Flavor, 20, 60, false, false);
 		}
-		for (int Counter = 0; Counter < 2; Counter++) {
-			Render_Button(&Textures.Cheats.Data[Counter], &Rects.Cheats.Data[Counter], Counter + 2, Colors.Cherry_Blossom);
+		for (int C1 = 0; C1 < 2; C1++) {
+			Render_Button(&Textures.Cheats.Data[C1], &Rects.Cheats.Data[C1], C1 + 2, Colors.Cherry_Blossom);
 		}
 		break;
 	default:

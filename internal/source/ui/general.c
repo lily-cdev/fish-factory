@@ -32,7 +32,7 @@ void Render_Toolbar() {
 		char Machine_Text[64];
 		char Price_Query[64];
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
-		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Placing_Item - 1], Price_Query);
+		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text, 0, Colors.Abyss_Black);
 		SDL_FRect Machine_Rectangle = {
 			(float)(Settings.Screen_Size * 312) - (Machine_Surface->w * 0.5f),
@@ -62,8 +62,8 @@ void Render_Toolbar() {
 
 void Verify_Settings() {
 	bool Keybinds_Altered = false;
-	for (int Counter = 0; Counter < LDE_KEYBINDS; Counter++) {
-		if (Keybinds.Keybind_Settings[Counter] != Keybinds.Keybind_List[Counter]) {
+	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+		if (Keybinds.Keybind_Settings[C1] != Keybinds.Keybind_List[C1]) {
 			Keybinds_Altered = true;
 			break;
 		}
@@ -83,13 +83,13 @@ void Render_Tile_Prompts() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int Counter = 0; Counter < intlen(Metadata.Quirk_Positions[Q_Interactable]); Counter++) {
-					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][Counter]) {
+				for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Interactable]); C1++) {
+					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][C1]) {
 						char Subcore[64];
 						char Sub2core[64];
 						strcpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]));
-						for (int Counter = 0; Counter < strlen(Sub2core); Counter++) {
-							Sub2core[Counter] = (char)(tolower(Sub2core[Counter]));
+						for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
+							Sub2core[C1] = (char)(tolower(Sub2core[C1]));
 						}
 						snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
 						SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Subcore, 0,
@@ -123,26 +123,24 @@ void Render_Interaction() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int Counter = 0; Counter < intlen(Metadata.Quirk_Positions[Q_Interactable]); Counter++) {
-					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][Counter]) {
-						Interface.Prompt_Identifier = Indexes[Counter];
+				for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Interactable]); C1++) {
+					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][C1]) {
+						Interface.Prompt_Identifier = Indexes[C1];
 						Interface.Building = false;
-						Interface.Target_Tile.X = Column;
-						Interface.Target_Tile.Y = Row;
+						Interface.Tile.X = Column;
+						Interface.Tile.Y = Row;
 						switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
 						case Money_Generator:
-							Interface.Slider_Positions[8] = Data.Settings_Grid[Interface.Target_Tile.X][
-								Interface.Target_Tile.Y][3];
+							Interface.Slider_Positions[8] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
 							break;
 						case Fluid_Generator:
-							Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Target_Tile.X][
-								Interface.Target_Tile.Y][3];
-							Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Target_Tile.X][
-								Interface.Target_Tile.Y][4] * 0.2f);
-							for (int Counter = 0; Counter < LDE_VALVE300LENGTH; Counter++) {
-								if (Data.Settings_Grid[Interface.Target_Tile.X][Interface.Target_Tile.Y][5] ==
-									Interface.Valve300_Postions[Counter]) {
-									Interface.Slider_Positions[11] = Counter;
+							Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
+							Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][
+								4] * 0.2f);
+							for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
+								if (Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][5] == Interface.Valve300_Postions[
+									C1]) {
+									Interface.Slider_Positions[11] = C1;
 									break;
 								}
 							}
@@ -166,7 +164,7 @@ void Render_Effects() {
 	if (Interface.Effects[E_Radiation] > 0) {
 		Set_Renderer_Color(Colors.Pure_White);
 		uint32_t State = (uint32_t)(SDL_GetTicks() & UINT8_MAX);
-		for (int Counter = 0; Counter < floor(Interface.Effects[E_Radiation]); Counter++) {
+		for (int C1 = 0; C1 < floor(Interface.Effects[E_Radiation]); C1++) {
 			step_c(State);
 			int X = State % (Settings.Screen_Size * 640);
 			step_c(State);
@@ -183,16 +181,16 @@ void Find_Effect() {
 	Interface.Effects[E_Radiation] = 0;
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			for (int Counter = 0; Counter < intlen(Metadata.Heating_Machines); Counter++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[Counter] &&
+			for (int C1 = 0; C1 < intlen(Metadata.Heating_Machines); C1++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[C1] &&
 					X * LDE_TILESIZE > Core.Camera.X && Y * LDE_TILESIZE > Core.Camera.Y && X * LDE_TILESIZE <
 					Core.Camera.X + 640 && Y * LDE_TILESIZE < Core.Camera.Y + 360) {
 					Interface.Effects[E_Heat] += 0.1;
 					return;
 				}
 			}
-			for (int Counter = 0; Counter < intlen(Metadata.Irradiating_Machines); Counter++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[Counter]) {
+			for (int C1 = 0; C1 < intlen(Metadata.Irradiating_Machines); C1++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[C1]) {
 					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
 					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
 					float Distance = sqrtf(sqr_f(A) + sqr_f(B)) / (float)LDE_TILESIZE;
@@ -206,12 +204,11 @@ void Find_Effect() {
 }
 
 void Cache_Blueprint() {
-	int Width;
-	int Height;
-	ID_To_Size(Interface.Placing_Item - 1, Interface.Placing_Rotation, &Width, &Height);
-	int Maximum = (Width > Height ? Width : Height) * Settings.Screen_Size * LDE_TILESIZE;
+	int Width, Height;
+	ID_To_Size(Interface.Item - 1, Interface.Rotation, &Width, &Height);
+	int Max = (Width > Height ? Width : Height) * Settings.Screen_Size * LDE_TILESIZE;
 	free_texture(Cache.Blueprint_Cache);
-	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer, Maximum, Maximum);
+	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer, Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
 	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer, Width * Settings.Screen_Size * LDE_TILESIZE, Height *
 		Settings.Screen_Size * LDE_TILESIZE);
@@ -228,22 +225,22 @@ void Cache_Blueprint() {
 	SDL_SetRenderTarget(Core.Renderer, Cache.Blueprint_Cache);
 	Render_Texture(Backing, NULL);
 	free_texture(Backing);
-	int Rotation = Interface.Placing_Rotation * 90;
-	for (int Counter = 0; Counter < intlen(Metadata.Quirk_Positions[Q_Non_Rotatable]); Counter++) {
-		if (Metadata.Quirk_Positions[Q_Non_Rotatable][Counter] == Interface.Placing_Item - 1) {
+	int Rotation = Interface.Rotation * 90;
+	for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Non_Rotatable]); C1++) {
+		if (Metadata.Quirk_Positions[Q_Non_Rotatable][C1] == Interface.Item - 1) {
 			Rotation = 0;
 		}
 	}
-	SDL_FPoint Centerpoint = { Maximum * 0.5f, Maximum * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[Interface.Placing_Item - 1], NULL, NULL, Rotation,
-		&Centerpoint, SDL_FLIP_NONE);
+	SDL_FPoint Centerpoint = { Max * 0.5f, Max * 0.5f };
+	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[Interface.Item - 1], NULL, NULL, Rotation, &Centerpoint,
+		SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Placing_Item - 1] * 1.1)) + Metadata.Machine_Taxes[
-		Interface.Placing_Item - 1] + 1;
+	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Item - 1] * 1.1)) + Metadata.Machine_Taxes[
+		Interface.Item - 1] + 1;
 }
 
 void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
@@ -258,22 +255,22 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 	if (Interface.Engagement == Engagement) {
 		Active = true;
 		int Separators[512];
-		for (int Counter = 0; Counter < Nodes; Counter++) {
-			Separators[Counter] = (int)(((((float)Counter / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
+		for (int C1 = 0; C1 < Nodes; C1++) {
+			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
 				Settings.Screen_Size;
 		}
 		Separators[Nodes] = LDE_TERMINATOR;
-		for (int Counter = 0; Counter < Nodes; Counter++) {
+		for (int C1 = 0; C1 < Nodes; C1++) {
 			if (Core.Debug_Mode) {
-				SDL_RenderLine(Core.Renderer, (float)(Separators[Counter]), 0, (float)(Separators[Counter]),
+				SDL_RenderLine(Core.Renderer, (float)(Separators[C1]), 0, (float)(Separators[C1]),
 					Settings.Screen_Size * 360.0f);
 			}
 			if (Core.Mouse.X < Separators[0]) {
 				*Position = 0;
 			} else if (Core.Mouse.X >= Separators[Nodes - 1]) {
 				*Position = Nodes;
-			} else if (Core.Mouse.X >= Separators[Counter] && Core.Mouse.X < Separators[Counter + 1]) {
-				*Position = Counter + 1;
+			} else if (Core.Mouse.X >= Separators[C1] && Core.Mouse.X < Separators[C1 + 1]) {
+				*Position = C1 + 1;
 			}
 		}
 	}

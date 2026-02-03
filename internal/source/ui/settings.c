@@ -1,19 +1,19 @@
 #include <ui.h>
 
 void Render_Keybinds() {
-    for (int Counter1 = 0; Counter1 < LDE_KEYBINDS; Counter1++) {
+    for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
 		char Text[64];
-		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[Counter1]);
+		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[C1]);
 		SDL_Surface* Prefix_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Text, 0, Colors.Abyss_Black);
 		SDL_Texture* Prefix_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Prefix_Surface);
 		SDL_FRect Prefix_Rectangle = {
 			Settings.Screen_Size * 370.0f,
-			(float)((Counter1 * 16) + 40) * Settings.Screen_Size,
+			(float)((C1 * 16) + 40) * Settings.Screen_Size,
 			(float)(Prefix_Surface->w),
 			(float)(Prefix_Surface->h)
 		};
 		Render_Texture(Prefix_Texture, &Prefix_Rectangle);
-		if (Interface.Registering_Keybind == Counter1) {
+		if (Interface.Registering_Keybind == C1) {
 			SDL_Surface* Registering_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "...", 0, Colors.Abyss_Black);
 			SDL_Texture* Registering_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Registering_Surface);
 			SDL_FRect Registering_Rectangle = {
@@ -27,9 +27,9 @@ void Render_Keybinds() {
 			free_texture(Registering_Texture);
 		} else {
 			char Subcore[32];
-			strcpy(Subcore, SDL_GetKeyName(Keybinds.Keybind_Settings[Counter1]));
-			for (int Counter2 = 0; Counter2 < strlen(Subcore); Counter2++) {
-				Subcore[Counter2] = (char)(tolower(Subcore[Counter2]));
+			strcpy(Subcore, SDL_GetKeyName(Keybinds.Keybind_Settings[C1]));
+			for (int C2 = 0; C2 < strlen(Subcore); C2++) {
+				Subcore[C2] = (char)(tolower(Subcore[C2]));
 			}
 			SDL_Surface* Deadbutton_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Subcore, 0, Colors.Abyss_Black);
 			SDL_Texture* Deadbutton_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Deadbutton_Surface);
@@ -40,7 +40,7 @@ void Render_Keybinds() {
 				(float)(Deadbutton_Surface->h)
 			};
 			if (Detect_Mouse_Collision(Deadbutton_Rectangle)) {
-				Interface.UI_Selection = Counter1 + 6;
+				Interface.UI_Selection = C1 + 6;
 				char Alivebutton_Text[64];
 				snprintf(Alivebutton_Text, sizeof(Alivebutton_Text), "> %s <", Subcore);
 				SDL_Surface* Alivebutton_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Alivebutton_Text, 0,
@@ -81,8 +81,8 @@ void Render_Keybinds() {
 }
 
 void Render_Settings() {
-	for (int Counter = 0; Counter < Textures.Settings_Label.Length; Counter++) {
-		Render_Texture(Textures.Settings_Label.Data[Counter], &Rects.Settings_Label.Data[Counter]);
+	for (int C1 = 0; C1 < Textures.Settings_Label.Length; C1++) {
+		Render_Texture(Textures.Settings_Label.Data[C1], &Rects.Settings_Label.Data[C1]);
 	}
 	Render_Button(&Textures.Return, &Rects.Return, 1, Colors.Cherry_Blossom);
 	Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, &Interface.Slider_Positions[0], 50, 70, 220, Colors.Abyss_Black,

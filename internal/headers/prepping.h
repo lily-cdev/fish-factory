@@ -346,7 +346,7 @@ typedef struct {
 } SUPPLIES;
 
 typedef struct {
-	bool Animation_Locked;
+	bool Locked;
 	bool Building;
 	bool Sprinting;
 	bool Terminal_Clearing;
@@ -354,7 +354,7 @@ typedef struct {
 	float Node_Cycle;
 	float Movespeed;
 	float Log_Offset;
-	Point Target_Tile;
+	Point Tile;
 	int Prompt_Identifier;
 	int Subprompt_Identifier;
 	int Tool;
@@ -367,11 +367,11 @@ typedef struct {
 	int UI_Selection;
 	int Frame_Rate;
 	int Time_Frames;
-	int Maximum_Time_Frames;
+	int Max_Time_Frames;
 	int Subtime_Frames;
-	int Maximum_Subtime_Frames;
-	int Placing_Item;
-	int Placing_Rotation;
+	int Max_Subtime_Frames;
+	int Item;
+	int Rotation;
 	int Save_Frames;
 	int Map_X;
 	int Map_Y;

@@ -5,8 +5,8 @@
 
 int32_t Read_Byte4(byte* Data, uint64_t Position) {
     int32_t Yield = 0;
-    for (uint8_t Counter = 0; Counter < 4; Counter++) {
-        Yield |= Data[Counter + Position] << (Counter * 8);
+    for (uint8_t C1 = 0; C1 < 4; C1++) {
+        Yield |= Data[C1 + Position] << (C1 * 8);
     }
     return Yield;
 }

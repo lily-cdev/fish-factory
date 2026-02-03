@@ -30,7 +30,7 @@ void Handle_None(int X, int Y) {
 			break;
 		case 4:
 			if (Interface.Tool == Building) {
-				Interface.Placing_Rotation = 0;
+				Interface.Rotation = 0;
 				Clear_Unconnected_Wires();
 				Clear_Unconnected_Pipes();
 				Cache_Blueprint();
@@ -42,7 +42,7 @@ void Handle_None(int X, int Y) {
 				Start_Transition(2);
 				Core.Selected_Save = LDE_INVALID;
 				Get_Filesizes();
-				Interface.Placing_Item = 1;
+				Interface.Item = 1;
 				Cache_Blueprint();
 			} else {
 				if (Interface.Tool < 4) {
@@ -54,7 +54,7 @@ void Handle_None(int X, int Y) {
 			break;
 		case 5:
 			if (Interface.Tool == 0) {
-				Interface.Placing_Rotation = 0;
+				Interface.Rotation = 0;
 				Clear_Unconnected_Wires();
 				Clear_Unconnected_Pipes();
 				Cache_Blueprint();

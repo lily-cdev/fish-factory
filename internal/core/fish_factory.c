@@ -78,20 +78,20 @@ int main(int argc, char* args[]) {
 		Process_Inputs();
 		switch (Interface.UI_Tab) {
 		case 0:
-			if (Interface.Subtime_Frames < Interface.Maximum_Subtime_Frames) {
+			if (Interface.Subtime_Frames < Interface.Max_Subtime_Frames) {
 				Interface.Subtime_Frames++;
 			} else {
 				Interface.Subtime_Frames = 0;
 				float Sum = 0;
-				for (int Counter = 0; Counter < Cache.FPS_Length; Counter++) {
-					Sum += Cache.FPS_Cache[Counter];
+				for (int C1 = 0; C1 < Cache.FPS_Length; C1++) {
+					Sum += Cache.FPS_Cache[C1];
 				}
 				Temporary.Temporary_FPS = (int)(Sum / Cache.FPS_Length);
 				Cache.FPS_Length = 0;
 			}
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
-					if (Interface.Time_Frames < Interface.Maximum_Time_Frames) {
+					if (Interface.Time_Frames < Interface.Max_Time_Frames) {
 						Interface.Time_Frames++;
 					} else {
 						Interface.Time_Frames = 0;
@@ -109,7 +109,7 @@ int main(int argc, char* args[]) {
 			} else {
 				Render_Texture(Textures.CMD_Warning1, &Rects.CMD_Warning1);
 			}
-			if (!Interface.Animation_Locked && Interface.Prompt_Identifier == P_None && Interface.Tool == LDE_INVALID) {
+			if (!Interface.Locked && Interface.Prompt_Identifier == P_None && Interface.Tool == LDE_INVALID) {
 				Render_Tile_Prompts();
 			}
 			Process_Movement();
@@ -132,24 +132,17 @@ int main(int argc, char* args[]) {
 		}
 		SDL_RenderPresent(Core.Renderer);
 		uint64_t Total_Time = SDL_GetTicks() - Frame_Beginning;
-		float Remaining_Delay = (1000.0f / Interface.Frame_Rate) - Total_Time;
-		float True_Rate = 99999;
-		if (Total_Time > 0) {
-			True_Rate = 1000.0f / Total_Time;
-		}
-		if (True_Rate > Interface.Frame_Rate) {
-			True_Rate = Interface.Frame_Rate;
-		}
-		Cache.FPS_Cache[Cache.FPS_Length] = True_Rate;
+		float True_Rate = (Total_Time > 0) ? (1000.0f / Total_Time) : 99999;
+		Cache.FPS_Cache[Cache.FPS_Length] = min(True_Rate, Interface.Frame_Rate);
 		Cache.FPS_Length++;
-		SDL_Delay((uint32_t)(fmax(Remaining_Delay, 0.0f)));
+		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
-	Free_Text();
 	Free_Preconfigs();
 	free_c(Temporary.Docks.Data);
 	Free_Supplies();
 	SDL_ShowCursor();
 	Cleanup_Assets();
+	Free_Text();
 	SDL_DestroyRenderer(Core.Renderer);
 	SDL_DestroyWindow(Core.Window);
 	Shutdown_Miniaudio();

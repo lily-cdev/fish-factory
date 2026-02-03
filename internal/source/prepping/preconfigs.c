@@ -1,22 +1,22 @@
 #include <prepping.h>
 
 void Free_Preconfig(Node Target[4]) {
-	for (int Counter = 0; Counter < 4; Counter++) {
-		free_c(Target[Counter].Data);
+	for (int C1 = 0; C1 < 4; C1++) {
+		free_c(Target[C1].Data);
 	}
 }
 
 void Setup_Preconfig(Node Target[4], int Depth) {
-	for (int Counter = 0; Counter < 4; Counter++) {
-		Target[Counter].Length = Depth;
-		Target[Counter].Data = malloc(sizeof(Point) * Depth);
+	for (int C1 = 0; C1 < 4; C1++) {
+		Target[C1].Length = Depth;
+		Target[C1].Data = malloc(sizeof(Point) * Depth);
 	}
 }
 
 void Load_Batch(Node Target[4], Point Batch[4], int Position) {
-	for (int Counter = 0; Counter < 4; Counter++) {
-		Target[Counter].Data[Position].X = Batch[Counter].X;
-		Target[Counter].Data[Position].Y = Batch[Counter].Y;
+	for (int C1 = 0; C1 < 4; C1++) {
+		Target[C1].Data[Position].X = Batch[C1].X;
+		Target[C1].Data[Position].Y = Batch[C1].Y;
 	}
 }
 
@@ -110,8 +110,8 @@ void Return_Nodes(Node* Yield, const int Column, const int Row, const int Rotati
 	free_c(Yield->Data);
 	Yield->Length = Preconfig[Rotation].Length;
 	Yield->Data = malloc(sizeof(Point) * Yield->Length);
-	for (int Counter = 0; Counter < Yield->Length; Counter++) {
-		Yield->Data[Counter].X = Preconfig[Rotation].Data[Counter].X;
-		Yield->Data[Counter].Y = Preconfig[Rotation].Data[Counter].Y;
+	for (int C1 = 0; C1 < Yield->Length; C1++) {
+		Yield->Data[C1].X = Preconfig[Rotation].Data[C1].X;
+		Yield->Data[C1].Y = Preconfig[Rotation].Data[C1].Y;
 	}
 }
