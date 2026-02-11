@@ -143,7 +143,8 @@ enum Issues {
 	I_No_TTF3,
 	I_No_Miniaudio,
 	I_No_Window,
-	I_No_Renderer
+	I_No_Renderer,
+	I_No_Sound
 };
 
 enum Error {

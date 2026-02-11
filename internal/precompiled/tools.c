@@ -35,14 +35,6 @@ int sgn(float Input) {
 	return 0;
 }
 
-float sqr_f(float Input) {
-	return Input * Input;
-}
-
-int sqr_i(int Input) {
-	return Input * Input;
-}
-
 bool evn_i(int Input) {
 	return (int)(Input & 1) == 0;
 }

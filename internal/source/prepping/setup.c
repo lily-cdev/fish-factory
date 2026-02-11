@@ -16,7 +16,7 @@ unsigned long WINAPI Step_Noise(void* C1) {
 		SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Noise_Surface);
 	uint32_t* Pixels = (uint32_t*)(Noise_Surface->pixels);
-	for (int C2 = 0; C2 < sqr_i(Settings.Screen_Size * 1200); C2++, Pixels++) {
+	for (int C2 = 0; C2 < sqr(Settings.Screen_Size * 1200); C2++, Pixels++) {
 		step_c(Shade);
 		*Pixels = Lookup_Table[(Shade & 31)];
 	}
@@ -109,7 +109,7 @@ void Preload_Noise() {
 			Settings.Screen_Size * LDE_TILESIZE, SDL_PIXELFORMAT_RGBA8888);
 		SDL_LockSurface(Fire_Surfaces[C1]);
 		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
-		for (int C2 = 0; C2 < sqr_i(Settings.Screen_Size * LDE_TILESIZE); C2++) {
+		for (int C2 = 0; C2 < sqr(Settings.Screen_Size * LDE_TILESIZE); C2++) {
 			Random = (Random * 2891336453u) + 747796405u;
 			Random ^= Random >> 16;
 			Pixels[C2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r,

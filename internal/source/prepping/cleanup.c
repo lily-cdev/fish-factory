@@ -57,10 +57,7 @@ void Clear_File(const char* Path) {
 
 void Cleanup_Assets() {
 	free_texture(Core.Game_Texture);
-	Free_Sound(&Audio.Primary_Ambience);
-	Free_Sound(&Audio.Filtration_Loop);
-	Free_Sound(&Audio.Ram_Loop);
-	Free_Sound(&Audio.Click);
+	Free_Sounds();
 	TTF_CloseFont(Fonts.Logo_Font);
 	TTF_CloseFont(Fonts.Large_Font);
 	TTF_CloseFont(Fonts.Text_Font);

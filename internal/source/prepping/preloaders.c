@@ -21,13 +21,6 @@ void Preload_Fonts() {
 	Load_Font("Oxygen/Oxygen_Regular", &Fonts.Terminal_Font, 12);
 }
 
-void Preload_Sounds() {
-	Load_Sound("Ambient/Background", &Audio.Primary_Ambience);
-	Load_Sound("Machines/Filtration_Loop", &Audio.Filtration_Loop);
-	Load_Sound("Machines/Ram_Loop", &Audio.Ram_Loop);
-	Load_Sound("UI/Click", &Audio.Click);
-}
-
 typedef struct {
 	SDL_Texture* Textures[LDE_MACHINES];
 	SDL_FRect Rects[LDE_MACHINES];
@@ -104,7 +97,7 @@ void Preload_Foundation() {
 	uint32_t Light = SDL_MapRGBA(Pixel_Format, NULL, Colors.Mid_Grey.r, Colors.Mid_Grey.g, Colors.Mid_Grey.b,
 		SDL_ALPHA_OPAQUE);
 	uint32_t* Pixels = (uint32_t*)(Mesh_Surface->pixels);
-	for (int C1 = 0; C1 < sqr_i(Resolution); C1++) {
+	for (int C1 = 0; C1 < sqr(Resolution); C1++) {
 		if (evn_i(C1) && (int)(C1 & 3) == 0) {
 			Pixels[C1] = Light;
 		} else {
@@ -167,7 +160,12 @@ void Preload_Assets() {
 	Core.Game_Texture = SDL_GenerateTexture(Core.Renderer, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
 	Interface.Tile_Centerpoint.x = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
 	Interface.Tile_Centerpoint.y = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
-	Preload_Sounds();
+	ma_result Yield = Load_Sounds();
+	if (Yield != MA_SUCCESS) {
+		char Carrier[512];
+		snprintf(Carrier, sizeof(Carrier), "could not load a sound; %s", ma_result_description(Yield));
+		jump(I_No_Sound, Carrier);
+	}
 	Preload_Machines();
 	Preload_Foundation();
 	SDL_Texture* Carrying_Texture = Preload_Texture("UI/Backgrounds/Doors");

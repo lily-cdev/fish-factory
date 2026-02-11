@@ -237,7 +237,7 @@ void Process_Inputs() {
 					}
 					Prompt_Functions[Interface.Prompt_Identifier + 1](X, Y);
 					if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
-						Play_Sound(&Audio.Click, false);
+						Play_Sound(Click, false);
 					}
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == 0) {

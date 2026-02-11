@@ -81,10 +81,10 @@ void Render_Opening() {
 }
 
 void Trigger_Ambiance() {
-	Terminate_Sound(&Audio.Primary_Ambience);
+	Terminate_Sound(Ambience1);
 	switch (Transition.Queried_Tab) {
 	case 0:
-		Play_Sound(&Audio.Primary_Ambience, true);
+		Play_Sound(Ambience1, true);
 		break;
 	default:
 		break;

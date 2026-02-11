@@ -193,8 +193,8 @@ void Find_Effect() {
 				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[C1]) {
 					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
 					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
-					float Distance = sqrtf(sqr_f(A) + sqr_f(B)) / (float)LDE_TILESIZE;
-					Interface.Effects[E_Radiation] += fmax(((int)(-0.2625 * sqr_f(Distance)) + 105) * Settings.Screen_Size,
+					float Distance = sqrtf(sqr(A) + sqr(B)) / (float)LDE_TILESIZE;
+					Interface.Effects[E_Radiation] += fmax(((int)(-0.2625 * sqr(Distance)) + 105) * Settings.Screen_Size,
 						0.0f);
 					return;
 				}

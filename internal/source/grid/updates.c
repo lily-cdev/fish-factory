@@ -198,8 +198,8 @@ void Update_Machines() {
 					if (Transferred > 0) {
 						Data.Data_Grid[Inputs.Data[0].X][Inputs.Data[0].Y][Stored_Fluids] -= Transferred;
 						Data.Data_Grid[Outputs.Data[0].X][Outputs.Data[0].Y][Stored_Fluids] += Transferred;
-						float Generated = Transferred * LDE_TURBINECOEFFICIENT * log(sqr_f(Data.Temperature_Grid[Inputs.Data[
-							0].X][Inputs.Data[0].Y])) * log(Data.Settings_Grid[X][Y][3] * 1.5);
+						float Generated = Transferred * LDE_TURBINECOEFFICIENT * log(sqr(Data.Temperature_Grid[Inputs.Data[0].X][
+							Inputs.Data[0].Y])) * log(Data.Settings_Grid[X][Y][3] * 1.5f);
 						Update_Item(Outputs.Data[0].X, Outputs.Data[0].Y, Preset_Items.Steam.Identifier,
 							(Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] * 0.1) + 32);
 						if (Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] < 200) {
@@ -219,7 +219,7 @@ void Update_Machines() {
 				tmp3.Data[0].X = X;tmp3.Data[0].Y=Y;
 				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, X, Y, tmp3)) {
 					Data.Animation_Grid[X][Y][0] = 0;
-					Play_Sound(&Audio.Ram_Loop, false);
+					Play_Sound(Ram1, false);
 				} else if (Data.Animation_Grid[X][Y][0] == 0) {
 					Data.Animation_Grid[X][Y][0] = LDE_INVALID;
 				}
@@ -253,7 +253,7 @@ void Update_Machines() {
 				Data.Animation_Grid[X][Y][0] = 0;
 				Data.Animation_Grid[X][Y][1] = 0;
 				if (Running1 || Running2) {
-					Play_Sound(&Audio.Filtration_Loop, false);
+					Play_Sound(Filtration1, false);
 				} else if (Data.Animation_Grid[X][Y][0] == 0) {
 					Data.Animation_Grid[X][Y][0] = LDE_INVALID;
 					Data.Animation_Grid[X][Y][1] = 0;

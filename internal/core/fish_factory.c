@@ -39,9 +39,9 @@ int main(int argc, char* args[]) {
 	if (!TTF_Init()) {
 		jump(I_No_TTF3, "could not load SDL3_ttf");
 	}
-	int Yield = Startup_Miniaudio();
+	ma_result Yield = Startup_Miniaudio();
 	if (Yield != MA_SUCCESS) {
-		char Carrier[128];
+		char Carrier[512];
 		snprintf(Carrier, sizeof(Carrier), "could not load Miniaudio; %s", ma_result_description(Yield));
 		jump(I_No_Miniaudio, Carrier);
 	}

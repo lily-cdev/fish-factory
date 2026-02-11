@@ -1,17 +1,12 @@
 #pragma once
 #include <miniaudio.h>
 #include <stdbool.h>
-#define LDE_AUDIOCOUNT 4;
-#define LDE_FORMAT ma_format_f32
-#define LDE_CHANNELS 2
-#define LDE_SAMPLERATE 44100
+#define LDE_AUDIOCOUNT 4
 
 typedef struct {
 	bool Allocated;
-	bool Looping;
-	bool Playing;
 	float Volume;
-    ma_decoder Data;
+    ma_sound Data;
 } Subsound;
 
 typedef enum {
@@ -22,16 +17,15 @@ typedef enum {
 } Sound;
 
 typedef struct {
-	ma_device Engine;
+	ma_engine Engine;
 	Subsound Data[LDE_AUDIOCOUNT];
-	ma_mutex Lock;
 } AUDIO;
 
 extern AUDIO Audio;
 
 ma_result Startup_Miniaudio();
 void Shutdown_Miniaudio();
-ma_result Load_Sound(const char* Path, Sound Target);
+ma_result Load_Sounds();
 void Play_Sound(Sound Target, bool Looping);
 void Terminate_Sound(Sound Target);
 void Adjust_Sound(float Volume);
