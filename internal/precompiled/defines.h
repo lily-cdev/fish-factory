@@ -1,6 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define NOMINMAX
+#define LDE_AUDIOCOUNT 4
 #define LDE_BORDERWIDTH 4
 #define LDE_BUFFERSIZE 360
 #define LDE_BUTTONS 49

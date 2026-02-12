@@ -144,7 +144,8 @@ enum Issues {
 	I_No_Miniaudio,
 	I_No_Window,
 	I_No_Renderer,
-	I_No_Sound
+	I_No_Sound,
+	I_Render_Failed
 };
 
 enum Error {
@@ -168,3 +169,10 @@ enum Flows {
 	F_In,
 	F_Out
 };
+
+typedef enum {
+	Ambience1,
+	Filtration1,
+	Ram1,
+	Click
+} Sound;

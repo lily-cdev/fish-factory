@@ -1,4 +1,5 @@
 #pragma once
+#include <miniaudio/miniaudio.h>
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <corecrt_math_defines.h>

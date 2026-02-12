@@ -1,5 +1,6 @@
-#define MINIAUDIO_IMPLEMENTATION
-#include <audio.h>
+#include <data.h>
+
+AUDIO Audio = { };
 
 char* Paths[LDE_AUDIOCOUNT] = {
 	"Ambient/Background",
@@ -8,26 +9,32 @@ char* Paths[LDE_AUDIOCOUNT] = {
 	"UI/Click"
 };
 
-ma_result Startup_Miniaudio() {
-	return ma_engine_init(NULL, &Audio.Engine);
+void Startup_Miniaudio() {
+	ma_result Yield = ma_engine_init(NULL, &Audio.Engine);
+	if (Yield != MA_SUCCESS) {
+		char Carrier[512];
+		snprintf(Carrier, sizeof(Carrier), "could not load Miniaudio; %s", ma_result_description(Yield));
+		jump(I_No_Miniaudio, Carrier);
+	}
 }
 
 void Shutdown_Miniaudio() {
 	ma_engine_uninit(&Audio.Engine);
 }
 
-ma_result Load_Sounds() {
+void Load_Sounds() {
 	for (int C1 = 0; C1 < LDE_AUDIOCOUNT; C1++) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Paths[C1]);
 		ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &(Audio.Data[C1].Data));
 		if (Yield != MA_SUCCESS) {
-			return Yield;
+			char Carrier[512];
+			snprintf(Carrier, sizeof(Carrier), "could not load a sound; %s", ma_result_description(Yield));
+			jump(I_No_Sound, Carrier);
 		}
 		Audio.Data[C1].Volume = 0.5f;
 		Audio.Data[C1].Allocated = true;
 	}
-	return MA_SUCCESS;
 }
 
 void Play_Sound(Sound Target, bool Looping) {

@@ -114,7 +114,9 @@ void Fill_Clearance(const int Identifier, const int X, const int Y, const int W,
 
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect) {
 	if (Texture == NULL) {
-		puts("failf");
+		char Carrier[512];
+		snprintf(Carrier, sizeof(Carrier), "could not render texture; %s", SDL_GetError());
+		jump(I_Render_Failed, Carrier);
 	}
 	SDL_RenderTexture(Core.Renderer, Texture, NULL, Rect);
 }

@@ -39,12 +39,7 @@ int main(int argc, char* args[]) {
 	if (!TTF_Init()) {
 		jump(I_No_TTF3, "could not load SDL3_ttf");
 	}
-	ma_result Yield = Startup_Miniaudio();
-	if (Yield != MA_SUCCESS) {
-		char Carrier[512];
-		snprintf(Carrier, sizeof(Carrier), "could not load Miniaudio; %s", ma_result_description(Yield));
-		jump(I_No_Miniaudio, Carrier);
-	}
+	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
 	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY, &Core.Window, &Core.Renderer);
 	if (Core.Window == NULL) {
@@ -142,6 +137,7 @@ int main(int argc, char* args[]) {
 	Free_Supplies();
 	SDL_ShowCursor();
 	Cleanup_Assets();
+	Free_Sounds();
 	Free_Text();
 	SDL_DestroyRenderer(Core.Renderer);
 	SDL_DestroyWindow(Core.Window);

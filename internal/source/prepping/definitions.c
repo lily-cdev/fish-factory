@@ -1,6 +1,5 @@
 #include <prepping.h>
 
-AUDIO Audio = { };
 CORE Core = {
 	.Window = NULL,
 	.Renderer = NULL,

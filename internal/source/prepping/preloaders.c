@@ -160,12 +160,6 @@ void Preload_Assets() {
 	Core.Game_Texture = SDL_GenerateTexture(Core.Renderer, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
 	Interface.Tile_Centerpoint.x = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
 	Interface.Tile_Centerpoint.y = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
-	ma_result Yield = Load_Sounds();
-	if (Yield != MA_SUCCESS) {
-		char Carrier[512];
-		snprintf(Carrier, sizeof(Carrier), "could not load a sound; %s", ma_result_description(Yield));
-		jump(I_No_Sound, Carrier);
-	}
 	Preload_Machines();
 	Preload_Foundation();
 	SDL_Texture* Carrying_Texture = Preload_Texture("UI/Backgrounds/Doors");

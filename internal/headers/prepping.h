@@ -1,6 +1,5 @@
 #pragma once
 #include <core.h>
-#include <audio.h>
 
 typedef struct {
 	SDL_Window* Window;

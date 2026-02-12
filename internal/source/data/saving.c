@@ -155,8 +155,10 @@ void Reset_Statistics() {
 void Reload_All() {
 	uint64_t Start = SDL_GetTicks();
 	Cleanup_Assets();
+	Free_Sounds();
 	SDL_SetWindowSize(Core.Window, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
 	Preload_Fonts();
+	Load_Sounds();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
 	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {

@@ -10,7 +10,6 @@ endif()
 
 add_executable(Fish_Factory
     internal/core/fish_factory.c
-	internal/source/audio.c
 	internal/source/pipes.c
 	internal/source/transitions.c
 	internal/source/wires.c
@@ -53,6 +52,7 @@ add_executable(Fish_Factory
 	internal/source/prepping/tools.c
 	internal/source/prepping/ui.c
 	internal/source/prepping/setup.c
+	internal/source/data/audio.c
 	internal/source/data/saving.c
 	internal/source/data/settings.c
 	internal/source/data/lang.c
@@ -68,6 +68,7 @@ add_executable(Fish_Factory
 	internal/source/items/setup.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
+	external/include/miniaudio/miniaudio.c
 	modules/neutral/resource.rc
 )
 
