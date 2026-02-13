@@ -38,7 +38,7 @@ void Forward_Essentials(int Buttons, int Sliders);
 void Backward_Essentials();
 void Render_Necessities(char* Machine, char* Prefix);
 void Tick_Input(int Target, bool Slider);
-void Return_Command(const int Type, const char* Parameters[], char* Yield);
+void Return_Command(const int Type, const char* Parameters[]);
 void Process_Commands();
 void Render_Blueprint(int Size_X, int Size_Y);
 void Render_Game_UI();

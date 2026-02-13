@@ -9,7 +9,7 @@ Item_Stack Get_Item(int X, int Y) {
 		}
 	}
 	Item_Stack Blank_Item;
-	strcpy(Blank_Item.Display_Name, "[none]");
+	strncpy(Blank_Item.Display_Name, "[none]", sizeof(Blank_Item.Display_Name));
 	Blank_Item.Identifier = LDE_INVALID;
 	Blank_Item.Temperature = LDE_ROOMTEMP;
 	return Blank_Item;
@@ -22,7 +22,7 @@ Item_Stack ID_To_Item(const int ID) {
 		}
 	}
 	Item_Stack Blank_Item;
-	strcpy(Blank_Item.Display_Name, "[none]");
+	strncpy(Blank_Item.Display_Name, "[none]", sizeof(Blank_Item.Display_Name));
 	Blank_Item.Identifier = LDE_INVALID;
 	Blank_Item.Temperature = LDE_ROOMTEMP;
 	return Blank_Item;

@@ -87,7 +87,7 @@ void Render_Tile_Prompts() {
 					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][C1]) {
 						char Subcore[64];
 						char Sub2core[64];
-						strcpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]));
+						strncpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]), sizeof(Sub2core));
 						for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
 							Sub2core[C1] = (char)(tolower(Sub2core[C1]));
 						}

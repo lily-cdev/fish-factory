@@ -12,7 +12,7 @@ typedef struct {
 	int Selected_Save;
 	Point_d Camera;
 	Point_f Mouse;
-} CORE;
+} lde_core;
 
 typedef struct {
 	bool CMD_Placed;
@@ -30,7 +30,7 @@ typedef struct {
 	float Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
 	float Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
 	uint64_t Funds;
-} DATA;
+} lde_data;
 
 typedef struct {
 	char Monitor_Size[64];
@@ -53,7 +53,7 @@ typedef struct {
 	bool Machine_Quirks[LDE_MACHINES][LDE_QUIRKS];
 	char* Days[LDE_DAYS];
 	Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
-} METADATA;
+} lde_metadata;
 
 typedef struct {
 	bool AA_Temporary;
@@ -64,7 +64,7 @@ typedef struct {
 	int VSync;
 	int Volume;
 	int Raw_FPS;
-} SETTINGS;
+} lde_settings;
 
 typedef struct {
 	SDL_Texture* Logo1;
@@ -178,7 +178,7 @@ typedef struct {
 	SDL_Texture* Mesh;
 	Texture_Array Fire;
 	Texture_Array None;
-} TEXTURES;
+} lde_textures;
 
 typedef struct {
 	SDL_FRect Logo1;
@@ -252,7 +252,7 @@ typedef struct {
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	Rect2_Array Confirmation;
-} RECTS;
+} lde_rects;
 
 typedef struct {
 	SDL_Color Abyss_Black;
@@ -267,7 +267,7 @@ typedef struct {
 	SDL_Color Carnage_Pink;
 	SDL_Color Hostile_Red;
 	SDL_Color Ocean;
-} COLORS;
+} lde_colors;
 
 typedef struct {
 	TTF_Font* Logo_Font;
@@ -277,13 +277,13 @@ typedef struct {
 	TTF_Font* Subtext_Font;
 	TTF_Font* Microtext_Font;
 	TTF_Font* Terminal_Font;
-} FONTS;
+} lde_fonts;
 
 typedef struct {
 	char* Keybind_Texts[LDE_KEYBINDS];
 	SDL_Keycode Keybind_List[LDE_KEYBINDS];
 	SDL_Keycode Keybind_Settings[LDE_KEYBINDS];
-} KEYBINDS;
+} lde_keybinds;
 
 typedef struct {
 	bool Settings_Changed;
@@ -300,7 +300,7 @@ typedef struct {
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
-} TEMPORARY;
+} lde_temporary;
 
 typedef struct {
 	int Wire_State;
@@ -314,8 +314,8 @@ typedef struct {
 	SDL_Color Color_Query[32];
 	int Query_Length;
 	float* FPS_Cache;
-	int FPS_Length;
-} CACHE;
+	int FPS_Tick;
+} lde_cache;
 
 typedef struct {
 	Texture_Supply FPS;
@@ -342,7 +342,7 @@ typedef struct {
 	Texture_Supply Catalog2[LDE_RECIPETYPES];
 	Texture_Supply Catalog3[LDE_RECIPETYPES];
 	Texture_Supply Filesizes[LDE_SAVEFILES];
-} SUPPLIES;
+} lde_supplies;
 
 typedef struct {
 	bool Locked;
@@ -367,8 +367,6 @@ typedef struct {
 	int Frame_Rate;
 	int Time_Frames;
 	int Max_Time_Frames;
-	int Subtime_Frames;
-	int Max_Subtime_Frames;
 	int Item;
 	int Rotation;
 	int Save_Frames;
@@ -384,13 +382,13 @@ typedef struct {
 	char Terminal_Logs[LDE_LOGMAX][128];
 	char Terminal_Entry[128];
 	int Terminal_Length;
-} INTERFACE;
+} lde_interface;
 
 typedef struct {
 	char JSON[LDE_JSONMAX][128];
 	int Commands[LDE_CMDMAX];
-	char* Parameters[LDE_CMDMAX][4];
-} BUFFERS;
+	char Parameters[LDE_CMDMAX][4][128];
+} lde_buffers;
 
 typedef struct {
 	Node EP_Inputs[4];
@@ -407,23 +405,23 @@ typedef struct {
 	Node STO_Outputs[4];
 	Node GW_Inputs[4];
 	Node GW_Outputs[4];
-} PRECONFIGS;
+} lde_preconfigs;
 
-extern CORE Core;
-extern DATA Data;
-extern METADATA Metadata;
-extern SETTINGS Settings;
-extern TEXTURES Textures;
-extern RECTS Rects;
-extern COLORS Colors;
-extern FONTS Fonts;
-extern KEYBINDS Keybinds;
-extern TEMPORARY Temporary;
-extern CACHE Cache;
-extern SUPPLIES Supplies;
-extern INTERFACE Interface;
-extern BUFFERS Buffers;
-extern PRECONFIGS Preconfigs;
+extern lde_core Core;
+extern lde_data Data;
+extern lde_metadata Metadata;
+extern lde_settings Settings;
+extern lde_textures Textures;
+extern lde_rects Rects;
+extern lde_colors Colors;
+extern lde_fonts Fonts;
+extern lde_keybinds Keybinds;
+extern lde_temporary Temporary;
+extern lde_cache Cache;
+extern lde_supplies Supplies;
+extern lde_interface Interface;
+extern lde_buffers Buffers;
+extern lde_preconfigs Preconfigs;
 
 void Preload_Fonts();
 int Visual_To_ID(const int Identifier);

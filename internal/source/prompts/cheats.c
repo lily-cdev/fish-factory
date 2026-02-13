@@ -27,7 +27,7 @@ void Render_F_Generator(int X, int Y) {
 	char Subbuffer[256];
 	Abbreviate_Number(Data.Settings_Grid[X][Y][5], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "Producing %sL/s of %i °F ", Subbuffer, (int)Data.Settings_Grid[X][Y][4]);
-	strcat(Buffer, ID_To_Item(Data.Settings_Grid[X][Y][3]).Display_Name);
+	strcat_c(Buffer, ID_To_Item(Data.Settings_Grid[X][Y][3]).Display_Name, sizeof(Buffer));
 	Process_Supply(&Supplies.Fluid_Production, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, LDE_INVALID, 200);
 	for (int C1 = 0; C1 < 2; C1++) {
 		Render_Button(&Textures.Confirmation.Data[C1], &Rects.Confirmation.Data[C1], C1 + 5, Colors.Cherry_Blossom);

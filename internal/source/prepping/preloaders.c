@@ -322,15 +322,15 @@ void Preload_Assets() {
 		}
 	}
 	Interface.Max_Time_Frames = Interface.Frame_Rate;
-	Interface.Max_Subtime_Frames = Interface.Frame_Rate / 3;
-	Cache.FPS_Cache = malloc(sizeof(float) * ((int)ceil(Interface.Frame_Rate / 3) + 1));
-	Cache.FPS_Length = 0;
+	Cache.FPS_Cache = malloc(sizeof(float) * Interface.Frame_Rate);
+	Cache.FPS_Tick = 0;
+	Temporary.Temporary_FPS = Interface.Frame_Rate;
 	for (int C1 = 0; C1 < 101; C1++) {
 		char Buffer[32];
 		snprintf(Buffer, sizeof(Buffer), "%i%%", C1);
-		strcpy(Interface.Slider_Texts[5][C1], Buffer);
+		strncpy(Interface.Slider_Texts[5][C1], Buffer, sizeof(Interface.Slider_Texts[5][C1]));
 	}
-	strcpy(Interface.Slider_Texts[5][101], NULLSTRING);
+	strncpy(Interface.Slider_Texts[5][101], NULLSTRING, sizeof(Interface.Slider_Texts[5][101]));
 	const int Queried[4] = {
 		7,
 		11,
@@ -342,14 +342,15 @@ void Preload_Assets() {
 			snprintf(Interface.Slider_Texts[Queried[C1]][C2], sizeof(Interface.Slider_Texts[Queried[C1]][C2]), "%iL/s",
 				Interface.Valve300_Postions[C2]);
 		}
-		strcpy(Interface.Slider_Texts[Queried[C1]][LDE_VALVE300LENGTH], NULLSTRING);
+		strncpy(Interface.Slider_Texts[Queried[C1]][LDE_VALVE300LENGTH], NULLSTRING, sizeof(Interface.Slider_Texts[
+			Queried[C1]][LDE_VALVE300LENGTH]));
 	}
 	for (int C1 = 0; C1 < 241; C1++) {
 		char Buffer[32];
 		snprintf(Buffer, sizeof(Buffer), "%i ┬░F", C1 * 5);
-		strcpy(Interface.Slider_Texts[10][C1], Buffer);
+		strncpy(Interface.Slider_Texts[10][C1], Buffer, sizeof(Interface.Slider_Texts[10][C1]));
 	}
-	strcpy(Interface.Slider_Texts[10][241], NULLSTRING);
+	strncpy(Interface.Slider_Texts[10][241], NULLSTRING, sizeof(Interface.Slider_Texts[10][241]));
 	char Tool_Texts[5][64] = { "Building", "Deleting", "Inspecting", "Wiring", "Plumbing" };
 	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * 5);
 	Textures.Tool.Length = 5;
@@ -383,7 +384,7 @@ void Preload_Assets() {
 	SDL_DestroySurface(Carrying_Surface);
 	char Keycore[64];
 	char Subkeycore[64];
-	strcpy(Subkeycore, SDL_GetKeyName(Keybinds.Keybind_List[13]));
+	strncpy(Subkeycore, SDL_GetKeyName(Keybinds.Keybind_List[13]), sizeof(Subkeycore));
 	snprintf(Keycore, sizeof(Keycore), "Press \"%s\" to close.", Subkeycore);
 	Carrying_Surface = TTF_RenderText_Blended(Fonts.Text_Font, Keycore, strlen(Keycore), Colors.Abyss_Black);
 	Rects.Help_Content[1].x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);

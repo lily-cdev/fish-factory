@@ -1,6 +1,6 @@
 #include <prepping.h>
 
-CORE Core = {
+lde_core Core = {
 	.Window = NULL,
 	.Renderer = NULL,
 	.Game_Texture = NULL,
@@ -11,7 +11,7 @@ CORE Core = {
 	.Camera = { -140, 0 },
 	.Mouse = { 0, 0 }
 };
-DATA Data = {
+lde_data Data = {
 	.CMD_Placed = false,
 	.Version = 0,
 	.Time = 0,
@@ -27,7 +27,7 @@ DATA Data = {
 	.Data_Grid = { },
 	.Funds = 0
 };
-METADATA Metadata = {
+lde_metadata Metadata = {
 	.Item_Labels = {
 		{ Submarine_Dock, Cable_Node, LDE_TERMINATOR },
 		{ Ram_Pump, LDE_TERMINATOR },
@@ -78,7 +78,7 @@ METADATA Metadata = {
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } }
 };
-SETTINGS Settings = {
+lde_settings Settings = {
 	.AA_Temporary = true,
 	.VS_Temporary = false,
 	.Fullscreen = 0,
@@ -88,9 +88,9 @@ SETTINGS Settings = {
 	.Volume = 50,
 	.Raw_FPS = 2
 };
-TEXTURES Textures = { };
-RECTS Rects = { };
-COLORS Colors = {
+lde_textures Textures = { };
+lde_rects Rects = { };
+lde_colors Colors = {
 	.Abyss_Black = { 0, 0, 0 },
 	.Pure_White = { 255, 255, 255 },
 	.Light_Grey = { 235, 240, 240 },
@@ -104,56 +104,37 @@ COLORS Colors = {
 	.Hostile_Red = { 187, 10, 30 },
 	.Ocean = { 6, 66, 116 }
 };
-FONTS Fonts = { };
-KEYBINDS Keybinds = {
+lde_fonts Fonts = { };
+lde_keybinds Keybinds = {
 	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
 		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE },
 	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
 		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE }
 };
-TEMPORARY Temporary = {
+lde_temporary Temporary = {
 	.Settings_Changed = false,
 	.Tutorial_Step = LDE_INVALID,
 	.Log_Inversions = { true, false, false },
 	.First_Coordinate = { 0, 0 },
 	.Docks.Data = NULL
 };
-CACHE Cache = {
+lde_cache Cache = {
 	.Wire_State = LDE_INVALID,
 	.Wire_Cache.Data = NULL,
 	.Blueprint_Cache = NULL,
 	.Log_Cache.Data = NULL
 };
-SUPPLIES Supplies = { };
-INTERFACE Interface = {
-	.Locked = false,
-	.Building = false,
-	.Sprinting = false,
-	.Ocean_Cycle = 0,
-	.Node_Cycle = 0,
+lde_supplies Supplies = { };
+lde_interface Interface = {
 	.Movespeed = 120,
-	.Log_Offset = 0,
-	.Tile = { 0, 0 },
 	.Prompt_Identifier = P_None,
 	.Subprompt_Identifier = LDE_INVALID,
 	.Tool = LDE_INVALID,
 	.UD_Input = LDE_INVALID,
 	.LR_Input = LDE_INVALID,
-	.Queried_Price = 0,
-	.Engagement = 0,
 	.UI_Tab = 1,
-	.Subtab = 0,
-	.UI_Selection = 0,
 	.Frame_Rate = 60,
-	.Time_Frames = 0,
-	.Max_Time_Frames = 0,
-	.Subtime_Frames = 0,
-	.Max_Subtime_Frames = 0,
 	.Item = 1,
-	.Rotation = 0,
-	.Save_Frames = 0,
-	.Map_X = 0,
-	.Map_Y = 0,
 	.Registering_Keybind = LDE_INVALID,
 	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 15, 20, 50, 100, 150, 300 },
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
@@ -173,8 +154,7 @@ INTERFACE Interface = {
 		{ NULLSTRING },
 		{ NULLSTRING },
 		{ NULLSTRING }
-	},
-	.Tile_Centerpoint = { 0, 0 }
+	}
 };
-BUFFERS Buffers = { };
-PRECONFIGS Preconfigs = { };
+lde_buffers Buffers = { };
+lde_preconfigs Preconfigs = { };

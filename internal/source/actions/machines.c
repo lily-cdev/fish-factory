@@ -10,7 +10,7 @@ void Handle_Spawning_Pool(int X, int Y) {
 				snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "volume\", \"%sL", Subbuffer);
 				Abbreviate_Number(Data.Settings_Grid[X][Y][4], Subbuffer, sizeof(Subbuffer));
 				snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "food\", \"%sg", Subbuffer);
-				strcpy(Buffers.JSON[2], NULLSTRING);
+				strncpy(Buffers.JSON[2], NULLSTRING, sizeof(Buffers.JSON[2]));
 				Print_JSON();
 			} else if (Interface.UI_Selection == 4) {
 				if (Data.Settings_Grid[X][Y][5] > 0) {
@@ -20,7 +20,7 @@ void Handle_Spawning_Pool(int X, int Y) {
 					snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "type\", \"%s %s", Fish_Catalog[(int)(Data
 						.Settings_Grid[X][Y][6])].Name, Buffer);
 					snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "quantity\", \"%i", (int)Data.Settings_Grid[X][Y][5]);
-					strcpy(Buffers.JSON[2], NULLSTRING);
+					strncpy(Buffers.JSON[2], NULLSTRING, sizeof(Buffers.JSON[2]));
 					Print_JSON();
 				} else {
 					Print_Error(No_File);
@@ -115,7 +115,7 @@ void Handle_Dock(int X, int Y) {
 			char Carrier1[32] = "none";
 			if (Data.Settings_Grid[X][Y][C1 + 5] != LDE_INVALID && ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Value <
 				1) {
-				strcpy(Carrier1, "low_value");
+				strncpy(Carrier1, "low_value", sizeof(Carrier1));
 			}
 			char Subbuffer1[64];
 			Truncate(fabs(Data.Settings_Grid[X][Y][C1 + 3]), Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
@@ -128,7 +128,7 @@ void Handle_Dock(int X, int Y) {
 			Index++;
 			char Carrier2[32] = "none";
 			if (Data.Settings_Grid[X][Y][C1 + 5] != LDE_INVALID) {
-				strcpy(Carrier2, ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Display_Name);
+				strncpy(Carrier2, ID_To_Item((int)(Data.Settings_Grid[X][Y][C1 + 5])).Display_Name, sizeof(Carrier2));
 				for (int C2 = 0; C2 < strlen(Carrier2); C2++) {
 					Carrier2[C2] = (char)(tolower(Carrier2[C2]));
 					if (Carrier2[C2] == ' ') {
@@ -139,7 +139,7 @@ void Handle_Dock(int X, int Y) {
 			snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "item_%i\", \"%s", C1 + 1, Carrier2);
 			Index++;
 		}
-		strcpy(Buffers.JSON[Index], NULLSTRING);
+		strncpy(Buffers.JSON[Index], NULLSTRING, sizeof(Buffers.JSON[Index]));
 		Print_JSON();
 	} else if (Interface.UI_Selection == 5 || Interface.UI_Selection == 6) {
 		char Buffer[64];
@@ -172,7 +172,7 @@ void Handle_Exchanger(int X, int Y) {
 			snprintf(Buffers.JSON[4], sizeof(Buffers.JSON[4]), "primary_temp\", \"%s °F", Buffer1);
 			Abbreviate_Number(Data.Settings_Grid[X][Y][8], Buffer1, sizeof(Buffer1)); 
 			snprintf(Buffers.JSON[5], sizeof(Buffers.JSON[5]), "feedwater_temp\", \"%s °F", Buffer1);
-			strcpy(Buffers.JSON[6], NULLSTRING);
+			strncpy(Buffers.JSON[6], NULLSTRING, sizeof(Buffers.JSON[6]));
 			Print_JSON();
 			break;
         case 6:
@@ -197,7 +197,7 @@ void Handle_Turbine(int X, int Y) {
 		Truncate((Data.Settings_Grid[X][Y][3] * 1.5) + 0.5 + ((bool)(Data.Settings_Grid[X][Y][4]) ? 0.5 : 0), 0, Buffer,
 			sizeof(Buffer));
 		snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "length\", \"%sm", Buffer);
-		strcpy(Buffers.JSON[1], NULLSTRING);
+		strncpy(Buffers.JSON[1], NULLSTRING, sizeof(Buffers.JSON[1]));
 		Print_JSON();
 	}
 	Backward_Essentials();

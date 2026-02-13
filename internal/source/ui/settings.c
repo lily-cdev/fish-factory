@@ -27,7 +27,7 @@ void Render_Keybinds() {
 			free_texture(Registering_Texture);
 		} else {
 			char Subcore[32];
-			strcpy(Subcore, SDL_GetKeyName(Keybinds.Keybind_Settings[C1]));
+			strncpy(Subcore, SDL_GetKeyName(Keybinds.Keybind_Settings[C1]), sizeof(Subcore));
 			for (int C2 = 0; C2 < strlen(Subcore); C2++) {
 				Subcore[C2] = (char)(tolower(Subcore[C2]));
 			}

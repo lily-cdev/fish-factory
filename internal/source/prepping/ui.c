@@ -107,7 +107,7 @@ void Render_Game_UI() {
 		Render_Sidebar(Textures.Recipe_Sidebutton, Rects.Recipe, 3);
 		Render_Sidebar(Textures.Exit_Sidebutton, Rects.Exit, 4);
 	}
-	char* Data_Fragments[16];
+	char Data_Fragments[16][128];
 	int Index = 0;
 	int Hour = Data.Time / 60;
 	int Minute =  Data.Time % 60;
@@ -144,18 +144,18 @@ void Render_Game_UI() {
 		if (Returned_Item.Identifier != LDE_INVALID) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "Item: %s", Returned_Item.Display_Name);
-			strcpy(Data_Fragments[Index], Buffer);
+			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
 			char Subbuffer[64];
 			Truncate(Returned_Item.Temperature, 0, Subbuffer, sizeof(Subbuffer));
 			snprintf(Buffer, sizeof(Buffer), "%s °F", Subbuffer);
-			strcpy(Data_Fragments[Index], Buffer);
+			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
 			float Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
 				Returned_Item.Vaporisation_Enthalpy);
 			int Multiplier = 1;
 			if (Pressure == LDE_INVALID) {
-				strcpy(Data_Fragments[Index], "gas");
+				strncpy(Data_Fragments[Index], "gas", sizeof(Data_Fragments[Index]));
 				Index++;
 				Multiplier = 10;
 			} else {
@@ -166,7 +166,7 @@ void Render_Game_UI() {
 				char Subbuffer[64];
 				Abbreviate_Number(Pressure, Subbuffer, sizeof(Subbuffer));
 				snprintf(Buffer, sizeof(Buffer), "%s bar liquid", Subbuffer);
-				strcpy(Data_Fragments[Index], Buffer);
+				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}
 			if (Content_Vector[1] != 0) {
@@ -177,7 +177,7 @@ void Render_Game_UI() {
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1] * Multiplier, Subbuffer2, sizeof(Subbuffer2));
 				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
-				strcpy(Data_Fragments[Index], Buffer);
+				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}
 		} else {
@@ -188,7 +188,7 @@ void Render_Game_UI() {
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
 				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
-				strcpy(Data_Fragments[Index], Buffer);
+				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}
 		}
@@ -199,14 +199,14 @@ void Render_Game_UI() {
 			Truncate(Content_Vector[2], Get_Depth(Content_Vector[3]), Subbuffer1, sizeof(Subbuffer1));
 			Abbreviate_Number(Content_Vector[3], Subbuffer2, sizeof(Subbuffer2));
 			snprintf(Buffer, sizeof(Buffer), "%s / %sJ.", Subbuffer1, Subbuffer2);
-			strcpy(Data_Fragments[Index], Buffer);
+			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
 		}
 		if (Index <= 0) {
-			strcpy(Data_Fragments[Index], "No data");
+			strncpy(Data_Fragments[Index], "No data", sizeof(Data_Fragments[Index]));
 			Index++;
 		}
-		strcpy(Data_Fragments[Index], NULLSTRING);
+		strncpy(Data_Fragments[Index], NULLSTRING, sizeof(Data_Fragments[Index]));
 		Index++;
 		int Fragment_Size = veclen(Data_Fragments), Max_Width = 0;
 		SDL_Texture* Fragment_Textures[16];

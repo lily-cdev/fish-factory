@@ -73,16 +73,15 @@ int main(int argc, char* args[]) {
 		Process_Inputs();
 		switch (Interface.UI_Tab) {
 		case 0:
-			if (Interface.Subtime_Frames < Interface.Max_Subtime_Frames) {
-				Interface.Subtime_Frames++;
-			} else {
-				Interface.Subtime_Frames = 0;
+			if (Cache.FPS_Tick >= Interface.Frame_Rate) {
+				Cache.FPS_Tick = 0;
 				float Sum = 0;
-				for (int C1 = 0; C1 < Cache.FPS_Length; C1++) {
+				for (int C1 = 0; C1 < Interface.Frame_Rate; C1++) {
 					Sum += Cache.FPS_Cache[C1];
 				}
-				Temporary.Temporary_FPS = (int)(Sum / Cache.FPS_Length);
-				Cache.FPS_Length = 0;
+				Temporary.Temporary_FPS = (int)(Sum / Interface.Frame_Rate);
+			} else {
+				Cache.FPS_Tick++;
 			}
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
@@ -127,9 +126,10 @@ int main(int argc, char* args[]) {
 		}
 		SDL_RenderPresent(Core.Renderer);
 		uint64_t Total_Time = SDL_GetTicks() - Frame_Beginning;
+		/*ITS HERE!!!*/
 		float True_Rate = (Total_Time > 0) ? (1000.0f / Total_Time) : 99999;
-		Cache.FPS_Cache[Cache.FPS_Length] = min(True_Rate, Interface.Frame_Rate);
-		Cache.FPS_Length++;
+		Cache.FPS_Cache[Cache.FPS_Tick] = min(True_Rate, Interface.Frame_Rate);
+		Cache.FPS_Tick++;
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
 	Free_Preconfigs();

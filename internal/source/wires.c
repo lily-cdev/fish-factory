@@ -13,7 +13,7 @@ void Push_Wire(Wire Input) {
 		memcpy(Wires_List.Data, Buffer, sizeof(Wire) * Wires_List.Length);
 		free_c(Buffer);
 	}
-	Wires_List.Data[Wires_List.Length] = Input;
+	Wires_List.Data[Wires_List.Length - 1] = Input;
 }
 
 void Pull_Wire(int Position) {

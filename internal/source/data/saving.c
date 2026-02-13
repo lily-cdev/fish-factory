@@ -162,9 +162,10 @@ void Reload_All() {
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
 	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
-		strcpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name);
+		strncpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name, sizeof(Interface.Slider_Texts[9][
+			C1]));
 	}
-	strcpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING);
+	strncpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING, sizeof(Interface.Slider_Texts[9][LDE_ITEMS]));
 	Adjust_Sound(Settings.Volume * 0.01f);
 	Interface.Frame_Rate = (int)(pow(2, Settings.Raw_FPS) * 15);
 	switch (Settings.Fullscreen) {

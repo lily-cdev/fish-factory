@@ -16,7 +16,7 @@ void Render_MSP_Controller(int X, int Y) {
 			};
 			for (int C1 = 0; C1 < 5; C1++) {
 				for (int C2 = 0; C2 < veclen(Parameters[C2]) + 1; C2++) {
-					strcpy(Buffers.Parameters[C1][C2], Parameters[C1][C2]);
+					strncpy(Buffers.Parameters[C1][C2], Parameters[C1][C2], sizeof(Buffers.Parameters[C1][C2]));
 				}
 			}
 			int Command_Types[5] = {
@@ -34,7 +34,7 @@ void Render_MSP_Controller(int X, int Y) {
 				Interface.Slider_Texts[1][Interface.Slider_Positions[1]],
 				NULLSTRING
 			};
-			Return_Command(Execute, Parameters, Interface.Terminal_Entry);
+			Return_Command(Execute, Parameters);
 			Tick_Input(1, true);
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
@@ -61,11 +61,11 @@ void Render_T_Tower(int X, int Y) {
 		Buffers.Commands[C1] = Execute;
 		char Buffer[32];
 		snprintf(Buffer, sizeof(Buffer), "SEND_DOCK_%i", C1 + 1);
-		strcpy(Buffers.Parameters[C1][0], Buffer);
-		strcpy(Buffers.Parameters[C1][1], NULLSTRING);
+		strncpy(Buffers.Parameters[C1][0], Buffer, sizeof(Buffers.Parameters[C1][0]));
+		strncpy(Buffers.Parameters[C1][1], NULLSTRING, sizeof(Buffers.Parameters[C1][1]));
 	}
 	Buffers.Commands[Limiter] = LDE_TERMINATOR;
-	Buffers.Parameters[Limiter][0] = NULLSTRING;
+	strncpy(Buffers.Parameters[Limiter][0], NULLSTRING, sizeof(Buffers.Parameters[Limiter][0]));
 	Process_Commands();
 	Render_Necessities("transmitter", "tower");
 }
@@ -82,7 +82,7 @@ void Render_S_Dock(int X, int Y) {
 	};
 	for (int C1 = 0; C1 < 5; C1++) {
 		for (int C2 = 0; C2 < veclen(Parameters[C2]) + 1; C2++) {
-			strcpy(Buffers.Parameters[C1][C2], Parameters[C1][C2]);
+			strncpy(Buffers.Parameters[C1][C2], Parameters[C1][C2], sizeof(Buffers.Parameters[C1][C2]));
 		}
 	}
 	int Command_Types[5] = {
@@ -105,8 +105,8 @@ void Render_H_Exchanger(int X, int Y) {
 	Render_Slider(Interface.Slider_Texts[7], 2, LDE_VALVE300LENGTH - 1, 7, &Interface.Slider_Positions[7],
 		475, 150, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	if (Interface.Engagement == 0) {
-		strcpy(Buffers.Parameters[0][0], "diagnostics");
-		strcpy(Buffers.Parameters[0][1], NULLSTRING);
+		strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
+		strncpy(Buffers.Parameters[0][1], NULLSTRING, sizeof(Buffers.Parameters[0][1]));
 		Buffers.Commands[0] = Get_Data;
 		Buffers.Commands[1] = LDE_TERMINATOR;
 		Process_Commands();
@@ -118,7 +118,7 @@ void Render_H_Exchanger(int X, int Y) {
 			Buffer,
 			NULLSTRING
 		};
-		Return_Command(Execute, Subparameters, Interface.Terminal_Entry);
+		Return_Command(Execute, Subparameters);
 		Tick_Input(2, true);
 	} else {
 		char Buffer[64];
@@ -128,7 +128,7 @@ void Render_H_Exchanger(int X, int Y) {
 			Buffer,
 			NULLSTRING
 		};
-		Return_Command(Execute, Subparameters, Interface.Terminal_Entry);
+		Return_Command(Execute, Subparameters);
 		Tick_Input(3, true);
 	}
 	Render_Necessities("heat_exchanger", "exchanger");
@@ -137,8 +137,8 @@ void Render_H_Exchanger(int X, int Y) {
 void Render_MT_Input(int X, int Y) {
 	Render_Backing();
 	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons);
-	strcpy(Buffers.Parameters[0][0], "diagnostics");
-	strcpy(Buffers.Parameters[0][1], NULLSTRING);
+	strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
+	strncpy(Buffers.Parameters[0][1], NULLSTRING, sizeof(Buffers.Parameters[0][1]));
 	Buffers.Commands[0] = Get_Data;
 	Buffers.Commands[1] = LDE_TERMINATOR;
 	Process_Commands();

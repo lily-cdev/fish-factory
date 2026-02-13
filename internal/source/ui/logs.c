@@ -41,7 +41,7 @@ void Render_Credits() {
 			Log_Rectangle.y -= Interface.Log_Offset;
 			Render_Texture(Cache.Log_Cache.Data[Legal].Data[C1], &Log_Rectangle);
 		}
-		strcpy(Prefix, "Legal");
+		strncpy(Prefix, "Legal", sizeof(Prefix));
 		break;
 	default:
 		break;

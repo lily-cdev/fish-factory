@@ -56,13 +56,14 @@ void Render_Tutorial() {
 		snprintf(Text, sizeof(Text), "Step %i: ", Temporary.Tutorial_Step + 1);
 		if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 0) {
 			char Keycore[32];
-			strcpy(Keycore, SDL_GetKeyName(Keybinds.Keybind_List[Tutorial_Stack[Temporary.Tutorial_Step].Hotkey]));
+			strncpy(Keycore, SDL_GetKeyName(Keybinds.Keybind_List[Tutorial_Stack[Temporary.Tutorial_Step].Hotkey]), sizeof(
+				Keycore));
 			snprintf(Carrier, sizeof(Carrier), "Press \"%s\" (%s).", Keycore, Keybinds.Keybind_Texts[Tutorial_Stack[
 				Temporary.Tutorial_Step].Hotkey]);
-			strcat(Text, Carrier);
+			strcat_c(Text, Carrier, sizeof(Text));
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 1) {
 			snprintf(Carrier, sizeof(Carrier), "Click on the \"%s\" button.", Tutorial_Stack[Temporary.Tutorial_Step].Label);
-			strcat(Text, Carrier);
+			strcat_c(Text, Carrier, sizeof(Text));
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 2) {
 			int Remaining = 0;
 			for (int C1 = 0; C1 < ptlen(Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations); C1++) {
@@ -92,20 +93,21 @@ void Render_Tutorial() {
 			}
 			char Suffix[4] = "s ";
 			if (Remaining == 1) {
-				strcpy(Suffix, " ");
+				strncpy(Suffix, " ", sizeof(Suffix));
 			}
 			if (Tutorial_Stack[Temporary.Tutorial_Step].Item == 0 && !Tutorial_Stack[Temporary.Tutorial_Step].ID_Override) {
 				snprintf(Carrier, sizeof(Carrier), "Remove the %i machine%sshown.", Remaining, Suffix);
-				strcat(Text, Carrier);
+				strcat_c(Text, Carrier, sizeof(Text));
 			} else {
 				char Subcore[64];
 				if (Tutorial_Stack[Temporary.Tutorial_Step].ID_Override) {
-					strcpy(Subcore, Metadata.Names[Tutorial_Stack[Temporary.Tutorial_Step].Item]);
+					strncpy(Subcore, Metadata.Names[Tutorial_Stack[Temporary.Tutorial_Step].Item], sizeof(Subcore));
 				} else {
-					strcpy(Subcore, Metadata.Names[Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item)]);
+					strncpy(Subcore, Metadata.Names[Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item)], sizeof(
+						Subcore));
 				}
 				snprintf(Carrier, sizeof(Carrier), "Place %ix %s in the space%sshown.", Remaining, Subcore, Suffix);
-				strcat(Text, Carrier);
+				strcat_c(Text, Carrier, sizeof(Text));
 			}
 			if (Remaining == 0) {
 				Progress_Tutorial();
@@ -156,22 +158,22 @@ void Render_Tutorial() {
 			}
 			char Suffix[4] = "s ";
 			if (Remaining == 1) {
-				strcpy(Suffix, " ");
+				strncpy(Suffix, " ", sizeof(Suffix));
 			}
 			char Subcore[16] = "pipe";
 			if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 4) {
-				strcpy(Subcore, "wire");
+				strncpy(Subcore, "wire", sizeof(Subcore));
 			}
 			snprintf(Carrier, sizeof(Carrier), "Connect %i %s%sbetween the machine%sshown.", Remaining, Subcore, Suffix,
 				Suffix);
-			strcat(Text, Carrier);
+			strcat_c(Text, Carrier, sizeof(Text));
 			if (Remaining == 0) {
 				Progress_Tutorial();
 			}
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 5) {
 			snprintf(Carrier, sizeof(Carrier), "Wait for %i/%i seconds.", Tutorial_Stack[Temporary.Tutorial_Step].Hotkey,
 				Tutorial_Stack[Temporary.Tutorial_Step].Selection);
-			strcat(Text, Carrier);
+			strcat_c(Text, Carrier, sizeof(Text));
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 6) {
 			int Keybind = 0;
 			float Position = 0;
@@ -180,17 +182,17 @@ void Render_Tutorial() {
 			switch (Tutorial_Stack[Temporary.Tutorial_Step].Hotkey) {
 			case 1:
 				Keybind = 2;
-				strcpy(Direction, "left");
+				strncpy(Direction, "left", sizeof(Direction));
 				Position = Core.Camera.X;
 				break;
 			case 3:
 				Keybind = 3;
-				strcpy(Direction, "right");
+				strncpy(Direction, "right", sizeof(Direction));
 				Position = Core.Camera.X;
 				break;
 			case 4:
 				Keybind = 1;
-				strcpy(Direction, "down");
+				strncpy(Direction, "down", sizeof(Direction));
 				Position = Core.Camera.Y;
 				break;
 			default:
@@ -199,7 +201,7 @@ void Render_Tutorial() {
 			snprintf(Carrier, sizeof(Carrier), "Hold down \"%c\" to drift the camera %i/%ipx %s.", (char)(tolower(
 				SDL_GetKeyName(Keybinds.Keybind_List[Keybind])[0])), (int)Position, (int)Tutorial_Stack[
 				Temporary.Tutorial_Step].Selection, Direction);
-			strcat(Text, Carrier);
+			strcat_c(Text, Carrier, sizeof(Text));
 			if ((Position < Tutorial_Stack[Temporary.Tutorial_Step].Selection && Keybind == 2) ||
 				(Position < Tutorial_Stack[Temporary.Tutorial_Step].Selection && Keybind == 0) ||
 				(Position > Tutorial_Stack[Temporary.Tutorial_Step].Selection && Keybind == 3) ||

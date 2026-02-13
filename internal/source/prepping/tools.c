@@ -133,8 +133,10 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		Start = End + 1;
 	}
 	char** Fragments = malloc(sizeof(char*) * Fragment_Count);
+	int* Lengths = malloc(sizeof(int) * Fragment_Count);
 	for (int C1 = 0; C1 < Fragment_Count; C1++) {
-		Fragments[C1] = malloc(sizeof(char) * (strlen(Raw_Text) + 1));
+		Lengths[C1] = strlen(Raw_Text) + 1;
+		Fragments[C1] = malloc(sizeof(char) * Lengths[C1]);
 	}
 	Start = 0;
 	End = 0;
@@ -147,7 +149,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		Index++;
 		Start = End + 1;
 	}
-	strcpy(Fragments[Index], Raw_Text + Start);
+	strncpy(Fragments[Index], Raw_Text + Start, Lengths[Index]);
 	int Multiplier = LDE_INVALID;
 	int Subtractor = 0;
 	if (Inverted) {

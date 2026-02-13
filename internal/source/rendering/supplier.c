@@ -8,7 +8,7 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* F
 		free_texture(Supply->Data);
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
 		Supply->Bounds.y = Y * Settings.Screen_Size;
-		strcpy(Supply->Stored, Replacement);
+		strncpy(Supply->Stored, Replacement, sizeof(Supply->Stored));
 		Supply->Color.r = Color.r;
 		Supply->Color.g = Color.g;
 		Supply->Color.b = Color.b;
