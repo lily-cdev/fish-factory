@@ -1,6 +1,6 @@
-Modular Spawning Pool
-Flooring
-Reinforced
-Large
-Modular Condenser
-Modular Turbine
+modular spawning pool
+flooring
+reinforced
+large
+modular condenser
+modular turbine

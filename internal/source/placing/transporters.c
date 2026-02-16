@@ -54,7 +54,7 @@ bool Place_RL_Intersection(int X, int Y) {
     if (Check_Clearance(X, Y, 3, 3)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
 		Data.Visual_Grid[X][Y] = Interface.Rotation + ((Interface.Item - 1 == R_Intersection) ? 105 : 109);
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, 0, Preconfigs.I_Inputs);
 		for (int C1 = 0; C1 < 2; C1++) {
 			Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = C1 + 1;

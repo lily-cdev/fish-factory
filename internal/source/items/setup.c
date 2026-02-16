@@ -1,9 +1,6 @@
 #include <items.h>
 
-Recipe* I_Recipes[LDE_MACHINES][8];
-Recipe* O_Recipes[LDE_MACHINES][8];
-Recipe* IO_Recipes[LDE_MACHINES][8];
-Recipe* All_Recipes[LDE_RECIPETYPES][LDE_MACHINES][8];
+Recipe* Recipes[LDE_RECIPETYPES][LDE_MACHINES];
 
 void Prep_Items() {
     Fish_Catalog[0] = Preset_Fish.Milkfish;
@@ -70,29 +67,47 @@ void Prep_Items() {
 		},
 		.Length = 6
 	};
-	Recipe Null_Carrier = NULLRECIPE;
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-		I_Recipes[C1][0] = &Null_Carrier;
-		O_Recipes[C1][0] = &Null_Carrier;
-		IO_Recipes[C1][0] = &Null_Carrier;
+	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+		for (int C2 = 0; C2 < LDE_MACHINES; C2++) {
+			int Cap = 0;
+			if (C1 == R_Outputs && C2 == Ram_Pump) {
+				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
+				Recipes[C1][C2][0] = Preset_O_Recipes.RP_Saltwater;
+				Cap = 1;
+			} else if (C1 == R_Both && C2 == Filtration_Plant) {
+				Recipes[C1][C2] = malloc(sizeof(Recipe) * 3);
+				Recipes[C1][C2][0] = Preset_IO_Recipes.FP_Saltwater;
+				Recipes[C1][C2][1] = Preset_IO_Recipes.FP_Biopaste;
+				Cap = 2;
+			} else if (C1 == R_Both && C2 == Fluid_Mixer) {
+				Recipes[C1][C2] = malloc(sizeof(Recipe) * 5);
+				Recipes[C1][C2][0] = Preset_IO_Recipes.FM_Drillmud_1;
+				Recipes[C1][C2][1] = Preset_IO_Recipes.FM_Drillmud_2;
+				Recipes[C1][C2][2] = Preset_IO_Recipes.FM_Hydrogen_Chloride;
+				Recipes[C1][C2][3] = Preset_IO_Recipes.FM_Hydrochloric_Acid;
+				Cap = 4;
+			} else if (C1 == R_Both && C2 == Distillery) {
+				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
+				Recipes[C1][C2][0] = Preset_IO_Recipes.D_Water;
+				Cap = 1;
+			} else if (C1 == R_Both && C2 == Electrolytic_Cell) {
+				Recipes[C1][C2] = malloc(sizeof(Recipe) * 4);
+				Recipes[C1][C2][0] = Preset_IO_Recipes.EP_Water;
+				Recipes[C1][C2][1] = Preset_IO_Recipes.EP_Saltwater;
+				Recipes[C1][C2][2] = Preset_IO_Recipes.EP_Salt;
+				Cap = 3;
+			} else {
+				Recipes[C1][C2] = malloc(sizeof(Recipe));
+			}
+			Recipes[C1][C2][Cap] = NULLRECIPE;
+		}
 	}
-	O_Recipes[Ram_Pump][0] = &Preset_O_Recipes.RP_Saltwater;
-	O_Recipes[Ram_Pump][1] = &Null_Carrier;
-	IO_Recipes[Filtration_Plant][0] = &Preset_IO_Recipes.FP_Saltwater;
-	IO_Recipes[Filtration_Plant][1] = &Preset_IO_Recipes.FP_Biopaste;
-	IO_Recipes[Filtration_Plant][2] = &Null_Carrier;
-	IO_Recipes[Fluid_Mixer][0] = &Preset_IO_Recipes.FM_Drillmud_1;
-	IO_Recipes[Fluid_Mixer][1] = &Preset_IO_Recipes.FM_Drillmud_2;
-	IO_Recipes[Fluid_Mixer][2] = &Preset_IO_Recipes.FM_Hydrogen_Chloride;
-	IO_Recipes[Fluid_Mixer][3] = &Preset_IO_Recipes.FM_Hydrochloric_Acid;
-	IO_Recipes[Fluid_Mixer][4] = &Null_Carrier;
-	IO_Recipes[Distillery][0] = &Preset_IO_Recipes.D_Water;
-	IO_Recipes[Distillery][1] = &Null_Carrier;
-	IO_Recipes[Electrolytic_Cell][0] = &Preset_IO_Recipes.EP_Water;
-	IO_Recipes[Electrolytic_Cell][1] = &Preset_IO_Recipes.EP_Saltwater;
-	IO_Recipes[Electrolytic_Cell][2] = &Preset_IO_Recipes.EP_Salt;
-	IO_Recipes[Electrolytic_Cell][3] = &Null_Carrier;
-	memcpy(All_Recipes[0], I_Recipes, sizeof(All_Recipes[0]));
-	memcpy(All_Recipes[1], O_Recipes, sizeof(All_Recipes[1]));
-	memcpy(All_Recipes[2], IO_Recipes, sizeof(All_Recipes[2]));
+}
+
+void Free_Items() {
+	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+		for (int C2 = 0; C2 < LDE_MACHINES; C2++) {
+			free_c(Recipes[C1][C2]);
+		}
+	}
 }

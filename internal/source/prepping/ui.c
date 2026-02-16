@@ -101,7 +101,7 @@ void Render_Sidebar(SDL_Texture* Texture, SDL_FRect Rectangle, int Selection) {
 }
 
 void Render_Game_UI() {
-	if (Interface.Tool == LDE_INVALID && Interface.Prompt_Identifier == LDE_INVALID) {
+	if (Interface.Tool == T_None && Interface.Prompt_Identifier == LDE_INVALID) {
 		Render_Sidebar(Textures.Help_Sidebutton, Rects.Help, 1);
 		Render_Sidebar(Textures.Save_Sidebutton, Rects.Save, 2);
 		Render_Sidebar(Textures.Recipe_Sidebutton, Rects.Recipe, 3);
@@ -129,19 +129,22 @@ void Render_Game_UI() {
 	memset(Buffer, 0, sizeof(Buffer));
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
 	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 50);
-	if (Interface.Tool == 2) {
+	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+		bool Satiated = false;
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
+					Satiated = true;
+					break;
 				}
 			}
 		}
 		Item_Stack Returned_Item = Get_Item_Stack_Data();
-		if (Returned_Item.Identifier != LDE_INVALID) {
+		if (Returned_Item.Identifier != LDE_INVALID && Satiated) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "Item: %s", Returned_Item.Display_Name);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));

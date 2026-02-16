@@ -39,6 +39,10 @@ void Render_Loadscreen() {
 	SDL_RenderClear(Core.Renderer);
 	Clear_Renderer();
 	SDL_Surface* Text_Surface = TTF_RenderText_Blended(Fonts.Logo_Font, "loading assets", 0, Colors.Abyss_Black);
+	char Carrier[128];
+	struct timespec Spec;
+	timespec_get(&Spec, TIME_UTC);
+	snprintf(Carrier, sizeof(Carrier), "fun fact: %s.", Metadata.Facts[(int)(Spec.tv_nsec / 1000000) % LDE_FACTS]);
 	SDL_FRect Pasting_Rectangle = {
 		(Settings.Screen_Size * 320.0f) - (Text_Surface->w * 0.5),
 		(Settings.Screen_Size * 180.0f) - (Text_Surface->h * 0.5),
@@ -49,6 +53,17 @@ void Render_Loadscreen() {
 	Render_Texture(Text_Texture, &Pasting_Rectangle);
 	SDL_DestroySurface(Text_Surface);
 	free_texture(Text_Texture);
+	SDL_Surface* Fact_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Carrier, 0, Colors.Abyss_Black);
+	SDL_Texture* Fact_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fact_Surface);
+	SDL_FRect Fact_Rectangle = {
+		(Settings.Screen_Size * 320.0f) - (Fact_Surface->w * 0.5),
+		(Settings.Screen_Size * 10.0f) + Pasting_Rectangle.y + Pasting_Rectangle.h,
+		(float)(Fact_Surface->w),
+		(float)(Fact_Surface->h)
+	};
+	Render_Texture(Fact_Texture, &Fact_Rectangle);
+	SDL_DestroySurface(Fact_Surface);
+	free_texture(Fact_Texture);
 	SDL_RenderPresent(Core.Renderer);
 	SDL_PumpEvents();
 }

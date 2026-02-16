@@ -45,7 +45,7 @@ void Preload_Machines() {
 	int RP_Rotationals[4] = { 2, 3, 4, LDE_TERMINATOR };
 	Load_Animated("Machines/R_Pump", &Textures.R_Pump, 1, false, RP_Rotationals);
 	Load_Animated_Rotational("Machines/Incinerator", &Textures.Incinerator, 1, true, No_Rotationals);
-	Textures.P_Generator = Preload_Texture("Machines/P_Generator");
+	Load_Rotational("Machines/RTG", &Textures.RTG);
 	Load_Animated("Machines/F_Plant", &Textures.F_Plant, 3, true, No_Rotationals);
 	Load_Animated_Rotational("Machines/B_Generator", &Textures.B_Generator, 3, true, No_Rotationals);
 	Load_Animated_Rotational("Machines/Distillery", &Textures.Distillery, 2, false, No_Rotationals);
@@ -147,11 +147,13 @@ void Preload_Foundation() {
 
 void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, TTF_Font* Font, const SDL_Color Color,
 	const Point Position) {
-	SDL_Surface* Carrier = TTF_RenderText_Blended(Font, Text, 0, Colors.Abyss_Black);
-	Rect->x = Settings.Screen_Size * Position.X;
-	Rect->y = Settings.Screen_Size * Position.Y;
+	SDL_Surface* Carrier = TTF_RenderText_Blended(Font, Text, 0, Color);
 	Rect->w = Carrier->w;
 	Rect->h = Carrier->h;
+	Rect->x = (Position.X == LDE_INVALID) ? (Settings.Screen_Size * 320.0f) - (Carrier->w * 0.5f) : Settings.Screen_Size *
+		Position.X;
+	Rect->y = (Position.Y == LDE_INVALID) ? (Settings.Screen_Size * 180.0f) - (Carrier->h * 0.5f) : Settings.Screen_Size *
+		Position.Y;
 	(*Texture) = SDL_GenerateTextureFromSurface(Core.Renderer, Carrier);
 	SDL_DestroySurface(Carrier);
 }
@@ -176,8 +178,14 @@ void Preload_Assets() {
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	free_texture(Carrying_Texture);
-	Preload_Text(&Textures.Logo1, &Rects.Logo1, "Fish", Fonts.Logo_Font, Colors.Abyss_Black, (Point){ 325, 44 });
-	Preload_Text(&Textures.Logo2, &Rects.Logo2, "Factory", Fonts.Logo_Font, Colors.Abyss_Black, (Point){ 325, 78 });
+	Preload_Text(&Textures.Logo1, &Rects.Logo1, "fish", Fonts.Logo_Font, Colors.Abyss_Black, (Point){ 325, 44 });
+	Preload_Text(&Textures.Logo2, &Rects.Logo2, "factory", Fonts.Logo_Font, Colors.Abyss_Black, (Point){ 325, 78 });
+	Preload_Text(&Textures.CMD_Warning1, &Rects.CMD_Warning1, "time will not progress until the command platform is"
+		" installed", Fonts.Text_Font, Colors.Cherry_Blossom, (Point){ LDE_INVALID, LDE_INVALID });
+	Preload_Text(&Textures.CMD_Warning2, &Rects.CMD_Warning2, "install the command platform for complete tutorial access",
+		Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 120.0f });
+	Preload_Text(&Textures.Price_Header, &Rects.Price_Header, "machine price:", Fonts.Subtext_Font, Colors.Abyss_Black,
+		(Point){ 456, 10 });
 	Rects.Tunnel.Length = 2;
 	Rects.Tunnel.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Tunnel.Data[0].w = Settings.Screen_Size * 240.0f;
@@ -351,7 +359,7 @@ void Preload_Assets() {
 		strncpy(Interface.Slider_Texts[10][C1], Buffer, sizeof(Interface.Slider_Texts[10][C1]));
 	}
 	strncpy(Interface.Slider_Texts[10][241], NULLSTRING, sizeof(Interface.Slider_Texts[10][241]));
-	char Tool_Texts[5][64] = { "Building", "Deleting", "Inspecting", "Wiring", "Plumbing" };
+	char Tool_Texts[5][64] = { "building", "deleting", "inspecting", "wiring", "plumbing" };
 	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * 5);
 	Textures.Tool.Length = 5;
 	for (int C1 = 0; C1 < 5; C1++) {
@@ -366,7 +374,7 @@ void Preload_Assets() {
 		Textures.Tool.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, Text_Surface);
 		SDL_DestroySurface(Text_Surface);
 	}
-	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "Fish Factory Help", 17, Colors.Abyss_Black);
+	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "fish factory help", 17, Colors.Abyss_Black);
 	Rects.Help_Content[0].x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);
 	Rects.Help_Content[0].y = Settings.Screen_Size * 20.0f;
 	Rects.Help_Content[0].w = (float)(Carrying_Surface->w);
@@ -375,7 +383,7 @@ void Preload_Assets() {
 	Textures.Help_Content.Length = 2;
 	Textures.Help_Content.Data[0] = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
-	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "Catalog", 7, Colors.Abyss_Black);
+	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "catalog", 7, Colors.Abyss_Black);
 	Rects.Recipe_Content.x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);
 	Rects.Recipe_Content.y = Settings.Screen_Size * 20.0f;
 	Rects.Recipe_Content.w = (float)(Carrying_Surface->w);
@@ -472,7 +480,7 @@ void Preload_Assets() {
 		Rects.Tutorials.Data[C1].Length = 2;
 		Rects.Tutorials.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Tutorials.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Tutorials.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
+		Rects.Tutorials.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Screen_Size;
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 12], &Textures.Tutorials.Data[C1], Rects.Tutorials.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -661,10 +669,10 @@ void Preload_Assets() {
 	}
 	Textures.V_Sync.Data = malloc(sizeof(Texture_Array) * 2);
 	Textures.V_Sync.Length = 2;
-	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[20], &Textures.V_Sync.Data[0], Rects.V_Sync.Data[0], Colors.Abyss_Black,
-		Colors.Cherry_Blossom);
-	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[21], &Textures.V_Sync.Data[1], Rects.V_Sync.Data[1], Colors.Abyss_Black,
-		Colors.Cherry_Blossom);
+	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[20], &Textures.V_Sync.Data[0], Rects.V_Sync.Data[0],
+		Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[21], &Textures.V_Sync.Data[1], Rects.V_Sync.Data[1],
+		Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Textures.Sort.Data =  malloc(sizeof(Texture_Array) * 2);
 	Textures.Sort.Length = 2;
 	Rects.Sort.Length = 2;
@@ -688,14 +696,14 @@ void Preload_Assets() {
 		Rects.TBW_Rectangle.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.TBW_Rectangle.Data[C1].Data[0].y = Settings.Screen_Size * 334.0f;
 	}
-	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[16], &Textures.TBW_Texture.Data[0],
-		Rects.TBW_Rectangle.Data[0], Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[17], &Textures.TBW_Texture.Data[1],
-		Rects.TBW_Rectangle.Data[1], Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[16], &Textures.TBW_Texture.Data[0], Rects.TBW_Rectangle.Data[0],
+		Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[17], &Textures.TBW_Texture.Data[1], Rects.TBW_Rectangle.Data[1],
+		Colors.Abyss_Black, Colors.Cherry_Blossom);
 	for (int C1 = 0; C1 < 2; C1++) {
 		Rects.TBW_Rectangle.Data[C1].Data[0].x = (Settings.Screen_Size * 630) - Rects.TBW_Rectangle.Data[C1].Data[0].w;
-		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[C1].Data[
-			0].w * 0.5) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5);
+		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[
+			C1].Data[0].w * 0.5) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5);
 	}
 	Rects.Tile_1x1.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
 	Rects.Tile_1x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
@@ -738,38 +746,26 @@ void Preload_Assets() {
 	}
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Submarine.Data[0], &Rects.Submarine.w, &Rects.Submarine.h);
-	Rects.Submarine.w = (int)(((float)Rects.Submarine.w / 3) * Settings.Screen_Size);
-	Rects.Submarine.h = (int)(((float)Rects.Submarine.h / 6) * Settings.Screen_Size);
+	Rects.Submarine.w = (int)((Rects.Submarine.w / 3.0f) * Settings.Screen_Size);
+	Rects.Submarine.h = (int)((Rects.Submarine.h / 6.0f) * Settings.Screen_Size);
 	Ctr Container = { {
-		Textures.R_Pipe.Data[1], Textures.R_Pump.Data[0], Textures.Incinerator
-		.Data[0].Data[0], Textures.P_Generator, Textures.Tile_Texture, Textures
-		.S_Dock.Data[0], Textures.F_Plant.Data[0], Textures.B_Generator.Data[0].Data[0],
-		Textures.MS_Pool.Data[0], Textures.Distillery.Data[0].Data[0], Textures
-		.G_Bed.Data[0].Data[0], Textures.C_Platform.Data[0], Textures.B_Scrubber.Data[0], Textures
-		.MS_Controller, Textures.MS_Output, Textures.MS_Input, Textures.E_Plant
-		.Data[0], Textures.F_Mixer.Data[0].Data[0], Textures.T_Tower.Data[0],
-		Textures.Flowerpot, Textures.A_Shelf.Data[0], Textures.C_Node, Textures
-		.G_Well.Data[0], Textures.L_Pipe.Data[1], Textures.H_Exchanger.Data[0], Textures
-		.P_Wood, Textures.B_Tile, Textures.S_Carpet, Textures.M_Generator, Textures
-		.F_Generator, Textures.R_Intersection.Data[0], Textures.L_Intersection.Data[0],
-		Textures.H_Strip, Textures.SC_Input.Data[0], Textures.SCH_Sink.Data[0],
-		Textures.SC_Transferor.Data[0], Textures.SC_Output.Data[0], Textures.ST_Input.Data[0],
-		Textures.STIT_Block.Data[0].Data[0], Textures.ST_Output.Data[0].Data[0]
+		Textures.R_Pipe.Data[1], Textures.R_Pump.Data[0], Textures.Incinerator.Data[0].Data[0], Textures.RTG.Data[0],
+		Textures.Tile_Texture, Textures.S_Dock.Data[0], Textures.F_Plant.Data[0], Textures.B_Generator.Data[0].Data[0],
+		Textures.MS_Pool.Data[0], Textures.Distillery.Data[0].Data[0], Textures.G_Bed.Data[0].Data[0],
+		Textures.C_Platform.Data[0], Textures.B_Scrubber.Data[0], Textures.MS_Controller, Textures.MS_Output,
+		Textures.MS_Input, Textures.E_Plant.Data[0], Textures.F_Mixer.Data[0].Data[0], Textures.T_Tower.Data[0],
+		Textures.Flowerpot, Textures.A_Shelf.Data[0], Textures.C_Node, Textures.G_Well.Data[0], Textures.L_Pipe.Data[1],
+		Textures.H_Exchanger.Data[0], Textures.P_Wood, Textures.B_Tile, Textures.S_Carpet, Textures.M_Generator,
+		Textures.F_Generator, Textures.R_Intersection.Data[0], Textures.L_Intersection.Data[0], Textures.H_Strip,
+		Textures.SC_Input.Data[0], Textures.SCH_Sink.Data[0], Textures.SC_Transferor.Data[0], Textures.SC_Output.Data[0],
+		Textures.ST_Input.Data[0], Textures.STIT_Block.Data[0].Data[0], Textures.ST_Output.Data[0].Data[0]
 	}, {
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4,
-		Rects.Tile_2x3, Rects.Tile_3x3,	Rects.Tile_1x1,
-		Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6,
-		Rects.Tile_2x2, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_3x2,	Rects.Tile_3x3,
-		Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
-		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1,
-		Rects.Tile_4x3, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1,	Rects.Tile_1x1,
-		Rects.Tile_3x3, Rects.Tile_3x3,	Rects.Tile_1x1,
-		Rects.Tile_2x1, Rects.Tile_2x1,	Rects.Tile_2x3,
-		Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3,
-		Rects.Tile_2x2
+		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4, Rects.Tile_2x3,
+		Rects.Tile_3x3,	Rects.Tile_1x1, Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6, Rects.Tile_2x2, Rects.Tile_1x1,
+		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
+		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1, Rects.Tile_4x3, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
+		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
+		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2
 	} };
 	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
 		Metadata.Machine_Sprites[C1] = Container.Textures[C1];

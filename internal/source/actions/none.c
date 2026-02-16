@@ -5,14 +5,14 @@ void Handle_None(int X, int Y) {
 	case 0:
 		switch (Interface.UI_Selection) {
 		case 0:
-			if (Interface.Tool == Building) {
+			if (Interface.Tool == T_Building && Interface.Prompt_Identifier == P_None) {
 				Interface.Building = true;
-			} else if (Interface.Tool == Deleting) {
+			} else if (Interface.Tool == T_Deleting) {
 				Destroy_Grid();
 				Update_Grid();
-			} else if (Interface.Tool == Wiring) {
+			} else if (Interface.Tool == T_Wiring) {
 				Place_Wire();
-			} else if (Interface.Tool == Plumbing) {
+			} else if (Interface.Tool == T_Plumbing) {
 				Place_Pipe();
 			}
 			break;
@@ -29,7 +29,7 @@ void Handle_None(int X, int Y) {
 			Interface.Prompt_Identifier = P_Catalog;
 			break;
 		case 4:
-			if (Interface.Tool == Building) {
+			if (Interface.Tool == T_Building) {
 				Interface.Rotation = 0;
 				Clear_Unconnected_Wires();
 				Clear_Unconnected_Pipes();
@@ -53,7 +53,7 @@ void Handle_None(int X, int Y) {
 			}
 			break;
 		case 5:
-			if (Interface.Tool == 0) {
+			if (Interface.Tool == T_Building) {
 				Interface.Rotation = 0;
 				Clear_Unconnected_Wires();
 				Clear_Unconnected_Pipes();

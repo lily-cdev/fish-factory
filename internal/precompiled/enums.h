@@ -125,12 +125,12 @@ enum Log {
 };
 
 enum Tool {
-	No_Tool = LDE_INVALID,
-	Building,
-	Deleting,
-	Inspecting,
-	Wiring,
-	Plumbing
+	T_None = LDE_INVALID,
+	T_Building,
+	T_Deleting,
+	T_Inspecting,
+	T_Wiring,
+	T_Plumbing
 };
 
 enum Issues {
@@ -176,3 +176,10 @@ typedef enum {
 	Ram1,
 	Click
 } Sound;
+
+enum Recipe_Types {
+	R_None = LDE_INVALID,
+	R_Inputs,
+	R_Outputs,
+	R_Both
+};

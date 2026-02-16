@@ -99,7 +99,7 @@ void Render_Grid() {
 						Render_Texture(Textures.Incinerator.Data[Rotation].Data[1], &Rects.Tile_1x1);
 						break;
 					case RTG:
-						Render_Texture(Textures.P_Generator, &Rects.Tile_1x1);
+						Render_Texture(Textures.RTG.Data[Rotation], &Rects.Tile_1x1);
 						break;
 					case Decoration:
 						Render_Texture(Textures.Tile_Texture, &Rects.Tile_1x1);
@@ -184,8 +184,8 @@ void Render_Grid() {
 							&Rects.Tile_3x3);
 						break;
 					case L_Intersection:
-						Render_Texture(Textures
-							.L_Intersection.Data[Visual_To_Rotation(Data.Visual_Grid[Column][Row])], &Rects.Tile_3x3);
+						Render_Texture(Textures.L_Intersection.Data[Visual_To_Rotation(Data.Visual_Grid[Column][Row])],
+							&Rects.Tile_3x3);
 						break;
 					case Hazard_Strip:
 						Render_Texture(Textures.H_Strip, &Rects.Tile_1x1);
@@ -234,18 +234,15 @@ void Render_Grid() {
 							}
 							//if active, set lights green
 							SDL_FRect Lightplate = {
-								(float)((Column * LDE_TILESIZE) - Core
-									.Camera.X) * Settings.Screen_Size,
-								(float)((Row * LDE_TILESIZE) + 21.0 - Core
-									.Camera.Y) * Settings.Screen_Size,
+								(float)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size,
+								(float)((Row * LDE_TILESIZE) + 21.0 - Core.Camera.Y) * Settings.Screen_Size,
 								Settings.Screen_Size * 120.0f,
 								Settings.Screen_Size * 38.0f
 							};
 							if (evn_i(Rotation)) {
-								Lightplate.x = (float)((Column * LDE_TILESIZE) + 21.0 - Core
-										.Camera.X) * Settings.Screen_Size;
-								Lightplate.y = (float)((Row * LDE_TILESIZE) - Core.Camera.Y) *
-										Settings.Screen_Size;
+								Lightplate.x = (float)((Column * LDE_TILESIZE) + 21.0 - Core.Camera.X) *
+									Settings.Screen_Size;
+								Lightplate.y = (float)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 								Lightplate.w = Settings.Screen_Size * 38.0f;
 								Lightplate.h = Settings.Screen_Size * 120.0f;
 							}

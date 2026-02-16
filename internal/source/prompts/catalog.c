@@ -8,8 +8,8 @@ void Render_Catalog(int X, int Y) {
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
 		for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-			if (reclen((*I_Recipes)[C1]) == 0 && reclen((*O_Recipes)[C1]) == 0 &&
-				reclen((*IO_Recipes)[C1]) == 0) {
+			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][
+				C1]) == 0) {
 				continue;
 			}
 			float Base_Subwidth = Settings.Screen_Size * 44.0f;
@@ -65,41 +65,40 @@ void Render_Catalog(int X, int Y) {
 		char Candidate[256];
 		int Number = 1;
 		for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
-			for (int C2 = 0; C2 < reclen((*All_Recipes)[C1][Index]); C2++, Number++) {
+			for (int C2 = 0; C2 < reclen(Recipes[C1][Index]); C2++, Number++) {
 				strncpy(Candidate, "Recipe No. ", sizeof(Candidate));
 				if (Number < 10) {
 					charcat(Candidate, '0', sizeof(Candidate));
 				}
 				char Buffer[128];
 				char Subbuffer[64];
-				Abbreviate_Number(All_Recipes[C1][Index][C2]->Power, Subbuffer, sizeof(Subbuffer));
-				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, All_Recipes[C1][Index][
-					C2]->Time);
+				Abbreviate_Number(Recipes[C1][Index][C2].Power, Subbuffer, sizeof(Subbuffer));
+				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, Recipes[C1][Index][C2].Time);
 				strcat_c(Candidate, Buffer, sizeof(Candidate));
-				if (All_Recipes[C1][Index][C2]->Voiding_Excess) {
+				if (Recipes[C1][Index][C2].Voiding_Excess) {
 					strcat_c(Candidate, ", cannot overflow", sizeof(Candidate));
 				}
 				Process_Supply(&Supplies.Catalog1[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 16, Offset);
 				Offset += 20;
 				strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
-				for (int C3 = 0; C3 < All_Recipes[C1][Index][C2]->Inputs; C3++) {
-					Abbreviate_Number(All_Recipes[C1][Index][C2]->Input_Counts[C3] / All_Recipes[C1][
-						Index][C2]->Time, Buffer, sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[C1][Index][
-						C2]->Input_Items[C3].Display_Name);
-					if (C3 < All_Recipes[C1][Index][C2]->Inputs - 1) {
+				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Inputs; C3++) {
+					Abbreviate_Number(Recipes[C1][Index][C2].Input_Counts[C3] / Recipes[C1][Index][C2].Time, Buffer,
+						sizeof(Buffer));
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Input_Items[
+						C3].Display_Name);
+					if (C3 < Recipes[C1][Index][C2].Inputs - 1) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}
 				Process_Supply(&Supplies.Catalog2[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
 				Offset += 20;
 				strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
-				for (int C3 = 0; C3 < All_Recipes[C1][Index][C2]->Outputs; C3++) {
-					Abbreviate_Number(All_Recipes[C1][Index][C2]->Output_Counts[C3] / All_Recipes[C1][
-						Index][C2]->Time, Buffer, sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, All_Recipes[C1][Index][C2]
-						->Output_Items[C3].Display_Name);
-					if (C3 < All_Recipes[C1][Index][C2]->Outputs - 1) {
+				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Outputs; C3++) {
+					Abbreviate_Number(Recipes[C1][Index][C2].Output_Counts[C3] / Recipes[C1][Index][C2].Time, Buffer,
+						sizeof(Buffer));
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Output_Items[
+						C3].Display_Name);
+					if (C3 < Recipes[C1][Index][C2].Outputs - 1) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}

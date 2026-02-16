@@ -51,6 +51,8 @@ int Visual_To_ID(const int Identifier) {
 		return Turbine_Output;
 	} else if (Identifier > 131 && Identifier < 135) {
 		return Algae_Bed;
+	} else if (Identifier > 134 && Identifier < 138) {
+		return RTG;
 	}
 	return LDE_INVALID;
 }
@@ -90,6 +92,8 @@ int Visual_To_Rotation(const int Identifier) {
 		return Identifier - 128;
 	} else if (Identifier > 131 && Identifier < 135) {
 		return Identifier - 131;
+	} else if (Identifier > 134 && Identifier < 138) {
+		return Identifier - 134;
 	}
 	return 0;
 }

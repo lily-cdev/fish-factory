@@ -4,7 +4,8 @@ void Render_Application() {
     SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
 	Render_Ocean();
 	Render_Pyramid();
-	if (Interface.Building && Data.Funds - Metadata.Machine_Prices[Interface.Item - 1] > 0) {
+	if (Interface.Building && Data.Funds - Metadata.Machine_Prices[Interface.Item - 1] > 0 &&
+		Interface.Prompt_Identifier == P_None) {
 		Build_Grid();
 		Update_Grid();
 	}
@@ -40,10 +41,10 @@ void Render_Application() {
 		Cache.Wire_Box.y = (int)(Offset_Y - Core.Camera.Y) * Settings.Screen_Size;
 		Render_Texture(Cache.Wire_Cache.Data[C1], &Cache.Wire_Box);
 	}
-	if (Interface.Tool == 4) {
+	if (Interface.Tool == T_Plumbing) {
 		Render_Pipes();
 	}
-	if (Interface.Tool == 0 && Interface.UI_Selection == 0) {
+	if (Interface.Tool == T_Building && Interface.UI_Selection == 0 && Interface.Prompt_Identifier == P_None) {
 		int X;
 		int Y;
 		ID_To_Size(Interface.Item - 1, Interface.Rotation, &X, &Y);
@@ -60,11 +61,67 @@ void Render_Application() {
 			(float)(LDE_TILESIZE * Settings.Screen_Size),
 			(float)(LDE_TILESIZE * Settings.Screen_Size)
 		};
-		Hitbox.x = (int)(((int)((Core.Mouse.X + (Core.Camera.X * Settings.Screen_Size)) / (LDE_TILESIZE *
-			Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Core.Camera.X * Settings.Screen_Size));
-		Hitbox.y = (int)(((int)((Core.Mouse.Y + (Core.Camera.Y * Settings.Screen_Size)) / (LDE_TILESIZE *
-			Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) - (Core.Camera.Y * Settings.Screen_Size));
-		Render_Texture(Textures.Crosshair, &Hitbox);
+		Point Subpos = {
+			(Core.Camera.X * Settings.Screen_Size) + Core.Mouse.X,
+			(Core.Camera.Y * Settings.Screen_Size) + Core.Mouse.Y
+		};
+		Hitbox.x = ((int)(Subpos.X / (LDE_TILESIZE * Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) -
+			(Core.Camera.X * Settings.Screen_Size);
+		Hitbox.y = ((int)(Subpos.Y  / (LDE_TILESIZE * Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) -
+			(Core.Camera.Y * Settings.Screen_Size);
+		int Limit = LDE_TILESIZE * LDE_GRIDSIZE * Settings.Screen_Size;
+		bool Rendering = false;
+		if (Subpos.X > 0 && Subpos.Y > 0 && Subpos.X < Limit && Subpos.Y < Limit) {
+			Render_Texture(Textures.Crosshair, &Hitbox);
+			Rendering = true;
+		}
+		if (Interface.Tool == T_Inspecting && Rendering) {
+			float Padding = Settings.Screen_Size * 2.0f;
+			float Height = Settings.Screen_Size * 24.0f;
+			Point Pos = { };
+			bool Satiated = false;
+			for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
+				Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+				for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
+					Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+					if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
+						Pos = (Point){ Column, Row };
+						Satiated = true;
+						break;
+					}
+				}
+			}
+			if (Satiated && Data.Data_Grid[Pos.X][Pos.Y][Power_Cap] >= 0.1f) {
+				SDL_FRect Energy = {
+					0,
+					0,
+					Settings.Screen_Size * 6.0f,
+					Height
+				};
+				Energy.x = Hitbox.x - Energy.w - Padding;
+				Energy.y = (Hitbox.h * 0.5f) - (Energy.h * 0.5f) + Hitbox.y;
+				Set_Renderer_Color(Colors.Dark_Grey);
+				SDL_RenderFillRect(Core.Renderer, &Energy);
+				Clear_Renderer();
+				Energy.h *= Data.Data_Grid[Pos.X][Pos.Y][Stored_Power] / Data.Data_Grid[Pos.X][Pos.Y][Power_Cap];
+				Energy.y += Height - Energy.h;
+				Set_Renderer_Color(Colors.Cherry_Blossom);
+				SDL_RenderFillRect(Core.Renderer, &Energy);
+				Clear_Renderer();
+			}
+			//get fill percent
+			SDL_FRect Item = {
+				0,
+				0,
+				Settings.Screen_Size * 24.0f,
+				Height
+			};
+			Item.x = Hitbox.x + Hitbox.w + Padding;
+			Item.y = (Hitbox.h * 0.5f) - (Item.h * 0.5f) + Hitbox.y;
+			Set_Renderer_Color(Colors.Dark_Grey);
+			SDL_RenderFillRect(Core.Renderer, &Item);
+			Clear_Renderer();
+		}
 		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
 		Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
 		Render_Texture(Textures.Cursor, &Hitbox);

@@ -79,7 +79,7 @@ int main(int argc, char* args[]) {
 						Interface.Time_Frames++;
 					} else {
 						Interface.Time_Frames = 0;
-						Data.Time = Data.Time + 1;
+						Data.Time++;
 						Update_Machines();
 						Update_Power();
 						Update_Pipes();
@@ -130,6 +130,7 @@ int main(int argc, char* args[]) {
 		Cache.FPS_Cache[Cache.FPS_Tick] = min(True_Rate, Interface.Frame_Rate);
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
+	Free_Items();
 	Free_Preconfigs();
 	free_c(Temporary.Docks.Data);
 	Free_Supplies();

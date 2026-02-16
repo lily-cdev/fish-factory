@@ -34,7 +34,7 @@ void Process_Inputs() {
 						break;
 					case 0:
 						if (Application_Event.key.key == Keybinds.Keybind_List[4]) {
-							if (Interface.Tool == 0) {
+							if (Interface.Tool == T_Building) {
 								Interface.Tool = LDE_INVALID;
 							} else {
 								Interface.Tool = 0;
@@ -45,7 +45,7 @@ void Process_Inputs() {
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[5]) {
-							if (Interface.Tool == 1) {
+							if (Interface.Tool == T_Deleting) {
 								Interface.Tool = LDE_INVALID;
 								SDL_ShowCursor();
 							} else {
@@ -57,7 +57,7 @@ void Process_Inputs() {
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[6]) {
-							if (Interface.Tool == 2) {
+							if (Interface.Tool == T_Inspecting) {
 								Interface.Tool = LDE_INVALID;
 								SDL_ShowCursor();
 							} else {
@@ -69,7 +69,7 @@ void Process_Inputs() {
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[7]) {
-							if (Interface.Tool == 3) {
+							if (Interface.Tool == T_Wiring) {
 								Interface.Tool = LDE_INVALID;
 								SDL_ShowCursor();
 							} else {
@@ -81,7 +81,7 @@ void Process_Inputs() {
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[8]) {
-							if (Interface.Tool == 4) {
+							if (Interface.Tool == T_Plumbing) {
 								Interface.Tool = LDE_INVALID;
 								SDL_ShowCursor();
 							} else {
@@ -93,16 +93,16 @@ void Process_Inputs() {
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
-							if (Interface.Tool == Building) {
+							if (Interface.Tool == T_Building) {
 								Interface.Prompt_Identifier = P_Shop;
 								Interface.Building = false;
 							}
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
-							if (Interface.Tool == No_Tool) {
+							if (Interface.Tool == T_None) {
 								Render_Interaction();
 							}
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[11]) {
-							if (Interface.Tool == Building) {
+							if (Interface.Tool == T_Building) {
 								Interface.Rotation++;
 								if (Interface.Rotation > 3) {
 									Interface.Rotation = 0;
@@ -211,12 +211,14 @@ void Process_Inputs() {
 						if (Interface.Engagement == 2) {
 							Data.Settings_Grid[X][Y][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[X][Y][3]);
+							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[X][Y][
+								3]);
 							Print_Response(Buffer);
 						} else {
 							Data.Settings_Grid[X][Y][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[X][Y][4]);
+							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[X][Y][
+								4]);
 							Print_Response(Buffer);
 						}
 						break;
@@ -240,7 +242,7 @@ void Process_Inputs() {
 						Play_Sound(Click, false);
 					}
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
-					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == 0) {
+					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };
 						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);

@@ -46,11 +46,10 @@ bool Place_Command_Platform(int X, int Y) {
 			break;
 		}
 	}
-	if (Placed) {
-		Data.CMD_Placed = true;
-	} else {
+	if (!Placed) {
 		return false;
 	}
+	Data.CMD_Placed = true;
 	return true;
 }
 

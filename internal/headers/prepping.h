@@ -10,7 +10,7 @@ typedef struct {
 	char Suffixes[LDE_SUFFIXES];
 	float Save_Filesizes[4];
 	int Selected_Save;
-	Point_d Camera;
+	Point_f Camera;
 	Point_f Mouse;
 } lde_core;
 
@@ -53,6 +53,7 @@ typedef struct {
 	bool Machine_Quirks[LDE_MACHINES][LDE_QUIRKS];
 	char* Days[LDE_DAYS];
 	Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
+	char* Facts[LDE_FACTS];
 } lde_metadata;
 
 typedef struct {
@@ -134,7 +135,7 @@ typedef struct {
 	SDL_Texture* Tile_Texture;
 	Texture_Array R_Pump;
 	Texture2_Array Incinerator;
-	SDL_Texture* P_Generator;
+	Texture_Array RTG;
 	Texture_Array F_Plant;
 	Texture2_Array B_Generator;
 	Texture2_Array Distillery;

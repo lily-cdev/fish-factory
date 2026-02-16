@@ -125,7 +125,7 @@ void Handle_Help(int X, int Y) {
 				break;
 			}
 			if (Interface.UI_Selection > 1 && Interface.UI_Selection < 4) {
-				Interface.Tool = Building;
+				Interface.Tool = T_Building;
 				Close_Prompt();
 				Cache_Blueprint();
 				Cache_Price();

@@ -111,7 +111,7 @@ void Return_Nodes(Node* Yield, const int Column, const int Row, const int Rotati
 	Yield->Length = Preconfig[Rotation].Length;
 	Yield->Data = malloc(sizeof(Point) * Yield->Length);
 	for (int C1 = 0; C1 < Yield->Length; C1++) {
-		Yield->Data[C1].X = Preconfig[Rotation].Data[C1].X;
-		Yield->Data[C1].Y = Preconfig[Rotation].Data[C1].Y;
+		Yield->Data[C1].X = Preconfig[Rotation].Data[C1].X + Column;
+		Yield->Data[C1].Y = Preconfig[Rotation].Data[C1].Y + Row;
 	}
 }

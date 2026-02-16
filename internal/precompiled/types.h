@@ -1,7 +1,7 @@
 #pragma once
-#define NULLPOINT { LDE_TERMINATOR, LDE_TERMINATOR }
+#define NULLPOINT (Point){ LDE_TERMINATOR, LDE_TERMINATOR }
 #define NULLSTRING "NULL"
-#define NULLRECIPE { .ID = LDE_TERMINATOR }
+#define NULLRECIPE (Recipe){ .ID = LDE_TERMINATOR }
 
 typedef struct {
 	int Length;
@@ -35,11 +35,6 @@ typedef struct {
 	float X;
 	float Y;
 } Point_f;
-
-typedef struct {
-	float X;
-	float Y;
-} Point_d;
 
 typedef struct {
 	int Length;

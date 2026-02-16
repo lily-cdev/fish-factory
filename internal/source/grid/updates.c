@@ -1,5 +1,12 @@
 #include <grid.h>
 
+void (*Cycle_Functions[LDE_MACHINES])(const int X, const int Y, const int Rotation) = {
+	NULL, NULL, Cycle_Incinerator, Cycle_RTG, NULL, NULL, NULL, Cycle_Bio_Gen, NULL, Cycle_Distillery, Cycle_Algae_Bed,
+	NULL, NULL, NULL, NULL, NULL, Cycle_Electrolytic_Cell, Cycle_Fluid_Mixer, Cycle_Signal_Tower, NULL, NULL, NULL,
+	Cycle_Geo_Well, Cycle_Large_Pipe, Cycle_HX, NULL, NULL, NULL, Cycle_Money_Generator, Cycle_Fluid_Generator,
+	Cycle_Intersection, Cycle_Intersection, NULL, NULL, NULL, NULL, NULL, Cycle_Turbine_Input, NULL, NULL
+};
+
 void Update_Machines() {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
@@ -28,194 +35,12 @@ void Update_Machines() {
 					}
 				}
 			}
-			Node Inputs, Outputs;
-			bool Conditional;
-			switch (Visual_To_ID(Data.Visual_Grid[X][Y])) {
-			case Incinerator:
-				Data.Data_Grid[X][Y][Stored_Fluids] = max(Data.Data_Grid[X][Y][Stored_Fluids] - 8.0, 0.0);
-				break;
-			case Bio_Generator:
-				{
-					Point Offset = { 0, 2 };
-					switch (Visual_To_Rotation(Data.Visual_Grid[X][Y])) {
-					case 1:
-						Offset.Y = 0;
-						break;
-					case 2:
-						Offset.X = 2;
-						Offset.Y = 0;
-						break;
-					case 3:
-						Offset.X = 2;
-						break;
-					}
-					Item_Stack Target_Item = Get_Item(X + Offset.X, Y + Offset.Y);
-					Data.Animation_Grid[X][Y][0] = 0;
-					if (Check_Category(Target_Item.Identifier, Preset_Categories.Biomass) > 0 && Data.Data_Grid[X + Offset.X][
-						Y + Offset.Y][Stored_Fluids] >= 2) {
-						Data.Data_Grid[X + Offset.X][Y + Offset.Y][Stored_Fluids] -= 2;
-						Data.Data_Grid[X][Y][Stored_Power] = min(Data.Data_Grid[X][Y][Stored_Power] + (
-							Target_Item.Chemical_Energy / 100), Data.Data_Grid[X][Y][Power_Cap]);
-						Data.Animation_Grid[X][Y][0] = 1;
-					}
-				}
-				break;
-			case Distillery:
-				Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.D_Inputs);
-				Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.D_Outputs);
-				Process_Recipe(Preset_IO_Recipes.D_Water, X, Y, Inputs, Outputs);
-				break;
-			case Algae_Bed:
-				if (Data.Data_Grid[X][Y][Stored_Power] > 120 && Data.Data_Grid[X][Y + 2][Stored_Fluids] <= 2 &&
-					Data.Data_Grid[X + 1][Y + 2][Stored_Fluids] <= 2 && Data.Settings_Grid[X][Y][1] <= 0) {
-					Data.Settings_Grid[X][Y][1] = 2;
-				}
-				Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.GB_Outputs);
-				Process_O_Recipe(Preset_O_Recipes.GB_Algae, X, Y, Outputs);
-				break;
-			case Electrolytic_Cell:
-				{
-					Recipe Selected_Recipes[3] = {
-						Preset_IO_Recipes.EP_Saltwater,
-						Preset_IO_Recipes.EP_Water,
-						Preset_IO_Recipes.EP_Salt
-					};
-					Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.EP_Inputs);
-					Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.EP_Outputs);
-					for (int C1 = 0; C1 < 3; C1++) {
-						Process_Recipe(Selected_Recipes[C1], X, Y, Inputs, Outputs);
-					}
-				}
-				break;
-			case Fluid_Mixer:
-				{
-					Recipe Selected_Recipes[4] = {
-						Preset_IO_Recipes.FM_Drillmud_1,
-						Preset_IO_Recipes.FM_Drillmud_2,
-						Preset_IO_Recipes.FM_Hydrogen_Chloride,
-						Preset_IO_Recipes.FM_Hydrochloric_Acid
-					};
-					for (int C1 = 0; C1 < 4; C1++) {
-						Data.Animation_Grid[X][Y][0] = 0;
-						Node Subinputs;
-						Node Suboutputs;
-						Return_Nodes(&Subinputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.FM_Inputs);
-						Return_Nodes(&Suboutputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.FM_Outputs);
-						if (Process_Recipe(Selected_Recipes[C1], X, Y, Subinputs, Suboutputs)) {
-							Data.Animation_Grid[X][Y][0] = 1;
-							break;
-						}
-						free_c(Subinputs.Data);
-						free_c(Suboutputs.Data);
-					}
-				}
-				break;
-			case Signal_Tower:
-				if (Data.Settings_Grid[X][Y][3] == 0) {
-					Data.Settings_Grid[X][Y][3] = 1;
-				} else {
-					Data.Settings_Grid[X][Y][3] = 0;
-				}
-				break;
-			case Geo_Well:
-				Conditional = true;
-				if (Data.Data_Grid[X][Y][Stored_Power] < 2500) {
-					Conditional = false;
-				}
-				Return_Nodes(&Inputs, X, Y, Rotation, Preconfigs.GW_Inputs);
-				Return_Nodes(&Outputs, X, Y, Rotation, Preconfigs.GW_Outputs);
-				if (Data.Data_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y][Stored_Fluids] < 8 || Data.Data_Grid[
-					Outputs.Data[Rotation].X][Outputs.Data[Rotation].Y][Stored_Fluids] > 0) {
-					Conditional = false;
-				}
-				if (Check_Category(Data.Items_Grid[Outputs.Data[Rotation].X][Outputs.Data[Rotation].Y],
-					Preset_Categories.Coolant)) {
-					Conditional = false;
-				}
-				if (Conditional) {
-					Data.Data_Grid[X][Y][Stored_Power] -= 2500;
-					Data.Data_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y][Stored_Fluids] -= 8;
-					Data.Data_Grid[Outputs.Data[Rotation].X][Outputs.Data[Rotation].Y][Stored_Fluids] += 8;
-					int Temperature = Data.Temperature_Grid[Inputs.Data[Rotation].X][Inputs.Data[Rotation].Y];
-					if (Temperature == 328) {
-						Temperature = 327;
-					}
-					float Benchmark = log10((float)(328 - Temperature) / 263) / log10(0.64);
-					Update_Item(Outputs.Data[Rotation].X, Outputs.Data[Rotation].Y, Data.Items_Grid[Inputs.Data[Rotation].X][
-						Inputs.Data[Rotation].Y], (-263 * pow(0.64, Benchmark + 1)) + 328);
-				}
-				break;
-			case Large_Pipe:
-				if (Get_Item(X, Y).Hazard > Harmless) {
-					//if hazard then go boom
-				}
-				break;
-			case Money_Generator:
-				Data.Funds = max(Data.Funds + (float)(Data.Settings_Grid[X][Y][4]), 0.0f);
-				break;
-			case Fluid_Generator:
-				if (Data.Items_Grid[X][Y] != Data.Settings_Grid[X][Y][3] || Data.Temperature_Grid[X][Y] != Data.Settings_Grid[
-					X][Y][4]) {
-					Data.Data_Grid[X][Y][Stored_Fluids] = 0;
-					Data.Items_Grid[X][Y] = Data.Settings_Grid[X][Y][3];
-					Data.Temperature_Grid[X][Y] = Data.Settings_Grid[X][Y][4];
-				}
-				Data.Data_Grid[X][Y][Stored_Fluids] = min(Data.Settings_Grid[X][Y][5] + Data.Data_Grid[X][Y][Stored_Fluids],
-					Data.Data_Grid[X][Y][Fluid_Cap]);
-				break;
-			case R_Intersection:
-			case L_Intersection:
-				//check4hazard!
-				Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.I_Inputs);
-				Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.I_Outputs);
-				for (int C1 = 0; C1 < 2; C1++) {
-					int OX = Outputs.Data[C1].X;
-					int OY = Outputs.Data[C1].Y;
-					int IX = Inputs.Data[C1].X;
-					int IY = Inputs.Data[C1].Y;
-					float Difference = Data.Data_Grid[OX][OY][Fluid_Cap] - Data.Data_Grid[OX][OY][Stored_Fluids];
-					Difference = min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
-					if (Difference > 0 && (Data.Items_Grid[IX][IY] == Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] ==
-						LDE_INVALID)) {
-						Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
-						Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
-						Update_Item(Outputs.Data[C1].X, OY, Data.Items_Grid[IX][IY], Data.Temperature_Grid[IX][IY]);
-					}
-				}
-				break;
-			case Turbine_Input:
-				Data.Settings_Grid[X][Y][7] = 0;
-				Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.STI_Inputs);
-				Return_Nodes(&Outputs, Data.Settings_Grid[X][Y][5], Data.Settings_Grid[X][Y][6], Visual_To_Rotation(
-					Data.Visual_Grid[(int)(Data.Settings_Grid[X][Y][5])][(int)(Data.Settings_Grid[X][Y][6])]),
-					Preconfigs.STO_Outputs);
-				if (Data.Settings_Grid[X][Y][3] > 0 && Data.Settings_Grid[X][Y][4] == 1 && Data.Items_Grid[Inputs.Data[0].X][
-					Inputs.Data[0].Y] == Preset_Items.Steam.Identifier && Data.Items_Grid[Outputs.Data[0].X][Outputs.Data[
-					0].Y] == Preset_Items.Steam.Identifier) {
-					float Transferred = Data.Data_Grid[Outputs.Data[0].X][Outputs.Data[0].Y][Fluid_Cap] - Data.Data_Grid[
-						Outputs.Data[0].X][Outputs.Data[0].Y][Stored_Fluids];
-					Transferred = min(Transferred, Data.Data_Grid[Inputs.Data[0].X][Inputs.Data[0].Y][Stored_Fluids]);
-					if (Transferred > 0) {
-						Data.Data_Grid[Inputs.Data[0].X][Inputs.Data[0].Y][Stored_Fluids] -= Transferred;
-						Data.Data_Grid[Outputs.Data[0].X][Outputs.Data[0].Y][Stored_Fluids] += Transferred;
-						float Generated = Transferred * LDE_TURBINECOEFFICIENT * log(sqr(Data.Temperature_Grid[Inputs.Data[0].X][
-							Inputs.Data[0].Y])) * log(Data.Settings_Grid[X][Y][3] * 1.5f);
-						Update_Item(Outputs.Data[0].X, Outputs.Data[0].Y, Preset_Items.Steam.Identifier,
-							(Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] * 0.1) + 32);
-						if (Data.Temperature_Grid[Inputs.Data[0].X][Inputs.Data[0].Y] < 200) {
-							Generated = 0;
-						}
-						Data.Settings_Grid[X][Y][7] = Generated;
-						Data.Data_Grid[X][Y][Stored_Power] = min(Data.Data_Grid[X][Y][Power_Cap], Data.Data_Grid[X][Y][
-							Stored_Power] + Generated);
-					}
-				}
-				break;
-			default:
-				break;
+			int Chosen = Visual_To_ID(Data.Visual_Grid[X][Y]);
+			if (Chosen >= 0 && Cycle_Functions[Chosen] != NULL) {
+				Cycle_Functions[Chosen](X, Y, Rotation);
 			}
 			if (Data.Visual_Grid[X][Y] == 17) {
-				Node tmp3;tmp3.Data=(Point*)malloc(sizeof(Point));tmp3.Length=1;
+				Node tmp3 = { };tmp3.Data=(Point*)malloc(sizeof(Point));tmp3.Length=1;
 				tmp3.Data[0].X = X;tmp3.Data[0].Y=Y;
 				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, X, Y, tmp3)) {
 					Data.Animation_Grid[X][Y][0] = 0;
@@ -224,26 +49,23 @@ void Update_Machines() {
 					Data.Animation_Grid[X][Y][0] = LDE_INVALID;
 				}
 				free_c(tmp3.Data);
-			} else if (Data.Visual_Grid[X][Y] == 19) {
-				Data.Data_Grid[X][Y][Stored_Power] = min(Data.Data_Grid[X][Y][Stored_Power] + 0.5, Data.Data_Grid[X][Y][
-					Power_Cap]);
 			} else if (Data.Visual_Grid[X][Y] == 21) {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Data_Grid[X + C1][Y + 3][Stored_Fluids] > 0) {
 						if (Data.Settings_Grid[X][Y][C1 + 5] == Get_Item(X + C1, Y + 3).Identifier || Data.Settings_Grid[X][
 							Y][C1 + 5] == LDE_INVALID) {
-							Data.Settings_Grid[X][Y][C1 + 3] = min(Data.Settings_Grid[X][Y][C1 + 3] + Data.Data_Grid[X + C1][
-								Y + 3][Stored_Fluids], LDE_DOCKCAPACITY);
+							Data.Settings_Grid[X][Y][C1 + 3] = min(Data.Settings_Grid[X][Y][C1 + 3] + Data.Data_Grid[X +
+								C1][Y + 3][Stored_Fluids], LDE_DOCKCAPACITY);
 							Data.Data_Grid[X + C1][Y + 3][Stored_Fluids] = 0;
 							Data.Settings_Grid[X][Y][C1 + 5] = Get_Item(X + C1, Y + 3).Identifier;
 						}
 					}
 				}
 			} else if (Data.Visual_Grid[X][Y] == 22) {
-				Node tmp1;tmp1.Data = (Point*)malloc(sizeof(Point));
+				Node tmp1 = { };tmp1.Data = (Point*)malloc(sizeof(Point));
 				tmp1.Length = 1;tmp1.Data[0].X = X;
 				tmp1.Data[0].Y = Y + 1;
-				Node tmp2;tmp2.Data = (Point*)malloc(sizeof(Point)*3);
+				Node tmp2 = { };tmp2.Data = (Point*)malloc(sizeof(Point)*3);
 				tmp2.Length = 3;tmp2.Data[0].X = X + 1;
 				tmp2.Data[0].Y = Y;tmp2.Data[1].X = X + 1;
 				tmp2.Data[1].Y = Y + 1;tmp2.Data[2].X = X + 1;
@@ -299,81 +121,7 @@ void Update_Machines() {
 					Data.Settings_Grid[Parent_X][Parent_Y][4] += Data.Data_Grid[X][Y][Stored_Fluids] * Food_Multiplier;
 					Data.Data_Grid[X][Y][Stored_Fluids] = 0;
 				}
-			} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Heat_Exchanger) {
-				bool Boiling = false;
-				if (Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][8] >= LDE_WATERBOILPOINT) {
-					Boiling = true;
-				}
-				Point Outputs[2][4] = {
-					{ { X + 3, Y }, { X + 2, Y + 3 }, { X, Y + 2 }, { X, Y } },
-					{ { X, Y }, { X + 2, Y }, { X + 3, Y + 2 }, { X, Y + 3 } }
-				};
-				for (int C1 = 0; C1 < 2; C1++) {
-					Point Output_Pos = Outputs[C1][Visual_To_Rotation(Data.Visual_Grid[X][Y])];
-					if ((Data.Items_Grid[Output_Pos.X][Output_Pos.Y] == LDE_INVALID || (Data.Settings_Grid[X][Y][C1 + 9] ==
-						Data.Items_Grid[Output_Pos.X][Output_Pos.Y] && !Boiling) || (Data.Items_Grid[Output_Pos.X][
-						Output_Pos.Y] == Preset_Items.Steam.Identifier && Boiling && C1 == 1)) && Data.Settings_Grid[X][Y][
-						C1 + 5] > 0) {
-						if (Boiling && C1 == 1) {
-							Data.Items_Grid[Output_Pos.X][Output_Pos.Y] = Preset_Items.Steam.Identifier;
-						} else {
-							Data.Items_Grid[Output_Pos.X][Output_Pos.Y] = Data.Settings_Grid[X][Y][C1 + 9];
-						}
-						float Draining_Amount = min(Data.Settings_Grid[X][Y][C1 + 3], Data.Settings_Grid[X][Y][C1 + 5]);
-						Draining_Amount = min(Draining_Amount, Data.Data_Grid[Output_Pos.X][Output_Pos.Y][Fluid_Cap] -
-							Data.Data_Grid[Output_Pos.X][Output_Pos.Y][Stored_Fluids]);
-						Data.Data_Grid[Output_Pos.X][Output_Pos.Y][Stored_Fluids] += Draining_Amount;
-						Data.Settings_Grid[X][Y][C1 + 5] -= Draining_Amount;
-					}
-				}
-				Point Inputs[2][4] = {
-					{ { X + 3, Y + 2 }, { X, Y + 3 }, { X, Y }, { X + 2, Y } },
-					{ { X, Y + 2 }, { X, Y }, { X + 3, Y }, { X + 2, Y + 3 } }
-				};
-				Item_Category Categories[2] = {
-					Preset_Categories.Coolant,
-					Preset_Categories.Feedwater
-				};
-				for (int C1 = 0; C1 < 2; C1++) {
-					Point Input_Pos = Inputs[C1][Visual_To_Rotation(Data.Visual_Grid[X][Y])];
-					if (Check_Category(ID_To_Item(Data.Items_Grid[Input_Pos.X][Input_Pos.Y]).Identifier, Categories[
-						C1]) && (Data.Settings_Grid[X][Y][C1 + 9] == LDE_INVALID || Data.Settings_Grid[X][Y][C1 + 9] ==
-						Data.Items_Grid[Input_Pos.X][Input_Pos.Y])) {
-						Data.Settings_Grid[X][Y][C1 + 9] = Data.Items_Grid[Input_Pos.X][Input_Pos.Y];
-						int Volume = Data.Settings_Grid[X][Y][C1 + 5], Intake = 0;
-						if (Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] > 0 && Volume < LDE_HXCAPACITY) {
-							if (Volume + Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] > LDE_HXCAPACITY) {
-								Intake = LDE_HXCAPACITY - Volume;
-								Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] -= Intake;
-								Data.Settings_Grid[X][Y][C1 + 5] = LDE_HXCAPACITY;
-							} else {
-								Intake = Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids];
-								Data.Settings_Grid[X][Y][C1 + 5] += Intake;
-								Data.Data_Grid[Input_Pos.X][Input_Pos.Y][Stored_Fluids] = 0;
-							}
-						}
-						if (Volume + Intake != 0) {
-							Data.Settings_Grid[X][Y][C1 + 7] = ((Data.Settings_Grid[X][Y][C1 + 7] * Volume) + (
-								Data.Temperature_Grid[Input_Pos.X][Input_Pos.Y] * Intake)) / (Volume + Intake);
-						}
-					}
-				}
-				float Temp_Equil = ((Data.Settings_Grid[X][Y][6] * Data.Settings_Grid[X][Y][8]) + (Data.Settings_Grid[X][Y][
-					5] * Data.Settings_Grid[X][Y][7])) / (Data.Settings_Grid[X][Y][6] + Data.Settings_Grid[X][Y][5]);
-				float Difference = Data.Settings_Grid[X][Y][7] - Data.Settings_Grid[X][Y][8];
-				float Remaining = pow(M_E, (-1 * ((LDE_HXEFFICIENCY * (Data.Settings_Grid[X][Y][6] + Data.Settings_Grid[
-					X][Y][5])) / (4.186 * Data.Settings_Grid[X][Y][6] * Data.Settings_Grid[X][Y][5]))));
-				float FW_Yield = Temp_Equil - (((Data.Settings_Grid[X][Y][5] / (Data.Settings_Grid[X][Y][6] +
-					Data.Settings_Grid[X][Y][5])) * Difference) * Remaining);
-				float HM_Yield = Temp_Equil + (((Data.Settings_Grid[X][Y][6] / (Data.Settings_Grid[X][Y][6] +
-					Data.Settings_Grid[X][Y][5])) * Difference) * Remaining);
-				if (HM_Yield > 0 && FW_Yield > 0) {
-					Data.Settings_Grid[X][Y][7] = HM_Yield;
-					Data.Settings_Grid[X][Y][8] = FW_Yield;
-				}
 			}
-			free_c(Inputs.Data);
-			free_c(Outputs.Data);
 		}
 	}
 }

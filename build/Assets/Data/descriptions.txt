@@ -1,7 +1,7 @@
 A Steel-shelled pipe bearing an internal lining of silicon carbide. It's resistant to pretty much everything, save for fluorine.
 A low-power pump that uses the natural pressure of the Ocean to force seawater into pipes. It's literally just a glorified valve.
 Disposes of unwanted fluids by degrading them with 1,500 °F temperatures, before safely releasing them into the Ocean.
-Converts friction from the Ocean into miniscule amounts of power.
+Uses the thermal heat from a water-submerged chunk of plutonium-239 to produce a small amount of power.
 Functionally inert, but looks a whole heck of a lot prettier than raw seabed.
 A dock allowing for products to be exported and shipped. Must be placed against a wall in order to function.
 Filters liquids, using very little electricity to operate.

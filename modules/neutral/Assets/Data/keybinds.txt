@@ -1,14 +1,14 @@
-Drift up
-Drift down
-Drift left
-Drift right
-Toggle placing
-Toggle deleting
-Toggle inspecting
-Toggle wiring
-Toggle plumbing
-Toggle catalog
-Interact
-Rotate
-Sprint
-Exit
+drift up
+drift down
+drift left
+drift right
+toggle placing
+toggle deleting
+toggle inspecting
+toggle wiring
+toggle plumbing
+toggle catalog
+interact
+rotate
+sprint
+exit

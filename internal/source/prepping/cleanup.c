@@ -67,6 +67,8 @@ void Cleanup_Assets() {
 	free_c(Cache.FPS_Cache);
 	free_texture(Textures.Logo1);
 	free_texture(Textures.Logo2);
+	free_texture(Textures.CMD_Warning1);
+	free_texture(Textures.CMD_Warning2);
 	free_texture(Textures.Terminal_Prompt);
 	free_texture(Textures.Price_Header);
 	free_texture(Textures.CMD_Warning1);
@@ -168,7 +170,7 @@ void Cleanup_Assets() {
 	free_texture(Textures.Tile_Texture);
 	Clear_Texture_Array(&Textures.R_Pump);
 	Clear_Texture2_Array(&Textures.Incinerator);
-	free_texture(Textures.P_Generator);
+	Clear_Texture_Array(&Textures.RTG);
 	Clear_Texture_Array(&Textures.F_Plant);
 	Clear_Texture2_Array(&Textures.B_Generator);
 	Clear_Texture2_Array(&Textures.Distillery);

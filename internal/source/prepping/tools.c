@@ -130,7 +130,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 	while ((Yield = strchr(Raw_Text + Start, '|')) != NULL) {
 		End = Yield - Raw_Text;
 		Fragment_Count++;
-		Start = End + 1;
+		Start = End + 1;//welcome -> ome
 	}
 	char** Fragments = malloc(sizeof(char*) * Fragment_Count);
 	int* Lengths = malloc(sizeof(int) * Fragment_Count);
@@ -157,10 +157,17 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		Subtractor = Fragment_Count - 1;
 	}
 	for (size_t C1 = 0; C1 < Fragment_Count; C1++) {
-		char* Position;
-		while ((Position = strstr(Fragments[C1], "[c]")) != NULL) {
-			memmove(Position, Position + 3, strlen(Position + 3) + 1);
-			strncpy(Position, "    ", 4);
+		for (int C2 = 0; C2 < strlen(Fragments[C1]); C2++) {
+			char Candidate[8];
+			strncpy(Candidate, Fragments[C1] + C2, 3);
+			Candidate[3] = '\0';
+			printf("%s -> %s\n", Fragments[C1], Candidate);
+			if (strcmp(Candidate, "[c]") == 0) {
+				memmove(Fragments[C1] + C2 + 1, Fragments[C1] + C2, strlen(Fragments[C1]) + 1);
+				strncpy(Fragments[C1] + C2, "    ", 4);
+				C1--;
+				break;
+			}
 		}
 	}
 	for (size_t C1 = 0; C1 < Fragment_Count; C1++) {
@@ -208,5 +215,6 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		free_c(Fragments[C1]);
 	}
 	free_c(Fragments);
+	free_c(Lengths);
 	return Offset;
 }

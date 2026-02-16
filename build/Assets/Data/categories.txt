@@ -1,8 +1,8 @@
-Logistics
-Extraction
-Cultivation
-Processing
-Generation
-Decoration
-Other
-Special
+logistics
+extraction
+cultivation
+processing
+generation
+decoration
+other
+special

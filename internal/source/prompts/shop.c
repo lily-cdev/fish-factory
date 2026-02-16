@@ -21,15 +21,15 @@ void Render_Shop(int X, int Y) {
 		}
 		Render_Box(10, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		SDL_FRect Icon_Rectangle = Metadata.Machine_Rectangles[Interface.Item - 1];
-		float Multiplier = ((float)Settings.Screen_Size * 120) / Icon_Rectangle.w;
+		float Multiplier = (Settings.Screen_Size * 120.0f) / Icon_Rectangle.w;
 		Icon_Rectangle = (SDL_FRect){
-			(Settings.Screen_Size * 103) - (Icon_Rectangle.w * 0.5),
-			(Settings.Screen_Size * 24),
-			(int)(Icon_Rectangle.w * Multiplier),
-			(int)(Icon_Rectangle.h * Multiplier)
+			(Settings.Screen_Size * 103.0f) - (Icon_Rectangle.w * Multiplier * 0.5f),
+			Settings.Screen_Size * 24.0f,
+			Icon_Rectangle.w * Multiplier,
+			Icon_Rectangle.h * Multiplier
 		};
 		int Offset = (Icon_Rectangle.y + Icon_Rectangle.h) / Settings.Screen_Size;
-		Render_Box((Icon_Rectangle.x / Settings.Screen_Size) - 4, (Icon_Rectangle.y / Settings.Screen_Size) - 4,
+		Render_Box(((int)Icon_Rectangle.x / Settings.Screen_Size) - 4, (Icon_Rectangle.y / Settings.Screen_Size) - 4,
 			(Icon_Rectangle.w / Settings.Screen_Size) + 8, (Icon_Rectangle.h / Settings.Screen_Size) + 8,
 			Colors.Light_Grey, Colors.Dark_Grey);
 		Render_Texture(Metadata.Machine_Sprites[Interface.Item - 1], &Icon_Rectangle);
@@ -97,16 +97,16 @@ void Render_Shop(int X, int Y) {
 		Render_Box(444, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		Render_Texture(Textures.Price_Header, &Rects.Price_Header);
 		char Buffer[64];
-		snprintf(Buffer, sizeof(Buffer), "Base: %iLA", Metadata.Machine_Prices[Interface.Item - 1]);
+		snprintf(Buffer, sizeof(Buffer), "base: %iLA", Metadata.Machine_Prices[Interface.Item - 1]);
 		Process_Supply(&Supplies.Shop1, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 30);
-		snprintf(Buffer, sizeof(Buffer), "Tax: %iLA", (int)(Metadata.Machine_Prices[Interface.Item - 1] * 0.1));
+		snprintf(Buffer, sizeof(Buffer), "tax: %iLA", (int)(Metadata.Machine_Prices[Interface.Item - 1] * 0.1));
 		Process_Supply(&Supplies.Shop2, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 50);
-		snprintf(Buffer, sizeof(Buffer), "Shipping Fee: %iLA", Metadata.Machine_Taxes[Interface.Item - 1]);
+		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machine_Taxes[Interface.Item - 1]);
 		Process_Supply(&Supplies.Shop3, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 70);
-		snprintf(Buffer, sizeof(Buffer), "Processing Fee: %iLA", 1);//tmp
+		snprintf(Buffer, sizeof(Buffer), "processing fee: %iLA", 1);//tmp
 		Process_Supply(&Supplies.Shop4, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 90);
 		Cache_Price();
-		snprintf(Buffer, sizeof(Buffer), "Total: %iLA", Interface.Queried_Price);
+		snprintf(Buffer, sizeof(Buffer), "total: %iLA", Interface.Queried_Price);
 		Process_Supply(&Supplies.Shop5, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 110);
 	} else {
 		for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {

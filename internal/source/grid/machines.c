@@ -1,6 +1,6 @@
 #include <grid.h>
 
-bool (*Placing_Functions[40])(int X, int Y) = {
+bool (*Placing_Functions[LDE_MACHINES])(int X, int Y) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump,
 	Place_Incinerator, Place_RTG,
 	Place_Decoration, Place_Submarine_Dock,
@@ -384,7 +384,7 @@ void Recast_Machines() {
 								Chaining = false;
 							}
 						} else {
-							Point Offset = { 0, 0 };
+							Point Offset = { };
 							if (Visual_To_Rotation(Data.Visual_Grid[Column][Row]) == 0) {
 								Offset.X = 0;
 								Offset.Y = -1;

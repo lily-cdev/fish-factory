@@ -1,7 +1,7 @@
 #include <grid.h>
 
 bool Place_RTG(int X, int Y) {
-	Data.Visual_Grid[X][Y] = 19;
+	Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 19 : Interface.Rotation + 134;
 	Data.Data_Grid[X][Y][Power_Cap] = 5;
 	Data.Data_Grid[X][Y][5] = 20;
 	Data.Data_Grid[X][Y][6] = 20;
@@ -18,7 +18,7 @@ bool Place_Bio_Generator(int X, int Y) {
 		Data.Data_Grid[X][Y][Power_Cap] = 9500;
 		Data.Data_Grid[X][Y][5] = 60;
 		Data.Data_Grid[X][Y][6] = 60;
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.BG_Inputs);
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][1] = 4;
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = 1;
@@ -136,7 +136,7 @@ bool Place_Turbine_Input(int X, int Y) {
 	}
 	if (Placed) {
 		Data.Visual_Grid[X][Y] = Interface.Rotation + 120;
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.STI_Inputs);
 		Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3] = 0;
 		Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][4] = 0;
@@ -172,7 +172,7 @@ bool Place_Turbine_Output(int X, int Y) {
 	if (Check_Clearance(X, Y, 2, 2)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 2);
 		Data.Visual_Grid[X][Y] = Interface.Rotation + 128;
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.STO_Outputs);
 		Data.Data_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][Fluid_Cap] = LDE_LARGECAP;
 		Data.Settings_Grid[Nodes.Data[0].X][Nodes.Data[0].Y][0] = F_Out;

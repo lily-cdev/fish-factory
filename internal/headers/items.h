@@ -114,12 +114,10 @@ extern Fish Fish_Catalog[LDE_FISH];
 extern char Growth_Phases[LDE_FISHPHASES][32];
 extern char Plural_Growth_Phases[LDE_FISHPHASES][32];
 extern int Growth_Weights[LDE_FISHPHASES];
-extern Recipe* I_Recipes[LDE_MACHINES][8];
-extern Recipe* O_Recipes[LDE_MACHINES][8];
-extern Recipe* IO_Recipes[LDE_MACHINES][8];
-extern Recipe* All_Recipes[3][LDE_MACHINES][8];
+extern Recipe* Recipes[LDE_RECIPETYPES][LDE_MACHINES];
 
 void Prep_Items();
+void Free_Items();
 void Update_Item(int X, int Y, int Identifier, int Temperature);
 Item_Stack Get_Item(int X, int Y);
 Item_Stack ID_To_Item(const int ID);

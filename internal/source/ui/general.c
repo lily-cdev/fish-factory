@@ -28,7 +28,7 @@ void Render_Toolbar() {
 		Render_Texture(Textures.Cap.Data[1], &Rects.Cap);
 		Render_Texture(Textures.Tool.Data[Interface.Tool], &Rects.Tool[Interface.Tool]);
 	}
-	if (Interface.Tool == 0) {
+	if (Interface.Tool == T_Building) {
 		char Machine_Text[64];
 		char Price_Query[64];
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));

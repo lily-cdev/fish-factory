@@ -1,32 +1,12 @@
 #include <prepping.h>
 
 lde_core Core = {
-	.Window = NULL,
-	.Renderer = NULL,
-	.Game_Texture = NULL,
 	.Is_Running = true,
-	.Debug_Mode = false,
 	.Suffixes = { 'J', 'k', 'M', 'G', 'T' },
 	.Selected_Save = LDE_INVALID,
-	.Camera = { -140, 0 },
-	.Mouse = { 0, 0 }
+	.Camera = { -140, 0 }
 };
-lde_data Data = {
-	.CMD_Placed = false,
-	.Version = 0,
-	.Time = 0,
-	.Day = 0,
-	.Visual_Grid = { },
-	.Connection_Grid = { },
-	.Behavior_Grid = { },
-	.Wiring_Grid = { },
-	.Plumbing_Grid = { },
-	.Items_Grid = { },
-	.Temperature_Grid = { },
-	.Animation_Grid = { },
-	.Data_Grid = { },
-	.Funds = 0
-};
+lde_data Data = { };
 lde_metadata Metadata = {
 	.Item_Labels = {
 		{ Submarine_Dock, Cable_Node, LDE_TERMINATOR },
@@ -65,12 +45,12 @@ lde_metadata Metadata = {
 		4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4, 30, 20, 90, 30, 50, 46, 20
 	},
 	.Quirk_Positions = {
-		{ Reinforced_Pipe, Ram_Pump, RTG, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip,
-			Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node,
-			Large_Pipe, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, LDE_TERMINATOR },
+		{ Reinforced_Pipe, Ram_Pump, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip, Spawning_Pool,
+			Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node, Large_Pipe, Petrified_Wood,
+			Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, LDE_TERMINATOR },
 		{ Reinforced_Pipe, Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Large_Pipe,
-			Condenser_Input, Condenser_Heatsink, Condenser_Transferor, Turbine_Input, Turbine_Impulse,
-			Turbine_Output, LDE_TERMINATOR },
+			Condenser_Input, Condenser_Heatsink, Condenser_Transferor, Turbine_Input, Turbine_Impulse, Turbine_Output,
+			LDE_TERMINATOR },
 		{ Signal_Tower, Spawning_Controller, Submarine_Dock, Heat_Exchanger, Money_Generator, Fluid_Generator,
 			Turbine_Input, LDE_TERMINATOR },
 		{ Reinforced_Pipe, Spawning_Pool, Ram_Pump, Large_Pipe, Money_Generator, Fluid_Generator, LDE_TERMINATOR }
@@ -80,11 +60,7 @@ lde_metadata Metadata = {
 };
 lde_settings Settings = {
 	.AA_Temporary = true,
-	.VS_Temporary = false,
-	.Fullscreen = 0,
-	.Screen_Size = 0,
 	.Anti_Aliasing = 1,
-	.VSync = 0,
 	.Volume = 50,
 	.Raw_FPS = 2
 };
@@ -106,23 +82,17 @@ lde_colors Colors = {
 };
 lde_fonts Fonts = { };
 lde_keybinds Keybinds = {
-	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
-		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE },
-	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3,
-		SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R, SDLK_LSHIFT, SDLK_ESCAPE }
+	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
+		SDLK_LSHIFT, SDLK_ESCAPE },
+	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
+		SDLK_LSHIFT, SDLK_ESCAPE }
 };
 lde_temporary Temporary = {
-	.Settings_Changed = false,
 	.Tutorial_Step = LDE_INVALID,
-	.Log_Inversions = { true, false, false },
-	.First_Coordinate = { 0, 0 },
-	.Docks.Data = NULL
+	.Log_Inversions = { true, false, false }
 };
 lde_cache Cache = {
-	.Wire_State = LDE_INVALID,
-	.Wire_Cache.Data = NULL,
-	.Blueprint_Cache = NULL,
-	.Log_Cache.Data = NULL
+	.Wire_State = LDE_INVALID
 };
 lde_supplies Supplies = { };
 lde_interface Interface = {
@@ -141,11 +111,11 @@ lde_interface Interface = {
 	.Slider_Texts = {
 		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", NULLSTRING },
 		{ "Milkfish", "Mojarra", "Menhaden", NULLSTRING },
-		{ "Credits", "Legal", NULLSTRING },
-		{ "Overview", "Tutorials", "Cheats", NULLSTRING },
+		{ "credits", "legal", NULLSTRING },
+		{ "overview", "tutorials", "cheats", NULLSTRING },
 		{ "15 FPS", "30 FPS", "60 FPS", "120 FPS", "240 FPS", NULLSTRING },
 		{ NULLSTRING },
-		{ "Windowed", "Borderless", "Fullscreen", NULLSTRING },
+		{ "windowed", "borderless", "fullscreen", NULLSTRING },
 		{ NULLSTRING },
 		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s",
 			NULLSTRING },

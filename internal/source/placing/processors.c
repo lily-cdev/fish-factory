@@ -42,7 +42,7 @@ bool Place_Distillery(int X, int Y) {
 		Data.Wiring_Grid[X][Y] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 2500;
 		Data.Animation_Grid[X][Y][0] = 0;
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.D_Inputs);
 		for (int C1 = 0; C1 < Nodes.Length; C1++) {
 			Data.Settings_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][0] = 1;
@@ -120,7 +120,7 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 bool Place_Fluid_Mixer(int X, int Y) {
 	if (Check_Clearance(X, Y, 3, 3)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
-		Node Nodes;
+		Node Nodes = { };
 		Return_Nodes(&Nodes, X, Y, Interface.Rotation, Preconfigs.FM_Inputs);
 		for (int C1 = 0; C1 < Nodes.Length; C1++) {
 			int Orientation = (int)(floor(C1 / 3.0f) * 2) + Left;
