@@ -158,16 +158,16 @@ PRESET_ITEMS Preset_Items = {
 		.Vaporisation_Enthalpy = 50
 	},
 	.J1 = {
-		13,
-		0,
-		0,
-		"[none]"
+		.Identifier = 13,
+		.Hazard = Harmless,
+		.Value = Worthless,
+		.Display_Name = "[none]"
 	},
 	.J2 = {
-		14,
-		0,
-		0,
-		"[none]"
+		.Identifier = 14,
+		.Hazard = 0,
+		.Value = 0,
+		.Display_Name = "[none]"
 	},
 	.Hydrogen = {
 		.Identifier = 15,
