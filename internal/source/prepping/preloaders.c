@@ -11,7 +11,37 @@ void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
 	}
 }
 
+void Load_Rects() {
+	Rects.Tile_1x1.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
+	Rects.Tile_1x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
+	Rects.Tile_1x2.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
+	Rects.Tile_1x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_2x1.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_2x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
+	Rects.Tile_2x2.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_2x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_2x3.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_2x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_3x2.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_3x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
+	Rects.Tile_3x3.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_3x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_3x4.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_3x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
+	Rects.Tile_4x3.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
+	Rects.Tile_4x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
+	Rects.Tile_4x6.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
+	Rects.Tile_4x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
+	Rects.Tile_6x4.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
+	Rects.Tile_6x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
+	Rects.Tile_6x8.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
+	Rects.Tile_6x8.h = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
+	Rects.Tile_8x6.w = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
+	Rects.Tile_8x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
+}
+
 void Preload_Fonts() {
+	Load_Rects();
 	Load_Font("Oxygen/Oxygen_Regular", &Fonts.Logo_Font, 32);
 	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Large_Font, 24);
 	Load_Font("Cantarell/Cantarell_Regular", &Fonts.Text_Font, 18);
@@ -705,32 +735,6 @@ void Preload_Assets() {
 		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[
 			C1].Data[0].w * 0.5) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5);
 	}
-	Rects.Tile_1x1.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x2.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x1.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_2x2.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x3.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x2.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_3x3.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x4.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x3.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_4x6.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x4.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_6x8.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x8.h = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
-	Rects.Tile_8x6.w = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
-	Rects.Tile_8x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
 	load_bmp(Carrying_Surface, "Assets/Core/Images/Other/Submarine.bmp");
 	Textures.Submarine.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Submarine.Length = 2;

@@ -13,7 +13,7 @@ void Push_Pipe(Pipe Input) {
 		memcpy_c(Pipes_List.Data, Buffer, sizeof(Pipe) * Pipes_List.Length);
 		free_c(Buffer);
 	}
-	Pipes_List.Data[Pipes_List.Length] = Input;
+	Pipes_List.Data[Pipes_List.Length - 1] = Input;
 }
 
 void Pull_Pipe(int Position) {
@@ -64,10 +64,10 @@ void Place_Pipe() {
 				if (Pipes_List.Length > 0 && !Pipes_List.Data[Pipes_List.Length - 1].Filled) {
 					bool Is_Adjacent = false;
 					if ((Column < LDE_GRIDSIZE && Pipes_List.Data[Pipes_List.Length - 1].X1 == Column + 1) ||
-						(Column > 0 && Pipes_List.Data[Pipes_List.Length - 1].X1 == Column - 1)) {
+						(Column >= 0 && Pipes_List.Data[Pipes_List.Length - 1].X1 == Column - 1)) {
 						Is_Adjacent = true;
-					} else if ((Row < LDE_GRIDSIZE &&Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row + 1) ||
-						(Row > 0 && Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row - 1)) {
+					} else if ((Row < LDE_GRIDSIZE && Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row + 1) ||
+						(Row >= 0 && Pipes_List.Data[Pipes_List.Length - 1].Y1 == Row - 1)) {
 						Is_Adjacent = true;
 					}
 					bool Is_Pipe_Adjacent = false;
@@ -93,8 +93,6 @@ void Place_Pipe() {
 						Pipes_List.Data[Pipes_List.Length - 1].X2 = Column;
 						Pipes_List.Data[Pipes_List.Length - 1].Y2 = Row;
 						Pipes_List.Data[Pipes_List.Length - 1].Filled = true;
-						printf("filled: %i,%i -> %i,%i", Pipes_List.Data[Pipes_List.Length - 1].X1, Pipes_List.Data[
-							Pipes_List.Length - 1].Y1, Column, Row);
 						Orient_Pipe(&Pipes_List.Data[Pipes_List.Length - 1]);
 						for (int C1 = 0; C1 < Pipes_List.Length - 1; C1++) {
 							int End = Pipes_List.Length - 1;
@@ -115,11 +113,10 @@ void Place_Pipe() {
 				} else {
 					if ((Data.Plumbing_Grid[Column][Row] > LDE_INVALID) && (Data.Settings_Grid[Column][Row][0] == 0 ||
 							Data.Settings_Grid[Column][Row][0] == 2)) {
-						Pipe New_Pipe;
+						Pipe New_Pipe = { };
 						New_Pipe.X1 = Column;
 						New_Pipe.Y1 = Row;
 						Push_Pipe(New_Pipe);
-						printf("unfilled: %i,%i", Column, Row);
 					}
 				}
 			}
