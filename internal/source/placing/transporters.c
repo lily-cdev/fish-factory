@@ -2,7 +2,6 @@
 
 bool Place_Reinforced_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 1;
-	Data.Connection_Grid[X][Y] = 1;
 	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_REINFORCEDCAP;
 	Data.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;
@@ -43,7 +42,6 @@ bool Place_Cable_Node(int X, int Y) {
 
 bool Place_Large_Pipe(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 71;
-	Data.Connection_Grid[X][Y] = 1;
 	Data.Data_Grid[X][Y][Fluid_Cap] = LDE_LARGECAP;
 	Data.Settings_Grid[X][Y][0] = F_Either;
 	Data.Plumbing_Grid[X][Y] = Any;

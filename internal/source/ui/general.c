@@ -163,12 +163,11 @@ void Render_Effects() {
 	}
 	if (Interface.Effects[E_Radiation] > 0) {
 		Set_Renderer_Color(Colors.Pure_White);
-		uint32_t State = (uint32_t)(SDL_GetTicks() & UINT8_MAX);
 		for (int C1 = 0; C1 < floor(Interface.Effects[E_Radiation]); C1++) {
-			step_c(State);
-			int X = State % (Settings.Screen_Size * 640);
-			step_c(State);
-			int Y = State % (Settings.Screen_Size * 320);
+			Tick_State();
+			int X = Core.State % (Settings.Screen_Size * 640);
+			Tick_State();
+			int Y = Core.State % (Settings.Screen_Size * 320);
 			SDL_RenderPoint(Core.Renderer, (float)X, (float)Y);
 		}
 		Clear_Renderer();

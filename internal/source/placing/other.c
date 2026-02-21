@@ -2,7 +2,6 @@
 
 bool Place_Incinerator(int X, int Y) {
 	Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 18 : Interface.Rotation + 113;
-	Data.Connection_Grid[X][Y] = 0;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 12;
 	Data.Plumbing_Grid[X][Y] = Any;
 	Data.Settings_Grid[X][Y][0] = F_In;

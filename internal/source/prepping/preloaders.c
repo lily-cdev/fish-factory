@@ -37,11 +37,11 @@ void Preload_Machines() {
 	Load_Rotational("UI/Other/Direction", &Textures.Arrow);
 	Load_Rotational("Machines/S_Dock", &Textures.S_Dock);
 	Textures.R_Flash = Preload_Texture("Effects/Light");
+	Load_Subanimated("Effects/Bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash.x = 0;
 	Rects.R_Flash.y = 0;
 	Rects.R_Flash.w = Settings.Screen_Size * 40.0f;
 	Rects.R_Flash.h = Settings.Screen_Size * 40.0f;
-	Textures.Bubble = Preload_Texture("Effects/Bubble");
 	int RP_Rotationals[4] = { 2, 3, 4, LDE_TERMINATOR };
 	Load_Animated("Machines/R_Pump", &Textures.R_Pump, 1, false, RP_Rotationals);
 	Load_Animated_Rotational("Machines/Incinerator", &Textures.Incinerator, 1, true, No_Rotationals);

@@ -137,7 +137,7 @@ void Render_Game_UI() {
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-					memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
+					memcpy_c(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
 					Satiated = true;
 					break;
 				}

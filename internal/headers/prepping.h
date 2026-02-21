@@ -12,6 +12,7 @@ typedef struct {
 	int Selected_Save;
 	Point_f Camera;
 	Point_f Mouse;
+	uint32_t State;
 } lde_core;
 
 typedef struct {
@@ -20,7 +21,6 @@ typedef struct {
 	int Time;
 	int Day;
 	int Visual_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Connection_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Behavior_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Wiring_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
 	int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
@@ -129,7 +129,7 @@ typedef struct {
 	SDL_Texture* Log_Background;
 	SDL_Texture* Saveloader;
 	SDL_Texture* R_Flash;
-	SDL_Texture* Bubble;
+	Texture_Array A_Bubble;
 	SDL_Texture* Floor_Texture;
 	SDL_Texture* Frame_Texture;
 	SDL_Texture* Tile_Texture;
@@ -463,6 +463,7 @@ void Load_Rotational(const char* Path, Texture_Array* Yield);
 void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Rectangle);
 void Load_Mirrored(const char* Path, Texture_Array* Yield,  SDL_FRect* Rectangle);
 void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, int* Rotationals);
+void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height);
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals);
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y);
 SDL_Texture* Preload_Texture(const char* Path);
@@ -473,3 +474,5 @@ void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preclear_Temporaries();
 void Render_Loadscreen();
+void Tick_State();
+void Reseed_State();

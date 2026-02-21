@@ -13,7 +13,7 @@
 #define LDE_DOCKCAPACITY 750.0
 #define LDE_EFFECTS 2
 #define LDE_ERRORS 13
-#define LDE_FACTS 4
+#define LDE_FACTS 5
 #define LDE_FISH 3
 #define LDE_FISHPHASES 6
 #define LDE_GRIDSIZE 48

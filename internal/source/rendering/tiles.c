@@ -303,7 +303,21 @@ void Render_Grid() {
 					case Algae_Bed:
 						Selected_Rectangle = evn_i(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
 						Render_Texture(Textures.G_Bed.Data[Rotation].Data[2], &Selected_Rectangle);
-						//bubbles
+						if (Data.Animation_Grid[Column][Row][1] > 0) {
+							Data.Animation_Grid[Column][Row][0] += 1.0f / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][0] >= 0.5f) {
+								Data.Animation_Grid[Column][Row][0] = 0;
+								float Width = 352.0f / Settings.Screen_Size;
+								float Padding = 64.0f / Settings.Screen_Size;
+								Tick_State();
+								Point_f Coordinate = {
+									.X = (float)(Core.State % (int)Width) + Padding
+								};
+								Tick_State();
+								Coordinate.Y = (float)(Core.State % (int)Width) + Padding;
+								Push_Particle(P_Bubble, Coordinate);
+							}
+						}
 						Render_Texture(Textures.G_Bed.Data[Rotation].Data[1], &Selected_Rectangle);
 						break;
 					default:

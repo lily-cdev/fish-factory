@@ -13,10 +13,9 @@ bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Location
 		if (Data.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
 			if (Selected_Recipe.Voiding_Excess) {
 				for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-					if (Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data
-						[C1].Y][Stored_Fluids] + Selected_Recipe.Output_Counts[C1] <
-						Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data
-						[C1].Y][Fluid_Cap]) {
+					if (Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] +
+						Selected_Recipe.Output_Counts[C1] < Data.Data_Grid[Output_Locations.Data[C1].X][
+						Output_Locations.Data[C1].Y][Fluid_Cap]) {
 						return false;
 					}
 				}
@@ -34,53 +33,62 @@ bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Location
 			return true;
 		}
 	} else {
-		//do
+		if (Data.Settings_Grid[X][Y][S_Time] <= 0) {
+			if (Data.Data_Grid[X][Y][Stored_Power] > Selected_Recipe.Power * Selected_Recipe.Time) {
+				if (!Selected_Recipe.Voiding_Excess) {
+					for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
+						if (Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] >
+							Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Fluid_Cap] -
+							Selected_Recipe.Output_Counts[C1]) {
+							return false;
+						}
+					}
+				}
+				Data.Settings_Grid[X][Y][S_Time] = Selected_Recipe.Time;
+				Data.Settings_Grid[X][Y][2] = Selected_Recipe.ID;
+				return true;
+			}
+		}
 	}
 	return false;
 }
 
-void Extend_O_Recipe() {
-//do
-}
-
-bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations) {
+bool Process_IO_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations) {
 	if (Selected_Recipe.Time == 1) {
 		if (Data.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
 			if (Selected_Recipe.Shuffling_Barred) {
 				for (int C1 = 0; C1 < Input_Locations.Length; C1++) {
-					if (Data.Data_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[
-						C1].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[C1]) {
+					if (Data.Data_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[C1].Y][Stored_Fluids] <
+						Selected_Recipe.Input_Counts[C1]) {
 						return false;
 					}
 				}
 				for (int C1 = 0; C1 < Selected_Recipe.Inputs; C1++) {
-					if (Data.Items_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[
-						C1].Y] !=	Selected_Recipe.Input_Items[C1].Identifier) {
+					if (Data.Items_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[C1].Y] !=
+						Selected_Recipe.Input_Items[C1].Identifier) {
 						return false;
 					}
 				}
 				if (!Selected_Recipe.Voiding_Excess) {
 					for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-						if (Data.Data_Grid[Output_Locations.Data[C1].X][
-							Output_Locations.Data[C1].Y][Stored_Fluids] >
-							Data.Data_Grid[Output_Locations.Data[C1].X][
-							Output_Locations.Data[C1].Y][Fluid_Cap] -
+						if (Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] >
+							Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Fluid_Cap] -
 							Selected_Recipe.Output_Counts[C1]) {
 							return false;
 						}
 					}
 				}
 				for (int C1 = 0; C1 < Input_Locations.Length; C1++) {
-					Data.Data_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[
-						C1].Y][Stored_Fluids] -= Selected_Recipe.Input_Counts[C1];
+					Data.Data_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[C1].Y][Stored_Fluids] -=
+					Selected_Recipe.Input_Counts[C1];
 				}
 				for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-					Update_Item(Output_Locations.Data[C1].X, Output_Locations.Data[C1].Y,
-						Selected_Recipe.Output_Items[C1].Identifier, LDE_ROOMTEMP);
+					Update_Item(Output_Locations.Data[C1].X, Output_Locations.Data[C1].Y, Selected_Recipe.Output_Items[
+						C1].Identifier, LDE_ROOMTEMP);
 				}
 				for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-					Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] =
-						min(Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Output_Locations.Data[C1].X][
+					Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] = min(
+						Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Output_Locations.Data[C1].X][
 						Output_Locations.Data[C1].Y][Fluid_Cap]);
 				}
 			} else {
@@ -112,8 +120,8 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, 
 					}
 				}
 				for (int C1 = 0; C1 < intlen(Positions); C1++) {
-					if (Data.Data_Grid[Input_Locations.Data[Positions[C1]].X][Input_Locations.Data[
-						Positions[C1]].Y][Stored_Fluids] < Selected_Recipe.Input_Counts[C1]) {
+					if (Data.Data_Grid[Input_Locations.Data[Positions[C1]].X][Input_Locations.Data[Positions[C1]].Y][
+						Stored_Fluids] < Selected_Recipe.Input_Counts[C1]) {
 						return false;
 					}
 				}
@@ -127,25 +135,27 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, 
 					}
 				}
 				for (int C1 = 0; C1 < intlen(Positions); C1++) {
-					Data.Data_Grid[Input_Locations.Data[Positions[C1]].X][Input_Locations.Data[
-						Positions[C1]].Y][Stored_Fluids] -= Selected_Recipe.Input_Counts[C1];
+					Data.Data_Grid[Input_Locations.Data[Positions[C1]].X][Input_Locations.Data[Positions[C1]].Y][
+						Stored_Fluids] -= Selected_Recipe.Input_Counts[C1];
 				}
 				for (int C1 = 0; C1 < Selected_Recipe.Outputs; C1++) {
-					Update_Item(Output_Locations.Data[C1].X, Output_Locations.Data[C1].Y,
-						Selected_Recipe.Output_Items[C1].Identifier, LDE_ROOMTEMP);
+					Update_Item(Output_Locations.Data[C1].X, Output_Locations.Data[C1].Y, Selected_Recipe.Output_Items[
+						C1].Identifier, LDE_ROOMTEMP);
 				}
 				for (int C1 = 0; C1 < Selected_Recipe.Outputs; C1++) {
 					Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] =
-						min(Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][
-						Stored_Fluids] + Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Output_Locations.Data[
-						C1].X][Output_Locations.Data[C1].Y][Fluid_Cap]);
+						min(Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] +
+						Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Output_Locations.Data[C1].X][
+						Output_Locations.Data[C1].Y][Fluid_Cap]);
 				}
+				free_c(Inputs);
+				free_c(Positions);
 			}
 			Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
 			return true;
 		}
 	} else {
-		if (Data.Settings_Grid[X][Y][1] <= 0) {
+		if (Data.Settings_Grid[X][Y][S_Time] <= 0) {
 			if (Data.Data_Grid[X][Y][Stored_Power] > Selected_Recipe.Power * Selected_Recipe.Time) {
 				if (Selected_Recipe.Shuffling_Barred) {
 					for (int C1 = 0; C1 < Input_Locations.Length; C1++) {
@@ -175,6 +185,8 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, 
 					}
 					Data.Settings_Grid[X][Y][1] = Selected_Recipe.Time;
 					Data.Settings_Grid[X][Y][2] = Selected_Recipe.ID;
+				} else {
+					//later
 				}
 				return true;
 			}
@@ -183,21 +195,22 @@ bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, 
 	return false;
 }
 
-void Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]) {
-	Node Nodes = { };
-	Return_Nodes(&Nodes, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfiguration);
+bool Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]) {
 	Data.Data_Grid[X][Y][Stored_Power] -= Selected_Recipe.Power;
-	if (Data.Settings_Grid[X][Y][1] <= 0) {
-		Data.Settings_Grid[X][Y][1] = 0;
+	if (Data.Settings_Grid[X][Y][S_Time] <= 0) {
+		Node Nodes = { };
+		Return_Nodes(&Nodes, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfiguration);
+		Data.Settings_Grid[X][Y][S_Time] = 0;
 		for (int C1 = 0; C1 < Selected_Recipe.Outputs; C1++) {
-			Update_Item(Nodes.Data[C1].X, Nodes.Data[C1].Y, Selected_Recipe.Output_Items[C1].Identifier,
-				LDE_ROOMTEMP);
+			Update_Item(Nodes.Data[C1].X, Nodes.Data[C1].Y, Selected_Recipe.Output_Items[C1].Identifier, LDE_ROOMTEMP);
 		}
 		for (int C1 = 0; C1 < Selected_Recipe.Outputs; C1++) {
-			Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Stored_Fluids] = min(Data.Data_Grid[Nodes.Data[
-				C1].X][Nodes.Data[C1].Y][Stored_Fluids] + Selected_Recipe.Output_Counts[C1], Data.Data_Grid[
-				Nodes.Data[C1].X][Nodes.Data[C1].Y][Fluid_Cap]);
+			Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Stored_Fluids] = min(Data.Data_Grid[Nodes.Data[C1].X][
+				Nodes.Data[C1].Y][Stored_Fluids] + Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Nodes.Data[C1].X][
+				Nodes.Data[C1].Y][Fluid_Cap]);
 		}
+		free_c(Nodes.Data);
+		return true;
 	}
-	free_c(Nodes.Data);
+	return false;
 }

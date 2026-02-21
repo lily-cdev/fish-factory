@@ -44,7 +44,6 @@ bool Save_Data(int Slot) {
 	fwrite(&(uint16_t){ Data.Time }, sizeof(uint16_t), 1, File);
 	fwrite(&(uint64_t){ Data.Funds }, sizeof(uint64_t), 1, File);
 	Write_2D_Array(Data.Visual_Grid, File);
-	Write_2D_Array(Data.Connection_Grid, File);
 	Write_2D_Array(Data.Behavior_Grid, File);
 	Write_2D_Array(Data.Wiring_Grid, File);
 	Write_2D_Array(Data.Plumbing_Grid, File);
@@ -92,7 +91,6 @@ bool Load_Data(int Slot) {
 			fread(&Data.Time, sizeof(uint16_t), 1, File);
 			fread(&Data.Funds, sizeof(uint64_t), 1, File);
 			Read_2D_Array(Data.Visual_Grid, File);
-			Read_2D_Array(Data.Connection_Grid, File);
 			Read_2D_Array(Data.Behavior_Grid, File);
 			Read_2D_Array(Data.Wiring_Grid, File);
 			Read_2D_Array(Data.Plumbing_Grid, File);
@@ -133,7 +131,6 @@ void Reset_Statistics() {
 	Data.Funds = 750;
 	Data.CMD_Placed = false;
 	memset(Data.Visual_Grid, 0, sizeof(Data.Visual_Grid));
-	memset(Data.Connection_Grid, LDE_INVALID, sizeof(Data.Connection_Grid));
 	memset(Data.Behavior_Grid, LDE_INVALID, sizeof(Data.Behavior_Grid));
 	memset(Data.Wiring_Grid, LDE_INVALID, sizeof(Data.Wiring_Grid));
 	memset(Data.Plumbing_Grid, LDE_INVALID, sizeof(Data.Plumbing_Grid));

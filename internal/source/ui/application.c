@@ -110,17 +110,19 @@ void Render_Application() {
 				Clear_Renderer();
 			}
 			//get fill percent
-			SDL_FRect Item = {
-				0,
-				0,
-				Settings.Screen_Size * 24.0f,
-				Height
-			};
-			Item.x = Hitbox.x + Hitbox.w + Padding;
-			Item.y = (Hitbox.h * 0.5f) - (Item.h * 0.5f) + Hitbox.y;
-			Set_Renderer_Color(Colors.Dark_Grey);
-			SDL_RenderFillRect(Core.Renderer, &Item);
-			Clear_Renderer();
+			if (Satiated && Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap] >= 0.1f) {
+				SDL_FRect Item = {
+					0,
+					0,
+					Settings.Screen_Size * 24.0f,
+					Height
+				};
+				Item.x = Hitbox.x + Hitbox.w + Padding;
+				Item.y = (Hitbox.h * 0.5f) - (Item.h * 0.5f) + Hitbox.y;
+				Set_Renderer_Color(Colors.Dark_Grey);
+				SDL_RenderFillRect(Core.Renderer, &Item);
+				Clear_Renderer();
+			}
 		}
 		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
 		Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);

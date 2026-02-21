@@ -26,7 +26,7 @@ void Render_MSP_Controller(int X, int Y) {
 				Execute,
 				LDE_TERMINATOR
 			};
-			memcpy(Buffers.Commands, Command_Types, sizeof(Command_Types));
+			memcpy_c(Buffers.Commands, Command_Types, sizeof(Command_Types));
 			Process_Commands();
 		} else {
 			const char* Parameters[4] = {
@@ -92,7 +92,7 @@ void Render_S_Dock(int X, int Y) {
 		Execute,
 		LDE_TERMINATOR
 	};
-	memcpy(Buffers.Commands, Command_Types, sizeof(Command_Types));
+	memcpy_c(Buffers.Commands, Command_Types, sizeof(Command_Types));
 	Process_Commands();
 	Render_Necessities("submarine_dock", "dock");
 }

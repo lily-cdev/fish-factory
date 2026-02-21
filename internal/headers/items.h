@@ -129,5 +129,5 @@ int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
 Item_Stack Get_Fish_Item(int Identifier);
 bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Locations);
-bool Process_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations);
-void Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]);
+bool Process_IO_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations);
+bool Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]);

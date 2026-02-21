@@ -6,11 +6,11 @@ void Push_Pipe(Pipe Input) {
 	Pipes_List.Length++;
 	if (Pipes_List.Length >= Pipes_List.Full_Size) {
 		Pipe* Buffer = malloc(sizeof(Pipe) * Pipes_List.Length);
-		memcpy(Buffer, Pipes_List.Data, sizeof(Pipe) * Pipes_List.Length);
+		memcpy_c(Buffer, Pipes_List.Data, sizeof(Pipe) * Pipes_List.Length);
 		free_c(Pipes_List.Data);
 		Pipes_List.Full_Size += 16;
 		Pipes_List.Data = malloc(sizeof(Pipe) * Pipes_List.Full_Size);
-		memcpy(Pipes_List.Data, Buffer, sizeof(Pipe) * Pipes_List.Length);
+		memcpy_c(Pipes_List.Data, Buffer, sizeof(Pipe) * Pipes_List.Length);
 		free_c(Buffer);
 	}
 	Pipes_List.Data[Pipes_List.Length] = Input;
@@ -88,12 +88,13 @@ void Place_Pipe() {
 							Is_Pipe_Adjacent = true;
 						}
 					}
-					if (Is_Pipe_Adjacent && (Data.Connection_Grid[Column][Row] != LDE_INVALID || Data.Plumbing_Grid[Column][
-						Row] != LDE_INVALID) && (Data.Settings_Grid[Column][Row][0] == 0 || Data.Settings_Grid[Column][
-						Row][0] == 1)) {
+					if (Is_Pipe_Adjacent && Data.Plumbing_Grid[Column][Row] != LDE_INVALID && (Data.Settings_Grid[Column][
+							Row][0] == 0 || Data.Settings_Grid[Column][Row][0] == 1)) {
 						Pipes_List.Data[Pipes_List.Length - 1].X2 = Column;
 						Pipes_List.Data[Pipes_List.Length - 1].Y2 = Row;
 						Pipes_List.Data[Pipes_List.Length - 1].Filled = true;
+						printf("filled: %i,%i -> %i,%i", Pipes_List.Data[Pipes_List.Length - 1].X1, Pipes_List.Data[
+							Pipes_List.Length - 1].Y1, Column, Row);
 						Orient_Pipe(&Pipes_List.Data[Pipes_List.Length - 1]);
 						for (int C1 = 0; C1 < Pipes_List.Length - 1; C1++) {
 							int End = Pipes_List.Length - 1;
@@ -112,12 +113,13 @@ void Place_Pipe() {
 						Pull_Pipe(Pipes_List.Length - 1);
 					}
 				} else {
-					if ((Data.Connection_Grid[Column][Row] != LDE_INVALID || Data.Plumbing_Grid[Column][Row] > LDE_INVALID) &&
-						(Data.Settings_Grid[Column][Row][0] == 0 || Data.Settings_Grid[Column][Row][0] == 2)) {
+					if ((Data.Plumbing_Grid[Column][Row] > LDE_INVALID) && (Data.Settings_Grid[Column][Row][0] == 0 ||
+							Data.Settings_Grid[Column][Row][0] == 2)) {
 						Pipe New_Pipe;
 						New_Pipe.X1 = Column;
 						New_Pipe.Y1 = Row;
 						Push_Pipe(New_Pipe);
+						printf("unfilled: %i,%i", Column, Row);
 					}
 				}
 			}

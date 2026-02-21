@@ -162,6 +162,7 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		if (strlen(Result) > 0) {
 			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, 64, 300);
 		}
+		free_c(Result);
 	}
 	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
 		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font,

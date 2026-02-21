@@ -183,3 +183,30 @@ enum Recipe_Types {
 	R_Outputs,
 	R_Both
 };
+
+enum Settings {
+	S_Time = 1
+};
+
+enum Particles {
+	P_Bubble
+};
+
+enum Connections {
+	C_None,
+	C_Omni,
+	C_LeftT,
+	C_RightT,
+	C_UpT,
+	C_DownT,
+	C_Vertical,
+	C_Horizontal,
+	C_RightBottom,
+	C_BottomLeft,
+	C_LeftTop,
+	C_TopRight,
+	C_Bottom,
+	C_Left,
+	C_Top,
+	C_Right
+};

@@ -13,7 +13,7 @@ void Prep_Items() {
         Preset_Items.J2, Preset_Items.Hydrogen, Preset_Items.Oxygen, Preset_Items.Chlorine, Preset_Items.Sodium_Hydroxide,
 		Preset_Items.Hydrogen_Chloride, Preset_Items.Hydrochloric_Acid
 	};
-    memcpy(Preset_Items.Item_List, Item_Carrier, sizeof(Preset_Items.Item_List)); 
+    memcpy_c(Preset_Items.Item_List, Item_Carrier, sizeof(Preset_Items.Item_List)); 
 	Preset_O_Recipes.RP_Saltwater = (Recipe){ false, false, 1, 4, { }, { }, 0, { Preset_Items.Raw_Saltwater }, { 0.5 }, 1, 1 };
 	Preset_O_Recipes.GB_Algae = (Recipe){ false, false, 2, 60, { }, { }, 0, { Preset_Items.Raw_Algae, Preset_Items.Raw_Algae },
 		{ 2.5, 2.5 }, 2, 1 };

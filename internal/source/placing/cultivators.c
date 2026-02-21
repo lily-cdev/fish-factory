@@ -36,6 +36,8 @@ bool Place_Algae_Bed(int X, int Y) {
 		}
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 42 : Interface.Rotation + 131;
 		Data.Wiring_Grid[X][Y] = 0;
+		Data.Animation_Grid[X][Y][0] = 0;
+		Data.Animation_Grid[X][Y][1] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 200;
 		free_c(Nodes.Data);
 	} else {

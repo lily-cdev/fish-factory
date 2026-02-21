@@ -66,11 +66,11 @@ void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, int Se
 void Push_Docks(Point Input) {
 	if (Temporary.Docks.Length >= Temporary.Docks.Full_Size) {
 		Point* Buffer = malloc(sizeof(Point) * Temporary.Docks.Length);
-		memcpy(Buffer, Temporary.Docks.Data, sizeof(Point) * Temporary.Docks.Length);
+		memcpy_c(Buffer, Temporary.Docks.Data, sizeof(Point) * Temporary.Docks.Length);
 		free_c(Temporary.Docks.Data);
 		Temporary.Docks.Full_Size += 16;
 		Temporary.Docks.Data = malloc(sizeof(Point) * Temporary.Docks.Full_Size);
-		memcpy(Temporary.Docks.Data, Buffer, sizeof(Point) * Temporary.Docks.Length);
+		memcpy_c(Temporary.Docks.Data, Buffer, sizeof(Point) * Temporary.Docks.Length);
 		free_c(Buffer);
 	}
 	Temporary.Docks.Data[Temporary.Docks.Length] = Input;
@@ -130,7 +130,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 	while ((Yield = strchr(Raw_Text + Start, '|')) != NULL) {
 		End = Yield - Raw_Text;
 		Fragment_Count++;
-		Start = End + 1;//welcome -> ome
+		Start = End + 1;
 	}
 	char** Fragments = malloc(sizeof(char*) * Fragment_Count);
 	int* Lengths = malloc(sizeof(int) * Fragment_Count);
@@ -144,7 +144,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 	while ((Yield = strchr(Raw_Text + Start, '|')) != NULL) {
 		End = Yield - Raw_Text;
 		int Length = End - Start;
-		memcpy(Fragments[Index], Raw_Text + Start, Length);
+		memcpy_c(Fragments[Index], Raw_Text + Start, Length);
 		Fragments[Index][Length] = '\0';
 		Index++;
 		Start = End + 1;
@@ -161,7 +161,6 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 			char Candidate[8];
 			strncpy(Candidate, Fragments[C1] + C2, 3);
 			Candidate[3] = '\0';
-			printf("%s -> %s\n", Fragments[C1], Candidate);
 			if (strcmp(Candidate, "[c]") == 0) {
 				memmove(Fragments[C1] + C2 + 1, Fragments[C1] + C2, strlen(Fragments[C1]) + 1);
 				strncpy(Fragments[C1] + C2, "    ", 4);
@@ -217,4 +216,15 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 	free_c(Fragments);
 	free_c(Lengths);
 	return Offset;
+}
+
+void Tick_State() {
+	Core.State = (Core.State * 2891336453u) + 747796405u;
+	Core.State ^= Core.State >> 16;
+}
+
+void Reseed_State() {
+	struct timespec Spec;
+	timespec_get(&Spec, TIME_UTC);
+	Core.State = (uint32_t)(Spec.tv_nsec / 1000000);
 }

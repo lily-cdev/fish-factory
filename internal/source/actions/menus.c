@@ -30,7 +30,7 @@ void Handle_Help(int X, int Y) {
 						{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "disable the build tool" },
 						{ T_Terminator }
 					};
-					memcpy(Tutorial_Stack, Template, sizeof(Template));
+					memcpy_c(Tutorial_Stack, Template, sizeof(Template));
 				}
 				Temporary.Tutorial_Size = (Point){ 320, 240 };
 				Temporary.Tutorial_Offset = (Point){ 0, 200 };
@@ -100,7 +100,7 @@ void Handle_Help(int X, int Y) {
 						{ T_Key, 7, 0, "", 0, { NULLPOINT }, false, "disable the wiring tool" },
 						{ T_Terminator }
 					};
-					memcpy(Tutorial_Stack, Template, sizeof(Template));
+					memcpy_c(Tutorial_Stack, Template, sizeof(Template));
 				}
 				Temporary.Tutorial_Size = (Point){ 320, 200 };
 				Temporary.Tutorial_Offset = (Point){ 0, 0 };

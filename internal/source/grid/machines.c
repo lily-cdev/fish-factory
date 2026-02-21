@@ -38,99 +38,66 @@ Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
 	return Yield;
 }
 
-int Modular_Detection(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
-	int Behaviour_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int X, int Y, int Universal_Target, int Local_Target,
-	int Grid_Target, bool Is_Pipe) {
-	if (Universal_Target == LDE_INVALID) {
-		Universal_Target = -2;
+bool Match(int X, int Y, int Direction, int Target, bool Is_Pipe) {
+	return ((X >= 0 && X < LDE_GRIDSIZE && Y >= 0 && Y < LDE_GRIDSIZE) && ((Is_Pipe && (Data.Plumbing_Grid[X][Y] ==
+		Direction || Data.Plumbing_Grid[X][Y] == Any)) || Data.Behavior_Grid[X][Y] == Target));
+}
+
+int Modular_Detection(int X, int Y, int Target, bool Is_Pipe) {
+	if (Target == LDE_INVALID) {
+		Target = -2;
 	}
-	if (Local_Target == LDE_INVALID) {
-		Local_Target = -2;
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target,
+		Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+		return C_Omni;
 	}
-	if (Grid_Target == LDE_INVALID) {
-		Grid_Target = -2;
+	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe) && Match(X, Y - 1, Down, Target,
+		Is_Pipe)) {
+		return C_LeftT;
 	}
-	if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target) ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target) &&
-		(X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-			(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 1;
-	} else if ((X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-		(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 2;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 3;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-			(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 4;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-			(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target))) {
-		return 5;
-	} else if ((Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-		(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 6;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-			(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target))) {
-		return 7;
-	} else if ((X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-		(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 8;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-			(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target))) {
-		return 9;
-	} else if ((X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target))) {
-		return 10;
-	} else if ((X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-		(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) &&
-		(Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-			(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target))) {
-		return 11;
-	} else if (Y < (LDE_GRIDSIZE - 1) && (Grid[X][Y + 1] == Universal_Target || Grid[X][Y + 1] == Local_Target ||
-		(Plumbing_Grid[X][Y + 1] == 2 && Is_Pipe) || Behaviour_Grid[X][Y + 1] == Grid_Target)) {
-		return 12;
-	} else if (X > 0 && (Grid[X - 1][Y] == Universal_Target || Grid[X - 1][Y] == Local_Target ||
-		(Plumbing_Grid[X - 1][Y] == 3 && Is_Pipe) || Behaviour_Grid[X - 1][Y] == Grid_Target)) {
-		return 13;
-	} else if (Y > 0 && (Grid[X][Y - 1] == Universal_Target || Grid[X][Y - 1] == Local_Target ||
-		(Plumbing_Grid[X][Y - 1] == 4 && Is_Pipe) || Behaviour_Grid[X][Y - 1] == Grid_Target)) {
-		return 14;
-	} else if (X < (LDE_GRIDSIZE - 1) && (Grid[X + 1][Y] == Universal_Target || Grid[X + 1][Y] == Local_Target ||
-		(Plumbing_Grid[X + 1][Y] == 1 && Is_Pipe) || Behaviour_Grid[X + 1][Y] == Grid_Target)) {
-		return 15;
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y - 1, Up, Target, Is_Pipe) && Match(X, Y + 1, Down, Target,
+		Is_Pipe)) {
+		return C_RightT;
 	}
-	return 0;
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target,
+		Is_Pipe)) {
+		return C_UpT;
+	}
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y - 1, Down, Target,
+		Is_Pipe)) {
+		return C_DownT;
+	}
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe)) {
+		return C_Horizontal;
+	}
+	if (Match(X, Y + 1, Up, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+		return C_Vertical;
+	}
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+		return C_LeftTop;
+	}
+	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+		return C_TopRight;
+	}
+	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe)) {
+		return C_RightBottom;
+	}
+	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe)) {
+		return C_BottomLeft;
+	}
+	if (Match(X - 1, Y, Right, Target, Is_Pipe)) {
+		return C_Left;
+	}
+	if (Match(X, Y - 1, Down, Target, Is_Pipe)) {
+		return C_Top;
+	}
+	if (Match(X + 1, Y, Left, Target, Is_Pipe)) {
+		return C_Right;
+	}
+	if (Match(X, Y + 1, Up, Target, Is_Pipe)) {
+		return C_Bottom;
+	}
+	return C_None;
 }
 
 int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
@@ -201,7 +168,6 @@ void Destroy_Clearance(int X, int Y, int Width, int Height) {
 	for (int C1 = 0; C1 < Width; C1++) {
 		for (int C2 = 0; C2 < Height; C2++) {
 			Data.Visual_Grid[X + C1][Y + C2] = 0;
-			Data.Connection_Grid[X + C1][Y + C2] = LDE_INVALID;
 			Data.Wiring_Grid[X + C1][Y + C2] = LDE_INVALID;
 			Data.Plumbing_Grid[X + C1][Y + C2] = LDE_INVALID;
 			Data.Behavior_Grid[X + C1][Y + C2] = LDE_INVALID;
@@ -226,11 +192,9 @@ void Update_Grid() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Reinforced_Pipe) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Data.Connection_Grid, Data.Plumbing_Grid, Data.Behavior_Grid,
-					Column, Row, 0, 1, LDE_INVALID, true) + 1;
+				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, LDE_INVALID, true) + 1;
 			} else if (Data.Visual_Grid[Column][Row] > 23 && Data.Visual_Grid[Column][Row] < 41) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Data.Connection_Grid, Data.Plumbing_Grid, Data.Behavior_Grid,
-					Column, Row, LDE_INVALID, LDE_INVALID, 0, false) + 24;
+				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, 0, false) + 24;
 			} else if (Data.Visual_Grid[Column][Row] == 45) {
 				Temporary.First_Coordinate.X = Column;
 				Temporary.First_Coordinate.Y = Row;
@@ -243,9 +207,7 @@ void Update_Grid() {
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
 			} else if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Large_Pipe) {
-				Temporary_Grid[Column][Row] = Modular_Detection(
-					Data.Connection_Grid, Data.Plumbing_Grid,
-					Data.Behavior_Grid, Column, Row, 0, 1, LDE_INVALID, true) + 71;
+				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, LDE_INVALID, true) + 71;
 			}
 		}
 	}
@@ -282,7 +244,6 @@ void Remove_Machine(int X, int Y) {
 		Visual_To_Rotation(Data.Visual_Grid[X][Y]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
 		Data.Visual_Grid[X][Y] = 0;
-		Data.Connection_Grid[X][Y] = LDE_INVALID;
 		Data.Wiring_Grid[X][Y] = LDE_INVALID;
 		Data.Plumbing_Grid[X][Y] = LDE_INVALID;
 		Data.Behavior_Grid[X][Y] = LDE_INVALID;

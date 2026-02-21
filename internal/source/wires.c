@@ -6,11 +6,11 @@ void Push_Wire(Wire Input) {
 	Wires_List.Length++;
 	if (Wires_List.Length >= Wires_List.Full_Size) {
 		Wire* Buffer = malloc(sizeof(Wire) * Wires_List.Length);
-		memcpy(Buffer, Wires_List.Data, sizeof(Wire) * Wires_List.Length);
+		memcpy_c(Buffer, Wires_List.Data, sizeof(Wire) * Wires_List.Length);
 		free_c(Wires_List.Data);
 		Wires_List.Full_Size += 16;
 		Wires_List.Data = malloc(sizeof(Wire) * Wires_List.Full_Size);
-		memcpy(Wires_List.Data, Buffer, sizeof(Wire) * Wires_List.Length);
+		memcpy_c(Wires_List.Data, Buffer, sizeof(Wire) * Wires_List.Length);
 		free_c(Buffer);
 	}
 	Wires_List.Data[Wires_List.Length - 1] = Input;

@@ -12,8 +12,8 @@ void Update_Machines() {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			int Rotation = Visual_To_Rotation(Data.Visual_Grid[X][Y]);
 			if (Data.Visual_Grid[X][Y] > 0) {
-				if (Data.Settings_Grid[X][Y][1] > 0) {
-					Data.Settings_Grid[X][Y][1]--;
+				if (Data.Settings_Grid[X][Y][S_Time] > 0) {
+					Data.Settings_Grid[X][Y][S_Time]--;
 					switch (Visual_To_ID(Data.Visual_Grid[X][Y])) {
 					case Distillery:
 						Extend_Recipe(Preset_IO_Recipes.D_Water, X, Y, Preconfigs.D_Outputs);
@@ -28,7 +28,9 @@ void Update_Machines() {
 						}
 						break;
 					case Algae_Bed:
-						Extend_Recipe(Preset_O_Recipes.GB_Algae, X, Y, Preconfigs.GB_Outputs);
+						if (Extend_Recipe(Preset_O_Recipes.GB_Algae, X, Y, Preconfigs.GB_Outputs)) {
+							Data.Animation_Grid[X][Y][1] = 0;
+						}
 						break;
 					default:
 						break;
@@ -70,8 +72,8 @@ void Update_Machines() {
 				tmp2.Data[0].Y = Y;tmp2.Data[1].X = X + 1;
 				tmp2.Data[1].Y = Y + 1;tmp2.Data[2].X = X + 1;
 				tmp2.Data[2].Y = Y + 2;
-				bool Running1 = Process_Recipe(Preset_IO_Recipes.FP_Saltwater, X, Y, tmp1, tmp2);
-				bool Running2 = Process_Recipe(Preset_IO_Recipes.FP_Biopaste, X, Y, tmp1, tmp2);
+				bool Running1 = Process_IO_Recipe(Preset_IO_Recipes.FP_Saltwater, X, Y, tmp1, tmp2);
+				bool Running2 = Process_IO_Recipe(Preset_IO_Recipes.FP_Biopaste, X, Y, tmp1, tmp2);
 				Data.Animation_Grid[X][Y][0] = 0;
 				Data.Animation_Grid[X][Y][1] = 0;
 				if (Running1 || Running2) {

@@ -11,14 +11,13 @@ void* Step_Noise(void* C1) {
 unsigned long WINAPI Step_Noise(void* C1) {
 #endif
 	int Index = (int)(intptr_t)C1;
-	uint32_t Shade = (uint32_t)((SDL_GetTicks() * Index) & UINT8_MAX);
 	SDL_Surface* Noise_Surface = SDL_CreateSurface(Settings.Screen_Size * 1200, Settings.Screen_Size * 1200,
 		SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Noise_Surface);
 	uint32_t* Pixels = (uint32_t*)(Noise_Surface->pixels);
 	for (int C2 = 0; C2 < sqr(Settings.Screen_Size * 1200); C2++, Pixels++) {
-		step_c(Shade);
-		*Pixels = Lookup_Table[(Shade & 31)];
+		Tick_State();
+		*Pixels = Lookup_Table[(Core.State & 31)];
 	}
 	SDL_UnlockSurface(Noise_Surface);
 	None_Surfaces[Index] = Noise_Surface;
@@ -125,10 +124,9 @@ void Preload_Noise() {
 		SDL_LockSurface(Fire_Surfaces[C1]);
 		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
 		for (int C2 = 0; C2 < sqr(Settings.Screen_Size * LDE_TILESIZE); C2++) {
-			Random = (Random * 2891336453u) + 747796405u;
-			Random ^= Random >> 16;
-			Pixels[C2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r,
-				Fire_Colors[(Random & 3)].g, Fire_Colors[(Random & 3)].b);
+			Tick_State();
+			Pixels[C2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r, Fire_Colors[(Random & 3)].g,
+				Fire_Colors[(Random & 3)].b);
 		}
 		SDL_UnlockSurface(Fire_Surfaces[C1]);
 		Textures.Fire.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, Fire_Surfaces[C1]);

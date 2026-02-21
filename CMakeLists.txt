@@ -60,6 +60,7 @@ add_executable(Fish_Factory
 	internal/source/rendering/tiles.c
 	internal/source/rendering/effects.c
 	internal/source/rendering/ocean.c
+	internal/source/rendering/particles.c
 	internal/source/rendering/pyramid.c
 	internal/source/cycling/cultivators.c
 	internal/source/cycling/generators.c

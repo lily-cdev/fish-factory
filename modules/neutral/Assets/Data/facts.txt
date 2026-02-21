@@ -2,3 +2,4 @@ the ram pump is the oldest machine in the game
 plutonium-239 was chosen as fissile material for the RTG due to it being a fission byproduct
 the filtration plant was the first building to recieve an animation
 the displayed fact depends on the millisecond that fish factory was initialized
+the game was formerly written in C++ until its upgrade to C during Alpha V0.0

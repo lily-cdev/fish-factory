@@ -164,7 +164,7 @@ void Cleanup_Assets() {
 	free_texture(Textures.Recipe_Sidebutton);
 	free_texture(Textures.Exit_Sidebutton);
 	free_texture(Textures.R_Flash);
-	free_texture(Textures.Bubble);
+	Clear_Texture_Array(&Textures.A_Bubble);
 	free_texture(Textures.Floor_Texture);
 	free_texture(Textures.Frame_Texture);
 	free_texture(Textures.Tile_Texture);

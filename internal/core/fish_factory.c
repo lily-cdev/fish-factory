@@ -26,6 +26,7 @@ void (*Menu_Functions[7])() = {
 };
 
 int main(int argc, char* args[]) {
+	Reseed_State();
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "fatal error %d: %s", Exception_Value, Exception_Text);

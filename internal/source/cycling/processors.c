@@ -5,7 +5,7 @@ void Cycle_Distillery(const int X, const int Y, const int Rotation) {
 	Node Outputs = { };	
 	Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.D_Inputs);
 	Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.D_Outputs);
-	Process_Recipe(Preset_IO_Recipes.D_Water, X, Y, Inputs, Outputs);
+	Process_IO_Recipe(Preset_IO_Recipes.D_Water, X, Y, Inputs, Outputs);
 	free_c(Inputs.Data);
 	free_c(Outputs.Data);
 }
@@ -21,7 +21,7 @@ void Cycle_Electrolytic_Cell(const int X, const int Y, const int Rotation) {
 	Return_Nodes(&Inputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.EP_Inputs);
 	Return_Nodes(&Outputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.EP_Outputs);
 	for (int C1 = 0; C1 < 3; C1++) {
-		Process_Recipe(Selected_Recipes[C1], X, Y, Inputs, Outputs);
+		Process_IO_Recipe(Selected_Recipes[C1], X, Y, Inputs, Outputs);
 	}
 	free_c(Inputs.Data);
 	free_c(Outputs.Data);
@@ -38,7 +38,7 @@ void Cycle_Fluid_Mixer(const int X, const int Y, const int Rotation) {
 		Node Suboutputs = { };
 		Return_Nodes(&Subinputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.FM_Inputs);
 		Return_Nodes(&Suboutputs, X, Y, Visual_To_Rotation(Data.Visual_Grid[X][Y]), Preconfigs.FM_Outputs);
-		if (Process_Recipe(Selected_Recipes[C1], X, Y, Subinputs, Suboutputs)) {
+		if (Process_IO_Recipe(Selected_Recipes[C1], X, Y, Subinputs, Suboutputs)) {
 			Data.Animation_Grid[X][Y][0] = 1;
 			break;
 		}
