@@ -203,7 +203,7 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 			(float)(Fragment_Surface->h)
 		};
 		if (!Disabled) {
-			SDL_Texture* Fragment_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fragment_Surface);
+			SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
 			Render_Texture(Fragment_Texture, &Fragment_Rectangle);
 			free_texture(Fragment_Texture);
 		}

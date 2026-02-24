@@ -24,7 +24,7 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* F
 		} else {
 			Supply->Bounds.x = X * Settings.Screen_Size;
 		}
-		Supply->Data = SDL_GenerateTextureFromSurface(Core.Renderer, Carrier);
+		Supply->Data = Surface_To_Texture(Core.Renderer, Carrier);
 		SDL_DestroySurface(Carrier);
 	}
 	Render_Texture(Supply->Data, &Supply->Bounds);

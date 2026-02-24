@@ -128,10 +128,11 @@ void Connect_Wire(int X, int Y) {
 			Cache.Wire_State = Recache;
 			for (int C1 = 0; C1 <= Wires_List.Length; C1++) {
 				int End = Wires_List.Length - 1;
-				if ((Wires_List.Data[C1].X1 == Wires_List.Data[End].X1 && Wires_List.Data[C1].Y1 == Wires_List.Data[End].Y1 &&
-					Wires_List.Data[C1].X2 == Wires_List.Data[End].X2 && Wires_List.Data[C1].Y2 == Wires_List.Data[End].Y2) ||
-					(Wires_List.Data[C1].X1 == Wires_List.Data[End].X2 && Wires_List.Data[C1].Y1 == Wires_List.Data[End].Y2 &&
-					Wires_List.Data[C1].X2 == Wires_List.Data[End].X1 && Wires_List.Data[C1].Y2 == Wires_List.Data[End].Y1)) {
+				if ((Wires_List.Data[C1].X1 == Wires_List.Data[End].X1 && Wires_List.Data[C1].Y1 == Wires_List.Data[
+					End].Y1 && Wires_List.Data[C1].X2 == Wires_List.Data[End].X2 && Wires_List.Data[C1].Y2 ==
+					Wires_List.Data[End].Y2) || (Wires_List.Data[C1].X1 == Wires_List.Data[End].X2 && Wires_List.Data[
+					C1].Y1 == Wires_List.Data[End].Y2 && Wires_List.Data[C1].X2 == Wires_List.Data[End].X1 &&
+					Wires_List.Data[C1].Y2 == Wires_List.Data[End].Y1)) {
 					Pull_Wire(C1);
 					Pull_Wire(Wires_List.Length - 1);
 					break;
@@ -142,7 +143,7 @@ void Connect_Wire(int X, int Y) {
 		}
 	} else {
 		if (Data.Wiring_Grid[X][Y] == 1 || Data.Wiring_Grid[X][Y] == 2) {
-			Wire New_Wire;
+			Wire New_Wire = { };
 			New_Wire.X1 = X;
 			New_Wire.Y1 = Y;
 			Push_Wire(New_Wire);
@@ -172,17 +173,15 @@ void Distribute_Power(Wire** Grouped_List, int Grouped, int* Sizes) {
 		float Remaining_Power = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power];
 		float Used_Power = 0;
 		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
-			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][
-				C2].Y2][Power_Cap] - Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][
-				C2].Y2][Stored_Power]);
-			Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] =
-				Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] +
-				Minimum;
+			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][
+				Power_Cap] - Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power]);
+			Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] = Data.Data_Grid[Grouped_List[
+				C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] + Minimum;
 			Remaining_Power = Remaining_Power - Minimum;
 			Used_Power = Used_Power + Minimum;
 		}
-		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] = Data.Data_Grid[
-			Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] - Used_Power;
+		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] = Data.Data_Grid[Grouped_List[C1][
+			0].X1][Grouped_List[C1][0].Y1][Stored_Power] - Used_Power;
 	}
 }
 

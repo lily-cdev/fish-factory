@@ -99,6 +99,7 @@ int main(int argc, char* args[]) {
 			}
 			Process_Movement();
 			Drain_Query();
+			Render_Hotbar();
 			Render_Toolbar();
 			{
 				char Buffer[256];

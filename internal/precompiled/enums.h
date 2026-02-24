@@ -130,7 +130,8 @@ enum Tool {
 	T_Deleting,
 	T_Inspecting,
 	T_Wiring,
-	T_Plumbing
+	T_Plumbing,
+	T_Denying
 };
 
 enum Issues {

@@ -142,3 +142,90 @@ void Render_Application() {
 		}
 	}
 }
+
+void Render_Hotbar() {
+	if (Interface.Tool != T_None) {
+		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Metadata.Tool_Texts[Interface.Tool], 0,
+			Colors.Abyss_Black);
+		SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
+		SDL_FRect Fragment_Rectangle = (SDL_FRect){
+			0,
+			Settings.Screen_Size * 10.0f,
+			(float)Fragment_Surface->w,
+			(float)Fragment_Surface->h
+		};
+		Fragment_Rectangle.x = (Settings.Screen_Size * 320.0f) - (Fragment_Rectangle.w * 0.5f);
+		int Height = Fragment_Rectangle.y + Fragment_Rectangle.h;
+		SDL_DestroySurface(Fragment_Surface);
+		Set_Renderer_Color(Colors.Dark_Grey);
+		SDL_FRect Background = {
+			0,
+			0,
+			(Settings.Screen_Size * 30.0f) + Fragment_Rectangle.w,
+			(Settings.Screen_Size * 15.0f) + Height
+		};
+		Background.x = (Settings.Screen_Size * 320.0f) - (Background.w * 0.5f);
+		SDL_RenderFillRect(Core.Renderer, &Background);
+		Set_Renderer_Color(Colors.Light_Grey);
+		Background = (SDL_FRect){
+			0,
+			0,
+			(Settings.Screen_Size * 20.0f) + Fragment_Rectangle.w,
+			(Settings.Screen_Size * 10.0f) + Height
+		};
+		Background.x = (Settings.Screen_Size * 320.0f) - (Background.w * 0.5f);
+		SDL_RenderFillRect(Core.Renderer, &Background);
+		Clear_Renderer();
+		SDL_RenderTexture(Core.Renderer, Fragment_Texture, NULL, &Fragment_Rectangle);
+		free_texture(Fragment_Texture);
+	}
+	float Bar_Height = Settings.Screen_Size * 310.0f;
+	Interface.Bar_Up = false;
+	if (Core.Mouse.Y >= Bar_Height && Interface.Prompt_Identifier == P_None) {
+		Interface.Bar_Up = true;
+		Set_Renderer_Color(Colors.Dark_Grey);
+		float Bar_Width = (Settings.Screen_Size * 360.0f) - Bar_Height;
+		const SDL_FRect Background = {
+			0,
+			Bar_Height,
+			Settings.Screen_Size * 640.0f,
+			Bar_Width
+		};
+		SDL_RenderFillRect(Core.Renderer, &Background);
+		float Padding = Settings.Screen_Size * 4.0f;
+		float Width = ((640.0f / LDE_TOOLS) * Settings.Screen_Size) - (((1.0f / LDE_TOOLS) + 1.0f) * Padding);
+		for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
+			SDL_FRect Pasting = {
+				(C1 * Width) + ((C1 + 1) * Padding),
+				Bar_Height + Padding,
+				Width,
+				Bar_Width - (Padding * 2.0f)
+			};
+			SDL_Color Color = (Detect_Mouse_Collision(Pasting)) ? Colors.Light_Grey : Colors.Mid_Grey;
+			if (C1 == Interface.Tool) {
+				Color = Colors.Cherry_Blossom;
+			} else if (Detect_Mouse_Collision(Pasting)) {
+				Interface.UI_Selection = C1;
+			}
+			Set_Renderer_Color(Color);
+			SDL_RenderFillRect(Core.Renderer, &Pasting);
+			Clear_Renderer();
+			Rects.Tool[C1].x = (Pasting.w * 0.5f) - (Rects.Tool[C1].w * 0.5f) + Pasting.x;
+			Rects.Tool[C1].y = (Bar_Width * 0.5f) - (Rects.Tool[C1].h * 0.5f) + Bar_Height;
+			SDL_RenderTexture(Core.Renderer, Textures.Tool.Data[C1], NULL, &Rects.Tool[C1]);
+			char Carrier[32];
+			snprintf(Carrier, sizeof(Carrier), "[%s]", SDL_GetKeyName(Keybinds.Keybind_List[C1 + 4]));
+			SDL_Surface* Surface = TTF_RenderText_Blended(Fonts.Microtext_Font, Carrier, 0, Colors.Abyss_Black);
+			SDL_FRect Subcarrier = {
+				Pasting.x - (Padding * 0.5f) + Width - Surface->w,
+				(Padding * 0.5f) + Pasting.y,
+				Surface->w,
+				Surface->h
+			};
+			SDL_Texture* Texture = Surface_To_Texture(Core.Renderer, Surface);
+			SDL_RenderTexture(Core.Renderer, Texture, NULL, &Subcarrier);
+			free_texture(Texture);
+			SDL_DestroySurface(Surface);
+		}
+	}
+}

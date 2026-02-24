@@ -1,33 +1,6 @@
 #include <ui.h>
 
 void Render_Toolbar() {
-	if (Interface.Tool > LDE_INVALID) {
-		Set_Renderer_Color(Colors.Dark_Grey);
-		SDL_FRect Backing_Rectangle = Rects.Tool[Interface.Tool];
-		Backing_Rectangle.x = Backing_Rectangle.x - (Settings.Screen_Size * 2);
-		Backing_Rectangle.w = Backing_Rectangle.w + (Settings.Screen_Size * 4);
-		Backing_Rectangle.y = Settings.Screen_Size * 330;
-		Backing_Rectangle.h = Settings.Screen_Size * 38;
-		SDL_RenderFillRect(Core.Renderer, &Backing_Rectangle);
-		Backing_Rectangle.y = Settings.Screen_Size * 334;
-		Backing_Rectangle.h = Settings.Screen_Size * 34;
-		Set_Renderer_Color(Colors.Light_Grey);
-		SDL_RenderFillRect(Core.Renderer, &Backing_Rectangle);
-		Clear_Renderer();
-		Rects.Cap.x = Backing_Rectangle.x + Backing_Rectangle.w;
-		Rects.Cap_Button.x = Rects.Cap.x + Rects.Cap.w + 12;
-		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
-		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(&Textures.Cap_Button.Data[0], &Rects.Cap_Hitbox, 4, Colors.Cherry_Blossom);
-		Render_Texture(Textures.Cap.Data[0], &Rects.Cap);
-		Rects.Cap.x = Backing_Rectangle.x - Rects.Cap.w;
-		Rects.Cap_Button.x = Rects.Cap.x - Rects.Cap_Button.w - 12;
-		Rects.Cap_Hitbox.Data[0] = Rects.Cap_Button;
-		Rects.Cap_Hitbox.Data[1] = Rects.Cap_Button;
-		Render_Button(&Textures.Cap_Button.Data[1], &Rects.Cap_Hitbox, 5, Colors.Cherry_Blossom);
-		Render_Texture(Textures.Cap.Data[1], &Rects.Cap);
-		Render_Texture(Textures.Tool.Data[Interface.Tool], &Rects.Tool[Interface.Tool]);
-	}
 	if (Interface.Tool == T_Building) {
 		char Machine_Text[64];
 		char Price_Query[64];
@@ -35,10 +8,10 @@ void Render_Toolbar() {
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text, 0, Colors.Abyss_Black);
 		SDL_FRect Machine_Rectangle = {
-			(float)(Settings.Screen_Size * 312) - (Machine_Surface->w * 0.5f),
-			Settings.Screen_Size * 290.0f,
-			Machine_Surface->w + (float)(Settings.Screen_Size * 16),
-			TTF_GetFontHeight(Fonts.Subtext_Font) + (float)(Settings.Screen_Size * 18)
+			(Settings.Screen_Size * 312.0f) - (Machine_Surface->w * 0.5f),
+			((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Screen_Size,
+			Machine_Surface->w + (Settings.Screen_Size * 16.0f),
+			TTF_GetFontHeight(Fonts.Subtext_Font) + (Settings.Screen_Size * 18.0f)
 		};
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
@@ -53,7 +26,7 @@ void Render_Toolbar() {
 		Machine_Rectangle.y += (Settings.Screen_Size * 4);
 		Machine_Rectangle.w = Machine_Surface->w;
 		Machine_Rectangle.h = Machine_Surface->h;
-		SDL_Texture* Machine_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Machine_Surface);
+		SDL_Texture* Machine_Texture = Surface_To_Texture(Core.Renderer, Machine_Surface);
 		Render_Texture(Machine_Texture, &Machine_Rectangle);
 		SDL_DestroySurface(Machine_Surface);
 		free_texture(Machine_Texture);
@@ -100,7 +73,7 @@ void Render_Tile_Prompts() {
 							(float)(Carrying_Surface->w),
 							(float)(Carrying_Surface->h)
 						};
-						SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
+						SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 						Render_Box((Carrying_Rectangle.x / Settings.Screen_Size) - 4,
 							(Carrying_Rectangle.y / Settings.Screen_Size) - 4,
 							(Carrying_Rectangle.w / Settings.Screen_Size) + 8,
@@ -207,9 +180,9 @@ void Cache_Blueprint() {
 	ID_To_Size(Interface.Item - 1, Interface.Rotation, &Width, &Height);
 	int Max = (Width > Height ? Width : Height) * Settings.Screen_Size * LDE_TILESIZE;
 	free_texture(Cache.Blueprint_Cache);
-	Cache.Blueprint_Cache = SDL_GenerateTexture(Core.Renderer, Max, Max);
+	Cache.Blueprint_Cache = New_Texture(Core.Renderer, Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = SDL_GenerateTexture(Core.Renderer, Width * Settings.Screen_Size * LDE_TILESIZE, Height *
+	SDL_Texture* Backing = New_Texture(Core.Renderer, Width * Settings.Screen_Size * LDE_TILESIZE, Height *
 		Settings.Screen_Size * LDE_TILESIZE);
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
@@ -298,7 +271,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 			(float)(Caption_Surface->w),
 			(float)(Caption_Surface->h)
 		};
-		SDL_Texture* Caption_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Caption_Surface);
+		SDL_Texture* Caption_Texture = Surface_To_Texture(Core.Renderer, Caption_Surface);
 		Render_Texture(Caption_Texture, &Caption_Rectangle);
 		SDL_DestroySurface(Caption_Surface);
 		free_texture(Caption_Texture);

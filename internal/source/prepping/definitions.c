@@ -56,7 +56,9 @@ lde_metadata Metadata = {
 		{ Reinforced_Pipe, Spawning_Pool, Ram_Pump, Large_Pipe, Money_Generator, Fluid_Generator, LDE_TERMINATOR }
 	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
-	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } }
+	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840,
+		2160 } },
+	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing", "linking" }
 };
 lde_settings Settings = {
 	.AA_Temporary = true,

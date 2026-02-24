@@ -29,7 +29,7 @@ typedef struct {
 	float Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
 	float Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
 	float Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
-	uint64_t Funds;
+	int64_t Funds;
 } lde_data;
 
 typedef struct {
@@ -51,9 +51,10 @@ typedef struct {
 	int* Irradiating_Machines;
 	int Quirk_Positions[LDE_QUIRKS][64];
 	bool Machine_Quirks[LDE_MACHINES][LDE_QUIRKS];
-	char* Days[LDE_DAYS];
-	Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
+	const char* Days[LDE_DAYS];
+	const Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
 	char* Facts[LDE_FACTS];
+	const char Tool_Texts[LDE_TOOLS][64];
 } lde_metadata;
 
 typedef struct {
@@ -80,7 +81,6 @@ typedef struct {
 	Texture2_Array New;
 	Texture2_Array Load;
 	Texture2_Array Clear;
-	Texture2_Array Cap_Button;
 	Texture2_Array Categories;
 	Texture_Array Error_Exit;
 	Texture2_Array MSP_Buttons;
@@ -221,7 +221,7 @@ typedef struct {
 	Rect_Array Clear_Tutorial;
 	Rect_Array Settings_Label;
 	Rect_Array Save_Settings;
-	SDL_FRect Tool[5];
+	SDL_FRect Tool[LDE_TOOLS];
 	SDL_FRect Help_Content[2];
 	SDL_FRect Recipe_Content;
 	SDL_FRect Door[2];
@@ -239,9 +239,6 @@ typedef struct {
 	SDL_FRect Tile_6x4;
 	SDL_FRect Tile_6x8;
 	SDL_FRect Tile_8x6;
-	SDL_FRect Cap;
-	SDL_FRect Cap_Button;
-	Rect_Array Cap_Hitbox;
 	SDL_FRect Sapling;
 	SDL_FRect Node;
 	SDL_FRect R_Flash;
@@ -383,6 +380,7 @@ typedef struct {
 	char Terminal_Logs[LDE_LOGMAX][128];
 	char Terminal_Entry[128];
 	int Terminal_Length;
+	bool Bar_Up;
 } lde_interface;
 
 typedef struct {

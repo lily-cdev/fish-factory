@@ -5,7 +5,7 @@ void Render_Keybinds() {
 		char Text[64];
 		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[C1]);
 		SDL_Surface* Prefix_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Text, 0, Colors.Abyss_Black);
-		SDL_Texture* Prefix_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Prefix_Surface);
+		SDL_Texture* Prefix_Texture = Surface_To_Texture(Core.Renderer, Prefix_Surface);
 		SDL_FRect Prefix_Rectangle = {
 			Settings.Screen_Size * 370.0f,
 			(float)((C1 * 16) + 40) * Settings.Screen_Size,
@@ -15,7 +15,7 @@ void Render_Keybinds() {
 		Render_Texture(Prefix_Texture, &Prefix_Rectangle);
 		if (Interface.Registering_Keybind == C1) {
 			SDL_Surface* Registering_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "...", 0, Colors.Abyss_Black);
-			SDL_Texture* Registering_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Registering_Surface);
+			SDL_Texture* Registering_Texture = Surface_To_Texture(Core.Renderer, Registering_Surface);
 			SDL_FRect Registering_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
@@ -32,7 +32,7 @@ void Render_Keybinds() {
 				Subcore[C2] = (char)(tolower(Subcore[C2]));
 			}
 			SDL_Surface* Deadbutton_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Subcore, 0, Colors.Abyss_Black);
-			SDL_Texture* Deadbutton_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Deadbutton_Surface);
+			SDL_Texture* Deadbutton_Texture = Surface_To_Texture(Core.Renderer, Deadbutton_Surface);
 			SDL_FRect Deadbutton_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
@@ -45,7 +45,7 @@ void Render_Keybinds() {
 				snprintf(Alivebutton_Text, sizeof(Alivebutton_Text), "> %s <", Subcore);
 				SDL_Surface* Alivebutton_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Alivebutton_Text, 0,
 					Colors.Cherry_Blossom);
-				SDL_Texture* Alivebutton_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Alivebutton_Surface);
+				SDL_Texture* Alivebutton_Texture = Surface_To_Texture(Core.Renderer, Alivebutton_Surface);
 				SDL_Surface* Temporary_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "> ", 0, Colors.Cherry_Blossom);
 				int Offset = Temporary_Surface->w;
 				SDL_DestroySurface(Temporary_Surface);

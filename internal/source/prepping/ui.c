@@ -218,7 +218,7 @@ void Render_Game_UI() {
 			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Data_Fragments[C1], 0,
 				Colors.Abyss_Black);
 			Max_Width = max(Max_Width, Fragment_Surface->w);
-			SDL_Texture* Fragment_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fragment_Surface);
+			SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
 				(float)(Settings.Screen_Size * 630) - Fragment_Surface->w,
@@ -230,21 +230,21 @@ void Render_Game_UI() {
 		}
 		int Total_Height = Fragment_Rectangles[Fragment_Size - 1].y + Fragment_Rectangles[Fragment_Size - 1].h;
 		Set_Renderer_Color(Colors.Dark_Grey);
-		SDL_FRect Background_Rectangle = {
-			(float)(Settings.Screen_Size * 615) - Max_Width,
+		SDL_FRect Background = {
+			(Settings.Screen_Size * 615.0f) - Max_Width,
 			0,
-			(float)(Settings.Screen_Size * 25) + Max_Width,
-			(float)(Settings.Screen_Size * 15) + Total_Height
+			(Settings.Screen_Size * 25.0f) + Max_Width,
+			(Settings.Screen_Size * 15.0f) + Total_Height
 		};
-		SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
+		SDL_RenderFillRect(Core.Renderer, &Background);
 		Set_Renderer_Color(Colors.Light_Grey);
-		Background_Rectangle = (SDL_FRect){
-			(float)(Settings.Screen_Size * 620) - Max_Width,
+		Background = (SDL_FRect){
+			(Settings.Screen_Size * 620.0f) - Max_Width,
 			0,
-			(float)(Settings.Screen_Size * 20) + Max_Width,
-			(float)(Settings.Screen_Size * 10) + Total_Height
+			(Settings.Screen_Size * 20.0f) + Max_Width,
+			(Settings.Screen_Size * 10.0f) + Total_Height
 		};
-		SDL_RenderFillRect(Core.Renderer, &Background_Rectangle);
+		SDL_RenderFillRect(Core.Renderer, &Background);
 		Clear_Renderer();
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
 			Render_Texture(Fragment_Textures[C1], &Fragment_Rectangles[C1]);

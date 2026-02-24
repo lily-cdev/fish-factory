@@ -42,7 +42,7 @@ bool Save_Data(int Slot) {
 	fputc((uint8_t)Data.Day, File);
 	fputc((uint8_t)Data.CMD_Placed, File);
 	fwrite(&(uint16_t){ Data.Time }, sizeof(uint16_t), 1, File);
-	fwrite(&(uint64_t){ Data.Funds }, sizeof(uint64_t), 1, File);
+	fwrite(&(int64_t){ Data.Funds }, sizeof(uint64_t), 1, File);
 	Write_2D_Array(Data.Visual_Grid, File);
 	Write_2D_Array(Data.Behavior_Grid, File);
 	Write_2D_Array(Data.Wiring_Grid, File);
@@ -89,7 +89,7 @@ bool Load_Data(int Slot) {
 			Data.Day = (uint8_t)fgetc(File);
 			Data.CMD_Placed = (bool)fgetc(File);
 			fread(&Data.Time, sizeof(uint16_t), 1, File);
-			fread(&Data.Funds, sizeof(uint64_t), 1, File);
+			fread(&Data.Funds, sizeof(int64_t), 1, File);
 			Read_2D_Array(Data.Visual_Grid, File);
 			Read_2D_Array(Data.Behavior_Grid, File);
 			Read_2D_Array(Data.Wiring_Grid, File);

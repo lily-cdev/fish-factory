@@ -88,8 +88,6 @@ void Cleanup_Assets() {
 	free_c(Rects.Tutorial_Hitbox.Data);
 	Clear_Texture2_Array(&Textures.Cheats);
 	Clear_Rect2_Array(&Rects.Cheats);
-	Clear_Texture2_Array(&Textures.Cap_Button);
-	free_c(Rects.Cap_Hitbox.Data);
 	Clear_Texture2_Array(&Textures.New);
 	Clear_Rect2_Array(&Rects.New);
 	Clear_Texture2_Array(&Textures.Load);
@@ -124,7 +122,6 @@ void Cleanup_Assets() {
 	free_c(Rects.Settings_Label.Data);
 	Clear_Texture_Array(&Textures.Save_Settings);
 	free_c(Rects.Save_Settings.Data);
-	Clear_Texture_Array(&Textures.Cap);
 	Clear_Texture_Array(&Textures.R_Pipe);
 	Clear_Texture_Array(&Textures.L_Pipe);
 	Clear_Texture_Array(&Textures.MS_Pool);

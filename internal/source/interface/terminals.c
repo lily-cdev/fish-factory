@@ -52,7 +52,7 @@ void Print_Fatal_Error(int Input) {
 	To_Code(Input, Code);
 	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", Code, Errors[Input]);
 	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, 0, Colors.Cherry_Blossom);
-	SDL_Texture* Carrying_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
+	SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 	SDL_FRect Destination = {
 		(Settings.Screen_Size * 230.0f) - (Carrying_Surface->w * 0.5f),
 		(Settings.Screen_Size * 180.0f) - (Carrying_Surface->h * 0.5f),

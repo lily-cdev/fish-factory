@@ -65,7 +65,7 @@ void Render_Shop(int X, int Y) {
 		}
 		SDL_Surface* Name_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Metadata.Names[Interface.Item - 1], 0,
 			Colors.Abyss_Black);
-		SDL_Texture* Name_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Name_Surface);
+		SDL_Texture* Name_Texture = Surface_To_Texture(Core.Renderer, Name_Surface);
 		SDL_FRect Name_Rectangle = {
 			(float)(Settings.Screen_Size * 103) - (Name_Surface->w * 0.5),
 			(float)(Offset + 10) * Settings.Screen_Size,
@@ -83,7 +83,7 @@ void Render_Shop(int X, int Y) {
 			(float)(Carrying_Surface->w),
 			(float)(Carrying_Surface->h)
 		};
-		SDL_Texture* Description_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Carrying_Surface);
+		SDL_Texture* Description_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 		Render_Texture(Description_Texture, &Description_Rectangle);
 		SDL_DestroySurface(Carrying_Surface);
 		free_texture(Description_Texture);

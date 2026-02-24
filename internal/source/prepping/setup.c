@@ -48,12 +48,12 @@ void Render_Loadscreen() {
 		(float)(Text_Surface->w),
 		(float)(Text_Surface->h)
 	};
-	SDL_Texture* Text_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Text_Surface);
+	SDL_Texture* Text_Texture = Surface_To_Texture(Core.Renderer, Text_Surface);
 	Render_Texture(Text_Texture, &Pasting_Rectangle);
 	SDL_DestroySurface(Text_Surface);
 	free_texture(Text_Texture);
 	SDL_Surface* Fact_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Carrier, 0, Colors.Abyss_Black);
-	SDL_Texture* Fact_Texture = SDL_GenerateTextureFromSurface(Core.Renderer, Fact_Surface);
+	SDL_Texture* Fact_Texture = Surface_To_Texture(Core.Renderer, Fact_Surface);
 	SDL_FRect Fact_Rectangle = {
 		(Settings.Screen_Size * 320.0f) - (Fact_Surface->w * 0.5),
 		(Settings.Screen_Size * 10.0f) + Pasting_Rectangle.y + Pasting_Rectangle.h,
@@ -103,7 +103,7 @@ void Preload_Noise() {
 		}
 	#endif
 	for (int C1 = 0; C1 < 10; C1++) {
-		Textures.None.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, None_Surfaces[C1]);
+		Textures.None.Data[C1] = Surface_To_Texture(Core.Renderer, None_Surfaces[C1]);
 		SDL_SetTextureScaleMode(Textures.None.Data[C1], SDL_SCALEMODE_NEAREST);
 		SDL_SetTextureBlendMode(Textures.None.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_DestroySurface(None_Surfaces[C1]);
@@ -129,7 +129,7 @@ void Preload_Noise() {
 				Fire_Colors[(Random & 3)].b);
 		}
 		SDL_UnlockSurface(Fire_Surfaces[C1]);
-		Textures.Fire.Data[C1] = SDL_GenerateTextureFromSurface(Core.Renderer, Fire_Surfaces[C1]);
+		Textures.Fire.Data[C1] = Surface_To_Texture(Core.Renderer, Fire_Surfaces[C1]);
 		SDL_SetTextureScaleMode(Textures.Fire.Data[C1], SDL_SCALEMODE_NEAREST);
 		SDL_SetTextureBlendMode(Textures.Fire.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_DestroySurface(Fire_Surfaces[C1]);

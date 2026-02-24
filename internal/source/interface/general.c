@@ -5,6 +5,10 @@ void Close_Prompt() {
 	Interface.Subprompt_Identifier = LDE_INVALID;
 }
 
+void Update_Cursor() {
+	(Interface.Tool == T_None || Interface.Tool == T_Building) ? SDL_ShowCursor() : SDL_HideCursor();
+}
+
 void (*Prompt_Functions[12])(int X, int Y) = {
     Handle_None,
     Handle_Help,
@@ -34,61 +38,37 @@ void Process_Inputs() {
 						break;
 					case 0:
 						if (Application_Event.key.key == Keybinds.Keybind_List[4]) {
-							if (Interface.Tool == T_Building) {
-								Interface.Tool = LDE_INVALID;
-							} else {
-								Interface.Tool = 0;
-								SDL_ShowCursor();
-							}
+							Interface.Tool = (Interface.Tool == T_Building) ? T_None : T_Building;
 							Interface.Rotation = 0;
+							Update_Cursor();
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[5]) {
-							if (Interface.Tool == T_Deleting) {
-								Interface.Tool = LDE_INVALID;
-								SDL_ShowCursor();
-							} else {
-								Interface.Tool = 1;
-								SDL_HideCursor();
-							}
+							Interface.Tool = (Interface.Tool == T_Deleting) ? T_None : T_Deleting;
 							Interface.Rotation = 0;
+							Update_Cursor();
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[6]) {
-							if (Interface.Tool == T_Inspecting) {
-								Interface.Tool = LDE_INVALID;
-								SDL_ShowCursor();
-							} else {
-								Interface.Tool = 2;
-								SDL_HideCursor();
-							}
+							Interface.Tool = (Interface.Tool == T_Inspecting) ? T_None : T_Inspecting;
 							Interface.Rotation = 0;
+							Update_Cursor();
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[7]) {
-							if (Interface.Tool == T_Wiring) {
-								Interface.Tool = LDE_INVALID;
-								SDL_ShowCursor();
-							} else {
-								Interface.Tool = 3;
-								SDL_HideCursor();
-							}
+							Interface.Tool = (Interface.Tool == T_Wiring) ? T_None : T_Wiring;
 							Interface.Rotation = 0;
+							Update_Cursor();
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[8]) {
-							if (Interface.Tool == T_Plumbing) {
-								Interface.Tool = LDE_INVALID;
-								SDL_ShowCursor();
-							} else {
-								Interface.Tool = 4;
-								SDL_HideCursor();
-							}
+							Interface.Tool = (Interface.Tool == T_Plumbing) ? T_None : T_Plumbing;
 							Interface.Rotation = 0;
+							Update_Cursor();
 							Cache_Blueprint();
 							Clear_Unconnected_Wires();
 							Clear_Unconnected_Pipes();
@@ -168,11 +148,7 @@ void Process_Inputs() {
 			if (Interface.UI_Tab == 4 || Interface.UI_Tab == 5) {
 				int Log = Changelog;
 				if (Interface.UI_Tab == 5) {
-					if (Interface.Slider_Positions[2] == 0) {
-						Log = Credits;
-					} else {
-						Log = Legal;
-					}
+					Log = (Interface.Slider_Positions[2] == 0) ? Credits : Legal;
 				}
 				if (Application_Event.wheel.y > 0) {
 					if (Interface.Log_Offset > 0) {
@@ -234,10 +210,17 @@ void Process_Inputs() {
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			if (!Interface.Locked) {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
-					if (Interface.UI_Tab == 0) {
-						Process_Tutorial(Interface.UI_Selection);
+					if (Interface.Bar_Up) {
+						if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Denying) {
+							Interface.Tool = Interface.UI_Selection;
+							Update_Cursor();
+						}
+					} else {
+						if (Interface.UI_Tab == 0) {
+							Process_Tutorial(Interface.UI_Selection);
+						}
+						Prompt_Functions[Interface.Prompt_Identifier + 1](X, Y);
 					}
-					Prompt_Functions[Interface.Prompt_Identifier + 1](X, Y);
 					if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
 						Play_Sound(Click, false);
 					}

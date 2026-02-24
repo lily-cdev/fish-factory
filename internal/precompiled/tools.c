@@ -1,6 +1,6 @@
 #include <core.h>
 
-SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) {
+SDL_Texture* New_Texture(SDL_Renderer* Renderer, int Width, int Height) {
 	SDL_Texture* Texture = SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Width, Height);
 	if (Texture == NULL) {
 		jump(I_No_Texture, "could not create texture");
@@ -9,7 +9,7 @@ SDL_Texture* SDL_GenerateTexture(SDL_Renderer* Renderer, int Width, int Height) 
 	return Texture;
 }
 
-SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface* Surface) {
+SDL_Texture* Surface_To_Texture(SDL_Renderer* Renderer, SDL_Surface* Surface) {
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	if (Texture == NULL) {
 		jump(I_No_Surface_Texture, "could not create texture from surface");
@@ -18,10 +18,10 @@ SDL_Texture* SDL_GenerateTextureFromSurface(SDL_Renderer* Renderer, SDL_Surface*
 	return Texture;
 }
 
-SDL_Texture* IMG_GenerateTexture(SDL_Renderer* Renderer, const char* Path) {
+SDL_Texture* IMG_To_Texture(SDL_Renderer* Renderer, const char* Path) {
 	SDL_Surface* Surface;
 	load_bmp(Surface, Path);
-	SDL_Texture* Texture = SDL_GenerateTextureFromSurface(Renderer, Surface);
+	SDL_Texture* Texture = Surface_To_Texture(Renderer, Surface);
 	SDL_DestroySurface(Surface);
 	return Texture;
 }
