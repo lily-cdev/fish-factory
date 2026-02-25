@@ -37,42 +37,17 @@ void Process_Inputs() {
 					case LDE_INVALID:
 						break;
 					case 0:
-						if (Application_Event.key.key == Keybinds.Keybind_List[4]) {
-							Interface.Tool = (Interface.Tool == T_Building) ? T_None : T_Building;
-							Interface.Rotation = 0;
-							Update_Cursor();
-							Cache_Blueprint();
-							Clear_Unconnected_Wires();
-							Clear_Unconnected_Pipes();
-						} else if (Application_Event.key.key == Keybinds.Keybind_List[5]) {
-							Interface.Tool = (Interface.Tool == T_Deleting) ? T_None : T_Deleting;
-							Interface.Rotation = 0;
-							Update_Cursor();
-							Cache_Blueprint();
-							Clear_Unconnected_Wires();
-							Clear_Unconnected_Pipes();
-						} else if (Application_Event.key.key == Keybinds.Keybind_List[6]) {
-							Interface.Tool = (Interface.Tool == T_Inspecting) ? T_None : T_Inspecting;
-							Interface.Rotation = 0;
-							Update_Cursor();
-							Cache_Blueprint();
-							Clear_Unconnected_Wires();
-							Clear_Unconnected_Pipes();
-						} else if (Application_Event.key.key == Keybinds.Keybind_List[7]) {
-							Interface.Tool = (Interface.Tool == T_Wiring) ? T_None : T_Wiring;
-							Interface.Rotation = 0;
-							Update_Cursor();
-							Cache_Blueprint();
-							Clear_Unconnected_Wires();
-							Clear_Unconnected_Pipes();
-						} else if (Application_Event.key.key == Keybinds.Keybind_List[8]) {
-							Interface.Tool = (Interface.Tool == T_Plumbing) ? T_None : T_Plumbing;
-							Interface.Rotation = 0;
-							Update_Cursor();
-							Cache_Blueprint();
-							Clear_Unconnected_Wires();
-							Clear_Unconnected_Pipes();
-						} else if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
+						for (int C1 = T_Building; C1 <= T_Plumbing; C1++) {
+							if (Application_Event.key.key == Keybinds.Keybind_List[C1 + 4]) {
+								Interface.Tool = (Interface.Tool == C1) ? T_None : C1;
+								Interface.Rotation = 0;
+								Update_Cursor();
+								Cache_Blueprint();
+								Clear_Unconnected_Bridges(&Wires, true);
+								Clear_Unconnected_Bridges(&Pipes, false);
+							}
+						}
+						if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
 							if (Interface.Tool == T_Building) {
 								Interface.Prompt_Identifier = P_Shop;
 								Interface.Building = false;

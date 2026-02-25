@@ -266,16 +266,14 @@ void Remove_Machine(int X, int Y) {
 		}
 		Destroy_Clearance(X, Y, Width, Height);
 	}
-	for (int C1 = 0; C1 < Wires_List.Length; C1++) {
-		if ((Wires_List.Data[C1].X1 == X && Wires_List.Data[C1].Y1 == Y) || (Wires_List.Data[C1].X2 == X &&
-			Wires_List.Data[C1].Y2 == Y)) {
-			Wires_List.Data[C1].Filled = false;
+	for (int C1 = 0; C1 < Wires.Length; C1++) {
+		if ((Wires.Data[C1].X1 == X && Wires.Data[C1].Y1 == Y) || (Wires.Data[C1].X2 == X && Wires.Data[C1].Y2 == Y)) {
+			Wires.Data[C1].Filled = false;
 		}
 	}
-	for (int C1 = 0; C1 < Pipes_List.Length; C1++) {
-		if ((Pipes_List.Data[C1].X1 == X && Pipes_List.Data[C1].Y1 == Y) || (Pipes_List.Data[C1].X2 == X &&
-			Pipes_List.Data[C1].Y2 == Y)) {
-			Pipes_List.Data[C1].Filled = false;
+	for (int C1 = 0; C1 < Pipes.Length; C1++) {
+		if ((Pipes.Data[C1].X1 == X && Pipes.Data[C1].Y1 == Y) || (Pipes.Data[C1].X2 == X && Pipes.Data[C1].Y2 == Y)) {
+			Pipes.Data[C1].Filled = false;
 		}
 	}
 }
@@ -293,8 +291,8 @@ bool Destroy_Grid() {
 					} else {
 						Remove_Machine(Column, Row);
 					}
-					Clear_Unconnected_Wires();
-					Clear_Unconnected_Pipes();
+					Clear_Unconnected_Bridges(&Wires, true);
+					Clear_Unconnected_Bridges(&Pipes, false);
 					Recast_Machines();
 					return true;
 				}

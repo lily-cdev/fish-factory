@@ -10,9 +10,11 @@ endif()
 
 add_executable(Fish_Factory
     internal/core/fish_factory.c
-	internal/source/pipes.c
 	internal/source/transitions.c
-	internal/source/wires.c
+	internal/source/connectables/general.c
+	internal/source/connectables/wires.c
+	internal/source/connectables/pipes.c
+	internal/source/connectables/links.c
 	internal/source/ui/general.c
 	internal/source/ui/application.c
 	internal/source/ui/logs.c

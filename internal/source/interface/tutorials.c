@@ -118,22 +118,20 @@ void Render_Tutorial() {
 				C1 += 2) {
 				bool Incomplete = true;
 				if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 3) {
-					for (int C2 = 0; C2 < Pipes_List.Length; C2++) {
-						if (Pipes_List.Data[C2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
-							C1].X && Pipes_List.Data[C2].Y1 == Tutorial_Stack[Temporary.Tutorial_Step]
-							.Placement_Locations[C1].Y && Pipes_List.Data[C2].X2 == Tutorial_Stack[
-							Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X && Pipes_List.Data[C2].Y2 ==
-							Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y) {
+					for (int C2 = 0; C2 < Pipes.Length; C2++) {
+						if (Pipes.Data[C2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X &&
+							Pipes.Data[C2].Y1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y &&
+							Pipes.Data[C2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X &&
+							Pipes.Data[C2].Y2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y) {
 							Incomplete = false;
 						}
 					}
 				} else {
-					for (int C2 = 0; C2 < Wires_List.Length; C2++) {
-						if (Wires_List.Data[C2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[
-							C1].X && Wires_List.Data[C2].Y1 == Tutorial_Stack[Temporary.Tutorial_Step]
-							.Placement_Locations[C1].Y && Wires_List.Data[C2].X2 == Tutorial_Stack[
-							Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X && Wires_List.Data[C2].Y2 ==
-							Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y) {
+					for (int C2 = 0; C2 < Wires.Length; C2++) {
+						if (Wires.Data[C2].X1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X &&
+							Wires.Data[C2].Y1 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y &&
+							Wires.Data[C2].X2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X &&
+							Wires.Data[C2].Y2 == Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y) {
 							Incomplete = false;
 						}
 					}

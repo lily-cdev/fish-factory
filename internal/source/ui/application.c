@@ -13,7 +13,7 @@ void Render_Application() {
 	if (Cache.Wire_State != LDE_INVALID) {
 		Render_Wires();
 		if (Cache.Wire_State == Deep_Recache) {
-			Clear_Unconnected_Wires();
+			Clear_Unconnected_Bridges(&Wires, true);
 		}
 		Cache.Wire_State = LDE_INVALID;
 	}

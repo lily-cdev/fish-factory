@@ -143,8 +143,8 @@ void Reset_Statistics() {
 		}
 	}
 	memset(Data.Settings_Grid, LDE_INVALID, sizeof(Data.Settings_Grid));
-	Clear_Wires();
-	Clear_Pipes();
+	Clear_Bridges(&Wires);
+	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
 	Save_Data(Core.Selected_Save);
 }
