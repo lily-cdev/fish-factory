@@ -29,7 +29,7 @@ void Clear_Bridges(Bridges* List) {
 	free_c(List->Data);
 }
 
-void Clear_Unconnected_Bridges(Bridges* List, bool Is_Wire) {
+void Clear_Unconnected_Bridges(Bridges* List) {
 	for (int C1 = 0; C1 < List->Length; C1++) {
 		if (!List->Data[C1].Filled) {
 			Pull_Bridge(List, C1);

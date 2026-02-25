@@ -38,67 +38,75 @@ Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
 	return Yield;
 }
 
-bool Match(int X, int Y, int Direction, int Target, bool Is_Pipe) {
-	return ((X >= 0 && X < LDE_GRIDSIZE && Y >= 0 && Y < LDE_GRIDSIZE) && ((Is_Pipe && (Data.Plumbing_Grid[X][Y] ==
+bool Match(int X, int Y, int Og_X, int Og_Y, int Direction, int Target, bool Is_Pipe) {
+	bool Yield = ((X >= 0 && X < LDE_GRIDSIZE && Y >= 0 && Y < LDE_GRIDSIZE) && ((Is_Pipe && (Data.Plumbing_Grid[X][Y] ==
 		Direction || Data.Plumbing_Grid[X][Y] == Any)) || Data.Behavior_Grid[X][Y] == Target));
+	bool Unconnected = true;
+	for (int C1 = 0; C1 < Pipes.Length; C1++) {
+		if ((Pipes.Data[C1].X1 == X || Pipes.Data[C1].X2 == X) && (Pipes.Data[C1].Y1 == Y || Pipes.Data[C1].Y2 == Y) &&
+			(Pipes.Data[C1].X1 == Og_X || Pipes.Data[C1].X2 == Og_X) && (Pipes.Data[C1].Y1 == Og_Y || Pipes.Data[C1].Y2 ==
+			Og_Y)) {
+			Unconnected = false;
+			break;
+		}
+	}
+	return (Unconnected) ? false : Yield;
 }
 
+#define PARAM(Direction) X, Y, Direction, Target, Is_Pipe
 int Modular_Detection(int X, int Y, int Target, bool Is_Pipe) {
 	if (Target == LDE_INVALID) {
 		Target = -2;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target,
-		Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1,
+		PARAM(Down))) {
 		return C_Omni;
 	}
-	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe) && Match(X, Y - 1, Down, Target,
-		Is_Pipe)) {
+	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1, PARAM(Down))) {
 		return C_LeftT;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y - 1, Up, Target, Is_Pipe) && Match(X, Y + 1, Down, Target,
-		Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y - 1, PARAM(Up)) && Match(X, Y + 1, PARAM(Down))) {
 		return C_RightT;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target,
-		Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up))) {
 		return C_UpT;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y - 1, Down, Target,
-		Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y - 1, PARAM(Down))) {
 		return C_DownT;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X + 1, Y, Left, Target, Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left))) {
 		return C_Horizontal;
 	}
-	if (Match(X, Y + 1, Up, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+	if (Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1, PARAM(Down))) {
 		return C_Vertical;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y - 1, PARAM(Down))) {
 		return C_LeftTop;
 	}
-	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y - 1, Down, Target, Is_Pipe)) {
+	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y - 1, PARAM(Down))) {
 		return C_TopRight;
 	}
-	if (Match(X + 1, Y, Left, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe)) {
+	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up))) {
 		return C_RightBottom;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe) && Match(X, Y + 1, Up, Target, Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y + 1, PARAM(Up))) {
 		return C_BottomLeft;
 	}
-	if (Match(X - 1, Y, Right, Target, Is_Pipe)) {
+	if (Match(X - 1, Y, PARAM(Right))) {
 		return C_Left;
 	}
-	if (Match(X, Y - 1, Down, Target, Is_Pipe)) {
+	if (Match(X, Y - 1, PARAM(Down))) {
 		return C_Top;
 	}
-	if (Match(X + 1, Y, Left, Target, Is_Pipe)) {
+	if (Match(X + 1, Y, PARAM(Left))) {
 		return C_Right;
 	}
-	if (Match(X, Y + 1, Up, Target, Is_Pipe)) {
+	if (Match(X, Y + 1, PARAM(Up))) {
 		return C_Bottom;
 	}
 	return C_None;
 }
+#undef LDE_PARAM
 
 int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
 	bool Self_Accounted, int Target1, int Target2);
@@ -226,6 +234,7 @@ void Build_Grid() {
 					if (Placing_Functions[Interface.Item - 1](Column, Row)) {
 						Data.Funds -= Interface.Queried_Price;
 					}
+					Update_Grid();
 					Recast_Machines();
 				}
 				return;
@@ -291,8 +300,9 @@ bool Destroy_Grid() {
 					} else {
 						Remove_Machine(Column, Row);
 					}
-					Clear_Unconnected_Bridges(&Wires, true);
-					Clear_Unconnected_Bridges(&Pipes, false);
+					Clear_Unconnected_Bridges(&Wires);
+					Clear_Unconnected_Bridges(&Pipes);
+					Update_Grid();
 					Recast_Machines();
 					return true;
 				}

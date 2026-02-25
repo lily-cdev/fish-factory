@@ -43,8 +43,9 @@ void Process_Inputs() {
 								Interface.Rotation = 0;
 								Update_Cursor();
 								Cache_Blueprint();
-								Clear_Unconnected_Bridges(&Wires, true);
-								Clear_Unconnected_Bridges(&Pipes, false);
+								Clear_Unconnected_Bridges(&Wires);
+								Clear_Unconnected_Bridges(&Pipes);
+								Update_Grid();
 							}
 						}
 						if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
@@ -186,7 +187,7 @@ void Process_Inputs() {
 			if (!Interface.Locked) {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
 					if (Interface.Bar_Up) {
-						if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Denying) {
+						if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
 							Interface.Tool = Interface.UI_Selection;
 							Update_Cursor();
 						}

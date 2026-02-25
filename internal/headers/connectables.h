@@ -27,7 +27,7 @@ extern Bridges Links;
 void Push_Bridge(Bridges* List, Bridge Input);
 void Pull_Bridge(Bridges* List, int Position);
 void Clear_Bridges(Bridges* List);
-void Clear_Unconnected_Bridges(Bridges* List, bool Is_Wire);
+void Clear_Unconnected_Bridges(Bridges* List);
 void Render_Wires();
 void Render_Wire_Nodes();
 void Place_Wire();

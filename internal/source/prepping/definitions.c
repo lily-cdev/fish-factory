@@ -58,7 +58,7 @@ lde_metadata Metadata = {
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840,
 		2160 } },
-	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing", "linking" }
+	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing" }
 };
 lde_settings Settings = {
 	.AA_Temporary = true,
@@ -68,7 +68,7 @@ lde_settings Settings = {
 };
 lde_textures Textures = { };
 lde_rects Rects = { };
-lde_colors Colors = {
+const lde_colors Colors = {
 	.Abyss_Black = { 0, 0, 0 },
 	.Pure_White = { 255, 255, 255 },
 	.Light_Grey = { 235, 240, 240 },

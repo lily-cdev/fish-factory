@@ -14,6 +14,7 @@ void Handle_None(int X, int Y) {
 				Place_Wire();
 			} else if (Interface.Tool == T_Plumbing) {
 				Place_Pipe();
+				Update_Grid();
 			}
 			break;
 		case 1:
@@ -31,8 +32,9 @@ void Handle_None(int X, int Y) {
 		case 4:
 			if (Interface.Tool == T_Building) {
 				Interface.Rotation = 0;
-				Clear_Unconnected_Bridges(&Wires, true);
-				Clear_Unconnected_Bridges(&Pipes, false);
+				Clear_Unconnected_Bridges(&Wires);
+				Clear_Unconnected_Bridges(&Pipes);
+				Update_Grid();
 				Cache_Blueprint();
 			}
 			if (Interface.Tool == LDE_INVALID) {
@@ -55,8 +57,9 @@ void Handle_None(int X, int Y) {
 		case 5:
 			if (Interface.Tool == T_Building) {
 				Interface.Rotation = 0;
-				Clear_Unconnected_Bridges(&Wires, true);
-				Clear_Unconnected_Bridges(&Pipes, false);
+				Clear_Unconnected_Bridges(&Wires);
+				Clear_Unconnected_Bridges(&Pipes);
+				Update_Grid();
 				Cache_Blueprint();
 			}
 			if (Interface.Tool > 0) {
