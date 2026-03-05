@@ -2,7 +2,7 @@
 
 bool Place_Algae_Bed(int X, int Y) {
     bool Placed = false;
-	if (evn_i(Interface.Rotation)) {
+	if (evn(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 2, 3)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 			Placed = true;
@@ -35,7 +35,7 @@ bool Place_Algae_Bed(int X, int Y) {
 				Interface.Rotation + Down) & 3);
 		}
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 42 : Interface.Rotation + 131;
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 		Data.Animation_Grid[X][Y][0] = 0;
 		Data.Animation_Grid[X][Y][1] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 200;

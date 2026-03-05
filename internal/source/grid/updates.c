@@ -4,7 +4,8 @@ void (*Cycle_Functions[LDE_MACHINES])(const int X, const int Y, const int Rotati
 	NULL, NULL, Cycle_Incinerator, Cycle_RTG, NULL, NULL, NULL, Cycle_Bio_Gen, NULL, Cycle_Distillery, Cycle_Algae_Bed,
 	NULL, NULL, NULL, NULL, NULL, Cycle_Electrolytic_Cell, Cycle_Fluid_Mixer, Cycle_Signal_Tower, NULL, NULL, NULL,
 	Cycle_Geo_Well, Cycle_Large_Pipe, Cycle_HX, NULL, NULL, NULL, Cycle_Money_Generator, Cycle_Fluid_Generator,
-	Cycle_Intersection, Cycle_Intersection, NULL, NULL, NULL, NULL, NULL, Cycle_Turbine_Input, NULL, NULL
+	Cycle_Intersection, Cycle_Intersection, NULL, NULL, NULL, NULL, NULL, Cycle_Turbine_Input, NULL, NULL,
+	Cycle_Power_Generator
 };
 
 void Update_Machines() {

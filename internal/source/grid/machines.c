@@ -1,26 +1,14 @@
 #include <grid.h>
 
 bool (*Placing_Functions[LDE_MACHINES])(int X, int Y) = {
-	Place_Reinforced_Pipe, Place_Ram_Pump,
-	Place_Incinerator, Place_RTG,
-	Place_Decoration, Place_Submarine_Dock,
-	Place_Filtration_Plant, Place_Bio_Generator,
-	Place_Spawning_Pool, Place_Distillery,
-	Place_Algae_Bed, Place_Command_Platform,
-	Place_Basic_Scrubber, Place_Spawning_Controller,
-	Place_Spawning_Output, Place_Spawning_Input,
-	Place_Electrolytic_Cell, Place_Fluid_Mixer,
-	Place_Signal_Tower, Place_Flowerpot,
-	Place_Ammunition_Shelf, Place_Cable_Node,
-	Place_Geo_Well, Place_Large_Pipe,
-	Place_Heat_Exchanger, Place_Petrified_Wood,
-	Place_Basalt_Tile, Place_Silicone_Carpet,
-	Place_Money_Generator, Place_Fluid_Generator,
-	Place_RL_Intersection, Place_RL_Intersection,
-	Place_Hazard_Strip, Place_Condenser_Input,
-	Place_Condenser_Transferor, Place_Condenser_Heatsink,
-	Place_Condenser_Output, Place_Turbine_Input,
-	Place_Turbine_Impulse, Place_Turbine_Output
+	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_RTG, Place_Decoration, Place_Submarine_Dock,
+	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
+	Place_Command_Platform, Place_Battery, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
+	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower, Place_Flowerpot, Place_Ammunition_Shelf,
+	Place_Cable_Node, Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger, Place_Petrified_Wood, Place_Basalt_Tile,
+	Place_Silicone_Carpet, Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
+	Place_Hazard_Strip, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
+	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
 Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
@@ -29,8 +17,7 @@ Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
 			if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Identifier && Data.Settings_Grid[X][Y][3] == Parent_X &&
 				Data.Settings_Grid[X][Y][4] == Parent_Y) {
-				Yield.X = X;
-				Yield.Y = Y;
+				Yield = (Point) { X, Y };
 				return Yield;
 			}
 		}
@@ -53,60 +40,60 @@ bool Match(int X, int Y, int Og_X, int Og_Y, int Direction, int Target, bool Is_
 	return (Unconnected) ? false : Yield;
 }
 
-#define PARAM(Direction) X, Y, Direction, Target, Is_Pipe
+#define Param(Direction) X, Y, Direction, Target, Is_Pipe
 int Modular_Detection(int X, int Y, int Target, bool Is_Pipe) {
 	if (Target == LDE_INVALID) {
 		Target = -2;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1,
-		PARAM(Down))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up)) && Match(X, Y - 1,
+		Param(Down))) {
 		return C_Omni;
 	}
-	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up)) && Match(X, Y - 1, Param(Down))) {
 		return C_LeftT;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y - 1, PARAM(Up)) && Match(X, Y + 1, PARAM(Down))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X, Y - 1, Param(Up)) && Match(X, Y + 1, Param(Down))) {
 		return C_RightT;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up))) {
 		return C_UpT;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left)) && Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y - 1, Param(Down))) {
 		return C_DownT;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X + 1, Y, PARAM(Left))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left))) {
 		return C_Horizontal;
 	}
-	if (Match(X, Y + 1, PARAM(Up)) && Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X, Y + 1, Param(Up)) && Match(X, Y - 1, Param(Down))) {
 		return C_Vertical;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X, Y - 1, Param(Down))) {
 		return C_LeftTop;
 	}
-	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X + 1, Y, Param(Left)) && Match(X, Y - 1, Param(Down))) {
 		return C_TopRight;
 	}
-	if (Match(X + 1, Y, PARAM(Left)) && Match(X, Y + 1, PARAM(Up))) {
+	if (Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up))) {
 		return C_RightBottom;
 	}
-	if (Match(X - 1, Y, PARAM(Right)) && Match(X, Y + 1, PARAM(Up))) {
+	if (Match(X - 1, Y, Param(Right)) && Match(X, Y + 1, Param(Up))) {
 		return C_BottomLeft;
 	}
-	if (Match(X - 1, Y, PARAM(Right))) {
+	if (Match(X - 1, Y, Param(Right))) {
 		return C_Left;
 	}
-	if (Match(X, Y - 1, PARAM(Down))) {
+	if (Match(X, Y - 1, Param(Down))) {
 		return C_Top;
 	}
-	if (Match(X + 1, Y, PARAM(Left))) {
+	if (Match(X + 1, Y, Param(Left))) {
 		return C_Right;
 	}
-	if (Match(X, Y + 1, PARAM(Up))) {
+	if (Match(X, Y + 1, Param(Up))) {
 		return C_Bottom;
 	}
 	return C_None;
 }
-#undef LDE_PARAM
+#undef Param
 
 int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
 	bool Self_Accounted, int Target1, int Target2);
@@ -244,11 +231,10 @@ void Build_Grid() {
 }
 
 void Remove_Machine(int X, int Y) {
-	Data.Funds += Metadata.Machine_Prices[Visual_To_ID(Data.Visual_Grid[X][Y])];
+	Data.Funds += (int)(floor(Metadata.Machines[Visual_To_ID(Data.Visual_Grid[X][Y])].Price * 0.75f));
 	int Width;
 	int Height;
-	ID_To_Size(Visual_To_ID(Data.Visual_Grid[X][Y]),
-		Visual_To_Rotation(Data.Visual_Grid[X][Y]), &Width, &Height);
+	ID_To_Size(Visual_To_ID(Data.Visual_Grid[X][Y]), Visual_To_Rotation(Data.Visual_Grid[X][Y]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
 		Data.Visual_Grid[X][Y] = 0;
 		Data.Wiring_Grid[X][Y] = LDE_INVALID;

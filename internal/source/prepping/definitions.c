@@ -15,7 +15,7 @@ lde_metadata Metadata = {
 		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_TERMINATOR },
 		{ RTG, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_TERMINATOR },
 		{ Flowerpot, Ammunition_Shelf, LDE_TERMINATOR },
-		{ Incinerator, Signal_Tower, Basic_Scrubber, LDE_TERMINATOR },
+		{ Incinerator, Signal_Tower, Battery, LDE_TERMINATOR },
 		{ Command_Platform, LDE_TERMINATOR }
 	},
 	.Subcategory_Positions = {
@@ -36,23 +36,15 @@ lde_metadata Metadata = {
 		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_TERMINATOR },
 		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_TERMINATOR }
 	},
-	.Machine_Taxes = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-	},
-	.Machine_Prices = {
-		4, 15, 20, 4, 1, 30, 40, 35, 12, 70, 50, 0, 40, 4, 3, 3, 20, 40, 10, 2,
-		4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4, 30, 20, 90, 30, 50, 46, 20
-	},
 	.Quirk_Positions = {
 		{ Reinforced_Pipe, Ram_Pump, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip, Spawning_Pool,
 			Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node, Large_Pipe, Petrified_Wood,
-			Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, LDE_TERMINATOR },
+			Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, Power_Generator, LDE_TERMINATOR },
 		{ Reinforced_Pipe, Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Large_Pipe,
 			Condenser_Input, Condenser_Heatsink, Condenser_Transferor, Turbine_Input, Turbine_Impulse, Turbine_Output,
 			LDE_TERMINATOR },
 		{ Signal_Tower, Spawning_Controller, Submarine_Dock, Heat_Exchanger, Money_Generator, Fluid_Generator,
-			Turbine_Input, LDE_TERMINATOR },
+			Turbine_Input, Power_Generator, LDE_TERMINATOR },
 		{ Reinforced_Pipe, Spawning_Pool, Ram_Pump, Large_Pipe, Money_Generator, Fluid_Generator, LDE_TERMINATOR }
 	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
@@ -121,6 +113,7 @@ lde_interface Interface = {
 		{ NULLSTRING },
 		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s",
 			NULLSTRING },
+		{ NULLSTRING },
 		{ NULLSTRING },
 		{ NULLSTRING },
 		{ NULLSTRING },

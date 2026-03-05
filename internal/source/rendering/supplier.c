@@ -40,6 +40,7 @@ void Free_Supplies() {
 	free_texture(Supplies.Subtutorial.Data);
 	free_texture(Supplies.Fluid_Production.Data);
 	free_texture(Supplies.Money_Production.Data);
+	free_texture(Supplies.Power_Production.Data);
 	free_texture(Supplies.Shop1.Data);
 	free_texture(Supplies.Shop2.Data);
 	free_texture(Supplies.Shop3.Data);

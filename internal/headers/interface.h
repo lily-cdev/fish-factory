@@ -22,3 +22,4 @@ void Handle_Money_Generator(int X, int Y);
 void Handle_Fluid_Generator(int X, int Y);
 void Handle_Catalog(int X, int Y);
 void Handle_Turbine(int X, int Y);
+void Handle_Power_Generator(int X, int Y);

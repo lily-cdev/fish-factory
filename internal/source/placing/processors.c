@@ -8,7 +8,7 @@ bool Place_Filtration_Plant(int X, int Y) {
 		Data.Plumbing_Grid[X + 1][Y] = Right;
 		Data.Plumbing_Grid[X + 1][Y + 1] = Right;
 		Data.Plumbing_Grid[X + 1][Y + 2] = Right;
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 		Data.Data_Grid[X][Y][Power_Cap] = 95;
 		Data.Data_Grid[X][Y][4] = 5;
 		Data.Data_Grid[X][Y][5] = 12;
@@ -39,7 +39,7 @@ bool Place_Distillery(int X, int Y) {
 		if (Interface.Rotation == 1 || Interface.Rotation == 2) {
 			Data.Data_Grid[X][Y][6] = 24;
 		}
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 		Data.Data_Grid[X][Y][Power_Cap] = 2500;
 		Data.Animation_Grid[X][Y][0] = 0;
 		Node Nodes = { };
@@ -65,7 +65,7 @@ bool Place_Distillery(int X, int Y) {
 
 bool Place_Electrolytic_Cell(int X, int Y) {
 	bool Placed = false;
-	if (evn_i(Interface.Rotation)) {
+	if (evn(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 3, 2)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 3, 2);
 			for (int C1 = 0; C1 < 3; C1++) {
@@ -109,7 +109,7 @@ bool Place_Electrolytic_Cell(int X, int Y) {
 	}
 	if (Placed) {
 		Data.Data_Grid[X][Y][Power_Cap] = 70000;
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 48 : Interface.Rotation + 95;
 	} else {
 		return false;
@@ -142,7 +142,7 @@ bool Place_Fluid_Mixer(int X, int Y) {
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 49 : Interface.Rotation + 98;
 		Data.Animation_Grid[X][Y][1] = 0;
 		Data.Data_Grid[X][Y][Power_Cap] = 800;
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 		Data.Data_Grid[X][Y][5] = 60;
 		Data.Data_Grid[X][Y][6] = 60;
 		free_c(Nodes.Data);

@@ -65,3 +65,15 @@ typedef struct {
 	int Length;
 	Rect2_Array* Data;
 } Rect3_Array;
+
+typedef struct {
+	SDL_Texture* Icon;
+	int Price;
+	int Tax;
+	int Depth;
+	union {
+		SDL_Texture* Texture1;
+		Texture_Array Texture2;
+		Texture2_Array Texture3;
+	};
+} Machine_Data;

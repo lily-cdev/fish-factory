@@ -14,6 +14,4 @@ robocopy "../modules/dll/win64/" "../build/" "SDL3.dll" /e /NFL /NDL /NJH /NJS /
 robocopy "../modules/dll/win64/" "../build/" "SDL3_ttf.dll" /e /NFL /NDL /NJH /NJS /nc /ns /np
 robocopy "../modules/neutral" "../build" /e /NFL /NDL /NJH /NJS /nc /ns /np
 
-Fish_Factory.exe
-
 echo build complete

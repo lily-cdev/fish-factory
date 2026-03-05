@@ -1,6 +1,6 @@
 #pragma once
 
-enum Machine {
+typedef enum {
 	Reinforced_Pipe,
 	Ram_Pump,
 	Incinerator,
@@ -13,7 +13,7 @@ enum Machine {
 	Distillery,
 	Algae_Bed,
 	Command_Platform,
-	Basic_Scrubber,
+	Battery,
 	Spawning_Controller,
 	Spawning_Output,
 	Spawning_Input,
@@ -40,8 +40,9 @@ enum Machine {
 	Condenser_Output,
 	Turbine_Input,
 	Turbine_Impulse,
-	Turbine_Output
-};
+	Turbine_Output,
+	Power_Generator
+} Machine_ID;
 
 enum Subcategories {
 	Modular_Spawning_Pool,
@@ -64,7 +65,8 @@ enum Prompts {
 	P_Money_Generator,
 	P_Fluid_Generator,
 	P_Catalog,
-	P_Turbine
+	P_Turbine,
+	P_Power_Generator
 };
 
 enum Effect {

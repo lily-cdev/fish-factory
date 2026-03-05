@@ -121,10 +121,13 @@ void Handle_Help(int X, int Y) {
 			case 3:
 				Interface.Item = Fluid_Generator + 1;
 				break;
+			case 4:
+				Interface.Item = Power_Generator + 1;
+				break;
 			default:
 				break;
 			}
-			if (Interface.UI_Selection > 1 && Interface.UI_Selection < 4) {
+			if (Interface.UI_Selection > 1 && Interface.UI_Selection < 5) {
 				Interface.Tool = T_Building;
 				Close_Prompt();
 				Cache_Blueprint();

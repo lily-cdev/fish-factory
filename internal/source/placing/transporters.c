@@ -33,7 +33,7 @@ bool Place_Submarine_Dock(int X, int Y) {
 
 bool Place_Cable_Node(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 63;
-	Data.Wiring_Grid[X][Y] = 2;
+	Data.Wiring_Grid[X][Y] = F_Either;
 	Data.Data_Grid[X][Y][Power_Cap] = 12000;
 	Data.Data_Grid[X][Y][5] = 20;
 	Data.Data_Grid[X][Y][6] = 20;

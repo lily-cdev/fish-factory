@@ -2,7 +2,7 @@
 
 bool Place_Ram_Pump(int X, int Y) {
 	Data.Visual_Grid[X][Y] = 17;
-	Data.Wiring_Grid[X][Y] = 0;
+	Data.Wiring_Grid[X][Y] = F_In;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 3;
 	Data.Data_Grid[X][Y][Power_Cap] = 10;
 	Data.Data_Grid[X][Y][5] = 20;

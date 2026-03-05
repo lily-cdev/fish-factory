@@ -38,3 +38,4 @@ Outputs condensed water.
 Intakes fresh steam and feeds it to the rest of the turbine.
 Expands the turbine, and generates torque at the cost of steam energy.
 The last item in a turbine. Outputs low-temperature steam.
+Creates a set amount of electricity per second.

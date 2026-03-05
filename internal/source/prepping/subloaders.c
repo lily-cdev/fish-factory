@@ -186,8 +186,8 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface;
 	load_bmp(Primary_Surface, Buffer);
-	Rectangle->w = (Primary_Surface->w / 6) * Settings.Screen_Size;
-	Rectangle->h = (Primary_Surface->h / 6) * Settings.Screen_Size;
+	Rectangle->w = (Primary_Surface->w / 6.0f) * Settings.Screen_Size;
+	Rectangle->h = (Primary_Surface->h / 6.0f) * Settings.Screen_Size;
 	SDL_Texture* Primary_Texture = Surface_To_Texture(Core.Renderer, Primary_Surface);
 	SDL_DestroySurface(Primary_Surface);
 	Yield->Data[0] = Primary_Texture;
@@ -199,7 +199,7 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
-void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, int* Rotationals) {
+void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
 	SDL_Texture* Carrying_Texture = IMG_To_Texture(Core.Renderer, Buffer);
@@ -293,7 +293,7 @@ void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 	free_texture(Carrying_Texture);
 }
 
-void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, int* Rotationals) {
+void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
 	Yield->Data = malloc(sizeof(Texture_Array) * 4);
 	Yield->Length = 4;
 	for (int C1 = 0; C1 < 4; C1++) {

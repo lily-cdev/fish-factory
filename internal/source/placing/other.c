@@ -52,7 +52,7 @@ bool Place_Command_Platform(int X, int Y) {
 	return true;
 }
 
-bool Place_Basic_Scrubber(int X, int Y) {
+bool Place_Battery(int X, int Y) {
 	if (Check_Clearance(X, Y, 2, 2)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 2);
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 44 : Interface.Rotation + 63;
@@ -88,5 +88,13 @@ bool Place_Fluid_Generator(int X, int Y) {
 	Data.Settings_Grid[X][Y][5] = 0;
 	Data.Plumbing_Grid[X][Y] = Any;
 	Data.Data_Grid[X][Y][Fluid_Cap] = 900;
+	return true;
+}
+
+bool Place_Power_Generator(int X, int Y) {
+	Data.Visual_Grid[X][Y] = 138;
+	Data.Data_Grid[X][Y][Power_Cap] = 24000;
+	Data.Settings_Grid[X][Y][3] = 0;
+	Data.Wiring_Grid[X][Y] = F_Out;
 	return true;
 }

@@ -16,8 +16,8 @@ void Push_Bridge(Bridges* List, Bridge Input) {
 
 void Pull_Bridge(Bridges* List, int Position) {
 	if (List->Length > 0) {
-		for (int C1 = 0; C1 < List->Length - Position - 1; C1++) {
-			List->Data[Position + C1] = List->Data[Position + C1 + 1];
+		for (int C1 = Position; C1 < List->Length - 1; C1++) {
+			List->Data[C1] = List->Data[C1 + 1];
 		}
 		List->Length--;
 	}

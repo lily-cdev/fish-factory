@@ -78,21 +78,21 @@ void Render_Wire_Nodes() {
 	}
 }
 
+#define Compare1(Victim) (Wires.Data[C1].Victim == Wires.Data[End].Victim)
+#define Compare2(A, B) (Wires.Data[C1].A == Wires.Data[End].B)
 void Connect_Wire(int X, int Y) {
-	if (Wires.Length > 0 && !Wires.Data[Wires.Length - 1].Filled) {
-		if (Data.Wiring_Grid[X][Y] == 0 || Data.Wiring_Grid[X][Y] == 2) {
-			Wires.Data[Wires.Length - 1].X2 = X;
-			Wires.Data[Wires.Length - 1].Y2 = Y;
-			Wires.Data[Wires.Length - 1].Filled = true;
+	int End = Wires.Length - 1;
+	if (Wires.Length > 0 && !Wires.Data[End].Filled) {
+		if (Data.Wiring_Grid[X][Y] == F_In || Data.Wiring_Grid[X][Y] == F_Either) {
+			Wires.Data[End].X2 = X;
+			Wires.Data[End].Y2 = Y;
+			Wires.Data[End].Filled = true;
 			Cache.Wire_State = Recache;
-			for (int C1 = 0; C1 <= Wires.Length; C1++) {
-				int End = Wires.Length - 1;
-				if ((Wires.Data[C1].X1 == Wires.Data[End].X1 && Wires.Data[C1].Y1 == Wires.Data[End].Y1 && Wires.Data[
-					C1].X2 == Wires.Data[End].X2 && Wires.Data[C1].Y2 == Wires.Data[End].Y2) || (Wires.Data[C1].X1 ==
-					Wires.Data[End].X2 && Wires.Data[C1].Y1 == Wires.Data[End].Y2 && Wires.Data[C1].X2 == Wires.Data[
-					End].X1 && Wires.Data[C1].Y2 == Wires.Data[End].Y1)) {
+			for (int C1 = 0; C1 < End; C1++) {
+				if ((Compare1(X1) && Compare1(Y1) && Compare1(X2) && Compare1(Y2)) || (Compare2(X1, X2) &&
+					Compare2(Y1, Y2) && Compare2(X2, X1) && Compare2(Y2, Y1))) {
+					Pull_Bridge(&Wires, End);
 					Pull_Bridge(&Wires, C1);
-					Pull_Bridge(&Wires, Wires.Length - 1);
 					break;
 				}
 			}
@@ -100,7 +100,7 @@ void Connect_Wire(int X, int Y) {
 			Pull_Bridge(&Wires, Wires.Length - 1);
 		}
 	} else {
-		if (Data.Wiring_Grid[X][Y] == 1 || Data.Wiring_Grid[X][Y] == 2) {
+		if (Data.Wiring_Grid[X][Y] == F_Out || Data.Wiring_Grid[X][Y] == F_Either) {
 			Bridge Wire = { };
 			Wire.X1 = X;
 			Wire.Y1 = Y;
@@ -108,6 +108,8 @@ void Connect_Wire(int X, int Y) {
 		}
 	}
 }
+#undef Compare1
+#undef Compare2
 
 void Place_Wire() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
@@ -126,62 +128,15 @@ void Place_Wire() {
 	}
 }
 
-void Distribute_Power(Bridge** Grouped_List, int Grouped, int* Sizes) {
-	for (int C1 = 0; C1 < Grouped; C1++) {
-		float Remaining_Power = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power];
-		float Used_Power = 0;
-		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
-			float Minimum = min(Remaining_Power, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][
-				Power_Cap] - Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power]);
-			Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] = Data.Data_Grid[Grouped_List[
-				C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Power] + Minimum;
-			Remaining_Power = Remaining_Power - Minimum;
-			Used_Power = Used_Power + Minimum;
-		}
-		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Power] = Data.Data_Grid[Grouped_List[C1][
-			0].X1][Grouped_List[C1][0].Y1][Stored_Power] - Used_Power;
-	}
-}
-
 void Update_Power() {
-	Bridge** Grouped_List = calloc(Wires.Length, sizeof(Bridge*));
-	int* Sizes = calloc(Wires.Length, sizeof(int));
-	int Grouped = 0;
-    if (Wires.Length > 0) {
-		for (int C1 = 0; C1 < Wires.Length; C1++) {
-			if (Wires.Data[C1].Filled) {
-				Bridge Wire = Wires.Data[C1];
-				if (Grouped > 0) {
-					bool Uncategorized = true;
-					for (int C2 = 0; C2 < Grouped; C2++) {
-						if (Wire.X1 == Grouped_List[C2][0].X1 &&
-							Wire.Y1 == Grouped_List[C2][0].Y1) {
-							Grouped_List[C2] = realloc(Grouped_List[C2], sizeof(Wire) * (C2 + 1));
-							Grouped_List[C2][C2] = Wire;
-							Sizes[C2] = C2 + 1;
-							Uncategorized = false;
-							break;
-						}
-					}
-					if (Uncategorized) {
-						Grouped_List[Grouped] = malloc(sizeof(Wire));
-						Grouped_List[Grouped][0] = Wire;
-						Sizes[Grouped] = 1;
-						Grouped++;
-					}
-				} else {
-					Grouped_List[Grouped] = malloc(sizeof(Wire));
-					Grouped_List[Grouped][0] = Wire;
-					Sizes[Grouped] = 1;
-					Grouped++;
-				}
-			}
+	for (int C1 = 0; C1 < Wires.Length; C1++) {
+		Bridge Wire = Wires.Data[C1];
+		if (Wire.Filled) {
+			float Volume = Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Fluids];
+			Volume = min(Volume, Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Fluids] - Data.Data_Grid[Wire.X2][Wire.Y2][
+				Fluid_Cap]);
+			Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Fluids] -= Volume;
+			Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Fluids] += Volume;
 		}
-		Distribute_Power(Grouped_List, Grouped, Sizes);
 	}
-	for (int C1 = 0; C1 < Grouped; C1++) {
-		free_c(Grouped_List[C1]);
-	}
-	free_c(Grouped_List);
-	free_c(Sizes);
 }

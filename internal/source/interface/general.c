@@ -9,7 +9,7 @@ void Update_Cursor() {
 	(Interface.Tool == T_None || Interface.Tool == T_Building) ? SDL_ShowCursor() : SDL_HideCursor();
 }
 
-void (*Prompt_Functions[12])(int X, int Y) = {
+void (*Prompt_Functions[13])(int X, int Y) = {
     Handle_None,
     Handle_Help,
     Handle_Shop,
@@ -21,7 +21,8 @@ void (*Prompt_Functions[12])(int X, int Y) = {
     Handle_Money_Generator,
     Handle_Fluid_Generator,
     Handle_Catalog,
-    Handle_Turbine
+    Handle_Turbine,
+	Handle_Power_Generator
 };
 
 void Process_Inputs() {
@@ -107,12 +108,12 @@ void Process_Inputs() {
 			break;
 		case SDL_EVENT_KEY_UP:
 			if (Interface.UI_Tab == 0 && !Interface.Locked) {
-				if (Application_Event.key.key == Keybinds.Keybind_List[0] ||
-					Application_Event.key.key == Keybinds.Keybind_List[1]) {
+				if (Application_Event.key.key == Keybinds.Keybind_List[0] || Application_Event.key.key ==
+					Keybinds.Keybind_List[1]) {
 					Interface.UD_Input = LDE_INVALID;
 				}
-				if (Application_Event.key.key == Keybinds.Keybind_List[2] ||
-					Application_Event.key.key == Keybinds.Keybind_List[3]) {
+				if (Application_Event.key.key == Keybinds.Keybind_List[2] || Application_Event.key.key ==
+					Keybinds.Keybind_List[3]) {
 					Interface.LR_Input = LDE_INVALID;
 				}
 				if (Application_Event.key.key == Keybinds.Keybind_List[12] && Interface.Sprinting) {
@@ -201,7 +202,7 @@ void Process_Inputs() {
 						Play_Sound(Click, false);
 					}
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
-					if (Interface.Prompt_Identifier == LDE_INVALID && Interface.Tool == T_Building) {
+					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };
 						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);

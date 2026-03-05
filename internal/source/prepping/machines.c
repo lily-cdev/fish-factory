@@ -18,7 +18,7 @@ int Visual_To_ID(const int Identifier) {
 	} else if (Identifier > 62 && Identifier < 64) {
 		return Identifier - 42;
 	} else if (Identifier > 63 && Identifier < 67) {
-		return Basic_Scrubber;
+		return Battery;
 	} else if (Identifier > 66 && Identifier < 71) {
 		return Geo_Well;
 	} else if (Identifier > 70 && Identifier < 87) {
@@ -53,6 +53,8 @@ int Visual_To_ID(const int Identifier) {
 		return Algae_Bed;
 	} else if (Identifier > 134 && Identifier < 138) {
 		return RTG;
+	} else if (Identifier == 138) {
+		return Power_Generator;
 	}
 	return LDE_INVALID;
 }
@@ -103,21 +105,21 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
 	int Y = 1;
 	switch (ID) {
 	case Ammunition_Shelf:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 2;
 		} else {
 			Y = 2;
 		}
 		break;
 	case Distillery:
-	case Basic_Scrubber:
+	case Battery:
 	case Turbine_Output:
 		X = 2;
 		Y = 2;
 		break;
 	case Filtration_Plant:
 	case Algae_Bed:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 2;
 			Y = 3;
 		} else {
@@ -126,7 +128,7 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
 		}
 		break;
 	case Electrolytic_Cell:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 3;
 			Y = 2;
 		} else {
@@ -147,7 +149,7 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
 		Y = 4;
 		break;
 	case Command_Platform:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 8;
 			Y = 6;
 		} else {
@@ -158,7 +160,7 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
 	case Geo_Well:
 	case Turbine_Input:
 	case Turbine_Impulse:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 2;
 			Y = 3;
 		} else {
@@ -167,7 +169,7 @@ void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
 		}
 		break;
 	case Heat_Exchanger:
-		if (evn_i(Rotation)) {
+		if (evn(Rotation)) {
 			X = 4;
 			Y = 3;
 		} else {

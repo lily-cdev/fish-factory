@@ -68,10 +68,10 @@ void Render_Tile_Prompts() {
 						SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Subcore, 0,
 							Colors.Cherry_Blossom);
 						SDL_FRect Carrying_Rectangle = {
-							(float)(Settings.Screen_Size * 320) - (Carrying_Surface->w * 0.5),
+							(Settings.Screen_Size * 320.0f) - (Carrying_Surface->w * 0.5),
 							Settings.Screen_Size * 320.0f,
-							(float)(Carrying_Surface->w),
-							(float)(Carrying_Surface->h)
+							(float)Carrying_Surface->w,
+							(float)Carrying_Surface->h
 						};
 						SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 						Render_Box((Carrying_Rectangle.x / Settings.Screen_Size) - 4,
@@ -90,7 +90,8 @@ void Render_Tile_Prompts() {
 }
 
 void Render_Interaction() {
-	int Indexes[7] = { 4, 3, 5, 6, 7, 8, 10 };
+	int Indexes[8] = { P_Transmitter, P_Spawning_Pool, P_Dock, P_Exchanger, P_Money_Generator, P_Fluid_Generator,
+		P_Turbine, P_Power_Generator };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
@@ -204,15 +205,15 @@ void Cache_Blueprint() {
 		}
 	}
 	SDL_FPoint Centerpoint = { Max * 0.5f, Max * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machine_Sprites[Interface.Item - 1], NULL, NULL, Rotation, &Centerpoint,
+	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Interface.Item - 1].Icon, NULL, NULL, Rotation, &Centerpoint,
 		SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = (int)((Metadata.Machine_Prices[Interface.Item - 1] * 1.1)) + Metadata.Machine_Taxes[
-		Interface.Item - 1] + 1;
+	Interface.Queried_Price = (int)((Metadata.Machines[Interface.Item - 1].Price * 1.1f)) + Metadata.Machines[
+		Interface.Item - 1].Tax + 1;
 }
 
 void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
@@ -228,8 +229,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		Active = true;
 		int Separators[512];
 		for (int C1 = 0; C1 < Nodes; C1++) {
-			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + X)) *
-				Settings.Screen_Size;
+			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + X)) * Settings.Screen_Size;
 		}
 		Separators[Nodes] = LDE_TERMINATOR;
 		for (int C1 = 0; C1 < Nodes; C1++) {
@@ -253,7 +253,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 	}
 	SDL_FRect Node_Rectangle = {
 		(float)((((float)(*Position) / Nodes) * Width) + X - 6) * Settings.Screen_Size,
-		(float)(Y - 6) * Settings.Screen_Size,
+		(float)(Y - 6.0f) * Settings.Screen_Size,
 		Settings.Screen_Size * 12.0f,
 		Settings.Screen_Size * 12.0f
 	};
@@ -267,9 +267,9 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position], 0, Primary);
 		SDL_FRect Caption_Rectangle = {
 			(((((float)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
-			(float)(Y + 10) * Settings.Screen_Size,
-			(float)(Caption_Surface->w),
-			(float)(Caption_Surface->h)
+			(float)(Y + 10.0f) * Settings.Screen_Size,
+			(float)Caption_Surface->w,
+			(float)Caption_Surface->h
 		};
 		SDL_Texture* Caption_Texture = Surface_To_Texture(Core.Renderer, Caption_Surface);
 		Render_Texture(Caption_Texture, &Caption_Rectangle);

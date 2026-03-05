@@ -15,4 +15,3 @@ SDL_Texture* New_Texture(SDL_Renderer* Renderer, int Width, int Height);
 SDL_Texture* Surface_To_Texture(SDL_Renderer* Renderer, SDL_Surface* Surface);
 SDL_Texture* IMG_To_Texture(SDL_Renderer* Renderer, const char* Path);
 int sgn(float Input);
-bool evn_i(int Input);

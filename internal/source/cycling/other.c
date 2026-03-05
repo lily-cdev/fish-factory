@@ -22,3 +22,9 @@ void Cycle_Fluid_Generator(const int X, const int Y, const int Rotation) {
 	Data.Data_Grid[X][Y][Stored_Fluids] = min(Data.Settings_Grid[X][Y][5] + Data.Data_Grid[X][Y][Stored_Fluids],
 		Data.Data_Grid[X][Y][Fluid_Cap]);
 }
+
+void Cycle_Power_Generator(const int X, const int Y, const int Rotation) {
+	//todo (settings 3)
+	Data.Data_Grid[X][Y][Stored_Power] = min(Data.Data_Grid[X][Y][Power_Cap], Data.Data_Grid[X][Y][Stored_Power] + (float)(
+		Data.Settings_Grid[X][Y][3]));
+}

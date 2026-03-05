@@ -1,25 +1,25 @@
 #include <interface.h>
 
 void Handle_Money_Generator(int X, int Y) {
-    if (Interface.Engagement == 0) {
-        switch (Interface.UI_Selection) {
-        case 2:
-            Interface.Engagement = 1;
-            break;
-        case 3:
-            Data.Settings_Grid[X][Y][3] = Interface.Slider_Positions[8];
-            Data.Settings_Grid[X][Y][4] = sgn(Interface.Slider_Positions[8] - 5) * pow(1000, abs(
+	if (Interface.Engagement == 0) {
+		switch (Interface.UI_Selection) {
+		case 2:
+			Interface.Engagement = 1;
+			break;
+		case 3:
+			Data.Settings_Grid[X][Y][3] = Interface.Slider_Positions[8];
+			Data.Settings_Grid[X][Y][4] = sgn(Interface.Slider_Positions[8] - 5) * pow(1000, abs(
 				Interface.Slider_Positions[8] - 5) - 1);
-            break;
-        case 4:
-            Interface.Slider_Positions[8] = Data.Settings_Grid[X][Y][3];
-            break;
-        default:
-            break;
-        }
-    } else {
-        Interface.Engagement = 0;
-    }
+			break;
+		case 4:
+			Interface.Slider_Positions[8] = Data.Settings_Grid[X][Y][3];
+			break;
+		default:
+			break;
+		}
+	} else {
+		Interface.Engagement = 0;
+	}
 }
 
 void Handle_Fluid_Generator(int X, int Y) {
@@ -39,6 +39,27 @@ void Handle_Fluid_Generator(int X, int Y) {
 					break;
 				}
 			}
+		}
+	} else {
+		Interface.Engagement = 0;
+	}
+}
+
+void Handle_Power_Generator(int X, int Y) {
+	if (Interface.Engagement == 0) {
+		switch (Interface.UI_Selection) {
+		case 2:
+			Interface.Engagement = 1;
+			break;
+		case 3:
+			Data.Settings_Grid[X][Y][3] = (Interface.Slider_Positions[14] == 0) ? 0 : pow(10,
+				Interface.Slider_Positions[14] - 1);
+			break;
+		case 4:
+			Interface.Slider_Positions[14] = Data.Settings_Grid[X][Y][3];
+			break;
+		default:
+			break;
 		}
 	} else {
 		Interface.Engagement = 0;

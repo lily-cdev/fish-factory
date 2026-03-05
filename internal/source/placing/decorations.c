@@ -12,7 +12,7 @@ bool Place_Flowerpot(int X, int Y) {
 
 bool Place_Ammunition_Shelf(int X, int Y) {
     bool Placed = false;
-	if (evn_i(Interface.Rotation)) {
+	if (evn(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 2, 1)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 1);
 			Placed = true;

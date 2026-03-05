@@ -32,7 +32,7 @@ void Render_Shop(int X, int Y) {
 		Render_Box(((int)Icon_Rectangle.x / Settings.Screen_Size) - 4, (Icon_Rectangle.y / Settings.Screen_Size) - 4,
 			(Icon_Rectangle.w / Settings.Screen_Size) + 8, (Icon_Rectangle.h / Settings.Screen_Size) + 8,
 			Colors.Light_Grey, Colors.Dark_Grey);
-		Render_Texture(Metadata.Machine_Sprites[Interface.Item - 1], &Icon_Rectangle);
+		Render_Texture(Metadata.Machines[Interface.Item - 1].Icon, &Icon_Rectangle);
 		int Quirk_Stack[LDE_QUIRKS + 1];
 		int Index = 0;
 		for (int C1 = 0; C1 < LDE_QUIRKS; C1++) {
@@ -97,11 +97,11 @@ void Render_Shop(int X, int Y) {
 		Render_Box(444, 10, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		Render_Texture(Textures.Price_Header, &Rects.Price_Header);
 		char Buffer[64];
-		snprintf(Buffer, sizeof(Buffer), "base: %iLA", Metadata.Machine_Prices[Interface.Item - 1]);
+		snprintf(Buffer, sizeof(Buffer), "base: %iLA", Metadata.Machines[Interface.Item - 1].Price);
 		Process_Supply(&Supplies.Shop1, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 30);
-		snprintf(Buffer, sizeof(Buffer), "tax: %iLA", (int)(Metadata.Machine_Prices[Interface.Item - 1] * 0.1));
+		snprintf(Buffer, sizeof(Buffer), "tax: %iLA", (int)(Metadata.Machines[Interface.Item - 1].Price * 0.1f));
 		Process_Supply(&Supplies.Shop2, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 50);
-		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machine_Taxes[Interface.Item - 1]);
+		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machines[Interface.Item - 1].Tax);
 		Process_Supply(&Supplies.Shop3, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 70);
 		snprintf(Buffer, sizeof(Buffer), "processing fee: %iLA", 1);//tmp
 		Process_Supply(&Supplies.Shop4, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 456, 90);

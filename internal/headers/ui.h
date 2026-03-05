@@ -52,4 +52,5 @@ void Render_H_Exchanger(int X, int Y);
 void Render_M_Generator(int X, int Y);
 void Render_F_Generator(int X, int Y);
 void Render_MT_Input(int X, int Y);
+void Render_P_Generator(int X, int Y);
 void Render_Hotbar();

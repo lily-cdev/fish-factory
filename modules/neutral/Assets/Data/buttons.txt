@@ -47,3 +47,4 @@ volume
 fullscreen
 toggles
 keybinds
+power generator

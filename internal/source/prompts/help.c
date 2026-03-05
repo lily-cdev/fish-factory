@@ -27,11 +27,14 @@ void Render_Help(int X, int Y) {
 		if (Temporary.Tutorial_Step == LDE_INVALID) {
 			if (Data.CMD_Placed) {
 				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
-					Rects.Tutorial_Hitbox.Data = Rects.Tutorials.Data[C1].Data;
-					Rects.Tutorial_Hitbox.Data[0].y -= LDE_TILESIZE * Settings.Screen_Size;
-					Rects.Tutorial_Hitbox.Data[1].y -= LDE_TILESIZE * Settings.Screen_Size;
-					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorial_Hitbox, C1 + 3,
+					for (int C2 = 0; C2 < 2; C2++) {
+						Rects.Tutorials.Data[C1].Data[C2].y -= LDE_TILESIZE * Settings.Screen_Size;
+					}
+					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorials.Data[C1], C1 + 3,
 						Colors.Cherry_Blossom);
+					for (int C2 = 0; C2 < 2; C2++) {
+						Rects.Tutorials.Data[C1].Data[C2].y += LDE_TILESIZE * Settings.Screen_Size;
+					}
 				}
 			} else {
 				Render_Texture(Textures.CMD_Warning2, &Rects.CMD_Warning2);
@@ -47,7 +50,7 @@ void Render_Help(int X, int Y) {
 				"| |You can use them for troubleshooting, bug-hunting, or just playing around.";
 			Render_Rich_Text(Fonts.Subtext_Font, Flavor, 20, 60, false, false);
 		}
-		for (int C1 = 0; C1 < 2; C1++) {
+		for (int C1 = 0; C1 < 3; C1++) {
 			Render_Button(&Textures.Cheats.Data[C1], &Rects.Cheats.Data[C1], C1 + 2, Colors.Cherry_Blossom);
 		}
 		break;

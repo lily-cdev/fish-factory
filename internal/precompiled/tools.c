@@ -34,7 +34,3 @@ int sgn(float Input) {
 	}
 	return 0;
 }
-
-bool evn_i(int Input) {
-	return (int)(Input & 1) == 0;
-}

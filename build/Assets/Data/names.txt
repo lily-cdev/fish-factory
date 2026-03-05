@@ -10,7 +10,7 @@ pool
 distillery
 algae growth bed
 command platform
-[NF] basic scrubber
+battery
 controller
 output
 input
@@ -38,3 +38,4 @@ output
 input
 impulse block
 output
+power generator

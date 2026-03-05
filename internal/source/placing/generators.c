@@ -5,7 +5,7 @@ bool Place_RTG(int X, int Y) {
 	Data.Data_Grid[X][Y][Power_Cap] = 5;
 	Data.Data_Grid[X][Y][5] = 20;
 	Data.Data_Grid[X][Y][6] = 20;
-	Data.Wiring_Grid[X][Y] = 1;
+	Data.Wiring_Grid[X][Y] = F_Out;
 	return true;
 }
 
@@ -14,7 +14,7 @@ bool Place_Bio_Generator(int X, int Y) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 3);
 		Data.Visual_Grid[X][Y] = (Interface.Rotation == 0) ? 23 : Interface.Rotation + 101;
 		Data.Animation_Grid[X][Y][1] = 45;
-		Data.Wiring_Grid[X][Y] = 1;
+		Data.Wiring_Grid[X][Y] = F_Out;
 		Data.Data_Grid[X][Y][Power_Cap] = 9500;
 		Data.Data_Grid[X][Y][5] = 60;
 		Data.Data_Grid[X][Y][6] = 60;
@@ -34,7 +34,7 @@ bool Place_Bio_Generator(int X, int Y) {
 
 bool Place_Geo_Well(int X, int Y) {
 	bool Placed = false;
-	if (evn_i(Interface.Rotation)) {
+	if (evn(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 2, 3)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 			Placed = true;
@@ -72,7 +72,7 @@ bool Place_Geo_Well(int X, int Y) {
 	if (Placed) {
 		Data.Visual_Grid[X][Y] = Interface.Rotation + 67;
 		Data.Data_Grid[X][Y][Power_Cap] = 3000;
-		Data.Wiring_Grid[X][Y] = 0;
+		Data.Wiring_Grid[X][Y] = F_In;
 	} else {
 		return false;
 	}
@@ -81,7 +81,7 @@ bool Place_Geo_Well(int X, int Y) {
 
 bool Place_Heat_Exchanger(int X, int Y) {
 	bool Placed = false;
-	if (evn_i(Interface.Rotation)) {
+	if (evn(Interface.Rotation)) {
 		if (Check_Clearance(X, Y, 4, 3)) {
 			Fill_Clearance(LDE_INVALID, X, Y, 4, 3);
 			Placed = true;
@@ -127,10 +127,10 @@ bool Place_Heat_Exchanger(int X, int Y) {
 
 bool Place_Turbine_Input(int X, int Y) {
 	bool Placed = false;
-	if (Check_Clearance(X, Y, 2, 3) && evn_i(Interface.Rotation)) {
+	if (Check_Clearance(X, Y, 2, 3) && evn(Interface.Rotation)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 		Placed = true;
-	} else if (Check_Clearance(X, Y, 3, 2) && !evn_i(Interface.Rotation)) {
+	} else if (Check_Clearance(X, Y, 3, 2) && !evn(Interface.Rotation)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 2);
 		Placed = true;
 	}
@@ -152,10 +152,10 @@ bool Place_Turbine_Input(int X, int Y) {
 
 bool Place_Turbine_Impulse(int X, int Y) {
 	bool Placed = false;
-	if (Check_Clearance(X, Y, 2, 3) && evn_i(Interface.Rotation)) {
+	if (Check_Clearance(X, Y, 2, 3) && evn(Interface.Rotation)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 2, 3);
 		Placed = true;
-	} else if (Check_Clearance(X, Y, 3, 2) && !evn_i(Interface.Rotation)) {
+	} else if (Check_Clearance(X, Y, 3, 2) && !evn(Interface.Rotation)) {
 		Fill_Clearance(LDE_INVALID, X, Y, 3, 2);
 		Placed = true;
 	}

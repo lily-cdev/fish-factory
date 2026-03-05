@@ -64,6 +64,19 @@ void Cleanup_Assets() {
 	TTF_CloseFont(Fonts.Subtext_Font);
 	TTF_CloseFont(Fonts.Microtext_Font);
 	TTF_CloseFont(Fonts.Terminal_Font);
+	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		switch (Metadata.Machines[C1].Depth) {
+		case 1:
+			free_texture(Metadata.Machines[C1].Texture1);
+			break;
+		case 2:
+			Clear_Texture_Array(&Metadata.Machines[C1].Texture2);
+			break;
+		case 3:
+			Clear_Texture2_Array(&Metadata.Machines[C1].Texture3);
+			break;
+		}
+	}
 	free_c(Cache.FPS_Cache);
 	free_texture(Textures.Logo1);
 	free_texture(Textures.Logo2);
@@ -85,7 +98,6 @@ void Cleanup_Assets() {
 	Clear_Rect3_Array(&Rects.Subcontents);
 	Clear_Texture2_Array(&Textures.Tutorials);
 	Clear_Rect2_Array(&Rects.Tutorials);
-	free_c(Rects.Tutorial_Hitbox.Data);
 	Clear_Texture2_Array(&Textures.Cheats);
 	Clear_Rect2_Array(&Rects.Cheats);
 	Clear_Texture2_Array(&Textures.New);
@@ -122,9 +134,6 @@ void Cleanup_Assets() {
 	free_c(Rects.Settings_Label.Data);
 	Clear_Texture_Array(&Textures.Save_Settings);
 	free_c(Rects.Save_Settings.Data);
-	Clear_Texture_Array(&Textures.R_Pipe);
-	Clear_Texture_Array(&Textures.L_Pipe);
-	Clear_Texture_Array(&Textures.MS_Pool);
 	Clear_Texture_Array(&Textures.Arrow);
 	Clear_Texture_Array(&Textures.S_Dock);
 	Clear_Texture_Array(&Textures.Tunnel);
@@ -165,47 +174,14 @@ void Cleanup_Assets() {
 	free_texture(Textures.Floor_Texture);
 	free_texture(Textures.Frame_Texture);
 	free_texture(Textures.Tile_Texture);
-	Clear_Texture_Array(&Textures.R_Pump);
-	Clear_Texture2_Array(&Textures.Incinerator);
-	Clear_Texture_Array(&Textures.RTG);
-	Clear_Texture_Array(&Textures.F_Plant);
-	Clear_Texture2_Array(&Textures.B_Generator);
-	Clear_Texture2_Array(&Textures.Distillery);
-	Clear_Texture2_Array(&Textures.G_Bed);
-	Clear_Texture_Array(&Textures.C_Platform);
-	Clear_Texture_Array(&Textures.B_Scrubber);
-	free_texture(Textures.MS_Controller);
-	free_texture(Textures.MS_Output);
-	free_texture(Textures.MS_Input);
-	Clear_Texture_Array(&Textures.E_Plant);
-	Clear_Texture2_Array(&Textures.F_Mixer);
-	Clear_Texture_Array(&Textures.T_Tower);
-	free_texture(Textures.Flowerpot);
-	Clear_Texture_Array(&Textures.A_Shelf);
 	Clear_Texture_Array(&Textures.Submarine);
-	free_texture(Textures.C_Node);
-	Clear_Texture_Array(&Textures.G_Well);
-	Clear_Texture_Array(&Textures.H_Exchanger);
-	free_texture(Textures.P_Wood);
-	free_texture(Textures.B_Tile);
-	free_texture(Textures.S_Carpet);
-	free_texture(Textures.H_Strip);
-	free_texture(Textures.M_Generator);
-	free_texture(Textures.F_Generator);
-	Clear_Texture_Array(&Textures.R_Intersection);
-	Clear_Texture_Array(&Textures.L_Intersection);
-	Clear_Texture_Array(&Textures.SC_Input);
-	Clear_Texture_Array(&Textures.SCH_Sink);
-	Clear_Texture_Array(&Textures.SC_Transferor);
-	Clear_Texture_Array(&Textures.SC_Output);
-	Clear_Texture_Array(&Textures.ST_Input);
-	Clear_Texture2_Array(&Textures.STIT_Block);
-	Clear_Texture2_Array(&Textures.ST_Output);
 	free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);
 	Clear_Rect2_Array(&Rects.Confirmation);
 	Clear_Texture_Array(&Textures.Pyramid);
 	free_texture(Textures.Mesh);
+	Clear_Texture_Array(&Textures.Items);
+	free_texture(Textures.None_Item);
 	Clear_Texture_Array(&Textures.Fire);
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);

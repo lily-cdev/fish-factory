@@ -54,7 +54,7 @@ void Render_Catalog(int X, int Y) {
 				Machine_Rectangle.x = Machine_Rectangle.x +	(18.0f *
 					Settings.Screen_Size) - (Machine_Rectangle.w * 0.5);
 			}
-			Render_Texture(Metadata.Machine_Sprites[C1], &Machine_Rectangle);
+			Render_Texture(Metadata.Machines[C1].Icon, &Machine_Rectangle);
 			Index++;
 		}
 	} else {

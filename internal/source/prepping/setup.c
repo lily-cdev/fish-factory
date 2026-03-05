@@ -3,13 +3,7 @@
 uint32_t Lookup_Table[32];
 SDL_Surface* None_Surfaces[10];
 
-#ifdef __unix__
-#include <pthread.h>
-void* Step_Noise(void* C1) {
-#elif defined(_WIN32)
-#include <Windows.h>
-unsigned long WINAPI Step_Noise(void* C1) {
-#endif
+int Step_Noise(void* C1) {
 	int Index = (int)(intptr_t)C1;
 	SDL_Surface* Noise_Surface = SDL_CreateSurface(Settings.Screen_Size * 1200, Settings.Screen_Size * 1200,
 		SDL_PIXELFORMAT_RGBA8888);
@@ -21,13 +15,8 @@ unsigned long WINAPI Step_Noise(void* C1) {
 	}
 	SDL_UnlockSurface(Noise_Surface);
 	None_Surfaces[Index] = Noise_Surface;
-#ifdef __unix__
-	return NULL;
-}
-#elif defined(_WIN32)
 	return 0;
 }
-#endif
 
 void Preclear_Temporaries() {
 	memset(Data.Animation_Grid, LDE_INVALID, sizeof(Data.Animation_Grid));
@@ -84,24 +73,13 @@ void Preload_Noise() {
 			);
 		}
 	}
-	#ifdef __unix__
-		pthread_t Threads[10];
-		for (int C1 = 0; C1 < 10; C1++) {
-			pthread_create(&Threads[C1], NULL, Step_Noise, (void*)(intptr_t)C1);
-		}
-		for (int C1 = 0; C1 < 10; C1++) {
-			pthread_join(Threads[C1], NULL);
-		}
-	#elif defined(_WIN32)
-		HANDLE Threads[10];
-		for (int C1 = 0; C1 < 10; C1++) {
-			Threads[C1] = CreateThread(NULL, 0, Step_Noise, (void*)(intptr_t)C1, 0, NULL);
-		}
-		WaitForMultipleObjects(10, Threads, true, INFINITE);
-		for (int C1 = 0; C1 < 10; C1++) {
-			CloseHandle(Threads[C1]);
-		}
-	#endif
+	thrd_t Threads[10];
+	for (int C1 = 0; C1 < 10; C1++) {
+		thrd_create(&Threads[C1], Step_Noise, (void*)(intptr_t)C1);
+	}
+	for (int C1 = 0; C1 < 10; C1++) {
+		thrd_join(Threads[C1], NULL);
+	}
 	for (int C1 = 0; C1 < 10; C1++) {
 		Textures.None.Data[C1] = Surface_To_Texture(Core.Renderer, None_Surfaces[C1]);
 		SDL_SetTextureScaleMode(Textures.None.Data[C1], SDL_SCALEMODE_NEAREST);

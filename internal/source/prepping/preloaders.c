@@ -51,72 +51,126 @@ void Preload_Fonts() {
 	Load_Font("Oxygen/Oxygen_Regular", &Fonts.Terminal_Font, 12);
 }
 
-typedef struct {
-	SDL_Texture* Textures[LDE_MACHINES];
-	SDL_FRect Rects[LDE_MACHINES];
-} Ctr;
-
 void Preload_Machines() {
-	int No_Rotationals[1] = { LDE_TERMINATOR };
+	const int Tax_Carrier[LDE_MACHINES] = {
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 0
+	};
+	const int Price_Carrier[LDE_MACHINES] = {
+		4, 15, 20, 4, 1, 30, 40, 35, 12, 70, 50, 0, 40, 4, 3, 3, 20, 40, 10, 2, 4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4,
+		30, 20, 90, 30, 50, 46, 20, 0
+	};
+	const int Depth_Carrier[LDE_MACHINES] = {
+		2, 2, 3, 2, 1, 2, 2, 3, 2, 3, 3, 2, 2, 1, 1, 1, 2, 3, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2,
+		3, 3, 1
+	};
+	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		Metadata.Machines[C1].Price = Price_Carrier[C1];
+		Metadata.Machines[C1].Tax = Tax_Carrier[C1];
+		Metadata.Machines[C1].Depth = Depth_Carrier[C1];
+	}
+	const int No_Rotationals[1] = { LDE_TERMINATOR };
+	const int RP_Rotationals[2] = { 2, LDE_TERMINATOR };
+	Load_Modular("Machines/R_Pipe", &Metadata.Machines[Reinforced_Pipe].Texture2, 6);
+	Load_Animated("Machines/R_Pump", &Metadata.Machines[Ram_Pump].Texture2, 1, false, RP_Rotationals);
+	Load_Animated_Rotational("Machines/Incinerator", &Metadata.Machines[Incinerator].Texture3, 1, true, No_Rotationals);
+	Load_Rotational("Machines/RTG", &Metadata.Machines[RTG].Texture2);
+	Metadata.Machines[Decoration].Texture1 = Preload_Texture("Tiles/Tile");
+	Load_Rotational("Machines/S_Dock", &Metadata.Machines[Submarine_Dock].Texture2);
+	Load_Animated("Machines/F_Plant", &Metadata.Machines[Filtration_Plant].Texture2, 3, true, No_Rotationals);
+	Load_Animated_Rotational("Machines/B_Generator", &Metadata.Machines[Bio_Generator].Texture3, 3, true, No_Rotationals);
+	Load_Modular("Machines/MSP", &Metadata.Machines[Spawning_Pool].Texture2, 6);
+	Load_Animated_Rotational("Machines/Distillery", &Metadata.Machines[Distillery].Texture3, 2, false, No_Rotationals);
+	Load_Animated_Rotational("Machines/G_Bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true, No_Rotationals);
+	Load_Rotational("Machines/C_Platform", &Metadata.Machines[Command_Platform].Texture2);
+	Load_Rotational("Machines/B_Scrubber", &Metadata.Machines[Battery].Texture2);
+	Metadata.Machines[Spawning_Controller].Texture1 = Preload_Texture("Machines/MS_Controller");
+	Metadata.Machines[Spawning_Output].Texture1 = Preload_Texture("Machines/MS_Output");
+	Metadata.Machines[Spawning_Input].Texture1 = Preload_Texture("Machines/MS_Input");
+	Load_Rotational("Machines/E_Plant", &Metadata.Machines[Electrolytic_Cell].Texture2);
+	Load_Animated_Rotational("Machines/F_Mixer", &Metadata.Machines[Fluid_Mixer].Texture3, 3, true, No_Rotationals);
+	Load_Rotational("Machines/T_Tower", &Metadata.Machines[Signal_Tower].Texture2);
+	Metadata.Machines[Flowerpot].Texture1 = Preload_Texture("Machines/Flowerpot");
+	Load_Rotational("Machines/A_Shelf", &Metadata.Machines[Ammunition_Shelf].Texture2);
+	Metadata.Machines[Cable_Node].Texture1 = Preload_Texture("Machines/C_Node");
+	Load_Rotational("Machines/G_Well", &Metadata.Machines[Geo_Well].Texture2);
+	Load_Modular("Machines/L_Pipe", &Metadata.Machines[Large_Pipe].Texture2, 6);
+	Load_Rotational("Machines/H_Exchanger", &Metadata.Machines[Heat_Exchanger].Texture2);
+	Metadata.Machines[Petrified_Wood].Texture1 = Preload_Texture("Tiles/P_Wood");
+	Metadata.Machines[Basalt_Tile].Texture1 = Preload_Texture("Tiles/B_Tile");
+	Metadata.Machines[Silicone_Carpet].Texture1 = Preload_Texture("Tiles/S_Carpet");
+	Metadata.Machines[Money_Generator].Texture1 = Preload_Texture("Cheats/M_Generator");
+	Metadata.Machines[Fluid_Generator].Texture1 = Preload_Texture("Cheats/F_Generator");
+	Load_Rotational("Machines/R_Intersection", &Metadata.Machines[R_Intersection].Texture2);
+	Load_Rotational("Machines/L_Intersection", &Metadata.Machines[L_Intersection].Texture2);
+	Metadata.Machines[Hazard_Strip].Texture1 = Preload_Texture("Tiles/H_Strip");
+	Load_Rotational("Machines/SC_Input", &Metadata.Machines[Condenser_Input].Texture2);
+	Load_Rotational("Machines/SC_Transferor", &Metadata.Machines[Condenser_Transferor].Texture2);
+	Load_Rotational("Machines/SCH_Sink", &Metadata.Machines[Condenser_Heatsink].Texture2);
+	Load_Rotational("Machines/SC_Output", &Metadata.Machines[Condenser_Output].Texture2);
+	Load_Rotational("Machines/ST_Input", &Metadata.Machines[Turbine_Input].Texture2);
+	Load_Animated_Rotational("Machines/STIT_Block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true, No_Rotationals);
+	Load_Animated_Rotational("Machines/ST_Output", &Metadata.Machines[Turbine_Output].Texture3, 2, true, No_Rotationals);
+	Metadata.Machines[Power_Generator].Texture1 = Preload_Texture("Cheats/P_Generator");
+	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		Point Pos = { };
+		SDL_Texture* Carrier;
+		if (C1 == Reinforced_Pipe || C1 == Large_Pipe) {
+			Pos.X = 1;
+		}
+		switch (Metadata.Machines[C1].Depth) {
+		case 1:
+			Carrier = Metadata.Machines[C1].Texture1;
+			break;
+		case 2:
+			Carrier = Metadata.Machines[C1].Texture2.Data[Pos.X];
+			break;
+		case 3:
+			Carrier = Metadata.Machines[C1].Texture3.Data[Pos.X].Data[Pos.Y];
+			break;
+		}
+		Metadata.Machines[C1].Icon = Carrier;
+	}
 	Textures.Floor_Texture = Preload_Texture("Tiles/Ground");
 	Textures.Frame_Texture = Preload_Texture("Tiles/Frame");
 	Textures.Tile_Texture = Preload_Texture("Tiles/Tile");
-	Load_Modular("Machines/R_Pipe", &Textures.R_Pipe, 6);
-	Load_Modular("Machines/L_Pipe", &Textures.L_Pipe, 6);
-	Load_Modular("Machines/MSP", &Textures.MS_Pool, 6);
 	Load_Rotational("UI/Other/Direction", &Textures.Arrow);
-	Load_Rotational("Machines/S_Dock", &Textures.S_Dock);
 	Textures.R_Flash = Preload_Texture("Effects/Light");
 	Load_Subanimated("Effects/Bubble", &Textures.A_Bubble, 2);
-	Rects.R_Flash.x = 0;
-	Rects.R_Flash.y = 0;
-	Rects.R_Flash.w = Settings.Screen_Size * 40.0f;
-	Rects.R_Flash.h = Settings.Screen_Size * 40.0f;
-	int RP_Rotationals[4] = { 2, 3, 4, LDE_TERMINATOR };
-	Load_Animated("Machines/R_Pump", &Textures.R_Pump, 1, false, RP_Rotationals);
-	Load_Animated_Rotational("Machines/Incinerator", &Textures.Incinerator, 1, true, No_Rotationals);
-	Load_Rotational("Machines/RTG", &Textures.RTG);
-	Load_Animated("Machines/F_Plant", &Textures.F_Plant, 3, true, No_Rotationals);
-	Load_Animated_Rotational("Machines/B_Generator", &Textures.B_Generator, 3, true, No_Rotationals);
-	Load_Animated_Rotational("Machines/Distillery", &Textures.Distillery, 2, false, No_Rotationals);
-	Load_Animated_Rotational("Machines/G_Bed", &Textures.G_Bed, 3, true, No_Rotationals);
-	Load_Rotational("Machines/B_Scrubber", &Textures.B_Scrubber);
-	Textures.MS_Controller = Preload_Texture("Machines/MS_Controller");
-	Textures.MS_Output = Preload_Texture("Machines/MS_Output");
-	Textures.MS_Input = Preload_Texture("Machines/MS_Input");
-	Load_Rotational("Machines/E_Plant", &Textures.E_Plant);
-	Load_Animated_Rotational("Machines/F_Mixer", &Textures.F_Mixer, 3, true, No_Rotationals);
-	Textures.Flowerpot = Preload_Texture("Machines/Flowerpot");
-	Textures.C_Node = Preload_Texture("Machines/C_Node");
-	Load_Rotational("Machines/G_Well", &Textures.G_Well);
-	Load_Rotational("Machines/H_Exchanger", &Textures.H_Exchanger);
-	Load_Rotational("Machines/C_Platform", &Textures.C_Platform);
-	Load_Rotational("Machines/T_Tower", &Textures.T_Tower);
-	Load_Rotational("Machines/A_Shelf", &Textures.A_Shelf);
-	Textures.P_Wood = Preload_Texture("Tiles/P_Wood");
-	Textures.B_Tile = Preload_Texture("Tiles/B_Tile");
-	Textures.S_Carpet = Preload_Texture("Tiles/S_Carpet");
-	Textures.H_Strip = Preload_Texture("Tiles/H_Strip");
-	Textures.M_Generator = Preload_Texture("Cheats/M_Generator");
-	Textures.F_Generator = Preload_Texture("Cheats/F_Generator");
-	Load_Rotational("Machines/R_Intersection", &Textures.R_Intersection);
-	Load_Rotational("Machines/L_Intersection", &Textures.L_Intersection);
-	Load_Rotational("Machines/SC_Input", &Textures.SC_Input);
-	Load_Rotational("Machines/SCH_Sink", &Textures.SCH_Sink);
-	Load_Rotational("Machines/SC_Transferor", &Textures.SC_Transferor);
-	Load_Rotational("Machines/SC_Output", &Textures.SC_Output);
-	Load_Rotational("Machines/ST_Input", &Textures.ST_Input);
-	Load_Animated_Rotational("Machines/STIT_Block", &Textures.STIT_Block, 3, true, No_Rotationals);
-	Load_Animated_Rotational("Machines/ST_Output", &Textures.ST_Output, 2, true, No_Rotationals);
+	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Screen_Size * 40.0f, Settings.Screen_Size * 40.0f };
 	Textures.Scrap = Preload_Texture("Tiles/Scrap");
+	const char Paths[LDE_ITEMS][32] = {
+		"R_Seawater", "C_Saltwater", "AM_Snow", "L_Waste", "Steam", "D_Water", "S_Solution", "W_Algae", "A_Paste",
+		"Milkfish", "Mojarra", "Menhaden", "D_Mud", "None", "None", "Hydrogen", "Oxygen", "Chlorine", "A_Lye", "H_Chloride",
+		"M_Acid"
+	};
+	Textures.Items.Length = LDE_ITEMS;
+	Textures.Items.Data = malloc(sizeof(SDL_Texture*) * LDE_ITEMS);
+	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+		char Carrier[64];
+		snprintf(Carrier, sizeof(Carrier), "Items/%s", Paths[C1]);
+		Textures.Items.Data[C1] = Preload_Texture(Carrier);
+	}
+	Textures.None_Item = Preload_Texture("Items/None");
+	SDL_FRect Subrects[LDE_MACHINES] = {
+		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4, Rects.Tile_2x3,
+		Rects.Tile_3x3,	Rects.Tile_1x1, Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6, Rects.Tile_2x2, Rects.Tile_1x1,
+		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
+		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1, Rects.Tile_4x3, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
+		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
+		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2
+	};
+	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		Metadata.Machine_Rectangles[C1] = Subrects[C1];
+	}
 }
 
 void Preload_Foundation() {
 	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Textures.Pyramid.Length = 4;
-	float Full_Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2)) * Settings.Screen_Size;
-	int Candidate_Length = Full_Width * 0.25;
-	if (evn_i(Candidate_Length)) {
+	float Full_Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2.0f)) * Settings.Screen_Size;
+	int Candidate_Length = Full_Width * 0.25f;
+	if (evn(Candidate_Length)) {
 		Candidate_Length--;
 	}
 	const int Resolution = 2001;
@@ -128,7 +182,7 @@ void Preload_Foundation() {
 		SDL_ALPHA_OPAQUE);
 	uint32_t* Pixels = (uint32_t*)(Mesh_Surface->pixels);
 	for (int C1 = 0; C1 < sqr(Resolution); C1++) {
-		if (evn_i(C1) && (int)(C1 & 3) == 0) {
+		if (evn(C1) && (int)(C1 & 3) == 0) {
 			Pixels[C1] = Light;
 		} else {
 			Pixels[C1] = Empty;
@@ -383,6 +437,12 @@ void Preload_Assets() {
 		strncpy(Interface.Slider_Texts[10][C1], Buffer, sizeof(Interface.Slider_Texts[10][C1]));
 	}
 	strncpy(Interface.Slider_Texts[10][241], NULLSTRING, sizeof(Interface.Slider_Texts[10][241]));
+	for (int C1 = 0; C1 < 6; C1++) {
+		char Subcarrier[64];
+		Abbreviate_Number((C1 == 0) ? 0 : pow(10, C1 - 1), Subcarrier, sizeof(Subcarrier));
+		snprintf(Interface.Slider_Texts[14][C1], sizeof(Interface.Slider_Texts[14][C1]), "%sJ/s", Subcarrier);
+	}
+	strncpy(Interface.Slider_Texts[14][6], NULLSTRING, sizeof(Interface.Slider_Texts[14][6]));
 	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * LDE_TOOLS);
 	Textures.Tool.Length = LDE_TOOLS;
 	for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
@@ -468,7 +528,7 @@ void Preload_Assets() {
 			};
 			SDL_SetTextureBlendMode(Cache.Log_Cache.Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Cache.Log_Cache.Data[C1].Data[C2]);
-			Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[C1], 52, 52 - (New_Rectangle.y / Settings.Screen_Size),
+			Render_Rich_Text(Fonts.Subtext_Font, Metadata.Logs[C1], 52, 52 - (New_Rectangle.y / Settings.Screen_Size),
 				Temporary.Log_Inversions[C1], false);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
 			Cache.Log_Rectangles.Data[C1].Data[C2] = New_Rectangle;			
@@ -503,19 +563,17 @@ void Preload_Assets() {
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 12], &Textures.Tutorials.Data[C1], Rects.Tutorials.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
-	Rects.Tutorial_Hitbox.Length = 2;
-	Rects.Tutorial_Hitbox.Data = malloc(sizeof(SDL_FRect) * 2);
-	Rects.Cheats.Length = 2;
-	Rects.Cheats.Data = malloc(sizeof(Rect_Array) * 2);
-	Textures.Cheats.Length = 2;
-	Textures.Cheats.Data = malloc(sizeof(Texture_Array) * 2);
-	for (int C1 = 0; C1 < 2; C1++) {
+	Rects.Cheats.Length = 3;
+	Rects.Cheats.Data = malloc(sizeof(Rect_Array) * 3);
+	Textures.Cheats.Length = 3;
+	Textures.Cheats.Data = malloc(sizeof(Texture_Array) * 3);
+	for (int C1 = 0; C1 < 3; C1++) {
 		Rects.Cheats.Data[C1].Length = 2;
 		Rects.Cheats.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Cheats.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Cheats.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
-		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 9], &Textures.Cheats.Data[C1], Rects.Cheats.Data[C1],
-			Colors.Abyss_Black, Colors.Cherry_Blossom);
+		Rects.Cheats.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Screen_Size;
+		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[(C1 == 2) ? 49 : C1 + 9], &Textures.Cheats.Data[C1],
+			Rects.Cheats.Data[C1], Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
 	Rects.Confirmation.Length = 2;
 	Rects.Confirmation.Data = malloc(sizeof(Rect_Array) * 2);
@@ -741,27 +799,4 @@ void Preload_Assets() {
 	SDL_GetTextureSize(Textures.Submarine.Data[0], &Rects.Submarine.w, &Rects.Submarine.h);
 	Rects.Submarine.w = (int)((Rects.Submarine.w / 3.0f) * Settings.Screen_Size);
 	Rects.Submarine.h = (int)((Rects.Submarine.h / 6.0f) * Settings.Screen_Size);
-	Ctr Container = { {
-		Textures.R_Pipe.Data[1], Textures.R_Pump.Data[0], Textures.Incinerator.Data[0].Data[0], Textures.RTG.Data[0],
-		Textures.Tile_Texture, Textures.S_Dock.Data[0], Textures.F_Plant.Data[0], Textures.B_Generator.Data[0].Data[0],
-		Textures.MS_Pool.Data[0], Textures.Distillery.Data[0].Data[0], Textures.G_Bed.Data[0].Data[0],
-		Textures.C_Platform.Data[0], Textures.B_Scrubber.Data[0], Textures.MS_Controller, Textures.MS_Output,
-		Textures.MS_Input, Textures.E_Plant.Data[0], Textures.F_Mixer.Data[0].Data[0], Textures.T_Tower.Data[0],
-		Textures.Flowerpot, Textures.A_Shelf.Data[0], Textures.C_Node, Textures.G_Well.Data[0], Textures.L_Pipe.Data[1],
-		Textures.H_Exchanger.Data[0], Textures.P_Wood, Textures.B_Tile, Textures.S_Carpet, Textures.M_Generator,
-		Textures.F_Generator, Textures.R_Intersection.Data[0], Textures.L_Intersection.Data[0], Textures.H_Strip,
-		Textures.SC_Input.Data[0], Textures.SCH_Sink.Data[0], Textures.SC_Transferor.Data[0], Textures.SC_Output.Data[0],
-		Textures.ST_Input.Data[0], Textures.STIT_Block.Data[0].Data[0], Textures.ST_Output.Data[0].Data[0]
-	}, {
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4, Rects.Tile_2x3,
-		Rects.Tile_3x3,	Rects.Tile_1x1, Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6, Rects.Tile_2x2, Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
-		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1, Rects.Tile_4x3, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
-		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
-		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2
-	} };
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-		Metadata.Machine_Sprites[C1] = Container.Textures[C1];
-		Metadata.Machine_Rectangles[C1] = Container.Rects[C1];
-	}
 }

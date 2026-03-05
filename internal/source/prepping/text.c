@@ -49,10 +49,10 @@ void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Ar
 	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, 0, Color1);
 	Yield->Data[0] = Surface_To_Texture(Core.Renderer, Button_Surface);
 	if (Rectangles.Data[0].x == LDE_INVALID) {
-		Rectangles.Data[0].x = (Settings.Screen_Size * 320) - (Button_Surface->w * 0.5);
+		Rectangles.Data[0].x = (Settings.Screen_Size * 320.0f) - (Button_Surface->w * 0.5f);
 	}
 	if (Rectangles.Data[0].y == LDE_INVALID) {
-		Rectangles.Data[0].y = (Settings.Screen_Size * 180) - (Button_Surface->h * 0.5);
+		Rectangles.Data[0].y = (Settings.Screen_Size * 180.0f) - (Button_Surface->h * 0.5f);
 	}
 	Rectangles.Data[0].w = Button_Surface->w;
 	Rectangles.Data[0].h = Button_Surface->h;
@@ -66,7 +66,7 @@ void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Ar
 	Yield->Data[1] = Surface_To_Texture(Core.Renderer, Button_Surface);
 	Rectangles.Data[1].x = Rectangles.Data[0].x - Offset;
 	Rectangles.Data[1].y = Rectangles.Data[0].y;
-	Rectangles.Data[1].w = (float)(Button_Surface->w);
-	Rectangles.Data[1].h = (float)(Button_Surface->h);
+	Rectangles.Data[1].w = (float)Button_Surface->w;
+	Rectangles.Data[1].h = (float)Button_Surface->h;
 	SDL_DestroySurface(Button_Surface);
 }

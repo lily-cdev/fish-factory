@@ -10,8 +10,8 @@ bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2) {
 }
 
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
-	X = X * Settings.Screen_Size;
-	Y = Y * Settings.Screen_Size;
+	X *= Settings.Screen_Size;
+	Y *= Settings.Screen_Size;
 	if (!X_Lock) {
 		Rects.Tile_1x1.x = X;
 		Rects.Tile_1x2.x = X;
@@ -51,8 +51,9 @@ void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, int Se
 		Interface.UI_Selection = Selection;
 		SDL_FRect Underline_Rectangle = {
 			Hitbox->Data[0].x,
-			Hitbox->Data[0].y + Hitbox->Data[0].h + 2,
-			Hitbox->Data[0].w, Hitbox->Data[0].h * 0.1f
+			Hitbox->Data[0].y + Hitbox->Data[0].h + 2.0f,
+			Hitbox->Data[0].w,
+			Hitbox->Data[0].h * 0.1f
 		};
 		SDL_SetRenderDrawColor(Core.Renderer, Underline_Color.r, Underline_Color.g, Underline_Color.b, SDL_ALPHA_OPAQUE);
 		SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
@@ -199,8 +200,8 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 		SDL_FRect Fragment_Rectangle = {
 			(float)(X * Settings.Screen_Size),
 			(float)(Y * Settings.Screen_Size) + Offset,
-			(float)(Fragment_Surface->w),
-			(float)(Fragment_Surface->h)
+			(float)Fragment_Surface->w,
+			(float)Fragment_Surface->h
 		};
 		if (!Disabled) {
 			SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);

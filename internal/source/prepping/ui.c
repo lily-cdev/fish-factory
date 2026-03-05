@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[11])(int X, int Y) = {
+void (*Interface_Functions[12])(int X, int Y) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -11,7 +11,8 @@ void (*Interface_Functions[11])(int X, int Y) = {
 	Render_M_Generator,
 	Render_F_Generator,
 	Render_Catalog,
-	Render_MT_Input
+	Render_MT_Input,
+	Render_P_Generator
 };
 
 void Clear_Renderer() {
@@ -290,7 +291,8 @@ void Drain_Query() {
 		if (Cache.ID_Query[C1] == 0) {
 			Render_Outline(Cache.Query[C1], Cache.Color_Query[C1], 1);
 		} else if (Cache.ID_Query[C1] == 1) {
-			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h, 2));
+			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h,
+				2));
 			float Rotation = atan2(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI /
 				180);
 			SDL_FPoint Centerpoint = { Settings.Screen_Size * 5.0f, Settings.Screen_Size * 5.0f };
