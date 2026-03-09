@@ -212,8 +212,8 @@ void Process_Inputs() {
 									if (Data.Visual_Grid[Column][Row] != 0) {
 										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
 											Coordinates = (Point){
-												(int)(Data.Settings_Grid[Column][Row][1]),
-												(int)(Data.Settings_Grid[Column][Row][2])
+												(int)(Data.Settings_Grid[Column][Row][S_ParentX]),
+												(int)(Data.Settings_Grid[Column][Row][S_ParentY])
 											};
 										} else {
 											Coordinates = (Point){ Column, Row };

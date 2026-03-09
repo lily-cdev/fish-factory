@@ -34,4 +34,5 @@ void Load_Settings();
 void Clear_Settings();
 void Recalibrate_Settings();
 void Reset_Statistics();
+void Reset_Tile(Point Pos);
 void Reload_All();

@@ -75,6 +75,7 @@ bool Save_Data(int Slot) {
 }
 
 bool Load_Data(int Slot) {
+	Reset_Statistics();
 	char Path[64];
 	snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", Slot);
 	FILE* File = fopen(Path, "rb");
@@ -127,22 +128,28 @@ bool Load_Data(int Slot) {
 	return true;
 }
 
+void Reset_Tile(Point Pos) {
+	Data.Visual_Grid[Pos.X][Pos.Y] = 0;
+	Data.Behavior_Grid[Pos.X][Pos.Y] = LDE_INVALID;
+	Data.Wiring_Grid[Pos.X][Pos.Y] = LDE_INVALID;
+	Data.Plumbing_Grid[Pos.X][Pos.Y]= LDE_INVALID;
+	Data.Items_Grid[Pos.X][Pos.Y] = LDE_INVALID;
+	Data.Temperature_Grid[Pos.X][Pos.Y] = LDE_ROOMTEMP;
+	memset(Data.Data_Grid[Pos.X][Pos.Y], 0, sizeof(Data.Data_Grid[Pos.X][Pos.Y]));
+	Data.Data_Grid[Pos.X][Pos.Y][4] = LDE_INVALID;
+	for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[Pos.X][Pos.Y]) / sizeof(Data.Settings_Grid[Pos.X][Pos.Y][0]); C1++) {
+		Data.Settings_Grid[Pos.X][Pos.Y][C1] = LDE_INVALID;
+	}
+}
+
 void Reset_Statistics() {
 	Data.Funds = 750;
 	Data.CMD_Placed = false;
-	memset(Data.Visual_Grid, 0, sizeof(Data.Visual_Grid));
-	memset(Data.Behavior_Grid, LDE_INVALID, sizeof(Data.Behavior_Grid));
-	memset(Data.Wiring_Grid, LDE_INVALID, sizeof(Data.Wiring_Grid));
-	memset(Data.Plumbing_Grid, LDE_INVALID, sizeof(Data.Plumbing_Grid));
-	memset(Data.Items_Grid, LDE_ROOMTEMP, sizeof(Data.Items_Grid));
-	memset(Data.Temperature_Grid, LDE_INVALID, sizeof(Data.Temperature_Grid));
-	memset(Data.Data_Grid, 0, sizeof(Data.Data_Grid));
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			Data.Data_Grid[X][Y][4] = LDE_INVALID;
+			Reset_Tile((Point){ X, Y });
 		}
 	}
-	memset(Data.Settings_Grid, LDE_INVALID, sizeof(Data.Settings_Grid));
 	Clear_Bridges(&Wires);
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();

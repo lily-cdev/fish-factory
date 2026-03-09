@@ -162,15 +162,7 @@ void Restore_Cache() {
 void Destroy_Clearance(int X, int Y, int Width, int Height) {
 	for (int C1 = 0; C1 < Width; C1++) {
 		for (int C2 = 0; C2 < Height; C2++) {
-			Data.Visual_Grid[X + C1][Y + C2] = 0;
-			Data.Wiring_Grid[X + C1][Y + C2] = LDE_INVALID;
-			Data.Plumbing_Grid[X + C1][Y + C2] = LDE_INVALID;
-			Data.Behavior_Grid[X + C1][Y + C2] = LDE_INVALID;
-			memset(Data.Data_Grid[X + C1][Y + C2], 0, sizeof(Data.Data_Grid[X + C1][Y + C2]));
-			Data.Data_Grid[X + C1][Y + C2][4] = LDE_INVALID;
-			memset(Data.Settings_Grid[X + C1][Y + C2], LDE_INVALID, sizeof(Data.Settings_Grid[X + C1][Y + C2]));
-			memset(Data.Animation_Grid[X + C1][Y + C2], LDE_INVALID, sizeof(Data.Animation_Grid[X + C1][Y + C2]));
-			Update_Item(X + C1, Y + C2, LDE_INVALID, LDE_ROOMTEMP);
+			Reset_Tile((Point){ X + C1, Y + C2 });
 		}
 	}
 }
@@ -223,6 +215,7 @@ void Build_Grid() {
 					}
 					Update_Grid();
 					Recast_Machines();
+					Find_Effect();
 				}
 				return;
 			}
@@ -242,8 +235,12 @@ void Remove_Machine(int X, int Y) {
 		Data.Behavior_Grid[X][Y] = LDE_INVALID;
 		memset(Data.Data_Grid[X][Y], 0, sizeof(Data.Data_Grid[X][Y]));
 		Data.Data_Grid[X][Y][4] = LDE_INVALID;
-		memset(Data.Settings_Grid[X][Y], LDE_INVALID, sizeof(Data.Settings_Grid[X][Y]));
-		memset(Data.Animation_Grid[X][Y], LDE_INVALID, sizeof(Data.Animation_Grid[X][Y]));
+		for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[X][Y]) / sizeof(Data.Settings_Grid[X][Y][0]); C1++) {
+			Data.Settings_Grid[X][Y][C1] = LDE_INVALID;
+		}
+		for (int C1 = 0; C1 < sizeof(Data.Animation_Grid[X][Y]) / sizeof(Data.Animation_Grid[X][Y][0]); C1++) {
+			Data.Animation_Grid[X][Y][C1] = LDE_INVALID;
+		}
 		Update_Item(X, Y, LDE_INVALID, LDE_ROOMTEMP);
 	} else {
 		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Submarine_Dock) {
@@ -282,7 +279,8 @@ bool Destroy_Grid() {
 				if (Data.Visual_Grid[Column][Row] != 0) {
 					Cache.Wire_State = Deep_Recache;
 					if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-						Remove_Machine((int)(Data.Settings_Grid[Column][Row][1]), (int)(Data.Settings_Grid[Column][Row][2]));
+						Remove_Machine((int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][
+							Row][S_ParentY]));
 					} else {
 						Remove_Machine(Column, Row);
 					}
@@ -290,6 +288,7 @@ bool Destroy_Grid() {
 					Clear_Unconnected_Bridges(&Pipes);
 					Update_Grid();
 					Recast_Machines();
+					Find_Effect();
 					return true;
 				}
 			}
@@ -302,12 +301,13 @@ void Recast_Machines() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
-			case Turbine_Input: {
-				Data.Settings_Grid[Column][Row][3] = 0;
-				Data.Settings_Grid[Column][Row][4] = 0;
-				bool Chaining = true;
-				int Chain_X = Column;
-				int Chain_Y = Row;
+			case Turbine_Input:
+				{
+					Data.Settings_Grid[Column][Row][3] = 0;
+					Data.Settings_Grid[Column][Row][4] = 0;
+					bool Chaining = true;
+					int Chain_X = Column;
+					int Chain_Y = Row;
 					while (Chaining) {
 						switch (Visual_To_Rotation(Data.Visual_Grid[Column][Row])) {
 						case 0:
@@ -376,4 +376,29 @@ int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
 		}
 	}
 	return Neutral;
+}
+
+void Find_Effect() {
+	Interface.Effects[E_Heat] = 0;
+	Interface.Effects[E_Radiation] = 0;
+	for (int X = 0; X < LDE_GRIDSIZE; X++) {
+		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			for (int C1 = 0; C1 < intlen(Metadata.Heating_Machines); C1++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[C1] &&
+					X * LDE_TILESIZE > Core.Camera.X && Y * LDE_TILESIZE > Core.Camera.Y && X * LDE_TILESIZE <
+					Core.Camera.X + 640 && Y * LDE_TILESIZE < Core.Camera.Y + 360) {
+					Interface.Effects[E_Heat] += 0.1;
+					return;
+				}
+			}
+			for (int C1 = 0; C1 < intlen(Metadata.Irradiating_Machines); C1++) {
+				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[C1]) {
+					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
+					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
+					float Distance = sqrtf(sqr(A) + sqr(B));
+					Interface.Effects[E_Radiation] += fmax(35.0f - (Distance * 0.05f), 0.0f);
+				}
+			}
+		}
+	}
 }

@@ -183,7 +183,7 @@ bool Process_IO_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Location
 						Data.Data_Grid[Input_Locations.Data[C1].X][Input_Locations.Data[C1].Y][Stored_Fluids] -=
 							Selected_Recipe.Input_Counts[C1];
 					}
-					Data.Settings_Grid[X][Y][1] = Selected_Recipe.Time;
+					Data.Settings_Grid[X][Y][S_Time] = Selected_Recipe.Time;
 					Data.Settings_Grid[X][Y][2] = Selected_Recipe.ID;
 				} else {
 					//later

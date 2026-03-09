@@ -10,7 +10,7 @@ A pool in which to grow fish.
 Distills fluids. Useful for purification jobs beyond what the filtration plant can handle.
 An enclosed chamber, holding perfect conditions for rapid algae growth.
 A space for the staff of two to work and sleep, containing a small armoury, command centre, bunk bed, and bathroom. Required for the factory to function.
-[NOT FUNCTIONAL] Intakes lye to remove carbon dioxide from the atmosphere. Produces waste as a byproduct.
+A device for storing large quantities of electricity. Though officially labelled a battery, its quick discharge time exposes it as a supercapacitor.
 A controller required for a Modular Spawning Pool to function.
 A valve that can output the remaining fish.
 An input for fish-compatible biomass.
@@ -18,7 +18,7 @@ Uses electrolysis to rip apart fluids into their separate ions.
 Mixes fluids inside of an armoured chamber.
 Broadcasts Morse code signals on a 2kHz bandwidth.
 A large flowerpot bearing the oversized Ceracanth flower, genetically engineered to bear a pleasant smell
-An ammunition rack holding an array of 40×399mm anti-aircraft rounds.
+An ammunition rack holding an array of 40x399mm anti-aircraft rounds.
 A node able to group cables together.
 Uses the heat of underground magma to raise the temperature of a heating medium.
 A plain Steel pipe that can transport non-hazardous liquids in bulk.

@@ -187,7 +187,9 @@ enum Recipe_Types {
 };
 
 enum Settings {
-	S_Time = 1
+	S_Time = 1,
+	S_ParentX = 1,
+	S_ParentY = 2
 };
 
 enum Particles {

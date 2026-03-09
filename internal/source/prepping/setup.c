@@ -19,7 +19,13 @@ int Step_Noise(void* C1) {
 }
 
 void Preclear_Temporaries() {
-	memset(Data.Animation_Grid, LDE_INVALID, sizeof(Data.Animation_Grid));
+	for (int X = 0; X < LDE_GRIDSIZE; X++) {
+		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			for (int Z = 0; Z < sizeof(Data.Animation_Grid[X][Y]) / sizeof(Data.Animation_Grid[X][Y][0]); Z++) {
+				Data.Animation_Grid[X][Y][Z] = LDE_INVALID;
+			}
+		}
+	}
 }
 
 void Render_Loadscreen() {

@@ -42,17 +42,7 @@ void Update_Machines() {
 			if (Chosen >= 0 && Cycle_Functions[Chosen] != NULL) {
 				Cycle_Functions[Chosen](X, Y, Rotation);
 			}
-			if (Data.Visual_Grid[X][Y] == 17) {
-				Node tmp3 = { };tmp3.Data=(Point*)malloc(sizeof(Point));tmp3.Length=1;
-				tmp3.Data[0].X = X;tmp3.Data[0].Y=Y;
-				if (Process_O_Recipe(Preset_O_Recipes.RP_Saltwater, X, Y, tmp3)) {
-					Data.Animation_Grid[X][Y][0] = 0;
-					Play_Sound(Ram1, false);
-				} else if (Data.Animation_Grid[X][Y][0] == 0) {
-					Data.Animation_Grid[X][Y][0] = LDE_INVALID;
-				}
-				free_c(tmp3.Data);
-			} else if (Data.Visual_Grid[X][Y] == 21) {
+			if (Data.Visual_Grid[X][Y] == 21) {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Data_Grid[X + C1][Y + 3][Stored_Fluids] > 0) {
 						if (Data.Settings_Grid[X][Y][C1 + 5] == Get_Item(X + C1, Y + 3).Identifier || Data.Settings_Grid[X][

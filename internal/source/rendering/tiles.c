@@ -175,7 +175,7 @@ void Render_Grid() {
 						SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 							&Source, &Destination);
 						Render_Texture(Metadata.Machines[Distillery].Texture3.Data[Rotation].Data[2], &Rects.Tile_2x2);
-						if (Data.Settings_Grid[Column][Row][1] > 0) {
+						if (Data.Settings_Grid[Column][Row][S_Time] > 0) {
 							Render_Texture(Metadata.Machines[Distillery].Texture3.Data[Rotation].Data[3], &Rects.Tile_2x2);
 						}
 						break;

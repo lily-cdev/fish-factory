@@ -83,7 +83,7 @@ void Preload_Machines() {
 	Load_Animated_Rotational("Machines/Distillery", &Metadata.Machines[Distillery].Texture3, 2, false, No_Rotationals);
 	Load_Animated_Rotational("Machines/G_Bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true, No_Rotationals);
 	Load_Rotational("Machines/C_Platform", &Metadata.Machines[Command_Platform].Texture2);
-	Load_Rotational("Machines/B_Scrubber", &Metadata.Machines[Battery].Texture2);
+	Load_Rotational("Machines/Battery", &Metadata.Machines[Battery].Texture2);
 	Metadata.Machines[Spawning_Controller].Texture1 = Preload_Texture("Machines/MS_Controller");
 	Metadata.Machines[Spawning_Output].Texture1 = Preload_Texture("Machines/MS_Output");
 	Metadata.Machines[Spawning_Input].Texture1 = Preload_Texture("Machines/MS_Input");
@@ -158,7 +158,7 @@ void Preload_Machines() {
 		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
 		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1, Rects.Tile_4x3, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
 		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
-		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2
+		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2, Rects.Tile_1x1
 	};
 	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
 		Metadata.Machine_Rectangles[C1] = Subrects[C1];

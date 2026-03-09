@@ -366,6 +366,7 @@ typedef struct {
 	Node STO_Outputs[4];
 	Node GW_Inputs[4];
 	Node GW_Outputs[4];
+	Node RP_Outputs[4];
 } lde_preconfigs;
 
 extern lde_core Core;

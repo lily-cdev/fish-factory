@@ -137,42 +137,22 @@ void Render_Effects() {
 	}
 	if (Interface.Effects[E_Radiation] > 0) {
 		Set_Renderer_Color(Colors.Pure_White);
+		int Width = Settings.Screen_Size * 640;
+		int Height = Settings.Screen_Size * 320;
 		for (int C1 = 0; C1 < floor(Interface.Effects[E_Radiation]); C1++) {
 			Tick_State();
-			int X = Core.State % (Settings.Screen_Size * 640);
+			int X = Core.State % Width;
 			Tick_State();
-			int Y = Core.State % (Settings.Screen_Size * 320);
-			SDL_RenderPoint(Core.Renderer, (float)X, (float)Y);
+			int Y = Core.State % Height;
+			for (int Offset_X = -1; Offset_X <= 1; Offset_X++) {
+				SDL_RenderPoint(Core.Renderer, (float)(clamp_c(X + Offset_X, 0, Width)), (float)Y);
+			}
+			for (int Offset_Y = -1; Offset_Y <= 1; Offset_Y++) {
+				SDL_RenderPoint(Core.Renderer, (float)X, (float)(clamp_c(Y + Offset_Y, 0, Height)));
+			}
 		}
 		Clear_Renderer();
 		//play geiger tick
-	}
-}
-
-void Find_Effect() {
-	Interface.Effects[E_Heat] = 0;
-	Interface.Effects[E_Radiation] = 0;
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			for (int C1 = 0; C1 < intlen(Metadata.Heating_Machines); C1++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[C1] &&
-					X * LDE_TILESIZE > Core.Camera.X && Y * LDE_TILESIZE > Core.Camera.Y && X * LDE_TILESIZE <
-					Core.Camera.X + 640 && Y * LDE_TILESIZE < Core.Camera.Y + 360) {
-					Interface.Effects[E_Heat] += 0.1;
-					return;
-				}
-			}
-			for (int C1 = 0; C1 < intlen(Metadata.Irradiating_Machines); C1++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[C1]) {
-					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
-					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
-					float Distance = sqrtf(sqr(A) + sqr(B)) / (float)LDE_TILESIZE;
-					Interface.Effects[E_Radiation] += fmax(((int)(-0.2625 * sqr(Distance)) + 105) * Settings.Screen_Size,
-						0.0f);
-					return;
-				}
-			}
-		}
 	}
 }
 

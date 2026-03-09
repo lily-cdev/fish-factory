@@ -14,9 +14,10 @@ void Prep_Items() {
 		Preset_Items.Hydrogen_Chloride, Preset_Items.Hydrochloric_Acid
 	};
     memcpy_c(Preset_Items.Item_List, Item_Carrier, sizeof(Preset_Items.Item_List)); 
-	Preset_O_Recipes.RP_Saltwater = (Recipe){ false, false, 1, 4, { }, { }, 0, { Preset_Items.Raw_Saltwater }, { 0.5 }, 1, 1 };
-	Preset_O_Recipes.GB_Algae = (Recipe){ false, false, 2, 60, { }, { }, 0, { Preset_Items.Raw_Algae, Preset_Items.Raw_Algae },
-		{ 2.5, 2.5 }, 2, 1 };
+	Preset_O_Recipes.RP_Saltwater = (Recipe){ false, false, 1, 4, { }, { }, 0, { Preset_Items.Raw_Saltwater }, { 0.5 }, 1,
+		1 };
+	Preset_O_Recipes.GB_Algae = (Recipe){ false, false, 2, 95, { }, { }, 0, { Preset_Items.Raw_Algae,
+		Preset_Items.Raw_Algae }, { 2.5, 2.5 }, 2, 1 };
 	Preset_IO_Recipes.FP_Saltwater = (Recipe){ true, false, 1, 70, { Preset_Items.Raw_Saltwater }, { 12 }, 1,
 		{ Preset_Items.Saltwater, Preset_Items.Marine_Snow, Preset_Items.Waste }, { 8.5, 2, 1.5 }, 3, 1 };
 	Preset_IO_Recipes.FP_Biopaste = (Recipe){ true, false, 1, 70, { Preset_Items.Raw_Algae }, { 4 }, 1,
@@ -25,8 +26,8 @@ void Prep_Items() {
 		{ 1, 5 }, 2, { Preset_Items.Drill_Mud }, { 6 }, 1, 1 };
 	Preset_IO_Recipes.FM_Drillmud_2 = (Recipe){ false, false, 1, 650, { Preset_Items.Desalinated_Water,
 		Preset_Items.Marine_Snow }, { 1, 5 }, 2, { Preset_Items.Drill_Mud }, { 6 }, 1, 2 };
-	Preset_IO_Recipes.FM_Hydrogen_Chloride = (Recipe){ false, false, 1, 650, { Preset_Items.Hydrogen, Preset_Items.Chlorine },
-		{ 3, 3 }, 2, { Preset_Items.Hydrogen_Chloride }, { 3 }, 1, 3 };
+	Preset_IO_Recipes.FM_Hydrogen_Chloride = (Recipe){ false, false, 1, 650, { Preset_Items.Hydrogen,
+		Preset_Items.Chlorine }, { 3, 3 }, 2, { Preset_Items.Hydrogen_Chloride }, { 3 }, 1, 3 };
 	Preset_IO_Recipes.FM_Hydrochloric_Acid = (Recipe){ false, false, 1, 650, { Preset_Items.Hydrogen_Chloride,
 		Preset_Items.Desalinated_Water }, { 6, 1 }, 2, { Preset_Items.Hydrochloric_Acid }, { 1 }, 1, 4 };
 	Preset_IO_Recipes.D_Water = (Recipe){ true, false, 5, 400, { Preset_Items.Saltwater }, { 4 }, 1, { Preset_Items.Salt,

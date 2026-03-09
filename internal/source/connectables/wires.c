@@ -118,7 +118,8 @@ void Place_Wire() {
 			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-					Connect_Wire((int)(Data.Settings_Grid[Column][Row][1]), (int)(Data.Settings_Grid[Column][Row][2]));
+					Connect_Wire((int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][Row][
+						S_ParentY]));
 				} else {
 					Connect_Wire(Column, Row);
 				}
@@ -132,11 +133,11 @@ void Update_Power() {
 	for (int C1 = 0; C1 < Wires.Length; C1++) {
 		Bridge Wire = Wires.Data[C1];
 		if (Wire.Filled) {
-			float Volume = Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Fluids];
-			Volume = min(Volume, Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Fluids] - Data.Data_Grid[Wire.X2][Wire.Y2][
-				Fluid_Cap]);
-			Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Fluids] -= Volume;
-			Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Fluids] += Volume;
+			float Volume = Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Power];
+			Volume = min(Volume, Data.Data_Grid[Wire.X2][Wire.Y2][Power_Cap] - Data.Data_Grid[Wire.X2][Wire.Y2][
+				Stored_Power]);
+			Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Power] -= Volume;
+			Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Power] += Volume;
 		}
 	}
 }
