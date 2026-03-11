@@ -11,7 +11,7 @@ void Extend_I_Recipe() {
 bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Locations) {
 	if (Selected_Recipe.Time == 1) {
 		if (Data.Data_Grid[X][Y][Stored_Power] >= Selected_Recipe.Power) {
-			if (Selected_Recipe.Voiding_Excess) {
+			if (!Selected_Recipe.Voiding_Excess) {
 				for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
 					if (Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] +
 						Selected_Recipe.Output_Counts[C1] < Data.Data_Grid[Output_Locations.Data[C1].X][
@@ -26,9 +26,9 @@ bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Location
 					Selected_Recipe.Output_Items[C1].Identifier, LDE_ROOMTEMP);
 			}
 			for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-				Data.Data_Grid[Output_Locations.Data[C1].X][Output_Locations.Data[C1].Y][Stored_Fluids] =
-					min(Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Output_Locations.Data[C1].X][
-					Output_Locations.Data[C1].Y][Fluid_Cap]);
+				Point Pos = Output_Locations.Data[C1];
+				Data.Data_Grid[Pos.X][Pos.Y][Stored_Fluids] = min(Data.Data_Grid[Pos.X][Pos.Y][Stored_Fluids] +
+					Selected_Recipe.Output_Counts[C1], Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap]);
 			}
 			return true;
 		}

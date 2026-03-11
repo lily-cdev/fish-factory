@@ -4,7 +4,8 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* F
 	if (Replacement == NULL) {
 		puts("failed");
 	}
-	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL) {
+	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL ||
+		Supply->Bounds.y != Y * Settings.Screen_Size || Supply->Bounds.x != X * Settings.Screen_Size) {
 		free_texture(Supply->Data);
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
 		Supply->Bounds.y = Y * Settings.Screen_Size;

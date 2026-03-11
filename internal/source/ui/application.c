@@ -109,7 +109,6 @@ void Render_Application() {
 				SDL_RenderFillRect(Core.Renderer, &Energy);
 				Clear_Renderer();
 			}
-			//get fill percent
 			if (Satiated && Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap] >= 0.1f) {
 				SDL_FRect Item = {
 					0,
@@ -118,10 +117,27 @@ void Render_Application() {
 					Height
 				};
 				Item.x = Hitbox.x + Hitbox.w + Padding;
-				Item.y = (Hitbox.h * 0.5f) - (Item.h * 0.5f) + Hitbox.y;
+				int Y_Cache = (Hitbox.h * 0.5f) - (Item.h * 0.5f) + Hitbox.y;
+				Item.y = Y_Cache;
 				Set_Renderer_Color(Colors.Dark_Grey);
 				SDL_RenderFillRect(Core.Renderer, &Item);
 				Clear_Renderer();
+				Item.h *= Data.Data_Grid[Pos.X][Pos.Y][Stored_Fluids] / Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap];
+				Item.y += Height - Item.h;
+				Set_Renderer_Color(Colors.Cherry_Blossom);
+				SDL_RenderFillRect(Core.Renderer, &Item);
+				Clear_Renderer();
+				SDL_FRect Item_Rect = {
+					(Settings.Screen_Size * 2.0f) + Item.x,
+					(Settings.Screen_Size * 2.0f) + Y_Cache,
+					Settings.Screen_Size * 20.0f,
+					Settings.Screen_Size * 20.0f
+				};
+				if (Data.Items_Grid[Pos.X][Pos.Y] == LDE_INVALID) {
+					SDL_RenderTexture(Core.Renderer, Textures.None_Item, NULL, &Item_Rect);
+				} else {
+					SDL_RenderTexture(Core.Renderer, Textures.Items.Data[Data.Items_Grid[Pos.X][Pos.Y]], NULL, &Item_Rect);
+				}
 			}
 		}
 		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);

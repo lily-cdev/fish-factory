@@ -43,7 +43,7 @@ void Render_Closing(bool Clearing) {
 			Transition.Phase = 1;
 			Interface.UI_Tab = LDE_INVALID;
 			Transition.Frames = 0;
-			Transition.Max_Frames = (int)(Interface.Frame_Rate / 1.5);
+			Transition.Max_Frames = (int)(Interface.Frame_Rate / 1.5f);
 			Rects.Door[0].x = 0;
 			Rects.Door[1].x = Settings.Screen_Size * 320;
 			if (Clearing) {	

@@ -16,6 +16,20 @@ void Render_Wire(int C1, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset
 	);
 }
 
+void Render_Cable(Bridge Chosen) {
+	SDL_RenderLine(
+		Core.Renderer,
+		((Chosen.X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][5] *
+			Settings.Screen_Size),
+		((Chosen.Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][6] *
+			Settings.Screen_Size),
+		((Chosen.X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][5] *
+			Settings.Screen_Size),
+		((Chosen.Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][6] *
+			Settings.Screen_Size)
+	);
+}
+
 void Render_Wires() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		SDL_SetRenderTarget(Core.Renderer, Cache.Wire_Cache.Data[C1]);
@@ -43,9 +57,10 @@ void Render_Wires() {
 			if (Wires.Data[C2].Filled) {
 				for (int X = 0; X < (int)(ceil(Settings.Screen_Size * 0.5f)); X++) {
 					for (int Y = 0; Y < (int)(ceil(Settings.Screen_Size * 0.5f)); Y++) {
-						Render_Wire(C2, X, Y, Offset_X, Offset_Y);
+						//Render_Wire(C2, X, Y, Offset_X, Offset_Y);
 					}
 				}
+				Render_Cable(Wires.Data[C2]);
 			} else {
 				Rects.Node.x = (int)((Wires.Data[C2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
 				Rects.Node.y = (int)((Wires.Data[C2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
@@ -60,8 +75,8 @@ void Render_Wires() {
 void Render_Wire_Nodes() {
 	for (int C1 = 0; C1 < Wires.Length; C1++) {
 		if (!Wires.Data[C1].Filled) {
-			Interface.Node_Cycle += 60.0 / Interface.Frame_Rate;
-			if (Interface.Node_Cycle > 360) {
+			Interface.Node_Cycle += 60.0f / Interface.Frame_Rate;
+			if (Interface.Node_Cycle >= 360.0f) {
 				Interface.Node_Cycle = 0;
 			}
 			SDL_FPoint Centerpoint = {

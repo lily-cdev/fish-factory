@@ -690,17 +690,17 @@ void Preload_Assets() {
 			Colors.Abyss_Black);
 		Textures.Settings_Label.Data[C1] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 		Rects.Settings_Label.Data[C1].x = Settings.Screen_Size * 10.0f;
-		Rects.Settings_Label.Data[C1].w = (float)(Carrying_Surface->w);
-		Rects.Settings_Label.Data[C1].h = (float)(Carrying_Surface->h);
+		Rects.Settings_Label.Data[C1].w = (float)Carrying_Surface->w;
+		Rects.Settings_Label.Data[C1].h = (float)Carrying_Surface->h;
 		SDL_DestroySurface(Carrying_Surface);
 	}
-	Rects.Settings_Label.Data[0].y = 10;
-	Rects.Settings_Label.Data[1].y = 100;
-	Rects.Settings_Label.Data[2].y = 170;
-	Rects.Settings_Label.Data[3].y = 240;
-	Rects.Settings_Label.Data[4].y = 270;
+	Rects.Settings_Label.Data[0].y = 10.0f;
+	Rects.Settings_Label.Data[1].y = 100.0f;
+	Rects.Settings_Label.Data[2].y = 170.0f;
+	Rects.Settings_Label.Data[3].y = 240.0f;
+	Rects.Settings_Label.Data[4].y = 270.0f;
 	Rects.Settings_Label.Data[4].x = Settings.Screen_Size * 330.0f;
-	Rects.Settings_Label.Data[5].y = 10;
+	Rects.Settings_Label.Data[5].y = 10.0f;
 	Rects.Settings_Label.Data[5].x = Settings.Screen_Size * 330.0f;
 	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
 		Rects.Settings_Label.Data[C1].y *= Settings.Screen_Size;
@@ -711,8 +711,8 @@ void Preload_Assets() {
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[15], &Textures.Save_Settings, Rects.Save_Settings, Colors.Abyss_Black,
 		Colors.Cherry_Blossom);
 	Rects.Save_Settings.Data[0].x = (Settings.Screen_Size * 630) - Rects.Save_Settings.Data[0].w;
-	Rects.Save_Settings.Data[1].x = Rects.Save_Settings.Data[0].x + (Rects.Save_Settings.Data[0].w * 0.5) -
-		(Rects.Save_Settings.Data[1].w * 0.5);
+	Rects.Save_Settings.Data[1].x = Rects.Save_Settings.Data[0].x + (Rects.Save_Settings.Data[0].w * 0.5f) -
+		(Rects.Save_Settings.Data[1].w * 0.5f);
 	Rects.Error_Exit.Length = 2;
 	Rects.Error_Exit.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Error_Exit.Data[0].x = LDE_INVALID;
@@ -720,7 +720,7 @@ void Preload_Assets() {
 	Load_Button(Fonts.Terminal_Font, Metadata.Buttons[36], &Textures.Error_Exit, Rects.Error_Exit, Colors.Cherry_Blossom,
 		Colors.Pure_White);
 	for (int C1 = 0; C1 < 2; C1++) {
-		Rects.Error_Exit.Data[C1].x += Settings.Screen_Size * 210;
+		Rects.Error_Exit.Data[C1].x += Settings.Screen_Size * 210.0f;
 	}
 	Rects.Anti_Aliasing.Length = 2;
 	Rects.Anti_Aliasing.Data = malloc(sizeof(Rect_Array) * 2);
@@ -778,21 +778,20 @@ void Preload_Assets() {
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[17], &Textures.TBW_Texture.Data[1], Rects.TBW_Rectangle.Data[1],
 		Colors.Abyss_Black, Colors.Cherry_Blossom);
 	for (int C1 = 0; C1 < 2; C1++) {
-		Rects.TBW_Rectangle.Data[C1].Data[0].x = (Settings.Screen_Size * 630) - Rects.TBW_Rectangle.Data[C1].Data[0].w;
+		Rects.TBW_Rectangle.Data[C1].Data[0].x = (Settings.Screen_Size * 630.0f) - Rects.TBW_Rectangle.Data[C1].Data[0].w;
 		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[
-			C1].Data[0].w * 0.5) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5);
+			C1].Data[0].w * 0.5f) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5f);
 	}
 	load_bmp(Carrying_Surface, "Assets/Core/Images/Other/Submarine.bmp");
 	Textures.Submarine.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Submarine.Length = 2;
 	for (int C1 = 0; C1 < 2; C1++) {
-		SDL_Surface* Dividing_Surface = SDL_CreateSurface(Carrying_Surface->w * 0.5, Carrying_Surface->h,
+		SDL_Surface* Dividing_Surface = SDL_CreateSurface(Carrying_Surface->w * 0.5f, Carrying_Surface->h,
 			Carrying_Surface->format);
-		SDL_Rect Dividing_Rectangle = { (Carrying_Surface->w * 0.5) * C1, 0, Carrying_Surface->w * 0.5,
+		SDL_Rect Dividing_Rectangle = { (Carrying_Surface->w * 0.5f) * C1, 0, Carrying_Surface->w * 0.5f,
 			Carrying_Surface->h };
 		SDL_BlitSurface(Carrying_Surface, &Dividing_Rectangle, Dividing_Surface, NULL);
-		Textures.Submarine.Data[C1] = Surface_To_Texture(
-			Core.Renderer, Dividing_Surface);
+		Textures.Submarine.Data[C1] = Surface_To_Texture(Core.Renderer, Dividing_Surface);
 		SDL_DestroySurface(Dividing_Surface);
 	}
 	SDL_DestroySurface(Carrying_Surface);
