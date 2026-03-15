@@ -244,8 +244,8 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, TTF_
 
 void Preload_Assets() {
 	Core.Game_Texture = New_Texture(Core.Renderer, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
-	Interface.Tile_Centerpoint.x = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
-	Interface.Tile_Centerpoint.y = Settings.Screen_Size * (LDE_TILESIZE * 0.5);
+	Interface.Tile_Centerpoint.x = Settings.Screen_Size * (LDE_TILESIZE * 0.5f);
+	Interface.Tile_Centerpoint.y = Settings.Screen_Size * (LDE_TILESIZE * 0.5f);
 	Preload_Machines();
 	Preload_Foundation();
 	SDL_Texture* Carrying_Texture = Preload_Texture("UI/Backgrounds/Doors");
@@ -255,9 +255,9 @@ void Preload_Assets() {
 		Textures.Door.Data[C1] = New_Texture(Core.Renderer, Settings.Screen_Size * 320, Settings.Screen_Size * 360);
 		SDL_SetTextureBlendMode(Textures.Door.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_SetRenderTarget(Core.Renderer, Textures.Door.Data[C1]);
-		SDL_FRect Half_Rectangle = { C1 * 1920.0f, 0, 1920, 2160 };
-		Rects.Door[C1].w = Settings.Screen_Size * 320;
-		Rects.Door[C1].h = Settings.Screen_Size * 360;
+		SDL_FRect Half_Rectangle = { C1 * 1920.0f, 0.0f, 1920.0f, 2160.0f };
+		Rects.Door[C1].w = Settings.Screen_Size * 320.0f;
+		Rects.Door[C1].h = Settings.Screen_Size * 360.0f;
 		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Half_Rectangle, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
