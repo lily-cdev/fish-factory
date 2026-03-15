@@ -103,6 +103,7 @@ void Handle_None(int X, int Y) {
 			Reset_Statistics();
 			Find_Effect();
 			Start_Transition(0);
+			Wipe_Grid();
 			Restore_Cache();
 			Cache_Price();
 			Cache_Blueprint();
@@ -116,6 +117,7 @@ void Handle_None(int X, int Y) {
 				Cache.Wire_State = Deep_Recache;
 			}
 			Start_Transition(0);
+			Wipe_Grid();
 			Cache_Price();
 			Cache_Blueprint();
 		} else if (Interface.UI_Selection > 9 && Interface.UI_Selection < 14) {

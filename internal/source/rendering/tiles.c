@@ -257,15 +257,14 @@ void Render_Grid() {
 							Data.Animation_Grid[Column][Row][0] += 1.0f / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 0.5f) {
 								Data.Animation_Grid[Column][Row][0] = 0;
-								float Width = 352.0f / Settings.Screen_Size;
-								float Padding = 64.0f / Settings.Screen_Size;
 								Tick_State();
-								Point_f Coordinate = { (float)(Core.State % (int)Width) + Padding };
+								Point_f Coordinate = { (float)(Core.State % 52) + 16.0f };
 								Tick_State();
-								Coordinate.Y = (float)(Core.State % (int)Width) + Padding;
-								Push_Particle(P_Bubble, Coordinate);
+								Coordinate.Y = (float)(Core.State % 52) + 16.0f;
+								Push_Particle(P_Bubble, (Point){ Column, Row }, Coordinate);
 							}
 						}
+						Render_Particles((Point){ Column, Row });
 						Render_Texture(Metadata.Machines[Algae_Bed].Texture3.Data[Rotation].Data[1], &Carrier);
 						break;
 					case Cable_Node:

@@ -1,65 +1,110 @@
 #include <rendering.h>
 
-Particle* Particles = { };
-int Length = 0;
-int Full_Length = 0;
 const float Deltas[1] = {
-	1.0f
+	5.0f
 };
 
-void Push_Particle(const int Type, const Point_f Pos) {
-	Length++;
-	if (Length >= Full_Length) {
-		Particle* Buffer = malloc(sizeof(Particle) * Length);
-		memcpy_c(Buffer, Particles, sizeof(Particle) * Length);
-		free_c(Particles);
-		Full_Length += 16;
-		Particles = malloc(sizeof(Particle) * Full_Length);
-		memcpy_c(Particles, Buffer, sizeof(Particle) * Length);
-		free_c(Buffer);
+Particle* Particle_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
+int Lengths[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
+int Full_Lengths[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
+
+void Push_Particle(const int Type, const Point Pos, const Point_f Subpos) {
+	if (Lengths[Pos.X][Pos.Y] >= Full_Lengths[Pos.X][Pos.Y]) {
+		Full_Lengths[Pos.X][Pos.Y] += 32;
+		Particle_Grid[Pos.X][Pos.Y] = realloc(Particle_Grid[Pos.X][Pos.Y], sizeof(Particle) * Full_Lengths[Pos.X][Pos.Y]);
 	}
-	Particle Candidate = {
+	Particle_Grid[Pos.X][Pos.Y][Lengths[Pos.X][Pos.Y]] = (Particle){
 		.Type = Type,
-		.Max = Deltas[Type],
-		.Pos = Pos
+		.Pos = Subpos,
+		.Max = Deltas[Type]
 	};
-	Particles[Length - 1] = Candidate;
+	Lengths[Pos.X][Pos.Y]++;
 }
 
-void Pull_Particle(const int Position) {
-	if (Length > 0) {
-		for (int C1 = 0; C1 < Length - Position - 1; C1++) {
-			Particles[Position + C1] = Particles[Position + C1 + 1];
+void Wipe_Grid() {
+	for (int X = 0; X < LDE_GRIDSIZE; X++) {
+		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			free_c(Particle_Grid[X][Y]);
 		}
-		Length--;
 	}
 }
 
-void Tick_Particles() {
-	for (int C1 = 0; C1 < Length; C1++) {
-		Particles[C1].Delta += 1.0f / Interface.Frame_Rate;
-		if (Particles[C1].Delta >= Particles[C1].Max) {
-			Pull_Particle(C1);
+void Init_Grid() {
+	Wipe_Grid();
+	memset(Lengths, 0, sizeof(Lengths));
+	for (int X = 0; X < LDE_GRIDSIZE; X++) {
+		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			Particle_Grid[X][Y] = calloc(1, sizeof(Particle));
+			Full_Lengths[X][Y] = 1;
+		}
+	}
+}
+
+void Pull_Particle(const Point Pos, const int Index) {
+	if (Lengths[Pos.X][Pos.Y] > 0) {
+		Particle* Line = Particle_Grid[Pos.X][Pos.Y];
+		for (int C1 = 0; C1 < Lengths[Pos.X][Pos.Y] - Index - 1; C1++) {
+			Line[Index + C1] = Line[Index + C1 + 1];
+		}
+		Lengths[Pos.X][Pos.Y]--;
+	}
+}
+
+void Wipe_Tile(const Point Pos) {
+	while (Lengths[Pos.X][Pos.Y] > 0) {
+		Pull_Particle(Pos, 0);
+	}
+}
+
+void Render_Particles(const Point Pos) {
+	for (int C1 = 0; C1 < Lengths[Pos.X][Pos.Y]; C1++) {
+		Particle Carrier = Particle_Grid[Pos.X][Pos.Y][C1];
+		Carrier.Delta += 1.0f / Interface.Frame_Rate;
+		if (Carrier.Delta >= Carrier.Max) {
+			Pull_Particle(Pos, C1);
 			C1--;
 			continue;
 		}
-		if (Particles[C1].Type == P_Bubble) {
-			float Increment = Particles[C1].Max / 3.0f;
-			if (Particles[C1].Delta < Increment) {
-				float Size = (Increment / Particles[C1].Delta) * Settings.Screen_Size * 12.0f;
+		if (Carrier.Type == P_Bubble) {
+			float Increment = Carrier.Max / 3.0f;
+			Point_f Rootpos = {
+				((float)(Pos.X * LDE_TILESIZE) + Carrier.Pos.X - Core.Camera.X) * Settings.Screen_Size,
+				((float)(Pos.Y * LDE_TILESIZE) + Carrier.Pos.Y - Core.Camera.Y) * Settings.Screen_Size
+			};
+			float Rootsize = Settings.Screen_Size * 12.0f;
+			if (Carrier.Delta < (Increment * 2.0f)) {
+				float Size = (Carrier.Delta / (Increment * 2.0f)) * Rootsize;
 				SDL_FRect Destination = {
-					Particles[C1].Pos.X * Settings.Screen_Size,
-					Particles[C1].Pos.Y * Settings.Screen_Size,
+					Rootpos.X - (Size * 0.5f),
+					Rootpos.Y - (Size * 0.5f),
 					Size,
 					Size
 				};
-			} else if (Particles[C1].Delta < Increment * 2.0f) {
-				//inner grow
-			} else if (Particles[C1].Delta < Increment * 3.0f) {
-				//fade
-			} else {
-				Pull_Particle(C1);
+				SDL_RenderTexture(Core.Renderer, Textures.A_Bubble.Data[0], NULL, &Destination);
+				if (Carrier.Delta >= Increment) {
+					Size = (Increment - ((Carrier.Delta - Increment) / Increment)) * Rootsize;
+					Destination = (SDL_FRect){
+						Rootpos.X - (Size * 0.5f),
+						Rootpos.Y - (Size * 0.5f),
+						Size,
+						Size
+					};
+				}
+				SDL_RenderTexture(Core.Renderer, Textures.A_Bubble.Data[1], NULL, &Destination);
+			}
+			if (Carrier.Delta >= Increment * 2.0f && Carrier.Delta < Carrier.Max) {
+				SDL_FRect Destination = {
+					Rootpos.X - (Rootsize * 0.5f),
+					Rootpos.Y - (Rootsize * 0.5f),
+					Rootsize,
+					Rootsize
+				};
+				float Transparency = 1.0f - ((Carrier.Delta - (Increment * 2.0f)) / Increment);
+				SDL_SetTextureAlphaModFloat(Textures.A_Bubble.Data[0], Transparency);
+				SDL_RenderTexture(Core.Renderer, Textures.A_Bubble.Data[0], NULL, &Destination);
+				SDL_SetTextureAlphaMod(Textures.A_Bubble.Data[0], SDL_ALPHA_OPAQUE);
 			}
 		}
+		Particle_Grid[Pos.X][Pos.Y][C1] = Carrier;
 	}
 }

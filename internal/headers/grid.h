@@ -5,6 +5,7 @@
 #include <items.h>
 #include <connectables.h>
 #include <transitions.h>
+#include <rendering.h>
 
 void Restore_Cache();
 void Destroy_Clearance(int X, int Y, int Width, int Height);

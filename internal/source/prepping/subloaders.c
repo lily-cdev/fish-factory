@@ -270,27 +270,27 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
-	SDL_Texture* Carrying_Texture = IMG_To_Texture(Core.Renderer, Buffer);
-	float Full_Width = 0, Full_Height = 0;
-	SDL_GetTextureSize(Carrying_Texture, &Full_Width, &Full_Height);
-	int Chunks = floor(Full_Height / (Height * 240));
-	Yield->Data = malloc(sizeof(SDL_Texture*) * Chunks);
-	Yield->Length = Chunks;
-	for (int C1 = 0; C1 < Chunks; C1++) {
-		SDL_Texture* Subtexture = New_Texture(Core.Renderer, Full_Width, Height * 240);
-		SDL_SetTextureBlendMode(Subtexture, SDL_BLENDMODE_BLEND);
-		SDL_SetRenderTarget(Core.Renderer, Subtexture);
-		SDL_FRect Splitting_Rectangle = {
+	SDL_Texture* Carrier = IMG_To_Texture(Core.Renderer, Buffer);
+	Point Chunksize = {
+		Carrier->w,
+		((int)Carrier->h) / Height
+	};
+	Yield->Length = Height;
+	Yield->Data = malloc(sizeof(SDL_Texture*) * Height);
+	for (int C1 = 0; C1 < Height; C1++) {
+		Yield->Data[C1] = New_Texture(Core.Renderer, Chunksize.X, Chunksize.Y);
+		SDL_SetTextureBlendMode(Yield->Data[C1], SDL_BLENDMODE_BLEND);
+		SDL_SetRenderTarget(Core.Renderer, Yield->Data[C1]);
+		SDL_FRect Splitter = {
 			0.0f,
-			C1 * Height * 240.0f,
-			(float)Full_Width,
-			Height * 240.0f
+			(float)(Chunksize.Y * C1),
+			(float)Chunksize.X,
+			(float)Chunksize.Y
 		};
-		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Splitting_Rectangle, NULL);
-		Yield->Data[C1] = Subtexture;
+		SDL_RenderTexture(Core.Renderer, Carrier, &Splitter, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
-	free_texture(Carrying_Texture);
+	free_texture(Carrier);
 }
 
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
@@ -309,8 +309,7 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 			Yield->Data[C1].Data[C2] = New_Texture(Core.Renderer, Max, Max);
 			SDL_SetTextureBlendMode(Yield->Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Yield->Data[C1].Data[C2]);
-			SDL_RenderTextureRotated(Core.Renderer, Subyield.Data[C2], NULL, NULL, C1 * 90, &Center,
-				SDL_FLIP_NONE);
+			SDL_RenderTextureRotated(Core.Renderer, Subyield.Data[C2], NULL, NULL, C1 * 90, &Center, SDL_FLIP_NONE);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
 		}
 		Clear_Texture_Array(&Subyield);

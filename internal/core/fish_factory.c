@@ -132,6 +132,7 @@ int main(int argc, char* args[]) {
 		Cache.FPS_Cache[Cache.FPS_Tick] = min(True_Rate, Interface.Frame_Rate);
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
+	Wipe_Grid();
 	Free_Items();
 	Free_Preconfigs();
 	free_c(Temporary.Docks.Data);

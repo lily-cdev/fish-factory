@@ -229,6 +229,7 @@ void Remove_Machine(int X, int Y) {
 	int Height;
 	ID_To_Size(Visual_To_ID(Data.Visual_Grid[X][Y]), Visual_To_Rotation(Data.Visual_Grid[X][Y]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
+		Wipe_Tile((Point){ X, Y });
 		Data.Visual_Grid[X][Y] = 0;
 		Data.Wiring_Grid[X][Y] = LDE_INVALID;
 		Data.Plumbing_Grid[X][Y] = LDE_INVALID;

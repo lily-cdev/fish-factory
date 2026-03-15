@@ -2,65 +2,40 @@
 
 Bridges Wires = { };
 
-void Render_Wire(int C1, int X_Offset, int Y_Offset, int X_Offset2, int Y_Offset2) {
-	SDL_RenderLine(
-		Core.Renderer,
-		(float)((((Wires.Data[C1].X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires.Data[C1].X1][
-		Wires.Data[C1].Y1][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires.Data[C1].Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires.Data[C1].X1][
-		Wires.Data[C1].Y1][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2),
-		(float)((((Wires.Data[C1].X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires.Data[C1].X2][
-		Wires.Data[C1].Y2][5] * Settings.Screen_Size) - X_Offset) - X_Offset2),
-		(float)((((Wires.Data[C1].Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Wires.Data[C1].X2][
-		Wires.Data[C1].Y2][6] * Settings.Screen_Size) - Y_Offset) - Y_Offset2)
+void Render_Subcable(Bridge Chosen, Point Pos, Point Offset) {
+	SDL_RenderLine(Core.Renderer,
+		(Chosen.X1 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][5] *
+			Settings.Screen_Size) + (float)(Pos.X + Offset.X),
+		(Chosen.Y1 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][6] *
+			Settings.Screen_Size) + (float)(Pos.Y + Offset.Y),
+		(Chosen.X2 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][5] *
+			Settings.Screen_Size) + (float)(Pos.X + Offset.X),
+		(Chosen.Y2 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][6] *
+			Settings.Screen_Size) + (float)(Pos.Y + Offset.Y)
 	);
 }
 
-void Render_Cable(Bridge Chosen) {
-	SDL_RenderLine(
-		Core.Renderer,
-		((Chosen.X1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][5] *
-			Settings.Screen_Size),
-		((Chosen.Y1 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][6] *
-			Settings.Screen_Size),
-		((Chosen.X2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][5] *
-			Settings.Screen_Size),
-		((Chosen.Y2 * LDE_TILESIZE) * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][6] *
-			Settings.Screen_Size)
-	);
+void Render_Cable(Bridge Chosen, Point Offset) {
+	float Radius = Settings.Screen_Size * 3.0f;
+	for (int X = -Radius; X <= Radius; X++) {
+		for (int Y = -Radius; Y <= Radius; Y++) {
+			if ((float)sqrtf(sqr(X) + sqr(Y)) <= Radius) {
+				Render_Subcable(Chosen, (Point){ X, Y }, Offset);
+			}
+		}
+	}
 }
 
 void Render_Wires() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		SDL_SetRenderTarget(Core.Renderer, Cache.Wire_Cache.Data[C1]);
-		int Offset_X = 0;
-		int Offset_Y = 0;
-		switch (C1) {
-		case 1:
-			Offset_X = 1;
-			break;
-		case 2:
-			Offset_X = 1;
-			Offset_Y = 1;
-			break;
-		case 3:
-			Offset_Y = 1;
-			break;
-		default:
-			break;
-		}
-		Offset_X *= LDE_GRIDSIZE * Settings.Screen_Size * 20;
-		Offset_Y *= LDE_GRIDSIZE * Settings.Screen_Size * 20;
+		int Offset_X = (C1 == 1 || C1 == 2) ? LDE_GRIDSIZE * Settings.Screen_Size * 20 : 0;
+		int Offset_Y = (C1 == 2 || C1 == 3) ? LDE_GRIDSIZE * Settings.Screen_Size * 20 : 0;
 		SDL_RenderClear(Core.Renderer);
 		Set_Renderer_Color(Colors.Copper_Wire);
 		for (int C2 = 0; C2 < Wires.Length; C2++) {
 			if (Wires.Data[C2].Filled) {
-				for (int X = 0; X < (int)(ceil(Settings.Screen_Size * 0.5f)); X++) {
-					for (int Y = 0; Y < (int)(ceil(Settings.Screen_Size * 0.5f)); Y++) {
-						//Render_Wire(C2, X, Y, Offset_X, Offset_Y);
-					}
-				}
-				Render_Cable(Wires.Data[C2]);
+				Render_Cable(Wires.Data[C2], (Point){ Offset_X, Offset_Y });
 			} else {
 				Rects.Node.x = (int)((Wires.Data[C2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
 				Rects.Node.y = (int)((Wires.Data[C2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
