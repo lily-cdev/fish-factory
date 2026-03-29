@@ -1,8 +1,8 @@
 #include <rendering.h>
 
 void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* Font, const SDL_Color Color, Point Pos) {
-	if (Replacement == NULL) {
-		puts("failed");
+	if (Replacement == NULL || strlen(Replacement) <= 0) {
+		return;
 	}
 	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL ||
 		Supply->Bounds.y != Pos.Y * Settings.Screen_Size || Supply->Bounds.x != Pos.X * Settings.Screen_Size) {

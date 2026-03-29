@@ -308,7 +308,6 @@ typedef struct {
 	bool Locked;
 	bool Building;
 	bool Sprinting;
-	bool Terminal_Clearing;
 	float Ocean_Cycle;
 	float Node_Cycle;
 	float Movespeed;
@@ -340,7 +339,7 @@ typedef struct {
 	int Valve300_Postions[LDE_VALVE300LENGTH];
 	char Slider_Texts[LDE_SLIDERS][256][32];
 	float Effects[LDE_EFFECTS];
-	char Terminal_Logs[LDE_LOGMAX][128];
+	char Terminal_Logs[LDE_LOGMAX][LDE_PARAMMAX];
 	char Terminal_Entry[128];
 	int Terminal_Length;
 	bool Bar_Up;
@@ -349,7 +348,7 @@ typedef struct {
 typedef struct {
 	char JSON[LDE_JSONMAX][128];
 	int Commands[LDE_CMDMAX];
-	char Parameters[LDE_CMDMAX][4][128];
+	char Parameters[LDE_CMDMAX][4][LDE_PARAMMAX];
 } lde_buffers;
 
 typedef struct {

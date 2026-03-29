@@ -310,7 +310,7 @@ void Render_Grid() {
 					if (Data.Visual_Grid[Column][Row] == 21) {
 						Rects.Tunnel.Data[0].x = ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
 						Rects.Tunnel.Data[0].y = (((Row - 2.25f) * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
-						Render_Texture(Textures.S_Dock.Data[0], &Rects.Tile_6x4);
+						Render_Texture(Metadata.Machines[Submarine_Dock].Texture2.Data[0], &Rects.Tile_6x4);
 						Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 					} else if (Data.Visual_Grid[Column][Row] == 22) {
 						Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[2], &Rects.Tile_2x3);

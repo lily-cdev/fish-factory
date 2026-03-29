@@ -210,7 +210,6 @@ void Process_Inputs() {
 							Play_Sound(Click, false);
 						}
 					}
-					memset(&(Interface.UI_Query), 0, sizeof(UI_Link));
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };

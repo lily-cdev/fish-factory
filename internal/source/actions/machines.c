@@ -7,7 +7,6 @@ void Handle_Spawning_Pool(Point Pos) {
 			if (Interface.UI_Selection == 9) {
 				Interface.Engagement = 1;
 			}
-			Backward_Essentials();
 		} else {
 			Interface.Engagement = 0;
 		}
@@ -16,12 +15,10 @@ void Handle_Spawning_Pool(Point Pos) {
 
 void Handle_Transmitter(Point Pos) {
 	Forward_Essentials(Rects.TT_Buttons.Length, 0);
-	Backward_Essentials();
 }
 
 void Handle_Dock(Point Pos) {
 	Forward_Essentials(Rects.SD_Buttons.Length, 0);
-	Backward_Essentials();
 }
 
 void Handle_Exchanger(Point Pos) {
@@ -37,7 +34,6 @@ void Handle_Exchanger(Point Pos) {
         default:
             break;
         }
-		Backward_Essentials();
 	} else {
 		Interface.Engagement = 0;
 	}
@@ -45,5 +41,4 @@ void Handle_Exchanger(Point Pos) {
 
 void Handle_Turbine(Point Pos) {
 	Forward_Essentials(Rects.MT_Buttons.Length, 0);
-	Backward_Essentials();
 }

@@ -3,7 +3,7 @@
 void Render_MSP_Controller(Point Pos) {
 	Render_Backing();
 	if (Data.Settings_Grid[pt(Pos)][3] > 3) {
-		UI_Link Links[4] = {
+		UI_Link Links[LDE_PERMBUTTONS + 4] = {
 			(UI_Link){ MSP_TInfo, .Param.Pos = Pos },
 			(UI_Link){ MSP_FInfo, .Param.Pos = Pos },
 			(UI_Link){ MSP_Fill, .Param.Pos = Pos },
@@ -35,12 +35,10 @@ void Render_MSP_Controller(Point Pos) {
 			memcpy_c(Buffers.Commands, Command_Types, sizeof(Command_Types));
 			Process_Commands();
 		} else {
-			const char* Parameters[4] = {
-				"set_fish",
-				Interface.Slider_Texts[1][Interface.Slider_Positions[1]],
-				NULLSTRING
-			};
-			Return_Command(Execute, Parameters);
+			char Parameters[4][LDE_PARAMMAX] = { "set_fish" };
+			strcpy(Parameters[1], Interface.Slider_Texts[1][Interface.Slider_Positions[1]]);
+			strcpy(Parameters[2], NULLSTRING);
+			Return_Command(Execute, 4, Parameters);
 			Tick_Input(1, true);
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
@@ -61,7 +59,7 @@ void Render_MSP_Controller(Point Pos) {
 
 void Render_T_Tower(Point Pos) {
 	Render_Backing();
-	UI_Link* Links = malloc(sizeof(UI_Link) * Temporary.Docks.Length);
+	UI_Link* Links = malloc(sizeof(UI_Link) * (LDE_PERMBUTTONS + Temporary.Docks.Length));
 	for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
 		Links[C1] = (UI_Link){ TT_Call_Sub, .Param.Integer = C1 };
 	}
@@ -83,7 +81,7 @@ void Render_T_Tower(Point Pos) {
 
 void Render_S_Dock(Point Pos) {
 	Render_Backing();
-	UI_Link Links[4] = {
+	UI_Link Links[LDE_PERMBUTTONS + 4] = {
 		(UI_Link){ SD_Link, .Param.Pos = Pos },
 		(UI_Link){ SD_Manifest, .Param.Pos = Pos },
 		(UI_Link){ SD_Drain, .Param.Pos = Pos, .Param2.Integer = 0 },
@@ -98,7 +96,7 @@ void Render_S_Dock(Point Pos) {
 		{ NULLSTRING }
 	};
 	for (int C1 = 0; C1 < 5; C1++) {
-		for (int C2 = 0; C2 < veclen(Parameters[C2]) + 1; C2++) {
+		for (int C2 = 0; C2 < veclen(Parameters[C1]) + 1; C2++) {
 			strncpy(Buffers.Parameters[C1][C2], Parameters[C1][C2], sizeof(Buffers.Parameters[C1][C2]));
 		}
 	}
@@ -116,7 +114,7 @@ void Render_S_Dock(Point Pos) {
 
 void Render_H_Exchanger(Point Pos) {
 	Render_Backing();
-	UI_Link Links[1] = {
+	UI_Link Links[LDE_PERMBUTTONS + 1] = {
 		(UI_Link){ HX_Diagnostics, .Param.Pos = Pos }
 	};
 	Render_Sidebuttons(&Textures.HX_Buttons, &Rects.HX_Buttons, Links);
@@ -133,22 +131,18 @@ void Render_H_Exchanger(Point Pos) {
 	} else if (Interface.Engagement == 2) {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[7]]);
-		const char* Subparameters[4] = {
-			"set_primary_valve",
-			Buffer,
-			NULLSTRING
-		};
-		Return_Command(Execute, Subparameters);
+		char Subparameters[4][LDE_PARAMMAX] = { "set_primary_valve" };
+		strcpy(Subparameters[1], Buffer);
+		strcpy(Subparameters[1], NULLSTRING);
+		Return_Command(Execute, 4, Subparameters);
 		Tick_Input(2, true);
 	} else {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[13]]);
-		const char* Subparameters[4] = {
-			"set_feedwater_valve",
-			Buffer,
-			NULLSTRING
-		};
-		Return_Command(Execute, Subparameters);
+		char Subparameters[4][LDE_PARAMMAX] = { "set_feedwater_valve" };
+		strcpy(Subparameters[1], Buffer);
+		strcpy(Subparameters[1], NULLSTRING);
+		Return_Command(Execute, 4, Subparameters);
 		Tick_Input(3, true);
 	}
 	Render_Necessities("heat_exchanger", "exchanger");
@@ -156,7 +150,7 @@ void Render_H_Exchanger(Point Pos) {
 
 void Render_MT_Input(Point Pos) {
 	Render_Backing();
-	UI_Link Links[1] = {
+	UI_Link Links[LDE_PERMBUTTONS + 1] = {
 		(UI_Link){ MT_Diagnostics, .Param.Pos = Pos }
 	};
 	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons, Links);

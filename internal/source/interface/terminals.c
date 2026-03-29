@@ -1,40 +1,32 @@
 #include <ui.h>
 
 char Errors[LDE_ERRORS][32] = {
-	"NO DOCKED SUB",
-	"SUB DOCKED",
-	"TARGET EMPTY",
-	"FILE NOT FOUND",
-	"LOW VALUE",
-	"NO FISH PRESENT",
-	"FISH PRESENT",
-	"NO INPUT",
-	"NO OUTPUT",
-	"TOO MANY INPUTS",
-	"TOO MANY OUTPUTS",
-	"TOO MANY CONTROLLERS",
-	"NO POOL TILES"
+	"no docked sub",
+	"sub docked",
+	"target empty",
+	"file not found",
+	"low value",
+	"no fish present",
+	"fish present",
+	"no input",
+	"no output",
+	"too many inputs",
+	"too many outputs",
+	"too many controllers",
+	"no pool tiles"
 };
 
 void Push_Terminal(const char* Line) {
-	for (int C1 = LDE_LOGMAX - 1; C1 > 0; C1++) {
+	for (int C1 = LDE_LOGMAX - 1; C1 > 0; C1--) {
 		strncpy(Interface.Terminal_Logs[C1], Interface.Terminal_Logs[C1 - 1], sizeof(Interface.Terminal_Logs[C1]));
 	}
 	strncpy(Interface.Terminal_Logs[0], Line, sizeof(Interface.Terminal_Logs[0]));
 }
 
 void To_Code(int Input, char* Yield) {
-	int Position = 0;
-	while (Input != 0) {
-		int Intermediate = Input & 15;
-		Yield[Position] = (char)(Intermediate < 10 ? Intermediate + 48 : Intermediate + 55);
-		Position++;
-		Input /= 16;
-	}
-	if (Position != 2) {
-		Yield[1] = Yield[0];
-		Yield[0] = '0';
-	}
+	const char* Lookup = "0123456789abcdef";
+	Yield[0] = Lookup[(Input >> 4) & 15];
+	Yield[1] = Lookup[Input & 15];
 	Yield[2] = '\0';
 }
 
@@ -42,7 +34,7 @@ void Print_Error(int Input) {
 	char Carrier[256];
 	char Code[4];
 	To_Code(Input, Code);
-	snprintf(Carrier, sizeof(Carrier), ": ERROR 0x%s -> %s", Code, Errors[Input]);
+	snprintf(Carrier, sizeof(Carrier), ": error 0x%s -> %s", Code, Errors[Input]);
 	Push_Terminal(Carrier);
 }
 
@@ -50,7 +42,7 @@ void Print_Fatal_Error(int Input) {
 	char Carrier[256];
 	char Code[4];
 	To_Code(Input, Code);
-	snprintf(Carrier, sizeof(Carrier), "FATAL ERROR 0x%s -> %s", Code, Errors[Input]);
+	snprintf(Carrier, sizeof(Carrier), "fatal error 0x%s -> %s", Code, Errors[Input]);
 	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, 0, Colors.Cherry_Blossom);
 	SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 	SDL_FRect Destination = {
@@ -64,11 +56,9 @@ void Print_Fatal_Error(int Input) {
 	free_texture(Carrying_Texture);
 	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
-		const char* Parameters[2] = {
-			"quit",
-			NULLSTRING
-		};
-		Return_Command(Execute, Parameters);
+		char Parameters[2][LDE_PARAMMAX] = { "quit" };
+		strcpy(Parameters[1], NULLSTRING);
+		Return_Command(Execute, 2, Parameters);
 	}
 	Tick_Input(3, false);
 }
@@ -78,7 +68,15 @@ void Render_Backing() {
 	Render_Box((Point){ 460, 40 }, 140, 280, Colors.Abyss_Black, Colors.Dark_Grey);
 }
 
+void Machine_Clear(Parameter Unused, Parameter Unused2) {
+	memset(Interface.Terminal_Logs, 0, LDE_LOGMAX * LDE_PARAMMAX);
+	Interface.Terminal_Length = 0;
+	Print_Response("cleared console log");
+}
+
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes, UI_Link* Links) {
+	Links[Hitboxes->Length - 1] = (UI_Link){ Machine_Clear };
+	Links[Hitboxes->Length - 2] = (UI_Link){ Machine_Exit };
 	for (int C1 = 0; C1 < Hitboxes->Length; C1++) {
 		Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], Links[C1], Colors.Pure_White);
 	}
@@ -113,23 +111,8 @@ void Print_Input() {
 }
 
 void Forward_Essentials(int Buttons, int Sliders) {
-	Interface.Terminal_Clearing = false;
 	if (Interface.UI_Selection > 2 && Interface.UI_Selection < Buttons + Sliders + 1) {
 		Print_Input();
-	}
-	if (Interface.UI_Selection == Buttons + 1) {
-		Interface.Terminal_Clearing = true;
-		Interface.Terminal_Length = 0;
-	} else if (Interface.UI_Selection == Buttons + 2) {
-		Interface.Prompt_Identifier = LDE_INVALID;
-		Interface.Subprompt_Identifier = LDE_INVALID;
-		Interface.Terminal_Length = 0;
-	}
-}
-
-void Backward_Essentials() {
-	if (Interface.Terminal_Clearing) {
-		Print_Response("cleared console log");
 	}
 }
 
@@ -137,7 +120,7 @@ void Render_Necessities(char* Machine, char* Prefix) {
 	char Buffer[64];
 	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.elf", Machine);
 	Process_Supply(&Supplies.Terminal_Title, Buffer, Fonts.Terminal_Font, Colors.Cherry_Blossom, (Point){ 50, 50 });
-	Render_Texture(Textures.Terminal_Prompt, &Rects.Terminal_Prompt);
+	//Render_Texture(Textures.Terminal_Prompt, &Rects.Terminal_Prompt); TMP
 	if (strlen(Interface.Terminal_Entry) > 0) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
@@ -158,8 +141,8 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		free_c(Result);
 	}
 	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
-		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font,
-			Colors.Cherry_Blossom, (Point){ 50, 280 - (C1 * 20) });
+		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font, Colors.Cherry_Blossom,
+			(Point){ 50, 280 - (C1 * 20) });
 	}
 }
 
@@ -185,13 +168,13 @@ void Tick_Input(int Target, bool Slider) {
 	}
 }
 
-void Return_Command(const int Type, const char* Parameters[]) {
+void Return_Command(const int Type, const int Length, const char Parameters[Length][LDE_PARAMMAX]) {
 	if (Type == Get_Data) {
 		strncpy(Interface.Terminal_Entry, "open(", sizeof(Interface.Terminal_Entry));
 	} else {
 		strncpy(Interface.Terminal_Entry, "call(", sizeof(Interface.Terminal_Entry));
 	}
-	for (int C1 = 0; C1 < veclen(Parameters); C1++) {
+	for (int C1 = 0; C1 < Length; C1++) {
 		charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
 		strcat_c(Interface.Terminal_Entry, Parameters[C1], sizeof(Interface.Terminal_Entry));
 		if (C1 == 0) {
@@ -202,7 +185,7 @@ void Return_Command(const int Type, const char* Parameters[]) {
 			}
 		}
 		charcat(Interface.Terminal_Entry, '\"',  sizeof(Interface.Terminal_Entry));
-		if (C1 < veclen(Parameters) - 1) {
+		if (C1 < Length - 1) {
 			strcat_c(Interface.Terminal_Entry, ", ", sizeof(Interface.Terminal_Entry));
 		}
 	}
@@ -219,8 +202,8 @@ void Process_Commands() {
 	strncpy(Buffers.Parameters[Base + 1][1], NULLSTRING, sizeof(Buffers.Parameters[Base + 1][1]));
 	Buffers.Commands[Base + 2] = LDE_TERMINATOR;
 	for (int C1 = 0; C1 < intlen(Buffers.Commands); C1++) {
-		if (Interface.UI_Selection == C1 + 3) {
-			Return_Command(Buffers.Commands[C1], (const char**)Buffers.Parameters[C1]);
+		if (Interface.UI_Selection == C1 + 3) {//fix
+			Return_Command(Buffers.Commands[C1], 4, Buffers.Parameters[C1]);
 		}
 	}
 	for (int C1 = 3; C1 < intlen(Buffers.Commands) + 3; C1++) {

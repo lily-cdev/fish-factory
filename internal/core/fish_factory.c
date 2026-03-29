@@ -72,6 +72,7 @@ int main(int argc, char* args[]) {
 			Render_Closing(Closing_Parameters[Interface.UI_Tab - 1]);			
 		}
 		Process_Inputs();
+		memset(&(Interface.UI_Query), 0, sizeof(UI_Link));
 		switch (Interface.UI_Tab) {
 		case 0:
 			if (Data.CMD_Placed) {
