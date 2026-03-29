@@ -91,7 +91,7 @@ void Render_Application() {
 					}
 				}
 			}
-			if (Satiated && Data.Data_Grid[Pos.X][Pos.Y][Power_Cap] >= 0.1f) {
+			if (Satiated && Data.Data_Grid[pt(Pos)][Power_Cap] >= 0.1f) {
 				SDL_FRect Energy = {
 					0,
 					0,
@@ -103,13 +103,13 @@ void Render_Application() {
 				Set_Renderer_Color(Colors.Dark_Grey);
 				SDL_RenderFillRect(Core.Renderer, &Energy);
 				Clear_Renderer();
-				Energy.h *= Data.Data_Grid[Pos.X][Pos.Y][Stored_Power] / Data.Data_Grid[Pos.X][Pos.Y][Power_Cap];
+				Energy.h *= Data.Data_Grid[pt(Pos)][Stored_Power] / Data.Data_Grid[pt(Pos)][Power_Cap];
 				Energy.y += Height - Energy.h;
 				Set_Renderer_Color(Colors.Cherry_Blossom);
 				SDL_RenderFillRect(Core.Renderer, &Energy);
 				Clear_Renderer();
 			}
-			if (Satiated && Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap] >= 0.1f) {
+			if (Satiated && Data.Data_Grid[pt(Pos)][Fluid_Cap] >= 0.1f) {
 				SDL_FRect Item = {
 					0,
 					0,
@@ -122,7 +122,7 @@ void Render_Application() {
 				Set_Renderer_Color(Colors.Dark_Grey);
 				SDL_RenderFillRect(Core.Renderer, &Item);
 				Clear_Renderer();
-				Item.h *= Data.Data_Grid[Pos.X][Pos.Y][Stored_Fluids] / Data.Data_Grid[Pos.X][Pos.Y][Fluid_Cap];
+				Item.h *= Data.Data_Grid[pt(Pos)][Stored_Fluids] / Data.Data_Grid[pt(Pos)][Fluid_Cap];
 				Item.y += Height - Item.h;
 				Set_Renderer_Color(Colors.Cherry_Blossom);
 				SDL_RenderFillRect(Core.Renderer, &Item);
@@ -133,10 +133,10 @@ void Render_Application() {
 					Settings.Screen_Size * 20.0f,
 					Settings.Screen_Size * 20.0f
 				};
-				if (Data.Items_Grid[Pos.X][Pos.Y] == LDE_INVALID) {
-					SDL_RenderTexture(Core.Renderer, Textures.None_Item, NULL, &Item_Rect);
+				if (Data.Items_Grid[pt(Pos)] == LDE_INVALID) {
+					Render_Texture(Textures.None_Item, &Item_Rect);
 				} else {
-					SDL_RenderTexture(Core.Renderer, Textures.Items.Data[Data.Items_Grid[Pos.X][Pos.Y]], NULL, &Item_Rect);
+					Render_Texture(Textures.Items.Data[Data.Items_Grid[pt(Pos)]], &Item_Rect);
 				}
 			}
 		}
@@ -192,7 +192,7 @@ void Render_Hotbar() {
 		Background.x = (Settings.Screen_Size * 320.0f) - (Background.w * 0.5f);
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Clear_Renderer();
-		SDL_RenderTexture(Core.Renderer, Fragment_Texture, NULL, &Fragment_Rectangle);
+		Render_Texture(Fragment_Texture, &Fragment_Rectangle);
 		free_texture(Fragment_Texture);
 	}
 	float Bar_Height = Settings.Screen_Size * 310.0f;
@@ -228,7 +228,7 @@ void Render_Hotbar() {
 			Clear_Renderer();
 			Rects.Tool[C1].x = (Pasting.w * 0.5f) - (Rects.Tool[C1].w * 0.5f) + Pasting.x;
 			Rects.Tool[C1].y = (Bar_Width * 0.5f) - (Rects.Tool[C1].h * 0.5f) + Bar_Height;
-			SDL_RenderTexture(Core.Renderer, Textures.Tool.Data[C1], NULL, &Rects.Tool[C1]);
+			Render_Texture(Textures.Tool.Data[C1], &Rects.Tool[C1]);
 			char Carrier[32];
 			snprintf(Carrier, sizeof(Carrier), "[%s]", SDL_GetKeyName(Keybinds.Keybind_List[C1 + 4]));
 			SDL_Surface* Surface = TTF_RenderText_Blended(Fonts.Microtext_Font, Carrier, 0, Colors.Abyss_Black);
@@ -239,7 +239,7 @@ void Render_Hotbar() {
 				Surface->h
 			};
 			SDL_Texture* Texture = Surface_To_Texture(Core.Renderer, Surface);
-			SDL_RenderTexture(Core.Renderer, Texture, NULL, &Subcarrier);
+			Render_Texture(Texture, &Subcarrier);
 			free_texture(Texture);
 			SDL_DestroySurface(Surface);
 		}

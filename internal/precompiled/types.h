@@ -77,3 +77,15 @@ typedef struct {
 		Texture2_Array Texture3;
 	};
 } Machine_Data;
+
+typedef union {
+	void* Pointer;
+	int Integer;
+	Point Pos;
+} Parameter;
+
+typedef struct {
+	void (*Carrier)(Parameter Param, Parameter Param2);
+	Parameter Param;
+	Parameter Param2;
+} UI_Link;

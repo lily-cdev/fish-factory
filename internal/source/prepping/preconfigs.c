@@ -77,12 +77,12 @@ void Free_Preconfigs() {
 	Free_Preconfig(Preconfigs.RP_Outputs);
 }
 
-void Return_Nodes(Node* Yield, const int Column, const int Row, const int Rotation, Node Preconfig[4]) {
+void Return_Nodes(Node* Yield, Point Pos, const int Rotation, Node Preconfig[4]) {
 	free_c(Yield->Data);
 	Yield->Length = Preconfig[Rotation].Length;
 	Yield->Data = malloc(sizeof(Point) * Yield->Length);
 	for (int C1 = 0; C1 < Yield->Length; C1++) {
-		Yield->Data[C1].X = Preconfig[Rotation].Data[C1].X + Column;
-		Yield->Data[C1].Y = Preconfig[Rotation].Data[C1].Y + Row;
+		Yield->Data[C1].X = Preconfig[Rotation].Data[C1].X + Pos.X;
+		Yield->Data[C1].Y = Preconfig[Rotation].Data[C1].Y + Pos.Y;
 	}
 }

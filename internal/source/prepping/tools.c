@@ -46,9 +46,9 @@ void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 	}
 }
 
-void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, int Selection, SDL_Color Underline_Color) {
+void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Link Link, SDL_Color Underline_Color) {
 	if (Detect_Mouse_Collision(Hitbox->Data[0])) {
-		Interface.UI_Selection = Selection;
+		Interface.UI_Query = Link;
 		SDL_FRect Underline_Rectangle = {
 			Hitbox->Data[0].x,
 			Hitbox->Data[0].y + Hitbox->Data[0].h + 2.0f,
@@ -87,13 +87,13 @@ void Pull_Docks(int Position) {
 	}
 }
 
-bool Check_Clearance(const int X, const int Y, const int W, const int H) {
-	if (X + W > LDE_GRIDSIZE || Y + H > LDE_GRIDSIZE) {
+bool Check_Clearance(Point Pos, const int W, const int H) {
+	if (Pos.X + W > LDE_GRIDSIZE || Pos.Y + H > LDE_GRIDSIZE) {
 		return false;
 	} 
 	for (int C1 = 0; C1 < W; C1++) {
 		for (int C2 = 0; C2 < H; C2++) {
-			if (Data.Visual_Grid[X + C1][Y + C2] != 0) {
+			if (Data.Visual_Grid[Pos.X + C1][Pos.Y + C2] != 0) {
 				return false;
 			}
 		}
@@ -101,13 +101,13 @@ bool Check_Clearance(const int X, const int Y, const int W, const int H) {
 	return true;
 }
 
-void Fill_Clearance(const int Identifier, const int X, const int Y, const int W, const int H) {
+void Fill_Clearance(const int Identifier, Point Pos, const int W, const int H) {
 	for (int C1 = 0; C1 < W; C1++) {
 		for (int C2 = 0; C2 < H; C2++) {
-			Data.Visual_Grid[X + C1][Y + C2] = Identifier;
+			Data.Visual_Grid[Pos.X + C1][Pos.Y + C2] = Identifier;
 			if (C1 > 0 || C2 > 0) {
-				Data.Settings_Grid[X + C1][Y + C2][1] = X;
-				Data.Settings_Grid[X + C1][Y + C2][2] = Y;
+				Data.Settings_Grid[Pos.X + C1][Pos.Y + C2][1] = Pos.X;
+				Data.Settings_Grid[Pos.X + C1][Pos.Y + C2][2] = Pos.Y;
 			}
 		}
 	}
@@ -122,7 +122,7 @@ void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect) {
 	SDL_RenderTexture(Core.Renderer, Texture, NULL, Rect);
 }
 
-int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool Inverted, bool Disabled) {
+int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled) {
 	int Offset = 0;
 	int Fragment_Count = 1;
 	size_t Start = 0;
@@ -195,11 +195,11 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, int X, int Y, bool
 			char* Subfragment = Fragments[Multiplier * (Subtractor - C1)];
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
-		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - C1)],
-			0, Colors.Abyss_Black);
+		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - C1)], 0,
+			Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = {
-			(float)(X * Settings.Screen_Size),
-			(float)(Y * Settings.Screen_Size) + Offset,
+			(float)(Pos.X * Settings.Screen_Size),
+			(float)(Pos.Y * Settings.Screen_Size) + Offset,
 			(float)Fragment_Surface->w,
 			(float)Fragment_Surface->h
 		};
@@ -228,4 +228,17 @@ void Reseed_State() {
 	struct timespec Spec;
 	timespec_get(&Spec, TIME_UTC);
 	Core.State = (uint32_t)(Spec.tv_nsec / 1000000);
+}
+
+SDL_FRect Inline_Rect(SDL_FRect Input, const int Border) {
+	return (SDL_FRect){
+		Input.x += (Settings.Screen_Size * Border),
+		Input.y += (Settings.Screen_Size * Border),
+		Input.w -= (Settings.Screen_Size * Border * 2.0f),
+		Input.h -= (Settings.Screen_Size * Border * 2.0f)
+	};
+}
+
+bool Is_Bound(Point Input) {
+	return (Input.X >= 0 && Input.Y >= 0 && Input.X < LDE_GRIDSIZE && Input.Y < LDE_GRIDSIZE);
 }

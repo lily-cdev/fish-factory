@@ -2,7 +2,7 @@
 
 void Recache_TT_Commands() {
 	String2 Carrier;
-	Carrier.Length = Temporary.Docks.Length;
+	Carrier.Length = min(Temporary.Docks.Length, LDE_CMDMAX);
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int C1 = 0; C1 < Carrier.Length; C1++) {
 		Carrier.Data[C1] = malloc(sizeof(char) * 128);

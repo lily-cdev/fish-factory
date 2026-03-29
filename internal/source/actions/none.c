@@ -1,6 +1,6 @@
 #include <interface.h>
 
-void Handle_None(int X, int Y) {
+void Handle_None(Point Pos) {
 	switch (Interface.UI_Tab) {
 	case 0:
 		switch (Interface.UI_Selection) {
@@ -72,74 +72,10 @@ void Handle_None(int X, int Y) {
 			break;
 		}
 		break;
-	case 1:
-		switch (Interface.UI_Selection) {
-		case 1:
-			Start_Transition(2);
-			Core.Selected_Save = LDE_INVALID;
-			Get_Filesizes();
-			break;
-		case 2:
-			Start_Transition(3);
-			break;
-		case 3:
-			Start_Transition(4);
-			break;
-		case 4:
-			Start_Transition(5);
-			break;
-		case 5:
-			Core.Is_Running = false;
-			break;
-		default:
-			break;
-		}
-		break;
-	case 2:
-		if (Interface.UI_Selection == 1) {
-			Start_Transition(1);
-		} else if (Interface.UI_Selection > 1 && Interface.UI_Selection < 6) {
-			Core.Selected_Save = Interface.UI_Selection - 1;
-			Reset_Statistics();
-			Find_Effect();
-			Start_Transition(0);
-			Wipe_Grid();
-			Restore_Cache();
-			Cache_Price();
-			Cache_Blueprint();
-			Cache.Wire_State = Deep_Recache;
-		} else if (Interface.UI_Selection > 5 && Interface.UI_Selection < 10) {
-			Core.Selected_Save = Interface.UI_Selection - 5;
-			if (Load_Data(Interface.UI_Selection - 5)) {
-				Save_Data(Interface.UI_Selection - 5);
-				Find_Effect();
-				Restore_Cache();
-				Cache.Wire_State = Deep_Recache;
-			}
-			Start_Transition(0);
-			Wipe_Grid();
-			Cache_Price();
-			Cache_Blueprint();
-		} else if (Interface.UI_Selection > 9 && Interface.UI_Selection < 14) {
-			char Buffer[256];
-			snprintf(Buffer, sizeof(Buffer), "slot%d.pkg", Interface.UI_Selection - 9);
-			Clear_File(Buffer);
-			Get_Filesizes();
-		}
-		break;
 	case 3:
 		if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
-			if (Interface.UI_Selection == 1) {
-				Start_Transition(1);
-			} else if (Interface.UI_Selection == 2) {
-				Recalibrate_Settings();
-				Temporary.Settings_Changed = true;
-			} else if (Interface.UI_Selection == 3) {
-				Clear_Settings();
-			} else if (Interface.UI_Selection == 4) {
+			if (Interface.UI_Selection == 4) {
 				Interface.Engagement = 1;
-			} else if (Interface.UI_Selection == 5) {
-				Settings.AA_Temporary = !Settings.AA_Temporary;
 			} else if (Interface.UI_Selection > 5 && Interface.UI_Selection < 20) {
 				Interface.Registering_Keybind = Interface.UI_Selection - 6;
 			} else if (Interface.UI_Selection == 20) {
@@ -148,34 +84,9 @@ void Handle_None(int X, int Y) {
 				Interface.Engagement = 3;
 			} else if (Interface.UI_Selection == 22) {
 				Interface.Engagement = 4;
-			} else if (Interface.UI_Selection == 23) {
-				if (Save_Settings()) {
-					Temporary.Settings_Changed = false;
-				}
-			} else if (Interface.UI_Selection == 24) {
-				Settings.VS_Temporary = !Settings.VS_Temporary;
 			}
 		} else {
 			Interface.Engagement = 0;
-		}
-		break;
-	case 4:
-		switch (Interface.UI_Selection) {
-		case 1:
-			Start_Transition(1);
-			break;
-		case 2:
-			Temporary.Log_Inversions[Changelog] = !Temporary.Log_Inversions[Changelog];
-			Reload_All();
-			break;
-		case 3:
-			Temporary.Scroll_Percent = 100;
-			Interface.Log_Offset = Interface.Log_Heights[Changelog];
-			break;
-		case 4:
-			Temporary.Scroll_Percent = 0;
-			Interface.Log_Offset = 0;
-			break;
 		}
 		break;
 	case 5:

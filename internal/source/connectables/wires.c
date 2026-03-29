@@ -70,12 +70,12 @@ void Render_Wire_Nodes() {
 
 #define Compare1(Victim) (Wires.Data[C1].Victim == Wires.Data[End].Victim)
 #define Compare2(A, B) (Wires.Data[C1].A == Wires.Data[End].B)
-void Connect_Wire(int X, int Y) {
+void Connect_Wire(Point Pos) {
 	int End = Wires.Length - 1;
 	if (Wires.Length > 0 && !Wires.Data[End].Filled) {
-		if (Data.Wiring_Grid[X][Y] == F_In || Data.Wiring_Grid[X][Y] == F_Either) {
-			Wires.Data[End].X2 = X;
-			Wires.Data[End].Y2 = Y;
+		if (Data.Wiring_Grid[pt(Pos)] == F_In || Data.Wiring_Grid[pt(Pos)] == F_Either) {
+			Wires.Data[End].X2 = Pos.X;
+			Wires.Data[End].Y2 = Pos.Y;
 			Wires.Data[End].Filled = true;
 			Cache.Wire_State = Recache;
 			for (int C1 = 0; C1 < End; C1++) {
@@ -90,10 +90,10 @@ void Connect_Wire(int X, int Y) {
 			Pull_Bridge(&Wires, Wires.Length - 1);
 		}
 	} else {
-		if (Data.Wiring_Grid[X][Y] == F_Out || Data.Wiring_Grid[X][Y] == F_Either) {
+		if (Data.Wiring_Grid[pt(Pos)] == F_Out || Data.Wiring_Grid[pt(Pos)] == F_Either) {
 			Bridge Wire = { };
-			Wire.X1 = X;
-			Wire.Y1 = Y;
+			Wire.X1 = Pos.X;
+			Wire.Y1 = Pos.Y;
 			Push_Bridge(&Wires, Wire);
 		}
 	}
@@ -108,10 +108,10 @@ void Place_Wire() {
 			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-					Connect_Wire((int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][Row][
-						S_ParentY]));
+					Connect_Wire((Point){ (int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][
+						Row][S_ParentY]) });
 				} else {
-					Connect_Wire(Column, Row);
+					Connect_Wire((Point){ Column, Row });
 				}
 				return;
 			}

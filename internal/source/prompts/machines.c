@@ -1,10 +1,16 @@
 #include <ui.h>
 
-void Render_MSP_Controller(int X, int Y) {
+void Render_MSP_Controller(Point Pos) {
 	Render_Backing();
-	if (Data.Settings_Grid[X][Y][3] > 3) {
-		Render_Sidebuttons(&Textures.MSP_Buttons, &Rects.MSP_Buttons);
-		Render_Slider(Interface.Slider_Texts[1], 1, 2, 9, &Interface.Slider_Positions[1], 475, 210, 110,
+	if (Data.Settings_Grid[pt(Pos)][3] > 3) {
+		UI_Link Links[4] = {
+			(UI_Link){ MSP_TInfo, .Param.Pos = Pos },
+			(UI_Link){ MSP_FInfo, .Param.Pos = Pos },
+			(UI_Link){ MSP_Fill, .Param.Pos = Pos },
+			(UI_Link){ MSP_Empty, .Param.Pos = Pos }
+		};
+		Render_Sidebuttons(&Textures.MSP_Buttons, &Rects.MSP_Buttons, Links);
+		Render_Slider(Interface.Slider_Texts[1], 1, 2, 9, &Interface.Slider_Positions[1], (Point){ 475, 210 }, 110,
 			Colors.Cherry_Blossom, Colors.Pure_White, false);
 		if (Interface.Engagement == 0) {
 			char* Parameters[5][4] = {
@@ -38,24 +44,28 @@ void Render_MSP_Controller(int X, int Y) {
 			Tick_Input(1, true);
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
-	} else if (Data.Settings_Grid[X][Y][3] == -6) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] == -6) {
 		Print_Fatal_Error(Too_Many_Inputs);
-	} else if (Data.Settings_Grid[X][Y][3] == -5) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] == -5) {
 		Print_Fatal_Error(Missing_Input);
-	} else if (Data.Settings_Grid[X][Y][3] == -4) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] == -4) {
 		Print_Fatal_Error(Too_Many_Outputs);
-	} else if (Data.Settings_Grid[X][Y][3] == -3) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] == -3) {
 		Print_Fatal_Error(Missing_Output);
-	} else if (Data.Settings_Grid[X][Y][3] == -2) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] == -2) {
 		Print_Fatal_Error(Too_Many_Controllers);
-	} else if (Data.Settings_Grid[X][Y][3] < 4) {
+	} else if (Data.Settings_Grid[pt(Pos)][3] < 4) {
 		Print_Fatal_Error(Missing_Pool);					
 	}
 }
 
-void Render_T_Tower(int X, int Y) {
+void Render_T_Tower(Point Pos) {
 	Render_Backing();
-	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons);
+	UI_Link* Links = malloc(sizeof(UI_Link) * Temporary.Docks.Length);
+	for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
+		Links[C1] = (UI_Link){ TT_Call_Sub, .Param.Integer = C1 };
+	}
+	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons, Links);
 	int Limiter = min(Temporary.Docks.Length, LDE_CMDMAX - 1);
 	for (int C1 = 0; C1 < Limiter; C1++) {
 		Buffers.Commands[C1] = Execute;
@@ -68,11 +78,18 @@ void Render_T_Tower(int X, int Y) {
 	strncpy(Buffers.Parameters[Limiter][0], NULLSTRING, sizeof(Buffers.Parameters[Limiter][0]));
 	Process_Commands();
 	Render_Necessities("transmitter", "tower");
+	free_c(Links);
 }
 
-void Render_S_Dock(int X, int Y) {
+void Render_S_Dock(Point Pos) {
 	Render_Backing();
-	Render_Sidebuttons(&Textures.SD_Buttons, &Rects.SD_Buttons);
+	UI_Link Links[4] = {
+		(UI_Link){ SD_Link, .Param.Pos = Pos },
+		(UI_Link){ SD_Manifest, .Param.Pos = Pos },
+		(UI_Link){ SD_Drain, .Param.Pos = Pos, .Param2.Integer = 0 },
+		(UI_Link){ SD_Drain, .Param.Pos = Pos, .Param2.Integer = 1 }
+	};
+	Render_Sidebuttons(&Textures.SD_Buttons, &Rects.SD_Buttons, Links);
 	char* Parameters[5][4] = {
 		{ "link", NULLSTRING },
 		{ "manifest", NULLSTRING },
@@ -97,13 +114,16 @@ void Render_S_Dock(int X, int Y) {
 	Render_Necessities("submarine_dock", "dock");
 }
 
-void Render_H_Exchanger(int X, int Y) {
+void Render_H_Exchanger(Point Pos) {
 	Render_Backing();
-	Render_Sidebuttons(&Textures.HX_Buttons, &Rects.HX_Buttons);
+	UI_Link Links[1] = {
+		(UI_Link){ HX_Diagnostics, .Param.Pos = Pos }
+	};
+	Render_Sidebuttons(&Textures.HX_Buttons, &Rects.HX_Buttons, Links);
 	Render_Slider(Interface.Slider_Texts[13], 3, LDE_VALVE300LENGTH - 1, 6, &Interface.Slider_Positions[13],
-		475, 190, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
+		(Point){ 475, 190 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	Render_Slider(Interface.Slider_Texts[7], 2, LDE_VALVE300LENGTH - 1, 7, &Interface.Slider_Positions[7],
-		475, 150, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
+		(Point){ 475, 150 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	if (Interface.Engagement == 0) {
 		strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
 		strncpy(Buffers.Parameters[0][1], NULLSTRING, sizeof(Buffers.Parameters[0][1]));
@@ -134,9 +154,12 @@ void Render_H_Exchanger(int X, int Y) {
 	Render_Necessities("heat_exchanger", "exchanger");
 }
 
-void Render_MT_Input(int X, int Y) {
+void Render_MT_Input(Point Pos) {
 	Render_Backing();
-	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons);
+	UI_Link Links[1] = {
+		(UI_Link){ MT_Diagnostics, .Param.Pos = Pos }
+	};
+	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons, Links);
 	strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
 	strncpy(Buffers.Parameters[0][1], NULLSTRING, sizeof(Buffers.Parameters[0][1]));
 	Buffers.Commands[0] = Get_Data;

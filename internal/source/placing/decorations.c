@@ -1,52 +1,52 @@
 #include <grid.h>
 
-bool Place_Decoration(int X, int Y) {
-    Data.Visual_Grid[X][Y] = 20;
+bool Place_Decoration(Point Pos) {
+    Data.Visual_Grid[pt(Pos)] = 20;
     return true;
 }
 
-bool Place_Flowerpot(int X, int Y) {
-    Data.Visual_Grid[X][Y] = 51;
+bool Place_Flowerpot(Point Pos) {
+    Data.Visual_Grid[pt(Pos)] = 51;
     return true;
 }
 
-bool Place_Ammunition_Shelf(int X, int Y) {
+bool Place_Ammunition_Shelf(Point Pos) {
     bool Placed = false;
 	if (evn(Interface.Rotation)) {
-		if (Check_Clearance(X, Y, 2, 1)) {
-			Fill_Clearance(LDE_INVALID, X, Y, 2, 1);
+		if (Check_Clearance(Pos, 2, 1)) {
+			Fill_Clearance(LDE_INVALID, Pos, 2, 1);
 			Placed = true;
 		}
 	} else {
-		if (Check_Clearance(X, Y, 1, 2)) {
-			Fill_Clearance(LDE_INVALID, X, Y, 1, 2);
+		if (Check_Clearance(Pos, 1, 2)) {
+			Fill_Clearance(LDE_INVALID, Pos, 1, 2);
 			Placed = true;
 		}
 	}
 	if (Placed) {
-		Data.Visual_Grid[X][Y] = Interface.Rotation + 52;
+		Data.Visual_Grid[pt(Pos)] = Interface.Rotation + 52;
 	} else {
 		return false;
 	}
 	return true;
 }
 
-bool Place_Petrified_Wood(int X, int Y) {
-	Data.Visual_Grid[X][Y] = 91;
+bool Place_Petrified_Wood(Point Pos) {
+	Data.Visual_Grid[pt(Pos)] = 91;
     return true;
 }
 
-bool Place_Basalt_Tile(int X, int Y) {
-	Data.Visual_Grid[X][Y] = 92;
+bool Place_Basalt_Tile(Point Pos) {
+	Data.Visual_Grid[pt(Pos)] = 92;
     return true;
 }
 
-bool Place_Silicone_Carpet(int X, int Y) {
-	Data.Visual_Grid[X][Y] = 93;
+bool Place_Silicone_Carpet(Point Pos) {
+	Data.Visual_Grid[pt(Pos)] = 93;
     return true;
 }
 
-bool Place_Hazard_Strip(int X, int Y) {
-	Data.Visual_Grid[X][Y] = 113;
+bool Place_Hazard_Strip(Point Pos) {
+	Data.Visual_Grid[pt(Pos)] = 113;
 	return true;
 }

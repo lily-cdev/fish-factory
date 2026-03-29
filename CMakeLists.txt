@@ -14,6 +14,7 @@ add_executable(Fish_Factory
 	internal/source/connectables/general.c
 	internal/source/connectables/wires.c
 	internal/source/connectables/pipes.c
+	internal/source/ui/actions.c
 	internal/source/ui/general.c
 	internal/source/ui/application.c
 	internal/source/ui/logs.c
@@ -36,12 +37,14 @@ add_executable(Fish_Factory
 	internal/source/placing/other.c
 	internal/source/placing/processors.c
 	internal/source/placing/transporters.c
+	internal/source/prompts/actions.c
 	internal/source/prompts/catalog.c
 	internal/source/prompts/cheats.c
 	internal/source/prompts/daily_report.c
 	internal/source/prompts/help.c
 	internal/source/prompts/machines.c
 	internal/source/prompts/shop.c
+	internal/source/prepping/actions.c
 	internal/source/prepping/cleanup.c
 	internal/source/prepping/definitions.c
 	internal/source/prepping/machines.c

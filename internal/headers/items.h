@@ -118,8 +118,8 @@ extern Recipe* Recipes[LDE_RECIPETYPES][LDE_MACHINES];
 
 void Prep_Items();
 void Free_Items();
-void Update_Item(int X, int Y, int Identifier, int Temperature);
-Item_Stack Get_Item(int X, int Y);
+void Update_Item(Point Pos, int Identifier, int Temperature);
+Item_Stack Get_Item(Point Pos);
 Item_Stack ID_To_Item(const int ID);
 Item_Stack Get_Item_Stack_Data();
 void Purge_Items();
@@ -128,6 +128,6 @@ float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisat
 int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
 Item_Stack Get_Fish_Item(int Identifier);
-bool Process_O_Recipe(Recipe Selected_Recipe, int X, int Y, Node Output_Locations);
-bool Process_IO_Recipe(Recipe Selected_Recipe, int X, int Y, Node Input_Locations, Node Output_Locations);
-bool Extend_Recipe(Recipe Selected_Recipe, int X, int Y, Node Preconfiguration[4]);
+bool Process_O_Recipe(Recipe Selected_Recipe, Point Pos, Node Output_Locations);
+bool Process_IO_Recipe(Recipe Selected_Recipe, Point Pos, Node Input_Locations, Node Output_Locations);
+bool Extend_Recipe(Recipe Selected_Recipe, Point Pos, Node Preconfiguration[4]);

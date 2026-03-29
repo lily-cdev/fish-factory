@@ -1,6 +1,6 @@
 #include <grid.h>
 
-bool (*Placing_Functions[LDE_MACHINES])(int X, int Y) = {
+bool (*Placing_Functions[LDE_MACHINES])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_RTG, Place_Decoration, Place_Submarine_Dock,
 	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
 	Place_Command_Platform, Place_Battery, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
@@ -11,28 +11,27 @@ bool (*Placing_Functions[LDE_MACHINES])(int X, int Y) = {
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
-Point Find_Linked(int Identifier, int Parent_X, int Parent_Y) {
-	Point Yield = { LDE_INVALID, LDE_INVALID };
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Identifier && Data.Settings_Grid[X][Y][3] == Parent_X &&
-				Data.Settings_Grid[X][Y][4] == Parent_Y) {
-				Yield = (Point) { X, Y };
-				return Yield;
+Point Find_Linked(int Identifier, Point Parent) {
+	Point Pos;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Identifier && Data.Settings_Grid[pt(Pos)][3] == Parent.X &&
+				Data.Settings_Grid[pt(Pos)][4] == Parent.Y) {
+				return Pos;
 			}
 		}
 	}
-	return Yield;
+	return (Point){ LDE_INVALID, LDE_INVALID };
 }
 
-bool Match(int X, int Y, int Og_X, int Og_Y, int Direction, int Target, bool Is_Pipe) {
-	bool Yield = ((X >= 0 && X < LDE_GRIDSIZE && Y >= 0 && Y < LDE_GRIDSIZE) && ((Is_Pipe && (Data.Plumbing_Grid[X][Y] ==
-		Direction || Data.Plumbing_Grid[X][Y] == Any)) || Data.Behavior_Grid[X][Y] == Target));
+bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
+	bool Yield = (Is_Bound(Pos) && ((Is_Pipe && (Data.Plumbing_Grid[pt(Pos)] == Direction || Data.Plumbing_Grid[
+		pt(Pos)] == Any)) || Data.Behavior_Grid[pt(Pos)] == Target));
 	bool Unconnected = true;
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		if ((Pipes.Data[C1].X1 == X || Pipes.Data[C1].X2 == X) && (Pipes.Data[C1].Y1 == Y || Pipes.Data[C1].Y2 == Y) &&
-			(Pipes.Data[C1].X1 == Og_X || Pipes.Data[C1].X2 == Og_X) && (Pipes.Data[C1].Y1 == Og_Y || Pipes.Data[C1].Y2 ==
-			Og_Y)) {
+		if ((Pipes.Data[C1].X1 == Pos.X || Pipes.Data[C1].X2 == Pos.X) && (Pipes.Data[C1].Y1 == Pos.Y || Pipes.Data[
+			C1].Y2 == Pos.Y) && (Pipes.Data[C1].X1 == Og.X || Pipes.Data[C1].X2 == Og.X) && (Pipes.Data[C1].Y1 == Og.Y ||
+			Pipes.Data[C1].Y2 == Og.Y)) {
 			Unconnected = false;
 			break;
 		}
@@ -40,100 +39,99 @@ bool Match(int X, int Y, int Og_X, int Og_Y, int Direction, int Target, bool Is_
 	return (Unconnected) ? false : Yield;
 }
 
-#define Param(Direction) X, Y, Direction, Target, Is_Pipe
-int Modular_Detection(int X, int Y, int Target, bool Is_Pipe) {
+#define Param(XM, YM, Direction) (Point){ Pos.X + (XM), Pos.Y + (YM) }, Pos, Direction, Target, Is_Pipe
+int Modular_Detection(Point Pos, int Target, bool Is_Pipe) {
 	if (Target == LDE_INVALID) {
 		Target = -2;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up)) && Match(X, Y - 1,
-		Param(Down))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
 		return C_Omni;
 	}
-	if (Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up)) && Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(1, 0, Left)) && Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
 		return C_LeftT;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X, Y - 1, Param(Up)) && Match(X, Y + 1, Param(Down))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(0, -1, Up)) && Match(Param(0, 1, Down))) {
 		return C_RightT;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, 1, Up))) {
 		return C_UpT;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left)) && Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, -1, Down))) {
 		return C_DownT;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X + 1, Y, Param(Left))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left))) {
 		return C_Horizontal;
 	}
-	if (Match(X, Y + 1, Param(Up)) && Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
 		return C_Vertical;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(0, -1, Down))) {
 		return C_LeftTop;
 	}
-	if (Match(X + 1, Y, Param(Left)) && Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(1, 0, Left)) && Match(Param(0, -1, Down))) {
 		return C_TopRight;
 	}
-	if (Match(X + 1, Y, Param(Left)) && Match(X, Y + 1, Param(Up))) {
+	if (Match(Param(1, 0, Left)) && Match(Param(0, 1, Up))) {
 		return C_RightBottom;
 	}
-	if (Match(X - 1, Y, Param(Right)) && Match(X, Y + 1, Param(Up))) {
+	if (Match(Param(-1, 0, Right)) && Match(Param(0, 1, Up))) {
 		return C_BottomLeft;
 	}
-	if (Match(X - 1, Y, Param(Right))) {
+	if (Match(Param(-1, 0, Right))) {
 		return C_Left;
 	}
-	if (Match(X, Y - 1, Param(Down))) {
+	if (Match(Param(0, -1, Down))) {
 		return C_Top;
 	}
-	if (Match(X + 1, Y, Param(Left))) {
+	if (Match(Param(1, 0, Left))) {
 		return C_Right;
 	}
-	if (Match(X, Y + 1, Param(Up))) {
+	if (Match(Param(0, 1, Up))) {
 		return C_Bottom;
 	}
 	return C_None;
 }
 #undef Param
 
-int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
+int Recursive_Detect(Point Pos, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
 	bool Self_Accounted, int Target1, int Target2);
 
-int Recursive_Detect(int X, int Y, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
+int Recursive_Detect(Point Pos, int Target, int Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
 	bool Self_Accounted, int Target1, int Target2) {
 	bool Progressing = false;
-	if (X >= 0 && Y >= 0 && X < LDE_GRIDSIZE && Y < LDE_GRIDSIZE && !Grid[X][Y]) {
-		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Target) {
+	if (Pos.X >= 0 && Pos.Y >= 0 && Pos.X < LDE_GRIDSIZE && Pos.Y < LDE_GRIDSIZE && !Grid[pt(Pos)]) {
+		if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Target) {
 			Progressing = true;
-		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Self) {
+		} else if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Self) {
 			if (Self_Accounted) {
 				return -9999;
 			} else {
 				Self_Accounted = true;
 				Progressing = true;
 			}
-		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Target1) {
+		} else if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Target1) {
 			Temporary.Modular1_Requirement++;
-			Data.Settings_Grid[X][Y][3] = Temporary.First_Coordinate.X;
-			Data.Settings_Grid[X][Y][4] = Temporary.First_Coordinate.Y;
+			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
+			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
 			Progressing = true;
-		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Target2) {
+		} else if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Target2) {
 			Temporary.Modular2_Requirement++;
-			Data.Settings_Grid[X][Y][3] = Temporary.First_Coordinate.X;
-			Data.Settings_Grid[X][Y][4] = Temporary.First_Coordinate.Y;
+			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
+			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
 			Progressing = true;
 		}
 	}
 	if (Progressing) {
-		Grid[X][Y] = true;
-		return 1 + Recursive_Detect(X + 1, Y, Target, Self, Grid, Self_Accounted, Target1, Target2) +
-			Recursive_Detect(X - 1, Y, Target, Self, Grid, Self_Accounted, Target1, Target2) +
-			Recursive_Detect(X, Y + 1, Target, Self, Grid, Self_Accounted, Target1, Target2) +
-			Recursive_Detect(X, Y - 1, Target, Self, Grid, Self_Accounted, Target1, Target2);
+		Grid[pt(Pos)] = true;
+		return 1 + Recursive_Detect((Point){ Pos.X + 1, Pos.Y }, Target, Self, Grid, Self_Accounted, Target1, Target2) +
+			Recursive_Detect((Point){ Pos.X - 1, Pos.Y }, Target, Self, Grid, Self_Accounted, Target1, Target2) +
+			Recursive_Detect((Point){ Pos.X, Pos.Y + 1 }, Target, Self, Grid, Self_Accounted, Target1, Target2) +
+			Recursive_Detect((Point){ Pos.X, Pos.Y - 1 }, Target, Self, Grid, Self_Accounted, Target1, Target2);
 	}
 	return 0;
 }
 
-int Find_Modular_Size(int X, int Y, int Target, int Self, int Target1, int Target2) {
+int Find_Modular_Size(Point Pos, int Target, int Self, int Target1, int Target2) {
 	bool Self_Accounted = false;
 	bool Checked_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
 	for (int X2 = 0; X2 < LDE_GRIDSIZE; X2++) {
@@ -141,64 +139,64 @@ int Find_Modular_Size(int X, int Y, int Target, int Self, int Target1, int Targe
 			Checked_Grid[X2][Y2] = false;
 		}
 	}
-	return Recursive_Detect(X, Y, Target, Self, Checked_Grid, Self_Accounted, Target1, Target2);
+	return Recursive_Detect(Pos, Target, Self, Checked_Grid, Self_Accounted, Target1, Target2);
 }
 
 void Restore_Cache() {
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
 	free_c(Temporary.Docks.Data);
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			if (Visual_To_ID(Data.Visual_Grid[X][Y]) == 5) {
-				Point Location = { X, Y };
-				Push_Docks(Location);
+	Point Pos;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == 5) {
+				Push_Docks(Pos);
 			}
 		}
 	}
 	Recache_TT_Commands();
 }
 
-void Destroy_Clearance(int X, int Y, int Width, int Height) {
+void Destroy_Clearance(Point Pos, int Width, int Height) {
 	for (int C1 = 0; C1 < Width; C1++) {
 		for (int C2 = 0; C2 < Height; C2++) {
-			Reset_Tile((Point){ X + C1, Y + C2 });
+			Reset_Tile((Point){ Pos.X + C1, Pos.Y + C2 });
 		}
 	}
 }
 
 void Update_Grid() {
 	int Temporary_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Temporary_Grid[Column][Row] = Data.Visual_Grid[Column][Row];
+	Point Pos;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			Temporary_Grid[pt(Pos)] = Data.Visual_Grid[pt(Pos)];
 		}
 	}
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Reinforced_Pipe) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, LDE_INVALID, true) + 1;
-			} else if (Data.Visual_Grid[Column][Row] > 23 && Data.Visual_Grid[Column][Row] < 41) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, 0, false) + 24;
-			} else if (Data.Visual_Grid[Column][Row] == 45) {
-				Temporary.First_Coordinate.X = Column;
-				Temporary.First_Coordinate.Y = Row;
-				Data.Settings_Grid[Column][Row][3] = Find_Modular_Size(Column, Row, 8, 13, 14, 15);
-				if (Data.Settings_Grid[Column][Row][3] < 0) {
-					Data.Settings_Grid[Column][Row][3] = -2;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Reinforced_Pipe) {
+				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, LDE_INVALID, true) + 1;
+			} else if (Data.Visual_Grid[pt(Pos)] > 23 && Data.Visual_Grid[pt(Pos)] < 41) {
+				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, 0, false) + 24;
+			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
+				Temporary.First_Coordinate = Pos;
+				Data.Settings_Grid[pt(Pos)][3] = Find_Modular_Size(Pos, 8, 13, 14, 15);
+				if (Data.Settings_Grid[pt(Pos)][3] < 0) {
+					Data.Settings_Grid[pt(Pos)][3] = -2;
 				}
-				Data.Settings_Grid[Column][Row][3] = (Temporary.Modular1_Requirement < 1) ? -3 : -4;
-				Data.Settings_Grid[Column][Row][3] = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
+				Data.Settings_Grid[pt(Pos)][3] = (Temporary.Modular1_Requirement < 1) ? -3 : -4;
+				Data.Settings_Grid[pt(Pos)][3] = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
-			} else if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Large_Pipe) {
-				Temporary_Grid[Column][Row] = Modular_Detection(Column, Row, LDE_INVALID, true) + 71;
+			} else if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Large_Pipe) {
+				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, LDE_INVALID, true) + 71;
 			}
 		}
 	}
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Data.Visual_Grid[Column][Row] = Temporary_Grid[Column][Row];
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			Data.Visual_Grid[pt(Pos)] = Temporary_Grid[pt(Pos)];
 		}
 	}
 }
@@ -210,7 +208,7 @@ void Build_Grid() {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == 0) {
-					if (Placing_Functions[Interface.Item - 1](Column, Row)) {
+					if (Placing_Functions[Interface.Item - 1]((Point){ Column, Row })) {
 						Data.Funds -= Interface.Queried_Price;
 					}
 					Update_Grid();
@@ -223,67 +221,70 @@ void Build_Grid() {
 	}
 }
 
-void Remove_Machine(int X, int Y) {
-	Data.Funds += (int)(floor(Metadata.Machines[Visual_To_ID(Data.Visual_Grid[X][Y])].Price * 0.75f));
+void Remove_Machine(Point Pos) {
+	Data.Funds += (int)(floor(Metadata.Machines[Visual_To_ID(Data.Visual_Grid[pt(Pos)])].Price * 0.75f));
 	int Width;
 	int Height;
-	ID_To_Size(Visual_To_ID(Data.Visual_Grid[X][Y]), Visual_To_Rotation(Data.Visual_Grid[X][Y]), &Width, &Height);
+	ID_To_Size(Visual_To_ID(Data.Visual_Grid[pt(Pos)]), Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
-		Wipe_Tile((Point){ X, Y });
-		Data.Visual_Grid[X][Y] = 0;
-		Data.Wiring_Grid[X][Y] = LDE_INVALID;
-		Data.Plumbing_Grid[X][Y] = LDE_INVALID;
-		Data.Behavior_Grid[X][Y] = LDE_INVALID;
-		memset(Data.Data_Grid[X][Y], 0, sizeof(Data.Data_Grid[X][Y]));
-		Data.Data_Grid[X][Y][4] = LDE_INVALID;
-		for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[X][Y]) / sizeof(Data.Settings_Grid[X][Y][0]); C1++) {
-			Data.Settings_Grid[X][Y][C1] = LDE_INVALID;
+		Wipe_Tile(Pos);
+		Data.Visual_Grid[pt(Pos)] = 0;
+		Data.Wiring_Grid[pt(Pos)] = LDE_INVALID;
+		Data.Plumbing_Grid[pt(Pos)] = LDE_INVALID;
+		Data.Behavior_Grid[pt(Pos)] = LDE_INVALID;
+		memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
+		Data.Data_Grid[pt(Pos)][4] = LDE_INVALID;
+		for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
+			Data.Settings_Grid[pt(Pos)][C1] = LDE_INVALID;
 		}
-		for (int C1 = 0; C1 < sizeof(Data.Animation_Grid[X][Y]) / sizeof(Data.Animation_Grid[X][Y][0]); C1++) {
-			Data.Animation_Grid[X][Y][C1] = LDE_INVALID;
+		for (int C1 = 0; C1 < sizeof(Data.Animation_Grid[pt(Pos)]) / sizeof(Data.Animation_Grid[pt(Pos)][0]); C1++) {
+			Data.Animation_Grid[pt(Pos)][C1] = LDE_INVALID;
 		}
-		Update_Item(X, Y, LDE_INVALID, LDE_ROOMTEMP);
+		Update_Item(Pos, LDE_INVALID, LDE_ROOMTEMP);
 	} else {
-		if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Submarine_Dock) {
+		if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Submarine_Dock) {
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
-				if (Temporary.Docks.Data[C1].X == X && Temporary.Docks.Data[C1].Y == Y) {
+				if (Temporary.Docks.Data[C1].X == Pos.X && Temporary.Docks.Data[C1].Y == Pos.Y) {
 					Pull_Docks(C1);
 				}
 			}
-			if (Transition.Sub_Pos.X == X && Transition.Sub_Pos.X == Y) {
+			if (Transition.Sub_Pos.X == Pos.X && Transition.Sub_Pos.X == Pos.Y) {
 				Transition.Sub_Phase = 3;
 			}
 			Recache_TT_Commands();
-		} else if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Command_Platform) {
+		} else if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Command_Platform) {
 			Data.CMD_Placed = false;
 		}
-		Destroy_Clearance(X, Y, Width, Height);
+		Destroy_Clearance(Pos, Width, Height);
 	}
 	for (int C1 = 0; C1 < Wires.Length; C1++) {
-		if ((Wires.Data[C1].X1 == X && Wires.Data[C1].Y1 == Y) || (Wires.Data[C1].X2 == X && Wires.Data[C1].Y2 == Y)) {
+		if ((Wires.Data[C1].X1 == Pos.X && Wires.Data[C1].Y1 == Pos.Y) || (Wires.Data[C1].X2 == Pos.X &&
+			Wires.Data[C1].Y2 == Pos.Y)) {
 			Wires.Data[C1].Filled = false;
 		}
 	}
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		if ((Pipes.Data[C1].X1 == X && Pipes.Data[C1].Y1 == Y) || (Pipes.Data[C1].X2 == X && Pipes.Data[C1].Y2 == Y)) {
+		if ((Pipes.Data[C1].X1 == Pos.X && Pipes.Data[C1].Y1 == Pos.Y) || (Pipes.Data[C1].X2 == Pos.X &&
+			Pipes.Data[C1].Y2 == Pos.Y)) {
 			Pipes.Data[C1].Filled = false;
 		}
 	}
 }
 
 bool Destroy_Grid() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+	Point Pos;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		Rects.Tile_1x1.x = (int)(((Pos.X * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+			Rects.Tile_1x1.y = (int)(((Pos.Y * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[Column][Row] != 0) {
+				if (Data.Visual_Grid[pt(Pos)] != 0) {
 					Cache.Wire_State = Deep_Recache;
-					if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
-						Remove_Machine((int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][
-							Row][S_ParentY]));
+					if (Data.Visual_Grid[pt(Pos)] == LDE_INVALID) {
+						Remove_Machine((Point){ (int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[
+							pt(Pos)][S_ParentY]) });
 					} else {
-						Remove_Machine(Column, Row);
+						Remove_Machine(Pos);
 					}
 					Clear_Unconnected_Bridges(&Wires);
 					Clear_Unconnected_Bridges(&Pipes);
@@ -309,8 +310,9 @@ void Recast_Machines() {
 					bool Chaining = true;
 					int Chain_X = Column;
 					int Chain_Y = Row;
+					int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
 					while (Chaining) {
-						switch (Visual_To_Rotation(Data.Visual_Grid[Column][Row])) {
+						switch (Rotation) {
 						case 0:
 							(Chain_Y - 3 >= 0) ? (Chain_Y -= 3) : (Chaining = false);
 							break;
@@ -330,29 +332,23 @@ void Recast_Machines() {
 							break;
 						}
 						if (Visual_To_ID(Data.Visual_Grid[Chain_X][Chain_Y]) == Turbine_Impulse) {
-							if (Visual_To_Rotation(Data.Visual_Grid[Column][Row]) ==
-								Visual_To_Rotation(Data.Visual_Grid[Chain_X][Chain_Y])) {
+							if (Rotation == Visual_To_Rotation(Data.Visual_Grid[Chain_X][Chain_Y])) {
 								Data.Settings_Grid[Column][Row][3]++;
 								Data.Settings_Grid[Chain_X][Chain_Y][3] = 1;
 							} else {
 								Chaining = false;
 							}
 						} else {
-							Point Offset = { };
-							if (Visual_To_Rotation(Data.Visual_Grid[Column][Row]) == 0) {
-								Offset.X = 0;
-								Offset.Y = -1;
-							} else if (Visual_To_Rotation(Data.Visual_Grid[Column][Row]) == 3) {
-								Offset.X = -1;
-								Offset.Y = 0;
+							Point End_Pos = { Chain_X - ((Rotation == 3) ? -1 : 0), Chain_Y - ((Rotation == 0) ? 1 : 0) };
+							if (End_Pos.X < 0 || End_Pos.Y < 0 || End_Pos.X >= LDE_GRIDSIZE || End_Pos.Y >= LDE_GRIDSIZE) {
+								Chaining = false;
 							}
-							if (Visual_To_ID(Data.Visual_Grid[Chain_X - Offset.X][Chain_Y - Offset.Y]) == Turbine_Output &&
-								Visual_To_Rotation(Data.Visual_Grid[Column][Row]) == Visual_To_Rotation(Data.Visual_Grid[
-								Chain_X - Offset.X][Chain_Y - Offset.Y])) {
+							if (Visual_To_ID(Data.Visual_Grid[pt(End_Pos)]) == Turbine_Output && Rotation ==
+								Visual_To_Rotation(Data.Visual_Grid[pt(End_Pos)])) {
 								Data.Settings_Grid[Column][Row][4] = 1;
-								Data.Settings_Grid[Chain_X - Offset.X][Chain_Y - Offset.Y][3] = 1;
-								Data.Settings_Grid[Column][Row][5] = Chain_X - Offset.X;
-								Data.Settings_Grid[Column][Row][6] = Chain_Y - Offset.Y;
+								Data.Settings_Grid[pt(End_Pos)][3] = 1;
+								Data.Settings_Grid[Column][Row][5] = End_Pos.X;
+								Data.Settings_Grid[Column][Row][6] = End_Pos.Y;
 							}
 							Chaining = false;
 						}
@@ -382,20 +378,21 @@ int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
 void Find_Effect() {
 	Interface.Effects[E_Heat] = 0;
 	Interface.Effects[E_Radiation] = 0;
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	Point Pos;
+	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
 			for (int C1 = 0; C1 < intlen(Metadata.Heating_Machines); C1++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Heating_Machines[C1] &&
-					X * LDE_TILESIZE > Core.Camera.X && Y * LDE_TILESIZE > Core.Camera.Y && X * LDE_TILESIZE <
-					Core.Camera.X + 640 && Y * LDE_TILESIZE < Core.Camera.Y + 360) {
+				if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Metadata.Heating_Machines[C1] && Pos.X * LDE_TILESIZE >
+					Core.Camera.X && Pos.Y * LDE_TILESIZE > Core.Camera.Y && Pos.X * LDE_TILESIZE < Core.Camera.X + 640 &&
+					Pos.Y * LDE_TILESIZE < Core.Camera.Y + 360) {
 					Interface.Effects[E_Heat] += 0.1;
 					return;
 				}
 			}
 			for (int C1 = 0; C1 < intlen(Metadata.Irradiating_Machines); C1++) {
-				if (Visual_To_ID(Data.Visual_Grid[X][Y]) == Metadata.Irradiating_Machines[C1]) {
-					float A = ((Core.Camera.X + 320) - (X * LDE_TILESIZE)) * Settings.Screen_Size;
-					float B = ((Core.Camera.Y + 180) - (Y * LDE_TILESIZE)) * Settings.Screen_Size;
+				if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Metadata.Irradiating_Machines[C1]) {
+					float A = ((Core.Camera.X + 320) - (Pos.X * LDE_TILESIZE)) * Settings.Screen_Size;
+					float B = ((Core.Camera.Y + 180) - (Pos.Y * LDE_TILESIZE)) * Settings.Screen_Size;
 					float Distance = sqrtf(sqr(A) + sqr(B));
 					Interface.Effects[E_Radiation] += fmax(35.0f - (Distance * 0.05f), 0.0f);
 				}

@@ -9,11 +9,11 @@ void Update_Cursor() {
 	(Interface.Tool == T_None || Interface.Tool == T_Building) ? SDL_ShowCursor() : SDL_HideCursor();
 }
 
-void (*Prompt_Functions[13])(int X, int Y) = {
+void (*Prompt_Functions[13])(Point Pos) = {
     Handle_None,
     Handle_Help,
-    Handle_Shop,
-    Handle_Daily_Report,
+    NULL,
+    NULL,
     Handle_Spawning_Pool,
     Handle_Transmitter,
     Handle_Dock,
@@ -26,7 +26,7 @@ void (*Prompt_Functions[13])(int X, int Y) = {
 };
 
 void Process_Inputs() {
-	int X = Interface.Tile.X, Y = Interface.Tile.Y;
+	Point Pos = Interface.Tile;
 	SDL_Event Application_Event;
 	while (SDL_PollEvent(&Application_Event)) {
 		switch (Application_Event.type) {
@@ -148,11 +148,11 @@ void Process_Inputs() {
 					switch (Interface.Prompt_Identifier) {
 					case P_Spawning_Pool:
 						Print_Input();
-						if (Data.Settings_Grid[X][Y][5] > 0) {
+						if (Data.Settings_Grid[pt(Pos)][5] > 0) {
 							Print_Error(Fish_Present);
-							Interface.Slider_Positions[1] = (int)(Data.Settings_Grid[X][Y][6]);
+							Interface.Slider_Positions[1] = (int)(Data.Settings_Grid[pt(Pos)][6]);
 						} else {
-							Data.Settings_Grid[X][Y][6] = Interface.Slider_Positions[1];
+							Data.Settings_Grid[pt(Pos)][6] = Interface.Slider_Positions[1];
 							char Buffer[64];
 							snprintf(Buffer, sizeof(Buffer), "set fish type to %s", Interface.Slider_Texts[1][
 								Interface.Slider_Positions[1]]);
@@ -162,16 +162,16 @@ void Process_Inputs() {
 					case P_Exchanger:
 						Print_Input();
 						if (Interface.Engagement == 2) {
-							Data.Settings_Grid[X][Y][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
+							Data.Settings_Grid[pt(Pos)][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[X][Y][
+							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[pt(Pos)][
 								3]);
 							Print_Response(Buffer);
 						} else {
-							Data.Settings_Grid[X][Y][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
+							Data.Settings_Grid[pt(Pos)][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[X][Y][
-								4]);
+							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[
+								pt(Pos)][4]);
 							Print_Response(Buffer);
 						}
 						break;
@@ -187,20 +187,30 @@ void Process_Inputs() {
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			if (!Interface.Locked) {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
-					if (Interface.Bar_Up) {
-						if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
-							Interface.Tool = Interface.UI_Selection;
-							Update_Cursor();
+					if (Interface.UI_Query.Carrier != NULL) {
+						Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
+						if (Interface.Engagement == 0) {
+							Play_Sound(Click, false);
 						}
 					} else {
-						if (Interface.UI_Tab == 0) {
-							Process_Tutorial(Interface.UI_Selection);
+						if (Interface.Bar_Up) {
+							if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
+								Interface.Tool = Interface.UI_Selection;
+								Update_Cursor();
+							}
+						} else {
+							if (Interface.UI_Tab == 0) {
+								Process_Tutorial(Interface.UI_Selection);
+							}
+							if (Prompt_Functions[Interface.Prompt_Identifier + 1] != NULL) {
+								Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);
+							}
 						}
-						Prompt_Functions[Interface.Prompt_Identifier + 1](X, Y);
+						if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
+							Play_Sound(Click, false);
+						}
 					}
-					if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
-						Play_Sound(Click, false);
-					}
+					memset(&(Interface.UI_Query), 0, sizeof(UI_Link));
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };

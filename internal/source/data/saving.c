@@ -129,16 +129,16 @@ bool Load_Data(int Slot) {
 }
 
 void Reset_Tile(Point Pos) {
-	Data.Visual_Grid[Pos.X][Pos.Y] = 0;
-	Data.Behavior_Grid[Pos.X][Pos.Y] = LDE_INVALID;
-	Data.Wiring_Grid[Pos.X][Pos.Y] = LDE_INVALID;
-	Data.Plumbing_Grid[Pos.X][Pos.Y]= LDE_INVALID;
-	Data.Items_Grid[Pos.X][Pos.Y] = LDE_INVALID;
-	Data.Temperature_Grid[Pos.X][Pos.Y] = LDE_ROOMTEMP;
-	memset(Data.Data_Grid[Pos.X][Pos.Y], 0, sizeof(Data.Data_Grid[Pos.X][Pos.Y]));
-	Data.Data_Grid[Pos.X][Pos.Y][4] = LDE_INVALID;
-	for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[Pos.X][Pos.Y]) / sizeof(Data.Settings_Grid[Pos.X][Pos.Y][0]); C1++) {
-		Data.Settings_Grid[Pos.X][Pos.Y][C1] = LDE_INVALID;
+	Data.Visual_Grid[pt(Pos)] = 0;
+	Data.Behavior_Grid[pt(Pos)] = LDE_INVALID;
+	Data.Wiring_Grid[pt(Pos)] = LDE_INVALID;
+	Data.Plumbing_Grid[pt(Pos)]= LDE_INVALID;
+	Data.Items_Grid[pt(Pos)] = LDE_INVALID;
+	Data.Temperature_Grid[pt(Pos)] = LDE_ROOMTEMP;
+	memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
+	Data.Data_Grid[pt(Pos)][4] = LDE_INVALID;
+	for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
+		Data.Settings_Grid[pt(Pos)][C1] = LDE_INVALID;
 	}
 }
 

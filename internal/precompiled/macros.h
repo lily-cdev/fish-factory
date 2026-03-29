@@ -19,3 +19,4 @@
 #define sqr(Victim) ((Victim) * (Victim))
 #define strcat_c(Victim, Source, Length) do { strncat(Victim, Source, Length - strlen(Source) - 1); } while(0)
 #define evn(Victim) (((int)(Victim) & 1) == 0)
+#define pt(Victim) (Victim.X)][(Victim.Y)

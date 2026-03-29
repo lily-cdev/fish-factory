@@ -509,8 +509,8 @@ void Preload_Assets() {
 	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * LDE_LOGS);
 	Cache.Log_Cache.Length = LDE_LOGS;
 	for (int C1 = 0; C1 < LDE_LOGS; C1++) {
-		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[C1], 0, 0, Temporary.Log_Inversions[C1], true) -
-			(Settings.Screen_Size * 210);
+		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[C1], (Point) { 0, 0 }, Temporary.Log_Inversions[C1],
+			true) - (Settings.Screen_Size * 210);
 		Interface.Log_Heights[C1] = Height;
 		int Cap = ceil((float)Height / (Settings.Screen_Size * 341.0f));
 		Cache.Log_Rectangles.Data[C1].Data = calloc(Cap, sizeof(SDL_FRect));
@@ -528,10 +528,10 @@ void Preload_Assets() {
 			};
 			SDL_SetTextureBlendMode(Cache.Log_Cache.Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Cache.Log_Cache.Data[C1].Data[C2]);
-			Render_Rich_Text(Fonts.Subtext_Font, Metadata.Logs[C1], 52, 52 - (New_Rectangle.y / Settings.Screen_Size),
+			Render_Rich_Text(Fonts.Subtext_Font, Metadata.Logs[C1], (Point){ 52, 52 - (New_Rectangle.y / Settings.Screen_Size) },
 				Temporary.Log_Inversions[C1], false);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
-			Cache.Log_Rectangles.Data[C1].Data[C2] = New_Rectangle;			
+			Cache.Log_Rectangles.Data[C1].Data[C2] = New_Rectangle;
 		}
 	}
 	Cache.Wire_Cache.Data = malloc(sizeof(SDL_Texture*) * 4);
@@ -585,9 +585,8 @@ void Preload_Assets() {
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 6], &Textures.Confirmation.Data[C1], Rects.Confirmation.Data[
 			C1], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		for (int C2 = 0; C2 < 2; C2++) {
-			Rects.Confirmation.Data[C1].Data[C2].x =
-				(((C1 * 320) + 160) *	Settings.Screen_Size) -
-				(Rects.Confirmation.Data[C1].Data[C2].w * 0.5);
+			Rects.Confirmation.Data[C1].Data[C2].x = (((C1 * 320) + 160) * Settings.Screen_Size) - (Rects.Confirmation.Data[
+				C1].Data[C2].w * 0.5);
 			Rects.Confirmation.Data[C1].Data[C2].y = Settings.Screen_Size * 260;
 		}
 	}
@@ -650,14 +649,14 @@ void Preload_Assets() {
 		Rects.New.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.New.Data[C1].Data[0].x = Settings.Screen_Size * 340.0f;
 		Rects.New.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
-		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[24], &Textures.New.Data[C1], Rects.New.Data[C1],
-			Colors.Abyss_Black, Colors.Cherry_Blossom);
+		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[24], &Textures.New.Data[C1], Rects.New.Data[C1], Colors.Abyss_Black,
+			Colors.Cherry_Blossom);
 		Rects.Load.Data[C1].Length = 2;
 		Rects.Load.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Load.Data[C1].Data[0].x = Settings.Screen_Size * 340.0f;
 		Rects.Load.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
-		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[25], &Textures.Load.Data[C1], Rects.Load.Data[C1],
-			Colors.Abyss_Black, Colors.Cherry_Blossom);
+		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[25], &Textures.Load.Data[C1], Rects.Load.Data[C1], Colors.Abyss_Black,
+			Colors.Cherry_Blossom);
 		Rects.Clear.Data[C1].Length = 2;
 		Rects.Clear.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Clear.Data[C1].Data[0].x = Settings.Screen_Size * 490.0f;
@@ -686,8 +685,7 @@ void Preload_Assets() {
 	Textures.Settings_Label.Length = LDE_CAPTIONS;
 	Textures.Settings_Label.Data = malloc(sizeof(SDL_Texture*) * LDE_CAPTIONS);
 	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
-		Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Captions[C1], strlen(Captions[C1]),
-			Colors.Abyss_Black);
+		Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Captions[C1], strlen(Captions[C1]), Colors.Abyss_Black);
 		Textures.Settings_Label.Data[C1] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 		Rects.Settings_Label.Data[C1].x = Settings.Screen_Size * 10.0f;
 		Rects.Settings_Label.Data[C1].w = (float)Carrying_Surface->w;

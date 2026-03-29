@@ -44,9 +44,8 @@ void Render_Grid() {
 							const Point Offsets[4] = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 							for (int C1 = 0; C1 < 4; C1++) {
 								Point Pos = { Column + Offsets[C1].X, Row + Offsets[C1].Y };
-								if ((Data.Plumbing_Grid[Pos.X][Pos.Y] == C1 + 1 || Data.Plumbing_Grid[Pos.X][Pos.Y] ==
-									Any) && (Data.Settings_Grid[Pos.X][Pos.Y][0] == F_In || Data.Settings_Grid[Pos.X][
-									Pos.Y][0] == F_Either)) {
+								if ((Data.Plumbing_Grid[pt(Pos)] == C1 + 1 || Data.Plumbing_Grid[pt(Pos)] == Any) && (
+									Data.Settings_Grid[pt(Pos)][0] == F_In || Data.Settings_Grid[pt(Pos)][0] == F_Either)) {
 									Render_Texture(Metadata.Machines[Ram_Pump].Texture2.Data[((C1 + 2) & 3) + 3],
 										&Rects.Tile_1x1);
 								}
@@ -104,7 +103,7 @@ void Render_Grid() {
 							&Rects.Tile_1x1);
 						break;
 					case Heat_Exchanger:
-						Carrier = (evn(Rotation)) ? Rects.Tile_3x4 : Rects.Tile_4x3;
+						Carrier = (evn(Rotation)) ? Rects.Tile_4x3 : Rects.Tile_3x4;
 						Render_Texture(Metadata.Machines[Heat_Exchanger].Texture2.Data[Rotation], &Carrier);
 						break;
 					case Petrified_Wood:
@@ -302,7 +301,8 @@ void Render_Grid() {
 						Render_Texture(Metadata.Machines[Battery].Texture2.Data[Rotation], &Rects.Tile_2x2);
 						break;
 					case Command_Platform:
-						Render_Texture(Metadata.Machines[Command_Platform].Texture2.Data[Rotation], &Rects.Tile_8x6);
+						Render_Texture(Metadata.Machines[Command_Platform].Texture2.Data[Rotation], (evn(Rotation)) ?
+							&Rects.Tile_8x6 : &Rects.Tile_6x8);
 						break;
 					default:
 						break;

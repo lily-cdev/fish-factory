@@ -50,7 +50,7 @@ void Render_Tutorial() {
 		Cache.Query[Cache.Query_Length] = Bounding_Rectangle;
 		Cache.Color_Query[Cache.Query_Length] = Colors.Pure_White;
 		Cache.Query_Length++;
-		Render_Box(140, 20, 360, 30, Colors.Light_Grey, Colors.Dark_Grey);
+		Render_Box((Point){ 140, 20 }, 360, 30, Colors.Light_Grey, Colors.Dark_Grey);
         char Text[128];
 		char Carrier[128];
 		snprintf(Text, sizeof(Text), "Step %i: ", Temporary.Tutorial_Step + 1);
@@ -211,9 +211,9 @@ void Render_Tutorial() {
 			Settings.Screen_Size * 300.0f, Settings.Screen_Size * 30.0f })) {
 			char Buffer[128];
 			snprintf(Buffer, sizeof(Buffer), "This will %s.", Tutorial_Stack[Temporary.Tutorial_Step].Context);
-			Process_Supply(&Supplies.Tutorial, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 26);
+			Process_Supply(&Supplies.Tutorial, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
 		} else {
-			Process_Supply(&Supplies.Subtutorial, Text, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 26);
+			Process_Supply(&Supplies.Subtutorial, Text, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
 		}
 	}
 }

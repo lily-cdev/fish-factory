@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[12])(int X, int Y) = {
+void (*Interface_Functions[12])(Point Pos) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -35,23 +35,21 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 	Clear_Renderer();
 }
 
-void Render_Box(int X, int Y, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { (float)(X - 4) * Settings.Screen_Size,
-		(float)(Y - 4) * Settings.Screen_Size, (float)(W + 8) *
-		Settings.Screen_Size, (float)(H + 8) * Settings.Screen_Size };
+void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
+	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Screen_Size, (float)(Pos.Y - 4) * Settings.Screen_Size,
+		(float)(W + 8) * Settings.Screen_Size, (float)(H + 8) * Settings.Screen_Size };
 	Set_Renderer_Color(Outer_Color);
 	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
-	SDL_FRect Internal_Rectangle = { (float)(X * Settings.Screen_Size),
-		(float)(Y * Settings.Screen_Size), (float)(W *
+	SDL_FRect Internal_Rectangle = { (float)(Pos.X * Settings.Screen_Size), (float)(Pos.Y * Settings.Screen_Size), (float)(W *
 		Settings.Screen_Size), (float)(H * Settings.Screen_Size) };
 	Set_Renderer_Color(Inner_Color);
 	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
 	Clear_Renderer();
 }
 
-SDL_FRect Buffer_Rectangle(const SDL_FRect Source, const int X, const int Y) {
-	SDL_FRect Yield = { Source.x - (X * Settings.Screen_Size), Source.y - (Y * Settings.Screen_Size),
-		Source.w + ((X * 2) * Settings.Screen_Size), Source.h + ((Y * 2) * Settings.Screen_Size) };
+SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
+	SDL_FRect Yield = { Source.x - (Pos.X * Settings.Screen_Size), Source.y - (Pos.Y * Settings.Screen_Size),
+		Source.w + ((Pos.X * 2) * Settings.Screen_Size), Source.h + ((Pos.Y * 2) * Settings.Screen_Size) };
 	return Yield;
 }
 
@@ -70,7 +68,7 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size &&
 					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size)
 					|| (Size_X != 2 && Size_Y != 2)) {
-					bool Placeable = Check_Clearance(Column, Row, Size_X, Size_Y);
+					bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
 					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock +
 						1 && Row != 0)) {
 						Placeable = false;
@@ -126,10 +124,10 @@ void Render_Game_UI() {
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Funds, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%sLA", Subbuffer);
-	Process_Supply(&Supplies.Money, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 30);
+	Process_Supply(&Supplies.Money, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 30 });
 	memset(Buffer, 0, sizeof(Buffer));
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
-	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 50);
+	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 50 });
 	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		bool Satiated = false;
@@ -256,7 +254,7 @@ void Render_Game_UI() {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
 		Fading_Color.a = (uint8_t)(ceil(((float)Interface.Save_Frames / (Interface.Frame_Rate * 2)) * 255));
 		char Buffer[16] = "Data saved!";
-		Process_Supply(&Supplies.Save_Text, Buffer, Fonts.Subtext_Font, Fading_Color, LDE_INVALID, 300);
+		Process_Supply(&Supplies.Save_Text, Buffer, Fonts.Subtext_Font, Fading_Color, (Point){ LDE_INVALID, 300 });
 		Interface.Save_Frames--;
 	}
 }
@@ -265,10 +263,13 @@ void Render_Saveloader() {
 	Render_Texture(Textures.Saveloader, &Rects.Saveloader);
 	for (int C1 = 0; C1 < LDE_SAVEFILES; C1++) {
 		if (Core.Save_Filesizes[C1] > 0) {
-			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], C1 + 6, Colors.Cherry_Blossom);
-			Render_Button(&Textures.Clear.Data[C1], &Rects.Clear.Data[C1], C1 + 10, Colors.Cherry_Blossom);
+			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], (UI_Link){ Load_Save, .Param.Integer = C1 },
+				Colors.Cherry_Blossom);
+			Render_Button(&Textures.Clear.Data[C1], &Rects.Clear.Data[C1], (UI_Link){ Free_Save, .Param.Integer = C1 },
+				Colors.Cherry_Blossom);
 		} else {
-			Render_Button(&Textures.New.Data[C1], &Rects.New.Data[C1], C1 + 2, Colors.Cherry_Blossom);
+			Render_Button(&Textures.New.Data[C1], &Rects.New.Data[C1], (UI_Link){ New_Save, .Param.Integer = C1 },
+				Colors.Cherry_Blossom);
 		}
 	}
 	for (int C1 = 0; C1 < LDE_SAVEFILES; C1++) {
@@ -276,13 +277,13 @@ void Render_Saveloader() {
 		char Subbuffer[64];
 		Abbreviate_Number(Core.Save_Filesizes[C1], Subbuffer, sizeof(Subbuffer));
 		snprintf(Buffer, sizeof(Buffer), "Slot %i (%sb)", C1 + 1, Subbuffer);
-		Process_Supply(&Supplies.Filesizes[C1], Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, 40, (C1 * 40) + 160);
+		Process_Supply(&Supplies.Filesizes[C1], Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 40, (C1 * 40) + 160 });
 	}
 }
 
 void Render_Prompts() {
 	if (Interface.Prompt_Identifier != LDE_INVALID) {
-		Interface_Functions[Interface.Prompt_Identifier](Interface.Tile.X, Interface.Tile.Y);
+		Interface_Functions[Interface.Prompt_Identifier](Interface.Tile);
 	}
 }
 
@@ -291,10 +292,8 @@ void Drain_Query() {
 		if (Cache.ID_Query[C1] == 0) {
 			Render_Outline(Cache.Query[C1], Cache.Color_Query[C1], 1);
 		} else if (Cache.ID_Query[C1] == 1) {
-			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h,
-				2));
-			float Rotation = atan2(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI /
-				180);
+			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h, 2));
+			float Rotation = atan2(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
 			SDL_FPoint Centerpoint = { Settings.Screen_Size * 5.0f, Settings.Screen_Size * 5.0f };
 			for (int C2 = 0; C2 < floor(Length / (Settings.Screen_Size * 10)); C2++) {
 				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Screen_Size * 10.0f, Settings.Screen_Size * 10.0f };

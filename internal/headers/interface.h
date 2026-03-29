@@ -10,16 +10,14 @@
 
 void Close_Prompt();
 void Process_Inputs();
-void Handle_None(int X, int Y);
-void Handle_Help(int X, int Y);
-void Handle_Shop(int X, int Y);
-void Handle_Daily_Report(int X, int Y);
-void Handle_Spawning_Pool(int X, int Y);
-void Handle_Transmitter(int X, int Y);
-void Handle_Dock(int X, int Y);
-void Handle_Exchanger(int X, int Y);
-void Handle_Money_Generator(int X, int Y);
-void Handle_Fluid_Generator(int X, int Y);
-void Handle_Catalog(int X, int Y);
-void Handle_Turbine(int X, int Y);
-void Handle_Power_Generator(int X, int Y);
+void Handle_None(Point Pos);
+void Handle_Help(Point Pos);
+void Handle_Spawning_Pool(Point Pos);
+void Handle_Transmitter(Point Pos);
+void Handle_Dock(Point Pos);
+void Handle_Exchanger(Point Pos);
+void Handle_Money_Generator(Point Pos);
+void Handle_Fluid_Generator(Point Pos);
+void Handle_Catalog(Point Pos);
+void Handle_Turbine(Point Pos);
+void Handle_Power_Generator(Point Pos);

@@ -11,18 +11,13 @@ void Render_Changelog() {
 	char Subbuffer[64];
 	Truncate(Temporary.Scroll_Percent, 0, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "changelog - %s%%", Subbuffer);
-	Process_Supply(&Supplies.Changelog_Scroll, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 10);
-	Render_Button(&Textures.Return, &Rects.Return, 1, Colors.Cherry_Blossom);
-	if (Temporary.Log_Inversions[Changelog]) {
-		Render_Button(&Textures.Sort.Data[0], &Rects.Sort.Data[0], 2, Colors.Cherry_Blossom);
-	} else {
-		Render_Button(&Textures.Sort.Data[1], &Rects.Sort.Data[1], 2, Colors.Cherry_Blossom);
-	}
-	if (Temporary.Scroll_Percent < 50) {
-		Render_Button(&Textures.TBW_Texture.Data[0], &Rects.TBW_Rectangle.Data[0], 3, Colors.Cherry_Blossom);
-	} else {
-		Render_Button(&Textures.TBW_Texture.Data[1], &Rects.TBW_Rectangle.Data[1], 4, Colors.Cherry_Blossom);
-	}
+	Process_Supply(&Supplies.Changelog_Scroll, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 10 });
+	Render_Button(&Textures.Return, &Rects.Return, (UI_Link){ Back }, Colors.Cherry_Blossom);
+	Render_Button(&Textures.Sort.Data[(int)(!Temporary.Log_Inversions[Changelog])], &Rects.Sort.Data[(int)(
+		!Temporary.Log_Inversions[Changelog])], (UI_Link){ Invert_Changelog }, Colors.Cherry_Blossom);
+	bool Halfway = (Temporary.Scroll_Percent >= 50);
+	Render_Button(&Textures.TBW_Texture.Data[(int)Halfway], &Rects.TBW_Rectangle.Data[(int)Halfway], (UI_Link){
+		Jump_Changelog, .Param.Integer = (int)Halfway }, Colors.Cherry_Blossom);
 }
 
 void Render_Credits() {
@@ -51,8 +46,8 @@ void Render_Credits() {
 	char Subbuffer[64];
 	Truncate(Temporary.Scroll_Percent, 0, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%s - %s%%", Prefix, Subbuffer);
-	Process_Supply(&Supplies.Scroll_Percent, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, LDE_INVALID, 10);
-	Render_Button(&Textures.Return, &Rects.Return, 1, Colors.Cherry_Blossom);
-	Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, &Interface.Slider_Positions[2], 200, 340, 240, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, false);
+	Process_Supply(&Supplies.Scroll_Percent, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 10 });
+	Render_Button(&Textures.Return, &Rects.Return, (UI_Link){ Back }, Colors.Cherry_Blossom);
+	Render_Slider(Interface.Slider_Texts[2], 1, 1, 2, &Interface.Slider_Positions[2], (Point){ 200, 340 }, 240,
+		Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 }

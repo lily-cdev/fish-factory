@@ -84,29 +84,24 @@ void Render_Settings() {
 	for (int C1 = 0; C1 < Textures.Settings_Label.Length; C1++) {
 		Render_Texture(Textures.Settings_Label.Data[C1], &Rects.Settings_Label.Data[C1]);
 	}
-	Render_Button(&Textures.Return, &Rects.Return, 1, Colors.Cherry_Blossom);
-	Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, &Interface.Slider_Positions[0], 50, 70, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, &Interface.Slider_Positions[4], 50, 140, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, &Interface.Slider_Positions[5], 50, 210, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, &Interface.Slider_Positions[6], 50, 280, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	if (Settings.AA_Temporary) {
-		Render_Button(&Textures.Anti_Aliasing.Data[0], &Rects.Anti_Aliasing.Data[0], 5, Colors.Cherry_Blossom);
-	} else {
-		Render_Button(&Textures.Anti_Aliasing.Data[1], &Rects.Anti_Aliasing.Data[1], 5, Colors.Cherry_Blossom);
-	}
-	if (Settings.VS_Temporary) {
-		Render_Button(&Textures.V_Sync.Data[1], &Rects.V_Sync.Data[1], 24, Colors.Cherry_Blossom);
-	} else {
-		Render_Button(&Textures.V_Sync.Data[0], &Rects.V_Sync.Data[0], 24, Colors.Cherry_Blossom);
-	}
+	Render_Button(&Textures.Return, &Rects.Return, (UI_Link){ Back }, Colors.Cherry_Blossom);
+	Render_Slider(Interface.Slider_Texts[0], 1, 5, 4, &Interface.Slider_Positions[0], (Point){ 50, 70 }, 220,
+		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(Interface.Slider_Texts[4], 2, 4, 20, &Interface.Slider_Positions[4], (Point){ 50, 140 }, 220,
+		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(Interface.Slider_Texts[5], 3, 100, 21, &Interface.Slider_Positions[5], (Point){ 50, 210 }, 220,
+		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(Interface.Slider_Texts[6], 4, 2, 22, &Interface.Slider_Positions[6], (Point){ 50, 280 }, 220,
+		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Button(&Textures.Anti_Aliasing.Data[(int)(!Settings.AA_Temporary)], &Rects.Anti_Aliasing.Data[(int)(
+		!Settings.AA_Temporary)], (UI_Link){ Swap_AA }, Colors.Cherry_Blossom);
+	Render_Button(&Textures.V_Sync.Data[(int)Settings.VS_Temporary], &Rects.V_Sync.Data[(int)Settings.VS_Temporary],
+		(UI_Link){ Swap_VS }, Colors.Cherry_Blossom);
 	if (Temporary.Settings_Changed) {
-		Render_Button(&Textures.Save_Settings, &Rects.Save_Settings, 23, Colors.Cherry_Blossom);
+		Render_Button(&Textures.Save_Settings, &Rects.Save_Settings, (UI_Link){ Update_Settings }, Colors.Cherry_Blossom);
 	}
-	Process_Supply(&Supplies.Monitor_Size, Metadata.Monitor_Size, Fonts.Subtext_Font, Colors.Abyss_Black, 50, 40);
+	Process_Supply(&Supplies.Monitor_Size, Metadata.Monitor_Size, Fonts.Subtext_Font, Colors.Abyss_Black,
+		(Point){ 50, 40 });
 	Render_Keybinds();
 	Verify_Settings();
 }

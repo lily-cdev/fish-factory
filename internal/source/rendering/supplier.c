@@ -1,14 +1,14 @@
 #include <rendering.h>
 
-void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* Font, const SDL_Color Color, int X, int Y) {
+void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* Font, const SDL_Color Color, Point Pos) {
 	if (Replacement == NULL) {
 		puts("failed");
 	}
 	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL ||
-		Supply->Bounds.y != Y * Settings.Screen_Size || Supply->Bounds.x != X * Settings.Screen_Size) {
+		Supply->Bounds.y != Pos.Y * Settings.Screen_Size || Supply->Bounds.x != Pos.X * Settings.Screen_Size) {
 		free_texture(Supply->Data);
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
-		Supply->Bounds.y = Y * Settings.Screen_Size;
+		Supply->Bounds.y = Pos.Y * Settings.Screen_Size;
 		strncpy(Supply->Stored, Replacement, sizeof(Supply->Stored));
 		Supply->Color.r = Color.r;
 		Supply->Color.g = Color.g;
@@ -20,10 +20,10 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* F
 		}
 		Supply->Bounds.w = Carrier->w;
 		Supply->Bounds.h = Carrier->h;
-		if (X == LDE_INVALID) {
+		if (Pos.X == LDE_INVALID) {
 			Supply->Bounds.x = (Settings.Screen_Size * 320) - (Carrier->w * 0.5);
 		} else {
-			Supply->Bounds.x = X * Settings.Screen_Size;
+			Supply->Bounds.x = Pos.X * Settings.Screen_Size;
 		}
 		Supply->Data = Surface_To_Texture(Core.Renderer, Carrier);
 		SDL_DestroySurface(Carrier);

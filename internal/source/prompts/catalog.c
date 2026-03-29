@@ -1,15 +1,14 @@
 #include <ui.h>
 
-void Render_Catalog(int X, int Y) {
+void Render_Catalog(Point Pos) {
 	int Index;
-	Render_Box(10, 10, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
+	Render_Box((Point){ 10, 10 }, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	Render_Texture(Textures.Recipe_Content, &Rects.Recipe_Content);
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
 		for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][
-				C1]) == 0) {
+			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][C1]) == 0) {
 				continue;
 			}
 			float Base_Subwidth = Settings.Screen_Size * 44.0f;
@@ -40,19 +39,16 @@ void Render_Catalog(int X, int Y) {
 			SDL_FRect Machine_Rectangle = {
 				Inner_Rectangle.x + Base_Subpadding,
 				Inner_Rectangle.y + Base_Subpadding,
-				36.0f * Settings.Screen_Size,
-				36.0f * Settings.Screen_Size
+				Settings.Screen_Size * 36.0f,
+				Settings.Screen_Size * 36.0f
 			};
-			float XY_Ratio = Metadata.Machine_Rectangles[C1].w /
-				Metadata.Machine_Rectangles[C1].h;
+			float XY_Ratio = Metadata.Machine_Rectangles[C1].w / Metadata.Machine_Rectangles[C1].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
-				Machine_Rectangle.y = Machine_Rectangle.y +	(18.0f *
-					Settings.Screen_Size) - (Machine_Rectangle.h * 0.5);
+				Machine_Rectangle.y = Machine_Rectangle.y +	(Settings.Screen_Size * 18.0f) - (Machine_Rectangle.h * 0.5);
 			} else if (XY_Ratio < 1) {
 				Machine_Rectangle.w = Machine_Rectangle.h * XY_Ratio;
-				Machine_Rectangle.x = Machine_Rectangle.x +	(18.0f *
-					Settings.Screen_Size) - (Machine_Rectangle.w * 0.5);
+				Machine_Rectangle.x = Machine_Rectangle.x +	(Settings.Screen_Size * 18.0f) - (Machine_Rectangle.w * 0.5);
 			}
 			Render_Texture(Metadata.Machines[C1].Icon, &Machine_Rectangle);
 			Index++;
@@ -78,7 +74,7 @@ void Render_Catalog(int X, int Y) {
 				if (Recipes[C1][Index][C2].Voiding_Excess) {
 					strcat_c(Candidate, ", cannot overflow", sizeof(Candidate));
 				}
-				Process_Supply(&Supplies.Catalog1[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 16, Offset);
+				Process_Supply(&Supplies.Catalog1[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 16, Offset });
 				Offset += 20;
 				strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Inputs; C3++) {
@@ -90,7 +86,8 @@ void Render_Catalog(int X, int Y) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}
-				Process_Supply(&Supplies.Catalog2[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
+				Process_Supply(&Supplies.Catalog2[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black,
+					(Point){ 26, Offset });
 				Offset += 20;
 				strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Outputs; C3++) {
@@ -102,7 +99,7 @@ void Render_Catalog(int X, int Y) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}
-				Process_Supply(&Supplies.Catalog3[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, 26, Offset);
+				Process_Supply(&Supplies.Catalog3[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 26, Offset });
 				Offset += 20;
 				//io recipes
 			}

@@ -56,13 +56,13 @@ void Print_Fatal_Error(int Input) {
 	SDL_FRect Destination = {
 		(Settings.Screen_Size * 230.0f) - (Carrying_Surface->w * 0.5f),
 		(Settings.Screen_Size * 180.0f) - (Carrying_Surface->h * 0.5f),
-		(float)(Carrying_Surface->w),
-		(float)(Carrying_Surface->h)
+		(float)Carrying_Surface->w,
+		(float)Carrying_Surface->h
 	};
 	Render_Texture(Carrying_Texture, &Destination);
 	SDL_DestroySurface(Carrying_Surface);
 	free_texture(Carrying_Texture);
-	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, 3, Colors.Cherry_Blossom);
+	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
 		const char* Parameters[2] = {
 			"quit",
@@ -73,21 +73,14 @@ void Print_Fatal_Error(int Input) {
 	Tick_Input(3, false);
 }
 
-void Process_Exit() {
-	if (Interface.UI_Selection == 3) {
-		Interface.Prompt_Identifier = LDE_INVALID;
-		Interface.Subprompt_Identifier = LDE_INVALID;
-	}
-}
-
 void Render_Backing() {
-	Render_Box(40, 40, 380, 280, Colors.Abyss_Black, Colors.Dark_Grey);
-	Render_Box(460, 40, 140, 280, Colors.Abyss_Black, Colors.Dark_Grey);
+	Render_Box((Point){ 40, 40 }, 380, 280, Colors.Abyss_Black, Colors.Dark_Grey);
+	Render_Box((Point){ 460, 40 }, 140, 280, Colors.Abyss_Black, Colors.Dark_Grey);
 }
 
-void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes) {
+void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes, UI_Link* Links) {
 	for (int C1 = 0; C1 < Hitboxes->Length; C1++) {
-		Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], C1 + 3, Colors.Pure_White);
+		Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], Links[C1], Colors.Pure_White);
 	}
 }
 
@@ -143,7 +136,7 @@ void Backward_Essentials() {
 void Render_Necessities(char* Machine, char* Prefix) {
 	char Buffer[64];
 	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.elf", Machine);
-	Process_Supply(&Supplies.Terminal_Title, Buffer, Fonts.Terminal_Font, Colors.Cherry_Blossom, 50, 50);
+	Process_Supply(&Supplies.Terminal_Title, Buffer, Fonts.Terminal_Font, Colors.Cherry_Blossom, (Point){ 50, 50 });
 	Render_Texture(Textures.Terminal_Prompt, &Rects.Terminal_Prompt);
 	if (strlen(Interface.Terminal_Entry) > 0) {
 		char Carrier[128];
@@ -160,13 +153,13 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		}
 		Result[Index] = '\0';
 		if (strlen(Result) > 0) {
-			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, 64, 300);
+			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, (Point){ 64, 300 });
 		}
 		free_c(Result);
 	}
 	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
 		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font,
-			Colors.Cherry_Blossom, 50, 280 - (C1 * 20));
+			Colors.Cherry_Blossom, (Point){ 50, 280 - (C1 * 20) });
 	}
 }
 

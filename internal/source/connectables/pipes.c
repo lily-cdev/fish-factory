@@ -115,7 +115,7 @@ void Distribute_Fluid(Bridge** Grouped_List, int Grouped, int* Sizes) {
 					Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids]);
 				Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] = Data.Data_Grid[
 					Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] + Minimum;
-				Update_Item(Grouped_List[C1][C2].X2, Grouped_List[C1][C2].Y2, Data.Items_Grid[Grouped_List[C1][C2].X1][
+				Update_Item((Point){ Grouped_List[C1][C2].X2, Grouped_List[C1][C2].Y2 }, Data.Items_Grid[Grouped_List[C1][C2].X1][
 					Grouped_List[C1][C2].Y1], Data.Temperature_Grid[Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1]);
 				Remaining_Fluid = Remaining_Fluid - Minimum;
 				Used_Fluid = Used_Fluid + Minimum;

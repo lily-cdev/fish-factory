@@ -104,7 +104,7 @@ int main(int argc, char* args[]) {
 			{
 				char Buffer[256];
 				snprintf(Buffer, sizeof(Buffer), "%i/%i FPS", Temporary.Temporary_FPS, Interface.Frame_Rate);
-				Process_Supply(&Supplies.FPS, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, 10, 10);
+				Process_Supply(&Supplies.FPS, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 10 });
 			}
 			Render_Effects();
 			Render_Game_UI();

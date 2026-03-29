@@ -7,18 +7,15 @@ void Render_Toolbar() {
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
 		SDL_Surface* Machine_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Machine_Text, 0, Colors.Abyss_Black);
-		SDL_FRect Machine_Rectangle = {
-			(Settings.Screen_Size * 312.0f) - (Machine_Surface->w * 0.5f),
-			((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Screen_Size,
-			Machine_Surface->w + (Settings.Screen_Size * 16.0f),
-			TTF_GetFontHeight(Fonts.Subtext_Font) + (Settings.Screen_Size * 18.0f)
-		};
+		float Y = ((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Screen_Size;
+		float Height = TTF_GetFontHeight(Fonts.Subtext_Font) + (Settings.Screen_Size * 18.0f);
+		float Padding = Settings.Screen_Size * 16.0f;
+		float Root_X = (Settings.Screen_Size * 312.0f) - (Machine_Surface->w * 0.5f);
+		float Root_Width = Machine_Surface->w + Padding;
+		SDL_FRect Machine_Rectangle = { Root_X, Y, Root_Width, Height };
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
-		Machine_Rectangle.x += (Settings.Screen_Size * 4);
-		Machine_Rectangle.y += (Settings.Screen_Size * 4);
-		Machine_Rectangle.w -= (Settings.Screen_Size * 8);
-		Machine_Rectangle.h -= (Settings.Screen_Size * 8);
+		Machine_Rectangle = Inline_Rect(Machine_Rectangle, 4);
 		Set_Renderer_Color(Colors.Light_Grey);
 		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
 		Clear_Renderer();
@@ -30,6 +27,40 @@ void Render_Toolbar() {
 		Render_Texture(Machine_Texture, &Machine_Rectangle);
 		SDL_DestroySurface(Machine_Surface);
 		free_texture(Machine_Texture);
+		if (true) {//tmp
+			SDL_Surface* L_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "<-", 0, Colors.Abyss_Black);
+			SDL_Surface* R_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, "->", 0, Colors.Abyss_Black);
+			float Width = L_Surface->w + Padding;
+			SDL_FRect L_Rect = {
+				Root_X - Width,
+				Y,
+				Width,
+				Height
+			};
+			SDL_FRect R_Rect = {
+				Root_X + Root_Width,
+				Y,
+				Width,
+				Height
+			};
+			Set_Renderer_Color(Colors.Dark_Grey);
+			SDL_RenderFillRect(Core.Renderer, &L_Rect);
+			SDL_RenderFillRect(Core.Renderer, &R_Rect);
+			L_Rect = Inline_Rect(L_Rect, 4);
+			R_Rect = Inline_Rect(R_Rect, 4);
+			Set_Renderer_Color(Colors.Light_Grey);
+			SDL_RenderFillRect(Core.Renderer, &L_Rect);
+			SDL_RenderFillRect(Core.Renderer, &R_Rect);
+			Clear_Renderer();
+			SDL_Texture* L_Texture = Surface_To_Texture(Core.Renderer, L_Surface);
+			SDL_Texture* R_Texture = Surface_To_Texture(Core.Renderer, R_Surface);
+			Render_Texture(L_Texture, &L_Rect);
+			Render_Texture(R_Texture, &R_Rect);
+			SDL_DestroySurface(L_Surface);
+			SDL_DestroySurface(R_Surface);
+			free_texture(L_Texture);
+			free_texture(R_Texture);
+		}
 	}
 }
 
@@ -45,8 +76,8 @@ void Verify_Settings() {
 		Settings.Anti_Aliasing || (int)(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS !=
 		Interface.Slider_Positions[4] || Settings.Volume != Interface.Slider_Positions[5] || Interface.Slider_Positions[6] !=
 		Settings.Fullscreen) {
-		Render_Button(&Textures.Apply, &Rects.Apply, 2, Colors.Cherry_Blossom);
-		Render_Button(&Textures.Cancel, &Rects.Cancel, 3, Colors.Cherry_Blossom);
+		Render_Button(&Textures.Apply, &Rects.Apply, (UI_Link){ Apply_Configs }, Colors.Cherry_Blossom);
+		Render_Button(&Textures.Cancel, &Rects.Cancel, (UI_Link){ Clear_Configs }, Colors.Cherry_Blossom);
 	}
 }
 
@@ -74,8 +105,8 @@ void Render_Tile_Prompts() {
 							(float)Carrying_Surface->h
 						};
 						SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-						Render_Box((Carrying_Rectangle.x / Settings.Screen_Size) - 4,
-							(Carrying_Rectangle.y / Settings.Screen_Size) - 4,
+						Render_Box((Point){ (Carrying_Rectangle.x / Settings.Screen_Size) - 4,
+							(Carrying_Rectangle.y / Settings.Screen_Size) - 4 },
 							(Carrying_Rectangle.w / Settings.Screen_Size) + 8,
 							(Carrying_Rectangle.h / Settings.Screen_Size) + 8,
 							Colors.Light_Grey, Colors.Dark_Grey);
@@ -196,12 +227,12 @@ void Cache_Price() {
 		Interface.Item - 1].Tax + 1;
 }
 
-void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, int X, int Y, int Width,
+void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selection, int* Position, Point Pos, int Width,
 	SDL_Color Primary, SDL_Color Secondary, bool Text_Visible) {
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {
-		(float)(X * Settings.Screen_Size),
-		(float)(Y - 3) * Settings.Screen_Size,
+		(float)(Pos.X * Settings.Screen_Size),
+		(float)(Pos.Y - 3) * Settings.Screen_Size,
 		(float)(Width * Settings.Screen_Size),
 		Settings.Screen_Size * 6.0f
 	};
@@ -209,7 +240,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		Active = true;
 		int Separators[512];
 		for (int C1 = 0; C1 < Nodes; C1++) {
-			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + X)) * Settings.Screen_Size;
+			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + Pos.X)) * Settings.Screen_Size;
 		}
 		Separators[Nodes] = LDE_TERMINATOR;
 		for (int C1 = 0; C1 < Nodes; C1++) {
@@ -232,8 +263,8 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 		Set_Renderer_Color(Secondary);
 	}
 	SDL_FRect Node_Rectangle = {
-		(float)((((float)(*Position) / Nodes) * Width) + X - 6) * Settings.Screen_Size,
-		(float)(Y - 6.0f) * Settings.Screen_Size,
+		(float)((((float)(*Position) / Nodes) * Width) + Pos.X - 6) * Settings.Screen_Size,
+		(float)(Pos.Y - 6.0f) * Settings.Screen_Size,
 		Settings.Screen_Size * 12.0f,
 		Settings.Screen_Size * 12.0f
 	};
@@ -246,8 +277,8 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int Selectio
 	if (Text_Visible) {
 		SDL_Surface* Caption_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Labels[*Position], 0, Primary);
 		SDL_FRect Caption_Rectangle = {
-			(((((float)(*Position) / Nodes) * Width) + X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
-			(float)(Y + 10.0f) * Settings.Screen_Size,
+			(((((float)(*Position) / Nodes) * Width) + Pos.X) * Settings.Screen_Size) - (float)(Caption_Surface->w * 0.5),
+			(float)(Pos.Y + 10.0f) * Settings.Screen_Size,
 			(float)Caption_Surface->w,
 			(float)Caption_Surface->h
 		};
