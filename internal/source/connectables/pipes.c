@@ -20,9 +20,9 @@ void Orient_Pipe(Bridge* Input) {
 
 void Place_Pipe() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+		Rects.Tile_1x1.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Pipes.Length > 0 && !Pipes.Data[Pipes.Length - 1].Filled) {
 					bool Is_Adjacent = false;
@@ -91,13 +91,13 @@ void Render_Pipes() {
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
 		if (Pipes.Data[C1].Filled) {
 			Rects.Tile_1x1.x = (int)((Pipes.Data[C1].X1 * LDE_TILESIZE) + Pipes.Data[C1].X_Offset - Core.Camera.X) *
-				Settings.Screen_Size;
+				Settings.Scalar;
 			Rects.Tile_1x1.y = (int)((Pipes.Data[C1].Y1 * LDE_TILESIZE) + Pipes.Data[C1].Y_Offset - Core.Camera.Y) *
-				Settings.Screen_Size;
+				Settings.Scalar;
 			Render_Texture(Textures.Arrow.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
 		} else {
-			Rects.Sapling.x = (float)((Pipes.Data[C1].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-			Rects.Sapling.y = (float)((Pipes.Data[C1].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Rects.Sapling.x = (float)((Pipes.Data[C1].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+			Rects.Sapling.y = (float)((Pipes.Data[C1].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			Render_Texture(Textures.Sapling, &Rects.Sapling);
 		}
 	}

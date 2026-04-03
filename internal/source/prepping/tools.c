@@ -10,8 +10,8 @@ bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2) {
 }
 
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
-	X *= Settings.Screen_Size;
-	Y *= Settings.Screen_Size;
+	X *= Settings.Scalar;
+	Y *= Settings.Scalar;
 	if (!X_Lock) {
 		Rects.Tile_1x1.x = X;
 		Rects.Tile_1x2.x = X;
@@ -195,20 +195,17 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, Point Pos, bool In
 			char* Subfragment = Fragments[Multiplier * (Subtractor - C1)];
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
-		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Selected_Font, Fragments[Multiplier * (Subtractor - C1)], 0,
-			Colors.Abyss_Black);
+		SDL_Texture* Fragment_Texture = Render_Text(Selected_Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = {
-			(float)(Pos.X * Settings.Screen_Size),
-			(float)(Pos.Y * Settings.Screen_Size) + Offset,
-			(float)Fragment_Surface->w,
-			(float)Fragment_Surface->h
+			(float)(Pos.X * Settings.Scalar),
+			(float)(Pos.Y * Settings.Scalar) + Offset,
+			(float)Fragment_Texture->w,
+			(float)Fragment_Texture->h
 		};
 		if (!Disabled) {
-			SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
 			Render_Texture(Fragment_Texture, &Fragment_Rectangle);
-			free_texture(Fragment_Texture);
 		}
-		SDL_DestroySurface(Fragment_Surface);
+		free_texture(Fragment_Texture);
 		Offset += Fragment_Rectangle.h;
 	}
 	for (int C1 = 0; C1 < Fragment_Count; C1++) {
@@ -232,13 +229,25 @@ void Reseed_State() {
 
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border) {
 	return (SDL_FRect){
-		Input.x += (Settings.Screen_Size * Border),
-		Input.y += (Settings.Screen_Size * Border),
-		Input.w -= (Settings.Screen_Size * Border * 2.0f),
-		Input.h -= (Settings.Screen_Size * Border * 2.0f)
+		Input.x += (Settings.Scalar * Border),
+		Input.y += (Settings.Scalar * Border),
+		Input.w -= (Settings.Scalar * Border * 2.0f),
+		Input.h -= (Settings.Scalar * Border * 2.0f)
 	};
 }
 
 bool Is_Bound(Point Input) {
 	return (Input.X >= 0 && Input.Y >= 0 && Input.X < LDE_GRIDSIZE && Input.Y < LDE_GRIDSIZE);
+}
+
+SDL_Texture* Render_Text(TTF_Font* Font, const char* Text, SDL_Color Color) {
+	SDL_Surface* Carrier;
+	if (Settings.Anti_Aliasing) {
+		Carrier = TTF_RenderText_Blended(Font, Text, 0, Color);
+	} else {
+		Carrier = TTF_RenderText_Solid(Font, Text, 0, Color);
+	}
+	SDL_Texture* Yield = Surface_To_Texture(Core.Renderer, Carrier);
+	SDL_DestroySurface(Carrier);
+	return Yield;
 }

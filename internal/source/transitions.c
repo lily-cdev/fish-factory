@@ -37,15 +37,15 @@ void Render_Closing(bool Clearing) {
 		if (Transition.Frames < Transition.Max_Frames) {
 			Transition.Frames++;
 			float Percentage = Ease_Sine((float)Transition.Frames / Transition.Max_Frames);
-			Rects.Door[0].x = (int)(((Settings.Screen_Size * 320) * Percentage) - (Settings.Screen_Size * 320));
-			Rects.Door[1].x = (int)((Settings.Screen_Size * 640) - ((Settings.Screen_Size * 320) * Percentage));
+			Rects.Door[0].x = (int)((Core.Screenhalfsize.X * Percentage) - Core.Screenhalfsize.X);
+			Rects.Door[1].x = (int)(Core.Screensize.X - (Core.Screenhalfsize.X * Percentage));
 		} else {
 			Transition.Phase = 1;
 			Interface.UI_Tab = LDE_INVALID;
 			Transition.Frames = 0;
 			Transition.Max_Frames = (int)(Interface.Frame_Rate / 1.5f);
 			Rects.Door[0].x = 0;
-			Rects.Door[1].x = Settings.Screen_Size * 320;
+			Rects.Door[1].x = Core.Screenhalfsize.X;
 			if (Clearing) {	
 				Interface.Log_Offset = 0;
 				Temporary.Scroll_Percent = 0;
@@ -62,15 +62,15 @@ void Render_Opening() {
 		if (Transition.Frames < Transition.Max_Frames) {
 			Transition.Frames++;
 			float Percentage = Ease_Sine((float)Transition.Frames / Transition.Max_Frames);
-			Rects.Door[0].x = (int)(-((Settings.Screen_Size * 320) * Percentage));
-			Rects.Door[1].x = (int)((Settings.Screen_Size * 320) + ((Settings.Screen_Size * 320) * Percentage));
+			Rects.Door[0].x = (int)(-(Core.Screenhalfsize.X * Percentage));
+			Rects.Door[1].x = (int)((Core.Screenhalfsize.X * Percentage) + Core.Screenhalfsize.X);
 			Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
 			Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 			SDL_FRect Indicator_Rectangle = {
-				(float)(((Percentage * 320) + 342.5f) * Settings.Screen_Size),
-				(float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
-				(float)Settings.Screen_Size * LDE_TILESIZE,
-				(float)Settings.Screen_Size * LDE_TILESIZE
+				(float)(((Percentage * 320) + 342.5f) * Settings.Scalar),
+				(float)(((1471 / 6.0f) - 20) * Settings.Scalar),
+				(float)Settings.Scalar * LDE_TILESIZE,
+				(float)Settings.Scalar * LDE_TILESIZE
 			};
 			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
@@ -127,9 +127,9 @@ void Render_Submarine() {
 		default:
 			break;
 		}
-		Rects.Submarine.x = (int)(((Transition.Sub_Offset) - (Core.Camera.X) - 900) * Settings.Screen_Size);
-		Rects.Submarine.y = (int)(((-Transition.Sub_Vertical * Settings.Screen_Size) - Rects.Submarine.h) -
-			(Core.Camera.Y * Settings.Screen_Size));
+		Rects.Submarine.x = (int)(((Transition.Sub_Offset) - (Core.Camera.X) - 900) * Settings.Scalar);
+		Rects.Submarine.y = (int)(((-Transition.Sub_Vertical * Settings.Scalar) - Rects.Submarine.h) -
+			(Core.Camera.Y * Settings.Scalar));
 		for (int Counter = 0; Counter < 2; Counter++) {
 			SDL_FRect Subrectangle = {
 				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * Counter),
@@ -156,10 +156,10 @@ void Render_Transitions() {
 	Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 	if (Transition.Frames > (Transition.Max_Frames * 0.5) || Transition.Phase == 2) {
 		SDL_FRect Indicator_Rectangle = {
-			Settings.Screen_Size * 342.5f,
-			(float)(((1471 / 6.0f) - 20) * Settings.Screen_Size),
-			(float)(LDE_TILESIZE * Settings.Screen_Size),
-			(float)(LDE_TILESIZE * Settings.Screen_Size)
+			Settings.Scalar * 342.5f,
+			(float)(((1471 / 6.0f) - 20) * Settings.Scalar),
+			(float)(LDE_TILESIZE * Settings.Scalar),
+			(float)(LDE_TILESIZE * Settings.Scalar)
 		};
 		Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 	}

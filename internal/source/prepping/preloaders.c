@@ -3,7 +3,7 @@
 void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
 	char Carrier[128];
 	snprintf(Carrier, sizeof(Carrier), "Assets/Core/Fonts/%s.ttf", Path);
-	(*Yield) = TTF_OpenFont(Carrier, (float)(Settings.Screen_Size * Height));
+	(*Yield) = TTF_OpenFont(Carrier, (float)(Settings.Scalar * Height));
 	if ((*Yield) == NULL) {
 		char Subcarrier[128];
 		snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"", Carrier);
@@ -12,32 +12,32 @@ void Load_Font(const char* Path, TTF_Font** Yield, const int Height) {
 }
 
 void Load_Rects() {
-	Rects.Tile_1x1.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x2.w = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_1x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x1.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x1.h = (float)(LDE_TILESIZE * Settings.Screen_Size);
-	Rects.Tile_2x2.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x3.w = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_2x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x2.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x2.h = LDE_TILESIZE * Settings.Screen_Size * 2.0f;
-	Rects.Tile_3x3.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x4.w = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_3x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x3.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x3.h = LDE_TILESIZE * Settings.Screen_Size * 3.0f;
-	Rects.Tile_4x6.w = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_4x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x4.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x4.h = LDE_TILESIZE * Settings.Screen_Size * 4.0f;
-	Rects.Tile_6x8.w = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
-	Rects.Tile_6x8.h = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
-	Rects.Tile_8x6.w = LDE_TILESIZE * Settings.Screen_Size * 8.0f;
-	Rects.Tile_8x6.h = LDE_TILESIZE * Settings.Screen_Size * 6.0f;
+	Rects.Tile_1x1.w = (float)(LDE_TILESIZE * Settings.Scalar);
+	Rects.Tile_1x1.h = (float)(LDE_TILESIZE * Settings.Scalar);
+	Rects.Tile_1x2.w = (float)(LDE_TILESIZE * Settings.Scalar);
+	Rects.Tile_1x2.h = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_2x1.w = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_2x1.h = (float)(LDE_TILESIZE * Settings.Scalar);
+	Rects.Tile_2x2.w = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_2x2.h = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_2x3.w = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_2x3.h = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_3x2.w = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_3x2.h = LDE_TILESIZE * Settings.Scalar * 2.0f;
+	Rects.Tile_3x3.w = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_3x3.h = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_3x4.w = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_3x4.h = LDE_TILESIZE * Settings.Scalar * 4.0f;
+	Rects.Tile_4x3.w = LDE_TILESIZE * Settings.Scalar * 4.0f;
+	Rects.Tile_4x3.h = LDE_TILESIZE * Settings.Scalar * 3.0f;
+	Rects.Tile_4x6.w = LDE_TILESIZE * Settings.Scalar * 4.0f;
+	Rects.Tile_4x6.h = LDE_TILESIZE * Settings.Scalar * 6.0f;
+	Rects.Tile_6x4.w = LDE_TILESIZE * Settings.Scalar * 6.0f;
+	Rects.Tile_6x4.h = LDE_TILESIZE * Settings.Scalar * 4.0f;
+	Rects.Tile_6x8.w = LDE_TILESIZE * Settings.Scalar * 6.0f;
+	Rects.Tile_6x8.h = LDE_TILESIZE * Settings.Scalar * 8.0f;
+	Rects.Tile_8x6.w = LDE_TILESIZE * Settings.Scalar * 8.0f;
+	Rects.Tile_8x6.h = LDE_TILESIZE * Settings.Scalar * 6.0f;
 }
 
 void Preload_Fonts() {
@@ -137,7 +137,7 @@ void Preload_Machines() {
 	Load_Rotational("UI/Other/Direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("Effects/Light");
 	Load_Subanimated("Effects/Bubble", &Textures.A_Bubble, 2);
-	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Screen_Size * 40.0f, Settings.Screen_Size * 40.0f };
+	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 40.0f, Settings.Scalar * 40.0f };
 	Textures.Scrap = Preload_Texture("Tiles/Scrap");
 	const char Paths[LDE_ITEMS][32] = {
 		"R_Seawater", "C_Saltwater", "AM_Snow", "L_Waste", "Steam", "D_Water", "S_Solution", "W_Algae", "A_Paste",
@@ -168,7 +168,7 @@ void Preload_Machines() {
 void Preload_Foundation() {
 	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Textures.Pyramid.Length = 4;
-	float Full_Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2.0f)) * Settings.Screen_Size;
+	float Full_Width = ((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2.0f)) * Settings.Scalar;
 	int Candidate_Length = Full_Width * 0.25f;
 	if (evn(Candidate_Length)) {
 		Candidate_Length--;
@@ -200,22 +200,22 @@ void Preload_Foundation() {
 	SDL_Color Pyramid_Color = Colors.Reinforced_Grey;
 	Pyramid_Color.a = SDL_ALPHA_OPAQUE;
 	Set_Renderer_Color(Pyramid_Color);
-	float Subwidth = ((LDE_GRIDSIZE + 2) * Settings.Screen_Size * 40.0f) * 0.5f;
+	float Subwidth = ((LDE_GRIDSIZE + 2) * Settings.Scalar * 40.0f) * 0.5f;
 	for (int X = 0; X < 2; X++) {
 		for (int Y = 0; Y < 2; Y++) {
 			SDL_SetRenderTarget(Core.Renderer, Textures.Pyramid.Data[(X * 2) + Y]);
 			SDL_FRect Subrectangle = {
-				((LDE_BUFFERSIZE - 280.0f) * Settings.Screen_Size) - (X * Subwidth),
-				((LDE_BUFFERSIZE - 280.0f) * Settings.Screen_Size) - (Y * Subwidth),
-				Settings.Screen_Size * 500.0f,
-				Settings.Screen_Size * 500.0f
+				((LDE_BUFFERSIZE - 280.0f) * Settings.Scalar) - (X * Subwidth),
+				((LDE_BUFFERSIZE - 280.0f) * Settings.Scalar) - (Y * Subwidth),
+				Settings.Scalar * 500.0f,
+				Settings.Scalar * 500.0f
 			};
 			SDL_RenderFillRect(Core.Renderer, &Subrectangle);
-			Subrectangle.x -= Settings.Screen_Size * 5.0f;
-			Subrectangle.y -= Settings.Screen_Size * 5.0f;
-			Subrectangle.w += Settings.Screen_Size * 10.0f;
-			Subrectangle.h += Settings.Screen_Size * 10.0f;
-			for (int C1 = 0; C1 < 5 * Settings.Screen_Size; C1++) {
+			Subrectangle.x -= Settings.Scalar * 5.0f;
+			Subrectangle.y -= Settings.Scalar * 5.0f;
+			Subrectangle.w += Settings.Scalar * 10.0f;
+			Subrectangle.h += Settings.Scalar * 10.0f;
+			for (int C1 = 0; C1 < 5 * Settings.Scalar; C1++) {
 				Subrectangle.x--;
 				Subrectangle.y--;
 				Subrectangle.w += 2;
@@ -231,33 +231,31 @@ void Preload_Foundation() {
 
 void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, TTF_Font* Font, const SDL_Color Color,
 	const Point Position) {
-	SDL_Surface* Carrier = TTF_RenderText_Blended(Font, Text, 0, Color);
+	SDL_Texture* Carrier = Render_Text(Font, Text, Color);
 	Rect->w = Carrier->w;
 	Rect->h = Carrier->h;
-	Rect->x = (Position.X == LDE_INVALID) ? (Settings.Screen_Size * 320.0f) - (Carrier->w * 0.5f) : Settings.Screen_Size *
-		Position.X;
-	Rect->y = (Position.Y == LDE_INVALID) ? (Settings.Screen_Size * 180.0f) - (Carrier->h * 0.5f) : Settings.Screen_Size *
-		Position.Y;
-	(*Texture) = Surface_To_Texture(Core.Renderer, Carrier);
-	SDL_DestroySurface(Carrier);
+	Rect->x = (Position.X == LDE_INVALID) ? Core.Screenhalfsize.X - (Carrier->w * 0.5f) : Settings.Scalar * Position.X;
+	Rect->y = (Position.Y == LDE_INVALID) ? Core.Screenhalfsize.Y - (Carrier->h * 0.5f) : Settings.Scalar * Position.Y;
+	(*Texture) = Carrier;
 }
 
 void Preload_Assets() {
-	Core.Game_Texture = New_Texture(Core.Renderer, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
-	Interface.Tile_Centerpoint.x = Settings.Screen_Size * (LDE_TILESIZE * 0.5f);
-	Interface.Tile_Centerpoint.y = Settings.Screen_Size * (LDE_TILESIZE * 0.5f);
+	SDL_Texture* Carrying_Texture;
+	Core.Game_Texture = New_Texture(Core.Renderer, (int)Core.Screensize.X, (int)Core.Screensize.Y);
+	Interface.Tile_Centerpoint.x = Settings.Scalar * (LDE_TILESIZE * 0.5f);
+	Interface.Tile_Centerpoint.y = Settings.Scalar * (LDE_TILESIZE * 0.5f);
 	Preload_Machines();
 	Preload_Foundation();
-	SDL_Texture* Carrying_Texture = Preload_Texture("UI/Backgrounds/Doors");
+	Carrying_Texture = Preload_Texture("UI/Backgrounds/Doors");
 	Textures.Door.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Door.Length = 2;
 	for (int C1 = 0; C1 < 2; C1++) {
-		Textures.Door.Data[C1] = New_Texture(Core.Renderer, Settings.Screen_Size * 320, Settings.Screen_Size * 360);
+		Textures.Door.Data[C1] = New_Texture(Core.Renderer, (int)Core.Screenhalfsize.X, (int)Core.Screensize.Y);
 		SDL_SetTextureBlendMode(Textures.Door.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_SetRenderTarget(Core.Renderer, Textures.Door.Data[C1]);
 		SDL_FRect Half_Rectangle = { C1 * 1920.0f, 0.0f, 1920.0f, 2160.0f };
-		Rects.Door[C1].w = Settings.Screen_Size * 320.0f;
-		Rects.Door[C1].h = Settings.Screen_Size * 360.0f;
+		Rects.Door[C1].w = Core.Screenhalfsize.X;
+		Rects.Door[C1].h = Core.Screensize.Y;
 		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Half_Rectangle, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
@@ -272,10 +270,10 @@ void Preload_Assets() {
 		(Point){ 456, 10 });
 	Rects.Tunnel.Length = 2;
 	Rects.Tunnel.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Tunnel.Data[0].w = Settings.Screen_Size * 240.0f;
-	Rects.Tunnel.Data[0].h = Settings.Screen_Size * 90.0f;
-	Rects.Tunnel.Data[1].w = Settings.Screen_Size * 90.0f;
-	Rects.Tunnel.Data[1].h = Settings.Screen_Size * 240.0f;
+	Rects.Tunnel.Data[0].w = Settings.Scalar * 240.0f;
+	Rects.Tunnel.Data[0].h = Settings.Scalar * 90.0f;
+	Rects.Tunnel.Data[1].w = Settings.Scalar * 90.0f;
+	Rects.Tunnel.Data[1].h = Settings.Scalar * 240.0f;
 	Load_Rotational("Other/Tunnel", &Textures.Tunnel);
 	SDL_Surface* Carrying_Surface;
 	load_bmp(Carrying_Surface, "Assets/Core/Images/UI/Other/Logo.bmp");
@@ -283,10 +281,10 @@ void Preload_Assets() {
 	SDL_SetWindowIcon(Core.Window, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Emblem, &Rects.Emblem.w, &Rects.Emblem.h);
-	Rects.Emblem.w = (int)((Rects.Emblem.w / 6.0f) * Settings.Screen_Size);
-	Rects.Emblem.h = (int)((Rects.Emblem.h / 6.0f) * Settings.Screen_Size);
-	Rects.Emblem.x = (Settings.Screen_Size * 315) - Rects.Emblem.w;
-	Rects.Emblem.y = Settings.Screen_Size * 32;
+	Rects.Emblem.w = (int)((Rects.Emblem.w / 6.0f) * Settings.Scalar);
+	Rects.Emblem.h = (int)((Rects.Emblem.h / 6.0f) * Settings.Scalar);
+	Rects.Emblem.x = (Settings.Scalar * 315.0f) - Rects.Emblem.w;
+	Rects.Emblem.y = Settings.Scalar * 32.0f;
 	Textures.Crosshair = Preload_Texture("UI/Other/Crosshair");
 	Textures.Cursor = Preload_Texture("UI/Other/Cursor");
 	Textures.Cursor_Core = Preload_Texture("UI/Other/Cursor_Core");
@@ -296,50 +294,52 @@ void Preload_Assets() {
 	Rects.Node = Rects.Tile_1x1;
 	Textures.Path_Arrow = Preload_Texture("UI/Other/Path_Arrow");
 	Textures.Saveloader = Preload_Texture("UI/Backgrounds/Saveloader");
-	Rects.Saveloader.x = 0;
-	Rects.Saveloader.y = 0;
-	Rects.Saveloader.w = Settings.Screen_Size * 640.0f;
-	Rects.Saveloader.h = Settings.Screen_Size * 360.0f;
+	Rects.Saveloader = (SDL_FRect) {
+		0,
+		0,
+		Core.Screensize.X,
+		Core.Screensize.Y
+	};
 	Textures.Help_Sidebutton = Preload_Sidebutton("Help", &Rects.Help, 60);
 	Textures.Save_Sidebutton = Preload_Sidebutton("Save", &Rects.Save, 84);
 	Textures.Recipe_Sidebutton = Preload_Sidebutton("Recipe", &Rects.Recipe, 108);
 	Textures.Exit_Sidebutton = Preload_Sidebutton("Exit", &Rects.Exit, 132);
 	Rects.Return.Length = 2;
 	Rects.Return.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Return.Data[0].x = Settings.Screen_Size * 10.0f;
-	Rects.Return.Data[0].y = Settings.Screen_Size * 334.0f;
+	Rects.Return.Data[0].x = Settings.Scalar * 10.0f;
+	Rects.Return.Data[0].y = Settings.Scalar * 334.0f;
 	Rects.New_Game.Length = 2;
 	Rects.New_Game.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.New_Game.Data[0].x = LDE_INVALID;
-	Rects.New_Game.Data[0].y = Settings.Screen_Size * 160.0f;
+	Rects.New_Game.Data[0].y = Settings.Scalar * 160.0f;
 	Rects.Settings.Length = 2;
 	Rects.Settings.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Settings.Data[0].x = LDE_INVALID;
-	Rects.Settings.Data[0].y = Settings.Screen_Size * 190.0f;
+	Rects.Settings.Data[0].y = Settings.Scalar * 190.0f;
 	Rects.Update_Logs.Length = 2;
 	Rects.Update_Logs.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Update_Logs.Data[0].x = LDE_INVALID;
-	Rects.Update_Logs.Data[0].y = Settings.Screen_Size * 220.0f;
+	Rects.Update_Logs.Data[0].y = Settings.Scalar * 220.0f;
 	Rects.Credits.Length = 2;
 	Rects.Credits.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Credits.Data[0].x = LDE_INVALID;
-	Rects.Credits.Data[0].y = Settings.Screen_Size * 250.0f;
+	Rects.Credits.Data[0].y = Settings.Scalar * 250.0f;
 	Rects.Quit_Game.Length = 2;
 	Rects.Quit_Game.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Quit_Game.Data[0].x = LDE_INVALID;
-	Rects.Quit_Game.Data[0].y = Settings.Screen_Size * 280.0f;
+	Rects.Quit_Game.Data[0].y = Settings.Scalar * 280.0f;
 	Rects.Apply.Length = 2;
 	Rects.Apply.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Apply.Data[0].x = Settings.Screen_Size * 60.0f;
-	Rects.Apply.Data[0].y = Settings.Screen_Size * 334.0f;
+	Rects.Apply.Data[0].x = Settings.Scalar * 60.0f;
+	Rects.Apply.Data[0].y = Settings.Scalar * 334.0f;
 	Rects.Cancel.Length = 2;
 	Rects.Cancel.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Cancel.Data[0].x = Settings.Screen_Size * 110.0f;
-	Rects.Cancel.Data[0].y = Settings.Screen_Size * 334.0f;
+	Rects.Cancel.Data[0].x = Settings.Scalar * 110.0f;
+	Rects.Cancel.Data[0].y = Settings.Scalar * 334.0f;
 	Rects.Next_Day.Length = 2;
 	Rects.Next_Day.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Next_Day.Data[0].x = LDE_INVALID;
-	Rects.Next_Day.Data[0].y = Settings.Screen_Size * 300.0f;
+	Rects.Next_Day.Data[0].y = Settings.Scalar * 300.0f;
 	Interface.Map_X = (LDE_TILESIZE * LDE_GRIDSIZE) - 640 + LDE_BUFFERSIZE;
 	Interface.Map_Y = (LDE_TILESIZE * LDE_GRIDSIZE) - 360 + LDE_BUFFERSIZE;
 	Rects.Subcategories.Length = LDE_CATEGORIES;
@@ -356,7 +356,7 @@ void Preload_Assets() {
 			Rects.Subcategories.Data[C1].Data[C2].Length = 2;
 			Rects.Subcategories.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcategories.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
-			Rects.Subcategories.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Screen_Size;
+			Rects.Subcategories.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Scalar;
 			Load_Button(Fonts.Halftext_Font, Metadata.Subcategories[Metadata.Subcategory_Positions[C1][C2]],
 				&Textures.Subcategories.Data[C1].Data[C2], Rects.Subcategories.Data[C1].Data[C2], Colors.Abyss_Black,
 				Colors.Cherry_Blossom);
@@ -376,7 +376,7 @@ void Preload_Assets() {
 			Rects.Subcontents.Data[C1].Data[C2].Length = 2;
 			Rects.Subcontents.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
-			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Screen_Size;
+			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Scalar;
 			Load_Button(Fonts.Halftext_Font, Metadata.Names[Metadata.Subcontents[C1][C2]], &Textures.Subcontents.Data[
 				C1].Data[C2], Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
@@ -396,7 +396,7 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = (float)(((C2 +
-				intlen(Metadata.Subcategory_Positions[C1])) * 30) + 40) * Settings.Screen_Size;
+				intlen(Metadata.Subcategory_Positions[C1])) * 30) + 40) * Settings.Scalar;
 			Load_Button(Fonts.Halftext_Font, Metadata.Names[Metadata.Item_Labels[C1][C2]], &Textures.Item_Labels.Data[
 				C1].Data[C2], Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
@@ -446,40 +446,41 @@ void Preload_Assets() {
 	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * LDE_TOOLS);
 	Textures.Tool.Length = LDE_TOOLS;
 	for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
-		SDL_Surface* Text_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Metadata.Tool_Texts[C1], 0,
-			Colors.Abyss_Black);
-		Rects.Tool[C1].w = (float)Text_Surface->w;
-		Rects.Tool[C1].h = (float)Text_Surface->h;
-		Textures.Tool.Data[C1] = Surface_To_Texture(Core.Renderer, Text_Surface);
-		SDL_DestroySurface(Text_Surface);
+		SDL_Texture* Text_Texture = Render_Text(Fonts.Halftext_Font, Metadata.Tool_Texts[C1], Colors.Abyss_Black);
+		Rects.Tool[C1].w = (float)Text_Texture->w;
+		Rects.Tool[C1].h = (float)Text_Texture->h;
+		Textures.Tool.Data[C1] = Text_Texture;
 	}
-	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "fish factory help", 17, Colors.Abyss_Black);
-	Rects.Help_Content[0].x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);
-	Rects.Help_Content[0].y = Settings.Screen_Size * 20.0f;
-	Rects.Help_Content[0].w = (float)Carrying_Surface->w;
-	Rects.Help_Content[0].h = (float)Carrying_Surface->h;
+	Carrying_Texture = Render_Text(Fonts.Large_Font, "fish factory help", Colors.Abyss_Black);
+	Rects.Help_Content[0] = (SDL_FRect) {
+		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
+		Settings.Scalar * 20.0f,
+		(float)Carrying_Texture->w,
+		(float)Carrying_Texture->h
+	};
 	Textures.Help_Content.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Help_Content.Length = 2;
-	Textures.Help_Content.Data[0] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-	SDL_DestroySurface(Carrying_Surface);
-	Carrying_Surface = TTF_RenderText_Blended(Fonts.Large_Font, "catalog", 7, Colors.Abyss_Black);
-	Rects.Recipe_Content.x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);
-	Rects.Recipe_Content.y = Settings.Screen_Size * 20.0f;
-	Rects.Recipe_Content.w = (float)Carrying_Surface->w;
-	Rects.Recipe_Content.h = (float)Carrying_Surface->h;
-	Textures.Recipe_Content = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-	SDL_DestroySurface(Carrying_Surface);
+	Textures.Help_Content.Data[0] = Carrying_Texture;
+	Carrying_Texture = Render_Text(Fonts.Large_Font, "catalog", Colors.Abyss_Black);
+	Rects.Recipe_Content = (SDL_FRect){
+		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
+		Settings.Scalar * 20.0f,
+		(float)Carrying_Texture->w,
+		(float)Carrying_Texture->h
+	};
+	Textures.Recipe_Content = Carrying_Texture;
 	char Keycore[64];
 	char Subkeycore[64];
 	strncpy(Subkeycore, SDL_GetKeyName(Keybinds.Keybind_List[13]), sizeof(Subkeycore));
 	snprintf(Keycore, sizeof(Keycore), "Press \"%s\" to close.", Subkeycore);
-	Carrying_Surface = TTF_RenderText_Blended(Fonts.Text_Font, Keycore, strlen(Keycore), Colors.Abyss_Black);
-	Rects.Help_Content[1].x = (Settings.Screen_Size * 320) - (float)(Carrying_Surface->w * 0.5);
-	Rects.Help_Content[1].y = Settings.Screen_Size * 320.0f;
-	Rects.Help_Content[1].w = (float)Carrying_Surface->w;
-	Rects.Help_Content[1].h = (float)Carrying_Surface->h;
-	Textures.Help_Content.Data[1] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-	SDL_DestroySurface(Carrying_Surface);
+	Carrying_Texture = Render_Text(Fonts.Text_Font, Keycore, Colors.Abyss_Black);
+	Rects.Help_Content[1] = (SDL_FRect){
+		Core.Screenhalfsize.X - (Carrying_Texture->w * 0.5f),
+		Core.Screenhalfsize.X,
+		(float)Carrying_Texture->w,
+		(float)Carrying_Texture->h
+	};
+	Textures.Help_Content.Data[1] = Carrying_Texture;
 	Textures.Quirk.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Textures.Quirk_Label.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Textures.Quirk.Length = 4;
@@ -491,17 +492,14 @@ void Preload_Assets() {
 	Textures.Quirk.Data[3] = Preload_Texture("UI/Quirks/All_Direction");
 	char* Quirk_Texts[4] = { "Non-Rotatable", "Modular", "Interactable", "Omnidirectional" };
 	for (int C1 = 0; C1 < 4; C1++) {
-		Carrying_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Quirk_Texts[C1], strlen(Quirk_Texts[C1]),
-			Colors.Abyss_Black);
-		Textures.Quirk_Label.Data[C1] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-		SDL_DestroySurface(Carrying_Surface);
+		Textures.Quirk_Label.Data[C1] = Render_Text(Fonts.Subtext_Font, Quirk_Texts[C1], Colors.Abyss_Black);
 	}
 	load_bmp(Carrying_Surface, "Assets/Core/Images/UI/Backgrounds/Scrollframe.bmp");
 	Textures.Log_Background = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 	Rects.Log_Background.x = 0.0f;
 	Rects.Log_Background.y = 0.0f;
-	Rects.Log_Background.w = (Carrying_Surface->w / 6.0f) * Settings.Screen_Size;
-	Rects.Log_Background.h = (Carrying_Surface->h / 6.0f) * Settings.Screen_Size;
+	Rects.Log_Background.w = (Carrying_Surface->w / 6.0f) * Settings.Scalar;
+	Rects.Log_Background.h = (Carrying_Surface->h / 6.0f) * Settings.Scalar;
 	SDL_DestroySurface(Carrying_Surface);
 	memset(Interface.Log_Heights, 0, sizeof(Interface.Log_Heights));
 	Cache.Log_Rectangles.Data = calloc(LDE_LOGS, sizeof(Rect_Array));
@@ -510,25 +508,25 @@ void Preload_Assets() {
 	Cache.Log_Cache.Length = LDE_LOGS;
 	for (int C1 = 0; C1 < LDE_LOGS; C1++) {
 		int Height = Render_Rich_Text(Fonts.Halftext_Font, Metadata.Logs[C1], (Point) { 0, 0 }, Temporary.Log_Inversions[C1],
-			true) - (Settings.Screen_Size * 210);
+			true) - (Settings.Scalar * 210);
 		Interface.Log_Heights[C1] = Height;
-		int Cap = ceil((float)Height / (Settings.Screen_Size * 341.0f));
+		int Cap = ceil((float)Height / (Settings.Scalar * 341.0f));
 		Cache.Log_Rectangles.Data[C1].Data = calloc(Cap, sizeof(SDL_FRect));
 		Cache.Log_Rectangles.Data[C1].Length = Cap;
 		Cache.Log_Cache.Data[C1].Data = malloc(sizeof(SDL_Texture*) * Cap);
 		Cache.Log_Cache.Data[C1].Length = Cap;
 		for (int C2 = 0; C2 < Cap; C2++) {
-			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Renderer, Settings.Screen_Size * 640,
-				Settings.Screen_Size * 1000);
+			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Renderer, Core.Screensize.X,
+				Settings.Scalar * 1000);
 			SDL_FRect New_Rectangle = {
 				0,
-				C2 * Settings.Screen_Size * 1000.0f,
-				Settings.Screen_Size * 640.0f,
-				Settings.Screen_Size * 1000.0f
+				C2 * Settings.Scalar * 1000.0f,
+				Core.Screensize.X,
+				Settings.Scalar * 1000.0f
 			};
 			SDL_SetTextureBlendMode(Cache.Log_Cache.Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Cache.Log_Cache.Data[C1].Data[C2]);
-			Render_Rich_Text(Fonts.Subtext_Font, Metadata.Logs[C1], (Point){ 52, 52 - (New_Rectangle.y / Settings.Screen_Size) },
+			Render_Rich_Text(Fonts.Subtext_Font, Metadata.Logs[C1], (Point){ 52, 52 - (New_Rectangle.y / Settings.Scalar) },
 				Temporary.Log_Inversions[C1], false);
 			SDL_SetRenderTarget(Core.Renderer, NULL);
 			Cache.Log_Rectangles.Data[C1].Data[C2] = New_Rectangle;
@@ -537,14 +535,14 @@ void Preload_Assets() {
 	Cache.Wire_Cache.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Cache.Wire_Cache.Length = 4;
 	for (int C1 = 0; C1 < 4; C1++) {
-		Cache.Wire_Cache.Data[C1] = New_Texture(Core.Renderer, Settings.Screen_Size * LDE_GRIDSIZE * (LDE_TILESIZE *
-			0.5), Settings.Screen_Size * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5));
+		Cache.Wire_Cache.Data[C1] = New_Texture(Core.Renderer, Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE *
+			0.5), Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5));
 		SDL_SetTextureBlendMode(Cache.Wire_Cache.Data[C1], SDL_BLENDMODE_BLEND);
 	}
 	Cache.Wire_Box.x = 0;
 	Cache.Wire_Box.y = 0;
-	Cache.Wire_Box.w = Settings.Screen_Size * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
-	Cache.Wire_Box.h = Settings.Screen_Size * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
+	Cache.Wire_Box.w = Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
+	Cache.Wire_Box.h = Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
 	Rects.Clear_Tutorial.Length = 2;
 	Rects.Clear_Tutorial.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Clear_Tutorial.Data[0].x = LDE_INVALID;
@@ -559,7 +557,7 @@ void Preload_Assets() {
 		Rects.Tutorials.Data[C1].Length = 2;
 		Rects.Tutorials.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Tutorials.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Tutorials.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Screen_Size;
+		Rects.Tutorials.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Scalar;
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 12], &Textures.Tutorials.Data[C1], Rects.Tutorials.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -571,7 +569,7 @@ void Preload_Assets() {
 		Rects.Cheats.Data[C1].Length = 2;
 		Rects.Cheats.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Cheats.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Cheats.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Screen_Size;
+		Rects.Cheats.Data[C1].Data[0].y = ((C1 * 40.0f) + 160.0f) * Settings.Scalar;
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[(C1 == 2) ? 49 : C1 + 9], &Textures.Cheats.Data[C1],
 			Rects.Cheats.Data[C1], Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -585,9 +583,9 @@ void Preload_Assets() {
 		Load_Button(Fonts.Halftext_Font, Metadata.Buttons[C1 + 6], &Textures.Confirmation.Data[C1], Rects.Confirmation.Data[
 			C1], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		for (int C2 = 0; C2 < 2; C2++) {
-			Rects.Confirmation.Data[C1].Data[C2].x = (((C1 * 320) + 160) * Settings.Screen_Size) - (Rects.Confirmation.Data[
+			Rects.Confirmation.Data[C1].Data[C2].x = (((C1 * 320) + 160) * Settings.Scalar) - (Rects.Confirmation.Data[
 				C1].Data[C2].w * 0.5);
-			Rects.Confirmation.Data[C1].Data[C2].y = Settings.Screen_Size * 260;
+			Rects.Confirmation.Data[C1].Data[C2].y = Settings.Scalar * 260;
 		}
 	}
 	String2 Carrier;
@@ -647,20 +645,20 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		Rects.New.Data[C1].Length = 2;
 		Rects.New.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.New.Data[C1].Data[0].x = Settings.Screen_Size * 340.0f;
-		Rects.New.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
+		Rects.New.Data[C1].Data[0].x = Settings.Scalar * 340.0f;
+		Rects.New.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Scalar;
 		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[24], &Textures.New.Data[C1], Rects.New.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 		Rects.Load.Data[C1].Length = 2;
 		Rects.Load.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Load.Data[C1].Data[0].x = Settings.Screen_Size * 340.0f;
-		Rects.Load.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
+		Rects.Load.Data[C1].Data[0].x = Settings.Scalar * 340.0f;
+		Rects.Load.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Scalar;
 		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[25], &Textures.Load.Data[C1], Rects.Load.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 		Rects.Clear.Data[C1].Length = 2;
 		Rects.Clear.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Clear.Data[C1].Data[0].x = Settings.Screen_Size * 490.0f;
-		Rects.Clear.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Screen_Size;
+		Rects.Clear.Data[C1].Data[0].x = Settings.Scalar * 490.0f;
+		Rects.Clear.Data[C1].Data[0].y = (float)((C1 * 40) + 160) * Settings.Scalar;
 		Load_Button(Fonts.Subtext_Font, Metadata.Buttons[26], &Textures.Clear.Data[C1], Rects.Clear.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -672,7 +670,7 @@ void Preload_Assets() {
 		Rects.Categories.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Categories.Data[C1].Length = 2;
 		Rects.Categories.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Categories.Data[C1].Data[0].y = (float)((C1 * 30) + 40) * Settings.Screen_Size;
+		Rects.Categories.Data[C1].Data[0].y = (float)((C1 * 30) + 40) * Settings.Scalar;
 		Load_Button(Fonts.Text_Font, Metadata.Categories[C1], &Textures.Categories.Data[C1], Rects.Categories.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -685,40 +683,39 @@ void Preload_Assets() {
 	Textures.Settings_Label.Length = LDE_CAPTIONS;
 	Textures.Settings_Label.Data = malloc(sizeof(SDL_Texture*) * LDE_CAPTIONS);
 	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
-		Carrying_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Captions[C1], strlen(Captions[C1]), Colors.Abyss_Black);
-		Textures.Settings_Label.Data[C1] = Surface_To_Texture(Core.Renderer, Carrying_Surface);
-		Rects.Settings_Label.Data[C1].x = Settings.Screen_Size * 10.0f;
-		Rects.Settings_Label.Data[C1].w = (float)Carrying_Surface->w;
-		Rects.Settings_Label.Data[C1].h = (float)Carrying_Surface->h;
-		SDL_DestroySurface(Carrying_Surface);
+		SDL_Texture* Carrier = Render_Text(Fonts.Halftext_Font, Captions[C1], Colors.Abyss_Black);
+		Textures.Settings_Label.Data[C1] = Carrier;
+		Rects.Settings_Label.Data[C1].x = Settings.Scalar * 10.0f;
+		Rects.Settings_Label.Data[C1].w = (float)Carrier->w;
+		Rects.Settings_Label.Data[C1].h = (float)Carrier->h;
 	}
 	Rects.Settings_Label.Data[0].y = 10.0f;
 	Rects.Settings_Label.Data[1].y = 100.0f;
 	Rects.Settings_Label.Data[2].y = 170.0f;
 	Rects.Settings_Label.Data[3].y = 240.0f;
 	Rects.Settings_Label.Data[4].y = 270.0f;
-	Rects.Settings_Label.Data[4].x = Settings.Screen_Size * 330.0f;
+	Rects.Settings_Label.Data[4].x = Settings.Scalar * 330.0f;
 	Rects.Settings_Label.Data[5].y = 10.0f;
-	Rects.Settings_Label.Data[5].x = Settings.Screen_Size * 330.0f;
+	Rects.Settings_Label.Data[5].x = Settings.Scalar * 330.0f;
 	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
-		Rects.Settings_Label.Data[C1].y *= Settings.Screen_Size;
+		Rects.Settings_Label.Data[C1].y *= Settings.Scalar;
 	}
 	Rects.Save_Settings.Length = 2;
 	Rects.Save_Settings.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Save_Settings.Data[0].y = Settings.Screen_Size * 334.0f;
+	Rects.Save_Settings.Data[0].y = Settings.Scalar * 334.0f;
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[15], &Textures.Save_Settings, Rects.Save_Settings, Colors.Abyss_Black,
 		Colors.Cherry_Blossom);
-	Rects.Save_Settings.Data[0].x = (Settings.Screen_Size * 630) - Rects.Save_Settings.Data[0].w;
+	Rects.Save_Settings.Data[0].x = (Settings.Scalar * 630) - Rects.Save_Settings.Data[0].w;
 	Rects.Save_Settings.Data[1].x = Rects.Save_Settings.Data[0].x + (Rects.Save_Settings.Data[0].w * 0.5f) -
 		(Rects.Save_Settings.Data[1].w * 0.5f);
 	Rects.Error_Exit.Length = 2;
 	Rects.Error_Exit.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Error_Exit.Data[0].x = LDE_INVALID;
-	Rects.Error_Exit.Data[0].y = Settings.Screen_Size * 50.0f;
+	Rects.Error_Exit.Data[0].y = Settings.Scalar * 50.0f;
 	Load_Button(Fonts.Terminal_Font, Metadata.Buttons[36], &Textures.Error_Exit, Rects.Error_Exit, Colors.Cherry_Blossom,
 		Colors.Pure_White);
 	for (int C1 = 0; C1 < 2; C1++) {
-		Rects.Error_Exit.Data[C1].x += Settings.Screen_Size * 210.0f;
+		Rects.Error_Exit.Data[C1].x += Settings.Scalar * 210.0f;
 	}
 	Rects.Anti_Aliasing.Length = 2;
 	Rects.Anti_Aliasing.Data = malloc(sizeof(Rect_Array) * 2);
@@ -726,8 +723,8 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Rects.Anti_Aliasing.Data[C1].Length = 2;
 		Rects.Anti_Aliasing.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Anti_Aliasing.Data[C1].Data[0].x = Settings.Screen_Size * 370.0f;
-		Rects.Anti_Aliasing.Data[C1].Data[0].y = Settings.Screen_Size * 300.0f;
+		Rects.Anti_Aliasing.Data[C1].Data[0].x = Settings.Scalar * 370.0f;
+		Rects.Anti_Aliasing.Data[C1].Data[0].y = Settings.Scalar * 300.0f;
 	}
 	Textures.Anti_Aliasing.Data = malloc(sizeof(Texture_Array) * 2);
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[22], &Textures.Anti_Aliasing.Data[0], Rects.Anti_Aliasing.Data[0],
@@ -739,8 +736,8 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Rects.V_Sync.Data[C1].Length = 2;
 		Rects.V_Sync.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.V_Sync.Data[C1].Data[0].x = Settings.Screen_Size * 370.0f;
-		Rects.V_Sync.Data[C1].Data[0].y = Settings.Screen_Size * 320.0f;
+		Rects.V_Sync.Data[C1].Data[0].x = Settings.Scalar * 370.0f;
+		Rects.V_Sync.Data[C1].Data[0].y = Settings.Scalar * 320.0f;
 	}
 	Textures.V_Sync.Data = malloc(sizeof(Texture_Array) * 2);
 	Textures.V_Sync.Length = 2;
@@ -756,7 +753,7 @@ void Preload_Assets() {
 		Rects.Sort.Data[C1].Length = 2;
 		Rects.Sort.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Sort.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Sort.Data[C1].Data[0].y = Settings.Screen_Size * 334.0f;
+		Rects.Sort.Data[C1].Data[0].y = Settings.Scalar * 334.0f;
 	}
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[18], &Textures.Sort.Data[0], Rects.Sort.Data[0], Colors.Abyss_Black,
 		Colors.Cherry_Blossom);
@@ -769,14 +766,14 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Rects.TBW_Rectangle.Data[C1].Length = 2;
 		Rects.TBW_Rectangle.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.TBW_Rectangle.Data[C1].Data[0].y = Settings.Screen_Size * 334.0f;
+		Rects.TBW_Rectangle.Data[C1].Data[0].y = Settings.Scalar * 334.0f;
 	}
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[16], &Textures.TBW_Texture.Data[0], Rects.TBW_Rectangle.Data[0],
 		Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(Fonts.Subtext_Font, Metadata.Buttons[17], &Textures.TBW_Texture.Data[1], Rects.TBW_Rectangle.Data[1],
 		Colors.Abyss_Black, Colors.Cherry_Blossom);
 	for (int C1 = 0; C1 < 2; C1++) {
-		Rects.TBW_Rectangle.Data[C1].Data[0].x = (Settings.Screen_Size * 630.0f) - Rects.TBW_Rectangle.Data[C1].Data[0].w;
+		Rects.TBW_Rectangle.Data[C1].Data[0].x = (Settings.Scalar * 630.0f) - Rects.TBW_Rectangle.Data[C1].Data[0].w;
 		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[
 			C1].Data[0].w * 0.5f) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5f);
 	}
@@ -794,6 +791,6 @@ void Preload_Assets() {
 	}
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Submarine.Data[0], &Rects.Submarine.w, &Rects.Submarine.h);
-	Rects.Submarine.w = (int)((Rects.Submarine.w / 3.0f) * Settings.Screen_Size);
-	Rects.Submarine.h = (int)((Rects.Submarine.h / 6.0f) * Settings.Screen_Size);
+	Rects.Submarine.w = (int)((Rects.Submarine.w / 3.0f) * Settings.Scalar);
+	Rects.Submarine.h = (int)((Rects.Submarine.h / 6.0f) * Settings.Scalar);
 }

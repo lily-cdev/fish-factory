@@ -43,16 +43,14 @@ void Print_Fatal_Error(int Input) {
 	char Code[4];
 	To_Code(Input, Code);
 	snprintf(Carrier, sizeof(Carrier), "fatal error 0x%s -> %s", Code, Errors[Input]);
-	SDL_Surface* Carrying_Surface = TTF_RenderText_Blended(Fonts.Terminal_Font, Carrier, 0, Colors.Cherry_Blossom);
-	SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
+	SDL_Texture* Carrying_Texture = Render_Text(Fonts.Terminal_Font, Carrier, Colors.Cherry_Blossom);
 	SDL_FRect Destination = {
-		(Settings.Screen_Size * 230.0f) - (Carrying_Surface->w * 0.5f),
-		(Settings.Screen_Size * 180.0f) - (Carrying_Surface->h * 0.5f),
-		(float)Carrying_Surface->w,
-		(float)Carrying_Surface->h
+		(Settings.Scalar * 230.0f) - (Carrying_Texture->w * 0.5f),
+		Core.Screenhalfsize.Y - (Carrying_Texture->h * 0.5f),
+		(float)Carrying_Texture->w,
+		(float)Carrying_Texture->h
 	};
 	Render_Texture(Carrying_Texture, &Destination);
-	SDL_DestroySurface(Carrying_Surface);
 	free_texture(Carrying_Texture);
 	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
@@ -108,12 +106,6 @@ void Print_Input() {
 	Push_Terminal(Buffer);
 	Temporary.Ticker_Position = 0;
 	Temporary.Ticker_Frames = 0;
-}
-
-void Forward_Essentials(int Buttons, int Sliders) {
-	if (Interface.UI_Selection > 2 && Interface.UI_Selection < Buttons + Sliders + 1) {
-		Print_Input();
-	}
 }
 
 void Render_Necessities(char* Machine, char* Prefix) {

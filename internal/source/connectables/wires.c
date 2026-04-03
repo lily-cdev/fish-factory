@@ -4,19 +4,19 @@ Bridges Wires = { };
 
 void Render_Subcable(Bridge Chosen, Point Pos, Point Offset) {
 	SDL_RenderLine(Core.Renderer,
-		(Chosen.X1 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][5] *
-			Settings.Screen_Size) + (float)(Pos.X + Offset.X),
-		(Chosen.Y1 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][6] *
-			Settings.Screen_Size) + (float)(Pos.Y + Offset.Y),
-		(Chosen.X2 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][5] *
-			Settings.Screen_Size) + (float)(Pos.X + Offset.X),
-		(Chosen.Y2 * LDE_TILESIZE * Settings.Screen_Size) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][6] *
-			Settings.Screen_Size) + (float)(Pos.Y + Offset.Y)
+		(Chosen.X1 * LDE_TILESIZE * Settings.Scalar) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][5] *
+			Settings.Scalar) + (float)(Pos.X + Offset.X),
+		(Chosen.Y1 * LDE_TILESIZE * Settings.Scalar) + (Data.Data_Grid[Chosen.X1][Chosen.Y1][6] *
+			Settings.Scalar) + (float)(Pos.Y + Offset.Y),
+		(Chosen.X2 * LDE_TILESIZE * Settings.Scalar) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][5] *
+			Settings.Scalar) + (float)(Pos.X + Offset.X),
+		(Chosen.Y2 * LDE_TILESIZE * Settings.Scalar) + (Data.Data_Grid[Chosen.X2][Chosen.Y2][6] *
+			Settings.Scalar) + (float)(Pos.Y + Offset.Y)
 	);
 }
 
 void Render_Cable(Bridge Chosen, Point Offset) {
-	float Radius = Settings.Screen_Size * 3.0f;
+	float Radius = Settings.Scalar * 3.0f;
 	for (int X = -Radius; X <= Radius; X++) {
 		for (int Y = -Radius; Y <= Radius; Y++) {
 			if ((float)sqrtf(sqr(X) + sqr(Y)) <= Radius) {
@@ -29,16 +29,16 @@ void Render_Cable(Bridge Chosen, Point Offset) {
 void Render_Wires() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		SDL_SetRenderTarget(Core.Renderer, Cache.Wire_Cache.Data[C1]);
-		int Offset_X = (C1 == 1 || C1 == 2) ? LDE_GRIDSIZE * Settings.Screen_Size * 20 : 0;
-		int Offset_Y = (C1 == 2 || C1 == 3) ? LDE_GRIDSIZE * Settings.Screen_Size * 20 : 0;
+		int Offset_X = (C1 == 1 || C1 == 2) ? LDE_GRIDSIZE * Settings.Scalar * 20 : 0;
+		int Offset_Y = (C1 == 2 || C1 == 3) ? LDE_GRIDSIZE * Settings.Scalar * 20 : 0;
 		SDL_RenderClear(Core.Renderer);
 		Set_Renderer_Color(Colors.Copper_Wire);
 		for (int C2 = 0; C2 < Wires.Length; C2++) {
 			if (Wires.Data[C2].Filled) {
 				Render_Cable(Wires.Data[C2], (Point){ Offset_X, Offset_Y });
 			} else {
-				Rects.Node.x = (int)((Wires.Data[C2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-				Rects.Node.y = (int)((Wires.Data[C2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+				Rects.Node.x = (int)((Wires.Data[C2].X1 * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+				Rects.Node.y = (int)((Wires.Data[C2].Y1 * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 				Render_Texture(Textures.Node, &Rects.Node);
 			}
 		}
@@ -55,13 +55,13 @@ void Render_Wire_Nodes() {
 				Interface.Node_Cycle = 0;
 			}
 			SDL_FPoint Centerpoint = {
-				Settings.Screen_Size * LDE_TILESIZE * 0.5f,
-				Settings.Screen_Size * LDE_TILESIZE * 0.5f
+				Settings.Scalar * LDE_TILESIZE * 0.5f,
+				Settings.Scalar * LDE_TILESIZE * 0.5f
 			};
 			Rects.Node.x = (int)((Wires.Data[C1].X1 * LDE_TILESIZE) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[
-				C1].Y1][5]) - Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
+				C1].Y1][5]) - Core.Camera.X - (LDE_TILESIZE * 0.5)) * Settings.Scalar;
 			Rects.Node.y = (int)((Wires.Data[C1].Y1 * LDE_TILESIZE) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[
-				C1].Y1][6]) - Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Screen_Size;
+				C1].Y1][6]) - Core.Camera.Y - (LDE_TILESIZE * 0.5)) * Settings.Scalar;
 			SDL_RenderTextureRotated(Core.Renderer, Textures.Node, NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint,
 				SDL_FLIP_NONE);
 		}
@@ -103,9 +103,9 @@ void Connect_Wire(Point Pos) {
 
 void Place_Wire() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+		Rects.Tile_1x1.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Rects.Tile_1x1.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
 					Connect_Wire((Point){ (int)(Data.Settings_Grid[Column][Row][S_ParentX]), (int)(Data.Settings_Grid[Column][

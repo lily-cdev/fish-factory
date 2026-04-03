@@ -41,10 +41,10 @@ void Process_Tutorial(int Input) {
 void Render_Tutorial() {
 	if (Temporary.Tutorial_Step > LDE_INVALID) {
 		SDL_FRect Bounding_Rectangle = {
-			((float)(120 - Core.Camera.X) + Temporary.Tutorial_Offset.X) * Settings.Screen_Size,
-			((float)(120 - Core.Camera.Y) + Temporary.Tutorial_Offset.Y) * Settings.Screen_Size,
-			(float)(Temporary.Tutorial_Size.X * Settings.Screen_Size),
-			(float)(Temporary.Tutorial_Size.Y * Settings.Screen_Size)
+			((float)(120 - Core.Camera.X) + Temporary.Tutorial_Offset.X) * Settings.Scalar,
+			((float)(120 - Core.Camera.Y) + Temporary.Tutorial_Offset.Y) * Settings.Scalar,
+			(float)(Temporary.Tutorial_Size.X * Settings.Scalar),
+			(float)(Temporary.Tutorial_Size.Y * Settings.Scalar)
 		};
 		Cache.ID_Query[Cache.Query_Length] = 0;
 		Cache.Query[Cache.Query_Length] = Bounding_Rectangle;
@@ -78,11 +78,11 @@ void Render_Tutorial() {
 					ID_To_Size(Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item), 0, &X, &Y);
 					SDL_FRect Outline_Rectangle = {
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X * LDE_TILESIZE *
-						Settings.Screen_Size) - (Core.Camera.X * Settings.Screen_Size)),
+						Settings.Scalar) - (Core.Camera.X * Settings.Scalar)),
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y * LDE_TILESIZE *
-							Settings.Screen_Size) - (Core.Camera.Y * Settings.Screen_Size)),
-						(float)(X * LDE_TILESIZE * Settings.Screen_Size),
-						(float)(Y * LDE_TILESIZE * Settings.Screen_Size)
+							Settings.Scalar) - (Core.Camera.Y * Settings.Scalar)),
+						(float)(X * LDE_TILESIZE * Settings.Scalar),
+						(float)(Y * LDE_TILESIZE * Settings.Scalar)
 					};
 					Cache.ID_Query[Cache.Query_Length] = 0;
 					Cache.Query[Cache.Query_Length] = Outline_Rectangle;
@@ -139,13 +139,13 @@ void Render_Tutorial() {
 				if (Incomplete) {
 					SDL_FRect Temporary_Rectangle = {
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X *
-						Settings.Screen_Size * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Screen_Size)),
+						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Scalar)),
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y *
-						Settings.Screen_Size * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Screen_Size)),
+						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Scalar)),
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X *
-						Settings.Screen_Size * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Screen_Size)),
+						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Scalar)),
 						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y *
-						Settings.Screen_Size * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Screen_Size))
+						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Scalar))
 					};
 					Cache.Query[Cache.Query_Length] = Temporary_Rectangle;
 					Cache.ID_Query[Cache.Query_Length] = 1;
@@ -207,8 +207,8 @@ void Render_Tutorial() {
 				Progress_Tutorial();
 			}
 		}
-		if (Detect_Mouse_Collision((SDL_FRect){ Settings.Screen_Size * 170.0f, Settings.Screen_Size * 20.0f,
-			Settings.Screen_Size * 300.0f, Settings.Screen_Size * 30.0f })) {
+		if (Detect_Mouse_Collision((SDL_FRect){ Settings.Scalar * 170.0f, Settings.Scalar * 20.0f,
+			Settings.Scalar * 300.0f, Settings.Scalar * 30.0f })) {
 			char Buffer[128];
 			snprintf(Buffer, sizeof(Buffer), "This will %s.", Tutorial_Stack[Temporary.Tutorial_Step].Context);
 			Process_Supply(&Supplies.Tutorial, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });

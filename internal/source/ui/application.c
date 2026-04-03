@@ -38,8 +38,8 @@ void Render_Application() {
 		}
 		Offset_X *= LDE_GRIDSIZE * 20;
 		Offset_Y *= LDE_GRIDSIZE * 20;
-		Cache.Wire_Box.x = (int)(Offset_X - Core.Camera.X) * Settings.Screen_Size;
-		Cache.Wire_Box.y = (int)(Offset_Y - Core.Camera.Y) * Settings.Screen_Size;
+		Cache.Wire_Box.x = (int)(Offset_X - Core.Camera.X) * Settings.Scalar;
+		Cache.Wire_Box.y = (int)(Offset_Y - Core.Camera.Y) * Settings.Scalar;
 		Render_Texture(Cache.Wire_Cache.Data[C1], &Cache.Wire_Box);
 	}
 	if (Interface.Tool == T_Plumbing) {
@@ -52,38 +52,38 @@ void Render_Application() {
 	}
 	Render_Submarine();
 	SDL_SetRenderTarget(Core.Renderer, NULL);
-	SDL_FRect Temporary_Rectangle = { 0, 0, Settings.Screen_Size * 640.0f, Settings.Screen_Size * 360.0f };
+	SDL_FRect Temporary_Rectangle = { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Render_Texture(Core.Game_Texture, &Temporary_Rectangle);
 	if (Interface.Tool > 0) {
 		SDL_FRect Hitbox = {
 			0.0f,
 			0.0f,
-			(float)(LDE_TILESIZE * Settings.Screen_Size),
-			(float)(LDE_TILESIZE * Settings.Screen_Size)
+			(float)(LDE_TILESIZE * Settings.Scalar),
+			(float)(LDE_TILESIZE * Settings.Scalar)
 		};
 		Point Subpos = {
-			(Core.Camera.X * Settings.Screen_Size) + Core.Mouse.X,
-			(Core.Camera.Y * Settings.Screen_Size) + Core.Mouse.Y
+			(Core.Camera.X * Settings.Scalar) + Core.Mouse.X,
+			(Core.Camera.Y * Settings.Scalar) + Core.Mouse.Y
 		};
-		Hitbox.x = ((int)(Subpos.X / (LDE_TILESIZE * Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) -
-			(Core.Camera.X * Settings.Screen_Size);
-		Hitbox.y = ((int)(Subpos.Y  / (LDE_TILESIZE * Settings.Screen_Size)) * (LDE_TILESIZE * Settings.Screen_Size)) -
-			(Core.Camera.Y * Settings.Screen_Size);
-		int Limit = LDE_TILESIZE * LDE_GRIDSIZE * Settings.Screen_Size;
+		Hitbox.x = ((int)(Subpos.X / (LDE_TILESIZE * Settings.Scalar)) * (LDE_TILESIZE * Settings.Scalar)) -
+			(Core.Camera.X * Settings.Scalar);
+		Hitbox.y = ((int)(Subpos.Y  / (LDE_TILESIZE * Settings.Scalar)) * (LDE_TILESIZE * Settings.Scalar)) -
+			(Core.Camera.Y * Settings.Scalar);
+		int Limit = LDE_TILESIZE * LDE_GRIDSIZE * Settings.Scalar;
 		bool Rendering = false;
 		if (Subpos.X > 0 && Subpos.Y > 0 && Subpos.X < Limit && Subpos.Y < Limit) {
 			Render_Texture(Textures.Crosshair, &Hitbox);
 			Rendering = true;
 		}
 		if (Interface.Tool == T_Inspecting && Rendering) {
-			float Padding = Settings.Screen_Size * 2.0f;
-			float Height = Settings.Screen_Size * 24.0f;
+			float Padding = Settings.Scalar * 2.0f;
+			float Height = Settings.Scalar * 24.0f;
 			Point Pos = { };
 			bool Satiated = false;
 			for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-				Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+				Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
 				for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-					Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+					Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 					if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 						Pos = (Point){ Column, Row };
 						Satiated = true;
@@ -95,7 +95,7 @@ void Render_Application() {
 				SDL_FRect Energy = {
 					0,
 					0,
-					Settings.Screen_Size * 6.0f,
+					Settings.Scalar * 6.0f,
 					Height
 				};
 				Energy.x = Hitbox.x - Energy.w - Padding;
@@ -113,7 +113,7 @@ void Render_Application() {
 				SDL_FRect Item = {
 					0,
 					0,
-					Settings.Screen_Size * 24.0f,
+					Settings.Scalar * 24.0f,
 					Height
 				};
 				Item.x = Hitbox.x + Hitbox.w + Padding;
@@ -128,10 +128,10 @@ void Render_Application() {
 				SDL_RenderFillRect(Core.Renderer, &Item);
 				Clear_Renderer();
 				SDL_FRect Item_Rect = {
-					(Settings.Screen_Size * 2.0f) + Item.x,
-					(Settings.Screen_Size * 2.0f) + Y_Cache,
-					Settings.Screen_Size * 20.0f,
-					Settings.Screen_Size * 20.0f
+					(Settings.Scalar * 2.0f) + Item.x,
+					(Settings.Scalar * 2.0f) + Y_Cache,
+					Settings.Scalar * 20.0f,
+					Settings.Scalar * 20.0f
 				};
 				if (Data.Items_Grid[pt(Pos)] == LDE_INVALID) {
 					Render_Texture(Textures.None_Item, &Item_Rect);
@@ -140,8 +140,8 @@ void Render_Application() {
 				}
 			}
 		}
-		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
-		Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Screen_Size * 0.5f);
+		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Scalar * 0.5f);
+		Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Scalar * 0.5f);
 		Render_Texture(Textures.Cursor, &Hitbox);
 		bool Targeting = false;
 		switch (Interface.Tool) {
@@ -161,55 +161,52 @@ void Render_Application() {
 
 void Render_Hotbar() {
 	if (Interface.Tool != T_None) {
-		SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Metadata.Tool_Texts[Interface.Tool], 0,
-			Colors.Abyss_Black);
-		SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
+		SDL_Texture* Fragment_Texture = Render_Text(Fonts.Subtext_Font, Metadata.Tool_Texts[Interface.Tool], Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = (SDL_FRect){
 			0,
-			Settings.Screen_Size * 10.0f,
-			(float)Fragment_Surface->w,
-			(float)Fragment_Surface->h
+			Settings.Scalar * 10.0f,
+			(float)Fragment_Texture->w,
+			(float)Fragment_Texture->h
 		};
-		Fragment_Rectangle.x = (Settings.Screen_Size * 320.0f) - (Fragment_Rectangle.w * 0.5f);
+		Fragment_Rectangle.x = Core.Screenhalfsize.X - (Fragment_Rectangle.w * 0.5f);
 		int Height = Fragment_Rectangle.y + Fragment_Rectangle.h;
-		SDL_DestroySurface(Fragment_Surface);
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_FRect Background = {
 			0,
 			0,
-			(Settings.Screen_Size * 30.0f) + Fragment_Rectangle.w,
-			(Settings.Screen_Size * 15.0f) + Height
+			(Settings.Scalar * 30.0f) + Fragment_Rectangle.w,
+			(Settings.Scalar * 15.0f) + Height
 		};
-		Background.x = (Settings.Screen_Size * 320.0f) - (Background.w * 0.5f);
+		Background.x = Core.Screenhalfsize.X - (Background.w * 0.5f);
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Set_Renderer_Color(Colors.Light_Grey);
 		Background = (SDL_FRect){
 			0,
 			0,
-			(Settings.Screen_Size * 20.0f) + Fragment_Rectangle.w,
-			(Settings.Screen_Size * 10.0f) + Height
+			(Settings.Scalar * 20.0f) + Fragment_Rectangle.w,
+			(Settings.Scalar * 10.0f) + Height
 		};
-		Background.x = (Settings.Screen_Size * 320.0f) - (Background.w * 0.5f);
+		Background.x = Core.Screenhalfsize.X - (Background.w * 0.5f);
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Clear_Renderer();
 		Render_Texture(Fragment_Texture, &Fragment_Rectangle);
 		free_texture(Fragment_Texture);
 	}
-	float Bar_Height = Settings.Screen_Size * 310.0f;
+	float Bar_Height = Settings.Scalar * 310.0f;
 	Interface.Bar_Up = false;
 	if (Core.Mouse.Y >= Bar_Height && Interface.Prompt_Identifier == P_None) {
 		Interface.Bar_Up = true;
 		Set_Renderer_Color(Colors.Dark_Grey);
-		float Bar_Width = (Settings.Screen_Size * 360.0f) - Bar_Height;
+		float Bar_Width = Core.Screenhalfsize.Y - Bar_Height;
 		const SDL_FRect Background = {
 			0,
 			Bar_Height,
-			Settings.Screen_Size * 640.0f,
+			Core.Screensize.X,
 			Bar_Width
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
-		float Padding = Settings.Screen_Size * 4.0f;
-		float Width = ((640.0f / LDE_TOOLS) * Settings.Screen_Size) - (((1.0f / LDE_TOOLS) + 1.0f) * Padding);
+		float Padding = Settings.Scalar * 4.0f;
+		float Width = ((640.0f / LDE_TOOLS) * Settings.Scalar) - (((1.0f / LDE_TOOLS) + 1.0f) * Padding);
 		for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
 			SDL_FRect Pasting = {
 				(C1 * Width) + ((C1 + 1) * Padding),
@@ -231,17 +228,15 @@ void Render_Hotbar() {
 			Render_Texture(Textures.Tool.Data[C1], &Rects.Tool[C1]);
 			char Carrier[32];
 			snprintf(Carrier, sizeof(Carrier), "[%s]", SDL_GetKeyName(Keybinds.Keybind_List[C1 + 4]));
-			SDL_Surface* Surface = TTF_RenderText_Blended(Fonts.Microtext_Font, Carrier, 0, Colors.Abyss_Black);
+			SDL_Texture* Carrying_Texture = Render_Text(Fonts.Microtext_Font, Carrier, Colors.Abyss_Black);
 			SDL_FRect Subcarrier = {
-				Pasting.x - (Padding * 0.5f) + Width - Surface->w,
+				Pasting.x - (Padding * 0.5f) + Width - Carrying_Texture->w,
 				(Padding * 0.5f) + Pasting.y,
-				Surface->w,
-				Surface->h
+				Carrying_Texture->w,
+				Carrying_Texture->h
 			};
-			SDL_Texture* Texture = Surface_To_Texture(Core.Renderer, Surface);
-			Render_Texture(Texture, &Subcarrier);
-			free_texture(Texture);
-			SDL_DestroySurface(Surface);
+			Render_Texture(Carrying_Texture, &Subcarrier);
+			free_texture(Carrying_Texture);
 		}
 	}
 }

@@ -68,10 +68,10 @@ void Render_Particles(const Point Pos) {
 		if (Carrier.Type == P_Bubble) {
 			float Increment = Carrier.Max / 3.0f;
 			Point_f Rootpos = {
-				((float)(Pos.X * LDE_TILESIZE) + Carrier.Pos.X - Core.Camera.X) * Settings.Screen_Size,
-				((float)(Pos.Y * LDE_TILESIZE) + Carrier.Pos.Y - Core.Camera.Y) * Settings.Screen_Size
+				((float)(Pos.X * LDE_TILESIZE) + Carrier.Pos.X - Core.Camera.X) * Settings.Scalar,
+				((float)(Pos.Y * LDE_TILESIZE) + Carrier.Pos.Y - Core.Camera.Y) * Settings.Scalar
 			};
-			float Rootsize = Settings.Screen_Size * 12.0f;
+			float Rootsize = Settings.Scalar * 12.0f;
 			if (Carrier.Delta < (Increment * 2.0f)) {
 				float Size = (Carrier.Delta / (Increment * 2.0f)) * Rootsize;
 				SDL_FRect Destination = {

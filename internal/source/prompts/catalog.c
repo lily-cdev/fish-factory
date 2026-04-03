@@ -11,12 +11,12 @@ void Render_Catalog(Point Pos) {
 			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][C1]) == 0) {
 				continue;
 			}
-			float Base_Subwidth = Settings.Screen_Size * 44.0f;
-			float Base_Padding = Settings.Screen_Size * 7.0f;
-			float Base_Subpadding = Settings.Screen_Size * 2.0f;
+			float Base_Subwidth = Settings.Scalar * 44.0f;
+			float Base_Padding = Settings.Scalar * 7.0f;
+			float Base_Subpadding = Settings.Scalar * 2.0f;
 			SDL_FRect Outer_Rectangle = {
-				(float)((((Index % 10) * 58) + 30) * Settings.Screen_Size) + Base_Padding,
-				(float)(((floor(Index * 0.1f) * 58) + 60) * Settings.Screen_Size) + Base_Padding,
+				(float)((((Index % 10) * 58) + 30) * Settings.Scalar) + Base_Padding,
+				(float)(((floor(Index * 0.1f) * 58) + 60) * Settings.Scalar) + Base_Padding,
 				Base_Subwidth,
 				Base_Subwidth
 			};
@@ -39,16 +39,16 @@ void Render_Catalog(Point Pos) {
 			SDL_FRect Machine_Rectangle = {
 				Inner_Rectangle.x + Base_Subpadding,
 				Inner_Rectangle.y + Base_Subpadding,
-				Settings.Screen_Size * 36.0f,
-				Settings.Screen_Size * 36.0f
+				Settings.Scalar * 36.0f,
+				Settings.Scalar * 36.0f
 			};
 			float XY_Ratio = Metadata.Machine_Rectangles[C1].w / Metadata.Machine_Rectangles[C1].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
-				Machine_Rectangle.y = Machine_Rectangle.y +	(Settings.Screen_Size * 18.0f) - (Machine_Rectangle.h * 0.5);
+				Machine_Rectangle.y = Machine_Rectangle.y +	(Settings.Scalar * 18.0f) - (Machine_Rectangle.h * 0.5);
 			} else if (XY_Ratio < 1) {
 				Machine_Rectangle.w = Machine_Rectangle.h * XY_Ratio;
-				Machine_Rectangle.x = Machine_Rectangle.x +	(Settings.Screen_Size * 18.0f) - (Machine_Rectangle.w * 0.5);
+				Machine_Rectangle.x = Machine_Rectangle.x +	(Settings.Scalar * 18.0f) - (Machine_Rectangle.w * 0.5);
 			}
 			Render_Texture(Metadata.Machines[C1].Icon, &Machine_Rectangle);
 			Index++;

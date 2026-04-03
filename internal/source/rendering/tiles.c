@@ -57,14 +57,14 @@ void Render_Grid() {
 						if (Data.Animation_Grid[Column][Row][0] >= 9) {
 							Data.Animation_Grid[Column][Row][0] = 0;
 						}
-						Source = (SDL_FRect){ 0.0f, 0.0f, Settings.Screen_Size * 21.0f, Settings.Screen_Size * 21.0f };
+						Source = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 21.0f, Settings.Scalar * 21.0f };
 						Destination = (SDL_FRect){
-							(((Settings.Screen_Size * LDE_TILESIZE) - Source.w) * 0.5f) + (Column * Settings.Screen_Size *
-								LDE_TILESIZE) - (float)(Core.Camera.X * Settings.Screen_Size),
-							(((Settings.Screen_Size * LDE_TILESIZE) - Source.w) * 0.5f) + (Row * Settings.Screen_Size *
-								LDE_TILESIZE) - (float)(Core.Camera.Y * Settings.Screen_Size),
-							Settings.Screen_Size * 21.0f,
-							Settings.Screen_Size * 21.0f
+							(((Settings.Scalar * LDE_TILESIZE) - Source.w) * 0.5f) + (Column * Settings.Scalar *
+								LDE_TILESIZE) - (float)(Core.Camera.X * Settings.Scalar),
+							(((Settings.Scalar * LDE_TILESIZE) - Source.w) * 0.5f) + (Row * Settings.Scalar *
+								LDE_TILESIZE) - (float)(Core.Camera.Y * Settings.Scalar),
+							Settings.Scalar * 21.0f,
+							Settings.Scalar * 21.0f
 						};
 						SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 							&Source, &Destination);
@@ -77,8 +77,8 @@ void Render_Grid() {
 						Render_Texture(Textures.Tile_Texture, &Rects.Tile_1x1);
 						break;
 					case Bio_Generator:
-						Centerpoint.x = 60.0f * Settings.Screen_Size;
-						Centerpoint.y = 60.0f * Settings.Screen_Size;
+						Centerpoint.x = 60.0f * Settings.Scalar;
+						Centerpoint.y = 60.0f * Settings.Scalar;
 						Render_Texture(Metadata.Machines[Bio_Generator].Texture3.Data[Rotation].Data[3], &Rects.Tile_3x3);
 						if (Data.Animation_Grid[Column][Row][0] == 1) {
 							Data.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
@@ -133,8 +133,8 @@ void Render_Grid() {
 						}
 						break;
 					case Fluid_Mixer:
-						Centerpoint.x = 60.0f * Settings.Screen_Size;
-						Centerpoint.y = 60.0f * Settings.Screen_Size;
+						Centerpoint.x = 60.0f * Settings.Scalar;
+						Centerpoint.y = 60.0f * Settings.Scalar;
 						if (Data.Animation_Grid[Column][Row][0] == 1) {
 							Data.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 360) {
@@ -161,7 +161,7 @@ void Render_Grid() {
 						if (Data.Animation_Grid[Column][Row][0] >= 9) {
 							Data.Animation_Grid[Column][Row][0] = 0;
 						}
-						Source = (SDL_FRect){ 0.0f, 0.0f, Settings.Screen_Size * 20.0f, Settings.Screen_Size * 20.0f };
+						Source = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 20.0f, Settings.Scalar * 20.0f };
 						Destination = (SDL_FRect){ 12.0f, 12.0f, Source.w, Source.h };
 						if (Rotation == 1 || Rotation == 2) {
 							Destination.x = 43.0f;
@@ -169,8 +169,8 @@ void Render_Grid() {
 						if (Rotation == 2 || Rotation == 3) {
 							Destination.y = 43.0f;
 						}
-						Destination.x = ((Column * LDE_TILESIZE) + Destination.x - Core.Camera.X) * Settings.Screen_Size;
-						Destination.y = ((Row * LDE_TILESIZE) + Destination.y - Core.Camera.Y) * Settings.Screen_Size;
+						Destination.x = ((Column * LDE_TILESIZE) + Destination.x - Core.Camera.X) * Settings.Scalar;
+						Destination.y = ((Row * LDE_TILESIZE) + Destination.y - Core.Camera.Y) * Settings.Scalar;
 						SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 							&Source, &Destination);
 						Render_Texture(Metadata.Machines[Distillery].Texture3.Data[Rotation].Data[2], &Rects.Tile_2x2);
@@ -191,17 +191,17 @@ void Render_Grid() {
 							}
 							//if active, set lights green
 							SDL_FRect Lightplate = {
-								(float)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size,
-								(float)((Row * LDE_TILESIZE) + 21.0 - Core.Camera.Y) * Settings.Screen_Size,
-								Settings.Screen_Size * 120.0f,
-								Settings.Screen_Size * 38.0f
+								(float)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar,
+								(float)((Row * LDE_TILESIZE) + 21.0 - Core.Camera.Y) * Settings.Scalar,
+								Settings.Scalar * 120.0f,
+								Settings.Scalar * 38.0f
 							};
 							if (evn(Rotation)) {
 								Lightplate.x = (float)((Column * LDE_TILESIZE) + 21.0 - Core.Camera.X) *
-									Settings.Screen_Size;
-								Lightplate.y = (float)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
-								Lightplate.w = Settings.Screen_Size * 38.0f;
-								Lightplate.h = Settings.Screen_Size * 120.0f;
+									Settings.Scalar;
+								Lightplate.y = (float)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
+								Lightplate.w = Settings.Scalar * 38.0f;
+								Lightplate.h = Settings.Scalar * 120.0f;
 							}
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
@@ -220,10 +220,10 @@ void Render_Grid() {
 							//if active, set lights green
 							SDL_FRect Lightplate;
 							#define Set_Lightplate(X, Y, W, H) Lightplate = (SDL_FRect) { \
-									Lightplate.x = Settings.Screen_Size * ((float)(X)), \
-									Lightplate.y = Settings.Screen_Size * ((float)(Y)), \
-									Lightplate.w = Settings.Screen_Size * ((float)(W)), \
-									Lightplate.h = Settings.Screen_Size * ((float)(H)), \
+									Lightplate.x = Settings.Scalar * ((float)(X)), \
+									Lightplate.y = Settings.Scalar * ((float)(Y)), \
+									Lightplate.w = Settings.Scalar * ((float)(W)), \
+									Lightplate.h = Settings.Scalar * ((float)(H)), \
 								}
 							switch (Rotation) {
 							case 1:
@@ -240,8 +240,8 @@ void Render_Grid() {
 								break;
 							}
 							#undef Set_Lightplate
-							Lightplate.x += ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-							Lightplate.y += ((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+							Lightplate.x += ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+							Lightplate.y += ((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
@@ -292,8 +292,8 @@ void Render_Grid() {
 							default:
 								break;
 							}
-							Rects.R_Flash.x = Rects.Tile_3x3.x + (X * Settings.Screen_Size);
-							Rects.R_Flash.y = Rects.Tile_3x3.y + (Y * Settings.Screen_Size);
+							Rects.R_Flash.x = Rects.Tile_3x3.x + (X * Settings.Scalar);
+							Rects.R_Flash.y = Rects.Tile_3x3.y + (Y * Settings.Scalar);
 							Render_Texture(Textures.R_Flash, &Rects.R_Flash);
 						}
 						break;
@@ -308,8 +308,8 @@ void Render_Grid() {
 						break;
 					}
 					if (Data.Visual_Grid[Column][Row] == 21) {
-						Rects.Tunnel.Data[0].x = ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-						Rects.Tunnel.Data[0].y = (((Row - 2.25f) * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+						Rects.Tunnel.Data[0].x = ((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+						Rects.Tunnel.Data[0].y = (((Row - 2.25f) * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 						Render_Texture(Metadata.Machines[Submarine_Dock].Texture2.Data[0], &Rects.Tile_6x4);
 						Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 					} else if (Data.Visual_Grid[Column][Row] == 22) {
@@ -318,10 +318,10 @@ void Render_Grid() {
 						if (Data.Animation_Grid[Column][Row][0] == 0) {
 							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
 							SDL_FRect Progress_Rectangle = {
-								Rects.Tile_2x3.x + (Settings.Screen_Size * 19),
-								Rects.Tile_2x3.y + (Settings.Screen_Size * 57),
-								(float)((Data.Animation_Grid[Column][Row][1] * 50) * Settings.Screen_Size),
-								Settings.Screen_Size * 7.0f
+								Rects.Tile_2x3.x + (Settings.Scalar * 19),
+								Rects.Tile_2x3.y + (Settings.Scalar * 57),
+								(float)((Data.Animation_Grid[Column][Row][1] * 50) * Settings.Scalar),
+								Settings.Scalar * 7.0f
 							};
 							Set_Renderer_Color(Colors.Cherry_Blossom);
 							SDL_RenderFillRect(Core.Renderer, &Progress_Rectangle);
@@ -330,7 +330,7 @@ void Render_Grid() {
 							if (Data.Animation_Grid[Column][Row][2] > 16.0f / 3.0f) {
 								Data.Animation_Grid[Column][Row][2] = 0;
 							}
-							Offset_Rectangle.y += Data.Animation_Grid[Column][Row][2] * Settings.Screen_Size;
+							Offset_Rectangle.y += Data.Animation_Grid[Column][Row][2] * Settings.Scalar;
 						}
 						Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[3], &Offset_Rectangle);
 						Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[1], &Rects.Tile_2x3);

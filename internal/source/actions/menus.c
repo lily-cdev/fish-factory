@@ -2,9 +2,6 @@
 
 void Handle_Help(Point Pos) {
 	if (Interface.Engagement == 0) {
-		if (Interface.UI_Selection == 1) {
-			Interface.Engagement = 1;
-		}
 		switch (Interface.Slider_Positions[3]) {
 		case 1:
 			if (Interface.UI_Selection > 2 && Interface.UI_Selection < 5) {
@@ -22,8 +19,6 @@ void Handle_Help(Point Pos) {
 		default:
 			break;
 		}
-	} else {
-		Interface.Engagement = 0;
 	}
 }
 

@@ -25,7 +25,7 @@ void Set_Renderer_Color(const SDL_Color Color) {
 
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 	Set_Renderer_Color(Color);
-	for (int C1 = 0; C1 < LDE_BORDERWIDTH * Settings.Screen_Size * Multiplier; C1++) {
+	for (int C1 = 0; C1 < LDE_BORDERWIDTH * Settings.Scalar * Multiplier; C1++) {
 		SDL_RenderRect(Core.Renderer, &Rectangle);
 		Rectangle.x++;
 		Rectangle.y++;
@@ -36,37 +36,37 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 }
 
 void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Screen_Size, (float)(Pos.Y - 4) * Settings.Screen_Size,
-		(float)(W + 8) * Settings.Screen_Size, (float)(H + 8) * Settings.Screen_Size };
+	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Scalar, (float)(Pos.Y - 4) * Settings.Scalar,
+		(float)(W + 8) * Settings.Scalar, (float)(H + 8) * Settings.Scalar };
 	Set_Renderer_Color(Outer_Color);
 	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
-	SDL_FRect Internal_Rectangle = { (float)(Pos.X * Settings.Screen_Size), (float)(Pos.Y * Settings.Screen_Size), (float)(W *
-		Settings.Screen_Size), (float)(H * Settings.Screen_Size) };
+	SDL_FRect Internal_Rectangle = { (float)(Pos.X * Settings.Scalar), (float)(Pos.Y * Settings.Scalar), (float)(W *
+		Settings.Scalar), (float)(H * Settings.Scalar) };
 	Set_Renderer_Color(Inner_Color);
 	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
 	Clear_Renderer();
 }
 
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
-	SDL_FRect Yield = { Source.x - (Pos.X * Settings.Screen_Size), Source.y - (Pos.Y * Settings.Screen_Size),
-		Source.w + ((Pos.X * 2) * Settings.Screen_Size), Source.h + ((Pos.Y * 2) * Settings.Screen_Size) };
+	SDL_FRect Yield = { Source.x - (Pos.X * Settings.Scalar), Source.y - (Pos.Y * Settings.Scalar),
+		Source.w + ((Pos.X * 2) * Settings.Scalar), Source.h + ((Pos.Y * 2) * Settings.Scalar) };
 	return Yield;
 }
 
 void Render_Blueprint(int Size_X, int Size_Y) {
-	SDL_FRect Hitbox = { 0, 0, (float)(Size_X * LDE_TILESIZE) * Settings.Screen_Size, (float)(Size_Y * LDE_TILESIZE) *
-		Settings.Screen_Size };
-	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Screen_Size * (float)LDE_TILESIZE, Settings.Screen_Size *
+	SDL_FRect Hitbox = { 0, 0, (float)(Size_X * LDE_TILESIZE) * Settings.Scalar, (float)(Size_Y * LDE_TILESIZE) *
+		Settings.Scalar };
+	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Scalar * (float)LDE_TILESIZE, Settings.Scalar *
 		(float)LDE_TILESIZE };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
-		Invisible_Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size;
+		Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+		Invisible_Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
-			Invisible_Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size;
+			Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
+			Invisible_Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size &&
-					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size)
+				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar &&
+					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar)
 					|| (Size_X != 2 && Size_Y != 2)) {
 					bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
 					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock +
@@ -91,10 +91,10 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 
 void Render_Sidebar(SDL_Texture* Texture, SDL_FRect Rectangle, int Selection) {
 	if (Detect_Mouse_Collision(Rectangle)) {
-		Rectangle.x = (Settings.Screen_Size * 640) - Rectangle.w;
+		Rectangle.x = Core.Screensize.X - Rectangle.w;
 		Interface.UI_Selection = Selection;
 	} else {
-		Rectangle.x = (Settings.Screen_Size * 654) - Rectangle.w;
+		Rectangle.x = (Settings.Scalar * 14) + Core.Screensize.X - Rectangle.w;
 	}
 	Render_Texture(Texture, &Rectangle);
 }
@@ -132,9 +132,9 @@ void Render_Game_UI() {
 		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		bool Satiated = false;
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					memcpy_c(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
 					Satiated = true;
@@ -214,34 +214,31 @@ void Render_Game_UI() {
 		SDL_Texture* Fragment_Textures[16];
 		SDL_FRect Fragment_Rectangles[16];
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
-			SDL_Surface* Fragment_Surface = TTF_RenderText_Blended(Fonts.Subtext_Font, Data_Fragments[C1], 0,
-				Colors.Abyss_Black);
-			Max_Width = max(Max_Width, Fragment_Surface->w);
-			SDL_Texture* Fragment_Texture = Surface_To_Texture(Core.Renderer, Fragment_Surface);
+			SDL_Texture* Fragment_Texture = Render_Text(Fonts.Subtext_Font, Data_Fragments[C1], Colors.Abyss_Black);
+			Max_Width = max(Max_Width, Fragment_Texture->w);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
-				(float)(Settings.Screen_Size * 630) - Fragment_Surface->w,
-				(float)((C1 * 20) + 10) * Settings.Screen_Size,
-				(float)(Fragment_Surface->w),
-				(float)(Fragment_Surface->h)
+				(float)(Settings.Scalar * 630) - Fragment_Texture->w,
+				(float)((C1 * 20) + 10) * Settings.Scalar,
+				(float)Fragment_Texture->w,
+				(float)Fragment_Texture->h
 			};
-			SDL_DestroySurface(Fragment_Surface);
 		}
 		int Total_Height = Fragment_Rectangles[Fragment_Size - 1].y + Fragment_Rectangles[Fragment_Size - 1].h;
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_FRect Background = {
-			(Settings.Screen_Size * 615.0f) - Max_Width,
+			(Settings.Scalar * 615.0f) - Max_Width,
 			0,
-			(Settings.Screen_Size * 25.0f) + Max_Width,
-			(Settings.Screen_Size * 15.0f) + Total_Height
+			(Settings.Scalar * 25.0f) + Max_Width,
+			(Settings.Scalar * 15.0f) + Total_Height
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Set_Renderer_Color(Colors.Light_Grey);
 		Background = (SDL_FRect){
-			(Settings.Screen_Size * 620.0f) - Max_Width,
+			(Settings.Scalar * 620.0f) - Max_Width,
 			0,
-			(Settings.Screen_Size * 20.0f) + Max_Width,
-			(Settings.Screen_Size * 10.0f) + Total_Height
+			(Settings.Scalar * 20.0f) + Max_Width,
+			(Settings.Scalar * 10.0f) + Total_Height
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Clear_Renderer();
@@ -294,13 +291,13 @@ void Drain_Query() {
 		} else if (Cache.ID_Query[C1] == 1) {
 			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h, 2));
 			float Rotation = atan2(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
-			SDL_FPoint Centerpoint = { Settings.Screen_Size * 5.0f, Settings.Screen_Size * 5.0f };
-			for (int C2 = 0; C2 < floor(Length / (Settings.Screen_Size * 10)); C2++) {
-				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Screen_Size * 10.0f, Settings.Screen_Size * 10.0f };
-				Tilebox.x = (float)(Cache.Query[C1].x - ((C2 * Settings.Screen_Size * 10) * cos(Rotation * (M_PI / 180))) -
-					(Settings.Screen_Size * 5));
-				Tilebox.y = (float)(Cache.Query[C1].y - ((C2 * Settings.Screen_Size * 10) * sin(Rotation * (M_PI / 180))) -
-					(Settings.Screen_Size * 5));
+			SDL_FPoint Centerpoint = { Settings.Scalar * 5.0f, Settings.Scalar * 5.0f };
+			for (int C2 = 0; C2 < floor(Length / (Settings.Scalar * 10)); C2++) {
+				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Scalar * 10.0f, Settings.Scalar * 10.0f };
+				Tilebox.x = (float)(Cache.Query[C1].x - ((C2 * Settings.Scalar * 10) * cos(Rotation * (M_PI / 180))) -
+					(Settings.Scalar * 5));
+				Tilebox.y = (float)(Cache.Query[C1].y - ((C2 * Settings.Scalar * 10) * sin(Rotation * (M_PI / 180))) -
+					(Settings.Scalar * 5));
 				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
 					SDL_FLIP_NONE);
 			}

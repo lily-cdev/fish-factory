@@ -160,14 +160,15 @@ void Reload_All() {
 	uint64_t Start = SDL_GetTicks();
 	Cleanup_Assets();
 	Free_Sounds();
-	SDL_SetWindowSize(Core.Window, Settings.Screen_Size * 640, Settings.Screen_Size * 360);
+	Core.Screensize = (Point_f){ Settings.Scalar * 640.0f, Settings.Scalar * 360.0f };
+	Core.Screenhalfsize = (Point_f){ Settings.Scalar * 320.0f, Settings.Scalar * 180.0f };
+	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Preload_Fonts();
 	Load_Sounds();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
 	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
-		strncpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name, sizeof(Interface.Slider_Texts[9][
-			C1]));
+		strncpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name, sizeof(Interface.Slider_Texts[9][C1]));
 	}
 	strncpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING, sizeof(Interface.Slider_Texts[9][LDE_ITEMS]));
 	Adjust_Sound(Settings.Volume * 0.01f);

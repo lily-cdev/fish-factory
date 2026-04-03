@@ -32,11 +32,11 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 		Rectangles->Data[C1].Length = 2;
 		Rectangles->Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rectangles->Data[C1].Data[0].x = LDE_INVALID;
-		Rectangles->Data[C1].Data[0].y = (float)((C1 * 30) + 50) * Settings.Screen_Size;
+		Rectangles->Data[C1].Data[0].y = (float)((C1 * 30) + 50) * Settings.Scalar;
 		Load_Button(Fonts.Terminal_Font, Carrier.Data[C1], &Yield->Data[C1], Rectangles->Data[C1],
 			Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int C2 = 0; C2 < 2; C2++) {
-			Rectangles->Data[C1].Data[C2].x += Settings.Screen_Size * 210;
+			Rectangles->Data[C1].Data[C2].x += Settings.Scalar * 210;
 		}
 	}
 	Free_String2(&Carrier);
@@ -46,27 +46,27 @@ void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Ar
 	SDL_Color Color2) {
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
-	SDL_Surface* Button_Surface = TTF_RenderText_Blended(Font, Text, 0, Color1);
-	Yield->Data[0] = Surface_To_Texture(Core.Renderer, Button_Surface);
+	SDL_Texture* Carrier = Render_Text(Font, Text, Color1);
+	Yield->Data[0] = Carrier;
 	if (Rectangles.Data[0].x == LDE_INVALID) {
-		Rectangles.Data[0].x = (Settings.Screen_Size * 320.0f) - (Button_Surface->w * 0.5f);
+		Rectangles.Data[0].x = Core.Screenhalfsize.X - (Carrier->w * 0.5f);
 	}
 	if (Rectangles.Data[0].y == LDE_INVALID) {
-		Rectangles.Data[0].y = (Settings.Screen_Size * 180.0f) - (Button_Surface->h * 0.5f);
+		Rectangles.Data[0].y = Core.Screenhalfsize.Y - (Carrier->h * 0.5f);
 	}
-	Rectangles.Data[0].w = Button_Surface->w;
-	Rectangles.Data[0].h = Button_Surface->h;
+	Rectangles.Data[0].w = Carrier->w;
+	Rectangles.Data[0].h = Carrier->h;
 	char Buffer[256];
 	snprintf(Buffer, sizeof(Buffer), "> %s <", Text);
-	SDL_DestroySurface(Button_Surface);
-	Button_Surface = TTF_RenderText_Blended(Font, "> ", 0, Color1);
-	int Offset = Button_Surface->w;
-	SDL_DestroySurface(Button_Surface);
-	Button_Surface = TTF_RenderText_Blended(Font, Buffer, 0, Color2);
-	Yield->Data[1] = Surface_To_Texture(Core.Renderer, Button_Surface);
-	Rectangles.Data[1].x = Rectangles.Data[0].x - Offset;
-	Rectangles.Data[1].y = Rectangles.Data[0].y;
-	Rectangles.Data[1].w = (float)Button_Surface->w;
-	Rectangles.Data[1].h = (float)Button_Surface->h;
-	SDL_DestroySurface(Button_Surface);
+	Carrier = Render_Text(Font, "> ", Color1);
+	int Offset = Carrier->w;
+	free_texture(Carrier);
+	Carrier = Render_Text(Font, Buffer, Color2);
+	Yield->Data[1] = Carrier;
+	Rectangles.Data[1] = (SDL_FRect){
+		Rectangles.Data[0].x - Offset,
+		Rectangles.Data[0].y,
+		(float)Carrier->w,
+		(float)Carrier->h
+	};
 }

@@ -12,6 +12,8 @@ typedef struct {
 	int Selected_Save;
 	Point_f Camera;
 	Point_f Mouse;
+	Point_f Screensize;
+	Point_f Screenhalfsize;
 	uint32_t State;
 } lde_core;
 
@@ -59,7 +61,7 @@ typedef struct {
 	bool AA_Temporary;
 	bool VS_Temporary;
 	int Fullscreen;
-	int Screen_Size;
+	int Scalar;
 	int Anti_Aliasing;
 	int VSync;
 	int Volume;
@@ -439,3 +441,4 @@ void Render_Loadscreen();
 void Tick_State();
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);
+SDL_Texture* Render_Text(TTF_Font* Font, const char* Text, SDL_Color Color);

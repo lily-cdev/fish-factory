@@ -14,15 +14,15 @@ void (*Prompt_Functions[13])(Point Pos) = {
     Handle_Help,
     NULL,
     NULL,
-    Handle_Spawning_Pool,
-    Handle_Transmitter,
-    Handle_Dock,
-    Handle_Exchanger,
-    Handle_Money_Generator,
-    Handle_Fluid_Generator,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     Handle_Catalog,
-    Handle_Turbine,
-	Handle_Power_Generator
+    NULL,
+	NULL
 };
 
 void Process_Inputs() {
@@ -129,11 +129,11 @@ void Process_Inputs() {
 				}
 				if (Application_Event.wheel.y > 0) {
 					if (Interface.Log_Offset > 0) {
-						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Screen_Size * 32), 0.0f);
+						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Scalar * 32), 0.0f);
 					}
 				} else if (Application_Event.wheel.y < 0) {
 					if (Interface.Log_Offset < Interface.Log_Heights[Log]) {
-						Interface.Log_Offset = min(Interface.Log_Offset + (Settings.Screen_Size * 32),
+						Interface.Log_Offset = min(Interface.Log_Offset + (Settings.Scalar * 32),
 							Interface.Log_Heights[Log]);
 					}
 				}
@@ -180,43 +180,46 @@ void Process_Inputs() {
 					}
 				}
 			}
-			if (Interface.Engagement > 0) {
+			if (Interface.Engagement != 0) {
 				Interface.Engagement = 0;
 			}			
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			if (!Interface.Locked) {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
-					if (Interface.UI_Query.Carrier != NULL) {
-						Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
-						if (Interface.Engagement == 0) {
+					//forward essentials
+					if (Interface.Engagement == 0) {
+						if (Interface.UI_Tab == 0) {
+							Process_Tutorial(Interface.UI_Selection);
+						}
+						if (Interface.UI_Query.Carrier != NULL) {
+							Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
 							Play_Sound(Click, false);
+						} else {
+							if (Interface.Bar_Up) {
+								if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
+									Interface.Tool = Interface.UI_Selection;
+									Update_Cursor();//mov
+								}
+							} else {
+								if (Prompt_Functions[Interface.Prompt_Identifier + 1] != NULL) {
+									Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);//rem
+								}
+							}
+							if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
+								Play_Sound(Click, false);//rem
+							}
 						}
 					} else {
-						if (Interface.Bar_Up) {
-							if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
-								Interface.Tool = Interface.UI_Selection;
-								Update_Cursor();
-							}
-						} else {
-							if (Interface.UI_Tab == 0) {
-								Process_Tutorial(Interface.UI_Selection);
-							}
-							if (Prompt_Functions[Interface.Prompt_Identifier + 1] != NULL) {
-								Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);
-							}
-						}
-						if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
-							Play_Sound(Click, false);
-						}
-					}
+						Interface.Engagement = 0;
+					}		
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };
 						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
 							for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-								Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+								Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 									if (Data.Visual_Grid[Column][Row] != 0) {
 										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {

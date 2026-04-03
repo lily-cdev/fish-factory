@@ -5,7 +5,7 @@ void Render_Help(Point Pos) {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Render_Texture(Textures.Help_Content.Data[C1], &Rects.Help_Content[C1]);
 	}
-	Render_Slider(Interface.Slider_Texts[3], 1, 2, 1, &Interface.Slider_Positions[3], (Point){ 130, 300 }, 380,
+	Render_Slider(Interface.Slider_Texts[3], 1, 2, &Interface.Slider_Positions[3], (Point){ 130, 300 }, 380,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	switch (Interface.Slider_Positions[3]) {
 	case 0:
@@ -28,12 +28,12 @@ void Render_Help(Point Pos) {
 			if (Data.CMD_Placed) {
 				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y -= LDE_TILESIZE * Settings.Screen_Size;
+						Rects.Tutorials.Data[C1].Data[C2].y -= LDE_TILESIZE * Settings.Scalar;
 					}
 					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorials.Data[C1], (UI_Link){ (C1 == 1) ?
 						Gen_Tutorial : Fish_Tutorial }, Colors.Cherry_Blossom);
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y += LDE_TILESIZE * Settings.Screen_Size;
+						Rects.Tutorials.Data[C1].Data[C2].y += LDE_TILESIZE * Settings.Scalar;
 					}
 				}
 			} else {

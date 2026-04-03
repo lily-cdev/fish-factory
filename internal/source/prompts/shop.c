@@ -22,16 +22,16 @@ void Render_Shop(Point Pos) {
 		}
 		Render_Box((Point){ 10, 10 }, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
 		SDL_FRect Icon_Rectangle = Metadata.Machine_Rectangles[Interface.Item - 1];
-		float Multiplier = (Settings.Screen_Size * 120.0f) / Icon_Rectangle.w;
+		float Multiplier = (Settings.Scalar * 120.0f) / Icon_Rectangle.w;
 		Icon_Rectangle = (SDL_FRect){
-			(Settings.Screen_Size * 103.0f) - (Icon_Rectangle.w * Multiplier * 0.5f),
-			Settings.Screen_Size * 24.0f,
+			(Settings.Scalar * 103.0f) - (Icon_Rectangle.w * Multiplier * 0.5f),
+			Settings.Scalar * 24.0f,
 			Icon_Rectangle.w * Multiplier,
 			Icon_Rectangle.h * Multiplier
 		};
-		int Offset = (Icon_Rectangle.y + Icon_Rectangle.h) / Settings.Screen_Size;
-		Render_Box((Point){ ((int)Icon_Rectangle.x / Settings.Screen_Size) - 4, (Icon_Rectangle.y / Settings.Screen_Size) - 4 },
-			(Icon_Rectangle.w / Settings.Screen_Size) + 8, (Icon_Rectangle.h / Settings.Screen_Size) + 8, Colors.Light_Grey,
+		int Offset = (Icon_Rectangle.y + Icon_Rectangle.h) / Settings.Scalar;
+		Render_Box((Point){ ((int)Icon_Rectangle.x / Settings.Scalar) - 4, (Icon_Rectangle.y / Settings.Scalar) - 4 },
+			(Icon_Rectangle.w / Settings.Scalar) + 8, (Icon_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
 			Colors.Dark_Grey);
 		Render_Texture(Metadata.Machines[Interface.Item - 1].Icon, &Icon_Rectangle);
 		int Quirk_Stack[LDE_QUIRKS + 1];
@@ -44,42 +44,39 @@ void Render_Shop(Point Pos) {
 		}
 		Quirk_Stack[Index] = LDE_TERMINATOR;
 		SDL_FRect Label_Rects[3] = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-		float Start = (float)((Settings.Screen_Size * 103) - (((intlen(Quirk_Stack) * Settings.Screen_Size * 20) +
-			((intlen(Quirk_Stack) - 1) * Settings.Screen_Size * 10)) * 0.5));
+		float Start = (float)((Settings.Scalar * 103) - (((intlen(Quirk_Stack) * Settings.Scalar * 20) +
+			((intlen(Quirk_Stack) - 1) * Settings.Scalar * 10)) * 0.5));
 		for (int C1 = 0; C1 < intlen(Quirk_Stack); C1++) {
 			SDL_FRect Quirk_Rectangle = {
-				(C1 * Settings.Screen_Size * 30) + Start,
-				(float)(Offset + 16) * Settings.Screen_Size,
-				Settings.Screen_Size * 20.0f,
-				Settings.Screen_Size * 20.0f
+				(C1 * Settings.Scalar * 30) + Start,
+				(float)(Offset + 16) * Settings.Scalar,
+				Settings.Scalar * 20.0f,
+				Settings.Scalar * 20.0f
 			};
 			Render_Texture(Textures.Quirk.Data[Quirk_Stack[C1]], &Quirk_Rectangle);
 			if (Detect_Mouse_Collision(Quirk_Rectangle)) {
 				SDL_GetTextureSize(Textures.Quirk_Label.Data[Quirk_Stack[C1]], &Label_Rects[C1].w, &Label_Rects[C1].h);
-				Label_Rects[C1].x = (Settings.Screen_Size * 10) + Quirk_Rectangle.x - (Label_Rects[C1].w * 0.5);
-				Label_Rects[C1].y = (Settings.Screen_Size * 24) + Quirk_Rectangle.y;
+				Label_Rects[C1].x = (Settings.Scalar * 10) + Quirk_Rectangle.x - (Label_Rects[C1].w * 0.5);
+				Label_Rects[C1].y = (Settings.Scalar * 24) + Quirk_Rectangle.y;
 			}
 		}
 		if (intlen(Quirk_Stack) > 0) {
 			Offset += 32;
 		}
-		SDL_Surface* Name_Surface = TTF_RenderText_Blended(Fonts.Halftext_Font, Metadata.Names[Interface.Item - 1], 0,
-			Colors.Abyss_Black);
-		SDL_Texture* Name_Texture = Surface_To_Texture(Core.Renderer, Name_Surface);
+		SDL_Texture* Name_Texture = Render_Text(Fonts.Halftext_Font, Metadata.Names[Interface.Item - 1], Colors.Abyss_Black);
 		SDL_FRect Name_Rectangle = {
-			(float)(Settings.Screen_Size * 103) - (Name_Surface->w * 0.5),
-			(float)(Offset + 10) * Settings.Screen_Size,
-			(float)Name_Surface->w,
-			(float)Name_Surface->h
+			(float)(Settings.Scalar * 103) - (Name_Texture->w * 0.5),
+			(float)(Offset + 10) * Settings.Scalar,
+			(float)Name_Texture->w,
+			(float)Name_Texture->h
 		};
 		Render_Texture(Name_Texture, &Name_Rectangle);
-		SDL_DestroySurface(Name_Surface);
 		free_texture(Name_Texture);
 		SDL_Surface* Carrying_Surface = TTF_RenderText_Blended_Wrapped(Fonts.Subtext_Font, Metadata.Descriptions[
-			Interface.Item - 1], 0, Colors.Abyss_Black, Settings.Screen_Size * 180);
+			Interface.Item - 1], 0, Colors.Abyss_Black, Settings.Scalar * 180);
 		SDL_FRect Description_Rectangle = {
-			Settings.Screen_Size * 16.0f,
-			(Offset + 40.0f) * Settings.Screen_Size,
+			Settings.Scalar * 16.0f,
+			(Offset + 40.0f) * Settings.Scalar,
 			(float)Carrying_Surface->w,
 			(float)Carrying_Surface->h
 		};

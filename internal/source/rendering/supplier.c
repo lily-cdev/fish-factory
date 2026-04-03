@@ -5,28 +5,23 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* F
 		return;
 	}
 	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL ||
-		Supply->Bounds.y != Pos.Y * Settings.Screen_Size || Supply->Bounds.x != Pos.X * Settings.Screen_Size) {
+		Supply->Bounds.y != Pos.Y * Settings.Scalar || Supply->Bounds.x != Pos.X * Settings.Scalar) {
 		free_texture(Supply->Data);
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
-		Supply->Bounds.y = Pos.Y * Settings.Screen_Size;
+		Supply->Bounds.y = Pos.Y * Settings.Scalar;
 		strncpy(Supply->Stored, Replacement, sizeof(Supply->Stored));
 		Supply->Color.r = Color.r;
 		Supply->Color.g = Color.g;
 		Supply->Color.b = Color.b;
 		Supply->Color.a = Color.a;
-		SDL_Surface* Carrier = TTF_RenderText_Blended(Font, Replacement, 0, Color);
+		SDL_Texture* Carrier = Render_Text(Font, Replacement, Color);
 		if (Carrier == NULL) {
 			puts("1");
 		}
 		Supply->Bounds.w = Carrier->w;
 		Supply->Bounds.h = Carrier->h;
-		if (Pos.X == LDE_INVALID) {
-			Supply->Bounds.x = (Settings.Screen_Size * 320) - (Carrier->w * 0.5);
-		} else {
-			Supply->Bounds.x = Pos.X * Settings.Screen_Size;
-		}
-		Supply->Data = Surface_To_Texture(Core.Renderer, Carrier);
-		SDL_DestroySurface(Carrier);
+		Supply->Bounds.x = (Pos.X == LDE_INVALID) ? Core.Screenhalfsize.X - (Carrier->w * 0.5) : Pos.X * Settings.Scalar;
+		Supply->Data = Carrier;
 	}
 	Render_Texture(Supply->Data, &Supply->Bounds);
 }

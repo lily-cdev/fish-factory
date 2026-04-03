@@ -11,7 +11,7 @@ bool Save_Settings() {
 	fputc((uint8_t)Settings.Anti_Aliasing, File);
 	fputc((uint8_t)Settings.VSync, File);
 	fputc((uint8_t)Settings.Fullscreen, File);
-	fputc((uint8_t)Settings.Screen_Size, File);
+	fputc((uint8_t)Settings.Scalar, File);
 	fputc((uint8_t)Settings.Volume, File);
 	fputc((uint8_t)Settings.Raw_FPS, File);
 	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
@@ -33,7 +33,7 @@ void Load_Settings() {
 				Settings.Anti_Aliasing = fgetc(File);
 				Settings.VSync = fgetc(File);
 				Settings.Fullscreen = fgetc(File);
-				Settings.Screen_Size = fgetc(File);
+				Settings.Scalar = fgetc(File);
 				Settings.Volume = fgetc(File);
 				Settings.Raw_FPS = fgetc(File);
 				for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
@@ -51,19 +51,19 @@ void Load_Settings() {
 	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
 		if (Display->w >= Metadata.Supported_Resolutions[C1].X &&
 			Display->h >= Metadata.Supported_Resolutions[C1].Y) {
-			Settings.Screen_Size++;
+			Settings.Scalar++;
 		} else {
 			break;
 		}
 	}
-	if (Settings.Screen_Size == 0) {
-		Settings.Screen_Size = 1;
+	if (Settings.Scalar == 0) {
+		Settings.Scalar = 1;
 	}
 	Save_Settings();
 }
 
 void Clear_Settings() {
-	Interface.Slider_Positions[0] = Settings.Screen_Size - 1;
+	Interface.Slider_Positions[0] = Settings.Scalar - 1;
 	Interface.Slider_Positions[4] = Settings.Raw_FPS;
 	Interface.Slider_Positions[5] = Settings.Volume;
 	Interface.Slider_Positions[6] = Settings.Fullscreen;
@@ -75,7 +75,7 @@ void Clear_Settings() {
 }
 
 void Recalibrate_Settings() {
-	Settings.Screen_Size = Interface.Slider_Positions[0] + 1;
+	Settings.Scalar = Interface.Slider_Positions[0] + 1;
 	Settings.Raw_FPS = Interface.Slider_Positions[4];
 	Settings.Volume = Interface.Slider_Positions[5];
 	Settings.Fullscreen = Interface.Slider_Positions[6];

@@ -152,8 +152,8 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 		(float)(Carrying_Surface->w * 0.5),
 		(float)(Carrying_Surface->h)
 	};
-	Rectangle->w = (Separating_Rectangle.w / 6) * Settings.Screen_Size;
-	Rectangle->h = (Separating_Rectangle.h / 6) * Settings.Screen_Size;
+	Rectangle->w = (Separating_Rectangle.w / 6) * Settings.Scalar;
+	Rectangle->h = (Separating_Rectangle.h / 6) * Settings.Scalar;
 	SDL_SetTextureBlendMode(First_Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, First_Texture);
 	SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL);
@@ -186,8 +186,8 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface;
 	load_bmp(Primary_Surface, Buffer);
-	Rectangle->w = (Primary_Surface->w / 6.0f) * Settings.Screen_Size;
-	Rectangle->h = (Primary_Surface->h / 6.0f) * Settings.Screen_Size;
+	Rectangle->w = (Primary_Surface->w / 6.0f) * Settings.Scalar;
+	Rectangle->h = (Primary_Surface->h / 6.0f) * Settings.Scalar;
 	SDL_Texture* Primary_Texture = Surface_To_Texture(Core.Renderer, Primary_Surface);
 	SDL_DestroySurface(Primary_Surface);
 	Yield->Data[0] = Primary_Texture;
@@ -321,10 +321,10 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/UI/Sidebar/%s.bmp", Path);
 	SDL_Surface* Surface;
 	load_bmp(Surface, Buffer);
-	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Screen_Size;
-	Rectangle->y = Y * Settings.Screen_Size;
-	Rectangle->w = (float)(Surface->w / 6) * Settings.Screen_Size;
-	Rectangle->h = (float)(Surface->h / 6) * Settings.Screen_Size;
+	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Scalar;
+	Rectangle->y = Y * Settings.Scalar;
+	Rectangle->w = (float)(Surface->w / 6) * Settings.Scalar;
+	Rectangle->h = (float)(Surface->h / 6) * Settings.Scalar;
 	SDL_Texture* Texture = Surface_To_Texture(Core.Renderer, Surface);
 	SDL_DestroySurface(Surface);
 	return Texture;

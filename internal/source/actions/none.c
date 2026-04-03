@@ -74,32 +74,8 @@ void Handle_None(Point Pos) {
 		break;
 	case 3:
 		if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
-			if (Interface.UI_Selection == 4) {
-				Interface.Engagement = 1;
-			} else if (Interface.UI_Selection > 5 && Interface.UI_Selection < 20) {
+			if (Interface.UI_Selection > 5 && Interface.UI_Selection < 20) {
 				Interface.Registering_Keybind = Interface.UI_Selection - 6;
-			} else if (Interface.UI_Selection == 20) {
-				Interface.Engagement = 2;
-			} else if (Interface.UI_Selection == 21) {
-				Interface.Engagement = 3;
-			} else if (Interface.UI_Selection == 22) {
-				Interface.Engagement = 4;
-			}
-		} else {
-			Interface.Engagement = 0;
-		}
-		break;
-	case 5:
-		if (Interface.Engagement == 0) {
-			switch (Interface.UI_Selection) {
-			case 1:
-				Start_Transition(1);
-				break;
-			case 2:
-				Interface.Engagement = 1;
-				break;
-			default:
-				break;
 			}
 		} else {
 			Interface.Engagement = 0;

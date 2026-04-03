@@ -30,9 +30,9 @@ Item_Stack ID_To_Item(const int ID) {
 
 Item_Stack Get_Item_Stack_Data() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Screen_Size);
+		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Screen_Size);
+			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Get_Item((Point){ Column, Row });
 			}
