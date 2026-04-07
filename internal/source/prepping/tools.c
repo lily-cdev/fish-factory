@@ -243,10 +243,7 @@ bool Is_Bound(Point Input) {
 }
 
 bool Check_Glyph(char Character, Font_Index Font) {
-	if (Fonts.Glyphs[Font][(int)Character].Allocated) {
-		return true;
-	}
-	return false;
+	return Fonts.Glyphs[Font][(int)Character].Allocated;
 }
 
 void Apply_Glyph(char Character, Font_Index Font) {
@@ -260,14 +257,28 @@ void Apply_Glyph(char Character, Font_Index Font) {
 	Subglyph.Key = Character;
 	Subglyph.Bounds = (Point){ Slot->bitmap.width, Slot->bitmap.rows };
 	Subglyph.Bearing = (Point){ Slot->bitmap_left, Slot->bitmap_top };
-	Subglyph.Advance = Slot->advance >> 6;
+	Subglyph.Advance = Slot->advance.x >> 6;
 	SDL_Surface* Carrier = SDL_CreateSurface(Subglyph.Bounds.X, Subglyph.Bounds.Y, SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Carrier);
-	const uint32_t Black = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, SDL_ALPHA_OPAQUE);
+	const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
+	const uint32_t White = SDL_MapRGBA(Details, NULL, 255, 255, 255, SDL_ALPHA_OPAQUE);
 	uint32_t* Pixels = (uint32_t*)Carrier->pixels;
+	memset(Pixels, 0, Carrier->h * Carrier->pitch);
 	for (int Y = 0; Y < Subglyph.Bounds.Y; Y++) {
 		for (int X = 0; X < Subglyph.Bounds.X; X++) {
-
+			uint8_t Alpha = Slot->bitmap.buffer[(Slot->bitmap.pitch * Y) + X];
+			uint32_t* Target = &Pixels[((Carrier->pitch / sizeof(uint32_t)) * Y) + X];
+			if (Settings.Anti_Aliasing) {
+				if (Alpha == 255) {
+					*Target = White;
+				} else if (Alpha > 0) {
+					*Target = SDL_MapRGBA(Details, NULL, 255, 255, 255, Alpha);
+				}
+			} else {
+				if (Alpha > 127) {
+					*Target = White;
+				}
+			}
 		}
 	}
 	SDL_UnlockSurface(Carrier);
@@ -277,61 +288,27 @@ void Apply_Glyph(char Character, Font_Index Font) {
 }
 
 SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
-	Point Bounds = { };
-	int Length = strlen(Text);
 	FT_Face Selection = Fonts.Faces[Font];
+	int Length = strlen(Text);
+	Point Bounds = { };
 	for (int C1 = 0; C1 < Length; C1++) {
-		if (FT_Load_Char(Selection, (FT_ULong)Text[C1], FT_LOAD_RENDER) != 0) {
-			continue;
+		if (!Check_Glyph(Text[C1], Font)) {
+			Apply_Glyph(Text[C1], Font);
 		}
-		Bounds.X += Selection->glyph->advance.x >> 6;
+		Bounds.X += Fonts.Glyphs[Font][(int)Text[C1]].Advance;
 	}
-	int Cursor = 0;
 	int Ascender = Selection->size->metrics.ascender >> 6;
 	int Descender = Selection->size->metrics.descender >> 6;
 	Bounds.Y = Ascender - Descender;
-	if (Bounds.X == 0 || Bounds.Y == 0) {
+	if (Bounds.X <= 0 || Bounds.Y <= 0) {
 		return NULL;
 	}
-	SDL_Surface* Carrier = SDL_CreateSurface(Bounds.X, Bounds.Y, SDL_PIXELFORMAT_RGBA8888);
-	const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
-	SDL_LockSurface(Carrier);
-	uint32_t* Pixels = (uint32_t*)Carrier->pixels;
-	const uint32_t Black = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, SDL_ALPHA_OPAQUE);
+	SDL_Texture* Yield = New_Texture(Core.Renderer, Bounds.X, Bounds.Y);
+	int Cursor = 0;
 	for (int C1 = 0; C1 < Length; C1++) {
-		if (FT_Load_Char(Selection, (FT_ULong)Text[C1], FT_LOAD_RENDER) != 0) {
-			continue;
-		}
-		FT_GlyphSlot Slot = Selection->glyph;
-		for (int Y = 0; Y < Slot->bitmap.rows; Y++) {
-			for (int X = 0; X < Slot->bitmap.width; X++) {
-				Point Pos = {
-					Cursor + Slot->bitmap_left + X,
-					Ascender - Slot->bitmap_top + Y
-				};
-				if (Pos.X < 0 || Pos.X >= Bounds.X || Pos.Y < 0 || Pos.Y >= Bounds.Y) {
-					continue;
-				}
-				uint8_t Alpha = Slot->bitmap.buffer[(Slot->bitmap.pitch * Y) + X];
-				uint32_t* Target = &Pixels[((Carrier->pitch / sizeof(uint32_t)) * Pos.Y) + Pos.X];
-				if (Settings.Anti_Aliasing) {
-					if (Alpha == 255) {
-						*Target = Black;
-					} else if (Alpha > 0) {
-						*Target = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, Alpha);
-					}
-				} else {
-					if (Alpha > 127) {
-						*Target = Black;
-					}
-				}
-			}
-		}
-		Cursor += Slot->advance.x >> 6;
+		Glyph Carrier = Fonts.Glyphs[Font][(int)Text[C1]];
+		//render to yield
 	}
-	SDL_UnlockSurface(Carrier);
-	SDL_Texture* Yield = Surface_To_Texture(Core.Renderer, Carrier);
-	SDL_DestroySurface(Carrier);
 	return Yield;
 }
 
