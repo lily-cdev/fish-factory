@@ -37,8 +37,8 @@ int main(int argc, char* args[]) {
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
 		jump(I_No_SDL3, "could not load SDL3");
 	}
-	if (!TTF_Init()) {
-		jump(I_No_TTF3, "could not load SDL3_ttf");
+	if (FT_Init_FreeType(&Core.FreeType) != 0) {
+		jump(I_No_FreeType, "could not load FreeType");
 	}
 	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
@@ -105,7 +105,7 @@ int main(int argc, char* args[]) {
 			{
 				char Buffer[256];
 				snprintf(Buffer, sizeof(Buffer), "%i/%i FPS", Temporary.Temporary_FPS, Interface.Frame_Rate);
-				Process_Supply(&Supplies.FPS, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 10 });
+				Process_Supply(&Supplies.FPS, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 10 });
 			}
 			Render_Effects();
 			Render_Game_UI();
@@ -146,7 +146,7 @@ int main(int argc, char* args[]) {
 	SDL_DestroyWindow(Core.Window);
 	Shutdown_Miniaudio();
 	SDL_PumpEvents();
-	TTF_Quit();
+	FT_Done_FreeType(Core.FreeType);
 	SDL_Quit();
 	return 0;
 }

@@ -12,7 +12,7 @@ typedef struct {
 void Render_Grid();
 void Render_Ocean();
 void Render_Pyramid();
-void Process_Supply(Texture_Supply* Supply, const char* Replacement, TTF_Font* Font, const SDL_Color Color, Point Pos);
+void Process_Supply(Texture_Supply* Supply, const char* Replacement, Font_Index Font, const SDL_Color Color, Point Pos);
 void Free_Supplies();
 void Push_Particle(const int Type, const Point Pos, const Point_f Subpos);
 void Wipe_Tile(const Point Pos);

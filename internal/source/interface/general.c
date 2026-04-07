@@ -206,9 +206,6 @@ void Process_Inputs() {
 									Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);//rem
 								}
 							}
-							if (Interface.UI_Selection > 0 && Interface.Engagement == 0) {
-								Play_Sound(Click, false);//rem
-							}
 						}
 					} else {
 						Interface.Engagement = 0;

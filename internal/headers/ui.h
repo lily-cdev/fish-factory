@@ -3,6 +3,7 @@
 #include <prepping.h>
 #include <grid.h>
 #include <rendering.h>
+#include <tutorials.h>
 
 extern char Errors[LDE_ERRORS][32];
 
@@ -32,7 +33,6 @@ void Print_Fatal_Error(int Input);
 void Print_Response(const char* Response);
 void Print_JSON();
 void Print_Input();
-void Forward_Essentials(int Buttons, int Sliders);
 void Render_Necessities(char* Machine, char* Prefix);
 void Tick_Input(int Target, bool Slider);
 void Return_Command(const int Type, const int Length, const char Parameters[Length][LDE_PARAMMAX]);
@@ -93,3 +93,4 @@ void Shop_Category(Parameter Category, Parameter Unused);
 void Shop_Item(Parameter Subcategory, Parameter Unused);
 void Shop_Subcategory(Parameter Selection, Parameter Unused);
 void Shop_Subitem(Parameter Selection, Parameter Unused);
+void Click_Sidebar(Parameter Bar, Parameter Unused);

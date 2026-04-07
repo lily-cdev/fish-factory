@@ -32,3 +32,47 @@ void New_Save(Parameter Slot, Parameter Unused) {
 	Cache_Blueprint();
 	Cache.Wire_State = Deep_Recache;
 }
+
+void Click_Sidebar(Parameter Bar, Parameter Unused) {
+	switch (Bar.Integer) {
+	case 0:
+		Interface.Prompt_Identifier = P_Help;
+		break;
+	case 1:
+		if (Interface.Save_Frames < 1) {
+			Interface.Save_Frames = Interface.Frame_Rate * 2;
+			Save_Data(Core.Selected_Save);
+		}
+		break;
+	case 2:
+		Interface.Prompt_Identifier = P_Catalog;
+		break;
+	case 3:
+		if (Interface.Tool == T_Building) {
+			Interface.Rotation = 0;
+			Clear_Unconnected_Bridges(&Wires);
+			Clear_Unconnected_Bridges(&Pipes);
+			Update_Grid();
+			Cache_Blueprint();
+		}
+		if (Interface.Tool == LDE_INVALID) {
+			Save_Data(Core.Selected_Save);
+			memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
+			Temporary.Tutorial_Step = LDE_INVALID;
+			Start_Transition(2);
+			Core.Selected_Save = LDE_INVALID;
+			Get_Filesizes();
+			Interface.Item = 1;
+			Cache_Blueprint();
+		} else {
+			if (Interface.Tool < 4) {
+				Interface.Tool++;
+			} else {
+				Interface.Tool = 0;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+}

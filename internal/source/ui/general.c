@@ -6,9 +6,9 @@ void Render_Toolbar() {
 		char Price_Query[64];
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
-		SDL_Texture* Machine_Texture = Render_Text(Fonts.Subtext_Font, Machine_Text, Colors.Abyss_Black);
+		SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
 		float Y = ((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Scalar;
-		float Height = TTF_GetFontHeight(Fonts.Subtext_Font) + (Settings.Scalar * 18.0f);
+		float Height = Get_Height(F_Subtext) + (Settings.Scalar * 18.0f);
 		float Padding = Settings.Scalar * 16.0f;
 		float Root_X = (Settings.Scalar * 312.0f) - (Machine_Texture->w * 0.5f);
 		float Root_Width = Machine_Texture->w + Padding;
@@ -26,8 +26,8 @@ void Render_Toolbar() {
 		Render_Texture(Machine_Texture, &Machine_Rectangle);
 		free_texture(Machine_Texture);
 		if (true) {//tmp
-			SDL_Texture* L_Texture = Render_Text(Fonts.Subtext_Font, "<-", Colors.Abyss_Black);
-			SDL_Texture* R_Texture = Render_Text(Fonts.Subtext_Font, "->", Colors.Abyss_Black);
+			SDL_Texture* L_Texture = Render_Text(F_Subtext, "<-", Colors.Abyss_Black);
+			SDL_Texture* R_Texture = Render_Text(F_Subtext, "->", Colors.Abyss_Black);
 			float Width = L_Texture->w + Padding;
 			SDL_FRect L_Rect = {
 				Root_X - Width,
@@ -90,7 +90,7 @@ void Render_Tile_Prompts() {
 							Sub2core[C1] = (char)(tolower(Sub2core[C1]));
 						}
 						snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
-						SDL_Texture* Carrier = Render_Text(Fonts.Halftext_Font, Subcore, Colors.Cherry_Blossom);
+						SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
 						SDL_FRect Carrying_Rectangle = {
 							Core.Screenhalfsize.X - (Carrier->w * 0.5),
 							Core.Screenhalfsize.X,
@@ -270,7 +270,7 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 	SDL_RenderFillRect(Core.Renderer, &Node_Rectangle);
 	Clear_Renderer();
 	if (Text_Visible) {
-		SDL_Texture* Caption_Texture = Render_Text(Fonts.Subtext_Font, Labels[*Position], Primary);
+		SDL_Texture* Caption_Texture = Render_Text(F_Subtext, Labels[*Position], Primary);
 		SDL_FRect Caption_Rectangle = {
 			(((((float)(*Position) / Nodes) * Width) + Pos.X) * Settings.Scalar) - (float)(Caption_Texture->w * 0.5),
 			(float)(Pos.Y + 10.0f) * Settings.Scalar,

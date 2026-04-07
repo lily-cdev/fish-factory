@@ -142,7 +142,7 @@ enum Issues {
 	I_No_Texture,
 	I_No_Image,
 	I_No_SDL3,
-	I_No_TTF3,
+	I_No_FreeType,
 	I_No_Miniaudio,
 	I_No_Window,
 	I_No_Renderer,
@@ -214,3 +214,13 @@ enum Connections {
 	C_Top,
 	C_Right
 };
+
+typedef enum {
+	F_Logo,
+	F_Large,
+	F_Text,
+	F_Halftext,
+	F_Subtext,
+	F_Microtext,
+	F_Terminal
+} Font_Index;

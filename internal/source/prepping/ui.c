@@ -36,8 +36,8 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 }
 
 void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Scalar, (float)(Pos.Y - 4) * Settings.Scalar,
-		(float)(W + 8) * Settings.Scalar, (float)(H + 8) * Settings.Scalar };
+	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Scalar, (float)(Pos.Y - 4) * Settings.Scalar, (float)(W + 8) *
+		Settings.Scalar, (float)(H + 8) * Settings.Scalar };
 	Set_Renderer_Color(Outer_Color);
 	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
 	SDL_FRect Internal_Rectangle = { (float)(Pos.X * Settings.Scalar), (float)(Pos.Y * Settings.Scalar), (float)(W *
@@ -56,8 +56,7 @@ SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
 void Render_Blueprint(int Size_X, int Size_Y) {
 	SDL_FRect Hitbox = { 0, 0, (float)(Size_X * LDE_TILESIZE) * Settings.Scalar, (float)(Size_Y * LDE_TILESIZE) *
 		Settings.Scalar };
-	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Scalar * (float)LDE_TILESIZE, Settings.Scalar *
-		(float)LDE_TILESIZE };
+	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Scalar * (float)LDE_TILESIZE, Settings.Scalar * (float)LDE_TILESIZE };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
 		Invisible_Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
@@ -65,12 +64,12 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 			Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			Invisible_Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
 			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar &&
-					Hitbox.y + Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar)
-					|| (Size_X != 2 && Size_Y != 2)) {
+				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar && Hitbox.y +
+					Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar) || (Size_X != 2 && Size_Y !=
+					2)) {
 					bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock +
-						1 && Row != 0)) {
+					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock + 1 &&
+						Row != 0)) {
 						Placeable = false;
 					}
 					if (Placeable) {
@@ -89,22 +88,20 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 	}
 }
 
-void Render_Sidebar(SDL_Texture* Texture, SDL_FRect Rectangle, int Selection) {
-	if (Detect_Mouse_Collision(Rectangle)) {
-		Rectangle.x = Core.Screensize.X - Rectangle.w;
-		Interface.UI_Selection = Selection;
-	} else {
-		Rectangle.x = (Settings.Scalar * 14) + Core.Screensize.X - Rectangle.w;
-	}
-	Render_Texture(Texture, &Rectangle);
-}
-
 void Render_Game_UI() {
+	SDL_FRect Rectangles[4] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Exit };
+	SDL_Texture* Bars[4] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton,
+		Textures.Exit_Sidebutton };
 	if (Interface.Tool == T_None && Interface.Prompt_Identifier == LDE_INVALID) {
-		Render_Sidebar(Textures.Help_Sidebutton, Rects.Help, 1);
-		Render_Sidebar(Textures.Save_Sidebutton, Rects.Save, 2);
-		Render_Sidebar(Textures.Recipe_Sidebutton, Rects.Recipe, 3);
-		Render_Sidebar(Textures.Exit_Sidebutton, Rects.Exit, 4);
+		for (int C1 = 0; C1 < 4; C1++) {
+			if (Detect_Mouse_Collision(Rectangles[C1])) {
+				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
+				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };
+			} else {
+				Rectangles[C1].x = (Settings.Scalar * 14) + Core.Screensize.X - Rectangles[C1].w;
+			}
+			Render_Texture(Bars[C1], &Rectangles[C1]);
+		}
 	}
 	char Data_Fragments[16][128];
 	int Index = 0;
@@ -124,10 +121,10 @@ void Render_Game_UI() {
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Funds, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%sLA", Subbuffer);
-	Process_Supply(&Supplies.Money, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 30 });
+	Process_Supply(&Supplies.Money, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 30 });
 	memset(Buffer, 0, sizeof(Buffer));
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
-	Process_Supply(&Supplies.Time, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ 10, 50 });
+	Process_Supply(&Supplies.Time, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 50 });
 	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		bool Satiated = false;
@@ -214,7 +211,7 @@ void Render_Game_UI() {
 		SDL_Texture* Fragment_Textures[16];
 		SDL_FRect Fragment_Rectangles[16];
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
-			SDL_Texture* Fragment_Texture = Render_Text(Fonts.Subtext_Font, Data_Fragments[C1], Colors.Abyss_Black);
+			SDL_Texture* Fragment_Texture = Render_Text(F_Subtext, Data_Fragments[C1], Colors.Abyss_Black);
 			Max_Width = max(Max_Width, Fragment_Texture->w);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
@@ -251,7 +248,7 @@ void Render_Game_UI() {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
 		Fading_Color.a = (uint8_t)(ceil(((float)Interface.Save_Frames / (Interface.Frame_Rate * 2)) * 255));
 		char Buffer[16] = "Data saved!";
-		Process_Supply(&Supplies.Save_Text, Buffer, Fonts.Subtext_Font, Fading_Color, (Point){ LDE_INVALID, 300 });
+		Process_Supply(&Supplies.Save_Text, Buffer, F_Subtext, Fading_Color, (Point){ LDE_INVALID, 300 });
 		Interface.Save_Frames--;
 	}
 }
@@ -274,7 +271,7 @@ void Render_Saveloader() {
 		char Subbuffer[64];
 		Abbreviate_Number(Core.Save_Filesizes[C1], Subbuffer, sizeof(Subbuffer));
 		snprintf(Buffer, sizeof(Buffer), "Slot %i (%sb)", C1 + 1, Subbuffer);
-		Process_Supply(&Supplies.Filesizes[C1], Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 40, (C1 * 40) + 160 });
+		Process_Supply(&Supplies.Filesizes[C1], Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 40, (C1 * 40) + 160 });
 	}
 }
 

@@ -8,7 +8,7 @@ void Render_M_Generator(Point Pos) {
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos)][4], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "Producing %sLA/s", Subbuffer);
-	Process_Supply(&Supplies.Money_Production, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 120 });
+	Process_Supply(&Supplies.Money_Production, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ LDE_INVALID, 120 });
 	Render_Button(&Textures.Confirmation.Data[0], &Rects.Confirmation.Data[0], (UI_Link){ Set_M_Cheat, .Param.Pos = Pos },
 		Colors.Cherry_Blossom);
 	Render_Button(&Textures.Confirmation.Data[1], &Rects.Confirmation.Data[1], (UI_Link){ Apply_M_Cheat, .Param.Pos = Pos },
@@ -28,7 +28,7 @@ void Render_F_Generator(Point Pos) {
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos)][5], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "Producing %sL/s of %i °F ", Subbuffer, (int)Data.Settings_Grid[pt(Pos)][4]);
 	strcat_c(Buffer, ID_To_Item(Data.Settings_Grid[pt(Pos)][3]).Display_Name, sizeof(Buffer));
-	Process_Supply(&Supplies.Fluid_Production, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 200 });
+	Process_Supply(&Supplies.Fluid_Production, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ LDE_INVALID, 200 });
 	Render_Button(&Textures.Confirmation.Data[0], &Rects.Confirmation.Data[0], (UI_Link){ Set_F_Cheat, .Param.Pos = Pos },
 		Colors.Cherry_Blossom);
 	Render_Button(&Textures.Confirmation.Data[1], &Rects.Confirmation.Data[1], (UI_Link){ Apply_F_Cheat, .Param.Pos = Pos },
@@ -43,7 +43,7 @@ void Render_P_Generator(Point Pos) {
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos)][3], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "Producing %sJ/s", Subbuffer);
-	Process_Supply(&Supplies.Power_Production, Buffer, Fonts.Halftext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 120 });
+	Process_Supply(&Supplies.Power_Production, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ LDE_INVALID, 120 });
 	Render_Button(&Textures.Confirmation.Data[0], &Rects.Confirmation.Data[0], (UI_Link){ Set_P_Cheat, .Param.Pos = Pos },
 		Colors.Cherry_Blossom);
 	Render_Button(&Textures.Confirmation.Data[1], &Rects.Confirmation.Data[1], (UI_Link){ Apply_P_Cheat, .Param.Pos = Pos },

@@ -2,7 +2,7 @@
 
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	SDL_FPoint Tile_Centerpoint = { LDE_TILESIZE * Size * 0.5f, LDE_TILESIZE * Size * 0.5f };
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 16);
 	Yield->Length = 16;
@@ -112,7 +112,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 
 void Load_Rotational(const char* Path, Texture_Array* Yield) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	Yield->Length = 4;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 4);
 	SDL_Surface* Primary_Surface;
@@ -135,7 +135,7 @@ void Load_Rotational(const char* Path, Texture_Array* Yield) {
 
 void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Rectangle) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(Texture_Array) * 2);
 	for (int C1 = 0; C1 < 2; C1++) {
@@ -181,7 +181,7 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 
 void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface;
@@ -201,7 +201,7 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 
 void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	SDL_Texture* Carrying_Texture = IMG_To_Texture(Core.Renderer, Buffer);
 	float Full_Width = 0, Full_Height = 0;
 	SDL_GetTextureSize(Carrying_Texture, &Full_Width, &Full_Height);
@@ -269,7 +269,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 
 void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	SDL_Texture* Carrier = IMG_To_Texture(Core.Renderer, Buffer);
 	Point Chunksize = {
 		Carrier->w,
@@ -318,7 +318,7 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/UI/Sidebar/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/ui/sidebar/%s.bmp", Path);
 	SDL_Surface* Surface;
 	load_bmp(Surface, Buffer);
 	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Scalar;
@@ -332,7 +332,7 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 
 SDL_Texture* Preload_Texture(const char* Path) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Core/Images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
 	SDL_Surface* Carrier;
 	load_bmp(Carrier, Buffer);
 	SDL_Texture* Carrying_Texture = Surface_To_Texture(Core.Renderer, Carrier);

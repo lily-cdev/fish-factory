@@ -74,7 +74,18 @@ const lde_colors Colors = {
 	.Hostile_Red = { 187, 10, 30 },
 	.Ocean = { 6, 66, 116 }
 };
-lde_fonts Fonts = { };
+lde_fonts Fonts = {
+	.Paths = {
+		"oxygen/regular",
+		"cantarell/regular",
+		"cantarell/regular",
+		"cantarell/regular",
+		"cantarell/regular",
+		"cantarell/regular",
+		"oxygen/regular"
+	},
+	.Sizes = { 32, 24, 18, 16, 12, 10, 12 }
+};
 lde_keybinds Keybinds = {
 	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
 		SDLK_LSHIFT, SDLK_ESCAPE },

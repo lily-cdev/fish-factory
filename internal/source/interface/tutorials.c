@@ -211,9 +211,9 @@ void Render_Tutorial() {
 			Settings.Scalar * 300.0f, Settings.Scalar * 30.0f })) {
 			char Buffer[128];
 			snprintf(Buffer, sizeof(Buffer), "This will %s.", Tutorial_Stack[Temporary.Tutorial_Step].Context);
-			Process_Supply(&Supplies.Tutorial, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
+			Process_Supply(&Supplies.Tutorial, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
 		} else {
-			Process_Supply(&Supplies.Subtutorial, Text, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
+			Process_Supply(&Supplies.Subtutorial, Text, F_Subtext, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
 		}
 	}
 }

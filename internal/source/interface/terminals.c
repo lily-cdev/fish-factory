@@ -43,7 +43,7 @@ void Print_Fatal_Error(int Input) {
 	char Code[4];
 	To_Code(Input, Code);
 	snprintf(Carrier, sizeof(Carrier), "fatal error 0x%s -> %s", Code, Errors[Input]);
-	SDL_Texture* Carrying_Texture = Render_Text(Fonts.Terminal_Font, Carrier, Colors.Cherry_Blossom);
+	SDL_Texture* Carrying_Texture = Render_Text(F_Terminal, Carrier, Colors.Cherry_Blossom);
 	SDL_FRect Destination = {
 		(Settings.Scalar * 230.0f) - (Carrying_Texture->w * 0.5f),
 		Core.Screenhalfsize.Y - (Carrying_Texture->h * 0.5f),
@@ -111,7 +111,7 @@ void Print_Input() {
 void Render_Necessities(char* Machine, char* Prefix) {
 	char Buffer[64];
 	snprintf(Buffer, sizeof(Buffer), "librenectere/%s.elf", Machine);
-	Process_Supply(&Supplies.Terminal_Title, Buffer, Fonts.Terminal_Font, Colors.Cherry_Blossom, (Point){ 50, 50 });
+	Process_Supply(&Supplies.Terminal_Title, Buffer, F_Terminal, Colors.Cherry_Blossom, (Point){ 50, 50 });
 	//Render_Texture(Textures.Terminal_Prompt, &Rects.Terminal_Prompt); TMP
 	if (strlen(Interface.Terminal_Entry) > 0) {
 		char Carrier[128];
@@ -128,12 +128,12 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		}
 		Result[Index] = '\0';
 		if (strlen(Result) > 0) {
-			Process_Supply(&Supplies.Terminal_Command, Result, Fonts.Terminal_Font, Colors.Cherry_Blossom, (Point){ 64, 300 });
+			Process_Supply(&Supplies.Terminal_Command, Result, F_Terminal, Colors.Cherry_Blossom, (Point){ 64, 300 });
 		}
 		free_c(Result);
 	}
 	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
-		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], Fonts.Terminal_Font, Colors.Cherry_Blossom,
+		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], F_Terminal, Colors.Cherry_Blossom,
 			(Point){ 50, 280 - (C1 * 20) });
 	}
 }

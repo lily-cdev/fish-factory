@@ -4,7 +4,7 @@ void Render_Keybinds() {
     for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
 		char Text[64];
 		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[C1]);
-		SDL_Texture* Prefix_Texture = Render_Text(Fonts.Subtext_Font, Text, Colors.Abyss_Black);
+		SDL_Texture* Prefix_Texture = Render_Text(F_Subtext, Text, Colors.Abyss_Black);
 		SDL_FRect Prefix_Rectangle = {
 			Settings.Scalar * 370.0f,
 			(float)((C1 * 16) + 40) * Settings.Scalar,
@@ -13,7 +13,7 @@ void Render_Keybinds() {
 		};
 		Render_Texture(Prefix_Texture, &Prefix_Rectangle);
 		if (Interface.Registering_Keybind == C1) {
-			SDL_Texture* Registering_Texture = Render_Text(Fonts.Subtext_Font, "...", Colors.Abyss_Black);
+			SDL_Texture* Registering_Texture = Render_Text(F_Subtext, "...", Colors.Abyss_Black);
 			SDL_FRect Registering_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
@@ -28,7 +28,7 @@ void Render_Keybinds() {
 			for (int C2 = 0; C2 < strlen(Subcore); C2++) {
 				Subcore[C2] = (char)(tolower(Subcore[C2]));
 			}
-			SDL_Texture* Deadbutton_Texture = Render_Text(Fonts.Subtext_Font, Subcore, Colors.Abyss_Black);
+			SDL_Texture* Deadbutton_Texture = Render_Text(F_Subtext, Subcore, Colors.Abyss_Black);
 			SDL_FRect Deadbutton_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
@@ -39,8 +39,8 @@ void Render_Keybinds() {
 				Interface.UI_Selection = C1 + 6;
 				char Alivebutton_Text[64];
 				snprintf(Alivebutton_Text, sizeof(Alivebutton_Text), "> %s <", Subcore);
-				SDL_Texture* Alivebutton_Texture = Render_Text(Fonts.Subtext_Font, Alivebutton_Text, Colors.Cherry_Blossom);
-				SDL_Texture* Temporary_Texture = Render_Text(Fonts.Subtext_Font, "> ", Colors.Cherry_Blossom);
+				SDL_Texture* Alivebutton_Texture = Render_Text(F_Subtext, Alivebutton_Text, Colors.Cherry_Blossom);
+				SDL_Texture* Temporary_Texture = Render_Text(F_Subtext, "> ", Colors.Cherry_Blossom);
 				int Offset = Temporary_Texture->w;
 				free_texture(Temporary_Texture);
 				SDL_FRect Alivebutton_Rectangle = {
@@ -57,8 +57,8 @@ void Render_Keybinds() {
 					Deadbutton_Rectangle.w,
 					Deadbutton_Rectangle.h * 0.1f
 				};
-				SDL_SetRenderDrawColor(Core.Renderer, Colors.Cherry_Blossom.r, Colors.Cherry_Blossom.g,
-					Colors.Cherry_Blossom.b, SDL_ALPHA_OPAQUE);
+				SDL_SetRenderDrawColor(Core.Renderer, Colors.Cherry_Blossom.r, Colors.Cherry_Blossom.g, Colors.Cherry_Blossom.b,
+					SDL_ALPHA_OPAQUE);
 				SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
 				Clear_Renderer();
 				free_texture(Alivebutton_Texture);
@@ -91,8 +91,7 @@ void Render_Settings() {
 	if (Temporary.Settings_Changed) {
 		Render_Button(&Textures.Save_Settings, &Rects.Save_Settings, (UI_Link){ Update_Settings }, Colors.Cherry_Blossom);
 	}
-	Process_Supply(&Supplies.Monitor_Size, Metadata.Monitor_Size, Fonts.Subtext_Font, Colors.Abyss_Black,
-		(Point){ 50, 40 });
+	Process_Supply(&Supplies.Monitor_Size, Metadata.Monitor_Size, F_Subtext, Colors.Abyss_Black, (Point){ 50, 40 });
 	Render_Keybinds();
 	Verify_Settings();
 }

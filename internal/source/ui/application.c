@@ -161,7 +161,7 @@ void Render_Application() {
 
 void Render_Hotbar() {
 	if (Interface.Tool != T_None) {
-		SDL_Texture* Fragment_Texture = Render_Text(Fonts.Subtext_Font, Metadata.Tool_Texts[Interface.Tool], Colors.Abyss_Black);
+		SDL_Texture* Fragment_Texture = Render_Text(F_Subtext, Metadata.Tool_Texts[Interface.Tool], Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = (SDL_FRect){
 			0,
 			Settings.Scalar * 10.0f,
@@ -228,7 +228,7 @@ void Render_Hotbar() {
 			Render_Texture(Textures.Tool.Data[C1], &Rects.Tool[C1]);
 			char Carrier[32];
 			snprintf(Carrier, sizeof(Carrier), "[%s]", SDL_GetKeyName(Keybinds.Keybind_List[C1 + 4]));
-			SDL_Texture* Carrying_Texture = Render_Text(Fonts.Microtext_Font, Carrier, Colors.Abyss_Black);
+			SDL_Texture* Carrying_Texture = Render_Text(F_Microtext, Carrier, Colors.Abyss_Black);
 			SDL_FRect Subcarrier = {
 				Pasting.x - (Padding * 0.5f) + Width - Carrying_Texture->w,
 				(Padding * 0.5f) + Pasting.y,

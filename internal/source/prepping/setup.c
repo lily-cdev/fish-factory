@@ -1,22 +1,6 @@
 #include <prepping.h>
 
 uint32_t Lookup_Table[32];
-SDL_Surface* None_Surfaces[10];
-
-int Step_Noise(void* C1) {
-	int Index = (int)(intptr_t)C1;
-	SDL_Surface* Noise_Surface = SDL_CreateSurface(Settings.Scalar * 1200, Settings.Scalar * 1200,
-		SDL_PIXELFORMAT_RGBA8888);
-	SDL_LockSurface(Noise_Surface);
-	uint32_t* Pixels = (uint32_t*)(Noise_Surface->pixels);
-	for (int C2 = 0; C2 < sqr(Settings.Scalar * 1200); C2++, Pixels++) {
-		Tick_State();
-		*Pixels = Lookup_Table[(Core.State & 31)];
-	}
-	SDL_UnlockSurface(Noise_Surface);
-	None_Surfaces[Index] = Noise_Surface;
-	return 0;
-}
 
 void Preclear_Temporaries() {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
@@ -32,7 +16,7 @@ void Render_Loadscreen() {
 	Set_Renderer_Color(Colors.Pure_White);
 	SDL_RenderClear(Core.Renderer);
 	Clear_Renderer();
-	SDL_Texture* Text_Texture = Render_Text(Fonts.Logo_Font, "loading assets", Colors.Abyss_Black);
+	SDL_Texture* Text_Texture = Render_Text(F_Logo, "loading assets", Colors.Abyss_Black);
 	char Carrier[128];
 	struct timespec Spec;
 	timespec_get(&Spec, TIME_UTC);
@@ -45,7 +29,7 @@ void Render_Loadscreen() {
 	};
 	Render_Texture(Text_Texture, &Pasting_Rectangle);
 	free_texture(Text_Texture);
-	SDL_Texture* Fact_Texture = Render_Text(Fonts.Subtext_Font, Carrier, Colors.Abyss_Black);
+	SDL_Texture* Fact_Texture = Render_Text(F_Subtext, Carrier, Colors.Abyss_Black);
 	SDL_FRect Fact_Rectangle = {
 		Core.Screenhalfsize.X - (Fact_Texture->w * 0.5f),
 		(Settings.Scalar * 10.0f) + Pasting_Rectangle.y + Pasting_Rectangle.h,
@@ -75,38 +59,47 @@ void Preload_Noise() {
 			);
 		}
 	}
-	thrd_t Threads[10];
+	char Buffer[64];
 	for (int C1 = 0; C1 < 10; C1++) {
-		thrd_create(&Threads[C1], Step_Noise, (void*)(intptr_t)C1);
-	}
-	for (int C1 = 0; C1 < 10; C1++) {
-		thrd_join(Threads[C1], NULL);
-	}
-	for (int C1 = 0; C1 < 10; C1++) {
-		Textures.None.Data[C1] = Surface_To_Texture(Core.Renderer, None_Surfaces[C1]);
+		snprintf(Buffer, sizeof(Buffer), "cache/noise%d.bmp", C1 + 1);
+		FILE* Cache_File = fopen(Buffer, "r");
+		SDL_Surface* Carrier;
+		if (Cache_File == NULL) {
+			Carrier = SDL_CreateSurface(370, 370, SDL_PIXELFORMAT_RGBA8888);
+			SDL_LockSurface(Carrier);
+			uint32_t* Pixels = (uint32_t*)(Carrier->pixels);
+			for (int C2 = 0; C2 < sqr(370); C2++, Pixels++) {
+				Tick_State();
+				*Pixels = Lookup_Table[(Core.State & 31)];
+			}
+			SDL_UnlockSurface(Carrier);
+			SDL_SaveBMP(Carrier, Buffer);
+		} else {
+			load_bmp(Carrier, Buffer);
+			fclose(Cache_File);
+		}
+		Textures.None.Data[C1] = Surface_To_Texture(Core.Renderer, Carrier);
 		SDL_SetTextureScaleMode(Textures.None.Data[C1], SDL_SCALEMODE_NEAREST);
 		SDL_SetTextureBlendMode(Textures.None.Data[C1], SDL_BLENDMODE_BLEND);
-		SDL_DestroySurface(None_Surfaces[C1]);
 	}
-	const SDL_Color Fire_Colors[4] = {
-		{ 255, 140, 0 },
-		{ 255, 163, 51 },
-		{ 255, 205, 6 },
-		{ 0, 0, 0 }
+	const uint32_t Fire_Colors[4] = {
+		SDL_MapRGBA(Pixel_Format, NULL, 255, 140, 0, SDL_ALPHA_OPAQUE),
+		SDL_MapRGBA(Pixel_Format, NULL, 255, 163, 51, SDL_ALPHA_OPAQUE),
+		SDL_MapRGBA(Pixel_Format, NULL, 255, 205, 6, SDL_ALPHA_OPAQUE),
+		SDL_MapRGBA(Pixel_Format, NULL, 0, 0, 0, SDL_ALPHA_OPAQUE)
 	};
 	Textures.Fire.Data = malloc(sizeof(SDL_Texture*) * 10);
 	Textures.Fire.Length = 10;
 	SDL_Surface* Fire_Surfaces[10];
 	uint32_t Random = (uint32_t)(SDL_GetTicks() & 255);
 	for (int C1 = 0; C1 < 10; C1++) {
-		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Scalar * LDE_TILESIZE,
-			Settings.Scalar * LDE_TILESIZE, SDL_PIXELFORMAT_RGBA8888);
+		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Scalar * LDE_TILESIZE, Settings.Scalar * LDE_TILESIZE,
+			SDL_PIXELFORMAT_RGBA8888);
 		SDL_LockSurface(Fire_Surfaces[C1]);
 		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
 		for (int C2 = 0; C2 < sqr(Settings.Scalar * LDE_TILESIZE); C2++) {
 			Tick_State();
-			Pixels[C2] = SDL_MapRGB(Pixel_Format, NULL, Fire_Colors[(Random & 3)].r, Fire_Colors[(Random & 3)].g,
-				Fire_Colors[(Random & 3)].b);
+			Pixels[C2] = Fire_Colors[(Random & 3)];
 		}
 		SDL_UnlockSurface(Fire_Surfaces[C1]);
 		Textures.Fire.Data[C1] = Surface_To_Texture(Core.Renderer, Fire_Surfaces[C1]);

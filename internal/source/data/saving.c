@@ -3,7 +3,7 @@
 void Get_Filesizes() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		char Path[64];
-		snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", C1 + 1);
+		snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", C1 + 1);
 		FILE* File = fopen(Path, "rb");
 		if (File == NULL) {
 			Core.Save_Filesizes[C1] = 0;
@@ -33,7 +33,7 @@ void Read_2D_Array(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], FILE* File) {
 
 bool Save_Data(int Slot) {
 	char Path[64];
-	snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", Slot);
+	snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", Slot);
 	FILE* File = fopen(Path, "wb");
 	if (File == NULL) {
 		return false;
@@ -77,7 +77,7 @@ bool Save_Data(int Slot) {
 bool Load_Data(int Slot) {
 	Reset_Statistics();
 	char Path[64];
-	snprintf(Path, sizeof(Path), "Assets/Data/slot%i.pkg", Slot);
+	snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", Slot);
 	FILE* File = fopen(Path, "rb");
 	if (File == NULL) {
 		return false;

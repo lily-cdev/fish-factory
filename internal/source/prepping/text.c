@@ -33,7 +33,7 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 		Rectangles->Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rectangles->Data[C1].Data[0].x = LDE_INVALID;
 		Rectangles->Data[C1].Data[0].y = (float)((C1 * 30) + 50) * Settings.Scalar;
-		Load_Button(Fonts.Terminal_Font, Carrier.Data[C1], &Yield->Data[C1], Rectangles->Data[C1],
+		Load_Button(F_Text, Carrier.Data[C1], &Yield->Data[C1], Rectangles->Data[C1],
 			Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int C2 = 0; C2 < 2; C2++) {
 			Rectangles->Data[C1].Data[C2].x += Settings.Scalar * 210;
@@ -42,7 +42,7 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 	Free_String2(&Carrier);
 }
 
-void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
+void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
 	SDL_Color Color2) {
 	Yield->Length = 2;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);

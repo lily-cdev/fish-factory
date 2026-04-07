@@ -37,11 +37,11 @@ rule RC_COMPILER__Fish_Factory_unscanned_Debug
 
 
 #############################################
-# Rule for linking C executable.
+# Rule for linking CXX executable.
 
-rule C_EXECUTABLE_LINKER__Fish_Factory_Debug
+rule CXX_EXECUTABLE_LINKER__Fish_Factory_Debug
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --msvc-ver=1940 --intdir=$OBJECT_DIR --rc=C:\PROGRA~1\LLVM\bin\llvm-rc.exe --mt=C:\PROGRA~1\LLVM\bin\llvm-mt.exe --manifests $MANIFESTS -- C:\PROGRA~1\LLVM\bin\lld-link.exe /nologo $in  /out:$TARGET_FILE /implib:$TARGET_IMPLIB /pdb:$TARGET_PDB /version:0.0 $LINK_FLAGS $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
-  description = Linking C executable $TARGET_FILE
+  description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
 
@@ -54,11 +54,152 @@ rule CUSTOM_COMMAND
 
 
 #############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__SDL3-shared_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__SDL3-shared_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo -TP $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for compiling RC files.
+
+rule RC_COMPILER__SDL3-shared_unscanned_Debug
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\clang-cl.exe $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE  -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE /fo $out $out.pp
+  description = Building RC object $out
+
+
+#############################################
+# Rule for linking CXX shared library.
+
+rule CXX_SHARED_LIBRARY_LINKER__SDL3-shared_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && "C:\Program Files\CMake\bin\cmake.exe" -E vs_link_dll --msvc-ver=1940 --intdir=$OBJECT_DIR --rc=C:\PROGRA~1\LLVM\bin\llvm-rc.exe --mt=C:\PROGRA~1\LLVM\bin\llvm-mt.exe --manifests $MANIFESTS -- C:\PROGRA~1\LLVM\bin\lld-link.exe /nologo @$RSP_FILE  /out:$TARGET_FILE /implib:$TARGET_IMPLIB /pdb:$TARGET_PDB /dll /version:0.0 $LINK_FLAGS && $POST_BUILD"
+  description = Linking CXX shared library $TARGET_FILE
+  rspfile = $RSP_FILE
+  rspfile_content = $in_newline $LINK_PATH $LINK_LIBRARIES
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__SDL3-static_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__SDL3-static_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo -TP $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX static library.
+
+rule CXX_STATIC_LIBRARY_LINKER__SDL3-static_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\LLVM\bin\llvm-lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE @$RSP_FILE && $POST_BUILD"
+  description = Linking CXX static library $TARGET_FILE
+  rspfile = $RSP_FILE
+  rspfile_content = $in_newline $LINK_PATH $LINK_LIBRARIES
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__SDL3_test_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__SDL3_test_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\LLVM\bin\llvm-lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__SDL_uclibc_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__SDL_uclibc_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\LLVM\bin\llvm-lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__freetype_unscanned_Debug
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\LLVM\bin\clang-cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling RC files.
+
+rule RC_COMPILER__freetype_unscanned_Debug
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}"C:\Program Files\CMake\bin\cmake.exe" -E cmake_llvm_rc $in $out.pp C:\PROGRA~1\LLVM\bin\clang-cl.exe $DEFINES -DRC_INVOKED $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE  -E -- $in ++ C:\PROGRA~1\LLVM\bin\llvm-rc.exe $DEFINES -I SOURCE_DIR $INCLUDES $FLAGS -clang:-MD -clang:-MF -clang:$DEP_FILE /fo $out $out.pp
+  description = Building RC object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__freetype_Debug
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\LLVM\bin\llvm-lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
   command = "C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\kayla\Documents\Programming\Programs\C++\F2\fish-factory -BC:\Users\kayla\Documents\Programming\Programs\C++\F2\fish-factory\build
   description = Re-running CMake...
+  generator = 1
+
+
+#############################################
+# Rule for re-checking globbed directories.
+
+rule VERIFY_GLOBS
+  command = "C:\Program Files\CMake\bin\cmake.exe" -P C:\Users\kayla\Documents\Programming\Programs\C++\F2\fish-factory\build\CMakeFiles\VerifyGlobs.cmake
+  description = Re-checking globbed directories...
   generator = 1
 
 

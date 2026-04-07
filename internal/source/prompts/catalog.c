@@ -74,7 +74,7 @@ void Render_Catalog(Point Pos) {
 				if (Recipes[C1][Index][C2].Voiding_Excess) {
 					strcat_c(Candidate, ", cannot overflow", sizeof(Candidate));
 				}
-				Process_Supply(&Supplies.Catalog1[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 16, Offset });
+				Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 16, Offset });
 				Offset += 20;
 				strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Inputs; C3++) {
@@ -86,8 +86,7 @@ void Render_Catalog(Point Pos) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}
-				Process_Supply(&Supplies.Catalog2[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black,
-					(Point){ 26, Offset });
+				Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 				Offset += 20;
 				strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Outputs; C3++) {
@@ -99,7 +98,7 @@ void Render_Catalog(Point Pos) {
 						strcat_c(Candidate, ", ", sizeof(Candidate));
 					}
 				}
-				Process_Supply(&Supplies.Catalog3[C1], Candidate, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 26, Offset });
+				Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 				Offset += 20;
 				//io recipes
 			}

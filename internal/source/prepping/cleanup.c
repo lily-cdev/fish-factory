@@ -57,13 +57,12 @@ void Clear_File(const char* Path) {
 
 void Cleanup_Assets() {
 	free_texture(Core.Game_Texture);
-	TTF_CloseFont(Fonts.Logo_Font);
-	TTF_CloseFont(Fonts.Large_Font);
-	TTF_CloseFont(Fonts.Text_Font);
-	TTF_CloseFont(Fonts.Halftext_Font);
-	TTF_CloseFont(Fonts.Subtext_Font);
-	TTF_CloseFont(Fonts.Microtext_Font);
-	TTF_CloseFont(Fonts.Terminal_Font);
+	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
+		FT_Done_Face(Fonts.Faces[C1]);
+		for (int C2 = 0; C2 < 256; C2++) {
+			free_texture(Fonts.Glyphs[C1][C2].Data);
+		}
+	}
 	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
 		switch (Metadata.Machines[C1].Depth) {
 		case 1:

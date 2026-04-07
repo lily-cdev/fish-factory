@@ -4,6 +4,7 @@
 typedef struct {
 	SDL_Window* Window;
 	SDL_Renderer* Renderer;
+	FT_Library FreeType;
 	SDL_Texture* Game_Texture;
 	bool Is_Running;
 	bool Debug_Mode;
@@ -231,13 +232,10 @@ typedef struct {
 } lde_colors;
 
 typedef struct {
-	TTF_Font* Logo_Font;
-	TTF_Font* Large_Font;
-	TTF_Font* Text_Font;
-	TTF_Font* Halftext_Font;
-	TTF_Font* Subtext_Font;
-	TTF_Font* Microtext_Font;
-	TTF_Font* Terminal_Font;
+	FT_Face Faces[LDE_FONTS];
+	const char* Paths[LDE_FONTS];
+	const int Sizes[LDE_FONTS];
+	Glyph Glyphs[LDE_FONTS][256];
 } lde_fonts;
 
 typedef struct {
@@ -419,7 +417,7 @@ void Push_Docks(Point Input);
 void Pull_Docks(int Position);
 void Recache_TT_Commands();
 void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
-void Load_Button(TTF_Font* Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
+void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
 	SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos);
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size);
@@ -433,7 +431,7 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 SDL_Texture* Preload_Texture(const char* Path);
 void Abbreviate_Number(float Number, char* Buffer, int Size);
 void Truncate(float Number, int Depth, char* Buffer, int Size);
-int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled);
+int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled);
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preclear_Temporaries();
@@ -441,4 +439,5 @@ void Render_Loadscreen();
 void Tick_State();
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);
-SDL_Texture* Render_Text(TTF_Font* Font, const char* Text, SDL_Color Color);
+SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color);
+int Get_Height(Font_Index Font);

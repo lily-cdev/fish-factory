@@ -122,7 +122,7 @@ void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect) {
 	SDL_RenderTexture(Core.Renderer, Texture, NULL, Rect);
 }
 
-int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled) {
+int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled) {
 	int Offset = 0;
 	int Fragment_Count = 1;
 	size_t Start = 0;
@@ -195,18 +195,20 @@ int Render_Rich_Text(TTF_Font* Selected_Font, char* Raw_Text, Point Pos, bool In
 			char* Subfragment = Fragments[Multiplier * (Subtractor - C1)];
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
-		SDL_Texture* Fragment_Texture = Render_Text(Selected_Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
-		SDL_FRect Fragment_Rectangle = {
-			(float)(Pos.X * Settings.Scalar),
-			(float)(Pos.Y * Settings.Scalar) + Offset,
-			(float)Fragment_Texture->w,
-			(float)Fragment_Texture->h
-		};
-		if (!Disabled) {
-			Render_Texture(Fragment_Texture, &Fragment_Rectangle);
+		SDL_Texture* Fragment_Texture = Render_Text(Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
+		if (Fragment_Texture != NULL) {
+			SDL_FRect Fragment_Rectangle = {
+				(float)(Pos.X * Settings.Scalar),
+				(float)(Pos.Y * Settings.Scalar) + Offset,
+				(float)Fragment_Texture->w,
+				(float)Fragment_Texture->h
+			};
+			if (!Disabled) {
+				Render_Texture(Fragment_Texture, &Fragment_Rectangle);
+			}
+			Offset += Fragment_Rectangle.h;
 		}
 		free_texture(Fragment_Texture);
-		Offset += Fragment_Rectangle.h;
 	}
 	for (int C1 = 0; C1 < Fragment_Count; C1++) {
 		free_c(Fragments[C1]);
@@ -240,14 +242,99 @@ bool Is_Bound(Point Input) {
 	return (Input.X >= 0 && Input.Y >= 0 && Input.X < LDE_GRIDSIZE && Input.Y < LDE_GRIDSIZE);
 }
 
-SDL_Texture* Render_Text(TTF_Font* Font, const char* Text, SDL_Color Color) {
-	SDL_Surface* Carrier;
-	if (Settings.Anti_Aliasing) {
-		Carrier = TTF_RenderText_Blended(Font, Text, 0, Color);
-	} else {
-		Carrier = TTF_RenderText_Solid(Font, Text, 0, Color);
+bool Check_Glyph(char Character, Font_Index Font) {
+	if (Fonts.Glyphs[Font][(int)Character].Allocated) {
+		return true;
 	}
+	return false;
+}
+
+void Apply_Glyph(char Character, Font_Index Font) {
+	FT_Face Selection = Fonts.Faces[Font];
+	if (FT_Load_Char(Selection, (FT_ULong)Character, FT_LOAD_RENDER) != 0) {
+		return;
+	}
+	FT_GlyphSlot Slot = Selection->glyph;
+	Glyph Subglyph = { };
+	Subglyph.Allocated = true;
+	Subglyph.Key = Character;
+	Subglyph.Bounds = (Point){ Slot->bitmap.width, Slot->bitmap.rows };
+	Subglyph.Bearing = (Point){ Slot->bitmap_left, Slot->bitmap_top };
+	Subglyph.Advance = Slot->advance >> 6;
+	SDL_Surface* Carrier = SDL_CreateSurface(Subglyph.Bounds.X, Subglyph.Bounds.Y, SDL_PIXELFORMAT_RGBA8888);
+	SDL_LockSurface(Carrier);
+	const uint32_t Black = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, SDL_ALPHA_OPAQUE);
+	uint32_t* Pixels = (uint32_t*)Carrier->pixels;
+	for (int Y = 0; Y < Subglyph.Bounds.Y; Y++) {
+		for (int X = 0; X < Subglyph.Bounds.X; X++) {
+
+		}
+	}
+	SDL_UnlockSurface(Carrier);
+	Subglyph.Data = Surface_To_Texture(Core.Renderer, Carrier);
+	Fonts.Glyphs[Font][(int)Character] = Subglyph;
+	SDL_DestroySurface(Carrier);
+}
+
+SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
+	Point Bounds = { };
+	int Length = strlen(Text);
+	FT_Face Selection = Fonts.Faces[Font];
+	for (int C1 = 0; C1 < Length; C1++) {
+		if (FT_Load_Char(Selection, (FT_ULong)Text[C1], FT_LOAD_RENDER) != 0) {
+			continue;
+		}
+		Bounds.X += Selection->glyph->advance.x >> 6;
+	}
+	int Cursor = 0;
+	int Ascender = Selection->size->metrics.ascender >> 6;
+	int Descender = Selection->size->metrics.descender >> 6;
+	Bounds.Y = Ascender - Descender;
+	if (Bounds.X == 0 || Bounds.Y == 0) {
+		return NULL;
+	}
+	SDL_Surface* Carrier = SDL_CreateSurface(Bounds.X, Bounds.Y, SDL_PIXELFORMAT_RGBA8888);
+	const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
+	SDL_LockSurface(Carrier);
+	uint32_t* Pixels = (uint32_t*)Carrier->pixels;
+	const uint32_t Black = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, SDL_ALPHA_OPAQUE);
+	for (int C1 = 0; C1 < Length; C1++) {
+		if (FT_Load_Char(Selection, (FT_ULong)Text[C1], FT_LOAD_RENDER) != 0) {
+			continue;
+		}
+		FT_GlyphSlot Slot = Selection->glyph;
+		for (int Y = 0; Y < Slot->bitmap.rows; Y++) {
+			for (int X = 0; X < Slot->bitmap.width; X++) {
+				Point Pos = {
+					Cursor + Slot->bitmap_left + X,
+					Ascender - Slot->bitmap_top + Y
+				};
+				if (Pos.X < 0 || Pos.X >= Bounds.X || Pos.Y < 0 || Pos.Y >= Bounds.Y) {
+					continue;
+				}
+				uint8_t Alpha = Slot->bitmap.buffer[(Slot->bitmap.pitch * Y) + X];
+				uint32_t* Target = &Pixels[((Carrier->pitch / sizeof(uint32_t)) * Pos.Y) + Pos.X];
+				if (Settings.Anti_Aliasing) {
+					if (Alpha == 255) {
+						*Target = Black;
+					} else if (Alpha > 0) {
+						*Target = SDL_MapRGBA(Details, NULL, Color.r, Color.g, Color.b, Alpha);
+					}
+				} else {
+					if (Alpha > 127) {
+						*Target = Black;
+					}
+				}
+			}
+		}
+		Cursor += Slot->advance.x >> 6;
+	}
+	SDL_UnlockSurface(Carrier);
 	SDL_Texture* Yield = Surface_To_Texture(Core.Renderer, Carrier);
 	SDL_DestroySurface(Carrier);
 	return Yield;
+}
+
+int Get_Height(Font_Index Font) {
+	return Fonts.Faces[Font]->size->metrics.height >> 6;
 }

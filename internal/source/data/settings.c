@@ -2,7 +2,7 @@
 #define VERSION 0
 
 bool Save_Settings() {
-	char Path[] = "Assets/Data/settings.pkg";
+	char Path[] = "assets/data/settings.pkg";
 	FILE* File = fopen(Path, "wb");
 	if (File == NULL) {
 		return false;
@@ -22,7 +22,7 @@ bool Save_Settings() {
 }
 
 void Load_Settings() {
-	char Path[] = "Assets/Data/settings.pkg";
+	char Path[] = "assets/data/settings.pkg";
 	FILE* File = fopen(Path, "rb");
 	if (File != NULL) {
 		fseek(File, 0L, SEEK_END);

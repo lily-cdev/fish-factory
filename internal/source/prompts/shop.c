@@ -63,7 +63,7 @@ void Render_Shop(Point Pos) {
 		if (intlen(Quirk_Stack) > 0) {
 			Offset += 32;
 		}
-		SDL_Texture* Name_Texture = Render_Text(Fonts.Halftext_Font, Metadata.Names[Interface.Item - 1], Colors.Abyss_Black);
+		SDL_Texture* Name_Texture = Render_Text(F_Halftext, Metadata.Names[Interface.Item - 1], Colors.Abyss_Black);
 		SDL_FRect Name_Rectangle = {
 			(float)(Settings.Scalar * 103) - (Name_Texture->w * 0.5),
 			(float)(Offset + 10) * Settings.Scalar,
@@ -72,17 +72,14 @@ void Render_Shop(Point Pos) {
 		};
 		Render_Texture(Name_Texture, &Name_Rectangle);
 		free_texture(Name_Texture);
-		SDL_Surface* Carrying_Surface = TTF_RenderText_Blended_Wrapped(Fonts.Subtext_Font, Metadata.Descriptions[
-			Interface.Item - 1], 0, Colors.Abyss_Black, Settings.Scalar * 180);
+		SDL_Texture* Description_Texture = Render_Text(F_Subtext, Metadata.Descriptions[Interface.Item - 1], Colors.Abyss_Black);
 		SDL_FRect Description_Rectangle = {
 			Settings.Scalar * 16.0f,
 			(Offset + 40.0f) * Settings.Scalar,
-			(float)Carrying_Surface->w,
-			(float)Carrying_Surface->h
+			(float)Description_Texture->w,
+			(float)Description_Texture->h
 		};
-		SDL_Texture* Description_Texture = Surface_To_Texture(Core.Renderer, Carrying_Surface);
 		Render_Texture(Description_Texture, &Description_Rectangle);
-		SDL_DestroySurface(Carrying_Surface);
 		free_texture(Description_Texture);
 		for (int C1 = 0; C1 < intlen(Quirk_Stack); C1++) {
 			Set_Renderer_Color(Colors.Light_Grey);
@@ -95,16 +92,16 @@ void Render_Shop(Point Pos) {
 		Render_Texture(Textures.Price_Header, &Rects.Price_Header);
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "base: %iLA", Metadata.Machines[Interface.Item - 1].Price);
-		Process_Supply(&Supplies.Shop1, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 456, 30 });
+		Process_Supply(&Supplies.Shop1, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 30 });
 		snprintf(Buffer, sizeof(Buffer), "tax: %iLA", (int)(Metadata.Machines[Interface.Item - 1].Price * 0.1f));
-		Process_Supply(&Supplies.Shop2, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 456, 50 });
+		Process_Supply(&Supplies.Shop2, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 50 });
 		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machines[Interface.Item - 1].Tax);
-		Process_Supply(&Supplies.Shop3, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 456, 70 });
+		Process_Supply(&Supplies.Shop3, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 70 });
 		snprintf(Buffer, sizeof(Buffer), "processing fee: %iLA", 1);//tmp
-		Process_Supply(&Supplies.Shop4, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 456, 90 });
+		Process_Supply(&Supplies.Shop4, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 90 });
 		Cache_Price();
 		snprintf(Buffer, sizeof(Buffer), "total: %iLA", Interface.Queried_Price);
-		Process_Supply(&Supplies.Shop5, Buffer, Fonts.Subtext_Font, Colors.Abyss_Black, (Point){ 456, 110 });
+		Process_Supply(&Supplies.Shop5, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 110 });
 	} else {
 		for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
 			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category,

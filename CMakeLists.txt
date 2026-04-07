@@ -1,12 +1,22 @@
 cmake_minimum_required(VERSION 3.16)
-project(Fish_Factory LANGUAGES C)
+project(Fish_Factory LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(NOT CMAKE_C_COMPILER)
-    message(FATAL_ERROR "compiler failed to initialise :(")
+    message(FATAL_ERROR "compiler (C) failed to initialise :(")
 endif()
+
+if(NOT CMAKE_CXX_COMPILER)
+    message(FATAL_ERROR "compiler (CXX) failed to initialise :(")
+endif()
+
+set(SDL_STATIC ON)
+add_subdirectory(external/SDL3)
+add_subdirectory(external/freetype)
 
 add_executable(Fish_Factory
     internal/core/fish_factory.c
@@ -77,8 +87,8 @@ add_executable(Fish_Factory
 	internal/source/items/setup.c
 	internal/precompiled/images.c
 	internal/precompiled/tools.c
-	external/include/miniaudio/miniaudio.c
-	modules/neutral/resource.rc
+	external/miniaudio/miniaudio.c
+	modules/resource.rc
 )
 
 target_include_directories(Fish_Factory PRIVATE
@@ -88,25 +98,8 @@ target_include_directories(Fish_Factory PRIVATE
 )
 
 target_include_directories(Fish_Factory PUBLIC
-    external/include
+    external
+	external/SDL3/include
 )
 
-if (UNIX)
-	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-	else()
-	endif()
-else()
-	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-		target_link_libraries(Fish_Factory PRIVATE
-			"${CMAKE_SOURCE_DIR}/external/lib/win64/SDL3.lib"
-			"${CMAKE_SOURCE_DIR}/external/lib/win64/SDL3_ttf.lib"
-		)
-	else()
-		target_link_libraries(Fish_Factory PRIVATE
-			"${CMAKE_SOURCE_DIR}/external/lib/win32/SDL3.lib"
-			"${CMAKE_SOURCE_DIR}/external/lib/win32/SDL3_ttf.lib"
-		)
-	endif()
-endif()
-
-target_link_libraries(Fish_Factory PRIVATE)
+target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static freetype)
