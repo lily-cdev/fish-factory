@@ -6,6 +6,7 @@ SDL_Texture* New_Texture(SDL_Renderer* Renderer, int Width, int Height) {
 		jump(I_No_Texture, "could not create texture");
 	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
+	SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Renderer, Texture);
 	SDL_SetRenderDrawColor(0, 0, 0, SDL_ALPHA_TRANSPARENT);
 	SDL_RenderClear(Texture);

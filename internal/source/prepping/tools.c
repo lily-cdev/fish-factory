@@ -308,6 +308,13 @@ SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
 	for (int C1 = 0; C1 < Length; C1++) {
 		Glyph Carrier = Fonts.Glyphs[Font][(int)Text[C1]];
 		//render to yield
+		SDL_Rect Destination = {
+			Cursor + Carrier.Bearing.X,
+			Ascender - Carrier.Bearing.Y,
+			Carrier.Bounds.X,
+			Carrier.Bounds.Y
+		};
+		Cursor += Carrier.Advance;
 	}
 	return Yield;
 }
