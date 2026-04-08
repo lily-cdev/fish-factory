@@ -1,8 +1,0 @@
-logistics
-extraction
-cultivation
-processing
-generation
-decoration
-other
-special
