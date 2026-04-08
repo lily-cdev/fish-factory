@@ -1,0 +1,50 @@
+back
+play
+settings
+changelog
+credits
+quit
+apply
+cancel
+proceed
+money generator
+fluid generator
+cancel tutorial
+the command platform
+simple generator
+[NF] simple fish farm
+save settings
+go to bottom
+go to top
+sort: newest
+sort: oldest
+v-sync: off
+v-sync: on
+scaling quality: high
+scaling quality: low
+new factory
+load factory
+clear factory
+tank info
+fish info
+fill pool
+empty pool
+export items
+view manifest
+drain tank 1
+drain tank 2
+view status
+exit
+clear screen
+sell exports
+return
+transmit
+EXIT
+REQUEST_EXPORT
+resolution
+framerate cap
+volume
+fullscreen
+toggles
+keybinds
+power generator
