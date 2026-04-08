@@ -142,7 +142,7 @@ enum Issues {
 	I_No_Texture,
 	I_No_Image,
 	I_No_SDL3,
-	I_No_FreeType,
+	I_No_SDL3_TTF,
 	I_No_Miniaudio,
 	I_No_Window,
 	I_No_Renderer,

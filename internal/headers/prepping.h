@@ -4,7 +4,6 @@
 typedef struct {
 	SDL_Window* Window;
 	SDL_Renderer* Renderer;
-	FT_Library FreeType;
 	SDL_Texture* Game_Texture;
 	bool Is_Running;
 	bool Debug_Mode;
@@ -232,10 +231,9 @@ typedef struct {
 } lde_colors;
 
 typedef struct {
-	FT_Face Faces[LDE_FONTS];
+	TTF_Font* Faces[LDE_FONTS];
 	const char* Paths[LDE_FONTS];
 	const int Sizes[LDE_FONTS];
-	Glyph Glyphs[LDE_FONTS][256];
 } lde_fonts;
 
 typedef struct {
@@ -440,4 +438,6 @@ void Tick_State();
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);
 SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color);
-int Get_Height(Font_Index Font);
+SDL_Texture* New_Texture(int Width, int Height);
+SDL_Texture* Surface_To_Texture(SDL_Surface* Surface);
+SDL_Texture* IMG_To_Texture(const char* Path);

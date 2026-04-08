@@ -14,9 +14,13 @@ if(NOT CMAKE_CXX_COMPILER)
     message(FATAL_ERROR "compiler (CXX) failed to initialise :(")
 endif()
 
+set(SDL_SHARED OFF)
 set(SDL_STATIC ON)
 add_subdirectory(external/SDL3)
-add_subdirectory(external/freetype)
+set(BUILD_SHARED_LIBS OFF)
+set(SDLTTF_VENDORED ON)
+set(SDLTTF_PLUTOSVG OFF)
+add_subdirectory(external/SDL3_ttf)
 
 add_executable(Fish_Factory
     internal/core/fish_factory.c
@@ -100,6 +104,7 @@ target_include_directories(Fish_Factory PRIVATE
 target_include_directories(Fish_Factory PUBLIC
     external
 	external/SDL3/include
+	external/SDL3_ttf/include
 )
 
-target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static freetype)
+target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static)

@@ -34,12 +34,10 @@ void Preload_Fonts() {
 	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "assets/core/fonts/%s.ttf", Fonts.Paths[C1]);
-		FT_Error Issue = FT_New_Face(Core.FreeType, Carrier, 0, &Fonts.Faces[C1]);
-		FT_Set_Pixel_Sizes(Fonts.Faces[C1], 0, Fonts.Sizes[C1] * Settings.Scalar);
-		if (Issue != 0) {
-			const char* Sub2carrier = FT_Error_String(Issue);
+		Fonts.Faces[C1] = TTF_OpenFont(Carrier, Fonts.Sizes[C1] * Settings.Scalar);
+		if (Fonts.Faces[C1] == NULL) {
 			char Subcarrier[128];
-			snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"; \"%s\"", Carrier, Sub2carrier);
+			snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"; \"%s\"", Carrier, SDL_GetError());
 			jump(I_No_Font, Subcarrier);
 		}
 	}
@@ -182,11 +180,11 @@ void Preload_Foundation() {
 		}
 	}
 	SDL_UnlockSurface(Mesh_Surface);
-	Textures.Mesh = Surface_To_Texture(Core.Renderer, Mesh_Surface);
+	Textures.Mesh = Surface_To_Texture(Mesh_Surface);
 	SDL_SetTextureScaleMode(Textures.Mesh, SDL_SCALEMODE_NEAREST);
 	SDL_DestroySurface(Mesh_Surface);
 	for (int C1 = 0; C1 < 4; C1++) {
-		Textures.Pyramid.Data[C1] = New_Texture(Core.Renderer, Full_Width * 0.25, Full_Width * 0.25);
+		Textures.Pyramid.Data[C1] = New_Texture(Full_Width * 0.25, Full_Width * 0.25);
 		SDL_SetTextureBlendMode(Textures.Pyramid.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_SetTextureScaleMode(Textures.Pyramid.Data[C1], SDL_SCALEMODE_NEAREST);
 	}
@@ -234,7 +232,7 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, Font
 
 void Preload_Assets() {
 	SDL_Texture* Carrying_Texture;
-	Core.Game_Texture = New_Texture(Core.Renderer, (int)Core.Screensize.X, (int)Core.Screensize.Y);
+	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Interface.Tile_Centerpoint.x = Settings.Scalar * (LDE_TILESIZE * 0.5f);
 	Interface.Tile_Centerpoint.y = Settings.Scalar * (LDE_TILESIZE * 0.5f);
 	Preload_Machines();
@@ -243,7 +241,7 @@ void Preload_Assets() {
 	Textures.Door.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Door.Length = 2;
 	for (int C1 = 0; C1 < 2; C1++) {
-		Textures.Door.Data[C1] = New_Texture(Core.Renderer, (int)Core.Screenhalfsize.X, (int)Core.Screensize.Y);
+		Textures.Door.Data[C1] = New_Texture((int)Core.Screenhalfsize.X, (int)Core.Screensize.Y);
 		SDL_SetTextureBlendMode(Textures.Door.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_SetRenderTarget(Core.Renderer, Textures.Door.Data[C1]);
 		SDL_FRect Half_Rectangle = { C1 * 1920.0f, 0.0f, 1920.0f, 2160.0f };
@@ -270,7 +268,7 @@ void Preload_Assets() {
 	Load_Rotational("other/tunnel", &Textures.Tunnel);
 	SDL_Surface* Carrying_Surface;
 	load_bmp(Carrying_Surface, "assets/core/images/ui/other/logo.bmp");
-	Textures.Emblem = Surface_To_Texture(Core.Renderer, Carrying_Surface);
+	Textures.Emblem = Surface_To_Texture(Carrying_Surface);
 	SDL_SetWindowIcon(Core.Window, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Emblem, &Rects.Emblem.w, &Rects.Emblem.h);
@@ -370,8 +368,8 @@ void Preload_Assets() {
 			Rects.Subcontents.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Scalar;
-			Load_Button(F_Halftext, Metadata.Names[Metadata.Subcontents[C1][C2]], &Textures.Subcontents.Data[C1].Data[
-				C2], Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
+			Load_Button(F_Halftext, Metadata.Names[Metadata.Subcontents[C1][C2]], &Textures.Subcontents.Data[C1].Data[C2],
+				Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
 	Rects.Item_Labels.Length = LDE_CATEGORIES;
@@ -488,7 +486,7 @@ void Preload_Assets() {
 		Textures.Quirk_Label.Data[C1] = Render_Text(F_Subtext, Quirk_Texts[C1], Colors.Abyss_Black);
 	}
 	load_bmp(Carrying_Surface, "assets/core/images/ui/backgrounds/scrollframe.bmp");
-	Textures.Log_Background = Surface_To_Texture(Core.Renderer, Carrying_Surface);
+	Textures.Log_Background = Surface_To_Texture(Carrying_Surface);
 	Rects.Log_Background.x = 0.0f;
 	Rects.Log_Background.y = 0.0f;
 	Rects.Log_Background.w = (Carrying_Surface->w / 6.0f) * Settings.Scalar;
@@ -509,7 +507,7 @@ void Preload_Assets() {
 		Cache.Log_Cache.Data[C1].Data = malloc(sizeof(SDL_Texture*) * Cap);
 		Cache.Log_Cache.Data[C1].Length = Cap;
 		for (int C2 = 0; C2 < Cap; C2++) {
-			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Renderer, Core.Screensize.X, Settings.Scalar * 1000);
+			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Screensize.X, Settings.Scalar * 1000);
 			SDL_FRect New_Rectangle = {
 				0,
 				C2 * Settings.Scalar * 1000.0f,
@@ -527,7 +525,7 @@ void Preload_Assets() {
 	Cache.Wire_Cache.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Cache.Wire_Cache.Length = 4;
 	for (int C1 = 0; C1 < 4; C1++) {
-		Cache.Wire_Cache.Data[C1] = New_Texture(Core.Renderer, Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5),
+		Cache.Wire_Cache.Data[C1] = New_Texture(Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5),
 			Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5));
 		SDL_SetTextureBlendMode(Cache.Wire_Cache.Data[C1], SDL_BLENDMODE_BLEND);
 	}
@@ -724,10 +722,10 @@ void Preload_Assets() {
 	}
 	Textures.V_Sync.Data = malloc(sizeof(Texture_Array) * 2);
 	Textures.V_Sync.Length = 2;
-	Load_Button(F_Subtext, Metadata.Buttons[20], &Textures.V_Sync.Data[0], Rects.V_Sync.Data[0],
-		Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Subtext, Metadata.Buttons[21], &Textures.V_Sync.Data[1], Rects.V_Sync.Data[1],
-		Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Subtext, Metadata.Buttons[20], &Textures.V_Sync.Data[0], Rects.V_Sync.Data[0], Colors.Abyss_Black,
+		Colors.Cherry_Blossom);
+	Load_Button(F_Subtext, Metadata.Buttons[21], &Textures.V_Sync.Data[1], Rects.V_Sync.Data[1], Colors.Abyss_Black,
+		Colors.Cherry_Blossom);
 	Textures.Sort.Data =  malloc(sizeof(Texture_Array) * 2);
 	Textures.Sort.Length = 2;
 	Rects.Sort.Length = 2;
@@ -768,7 +766,7 @@ void Preload_Assets() {
 			Carrying_Surface->format);
 		SDL_Rect Dividing_Rectangle = { (Carrying_Surface->w * 0.5f) * C1, 0, Carrying_Surface->w * 0.5f, Carrying_Surface->h };
 		SDL_BlitSurface(Carrying_Surface, &Dividing_Rectangle, Dividing_Surface, NULL);
-		Textures.Submarine.Data[C1] = Surface_To_Texture(Core.Renderer, Dividing_Surface);
+		Textures.Submarine.Data[C1] = Surface_To_Texture(Dividing_Surface);
 		SDL_DestroySurface(Dividing_Surface);
 	}
 	SDL_DestroySurface(Carrying_Surface);

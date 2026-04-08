@@ -14,30 +14,21 @@
 # EXTERNAL cache entries
 ########################
 
-//Path to a file.
-BROTLIDEC_INCLUDE_DIRS:PATH=BROTLIDEC_INCLUDE_DIRS-NOTFOUND
-
-//Path to a library.
-BROTLIDEC_LIBRARIES:FILEPATH=BROTLIDEC_LIBRARIES-NOTFOUND
-
-//Path to a file.
-BZIP2_INCLUDE_DIR:PATH=BZIP2_INCLUDE_DIR-NOTFOUND
-
-//Path to a library.
-BZIP2_LIBRARY_DEBUG:FILEPATH=BZIP2_LIBRARY_DEBUG-NOTFOUND
-
-//Path to a library.
-BZIP2_LIBRARY_RELEASE:FILEPATH=BZIP2_LIBRARY_RELEASE-NOTFOUND
+//Build the library as a shared library
+BUILD_SHARED_LIBS:BOOL=OFF
 
 //Path to a program.
-CMAKE_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-lib.exe
+CMAKE_ADDR2LINE:FILEPATH=C:/MinGW/bin/addr2line.exe
+
+//Path to a program.
+CMAKE_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-ar.exe
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Debug
 
 //No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:UNINITIALIZED=clang-cl
+CMAKE_CXX_COMPILER:UNINITIALIZED=clang++
 
 //LLVM archiver
 CMAKE_CXX_COMPILER_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-ar.exe
@@ -49,25 +40,25 @@ CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS:FILEPATH=C:/Program Files/LLVM/bin/clang-scan
 CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/Program Files/LLVM/bin/llvm-ranlib.exe
 
 //Flags used by the CXX compiler during all build types.
-CMAKE_CXX_FLAGS:STRING=-m64 -fsanitize=undefined -ferror-limit=0
+CMAKE_CXX_FLAGS:STRING=-m64 -O0 -ferror-limit=0
 
 //Flags used by the CXX compiler during DEBUG builds.
-CMAKE_CXX_FLAGS_DEBUG:STRING=/Zi /Ob0 /Od /RTC1
+CMAKE_CXX_FLAGS_DEBUG:STRING=-O0 -g -Xclang -gcodeview
 
 //Flags used by the CXX compiler during MINSIZEREL builds.
-CMAKE_CXX_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG
+CMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
 
 //Flags used by the CXX compiler during RELEASE builds.
-CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG
+CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
-CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/Zi /O2 /Ob1 /DNDEBUG
+CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -DNDEBUG -g -Xclang -gcodeview
 
 //Libraries linked by default with all C++ applications.
-CMAKE_CXX_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames
 
 //No help, variable specified on the command line.
-CMAKE_C_COMPILER:UNINITIALIZED=clang-cl
+CMAKE_C_COMPILER:UNINITIALIZED=clang
 
 //LLVM archiver
 CMAKE_C_COMPILER_AR:FILEPATH=C:/Program Files/LLVM/bin/llvm-ar.exe
@@ -79,37 +70,40 @@ CMAKE_C_COMPILER_CLANG_SCAN_DEPS:FILEPATH=C:/Program Files/LLVM/bin/clang-scan-d
 CMAKE_C_COMPILER_RANLIB:FILEPATH=C:/Program Files/LLVM/bin/llvm-ranlib.exe
 
 //Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=-m64 -fsanitize=undefined -ferror-limit=0
+CMAKE_C_FLAGS:STRING=-m64 -O0 -ferror-limit=0
 
 //Flags used by the C compiler during DEBUG builds.
-CMAKE_C_FLAGS_DEBUG:STRING=/Zi /Ob0 /Od /RTC1
+CMAKE_C_FLAGS_DEBUG:STRING=-O0 -g -Xclang -gcodeview
 
 //Flags used by the C compiler during MINSIZEREL builds.
-CMAKE_C_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG
+CMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
 
 //Flags used by the C compiler during RELEASE builds.
-CMAKE_C_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG
+CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 
 //Flags used by the C compiler during RELWITHDEBINFO builds.
-CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=/Zi /O2 /Ob1 /DNDEBUG
+CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -DNDEBUG -g -Xclang -gcodeview
 
 //Libraries linked by default with all C applications.
-CMAKE_C_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+CMAKE_C_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames
+
+//Path to a program.
+CMAKE_DLLTOOL:FILEPATH=C:/Program Files/LLVM/bin/llvm-dlltool.exe
 
 //Flags used by the linker during all build types.
-CMAKE_EXE_LINKER_FLAGS:STRING=/machine:x64
+CMAKE_EXE_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during DEBUG builds.
-CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
+CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=
 
 //Flags used by the linker during MINSIZEREL builds.
-CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
+CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=
 
 //Flags used by the linker during RELEASE builds.
-CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
+CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
 
 //Flags used by the linker during RELWITHDEBINFO builds.
-CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
+CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Enable/Disable output of build database during the build.
 CMAKE_EXPORT_BUILD_DATABASE:BOOL=
@@ -179,29 +173,35 @@ CMAKE_MAKE_PROGRAM:FILEPATH=C:/PROGRA~1/ninja/ninja.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
-CMAKE_MODULE_LINKER_FLAGS:STRING=/machine:x64
+CMAKE_MODULE_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during the creation of modules during
 // DEBUG builds.
-CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
+CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=
 
 //Flags used by the linker during the creation of modules during
 // MINSIZEREL builds.
-CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
+CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=
 
 //Flags used by the linker during the creation of modules during
 // RELEASE builds.
-CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
+CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 
 //Flags used by the linker during the creation of modules during
 // RELWITHDEBINFO builds.
-CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
-
-//Path to a program.
-CMAKE_MT:FILEPATH=C:/Program Files/LLVM/bin/llvm-mt.exe
+CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
 CMAKE_NM:FILEPATH=C:/Program Files/LLVM/bin/llvm-nm.exe
+
+//Path to a program.
+CMAKE_OBJCOPY:FILEPATH=C:/Program Files/LLVM/bin/llvm-objcopy.exe
+
+//Path to a program.
+CMAKE_OBJDUMP:FILEPATH=C:/Program Files/LLVM/bin/llvm-objdump.exe
+
+//Build static libraries with -fPIC
+CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
 
 //Value Computed by CMake
 CMAKE_PROJECT_COMPAT_VERSION:STATIC=
@@ -230,14 +230,17 @@ CMAKE_PROJECT_VERSION_PATCH:STATIC=
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_TWEAK:STATIC=
 
+//Path to a program.
+CMAKE_RANLIB:FILEPATH=C:/Program Files/LLVM/bin/llvm-ranlib.exe
+
 //RC compiler
 CMAKE_RC_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/llvm-rc.exe
 
 //Flags for Windows Resource Compiler during all build types.
-CMAKE_RC_FLAGS:STRING=-DWIN32
+CMAKE_RC_FLAGS:STRING=
 
 //Flags for Windows Resource Compiler during DEBUG builds.
-CMAKE_RC_FLAGS_DEBUG:STRING=-D_DEBUG
+CMAKE_RC_FLAGS_DEBUG:STRING=
 
 //Flags for Windows Resource Compiler during MINSIZEREL builds.
 CMAKE_RC_FLAGS_MINSIZEREL:STRING=
@@ -248,25 +251,28 @@ CMAKE_RC_FLAGS_RELEASE:STRING=
 //Flags for Windows Resource Compiler during RELWITHDEBINFO builds.
 CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
+//Path to a program.
+CMAKE_READELF:FILEPATH=C:/MinGW/bin/readelf.exe
+
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
-CMAKE_SHARED_LINKER_FLAGS:STRING=/machine:x64
+CMAKE_SHARED_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during DEBUG builds.
-CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
+CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during MINSIZEREL builds.
-CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
+CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during RELEASE builds.
-CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
+CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during RELWITHDEBINFO builds.
-CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
+CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //If set, runtime paths are not added when installing shared libraries,
 // but are added when building.
@@ -277,7 +283,7 @@ CMAKE_SKIP_RPATH:BOOL=NO
 
 //Flags used by the archiver during the creation of static libraries
 // during all build types.
-CMAKE_STATIC_LINKER_FLAGS:STRING=/machine:x64
+CMAKE_STATIC_LINKER_FLAGS:STRING=
 
 //Flags used by the archiver during the creation of static libraries
 // during DEBUG builds.
@@ -295,6 +301,12 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 // during RELWITHDEBINFO builds.
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
+//Path to a program.
+CMAKE_STRIP:FILEPATH=C:/Program Files/LLVM/bin/llvm-strip.exe
+
+//Path to a program.
+CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
+
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
@@ -308,44 +320,26 @@ CPACK_SOURCE_7Z:BOOL=ON
 CPACK_SOURCE_ZIP:BOOL=ON
 
 //Disable support of compressed WOFF2 fonts.
-FT_DISABLE_BROTLI:BOOL=OFF
+FT_DISABLE_BROTLI:BOOL=ON
 
 //Disable support of bzip2 compressed fonts.
-FT_DISABLE_BZIP2:BOOL=OFF
+FT_DISABLE_BZIP2:BOOL=ON
 
 //Disable HarfBuzz (used for improving auto-hinting of OpenType
 // fonts).
 FT_DISABLE_HARFBUZZ:BOOL=OFF
 
-//Disable support of HVF vector fonts.
-FT_DISABLE_HVF:BOOL=OFF
-
 //Disable support of PNG compressed OpenType embedded bitmaps.
-FT_DISABLE_PNG:BOOL=OFF
+FT_DISABLE_PNG:BOOL=ON
 
 //Disable use of system zlib and use internal zlib library instead.
-FT_DISABLE_ZLIB:BOOL=OFF
-
-//Load HarfBuzz library dynamically at runtime, if possible.
-FT_DYNAMIC_HARFBUZZ:BOOL=ON
+FT_DISABLE_ZLIB:BOOL=ON
 
 //Enable support for meaningful error descriptions.
 FT_ENABLE_ERROR_STRINGS:BOOL=OFF
 
-//Require support of compressed WOFF2 fonts.
-FT_REQUIRE_BROTLI:BOOL=OFF
-
-//Require support of bzip2 compressed fonts.
-FT_REQUIRE_BZIP2:BOOL=OFF
-
 //Require HarfBuzz for improving auto-hinting of OpenType fonts.
-FT_REQUIRE_HARFBUZZ:BOOL=OFF
-
-//Require support of PNG compressed OpenType embedded bitmaps.
-FT_REQUIRE_PNG:BOOL=OFF
-
-//Require system zlib instead of internal zlib library.
-FT_REQUIRE_ZLIB:BOOL=OFF
+FT_REQUIRE_HARFBUZZ:BOOL=ON
 
 //Value Computed by CMake
 Fish_Factory_BINARY_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/build
@@ -358,6 +352,55 @@ Fish_Factory_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++
 
 //Git command line client
 GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
+//FT_Done_MM_Var
+HAVE_FT_DONE_MM_VAR:BOOL=1
+
+//FT_Get_Transform
+HAVE_FT_GET_TRANSFORM:BOOL=1
+
+//FT_Get_Var_Blend_Coordinates
+HAVE_FT_GET_VAR_BLEND_COORDINATES:BOOL=1
+
+//FT_Set_Var_Blend_Coordinates
+HAVE_FT_SET_VAR_BLEND_COORDINATES:BOOL=1
+
+//Build harfbuzz-subset
+HB_BUILD_SUBSET:BOOL=OFF
+
+//Build harfbuzz utils, needs cairo, freetype, and glib properly
+// be installed
+HB_BUILD_UTILS:BOOL=OFF
+
+//Enable cairo interop helpers
+HB_HAVE_CAIRO:BOOL=OFF
+
+//Enable DirectWrite shaper backend on Windows
+HB_HAVE_DIRECTWRITE:BOOL=OFF
+
+//Enable freetype interop helpers
+HB_HAVE_FREETYPE:BOOL=ON
+
+//Enable GDI integration helpers on Windows
+HB_HAVE_GDI:BOOL=ON
+
+//Enable glib unicode functions
+HB_HAVE_GLIB:BOOL=OFF
+
+//Enable GObject Bindings
+HB_HAVE_GOBJECT:BOOL=OFF
+
+//Enable Graphite2 complementary shaper
+HB_HAVE_GRAPHITE2:BOOL=OFF
+
+//Enable icu unicode functions
+HB_HAVE_ICU:BOOL=OFF
+
+//Enable building introspection (.gir/.typelib) files
+HB_HAVE_INTROSPECTION:BOOL=OFF
+
+//Enable Uniscribe shaper backend on Windows
+HB_HAVE_UNISCRIBE:BOOL=ON
 
 //Extra compile options of LibUSB
 LibUSB_COMPILE_OPTIONS:STRING=
@@ -388,6 +431,30 @@ SDL3_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 SDL3_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/external/SDL3
+
+//Value Computed by CMake
+SDL3_ttf_BINARY_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/build/external/SDL3_ttf
+
+//Value Computed by CMake
+SDL3_ttf_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+SDL3_ttf_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/external/SDL3_ttf
+
+//Use harfbuzz to improve text shaping
+SDLTTF_HARFBUZZ:BOOL=ON
+
+//Enable SDL3_ttf install target
+SDLTTF_INSTALL:BOOL=OFF
+
+//Build the SDL3_ttf sample program(s)
+SDLTTF_SAMPLES:BOOL=OFF
+
+//Fail when a dependency could not be found
+SDLTTF_STRICT:BOOL=OFF
+
+//Treat warnings as errors
+SDLTTF_WERROR:BOOL=OFF
 
 //Support the ALSA audio API
 SDL_ALSA:BOOL=OFF
@@ -491,9 +558,6 @@ SDL_DUMMYVIDEO:BOOL=ON
 //Build the examples directory
 SDL_EXAMPLES:BOOL=OFF
 
-//link examples to shared SDL library
-SDL_EXAMPLES_LINK_SHARED:BOOL=ON
-
 //number to use for magic foregrounding signal or 'OFF'
 SDL_FOREGROUNDING_SIGNAL:STRING=OFF
 
@@ -564,9 +628,6 @@ SDL_PIPEWIRE:BOOL=OFF
 //Enable the Power subsystem
 SDL_POWER:BOOL=ON
 
-//Preseed CMake cache to speed up configuration
-SDL_PRESEED:BOOL=ON
-
 //Use POSIX threads for multi-threading
 SDL_PTHREADS:BOOL=OFF
 
@@ -601,7 +662,7 @@ SDL_RPATH:BOOL=OFF
 SDL_SENSOR:BOOL=ON
 
 //Build a shared version of the library
-SDL_SHARED:BOOL=ON
+SDL_SHARED:BOOL=OFF
 
 //Support the sndio audio API
 SDL_SNDIO:BOOL=OFF
@@ -629,9 +690,6 @@ SDL_SYSTEM_ICONV:BOOL=OFF
 
 //Build the test directory
 SDL_TESTS:BOOL=OFF
-
-//link tests to shared SDL library
-SDL_TESTS_LINK_SHARED:BOOL=ON
 
 //Timeout multiplier to account for really slow machines
 SDL_TESTS_TIMEOUT_MULTIPLIER:STRING=1
@@ -672,41 +730,37 @@ SDL_X11:BOOL=OFF
 //Use Xinput for Windows
 SDL_XINPUT:BOOL=ON
 
-//Path to a file.
-ZLIB_INCLUDE_DIR:PATH=ZLIB_INCLUDE_DIR-NOTFOUND
-
-//Path to a library.
-ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
-
-//Path to a library.
-ZLIB_LIBRARY_RELEASE:FILEPATH=ZLIB_LIBRARY_RELEASE-NOTFOUND
+//harfbuzz install option
+SKIP_INSTALL_LIBRARIES:BOOL=ON
 
 //Value Computed by CMake
-freetype_BINARY_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/build/external/freetype
+freetype_BINARY_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/build/external/SDL3_ttf/external/freetype
 
 //Value Computed by CMake
 freetype_IS_TOP_LEVEL:STATIC=OFF
 
+//Dependencies for the target
+freetype_LIB_DEPENDS:STATIC=general;HarfBuzz::HarfBuzz;
+
 //Value Computed by CMake
-freetype_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/external/freetype
+freetype_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/external/SDL3_ttf/external/freetype
+
+//Value Computed by CMake
+harfbuzz_BINARY_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/build/external/SDL3_ttf/external/harfbuzz
+
+//Value Computed by CMake
+harfbuzz_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+harfbuzz_SOURCE_DIR:STATIC=C:/Users/kayla/Documents/Programming/Programs/C++/F2/fish-factory/external/SDL3_ttf/external/harfbuzz
 
 
 ########################
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: BROTLIDEC_INCLUDE_DIRS
-BROTLIDEC_INCLUDE_DIRS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BROTLIDEC_LIBRARIES
-BROTLIDEC_LIBRARIES-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BZIP2_INCLUDE_DIR
-BZIP2_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BZIP2_LIBRARY_DEBUG
-BZIP2_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BZIP2_LIBRARY_RELEASE
-BZIP2_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//Test CAN_PRESEED
-CAN_PRESEED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_ADDR2LINE
+CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -763,6 +817,8 @@ CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_STANDARD_LIBRARIES
 CMAKE_C_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_DLLTOOL
+CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
 //Path to cache edit program executable.
 CMAKE_EDIT_COMMAND:INTERNAL=C:/Program Files/CMake/bin/cmake-gui.exe
 //Executable file format
@@ -842,16 +898,18 @@ CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_MT
-CMAKE_MT-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+//ADVANCED property for variable: CMAKE_OBJCOPY
+CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_OBJDUMP
+CMAKE_OBJDUMP-ADVANCED:INTERNAL=1
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
-//noop for ranlib
-CMAKE_RANLIB:INTERNAL=:
+//ADVANCED property for variable: CMAKE_RANLIB
+CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_COMPILER
 CMAKE_RC_COMPILER-ADVANCED:INTERNAL=1
 CMAKE_RC_COMPILER_WORKS:INTERNAL=1
@@ -865,6 +923,8 @@ CMAKE_RC_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
 CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_READELF
+CMAKE_READELF-ADVANCED:INTERNAL=1
 //Path to CMake installation.
 CMAKE_ROOT:INTERNAL=C:/Program Files/CMake/share/cmake-4.1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
@@ -891,6 +951,10 @@ CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_STRIP
+CMAKE_STRIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_TAPI
+CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Test COMPILER_SUPPORTS_AVX
@@ -901,8 +965,6 @@ COMPILER_SUPPORTS_AVX2:INTERNAL=1
 COMPILER_SUPPORTS_AVX512F:INTERNAL=1
 //Test COMPILER_SUPPORTS_FCOLOR_DIAGNOSTICS
 COMPILER_SUPPORTS_FCOLOR_DIAGNOSTICS:INTERNAL=1
-//Test COMPILER_SUPPORTS_FDIAGNOSTICS_COLOR_ALWAYS
-COMPILER_SUPPORTS_FDIAGNOSTICS_COLOR_ALWAYS:INTERNAL=
 //Test COMPILER_SUPPORTS_GCC_ATOMICS
 COMPILER_SUPPORTS_GCC_ATOMICS:INTERNAL=1
 //Test COMPILER_SUPPORTS_MMX
@@ -917,20 +979,20 @@ COMPILER_SUPPORTS_SSE3:INTERNAL=1
 COMPILER_SUPPORTS_SSE4_1:INTERNAL=1
 //Test COMPILER_SUPPORTS_SSE4_2
 COMPILER_SUPPORTS_SSE4_2:INTERNAL=1
-//Test /W3
-COMPILER_SUPPORTS_W3:INTERNAL=1
 //ADVANCED property for variable: CPACK_SOURCE_7Z
 CPACK_SOURCE_7Z-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CPACK_SOURCE_ZIP
 CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
+//Details about finding Python3
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Users/kayla/AppData/Local/Programs/Python/Python313/python.exe][found components: Interpreter ][v3.13.3()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include alloca.h
 HAVE_ALLOCA_H:INTERNAL=
+//Have function atexit
+HAVE_ATEXIT:INTERNAL=1
 //Have include audioclient.h
 HAVE_AUDIOCLIENT_H:INTERNAL=1
-//Test HAVE_CLANG_COMMENT_BLOCK_COMMANDS
-HAVE_CLANG_COMMENT_BLOCK_COMMANDS:INTERNAL=1
 //Have include d3d11_1.h
 HAVE_D3D11_H:INTERNAL=1
 //Have include d3d9.h
@@ -950,7 +1012,7 @@ HAVE_DXGI_H:INTERNAL=1
 //Test HAVE_GAMEINPUT_H
 HAVE_GAMEINPUT_H:INTERNAL=
 //Test HAVE_GCC_COMMENT_BLOCK_COMMANDS
-HAVE_GCC_COMMENT_BLOCK_COMMANDS:INTERNAL=
+HAVE_GCC_COMMENT_BLOCK_COMMANDS:INTERNAL=1
 //Test HAVE_GCC_FVISIBILITY
 HAVE_GCC_FVISIBILITY:INTERNAL=
 //Test HAVE_GCC_NO_STRICT_ALIASING
@@ -971,28 +1033,40 @@ HAVE_GCC_WSHADOW:INTERNAL=1
 HAVE_GCC_WUNDEF:INTERNAL=1
 //Test HAVE_GCC_WUNUSED_LOCAL_TYPEDEFS
 HAVE_GCC_WUNUSED_LOCAL_TYPEDEFS:INTERNAL=1
+//Have function getpagesize
+HAVE_GETPAGESIZE:INTERNAL=
+//Have function isatty
+HAVE_ISATTY:INTERNAL=1
 //Have library m
 HAVE_LIBM:INTERNAL=
-//Have include malloc.h
-HAVE_MALLOC:INTERNAL=1
-//Have include malloc.h
-HAVE_MALLOC_H:INTERNAL=1
 //Test HAVE_MFAPI_H
 HAVE_MFAPI_H:INTERNAL=1
+//Have function mmap
+HAVE_MMAP:INTERNAL=
 //Have include mmdeviceapi.h
 HAVE_MMDEVICEAPI_H:INTERNAL=1
+//Have function mprotect
+HAVE_MPROTECT:INTERNAL=
 //Have include roapi.h
-HAVE_ROAPI_H:INTERNAL=
+HAVE_ROAPI_H:INTERNAL=1
 //Have include sensorsapi.h
 HAVE_SENSORSAPI_H:INTERNAL=1
 //Have include shellscalingapi.h
 HAVE_SHELLSCALINGAPI_H:INTERNAL=1
+//Have include stdbool.h
+HAVE_STDBOOL_H:INTERNAL=1
+//Have function sysconf
+HAVE_SYSCONF:INTERNAL=
+//Have include sys/mman.h
+HAVE_SYS_MMAN_H:INTERNAL=
 //Have include tpcshrd.h
 HAVE_TPCSHRD_H:INTERNAL=1
+//Have include unistd.h
+HAVE_UNISTD_H:INTERNAL=
 //Test HAVE_WIN32_CC
 HAVE_WIN32_CC:INTERNAL=1
 //Test HAVE_WINDOWS_GAMING_INPUT_H
-HAVE_WINDOWS_GAMING_INPUT_H:INTERNAL=
+HAVE_WINDOWS_GAMING_INPUT_H:INTERNAL=1
 //Test HAVE_WL_VERSION_SCRIPT
 HAVE_WL_VERSION_SCRIPT:INTERNAL=1
 //Test HAVE_XINPUT_H
@@ -1021,8 +1095,6 @@ LIBC_HAS_ATOF:INTERNAL=1
 LIBC_HAS_ATOI:INTERNAL=1
 //Have symbol bcopy
 LIBC_HAS_BCOPY:INTERNAL=
-//Have symbol calloc
-LIBC_HAS_CALLOC:INTERNAL=1
 //Have symbol ceil
 LIBC_HAS_CEIL:INTERNAL=1
 //Have symbol ceilf
@@ -1055,8 +1127,6 @@ LIBC_HAS_FMOD:INTERNAL=1
 LIBC_HAS_FMODF:INTERNAL=1
 //Have symbol fopen64
 LIBC_HAS_FOPEN64:INTERNAL=
-//Have symbol free
-LIBC_HAS_FREE:INTERNAL=1
 //Have symbol fseeko
 LIBC_HAS_FSEEKO:INTERNAL=
 //Have symbol fseeko64
@@ -1069,13 +1139,13 @@ LIBC_HAS_ICONV_H:INTERNAL=
 LIBC_HAS_INDEX:INTERNAL=
 //Have include inttypes.h
 LIBC_HAS_INTTYPES_H:INTERNAL=1
-//Have include isinf(double)
+//Test LIBC_HAS_ISINF
 LIBC_HAS_ISINF:INTERNAL=1
-//Have include isinff(float)
+//Test LIBC_HAS_ISINFF
 LIBC_HAS_ISINFF:INTERNAL=
-//Have include isnan(double)
+//Test LIBC_HAS_ISNAN
 LIBC_HAS_ISNAN:INTERNAL=1
-//Have include isnanf(float)
+//Test LIBC_HAS_ISNANF
 LIBC_HAS_ISNANF:INTERNAL=
 //Have symbol itoa
 LIBC_HAS_ITOA:INTERNAL=1
@@ -1119,8 +1189,6 @@ LIBC_HAS_POW:INTERNAL=1
 LIBC_HAS_POWF:INTERNAL=1
 //Have symbol putenv
 LIBC_HAS_PUTENV:INTERNAL=1
-//Have symbol realloc
-LIBC_HAS_REALLOC:INTERNAL=1
 //Have symbol rindex
 LIBC_HAS_RINDEX:INTERNAL=
 //Have symbol round
@@ -1255,56 +1323,16 @@ LIBC_HAS__UITOA:INTERNAL=
 LIBC_HAS__ULTOA:INTERNAL=1
 //Have symbol _wcsdup
 LIBC_HAS__WCSDUP:INTERNAL=1
-//Have include isinf(float)
+//Test LIBC_ISINF_HANDLES_FLOAT
 LIBC_ISINF_HANDLES_FLOAT:INTERNAL=1
-//Have include isnan(float)
+//Test LIBC_ISNAN_HANDLES_FLOAT
 LIBC_ISNAN_HANDLES_FLOAT:INTERNAL=1
 //Have symbol __GLIBC__
 LIBC_IS_GLIBC:INTERNAL=
+//Test LINKER_SUPPORTS_VERSION_SCRIPT
+LINKER_SUPPORTS_VERSION_SCRIPT:INTERNAL=1
 //Test LINKER_SUPPORTS_WL_NO_UNDEFINED
 LINKER_SUPPORTS_WL_NO_UNDEFINED:INTERNAL=1
-PC_BROTLIDEC_CFLAGS:INTERNAL=
-PC_BROTLIDEC_CFLAGS_I:INTERNAL=
-PC_BROTLIDEC_CFLAGS_OTHER:INTERNAL=
-PC_BROTLIDEC_FOUND:INTERNAL=
-PC_BROTLIDEC_INCLUDEDIR:INTERNAL=
-PC_BROTLIDEC_LIBDIR:INTERNAL=
-PC_BROTLIDEC_LIBS:INTERNAL=
-PC_BROTLIDEC_LIBS_L:INTERNAL=
-PC_BROTLIDEC_LIBS_OTHER:INTERNAL=
-PC_BROTLIDEC_LIBS_PATHS:INTERNAL=
-PC_BROTLIDEC_MODULE_NAME:INTERNAL=
-PC_BROTLIDEC_PREFIX:INTERNAL=
-PC_BROTLIDEC_STATIC_CFLAGS:INTERNAL=
-PC_BROTLIDEC_STATIC_CFLAGS_I:INTERNAL=
-PC_BROTLIDEC_STATIC_CFLAGS_OTHER:INTERNAL=
-PC_BROTLIDEC_STATIC_LIBDIR:INTERNAL=
-PC_BROTLIDEC_STATIC_LIBS:INTERNAL=
-PC_BROTLIDEC_STATIC_LIBS_L:INTERNAL=
-PC_BROTLIDEC_STATIC_LIBS_OTHER:INTERNAL=
-PC_BROTLIDEC_STATIC_LIBS_PATHS:INTERNAL=
-PC_BROTLIDEC_VERSION:INTERNAL=
-PC_BZIP2_CFLAGS:INTERNAL=
-PC_BZIP2_CFLAGS_I:INTERNAL=
-PC_BZIP2_CFLAGS_OTHER:INTERNAL=
-PC_BZIP2_FOUND:INTERNAL=
-PC_BZIP2_INCLUDEDIR:INTERNAL=
-PC_BZIP2_LIBDIR:INTERNAL=
-PC_BZIP2_LIBS:INTERNAL=
-PC_BZIP2_LIBS_L:INTERNAL=
-PC_BZIP2_LIBS_OTHER:INTERNAL=
-PC_BZIP2_LIBS_PATHS:INTERNAL=
-PC_BZIP2_MODULE_NAME:INTERNAL=
-PC_BZIP2_PREFIX:INTERNAL=
-PC_BZIP2_STATIC_CFLAGS:INTERNAL=
-PC_BZIP2_STATIC_CFLAGS_I:INTERNAL=
-PC_BZIP2_STATIC_CFLAGS_OTHER:INTERNAL=
-PC_BZIP2_STATIC_LIBDIR:INTERNAL=
-PC_BZIP2_STATIC_LIBS:INTERNAL=
-PC_BZIP2_STATIC_LIBS_L:INTERNAL=
-PC_BZIP2_STATIC_LIBS_OTHER:INTERNAL=
-PC_BZIP2_STATIC_LIBS_PATHS:INTERNAL=
-PC_BZIP2_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
@@ -1315,16 +1343,19 @@ SDL_CHECK_REQUIRED_INCLUDES-ADVANCED:INTERNAL=1
 SDL_CHECK_REQUIRED_LINK_OPTIONS-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
 SDL_CPU_CHECK_ALL:INTERNAL=TRUE
-//ADVANCED property for variable: ZLIB_INCLUDE_DIR
-ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
-ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
-ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//Have symbol _alloca
-_ALLOCA_IN_MALLOC_H:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/Fish_Factory
-__pkg_config_checked_PC_BROTLIDEC:INTERNAL=1
-__pkg_config_checked_PC_BZIP2:INTERNAL=1
+//Compiler reason failure
+_Python3_Compiler_REASON_FAILURE:INTERNAL=
+//Development reason failure
+_Python3_Development_REASON_FAILURE:INTERNAL=
+//Path to a program.
+_Python3_EXECUTABLE:INTERNAL=C:/Users/kayla/AppData/Local/Programs/Python/Python313/python.exe
+//Path to a program.
+_Python3_EXECUTABLE_DEBUG:INTERNAL=_Python3_EXECUTABLE_DEBUG-NOTFOUND
+//Python3 Properties
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;13;3;64;32;<none>;cp313-win_amd64;;C:\Users\kayla\AppData\Local\Programs\Python\Python313\Lib;C:\Users\kayla\AppData\Local\Programs\Python\Python313\Lib;C:\Users\kayla\AppData\Local\Programs\Python\Python313\Lib\site-packages;C:\Users\kayla\AppData\Local\Programs\Python\Python313\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=6cfa07dc10188aa28e709bbcd641b5e2
+//NumPy reason failure
+_Python3_NumPy_REASON_FAILURE:INTERNAL=
 

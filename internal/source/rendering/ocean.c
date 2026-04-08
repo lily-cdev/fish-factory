@@ -8,10 +8,10 @@ void Render_Ocean() {
 	SDL_FRect Ocean_Rectangle = {
 		0,
 		0,
-		370.0f,
-		370.0f
+		(float)LDE_OCEANSIZE,
+		(float)LDE_OCEANSIZE
 	};
-	int Iterations = (int)ceilf(LDE_GRIDSIZE * LDE_TILESIZE * Settings.Scalar * 1.5f);
+	int Iterations = (int)ceilf((((LDE_GRIDSIZE * LDE_TILESIZE) + LDE_BUFFERSIZE) * Settings.Scalar) / (float)LDE_OCEANSIZE);
 	for (int C1 = 0; C1 < Iterations; C1++) {
 		for (int C2 = 0; C2 < Iterations; C2++) {
 			Ocean_Rectangle.x = (C1 * Ocean_Rectangle.w) - ((Core.Camera.X + LDE_BUFFERSIZE) * Settings.Scalar);

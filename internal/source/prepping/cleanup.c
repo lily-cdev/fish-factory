@@ -58,10 +58,7 @@ void Clear_File(const char* Path) {
 void Cleanup_Assets() {
 	free_texture(Core.Game_Texture);
 	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
-		FT_Done_Face(Fonts.Faces[C1]);
-		for (int C2 = 0; C2 < 256; C2++) {
-			free_texture(Fonts.Glyphs[C1][C2].Data);
-		}
+		TTF_CloseFont(Fonts.Faces[C1]);
 	}
 	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
 		switch (Metadata.Machines[C1].Depth) {

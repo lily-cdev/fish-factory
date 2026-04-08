@@ -55,6 +55,8 @@ lde_metadata Metadata = {
 lde_settings Settings = {
 	.AA_Temporary = true,
 	.Anti_Aliasing = 1,
+	.VS_Temporary = true,
+	.VSync = 1,
 	.Volume = 50,
 	.Raw_FPS = 2
 };

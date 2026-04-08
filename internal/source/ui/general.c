@@ -8,7 +8,7 @@ void Render_Toolbar() {
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
 		SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
 		float Y = ((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Scalar;
-		float Height = Get_Height(F_Subtext) + (Settings.Scalar * 18.0f);
+		float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + (Settings.Scalar * 18.0f);
 		float Padding = Settings.Scalar * 16.0f;
 		float Root_X = (Settings.Scalar * 312.0f) - (Machine_Texture->w * 0.5f);
 		float Root_Width = Machine_Texture->w + Padding;
@@ -183,10 +183,9 @@ void Cache_Blueprint() {
 	ID_To_Size(Interface.Item - 1, Interface.Rotation, &Width, &Height);
 	int Max = (Width > Height ? Width : Height) * Settings.Scalar * LDE_TILESIZE;
 	free_texture(Cache.Blueprint_Cache);
-	Cache.Blueprint_Cache = New_Texture(Core.Renderer, Max, Max);
+	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = New_Texture(Core.Renderer, Width * Settings.Scalar * LDE_TILESIZE, Height *
-		Settings.Scalar * LDE_TILESIZE);
+	SDL_Texture* Backing = New_Texture(Width * Settings.Scalar * LDE_TILESIZE, Height * Settings.Scalar * LDE_TILESIZE);
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
 	for (int X = 0; X < Width; X++) {

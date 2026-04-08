@@ -1,7 +1,5 @@
 #include <prepping.h>
 
-uint32_t Lookup_Table[32];
-
 void Preclear_Temporaries() {
 	for (int X = 0; X < LDE_GRIDSIZE; X++) {
 		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
@@ -45,6 +43,7 @@ void Render_Loadscreen() {
 void Preload_Noise() {
 	Textures.None.Data = malloc(sizeof(SDL_Texture*) * 10);
 	Textures.None.Length = 10;
+	uint32_t Lookup_Table[32];
 	const SDL_PixelFormatDetails* Pixel_Format = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
 	for (int C1 = -16; C1 <= 16; C1++) {
 		if (C1 != 0) {
@@ -52,35 +51,36 @@ void Preload_Noise() {
 			if (C1 > 0) {
 				Offset = 15;
 			}
-			Lookup_Table[C1 + Offset] = SDL_MapRGB(Pixel_Format, NULL,
+			Lookup_Table[C1 + Offset] = SDL_MapRGBA(Pixel_Format, NULL,
 				clamp_c(Colors.Ocean.r + C1, 0, 255),
 				clamp_c(Colors.Ocean.g + C1, 0, 255),
-				clamp_c(Colors.Ocean.b + C1, 0, 255)
+				clamp_c(Colors.Ocean.b + C1, 0, 255),
+				SDL_ALPHA_OPAQUE
 			);
 		}
 	}
 	char Buffer[64];
 	for (int C1 = 0; C1 < 10; C1++) {
 		snprintf(Buffer, sizeof(Buffer), "cache/noise%d.bmp", C1 + 1);
-		FILE* Cache_File = fopen(Buffer, "r");
 		SDL_Surface* Carrier;
+		FILE* Cache_File = fopen(Buffer, "r");
+		//Cache_File = NULL;pass 1 WORKS
 		if (Cache_File == NULL) {
-			Carrier = SDL_CreateSurface(370, 370, SDL_PIXELFORMAT_RGBA8888);
+			Carrier = SDL_CreateSurface(LDE_OCEANSIZE, LDE_OCEANSIZE, SDL_PIXELFORMAT_RGBA8888);
 			SDL_LockSurface(Carrier);
 			uint32_t* Pixels = (uint32_t*)(Carrier->pixels);
-			for (int C2 = 0; C2 < sqr(370); C2++, Pixels++) {
+			for (int C2 = 0; C2 < sqr(LDE_OCEANSIZE); C2++) {
 				Tick_State();
-				*Pixels = Lookup_Table[(Core.State & 31)];
+				Pixels[C2] = Lookup_Table[(Core.State & 31)];
 			}
 			SDL_UnlockSurface(Carrier);
-			SDL_SaveBMP(Carrier, Buffer);
+			Save_BMP(Buffer, Carrier);//custom save function needed
 		} else {
-			load_bmp(Carrier, Buffer);
 			fclose(Cache_File);
+			load_bmp(Carrier, Buffer);
 		}
-		Textures.None.Data[C1] = Surface_To_Texture(Core.Renderer, Carrier);
-		SDL_SetTextureScaleMode(Textures.None.Data[C1], SDL_SCALEMODE_NEAREST);
-		SDL_SetTextureBlendMode(Textures.None.Data[C1], SDL_BLENDMODE_BLEND);
+		Textures.None.Data[C1] = Surface_To_Texture(Carrier);
+		SDL_DestroySurface(Carrier);
 	}
 	const uint32_t Fire_Colors[4] = {
 		SDL_MapRGBA(Pixel_Format, NULL, 255, 140, 0, SDL_ALPHA_OPAQUE),
@@ -102,7 +102,7 @@ void Preload_Noise() {
 			Pixels[C2] = Fire_Colors[(Random & 3)];
 		}
 		SDL_UnlockSurface(Fire_Surfaces[C1]);
-		Textures.Fire.Data[C1] = Surface_To_Texture(Core.Renderer, Fire_Surfaces[C1]);
+		Textures.Fire.Data[C1] = Surface_To_Texture(Fire_Surfaces[C1]);
 		SDL_SetTextureScaleMode(Textures.Fire.Data[C1], SDL_SCALEMODE_NEAREST);
 		SDL_SetTextureBlendMode(Textures.Fire.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_DestroySurface(Fire_Surfaces[C1]);

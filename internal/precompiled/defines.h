@@ -29,6 +29,7 @@
 #define LDE_LOGMAX 11
 #define LDE_LOGS 3
 #define LDE_MACHINES 41
+#define LDE_OCEANSIZE 1024
 #define LDE_PARAMMAX 128
 #define LDE_PERMBUTTONS 2
 #define LDE_QUIRKS 4

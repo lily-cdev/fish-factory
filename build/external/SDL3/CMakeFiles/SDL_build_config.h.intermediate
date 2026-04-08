@@ -227,7 +227,7 @@
 #define HAVE_DSOUND_H 1
 #define HAVE_DINPUT_H 1
 #define HAVE_XINPUT_H 1
-/* #undef HAVE_WINDOWS_GAMING_INPUT_H */
+#define HAVE_WINDOWS_GAMING_INPUT_H 1
 /* #undef HAVE_GAMEINPUT_H */
 #define HAVE_DXGI_H 1
 #define HAVE_DXGI1_5_H 1
@@ -235,7 +235,7 @@
 
 #define HAVE_MMDEVICEAPI_H 1
 #define HAVE_TPCSHRD_H 1
-/* #undef HAVE_ROAPI_H */
+#define HAVE_ROAPI_H 1
 #define HAVE_SHELLSCALINGAPI_H 1
 
 /* #undef USE_POSIX_SPAWN */
@@ -318,7 +318,7 @@
 /* #undef SDL_JOYSTICK_USBHID */
 #define SDL_JOYSTICK_VIRTUAL 1
 /* #undef SDL_JOYSTICK_VITA */
-/* #undef SDL_JOYSTICK_WGI */
+#define SDL_JOYSTICK_WGI 1
 #define SDL_JOYSTICK_XINPUT 1
 
 /* #undef SDL_JOYSTICK_PRIVATE */

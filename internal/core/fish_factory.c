@@ -37,8 +37,8 @@ int main(int argc, char* args[]) {
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
 		jump(I_No_SDL3, "could not load SDL3");
 	}
-	if (FT_Init_FreeType(&Core.FreeType) != 0) {
-		jump(I_No_FreeType, "could not load FreeType");
+	if (!TTF_Init()) {
+		jump(I_No_SDL3_TTF, "could not load SDL3_ttf");
 	}
 	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
@@ -64,6 +64,10 @@ int main(int argc, char* args[]) {
 		SDL_RenderClear(Core.Renderer);
 		Clear_Renderer();
 		SDL_GetMouseState(&Core.Mouse.X, &Core.Mouse.Y);
+		//
+		SDL_FRect r = (SDL_FRect){ 0, 0, LDE_OCEANSIZE, LDE_OCEANSIZE };
+		Render_Texture(Textures.None.Data[0], &r);
+		//
 		if (Interface.UI_Tab >= LDE_INVALID && Interface.UI_Tab <= 5) {
 			Menu_Functions[Interface.UI_Tab + 1]();
 		}
@@ -146,7 +150,7 @@ int main(int argc, char* args[]) {
 	SDL_DestroyWindow(Core.Window);
 	Shutdown_Miniaudio();
 	SDL_PumpEvents();
-	FT_Done_FreeType(Core.FreeType);
+	TTF_Quit();
 	SDL_Quit();
 	return 0;
 }
