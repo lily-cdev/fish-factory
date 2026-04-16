@@ -11,23 +11,7 @@ bool Place_Flowerpot(Point Pos) {
 }
 
 bool Place_Ammunition_Shelf(Point Pos) {
-    bool Placed = false;
-	if (evn(Interface.Rotation)) {
-		if (Check_Clearance(Pos, 2, 1)) {
-			Fill_Clearance(LDE_INVALID, Pos, 2, 1);
-			Placed = true;
-		}
-	} else {
-		if (Check_Clearance(Pos, 1, 2)) {
-			Fill_Clearance(LDE_INVALID, Pos, 1, 2);
-			Placed = true;
-		}
-	}
-	if (Placed) {
-		Data.Visual_Grid[pt(Pos)] = Interface.Rotation + 52;
-	} else {
-		return false;
-	}
+	Data.Visual_Grid[pt(Pos)] = Interface.Rotation + 52;
 	return true;
 }
 

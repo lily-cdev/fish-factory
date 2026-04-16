@@ -5,4 +5,6 @@
 	<Path>core/images/machines/incinerator</Path>
 	<Price>20</Price>
 	<Fee>1</Fee>
+	<Width>1</Width>
+	<Height>1</Height>
 </Machine>

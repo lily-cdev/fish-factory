@@ -80,6 +80,7 @@ typedef struct {
 	char* Path;
 	bool Quirks[LDE_QUIRKS];
 	bool Single_ID;
+	Point Size;
 	Anim_Type Animation_Type;
 	union {
 		SDL_Texture* Texture1;

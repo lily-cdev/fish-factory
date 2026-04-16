@@ -207,18 +207,34 @@ void Build_Grid() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[Column][Row] == 0) {
-					if (Placing_Functions[Interface.Item - 1] && !Placing_Functions[Interface.Item - 1]((Point){ Column, Row })) {
+				if (!Data.Visual_Grid[Column][Row] == 0) {
+					return;
+				}
+				int Index = Interface.Item - 1;
+				int Rotation = (Metadata.Machines[Index].Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
+				Point Pos = { Column, Row };
+				Point Size = Metadata.Machines[Index].Size;
+				if (evn(Rotation)) {
+					if (!Check_Clearance(Pos, Size.X, Size.Y)) {
 						return;
 					}
-					Data.Funds -= Interface.Queried_Price;
-					if (Metadata.Machines[Interface.Item - 1].Single_ID) {
-						Data.Visual_Grid[Column][Row] = Metadata.Machines[Interface.Item - 1].Visual_ID1;
+					Fill_Clearance(LDE_INVALID, Pos, Size.X, Size.Y);
+				} else {
+					if (!Check_Clearance(Pos, Size.Y, Size.X)) {
+						return;
 					}
-					Update_Grid();
-					Recast_Machines();
-					Find_Effect();
+					Fill_Clearance(LDE_INVALID, Pos, Size.Y, Size.X);
 				}
+				if (Placing_Functions[Index] && !Placing_Functions[Index](Pos)) {
+					return;
+				}
+				Data.Funds -= Interface.Queried_Price;
+				if (Metadata.Machines[Index].Single_ID) {
+					Data.Visual_Grid[Column][Row] = Metadata.Machines[Index].Visual_ID1;
+				}
+				Update_Grid();
+				Recast_Machines();
+				Find_Effect();
 				return;
 			}
 		}

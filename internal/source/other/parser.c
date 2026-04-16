@@ -94,6 +94,10 @@ void Load_XML() {
 			Metadata.Machines[C1].Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
 		}
 		Metadata.Machines[C1].Single_ID = Get_Boolean(Machine_File, "Single_ID");
+		Metadata.Machines[C1].Size = (Point){
+			Get_Integer(Raw_Names[C1], Machine_File, "Width"),
+			Get_Integer(Raw_Names[C1], Machine_File, "Height")
+		};
 		if (Metadata.Machines[C1].Single_ID) {
 			Metadata.Machines[C1].Visual_ID1 = Get_Integer(Raw_Names[C1], Machine_File, "Visual_ID");
 		} else {

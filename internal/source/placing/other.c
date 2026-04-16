@@ -63,13 +63,8 @@ bool Place_Battery(Point Pos) {
 }
 
 bool Place_Signal_Tower(Point Pos) {
-	if (Check_Clearance(Pos, 3, 3)) {
-		Fill_Clearance(LDE_INVALID, Pos, 3, 3);
-		Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 50 : Interface.Rotation + 59;
-		Data.Settings_Grid[pt(Pos)][3] = 0;
-	} else {
-		return false;
-	}
+	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 50 : Interface.Rotation + 59;
+	Data.Settings_Grid[pt(Pos)][3] = 0;
 	return true;
 }
 
