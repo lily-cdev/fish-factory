@@ -23,8 +23,12 @@ set(SDLTTF_PLUTOSVG OFF)
 add_subdirectory(external/SDL3_ttf)
 
 add_executable(Fish_Factory
-    internal/core/fish_factory.c
-	internal/source/transitions.c
+	internal/core/fish_factory.c
+	internal/source/other/transitions.c
+	internal/source/other/ui.c
+	internal/source/other/parser.c
+	internal/source/other/tools.c
+	internal/source/other/machines.c
 	internal/source/connectables/general.c
 	internal/source/connectables/wires.c
 	internal/source/connectables/pipes.c
@@ -59,19 +63,16 @@ add_executable(Fish_Factory
 	internal/source/prepping/actions.c
 	internal/source/prepping/cleanup.c
 	internal/source/prepping/definitions.c
-	internal/source/prepping/machines.c
 	internal/source/prepping/other.c
 	internal/source/prepping/preconfigs.c
 	internal/source/prepping/preloaders.c
 	internal/source/prepping/subloaders.c
 	internal/source/prepping/text.c
-	internal/source/prepping/tools.c
-	internal/source/prepping/ui.c
 	internal/source/prepping/setup.c
+	internal/source/prepping/lang.c
 	internal/source/data/audio.c
 	internal/source/data/saving.c
 	internal/source/data/settings.c
-	internal/source/data/lang.c
 	internal/source/rendering/supplier.c
 	internal/source/rendering/tiles.c
 	internal/source/rendering/effects.c

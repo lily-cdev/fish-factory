@@ -2,7 +2,7 @@
 
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	SDL_FPoint Tile_Centerpoint = { LDE_TILESIZE * Size * 0.5f, LDE_TILESIZE * Size * 0.5f };
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 16);
 	Yield->Length = 16;
@@ -112,7 +112,7 @@ void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 
 void Load_Rotational(const char* Path, Texture_Array* Yield) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	Yield->Length = 4;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 4);
 	SDL_Surface* Primary_Surface;
@@ -332,7 +332,7 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 
 SDL_Texture* Preload_Texture(const char* Path) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	SDL_Surface* Carrier;
 	load_bmp(Carrier, Buffer);
 	SDL_Texture* Carrying_Texture = Surface_To_Texture(Carrier);

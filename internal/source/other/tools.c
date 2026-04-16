@@ -128,7 +128,7 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 	size_t Start = 0;
 	size_t End = 0;
 	char* Yield;
-	while ((Yield = strchr(Raw_Text + Start, '|')) != NULL) {
+	while ((Yield = strchr(Raw_Text + Start, '|'))) {
 		End = Yield - Raw_Text;
 		Fragment_Count++;
 		Start = End + 1;
@@ -137,12 +137,12 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 	int* Lengths = malloc(sizeof(int) * Fragment_Count);
 	for (int C1 = 0; C1 < Fragment_Count; C1++) {
 		Lengths[C1] = strlen(Raw_Text) + 1;
-		Fragments[C1] = malloc(sizeof(char) * Lengths[C1]);
+		Fragments[C1] = malloc(Lengths[C1]);
 	}
 	Start = 0;
 	End = 0;
 	int Index = 0;
-	while ((Yield = strchr(Raw_Text + Start, '|')) != NULL) {
+	while ((Yield = strchr(Raw_Text + Start, '|'))) {
 		End = Yield - Raw_Text;
 		int Length = End - Start;
 		memcpy_c(Fragments[Index], Raw_Text + Start, Length);
@@ -196,7 +196,7 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
 		SDL_Texture* Fragment_Texture = Render_Text(Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
-		if (Fragment_Texture != NULL) {
+		if (Fragment_Texture) {
 			SDL_FRect Fragment_Rectangle = {
 				(float)(Pos.X * Settings.Scalar),
 				(float)(Pos.Y * Settings.Scalar) + Offset,
@@ -258,14 +258,11 @@ SDL_Texture* New_Texture(int Width, int Height) {
 	if (Texture == NULL) {
 		jump(I_No_Texture, "could not create texture");
 	}
-	SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_NONE);
-	SDL_SetRenderTarget(Core.Renderer, Texture);
-	Set_Renderer_Color((SDL_Color){ 0, 0, 0, SDL_ALPHA_TRANSPARENT });
-	SDL_RenderClear(Core.Renderer);
-	Clear_Renderer();
-	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_BLEND);
+	void* Pixels = calloc(Width * Height, 4);
+	SDL_UpdateTexture(Texture, NULL, Pixels, Width * 4);
+	free_c(Pixels);
 	return Texture;
 }
 

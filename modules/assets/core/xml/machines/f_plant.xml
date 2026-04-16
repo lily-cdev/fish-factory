@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>filtration plant</Name>
+	<Texture_Type>none</Texture_Type>
+	<Path>core/images/machines/f_plant</Path>
+	<Price>24</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+</Machine>

@@ -5,7 +5,7 @@ void Render_Toolbar() {
 		char Machine_Text[64];
 		char Price_Query[64];
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
-		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Names[Interface.Item - 1], Price_Query);
+		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Machines[Interface.Item - 1].Name, Price_Query);
 		SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
 		float Y = ((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Scalar;
 		float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + (Settings.Scalar * 18.0f);
@@ -81,71 +81,87 @@ void Render_Tile_Prompts() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Interactable]); C1++) {
-					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][C1]) {
-						char Subcore[64];
-						char Sub2core[64];
-						strncpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]), sizeof(Sub2core));
-						for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
-							Sub2core[C1] = (char)(tolower(Sub2core[C1]));
-						}
-						snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
-						SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
-						SDL_FRect Carrying_Rectangle = {
-							Core.Screenhalfsize.X - (Carrier->w * 0.5),
-							Core.Screenhalfsize.X,
-							(float)Carrier->w,
-							(float)Carrier->h
-						};
-						Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4,
-							(Carrying_Rectangle.y / Settings.Scalar) - 4 },
-							(Carrying_Rectangle.w / Settings.Scalar) + 8,
-							(Carrying_Rectangle.h / Settings.Scalar) + 8,
-							Colors.Light_Grey, Colors.Dark_Grey);
-						Render_Texture(Carrier, &Carrying_Rectangle);
-						free_texture(Carrier);
-					}
+				if (!Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[Q_Interactable]) {
+					return;
 				}
+				char Subcore[64];
+				char Sub2core[64];
+				strncpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]), sizeof(Sub2core));
+				for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
+					Sub2core[C1] = (char)(tolower(Sub2core[C1]));
+				}
+				snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
+				SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
+				SDL_FRect Carrying_Rectangle = {
+					Core.Screenhalfsize.X - (Carrier->w * 0.5), Core.Screenhalfsize.X, (float)Carrier->w, (float)Carrier->h
+				};
+				Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 },
+					(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
+					Colors.Dark_Grey);
+				Render_Texture(Carrier, &Carrying_Rectangle);
+				free_texture(Carrier);
+				return;
 			}
 		}
 	}
 }
 
 void Render_Interaction() {
-	int Indexes[8] = { P_Transmitter, P_Spawning_Pool, P_Dock, P_Exchanger, P_Money_Generator, P_Fluid_Generator, P_Turbine,
-		P_Power_Generator };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Interactable]); C1++) {
-					if (Visual_To_ID(Data.Visual_Grid[Column][Row]) == Metadata.Quirk_Positions[Q_Interactable][C1]) {
-						Interface.Prompt_Identifier = Indexes[C1];
-						Interface.Building = false;
-						Interface.Tile.X = Column;
-						Interface.Tile.Y = Row;
-						switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
-						case Money_Generator:
-							Interface.Slider_Positions[8] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
-							break;
-						case Fluid_Generator:
-							Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
-							Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][
-								4] * 0.2f);
-							for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
-								if (Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][5] == Interface.Valve300_Postions[
-									C1]) {
-									Interface.Slider_Positions[11] = C1;
-									break;
-								}
-							}
-							break;
-						default:
+				if (!Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[Q_Interactable]) {
+					return;
+				}
+				switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
+				case Signal_Tower:
+					Interface.Prompt_Identifier = P_Transmitter;
+					break;
+				case Spawning_Controller:
+					Interface.Prompt_Identifier = P_Spawning_Pool;
+					break;
+				case Submarine_Dock:
+					Interface.Prompt_Identifier = P_Dock;
+					break;
+				case Heat_Exchanger:
+					Interface.Prompt_Identifier = P_Exchanger;
+					break;
+				case Money_Generator:
+					Interface.Prompt_Identifier = P_Money_Generator;
+					break;
+				case Fluid_Generator:
+					Interface.Prompt_Identifier = P_Fluid_Generator;
+					break;
+				case Turbine_Input:
+					Interface.Prompt_Identifier = P_Turbine;
+					break;
+				case Power_Generator:
+					Interface.Prompt_Identifier = P_Power_Generator;
+					break;
+				default:
+					break;
+				}
+				Interface.Building = false;
+				Interface.Tile.X = Column;
+				Interface.Tile.Y = Row;
+				switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
+				case Money_Generator:
+					Interface.Slider_Positions[8] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
+					break;
+				case Fluid_Generator:
+					Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
+					Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][4] * 0.2f);
+					for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
+						if (Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][5] == Interface.Valve300_Postions[C1]) {
+							Interface.Slider_Positions[11] = C1;
 							break;
 						}
-						break;
 					}
+					break;
+				default:
+					break;
 				}
 				return;
 			}
@@ -200,10 +216,8 @@ void Cache_Blueprint() {
 	Render_Texture(Backing, NULL);
 	free_texture(Backing);
 	int Rotation = Interface.Rotation * 90;
-	for (int C1 = 0; C1 < intlen(Metadata.Quirk_Positions[Q_Non_Rotatable]); C1++) {
-		if (Metadata.Quirk_Positions[Q_Non_Rotatable][C1] == Interface.Item - 1) {
-			Rotation = 0;
-		}
+	if (Metadata.Machines[Interface.Item - 1].Quirks[Q_Non_Rotatable]) {
+		Rotation = 0;
 	}
 	SDL_FPoint Centerpoint = { Max * 0.5f, Max * 0.5f };
 	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Interface.Item - 1].Icon, NULL, NULL, Rotation, &Centerpoint,
@@ -213,8 +227,8 @@ void Cache_Blueprint() {
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = (int)((Metadata.Machines[Interface.Item - 1].Price * 1.1f)) + Metadata.Machines[
-		Interface.Item - 1].Tax + 1;
+	Interface.Queried_Price = (int)((Metadata.Machines[Interface.Item - 1].Price * 1.1f)) + Metadata.Machines[Interface.Item -
+		1].Fee + 1;
 }
 
 void Set_Engagement(Parameter Engagement, Parameter Unused) {

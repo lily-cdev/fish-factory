@@ -114,7 +114,7 @@ extern Fish Fish_Catalog[LDE_FISH];
 extern char Growth_Phases[LDE_FISHPHASES][32];
 extern char Plural_Growth_Phases[LDE_FISHPHASES][32];
 extern int Growth_Weights[LDE_FISHPHASES];
-extern Recipe* Recipes[LDE_RECIPETYPES][LDE_MACHINES];
+extern Recipe** Recipes[LDE_RECIPETYPES];
 
 void Prep_Items();
 void Free_Items();

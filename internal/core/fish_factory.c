@@ -51,12 +51,10 @@ int main(int argc, char* args[]) {
 	}
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
-	Load_Text();
 	Generate_Preconfigs();
-	Prep_Items();
 	Load_Settings();
 	Clear_Settings();
-	Reload_All();
+	Reload_All(false);
 	Force_Opening();
 	while (Core.Is_Running) {
 		uint64_t Frame_Beginning = SDL_GetTicks();
@@ -64,10 +62,6 @@ int main(int argc, char* args[]) {
 		SDL_RenderClear(Core.Renderer);
 		Clear_Renderer();
 		SDL_GetMouseState(&Core.Mouse.X, &Core.Mouse.Y);
-		//
-		SDL_FRect r = (SDL_FRect){ 0, 0, LDE_OCEANSIZE, LDE_OCEANSIZE };
-		Render_Texture(Textures.None.Data[0], &r);
-		//
 		if (Interface.UI_Tab >= LDE_INVALID && Interface.UI_Tab <= 5) {
 			Menu_Functions[Interface.UI_Tab + 1]();
 		}
@@ -138,14 +132,12 @@ int main(int argc, char* args[]) {
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
 	Wipe_Grid();
-	Free_Items();
 	Free_Preconfigs();
 	free_c(Temporary.Docks.Data);
 	Free_Supplies();
 	SDL_ShowCursor();
 	Cleanup_Assets();
 	Free_Sounds();
-	Free_Text();
 	SDL_DestroyRenderer(Core.Renderer);
 	SDL_DestroyWindow(Core.Window);
 	Shutdown_Miniaudio();

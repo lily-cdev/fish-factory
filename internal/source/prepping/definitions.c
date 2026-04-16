@@ -1,13 +1,13 @@
 #include <prepping.h>
 
-lde_core Core = {
+struct lde_core Core = {
 	.Is_Running = true,
 	.Suffixes = { 'J', 'k', 'M', 'G', 'T' },
 	.Selected_Save = LDE_INVALID,
 	.Camera = { -140, 0 }
 };
-lde_data Data = { };
-lde_metadata Metadata = {
+struct lde_data Data = { };
+struct lde_metadata Metadata = {
 	.Item_Labels = {
 		{ Submarine_Dock, Cable_Node, LDE_TERMINATOR },
 		{ Ram_Pump, LDE_TERMINATOR },
@@ -36,23 +36,11 @@ lde_metadata Metadata = {
 		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_TERMINATOR },
 		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_TERMINATOR }
 	},
-	.Quirk_Positions = {
-		{ Reinforced_Pipe, Ram_Pump, Decoration, Submarine_Dock, Filtration_Plant, Hazard_Strip, Spawning_Pool,
-			Spawning_Controller, Spawning_Output, Spawning_Input, Flowerpot, Cable_Node, Large_Pipe, Petrified_Wood,
-			Basalt_Tile, Silicone_Carpet, Money_Generator, Fluid_Generator, Power_Generator, LDE_TERMINATOR },
-		{ Reinforced_Pipe, Spawning_Pool, Spawning_Controller, Spawning_Output, Spawning_Input, Large_Pipe,
-			Condenser_Input, Condenser_Heatsink, Condenser_Transferor, Turbine_Input, Turbine_Impulse, Turbine_Output,
-			LDE_TERMINATOR },
-		{ Signal_Tower, Spawning_Controller, Submarine_Dock, Heat_Exchanger, Money_Generator, Fluid_Generator,
-			Turbine_Input, Power_Generator, LDE_TERMINATOR },
-		{ Reinforced_Pipe, Spawning_Pool, Ram_Pump, Large_Pipe, Money_Generator, Fluid_Generator, LDE_TERMINATOR }
-	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
-	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840,
-		2160 } },
+	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },
 	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing" }
 };
-lde_settings Settings = {
+struct lde_settings Settings = {
 	.AA_Temporary = true,
 	.Anti_Aliasing = 1,
 	.VS_Temporary = true,
@@ -60,9 +48,9 @@ lde_settings Settings = {
 	.Volume = 50,
 	.Raw_FPS = 2
 };
-lde_textures Textures = { };
-lde_rects Rects = { };
-const lde_colors Colors = {
+struct lde_textures Textures = { };
+struct lde_rects Rects = { };
+const struct lde_colors Colors = {
 	.Abyss_Black = { 0, 0, 0 },
 	.Pure_White = { 255, 255, 255 },
 	.Light_Grey = { 235, 240, 240 },
@@ -76,7 +64,7 @@ const lde_colors Colors = {
 	.Hostile_Red = { 187, 10, 30 },
 	.Ocean = { 6, 66, 116 }
 };
-lde_fonts Fonts = {
+struct lde_fonts Fonts = {
 	.Paths = {
 		"oxygen/regular",
 		"cantarell/regular",
@@ -88,21 +76,21 @@ lde_fonts Fonts = {
 	},
 	.Sizes = { 32, 24, 18, 16, 12, 10, 12 }
 };
-lde_keybinds Keybinds = {
+struct lde_keybinds Keybinds = {
 	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
 		SDLK_LSHIFT, SDLK_ESCAPE },
 	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
 		SDLK_LSHIFT, SDLK_ESCAPE }
 };
-lde_temporary Temporary = {
+struct lde_temporary Temporary = {
 	.Tutorial_Step = LDE_INVALID,
 	.Log_Inversions = { true, false, false }
 };
-lde_cache Cache = {
+struct lde_cache Cache = {
 	.Wire_State = LDE_INVALID
 };
-lde_supplies Supplies = { };
-lde_interface Interface = {
+struct lde_supplies Supplies = { };
+struct lde_interface Interface = {
 	.Movespeed = 120,
 	.Prompt_Identifier = P_None,
 	.Subprompt_Identifier = LDE_INVALID,
@@ -134,5 +122,5 @@ lde_interface Interface = {
 		{ NULLSTRING }
 	}
 };
-lde_buffers Buffers = { };
-lde_preconfigs Preconfigs = { };
+struct lde_buffers Buffers = { };
+struct lde_preconfigs Preconfigs = { };

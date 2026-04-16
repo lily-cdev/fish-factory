@@ -147,7 +147,11 @@ enum Issues {
 	I_No_Window,
 	I_No_Renderer,
 	I_No_Sound,
-	I_Render_Failed
+	I_Render_Failed,
+	I_No_Integer,
+	I_No_XML_File,
+	I_No_Element,
+	I_No_Animtype
 };
 
 enum Error {
@@ -224,3 +228,10 @@ typedef enum {
 	F_Microtext,
 	F_Terminal
 } Font_Index;
+
+typedef enum {
+	A_None,
+	A_Static,
+	A_Rot,
+	A_Modular
+} Anim_Type;

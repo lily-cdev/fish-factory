@@ -192,7 +192,7 @@ void Process_Inputs() {
 						if (Interface.UI_Tab == 0) {
 							Process_Tutorial(Interface.UI_Selection);
 						}
-						if (Interface.UI_Query.Carrier != NULL) {
+						if (Interface.UI_Query.Carrier ) {
 							Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
 							Play_Sound(Click, false);
 						} else {
@@ -202,7 +202,7 @@ void Process_Inputs() {
 									Update_Cursor();//mov
 								}
 							} else {
-								if (Prompt_Functions[Interface.Prompt_Identifier + 1] != NULL) {
+								if (Prompt_Functions[Interface.Prompt_Identifier + 1]) {
 									Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);//rem
 								}
 							}

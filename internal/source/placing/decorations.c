@@ -45,8 +45,3 @@ bool Place_Silicone_Carpet(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 93;
     return true;
 }
-
-bool Place_Hazard_Strip(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 113;
-	return true;
-}

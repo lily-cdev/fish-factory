@@ -1,6 +1,6 @@
 #include <grid.h>
 
-void (*Cycle_Functions[LDE_MACHINES])(Point Pos, const int Rotation) = {
+void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
 	NULL, Cycle_Ram_Pump, Cycle_Incinerator, Cycle_RTG, NULL, NULL, NULL, Cycle_Bio_Gen, NULL, Cycle_Distillery,
 	Cycle_Algae_Bed, NULL, NULL, NULL, NULL, NULL, Cycle_Electrolytic_Cell, Cycle_Fluid_Mixer, Cycle_Signal_Tower, NULL,
 	NULL, NULL, Cycle_Geo_Well, Cycle_Large_Pipe, Cycle_HX, NULL, NULL, NULL, Cycle_Money_Generator, Cycle_Fluid_Generator,
@@ -40,7 +40,7 @@ void Update_Machines() {
 				}
 			}
 			int Chosen = Visual_To_ID(Data.Visual_Grid[pt(Pos)]);
-			if (Chosen >= 0 && Cycle_Functions[Chosen] != NULL) {
+			if (Chosen >= 0 && Cycle_Functions[Chosen]) {
 				Cycle_Functions[Chosen](Pos, Rotation);
 			}
 			if (Data.Visual_Grid[pt(Pos)] == 21) {

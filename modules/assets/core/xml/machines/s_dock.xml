@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>submarine dock</Name>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/s_dock</Path>
+	<Price>30</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Interactable />
+</Machine>

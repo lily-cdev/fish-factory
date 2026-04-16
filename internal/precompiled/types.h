@@ -1,4 +1,5 @@
 #pragma once
+#include <enums.h>
 #define NULLPOINT (Point){ LDE_TERMINATOR, LDE_TERMINATOR }
 #define NULLSTRING "NULL"
 #define NULLRECIPE (Recipe){ .ID = LDE_TERMINATOR }
@@ -67,14 +68,30 @@ typedef struct {
 } Rect3_Array;
 
 typedef struct {
+	int Parts;
+} Modular_Data;
+
+typedef struct {
 	SDL_Texture* Icon;
 	int Price;
-	int Tax;
+	int Fee;
 	int Depth;
+	char* Name;
+	char* Path;
+	bool Quirks[LDE_QUIRKS];
+	bool Single_ID;
+	Anim_Type Animation_Type;
 	union {
 		SDL_Texture* Texture1;
 		Texture_Array Texture2;
 		Texture2_Array Texture3;
+	};
+	union {
+		Modular_Data Mod_Data;
+	};
+	union {
+		int Visual_ID1;
+		int Visual_ID4[4];
 	};
 } Machine_Data;
 

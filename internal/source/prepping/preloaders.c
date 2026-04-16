@@ -44,67 +44,41 @@ void Preload_Fonts() {
 }
 
 void Preload_Machines() {
-	const int Tax_Carrier[LDE_MACHINES] = {
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 1, 0
-	};
-	const int Price_Carrier[LDE_MACHINES] = {
-		4, 15, 20, 4, 1, 30, 40, 35, 12, 70, 50, 0, 40, 4, 3, 3, 20, 40, 10, 2, 4, 3, 40, 3, 60, 10, 2, 4, 0, 0, 5, 5, 4,
-		30, 20, 90, 30, 50, 46, 20, 0
-	};
-	const int Depth_Carrier[LDE_MACHINES] = {
+	const int Depth_Carrier[] = {//to rem
 		2, 2, 3, 2, 1, 2, 2, 3, 2, 3, 3, 2, 2, 1, 1, 1, 2, 3, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2,
 		3, 3, 1
 	};
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-		Metadata.Machines[C1].Price = Price_Carrier[C1];
-		Metadata.Machines[C1].Tax = Tax_Carrier[C1];
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Metadata.Machines[C1].Depth = Depth_Carrier[C1];
+		switch (Metadata.Machines[C1].Animation_Type) {
+		case A_Static:
+			Metadata.Machines[C1].Depth = 1;
+			Metadata.Machines[C1].Texture1 = Preload_Texture(Metadata.Machines[C1].Path);
+			break;
+		case A_Rot:
+			Metadata.Machines[C1].Depth = 2;
+			Load_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture2);
+			break;
+		case A_Modular:
+			Metadata.Machines[C1].Depth = 2;
+			Load_Modular(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture2, Metadata.Machines[C1].Mod_Data.Parts);
+			break;
+		default:
+			break;
+		}
 	}
 	const int No_Rotationals[1] = { LDE_TERMINATOR };
 	const int RP_Rotationals[2] = { 2, LDE_TERMINATOR };
-	Load_Modular("machines/r_pipe", &Metadata.Machines[Reinforced_Pipe].Texture2, 6);
 	Load_Animated("machines/r_pump", &Metadata.Machines[Ram_Pump].Texture2, 1, false, RP_Rotationals);
 	Load_Animated_Rotational("machines/incinerator", &Metadata.Machines[Incinerator].Texture3, 1, true, No_Rotationals);
-	Load_Rotational("machines/rtg", &Metadata.Machines[RTG].Texture2);
-	Metadata.Machines[Decoration].Texture1 = Preload_Texture("tiles/tile");
-	Load_Rotational("machines/s_dock", &Metadata.Machines[Submarine_Dock].Texture2);
 	Load_Animated("machines/f_plant", &Metadata.Machines[Filtration_Plant].Texture2, 3, true, No_Rotationals);
 	Load_Animated_Rotational("machines/b_generator", &Metadata.Machines[Bio_Generator].Texture3, 3, true, No_Rotationals);
-	Load_Modular("machines/ms_pool", &Metadata.Machines[Spawning_Pool].Texture2, 6);
 	Load_Animated_Rotational("machines/distillery", &Metadata.Machines[Distillery].Texture3, 2, false, No_Rotationals);
 	Load_Animated_Rotational("machines/g_bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true, No_Rotationals);
-	Load_Rotational("machines/c_platform", &Metadata.Machines[Command_Platform].Texture2);
-	Load_Rotational("machines/battery", &Metadata.Machines[Battery].Texture2);
-	Metadata.Machines[Spawning_Controller].Texture1 = Preload_Texture("machines/ms_controller");
-	Metadata.Machines[Spawning_Output].Texture1 = Preload_Texture("machines/ms_output");
-	Metadata.Machines[Spawning_Input].Texture1 = Preload_Texture("machines/ms_input");
-	Load_Rotational("machines/e_plant", &Metadata.Machines[Electrolytic_Cell].Texture2);
 	Load_Animated_Rotational("machines/f_mixer", &Metadata.Machines[Fluid_Mixer].Texture3, 3, true, No_Rotationals);
-	Load_Rotational("machines/t_tower", &Metadata.Machines[Signal_Tower].Texture2);
-	Metadata.Machines[Flowerpot].Texture1 = Preload_Texture("machines/flowerpot");
-	Load_Rotational("machines/a_shelf", &Metadata.Machines[Ammunition_Shelf].Texture2);
-	Metadata.Machines[Cable_Node].Texture1 = Preload_Texture("machines/c_node");
-	Load_Rotational("machines/g_well", &Metadata.Machines[Geo_Well].Texture2);
-	Load_Modular("machines/l_pipe", &Metadata.Machines[Large_Pipe].Texture2, 6);
-	Load_Rotational("machines/h_exchanger", &Metadata.Machines[Heat_Exchanger].Texture2);
-	Metadata.Machines[Petrified_Wood].Texture1 = Preload_Texture("tiles/p_wood");
-	Metadata.Machines[Basalt_Tile].Texture1 = Preload_Texture("tiles/b_tile");
-	Metadata.Machines[Silicone_Carpet].Texture1 = Preload_Texture("tiles/s_carpet");
-	Metadata.Machines[Money_Generator].Texture1 = Preload_Texture("Cheats/m_generator");
-	Metadata.Machines[Fluid_Generator].Texture1 = Preload_Texture("Cheats/f_generator");
-	Load_Rotational("machines/r_intersection", &Metadata.Machines[R_Intersection].Texture2);
-	Load_Rotational("machines/l_intersection", &Metadata.Machines[L_Intersection].Texture2);
-	Metadata.Machines[Hazard_Strip].Texture1 = Preload_Texture("tiles/h_strip");
-	Load_Rotational("machines/sc_input", &Metadata.Machines[Condenser_Input].Texture2);
-	Load_Rotational("machines/sc_transferor", &Metadata.Machines[Condenser_Transferor].Texture2);
-	Load_Rotational("machines/sch_sink", &Metadata.Machines[Condenser_Heatsink].Texture2);
-	Load_Rotational("machines/sc_output", &Metadata.Machines[Condenser_Output].Texture2);
-	Load_Rotational("machines/st_input", &Metadata.Machines[Turbine_Input].Texture2);
 	Load_Animated_Rotational("machines/stit_Block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true, No_Rotationals);
 	Load_Animated_Rotational("machines/st_output", &Metadata.Machines[Turbine_Output].Texture3, 2, true, No_Rotationals);
-	Metadata.Machines[Power_Generator].Texture1 = Preload_Texture("cheats/p_generator");
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Point Pos = { };
 		SDL_Texture* Carrier;
 		if (C1 == Reinforced_Pipe || C1 == Large_Pipe) {
@@ -123,14 +97,14 @@ void Preload_Machines() {
 		}
 		Metadata.Machines[C1].Icon = Carrier;
 	}
-	Textures.Floor_Texture = Preload_Texture("tiles/ground");
-	Textures.Frame_Texture = Preload_Texture("tiles/frame");
-	Textures.Tile_Texture = Preload_Texture("tiles/tile");
-	Load_Rotational("ui/other/direction", &Textures.Arrow);
-	Textures.R_Flash = Preload_Texture("effects/light");
+	Textures.Floor_Texture = Preload_Texture("core/images/tiles/ground");
+	Textures.Frame_Texture = Preload_Texture("core/images/tiles/frame");
+	Textures.Tile_Texture = Preload_Texture("core/images/tiles/tile");
+	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
+	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("effects/bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 40.0f, Settings.Scalar * 40.0f };
-	Textures.Scrap = Preload_Texture("tiles/scrap");
+	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
 	const char Paths[LDE_ITEMS][32] = {
 		"r_seawater", "c_saltwater", "am_snow", "l_waste", "steam", "d_water", "s_solution", "w_algae", "a_paste", "milkfish",
 		"mojarra", "menhaden", "d_mud", "none", "none", "hydrogen", "oxygen", "chlorine", "a_lye", "h_chloride", "m_acid"
@@ -139,11 +113,11 @@ void Preload_Machines() {
 	Textures.Items.Data = malloc(sizeof(SDL_Texture*) * LDE_ITEMS);
 	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
 		char Carrier[64];
-		snprintf(Carrier, sizeof(Carrier), "items/%s", Paths[C1]);
+		snprintf(Carrier, sizeof(Carrier), "core/images/items/%s", Paths[C1]);
 		Textures.Items.Data[C1] = Preload_Texture(Carrier);
 	}
-	Textures.None_Item = Preload_Texture("items/none");
-	SDL_FRect Subrects[LDE_MACHINES] = {
+	Textures.None_Item = Preload_Texture("core/images/items/none");
+	SDL_FRect Subrects[] = {
 		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4, Rects.Tile_2x3,
 		Rects.Tile_3x3,	Rects.Tile_1x1, Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6, Rects.Tile_2x2, Rects.Tile_1x1,
 		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
@@ -151,8 +125,8 @@ void Preload_Machines() {
 		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
 		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2, Rects.Tile_1x1
 	};
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-		Metadata.Machine_Rectangles[C1] = Subrects[C1];
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
+		Metadata.Machine_Rects[C1] = Subrects[C1];
 	}
 }
 
@@ -237,7 +211,7 @@ void Preload_Assets() {
 	Interface.Tile_Centerpoint.y = Settings.Scalar * (LDE_TILESIZE * 0.5f);
 	Preload_Machines();
 	Preload_Foundation();
-	Carrying_Texture = Preload_Texture("ui/backgrounds/doors");
+	Carrying_Texture = Preload_Texture("core/images/ui/backgrounds/doors");
 	Textures.Door.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Door.Length = 2;
 	for (int C1 = 0; C1 < 2; C1++) {
@@ -265,7 +239,7 @@ void Preload_Assets() {
 	Rects.Tunnel.Data[0].h = Settings.Scalar * 90.0f;
 	Rects.Tunnel.Data[1].w = Settings.Scalar * 90.0f;
 	Rects.Tunnel.Data[1].h = Settings.Scalar * 240.0f;
-	Load_Rotational("other/tunnel", &Textures.Tunnel);
+	Load_Rotational("core/images/other/tunnel", &Textures.Tunnel);
 	SDL_Surface* Carrying_Surface;
 	load_bmp(Carrying_Surface, "assets/core/images/ui/other/logo.bmp");
 	Textures.Emblem = Surface_To_Texture(Carrying_Surface);
@@ -276,15 +250,15 @@ void Preload_Assets() {
 	Rects.Emblem.h = (int)((Rects.Emblem.h / 6.0f) * Settings.Scalar);
 	Rects.Emblem.x = (Settings.Scalar * 315.0f) - Rects.Emblem.w;
 	Rects.Emblem.y = Settings.Scalar * 32.0f;
-	Textures.Crosshair = Preload_Texture("ui/other/crosshair");
-	Textures.Cursor = Preload_Texture("ui/other/cursor");
-	Textures.Cursor_Core = Preload_Texture("ui/other/cursor_core");
-	Textures.Sapling = Preload_Texture("ui/other/sapling");
+	Textures.Crosshair = Preload_Texture("core/images/ui/other/crosshair");
+	Textures.Cursor = Preload_Texture("core/images/ui/other/cursor");
+	Textures.Cursor_Core = Preload_Texture("core/images/ui/other/cursor_core");
+	Textures.Sapling = Preload_Texture("core/images/ui/other/sapling");
 	Rects.Sapling = Rects.Tile_1x1;
-	Textures.Node = Preload_Texture("ui/other/node");
+	Textures.Node = Preload_Texture("core/images/ui/other/node");
 	Rects.Node = Rects.Tile_1x1;
-	Textures.Path_Arrow = Preload_Texture("ui/other/path_arrow");
-	Textures.Saveloader = Preload_Texture("ui/backgrounds/saveloader");
+	Textures.Path_Arrow = Preload_Texture("core/images/ui/other/path_arrow");
+	Textures.Saveloader = Preload_Texture("core/images/ui/backgrounds/saveloader");
 	Rects.Saveloader = (SDL_FRect) {
 		0,
 		0,
@@ -368,7 +342,7 @@ void Preload_Assets() {
 			Rects.Subcontents.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = (float)((C2 * 30) + 40) * Settings.Scalar;
-			Load_Button(F_Halftext, Metadata.Names[Metadata.Subcontents[C1][C2]], &Textures.Subcontents.Data[C1].Data[C2],
+			Load_Button(F_Halftext, Metadata.Machines[Metadata.Subcontents[C1][C2]].Name, &Textures.Subcontents.Data[C1].Data[C2],
 				Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
@@ -388,14 +362,8 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = (float)(((C2 + intlen(Metadata.Subcategory_Positions[C1])) * 30) +
 				40) * Settings.Scalar;
-			Load_Button(F_Halftext, Metadata.Names[Metadata.Item_Labels[C1][C2]], &Textures.Item_Labels.Data[C1].Data[C2],
+			Load_Button(F_Halftext, Metadata.Machines[Metadata.Item_Labels[C1][C2]].Name, &Textures.Item_Labels.Data[C1].Data[C2],
 				Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
-		}
-	}
-	memset(Metadata.Machine_Quirks, false, sizeof(Metadata.Machine_Quirks));
-	for (int C1 = 0; C1 < LDE_QUIRKS; C1++) {
-		for (int C2 = 0; C2 < intlen(Metadata.Quirk_Positions[C1]); C2++) {
-			Metadata.Machine_Quirks[Metadata.Quirk_Positions[C1][C2]][C1] = true;
 		}
 	}
 	Interface.Max_Time_Frames = Interface.Frame_Rate;
@@ -477,10 +445,10 @@ void Preload_Assets() {
 	Textures.Quirk.Length = 4;
 	Textures.Quirk_Label.Length = 4;
 	SDL_DestroySurface(Carrying_Surface);
-	Textures.Quirk.Data[0] = Preload_Texture("ui/quirks/no_rotation");
-	Textures.Quirk.Data[1] = Preload_Texture("ui/quirks/modular");
-	Textures.Quirk.Data[2] = Preload_Texture("ui/quirks/interactable");
-	Textures.Quirk.Data[3] = Preload_Texture("ui/quirks/omnidirectional");
+	Textures.Quirk.Data[0] = Preload_Texture("core/images/ui/quirks/no_rotation");
+	Textures.Quirk.Data[1] = Preload_Texture("core/images/ui/quirks/modular");
+	Textures.Quirk.Data[2] = Preload_Texture("core/images/ui/quirks/interactable");
+	Textures.Quirk.Data[3] = Preload_Texture("core/images/ui/quirks/omnidirectional");
 	char* Quirk_Texts[4] = { "Non-Rotatable", "Modular", "Interactable", "Omnidirectional" };
 	for (int C1 = 0; C1 < 4; C1++) {
 		Textures.Quirk_Label.Data[C1] = Render_Text(F_Subtext, Quirk_Texts[C1], Colors.Abyss_Black);
@@ -582,7 +550,7 @@ void Preload_Assets() {
 	Carrier.Length = 4;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int C1 = 0; C1 < Carrier.Length; C1++) {
-		Carrier.Data[C1] = malloc(sizeof(char) * strlen(Metadata.Buttons[C1 + 27]) + 1);
+		Carrier.Data[C1] = malloc(strlen(Metadata.Buttons[C1 + 27]) + 1);
 		strcpy(Carrier.Data[C1], Metadata.Buttons[C1 + 27]);
 	}
 	Preload_Terminal_Sidebar(&Carrier, &Textures.MSP_Buttons, &Rects.MSP_Buttons);
@@ -590,14 +558,14 @@ void Preload_Assets() {
 	Carrier.Length = 4;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int C1 = 0; C1 < Carrier.Length; C1++) {
-		Carrier.Data[C1] = malloc(sizeof(char) * strlen(Metadata.Buttons[C1 + 31]) + 1);
+		Carrier.Data[C1] = malloc(strlen(Metadata.Buttons[C1 + 31]) + 1);
 		strcpy(Carrier.Data[C1], Metadata.Buttons[C1 + 31]);
 	}
 	Preload_Terminal_Sidebar(&Carrier, &Textures.SD_Buttons, &Rects.SD_Buttons);
 	Free_String2(&Carrier);
 	Carrier.Length = 1;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	Carrier.Data[0] = malloc(sizeof(char) * strlen(Metadata.Buttons[35]) + 1);
+	Carrier.Data[0] = malloc(strlen(Metadata.Buttons[35]) + 1);
 	strcpy(Carrier.Data[0], Metadata.Buttons[35]);
 	Preload_Terminal_Sidebar(&Carrier, &Textures.HX_Buttons, &Rects.HX_Buttons);
 	Preload_Terminal_Sidebar(&Carrier, &Textures.MT_Buttons, &Rects.MT_Buttons);

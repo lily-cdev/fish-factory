@@ -21,7 +21,7 @@ void Render_Shop(Point Pos) {
 			}
 		}
 		Render_Box((Point){ 10, 10 }, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
-		SDL_FRect Icon_Rectangle = Metadata.Machine_Rectangles[Interface.Item - 1];
+		SDL_FRect Icon_Rectangle = Metadata.Machine_Rects[Interface.Item - 1];
 		float Multiplier = (Settings.Scalar * 120.0f) / Icon_Rectangle.w;
 		Icon_Rectangle = (SDL_FRect){
 			(Settings.Scalar * 103.0f) - (Icon_Rectangle.w * Multiplier * 0.5f),
@@ -37,15 +37,15 @@ void Render_Shop(Point Pos) {
 		int Quirk_Stack[LDE_QUIRKS + 1];
 		int Index = 0;
 		for (int C1 = 0; C1 < LDE_QUIRKS; C1++) {
-			if (Metadata.Machine_Quirks[Interface.Item - 1][C1]) {
+			if (Metadata.Machines[Interface.Item - 1].Quirks[C1]) {
 				Quirk_Stack[Index] = C1;
 				Index++;
 			}
 		}
 		Quirk_Stack[Index] = LDE_TERMINATOR;
 		SDL_FRect Label_Rects[3] = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-		float Start = (float)((Settings.Scalar * 103) - (((intlen(Quirk_Stack) * Settings.Scalar * 20) +
-			((intlen(Quirk_Stack) - 1) * Settings.Scalar * 10)) * 0.5));
+		float Start = (float)((Settings.Scalar * 103) - (((intlen(Quirk_Stack) * Settings.Scalar * 20) + ((intlen(Quirk_Stack) -
+			1) * Settings.Scalar * 10)) * 0.5));
 		for (int C1 = 0; C1 < intlen(Quirk_Stack); C1++) {
 			SDL_FRect Quirk_Rectangle = {
 				(C1 * Settings.Scalar * 30) + Start,
@@ -63,7 +63,7 @@ void Render_Shop(Point Pos) {
 		if (intlen(Quirk_Stack) > 0) {
 			Offset += 32;
 		}
-		SDL_Texture* Name_Texture = Render_Text(F_Halftext, Metadata.Names[Interface.Item - 1], Colors.Abyss_Black);
+		SDL_Texture* Name_Texture = Render_Text(F_Halftext, Metadata.Machines[Interface.Item - 1].Name, Colors.Abyss_Black);
 		SDL_FRect Name_Rectangle = {
 			(float)(Settings.Scalar * 103) - (Name_Texture->w * 0.5),
 			(float)(Offset + 10) * Settings.Scalar,
@@ -95,7 +95,7 @@ void Render_Shop(Point Pos) {
 		Process_Supply(&Supplies.Shop1, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 30 });
 		snprintf(Buffer, sizeof(Buffer), "tax: %iLA", (int)(Metadata.Machines[Interface.Item - 1].Price * 0.1f));
 		Process_Supply(&Supplies.Shop2, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 50 });
-		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machines[Interface.Item - 1].Tax);
+		snprintf(Buffer, sizeof(Buffer), "shipping fee: %iLA", Metadata.Machines[Interface.Item - 1].Fee);
 		Process_Supply(&Supplies.Shop3, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 70 });
 		snprintf(Buffer, sizeof(Buffer), "processing fee: %iLA", 1);//tmp
 		Process_Supply(&Supplies.Shop4, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 90 });

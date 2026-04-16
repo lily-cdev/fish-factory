@@ -1,4 +1,5 @@
 #include <data.h>
+#include <items.h>
 
 void Get_Filesizes() {
 	for (int C1 = 0; C1 < 4; C1++) {
@@ -156,10 +157,15 @@ void Reset_Statistics() {
 	Save_Data(Core.Selected_Save);
 }
 
-void Reload_All() {
+void Reload_All(bool Initialized) {
 	uint64_t Start = SDL_GetTicks();
-	Cleanup_Assets();
-	Free_Sounds();
+	if (Initialized) {
+		Cleanup_Assets();
+		Free_Sounds();
+	}
+	Load_XML();
+	Prep_Items();
+	Load_Text();
 	Core.Screensize = (Point_f){ Settings.Scalar * 640.0f, Settings.Scalar * 360.0f };
 	Core.Screenhalfsize = (Point_f){ Settings.Scalar * 320.0f, Settings.Scalar * 180.0f };
 	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>hazard strip</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/tiles/h_strip</Path>
+	<Price>1</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Single_ID />
+	<Visual_ID>113</Visual_ID>
+</Machine>

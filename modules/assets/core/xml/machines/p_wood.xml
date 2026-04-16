@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>petrified wood</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/tiles/p_wood</Path>
+	<Price>10</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+</Machine>

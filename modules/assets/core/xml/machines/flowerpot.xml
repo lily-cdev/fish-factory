@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>flowerpot</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/machines/flowerpot</Path>
+	<Price>6</Price>
+	<Fee>2</Fee>
+	<Nonrotatable />
+</Machine>

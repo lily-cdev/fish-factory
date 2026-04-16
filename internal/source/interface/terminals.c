@@ -117,7 +117,7 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
 		strncpy(Interface.Terminal_Entry, Carrier, sizeof(Interface.Terminal_Entry));
-		char* Result = malloc(sizeof(char) * (strlen(Interface.Terminal_Entry) + 1));
+		char* Result = malloc(strlen(Interface.Terminal_Entry) + 1);
 		int Index = 0;
 		for (int C1 = 0; C1 < strlen(Interface.Terminal_Entry); C1++) {
 			if (C1 >= Temporary.Ticker_Position || C1 > strlen(Interface.Terminal_Entry)) {

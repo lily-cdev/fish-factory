@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>power generator</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/cheats/p_generator</Path>
+	<Price>0</Price>
+	<Fee>0</Fee>
+	<Nonrotatable />
+	<Interactable />
+</Machine>

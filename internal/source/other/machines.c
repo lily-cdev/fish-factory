@@ -1,6 +1,11 @@
 #include <prepping.h>
 
 int Visual_To_ID(const int Identifier) {
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
+		if (Metadata.Machines[C1].Single_ID && Metadata.Machines[C1].Visual_ID1 == Identifier) {
+			return C1;
+		}
+	}
 	if (Identifier > 0 && Identifier < 17) {
 		return Reinforced_Pipe;
 	} else if (Identifier > 16 && Identifier < 24) {
@@ -37,8 +42,6 @@ int Visual_To_ID(const int Identifier) {
 		return R_Intersection;
 	} else if (Identifier > 108 && Identifier < 113) {
 		return L_Intersection;
-	} else if (Identifier == 113) {
-		return Hazard_Strip;
 	} else if (Identifier > 113 && Identifier < 117) {
 		return Incinerator;
 	} else if (Identifier > 116 && Identifier < 120) {

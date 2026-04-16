@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>turbine input</Name>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/st_input</Path>
+	<Price>28</Price>
+	<Fee>1</Fee>
+	<Modular />
+	<Interactable />
+</Machine>

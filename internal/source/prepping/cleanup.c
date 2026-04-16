@@ -1,4 +1,5 @@
 #include <prepping.h>
+#include <items.h>
 
 void Free_String2(String2* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
@@ -60,7 +61,7 @@ void Cleanup_Assets() {
 	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
 		TTF_CloseFont(Fonts.Faces[C1]);
 	}
-	for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		switch (Metadata.Machines[C1].Depth) {
 		case 1:
 			free_texture(Metadata.Machines[C1].Texture1);
@@ -72,6 +73,8 @@ void Cleanup_Assets() {
 			Clear_Texture2_Array(&Metadata.Machines[C1].Texture3);
 			break;
 		}
+		free_c(Metadata.Machines[C1].Name);
+		free_c(Metadata.Machines[C1].Path);
 	}
 	free_c(Cache.FPS_Cache);
 	free_texture(Textures.Logo1);
@@ -184,4 +187,8 @@ void Cleanup_Assets() {
 	free_texture(Cache.Blueprint_Cache);
 	Clear_Texture2_Array(&Cache.Log_Cache);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
+	free_c(Metadata.Machines);
+	free_c(Metadata.Machine_Rects);
+	Free_Items();
+	Free_Text();
 }

@@ -24,7 +24,7 @@ bool Save_Settings() {
 void Load_Settings() {
 	char Path[] = "assets/data/settings.pkg";
 	FILE* File = fopen(Path, "rb");
-	if (File != NULL) {
+	if (File) {
 		fseek(File, 0L, SEEK_END);
 		if (ftell(File) > 0) {
 			rewind(File);
@@ -84,5 +84,5 @@ void Recalibrate_Settings() {
 	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
 		Keybinds.Keybind_List[C1] = Keybinds.Keybind_Settings[C1];
 	}
-	Reload_All();
+	Reload_All(true);
 }

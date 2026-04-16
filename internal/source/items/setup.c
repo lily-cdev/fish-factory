@@ -1,6 +1,6 @@
 #include <items.h>
 
-Recipe* Recipes[LDE_RECIPETYPES][LDE_MACHINES];
+Recipe** Recipes[LDE_RECIPETYPES];
 
 void Prep_Items() {
     Fish_Catalog[0] = Preset_Fish.Milkfish;
@@ -68,7 +68,8 @@ void Prep_Items() {
 		.Length = 6
 	};
 	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
-		for (int C2 = 0; C2 < LDE_MACHINES; C2++) {
+		Recipes[C1] = calloc(Core.Machines, sizeof(Recipe*));
+		for (int C2 = 0; C2 < Core.Machines; C2++) {
 			int Cap = 0;
 			if (C1 == R_Outputs && C2 == Ram_Pump) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
@@ -106,8 +107,9 @@ void Prep_Items() {
 
 void Free_Items() {
 	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
-		for (int C2 = 0; C2 < LDE_MACHINES; C2++) {
+		for (int C2 = 0; C2 < Core.Machines; C2++) {
 			free_c(Recipes[C1][C2]);
 		}
+		free_c(Recipes[C1]);
 	}
 }

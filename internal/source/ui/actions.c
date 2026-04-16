@@ -34,7 +34,7 @@ void Update_Settings(Parameter Unused, Parameter Unused2) {
 
 void Invert_Changelog(Parameter Unused, Parameter Unused2) {
 	Temporary.Log_Inversions[Changelog] = !Temporary.Log_Inversions[Changelog];
-	Reload_All();
+	Reload_All(true);
 }
 
 void Jump_Changelog(Parameter Halfway, Parameter Unused) {

@@ -1,4 +1,4 @@
-#include <data.h>
+#include <prepping.h>
 
 static bool Yield;
 
@@ -18,7 +18,7 @@ void Load_TXT(const char* Path, char* Input[], int Lines) {
 		if (Buffer[Length - 1] == '\n') {
 			Length--;
 		}
-		Input[C1] = malloc(sizeof(char) * (Length + 1));
+		Input[C1] = malloc(Length + 1);
 		strncpy(Input[C1], Buffer, Length);
 		Input[C1][Length] = '\0';
 	}
@@ -35,14 +35,14 @@ void Load_Full(const char* Path, char** Input) {
 	}
 	fseek(File, 0L, SEEK_END);
 	uint64_t Length = ftell(File);
-	*Input = malloc(sizeof(char) * (Length + 1));
+	*Input = malloc(Length + 1);
 	if (*Input == NULL) {
 		Yield = false;
 		fclose(File);
 		return;
 	}
 	rewind(File);
-	fread(*Input, sizeof(char), Length, File);
+	fread(*Input, 1, Length, File);
 	(*Input)[Length] = '\0';
 	fclose(File);
 }
@@ -55,8 +55,7 @@ bool Load_Text() {
 	char Resolution_Names[LDE_SUPPORTEDRESOLUTIONS][8] = { "nHD", "HD", "FHD", "QHD", "QHD+", "4K" };
 	char Buffer[64];
 	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
-		if (Display->w == Metadata.Supported_Resolutions[C1].X &&
-			Display->h == Metadata.Supported_Resolutions[C1].Y) {
+		if (Display->w == Metadata.Supported_Resolutions[C1].X && Display->h == Metadata.Supported_Resolutions[C1].Y) {
 			snprintf(Buffer, sizeof(Buffer), "%s (%s)", Metadata.Monitor_Size, Resolution_Names[C1]);
 			break;
 		}
@@ -69,8 +68,7 @@ bool Load_Text() {
 	Metadata.Irradiating_Machines = malloc(sizeof(int) * 2);
 	Metadata.Irradiating_Machines[0] = RTG;
 	Metadata.Irradiating_Machines[1] = LDE_TERMINATOR;
-    Load_TXT("names", Metadata.Names, LDE_MACHINES);
-	Load_TXT("descriptions", Metadata.Descriptions, LDE_MACHINES);
+	Load_TXT("descriptions", Metadata.Descriptions, Core.Machines);
 	Load_TXT("categories", Metadata.Categories, LDE_CATEGORIES);
 	Load_TXT("subcategories", Metadata.Subcategories, LDE_SUBCATEGORIES);
 	Load_TXT("buttons", Metadata.Buttons, LDE_BUTTONS);
@@ -83,10 +81,10 @@ bool Load_Text() {
 }
 
 void Free_Text() {
-    for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
-    	free_c(Metadata.Names[C1]);//sus
+    for (int C1 = 0; C1 < Core.Machines; C1++) {
         free_c(Metadata.Descriptions[C1]);
     }
+	free_c(Metadata.Descriptions);
     for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
 		free_c(Metadata.Categories[C1]);
 	}

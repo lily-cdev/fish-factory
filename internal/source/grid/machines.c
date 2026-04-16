@@ -1,13 +1,13 @@
 #include <grid.h>
 
-bool (*Placing_Functions[LDE_MACHINES])(Point Pos) = {
+bool (*Placing_Functions[])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_RTG, Place_Decoration, Place_Submarine_Dock,
 	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
 	Place_Command_Platform, Place_Battery, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
 	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower, Place_Flowerpot, Place_Ammunition_Shelf,
 	Place_Cable_Node, Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger, Place_Petrified_Wood, Place_Basalt_Tile,
 	Place_Silicone_Carpet, Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
-	Place_Hazard_Strip, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
+	NULL, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
@@ -208,8 +208,12 @@ void Build_Grid() {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == 0) {
-					if (Placing_Functions[Interface.Item - 1]((Point){ Column, Row })) {
-						Data.Funds -= Interface.Queried_Price;
+					if (Placing_Functions[Interface.Item - 1] && !Placing_Functions[Interface.Item - 1]((Point){ Column, Row })) {
+						return;
+					}
+					Data.Funds -= Interface.Queried_Price;
+					if (Metadata.Machines[Interface.Item - 1].Single_ID) {
+						Data.Visual_Grid[Column][Row] = Metadata.Machines[Interface.Item - 1].Visual_ID1;
 					}
 					Update_Grid();
 					Recast_Machines();

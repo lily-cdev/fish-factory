@@ -1,5 +1,5 @@
 #pragma once
-#define free_c(Victim) do { if ((Victim) != NULL) { free(Victim); (Victim) = NULL; } } while(0)
+#define free_c(Victim) do { if ((Victim)) { free(Victim); (Victim) = NULL; } } while(0)
 #define memcpy_c(Victim, Source, Size) do { if ((Source) == NULL) { memset(Victim, 0, Size); } else { memcpy(Victim, \
     Source, Size); } } while (0)
 #define intlen(Victim) ({ int Yield = 0; while ((Victim)[Yield] != LDE_TERMINATOR) { Yield++; } Yield; })
@@ -12,7 +12,7 @@
     (A); } } Yield; })
 #define charcat(Victim, A, B) do { int Length = strlen(Victim); if (Length < B) { (Victim)[Length] = (A); (Victim)[ \
     Length + 1] = '\0'; } } while(0)
-#define free_texture(Victim) do { if (Victim != NULL) { SDL_DestroyTexture(Victim); Victim = NULL; } } while(0)
+#define free_texture(Victim) do { if (Victim) { SDL_DestroyTexture(Victim); Victim = NULL; } } while(0)
 #define jump(Value, Text) do { strcpy(Exception_Text, Text); Exception_Value = Value; longjmp(Exception, Value); } while(0)
 #define load_bmp(Victim, Path) do { (Victim) = Load_BMP(Path); if ((Victim) == NULL) { char Carrier[128]; snprintf( \
     Carrier, sizeof(Carrier), "could not load image \"%s\"", Path); jump(I_No_Image, Carrier); } } while(0)

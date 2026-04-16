@@ -51,7 +51,6 @@ bool Place_Money_Generator(Point Pos);
 bool Place_Fluid_Generator(Point Pos);
 bool Place_RL_Intersection(Point Pos);
 bool Place_RL_Intersection(Point Pos);
-bool Place_Hazard_Strip(Point Pos);
 bool Place_Condenser_Input(Point Pos);
 bool Place_Condenser_Transferor(Point Pos);
 bool Place_Condenser_Heatsink(Point Pos);

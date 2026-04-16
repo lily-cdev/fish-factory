@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>decoration</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/tiles/tile</Path>
+	<Price>1</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+</Machine>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>fluid generator</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/cheats/f_generator</Path>
+	<Price>0</Price>
+	<Fee>0</Fee>
+	<Nonrotatable />
+	<Interactable />
+	<Omnidirectional />
+</Machine>

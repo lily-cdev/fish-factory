@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>condenser input</Name>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/sc_input</Path>
+	<Price>31</Price>
+	<Fee>1</Fee>
+	<Modular />
+</Machine>

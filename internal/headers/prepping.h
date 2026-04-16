@@ -1,7 +1,7 @@
 #pragma once
 #include <core.h>
 
-typedef struct {
+struct lde_core {
 	SDL_Window* Window;
 	SDL_Renderer* Renderer;
 	SDL_Texture* Game_Texture;
@@ -14,10 +14,11 @@ typedef struct {
 	Point_f Mouse;
 	Point_f Screensize;
 	Point_f Screenhalfsize;
+	int Machines;
 	uint32_t State;
-} lde_core;
+};
 
-typedef struct {
+struct lde_data {
 	bool CMD_Placed;
 	int Version;
 	int Time;
@@ -32,32 +33,30 @@ typedef struct {
 	float Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
 	float Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
 	int64_t Funds;
-} lde_data;
+};
 
-typedef struct {
+struct lde_metadata {
 	char Monitor_Size[64];
-	char* Names[LDE_MACHINES];
-	char* Descriptions[LDE_MACHINES];
+	char** Names;
+	char** Descriptions;
 	char* Categories[LDE_CATEGORIES];
 	char* Subcategories[LDE_SUBCATEGORIES];
 	char* Buttons[LDE_BUTTONS];
-	SDL_FRect Machine_Rectangles[LDE_MACHINES];
+	SDL_FRect* Machine_Rects;
 	const int Item_Labels[LDE_CATEGORIES][16];
 	const int Subcategory_Positions[LDE_CATEGORIES][8];
 	const int Subcontents[LDE_SUBCATEGORIES][16];
 	char* Logs[LDE_LOGS];
 	int* Heating_Machines;
 	int* Irradiating_Machines;
-	const int Quirk_Positions[LDE_QUIRKS][64];
-	bool Machine_Quirks[64][LDE_QUIRKS];
 	const char* Days[LDE_DAYS];
 	const Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
 	char* Facts[LDE_FACTS];
 	const char Tool_Texts[LDE_TOOLS][64];
-	Machine_Data Machines[LDE_MACHINES];
-} lde_metadata;
+	Machine_Data* Machines;
+};
 
-typedef struct {
+struct lde_settings {
 	bool AA_Temporary;
 	bool VS_Temporary;
 	int Fullscreen;
@@ -66,9 +65,9 @@ typedef struct {
 	int VSync;
 	int Volume;
 	int Raw_FPS;
-} lde_settings;
+};
 
-typedef struct {
+struct lde_textures {
 	SDL_Texture* Logo1;
 	SDL_Texture* Logo2;
 	SDL_Texture* Terminal_Prompt;
@@ -143,9 +142,9 @@ typedef struct {
 	SDL_Texture* None_Item;
 	Texture_Array Fire;
 	Texture_Array None;
-} lde_textures;
+};
 
-typedef struct {
+struct lde_rects {
 	SDL_FRect Logo1;
 	SDL_FRect Logo2;
 	SDL_FRect Terminal_Prompt;
@@ -213,9 +212,9 @@ typedef struct {
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	Rect2_Array Confirmation;
-} lde_rects;
+};
 
-typedef struct {
+struct lde_colors {
 	SDL_Color Abyss_Black;
 	SDL_Color Pure_White;
 	SDL_Color Light_Grey;
@@ -228,21 +227,21 @@ typedef struct {
 	SDL_Color Carnage_Pink;
 	SDL_Color Hostile_Red;
 	SDL_Color Ocean;
-} lde_colors;
+};
 
-typedef struct {
+struct lde_fonts {
 	TTF_Font* Faces[LDE_FONTS];
 	const char* Paths[LDE_FONTS];
 	const int Sizes[LDE_FONTS];
-} lde_fonts;
+};
 
-typedef struct {
+struct lde_keybinds {
 	char* Keybind_Texts[LDE_KEYBINDS];
 	SDL_Keycode Keybind_List[LDE_KEYBINDS];
 	SDL_Keycode Keybind_Settings[LDE_KEYBINDS];
-} lde_keybinds;
+};
 
-typedef struct {
+struct lde_temporary {
 	bool Settings_Changed;
 	int Modular1_Requirement;
 	int Modular2_Requirement;
@@ -257,9 +256,9 @@ typedef struct {
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
-} lde_temporary;
+};
 
-typedef struct {
+struct lde_cache {
 	int Wire_State;
 	Texture_Array Wire_Cache;
 	SDL_FRect Wire_Box;
@@ -272,9 +271,9 @@ typedef struct {
 	int Query_Length;
 	float* FPS_Cache;
 	int FPS_Tick;
-} lde_cache;
+};
 
-typedef struct {
+struct lde_supplies {
 	Texture_Supply FPS;
 	Texture_Supply Scroll_Percent;
 	Texture_Supply Changelog_Scroll;
@@ -300,9 +299,9 @@ typedef struct {
 	Texture_Supply Catalog2[LDE_RECIPETYPES];
 	Texture_Supply Catalog3[LDE_RECIPETYPES];
 	Texture_Supply Filesizes[LDE_SAVEFILES];
-} lde_supplies;
+};
 
-typedef struct {
+struct lde_interface {
 	bool Locked;
 	bool Building;
 	bool Sprinting;
@@ -341,15 +340,15 @@ typedef struct {
 	char Terminal_Entry[128];
 	int Terminal_Length;
 	bool Bar_Up;
-} lde_interface;
+};
 
-typedef struct {
+struct lde_buffers {
 	char JSON[LDE_JSONMAX][128];
 	int Commands[LDE_CMDMAX];
 	char Parameters[LDE_CMDMAX][4][LDE_PARAMMAX];
-} lde_buffers;
+};
 
-typedef struct {
+struct lde_preconfigs {
 	Node EP_Inputs[4];
 	Node EP_Outputs[4];
 	Node FM_Inputs[4];
@@ -365,23 +364,23 @@ typedef struct {
 	Node GW_Inputs[4];
 	Node GW_Outputs[4];
 	Node RP_Outputs[4];
-} lde_preconfigs;
+};
 
-extern lde_core Core;
-extern lde_data Data;
-extern lde_metadata Metadata;
-extern lde_settings Settings;
-extern lde_textures Textures;
-extern lde_rects Rects;
-extern const lde_colors Colors;
-extern lde_fonts Fonts;
-extern lde_keybinds Keybinds;
-extern lde_temporary Temporary;
-extern lde_cache Cache;
-extern lde_supplies Supplies;
-extern lde_interface Interface;
-extern lde_buffers Buffers;
-extern lde_preconfigs Preconfigs;
+extern struct lde_core Core;
+extern struct lde_data Data;
+extern struct lde_metadata Metadata;
+extern struct lde_settings Settings;
+extern struct lde_textures Textures;
+extern struct lde_rects Rects;
+extern const struct lde_colors Colors;
+extern struct lde_fonts Fonts;
+extern struct lde_keybinds Keybinds;
+extern struct lde_temporary Temporary;
+extern struct lde_cache Cache;
+extern struct lde_supplies Supplies;
+extern struct lde_interface Interface;
+extern struct lde_buffers Buffers;
+extern struct lde_preconfigs Preconfigs;
 
 void Preload_Fonts();
 int Visual_To_ID(const int Identifier);
@@ -441,3 +440,8 @@ SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color);
 SDL_Texture* New_Texture(int Width, int Height);
 SDL_Texture* Surface_To_Texture(SDL_Surface* Surface);
 SDL_Texture* IMG_To_Texture(const char* Path);
+void Load_XML();
+char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield);
+char** Find_Multiple(const char* Path, const char* Text, const char* Element, int Count);
+bool Load_Text();
+void Free_Text();

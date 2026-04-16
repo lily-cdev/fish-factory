@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>cable node</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/machines/c_node</Path>
+	<Price>4</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+</Machine>

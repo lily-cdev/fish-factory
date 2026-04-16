@@ -7,7 +7,7 @@ void Render_Catalog(Point Pos) {
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == LDE_INVALID) {
 		Index = 0;
-		for (int C1 = 0; C1 < LDE_MACHINES; C1++) {
+		for (int C1 = 0; C1 < Core.Machines; C1++) {
 			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][C1]) == 0) {
 				continue;
 			}
@@ -42,7 +42,7 @@ void Render_Catalog(Point Pos) {
 				Settings.Scalar * 36.0f,
 				Settings.Scalar * 36.0f
 			};
-			float XY_Ratio = Metadata.Machine_Rectangles[C1].w / Metadata.Machine_Rectangles[C1].h;
+			float XY_Ratio = Metadata.Machine_Rects[C1].w / Metadata.Machine_Rects[C1].h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
 				Machine_Rectangle.y = Machine_Rectangle.y +	(Settings.Scalar * 18.0f) - (Machine_Rectangle.h * 0.5);

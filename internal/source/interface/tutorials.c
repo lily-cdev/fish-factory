@@ -101,9 +101,9 @@ void Render_Tutorial() {
 			} else {
 				char Subcore[64];
 				if (Tutorial_Stack[Temporary.Tutorial_Step].ID_Override) {
-					strncpy(Subcore, Metadata.Names[Tutorial_Stack[Temporary.Tutorial_Step].Item], sizeof(Subcore));
+					strncpy(Subcore, Metadata.Machines[Tutorial_Stack[Temporary.Tutorial_Step].Item].Name, sizeof(Subcore));
 				} else {
-					strncpy(Subcore, Metadata.Names[Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item)], sizeof(
+					strncpy(Subcore, Metadata.Machines[Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item)].Name, sizeof(
 						Subcore));
 				}
 				snprintf(Carrier, sizeof(Carrier), "Place %ix %s in the space%sshown.", Remaining, Subcore, Suffix);

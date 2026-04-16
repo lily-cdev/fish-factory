@@ -5,7 +5,7 @@ void Recache_TT_Commands() {
 	Carrier.Length = min(Temporary.Docks.Length, LDE_CMDMAX);
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int C1 = 0; C1 < Carrier.Length; C1++) {
-		Carrier.Data[C1] = malloc(sizeof(char) * 128);
+		Carrier.Data[C1] = malloc(128);
 		snprintf(Carrier.Data[C1], 128, "Dock %d", C1 + 1);
 	}
 	Preload_Terminal_Sidebar(&Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
@@ -17,11 +17,11 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 	Carrier.Length = Texts->Length + 2;
 	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
 	for (int C1 = 0; C1 < Texts->Length; C1++) {
-		Carrier.Data[C1] = malloc(sizeof(char) * (strlen(Texts->Data[C1]) + 1));
+		Carrier.Data[C1] = malloc(strlen(Texts->Data[C1]) + 1);
 		strcpy(Carrier.Data[C1], Texts->Data[C1]);
 	}
-	Carrier.Data[Carrier.Length - 1] = malloc(sizeof(char) * (strlen(Metadata.Buttons[37]) + 1));
-	Carrier.Data[Carrier.Length - 2] = malloc(sizeof(char) * (strlen(Metadata.Buttons[36]) + 1));
+	Carrier.Data[Carrier.Length - 1] = malloc(strlen(Metadata.Buttons[37]) + 1);
+	Carrier.Data[Carrier.Length - 2] = malloc(strlen(Metadata.Buttons[36]) + 1);
 	strcpy(Carrier.Data[Carrier.Length - 1], Metadata.Buttons[37]);
 	strcpy(Carrier.Data[Carrier.Length - 2], Metadata.Buttons[36]);
 	Yield->Length = Carrier.Length;

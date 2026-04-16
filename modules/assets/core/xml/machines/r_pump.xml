@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>ram pump</Name>
+	<Texture_Type>none</Texture_Type>
+	<Path>core/images/machines/r_pump</Path>
+	<Price>15</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Omnidirectional />
+</Machine>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>transmission tower</Name>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/t_tower</Path>
+	<Price>32</Price>
+	<Fee>2</Fee>
+	<Interactable />
+</Machine>

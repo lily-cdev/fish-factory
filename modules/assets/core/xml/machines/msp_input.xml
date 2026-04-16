@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>spawning input</Name>
+	<Texture_Type>static</Texture_Type>
+	<Path>core/images/machines/msp_input</Path>
+	<Price>3</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Modular />
+</Machine>

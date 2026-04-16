@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>spawning pool</Name>
+	<Texture_Type>modular</Texture_Type>
+	<Parts>6</Parts>
+	<Path>core/images/machines/ms_pool</Path>
+	<Price>11</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Modular />
+	<Omnidirectional />
+</Machine>
