@@ -207,7 +207,7 @@ void Build_Grid() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (!Data.Visual_Grid[Column][Row] == 0) {
+				if (Data.Visual_Grid[Column][Row] != 0) {
 					return;
 				}
 				int Index = Interface.Item - 1;

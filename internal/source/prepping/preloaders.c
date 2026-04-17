@@ -76,7 +76,11 @@ void Preload_Machines() {
 	Load_Animated_Rotational("machines/distillery", &Metadata.Machines[Distillery].Texture3, 2, false, No_Rotationals);
 	Load_Animated_Rotational("machines/g_bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true, No_Rotationals);
 	Load_Animated_Rotational("machines/f_mixer", &Metadata.Machines[Fluid_Mixer].Texture3, 3, true, No_Rotationals);
-	Load_Animated_Rotational("machines/stit_Block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true, No_Rotationals);
+	Metadata.Machines[Electrolytic_Cell].Depth = 3;
+	Load_Animated_Rotational("machines/e_plant", &Metadata.Machines[Electrolytic_Cell].Texture3, 1, true, No_Rotationals);
+	Metadata.Machines[Battery].Depth = 3;
+	Load_Animated_Rotational("machines/battery", &Metadata.Machines[Battery].Texture3, 1, true, No_Rotationals);
+	Load_Animated_Rotational("machines/stit_block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true, No_Rotationals);
 	Load_Animated_Rotational("machines/st_output", &Metadata.Machines[Turbine_Output].Texture3, 2, true, No_Rotationals);
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Point Pos = { };
@@ -117,17 +121,6 @@ void Preload_Machines() {
 		Textures.Items.Data[C1] = Preload_Texture(Carrier);
 	}
 	Textures.None_Item = Preload_Texture("core/images/items/none");
-	SDL_FRect Subrects[] = {
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_6x4, Rects.Tile_2x3,
-		Rects.Tile_3x3,	Rects.Tile_1x1, Rects.Tile_2x2, Rects.Tile_2x3,	Rects.Tile_8x6, Rects.Tile_2x2, Rects.Tile_1x1,
-		Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_3x2, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1,	Rects.Tile_2x1,
-		Rects.Tile_1x1, Rects.Tile_2x3,	Rects.Tile_1x1, Rects.Tile_4x3, Rects.Tile_1x1, Rects.Tile_1x1, Rects.Tile_1x1,
-		Rects.Tile_1x1,	Rects.Tile_1x1, Rects.Tile_3x3, Rects.Tile_3x3, Rects.Tile_1x1, Rects.Tile_2x1, Rects.Tile_2x1,
-		Rects.Tile_2x3, Rects.Tile_2x1, Rects.Tile_2x3, Rects.Tile_2x3, Rects.Tile_2x2, Rects.Tile_1x1
-	};
-	for (int C1 = 0; C1 < Core.Machines; C1++) {
-		Metadata.Machine_Rects[C1] = Subrects[C1];
-	}
 }
 
 void Preload_Foundation() {

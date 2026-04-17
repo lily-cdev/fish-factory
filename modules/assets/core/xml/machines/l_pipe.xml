@@ -9,4 +9,6 @@
 	<Nonrotatable />
 	<Modular />
 	<Omnidirectional />
+	<Width>1</Width>
+	<Height>1</Height>
 </Machine>

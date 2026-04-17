@@ -188,7 +188,6 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Cache.Log_Cache);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
 	free_c(Metadata.Machines);
-	free_c(Metadata.Machine_Rects);
 	Free_Items();
 	Free_Text();
 }

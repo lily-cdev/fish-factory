@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>electrolytic cell</Name>
-	<Texture_Type>rot</Texture_Type>
+	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/e_plant</Path>
 	<Price>16</Price>
 	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>2</Height>
 </Machine>

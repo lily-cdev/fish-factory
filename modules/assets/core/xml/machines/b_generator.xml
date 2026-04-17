@@ -5,4 +5,6 @@
 	<Path>core/images/machines/b_generator</Path>
 	<Price>32</Price>
 	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>3</Height>
 </Machine>

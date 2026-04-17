@@ -6,4 +6,6 @@
 	<Price>1</Price>
 	<Fee>1</Fee>
 	<Nonrotatable />
+	<Width>1</Width>
+	<Height>1</Height>
 </Machine>

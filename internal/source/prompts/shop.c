@@ -21,7 +21,7 @@ void Render_Shop(Point Pos) {
 			}
 		}
 		Render_Box((Point){ 10, 10 }, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
-		SDL_FRect Icon_Rectangle = Metadata.Machine_Rects[Interface.Item - 1];
+		SDL_FRect Icon_Rectangle = Metadata.Machines[Interface.Item - 1].Rect;
 		float Multiplier = (Settings.Scalar * 120.0f) / Icon_Rectangle.w;
 		Icon_Rectangle = (SDL_FRect){
 			(Settings.Scalar * 103.0f) - (Icon_Rectangle.w * Multiplier * 0.5f),

@@ -5,4 +5,6 @@
 	<Path>core/images/machines/r_intersection</Path>
 	<Price>21</Price>
 	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>3</Height>
 </Machine>

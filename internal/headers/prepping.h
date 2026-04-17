@@ -37,12 +37,10 @@ struct lde_data {
 
 struct lde_metadata {
 	char Monitor_Size[64];
-	char** Names;
 	char** Descriptions;
 	char* Categories[LDE_CATEGORIES];
 	char* Subcategories[LDE_SUBCATEGORIES];
 	char* Buttons[LDE_BUTTONS];
-	SDL_FRect* Machine_Rects;
 	const int Item_Labels[LDE_CATEGORIES][16];
 	const int Subcategory_Positions[LDE_CATEGORIES][8];
 	const int Subcontents[LDE_SUBCATEGORIES][16];

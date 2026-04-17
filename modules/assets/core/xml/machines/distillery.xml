@@ -5,4 +5,6 @@
 	<Path>core/images/machines/distillery</Path>
 	<Price>54</Price>
 	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>2</Height>
 </Machine>

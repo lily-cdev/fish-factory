@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>battery</Name>
-	<Texture_Type>rot</Texture_Type>
+	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/battery</Path>
 	<Price>35</Price>
 	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>2</Height>
 </Machine>

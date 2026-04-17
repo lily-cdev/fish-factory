@@ -7,4 +7,6 @@
 	<Fee>1</Fee>
 	<Nonrotatable />
 	<Interactable />
+	<Width>6</Width>
+	<Height>4</Height>
 </Machine>

@@ -64,7 +64,6 @@ void Preload_Noise() {
 		snprintf(Buffer, sizeof(Buffer), "cache/noise%d.bmp", C1 + 1);
 		SDL_Surface* Carrier;
 		FILE* Cache_File = fopen(Buffer, "r");
-		//Cache_File = NULL;pass 1 WORKS
 		if (Cache_File == NULL) {
 			Carrier = SDL_CreateSurface(LDE_OCEANSIZE, LDE_OCEANSIZE, SDL_PIXELFORMAT_RGBA8888);
 			SDL_LockSurface(Carrier);
@@ -74,7 +73,7 @@ void Preload_Noise() {
 				Pixels[C2] = Lookup_Table[(Core.State & 31)];
 			}
 			SDL_UnlockSurface(Carrier);
-			Save_BMP(Buffer, Carrier);//custom save function needed
+			Save_BMP(Buffer, Carrier);
 		} else {
 			fclose(Cache_File);
 			load_bmp(Carrier, Buffer);

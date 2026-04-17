@@ -7,4 +7,6 @@
 	<Fee>1</Fee>
 	<Modular />
 	<Interactable />
+	<Width>2</Width>
+	<Height>3</Height>
 </Machine>

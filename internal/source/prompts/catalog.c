@@ -42,7 +42,7 @@ void Render_Catalog(Point Pos) {
 				Settings.Scalar * 36.0f,
 				Settings.Scalar * 36.0f
 			};
-			float XY_Ratio = Metadata.Machine_Rects[C1].w / Metadata.Machine_Rects[C1].h;
+			float XY_Ratio = Metadata.Machines[C1].Rect.w / Metadata.Machines[C1].Rect.h;
 			if (XY_Ratio > 1) {
 				Machine_Rectangle.h = Machine_Rectangle.w / XY_Ratio;
 				Machine_Rectangle.y = Machine_Rectangle.y +	(Settings.Scalar * 18.0f) - (Machine_Rectangle.h * 0.5);

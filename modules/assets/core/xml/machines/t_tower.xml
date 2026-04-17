@@ -6,4 +6,6 @@
 	<Price>32</Price>
 	<Fee>2</Fee>
 	<Interactable />
+	<Width>3</Width>
+	<Height>3</Height>
 </Machine>

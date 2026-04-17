@@ -5,4 +5,6 @@
 	<Path>core/images/machines/rtg</Path>
 	<Price>4</Price>
 	<Fee>2</Fee>
+	<Width>1</Width>
+	<Height>1</Height>
 </Machine>

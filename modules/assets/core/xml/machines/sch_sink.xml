@@ -6,4 +6,6 @@
 	<Price>31</Price>
 	<Fee>1</Fee>
 	<Modular />
+	<Width>2</Width>
+	<Height>2</Height>
 </Machine>

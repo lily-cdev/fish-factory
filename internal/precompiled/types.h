@@ -81,6 +81,7 @@ typedef struct {
 	bool Quirks[LDE_QUIRKS];
 	bool Single_ID;
 	Point Size;
+	SDL_FRect Rect;
 	Anim_Type Animation_Type;
 	union {
 		SDL_Texture* Texture1;

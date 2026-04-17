@@ -8,4 +8,6 @@
 	<Nonrotatable />
 	<Interactable />
 	<Omnidirectional />
+	<Width>1</Width>
+	<Height>1</Height>
 </Machine>

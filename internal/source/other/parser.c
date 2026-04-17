@@ -66,45 +66,52 @@ void Load_XML() {
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	Metadata.Descriptions = calloc(Core.Machines, sizeof(char*));
-	Metadata.Machine_Rects = calloc(Core.Machines, sizeof(SDL_FRect));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	free_c(Registrar);
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
+		#define Machine Metadata.Machines[C1]	
 		char* Machine_File = Get_File(Raw_Names[C1]);
-		Metadata.Machines[C1].Name = Find_Element(Raw_Names[C1], Machine_File, "Name", NULL);
+		Machine.Name = Find_Element(Raw_Names[C1], Machine_File, "Name", NULL);
 		char* Texture_Type = Find_Element(Raw_Names[C1], Machine_File, "Texture_Type", NULL);
 		if (strcmp(Texture_Type, "none") == 0) {
-			Metadata.Machines[C1].Animation_Type = A_None;
+			Machine.Animation_Type = A_None;
 		} else if (strcmp(Texture_Type, "static") == 0) {
-			Metadata.Machines[C1].Animation_Type = A_Static;
+			Machine.Animation_Type = A_Static;
 		} else if (strcmp(Texture_Type, "rot") == 0) {
-			Metadata.Machines[C1].Animation_Type = A_Rot;
+			Machine.Animation_Type = A_Rot;
 		} else if (strcmp(Texture_Type, "modular") == 0) {
-			Metadata.Machines[C1].Animation_Type = A_Modular;
-			Metadata.Machines[C1].Mod_Data.Parts = Get_Integer(Raw_Names[C1], Machine_File, "Parts");
+			Machine.Animation_Type = A_Modular;
+			Machine.Mod_Data.Parts = Get_Integer(Raw_Names[C1], Machine_File, "Parts");
 		} else {
 			jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
 		free_c(Texture_Type);
-		Metadata.Machines[C1].Path = Find_Element(Raw_Names[C1], Machine_File, "Path", NULL);
-		Metadata.Machines[C1].Price = Get_Integer(Raw_Names[C1], Machine_File, "Price");
-		Metadata.Machines[C1].Fee = Get_Integer(Raw_Names[C1], Machine_File, "Fee");
+		Machine.Path = Find_Element(Raw_Names[C1], Machine_File, "Path", NULL);
+		Machine.Price = Get_Integer(Raw_Names[C1], Machine_File, "Price");
+		Machine.Fee = Get_Integer(Raw_Names[C1], Machine_File, "Fee");
 		char* Quirk_Texts[4] = { "Nonrotatable", "Modular", "Interactable", "Omnidirectional" };
 		for (int C2 = 0; C2 < LDE_QUIRKS; C2++) {
-			Metadata.Machines[C1].Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
+			Machine.Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
 		}
-		Metadata.Machines[C1].Single_ID = Get_Boolean(Machine_File, "Single_ID");
-		Metadata.Machines[C1].Size = (Point){
+		Machine.Single_ID = Get_Boolean(Machine_File, "Single_ID");
+		Machine.Size = (Point){
 			Get_Integer(Raw_Names[C1], Machine_File, "Width"),
 			Get_Integer(Raw_Names[C1], Machine_File, "Height")
 		};
-		if (Metadata.Machines[C1].Single_ID) {
-			Metadata.Machines[C1].Visual_ID1 = Get_Integer(Raw_Names[C1], Machine_File, "Visual_ID");
+		Machine.Rect = (SDL_FRect){
+			0,
+			0,
+			LDE_TILESIZE * Settings.Scalar * Machine.Size.X,
+			LDE_TILESIZE * Settings.Scalar * Machine.Size.Y
+		};
+		if (Machine.Single_ID) {
+			Machine.Visual_ID1 = Get_Integer(Raw_Names[C1], Machine_File, "Visual_ID");
 		} else {
 			//idk lol
 		}
 		free_c(Machine_File);
 		free_c(Raw_Names[C1]);
+		#undef Machine
 	}
 	free_c(Raw_Names);
 }
