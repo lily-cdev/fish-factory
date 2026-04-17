@@ -1,7 +1,6 @@
 #include <grid.h>
 
 bool Place_Filtration_Plant(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 22;
 	Data.Plumbing_Grid[Pos.X][Pos.Y + 1] = Left;
 	Data.Plumbing_Grid[Pos.X + 1][Pos.Y] = Right;
 	Data.Plumbing_Grid[Pos.X + 1][Pos.Y + 1] = Right;

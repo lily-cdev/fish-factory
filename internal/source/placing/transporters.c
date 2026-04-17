@@ -26,7 +26,6 @@ bool Place_Submarine_Dock(Point Pos) {
 }
 
 bool Place_Cable_Node(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 63;
 	Data.Wiring_Grid[pt(Pos)] = F_Either;
 	Data.Data_Grid[pt(Pos)][Power_Cap] = 12000;
 	Data.Data_Grid[pt(Pos)][5] = 20;

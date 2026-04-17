@@ -8,4 +8,6 @@
 	<Nonrotatable />
 	<Width>2</Width>
 	<Height>3</Height>
+	<Single_ID />
+	<Visual_ID>22</Visual_ID>
 </Machine>

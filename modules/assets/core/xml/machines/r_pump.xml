@@ -9,4 +9,6 @@
 	<Omnidirectional />
 	<Width>1</Width>
 	<Height>1</Height>
+	<Single_ID />
+	<Visual_ID>17</Visual_ID>
 </Machine>

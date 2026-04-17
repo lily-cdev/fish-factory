@@ -47,14 +47,12 @@ bool Place_Signal_Tower(Point Pos) {
 }
 
 bool Place_Money_Generator(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 94;
 	Data.Settings_Grid[pt(Pos)][3] = 5;
 	Data.Settings_Grid[pt(Pos)][4] = 0;
 	return true;
 }
 
 bool Place_Fluid_Generator(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 95;
 	Data.Settings_Grid[pt(Pos)][0] = F_Out;
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	Data.Settings_Grid[pt(Pos)][4] = LDE_ROOMTEMP;
@@ -65,7 +63,6 @@ bool Place_Fluid_Generator(Point Pos) {
 }
 
 bool Place_Power_Generator(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 138;
 	Data.Data_Grid[pt(Pos)][Power_Cap] = 24000;
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	Data.Wiring_Grid[pt(Pos)] = F_Out;

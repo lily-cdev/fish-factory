@@ -8,11 +8,11 @@ int Visual_To_ID(const int Identifier) {
 	}
 	if (Identifier > 0 && Identifier < 17) {
 		return Reinforced_Pipe;
-	} else if (Identifier > 16 && Identifier < 24) {
+	} else if (Identifier > 17 && Identifier < 24 && Identifier != 20 && Identifier != 22) {
 		return Identifier - 16;
 	} else if (Identifier > 23 && Identifier < 41) {
 		return Spawning_Pool;
-	} else if (Identifier > 40 && Identifier < 52) {
+	} else if (Identifier > 40 && Identifier < 51) {
 		return Identifier - 32;
 	} else if (Identifier > 51 && Identifier < 56) {
 		return Ammunition_Shelf;
@@ -20,8 +20,6 @@ int Visual_To_ID(const int Identifier) {
 		return Command_Platform;
 	} else if (Identifier > 59 && Identifier < 63) {
 		return Signal_Tower;
-	} else if (Identifier > 62 && Identifier < 64) {
-		return Identifier - 42;
 	} else if (Identifier > 63 && Identifier < 67) {
 		return Battery;
 	} else if (Identifier > 66 && Identifier < 71) {
@@ -30,8 +28,6 @@ int Visual_To_ID(const int Identifier) {
 		return Large_Pipe;
 	} else if (Identifier > 86 && Identifier < 91) {
 		return Heat_Exchanger;
-	} else if (Identifier > 90 && Identifier < 96) {
-		return Identifier - 66;
 	} else if (Identifier > 95 && Identifier < 99) {
 		return Electrolytic_Cell;
 	} else if (Identifier > 98 && Identifier < 102) {
@@ -56,8 +52,6 @@ int Visual_To_ID(const int Identifier) {
 		return Algae_Bed;
 	} else if (Identifier > 134 && Identifier < 138) {
 		return RTG;
-	} else if (Identifier == 138) {
-		return Power_Generator;
 	}
 	return LDE_INVALID;
 }
