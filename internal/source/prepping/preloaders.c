@@ -63,25 +63,26 @@ void Preload_Machines() {
 			Metadata.Machines[C1].Depth = 2;
 			Load_Modular(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture2, Metadata.Machines[C1].Mod_Data.Parts);
 			break;
+		case A_Spinner:
+			Metadata.Machines[C1].Depth = 3;
+			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y,
+				true);
+			break;
 		default:
 			break;
 		}
 	}
-	const int No_Rotationals[1] = { LDE_TERMINATOR };
-	const int RP_Rotationals[2] = { 2, LDE_TERMINATOR };
-	Load_Animated("machines/r_pump", &Metadata.Machines[Ram_Pump].Texture2, 1, false, RP_Rotationals);
-	Load_Animated_Rotational("machines/incinerator", &Metadata.Machines[Incinerator].Texture3, 1, true, No_Rotationals);
-	Load_Animated("machines/f_plant", &Metadata.Machines[Filtration_Plant].Texture2, 3, true, No_Rotationals);
-	Load_Animated_Rotational("machines/b_generator", &Metadata.Machines[Bio_Generator].Texture3, 3, true, No_Rotationals);
-	Load_Animated_Rotational("machines/distillery", &Metadata.Machines[Distillery].Texture3, 2, false, No_Rotationals);
-	Load_Animated_Rotational("machines/g_bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true, No_Rotationals);
-	Load_Animated_Rotational("machines/f_mixer", &Metadata.Machines[Fluid_Mixer].Texture3, 3, true, No_Rotationals);
+	Load_Animated("core/images/machines/r_pump", &Metadata.Machines[Ram_Pump].Texture2, 1, true);
+	Load_Animated_Rotational("core/images/machines/incinerator", &Metadata.Machines[Incinerator].Texture3, 1, true);
+	Load_Animated("core/images/machines/f_plant", &Metadata.Machines[Filtration_Plant].Texture2, 3, true);
+	Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[Distillery].Texture3, 2, false);
+	Load_Animated_Rotational("core/images/machines/g_bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true);
 	Metadata.Machines[Electrolytic_Cell].Depth = 3;
-	Load_Animated_Rotational("machines/e_plant", &Metadata.Machines[Electrolytic_Cell].Texture3, 1, true, No_Rotationals);
+	Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[Electrolytic_Cell].Texture3, 2, true);
 	Metadata.Machines[Battery].Depth = 3;
-	Load_Animated_Rotational("machines/battery", &Metadata.Machines[Battery].Texture3, 1, true, No_Rotationals);
-	Load_Animated_Rotational("machines/stit_block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true, No_Rotationals);
-	Load_Animated_Rotational("machines/st_output", &Metadata.Machines[Turbine_Output].Texture3, 2, true, No_Rotationals);
+	Load_Animated_Rotational("core/images/machines/battery", &Metadata.Machines[Battery].Texture3, 2, true);
+	Load_Animated_Rotational("core/images/machines/stit_block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true);
+	Load_Animated_Rotational("core/images/machines/st_output", &Metadata.Machines[Turbine_Output].Texture3, 2, true);
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Point Pos = { };
 		SDL_Texture* Carrier;
@@ -106,7 +107,7 @@ void Preload_Machines() {
 	Textures.Tile_Texture = Preload_Texture("core/images/tiles/tile");
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
-	Load_Subanimated("effects/bubble", &Textures.A_Bubble, 2);
+	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 40.0f, Settings.Scalar * 40.0f };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
 	const char Paths[LDE_ITEMS][32] = {

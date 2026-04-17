@@ -214,6 +214,9 @@ void Build_Grid() {
 				int Rotation = (Metadata.Machines[Index].Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
 				Point Pos = { Column, Row };
 				Point Size = Metadata.Machines[Index].Size;
+				if (Index == Command_Platform && Data.CMD_Placed) {
+					return;
+				}
 				if (evn(Rotation)) {
 					if (!Check_Clearance(Pos, Size.X, Size.Y)) {
 						return;

@@ -233,5 +233,6 @@ typedef enum {
 	A_None,
 	A_Static,
 	A_Rot,
-	A_Modular
+	A_Modular,
+	A_Spinner
 } Anim_Type;

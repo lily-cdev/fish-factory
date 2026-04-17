@@ -72,6 +72,10 @@ typedef struct {
 } Modular_Data;
 
 typedef struct {
+	int Speed;
+} Spinner_Data;
+
+typedef struct {
 	SDL_Texture* Icon;
 	int Price;
 	int Fee;
@@ -90,6 +94,7 @@ typedef struct {
 	};
 	union {
 		Modular_Data Mod_Data;
+		Spinner_Data Spin_Data;
 	};
 	union {
 		int Visual_ID1;

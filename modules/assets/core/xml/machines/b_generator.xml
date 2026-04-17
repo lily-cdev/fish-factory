@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>bioelectric generator</Name>
-	<Texture_Type>none</Texture_Type>
+	<Texture_Type>spinner</Texture_Type>
 	<Path>core/images/machines/b_generator</Path>
 	<Price>32</Price>
 	<Fee>1</Fee>
 	<Width>3</Width>
 	<Height>3</Height>
+	<Speed>20</Speed>
 </Machine>

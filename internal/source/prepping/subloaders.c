@@ -199,59 +199,25 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
-void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
+void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inverted) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	SDL_Texture* Carrying_Texture = IMG_To_Texture(Buffer);
 	float Full_Width = 0, Full_Height = 0;
 	SDL_GetTextureSize(Carrying_Texture, &Full_Width, &Full_Height);
-	int Total_Chunks = floor(Full_Height / (Height * 240)), Chunks = 1;
-	for (int C1 = 0; C1 < Total_Chunks; C1++, Chunks++) {
-		for (int C2 = 0; C2 < intlen(Rotationals); C2++) {
-			if (C1 == Rotationals[C2]) {
-				Chunks += 3;
-				break;
-			}
-		}
-	}
+	int Chunks = floor(Full_Height / (Height * 240)) + 1;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * Chunks);
 	Yield->Length = Chunks;
 	int Index = 1;
-	for (int C1 = 0; C1 < Total_Chunks; C1++) {
+	for (int C1 = 0; C1 < Chunks - 1; C1++) {
 		SDL_Texture* Subtexture = New_Texture(Full_Width, Height * 240);
 		SDL_SetTextureBlendMode(Subtexture, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderTarget(Core.Renderer, Subtexture);
-		SDL_FRect Splitting_Rectangle = {
-			0.0f,
-			C1 * Height * 240.0f,
-			(float)(Full_Width),
-			Height * 240.0f
-		};
+		SDL_FRect Splitting_Rectangle = { 0.0f, C1 * Height * 240.0f, (float)Full_Width, Height * 240.0f };
 		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Splitting_Rectangle, NULL);
 		SDL_SetRenderTarget(Core.Renderer, NULL);
-		bool Matched = false;
-		for (int C2 = 0; C2 < intlen(Rotationals); C2++) {
-			if (C1 == Rotationals[C2]) {
-				Matched = true;
-				break;
-			}
-		}
-		if (Matched) {
-			SDL_FPoint Centerpoint = { Height * 120.0f, Height * 120.0f };
-			for (int C2 = 0; C2 < 4; C2++) {
-				SDL_Texture* Subtexture2 = New_Texture(Height * 240, Height * 240);
-				SDL_SetTextureBlendMode(Subtexture2, SDL_BLENDMODE_BLEND);
-				SDL_SetRenderTarget(Core.Renderer, Subtexture2);
-				SDL_RenderTextureRotated(Core.Renderer, Subtexture, NULL, NULL, 90 * C2, &Centerpoint, SDL_FLIP_NONE);
-				Yield->Data[Index] = Subtexture2;
-				Index++;
-			}
-			SDL_SetRenderTarget(Core.Renderer, NULL);
-			free_texture(Subtexture);
-		} else {
-			Yield->Data[Index] = Subtexture;
-			Index++;
-		}
+		Yield->Data[Index] = Subtexture;
+		Index++;
 	}
 	SDL_Texture* Root_Texture = New_Texture(Full_Width, Height * 240);
 	SDL_SetTextureBlendMode(Root_Texture, SDL_BLENDMODE_BLEND);
@@ -269,7 +235,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 
 void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "assets/core/images/%s.bmp", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	SDL_Texture* Carrier = IMG_To_Texture(Buffer);
 	Point Chunksize = {
 		Carrier->w,
@@ -293,12 +259,12 @@ void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 	free_texture(Carrier);
 }
 
-void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted, const int* Rotationals) {
+void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted) {
 	Yield->Data = malloc(sizeof(Texture_Array) * 4);
 	Yield->Length = 4;
 	for (int C1 = 0; C1 < 4; C1++) {
 		Texture_Array Subyield;
-		Load_Animated(Path, &Subyield, Height, Inverted, Rotationals);
+		Load_Animated(Path, &Subyield, Height, Inverted);
 		Yield->Data[C1].Data = malloc(sizeof(SDL_Texture*) * Subyield.Length);
 		Yield->Data[C1].Length = Subyield.Length;
 		float X = 0, Y = 0, Max = 0;

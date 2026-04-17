@@ -82,6 +82,9 @@ void Load_XML() {
 		} else if (strcmp(Texture_Type, "modular") == 0) {
 			Machine.Animation_Type = A_Modular;
 			Machine.Mod_Data.Parts = Get_Integer(Raw_Names[C1], Machine_File, "Parts");
+		} else if (strcmp(Texture_Type, "spinner") == 0) {
+			Machine.Animation_Type = A_Spinner;
+			Machine.Spin_Data.Speed = Get_Integer(Raw_Names[C1], Machine_File, "Speed");
 		} else {
 			jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}

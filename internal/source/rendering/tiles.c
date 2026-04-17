@@ -56,6 +56,28 @@ void Render_Grid() {
 								&Rects.Tile_1x1);
 						}
 						break;
+					case A_Spinner:
+						Carrier = (SDL_FRect){
+							Rects.Tile_1x1.x,
+							Rects.Tile_1x1.y,
+							(evn(Rotation)) ? Metadata.Machines[ID].Rect.w : Metadata.Machines[ID].Rect.h,
+							(evn(Rotation)) ? Metadata.Machines[ID].Rect.h : Metadata.Machines[ID].Rect.w
+						};
+						Centerpoint = (SDL_FPoint){
+							Metadata.Machines[ID].Rect.w * 0.5f,
+							Metadata.Machines[ID].Rect.h * 0.5f
+						};
+						if (Data.Animation_Grid[Column][Row][0] == 1) {
+							Data.Animation_Grid[Column][Row][1] += ((float)Metadata.Machines[ID].Spin_Data.Speed) /
+								Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][1] >= 360) {
+								Data.Animation_Grid[Column][Row][1] = 0;
+							}
+						}
+						Render_Texture(Metadata.Machines[ID].Texture3.Data[Rotation].Data[3], &Carrier);
+						SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[ID].Texture3.Data[Rotation].Data[2], NULL,
+							&Carrier, Data.Animation_Grid[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
+						Render_Texture(Metadata.Machines[ID].Texture3.Data[Rotation].Data[1], &Carrier);
 					case A_None:
 						if (ID == Ram_Pump) {
 							Render_Texture(Metadata.Machines[Ram_Pump].Texture2.Data[1], &Rects.Tile_1x1);
@@ -96,20 +118,6 @@ void Render_Grid() {
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 								&Source, &Destination);
 							Render_Texture(Metadata.Machines[Incinerator].Texture3.Data[Rotation].Data[1], &Rects.Tile_1x1);
-						} else if (ID == Bio_Generator) {
-							Centerpoint.x = 60.0f * Settings.Scalar;
-							Centerpoint.y = 60.0f * Settings.Scalar;
-							Render_Texture(Metadata.Machines[Bio_Generator].Texture3.Data[Rotation].Data[3], &Rects.Tile_3x3);
-							if (Data.Animation_Grid[Column][Row][0] == 1) {
-								Data.Animation_Grid[Column][Row][1] += 20.0 / Interface.Frame_Rate;
-								if (Data.Animation_Grid[Column][Row][1] >= 360) {
-									Data.Animation_Grid[Column][Row][1] = 0;
-								}
-							}
-							SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Bio_Generator].Texture3.Data[
-								Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid[Column][Row][1], &Centerpoint,
-								SDL_FLIP_NONE);
-							Render_Texture(Metadata.Machines[Bio_Generator].Texture3.Data[Rotation].Data[1], &Rects.Tile_3x3);
 						} else if (ID == Turbine_Impulse) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {
@@ -180,20 +188,6 @@ void Render_Grid() {
 							} else {
 								Render_Texture(Metadata.Machines[Electrolytic_Cell].Texture2.Data[Rotation], &Carrier);
 							}
-						} else if (ID == Fluid_Mixer) {
-							Centerpoint.x = 60.0f * Settings.Scalar;
-							Centerpoint.y = 60.0f * Settings.Scalar;
-							if (Data.Animation_Grid[Column][Row][0] == 1) {
-								Data.Animation_Grid[Column][Row][1] += 90.0 / Interface.Frame_Rate;
-								if (Data.Animation_Grid[Column][Row][1] >= 360) {
-									Data.Animation_Grid[Column][Row][1] = 0;
-								}
-							}
-							Render_Texture(Metadata.Machines[Fluid_Mixer].Texture3.Data[Rotation].Data[3], &Rects.Tile_3x3);
-							SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Fluid_Mixer].Texture3.Data[
-								Rotation].Data[2], NULL, &Rects.Tile_3x3, Data.Animation_Grid[Column][Row][1], &Centerpoint,
-								SDL_FLIP_NONE);
-							Render_Texture(Metadata.Machines[Fluid_Mixer].Texture3.Data[Rotation].Data[1], &Rects.Tile_3x3);
 						} else if (ID == Distillery) {
 							Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {

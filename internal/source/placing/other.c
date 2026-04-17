@@ -10,45 +10,23 @@ bool Place_Incinerator(Point Pos) {
 }
 
 bool Place_Command_Platform(Point Pos) {
-	bool Placed = false;
-	if (!Data.CMD_Placed) {
-		switch (Interface.Rotation) {
-		case 0:
-			if (Check_Clearance(Pos, 8, 6)) {
-				Fill_Clearance(LDE_INVALID, Pos, 8, 6);
-				Data.Visual_Grid[pt(Pos)] = 43;
-				Placed = true;
-			}
-			break;
-		case 1:
-			if (Check_Clearance(Pos, 6, 8)) {
-				Fill_Clearance(LDE_INVALID, Pos, 6, 8);
-				Data.Visual_Grid[pt(Pos)] = 56;
-				Placed = true;
-			}
-			break;
-		case 2:
-			if (Check_Clearance(Pos, 8, 6)) {
-				Fill_Clearance(LDE_INVALID, Pos, 8, 6);
-				Data.Visual_Grid[pt(Pos)] = 57;
-				Placed = true;
-			}
-			break;
-		case 3:
-			if (Check_Clearance(Pos, 6, 8)) {
-				Fill_Clearance(LDE_INVALID, Pos, 6, 8);
-				Data.Visual_Grid[pt(Pos)] = 58;
-				Placed = true;
-			}
-			break;
-		default:
-			break;
-		}
-	}
-	if (!Placed) {
-		return false;
-	}
 	Data.CMD_Placed = true;
+	switch (Interface.Rotation) {
+	case 0:
+		Data.Visual_Grid[pt(Pos)] = 43;
+		break;
+	case 1:
+		Data.Visual_Grid[pt(Pos)] = 56;
+		break;
+	case 2:
+		Data.Visual_Grid[pt(Pos)] = 57;
+		break;
+	case 3:
+		Data.Visual_Grid[pt(Pos)] = 58;
+		break;
+	default:
+		break;
+	}
 	return true;
 }
 
