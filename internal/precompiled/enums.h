@@ -151,7 +151,8 @@ enum Issues {
 	I_No_Integer,
 	I_No_XML_File,
 	I_No_Element,
-	I_No_Animtype
+	I_No_Animtype,
+	I_No_Powertype
 };
 
 enum Error {
@@ -168,12 +169,6 @@ enum Error {
 	Too_Many_Outputs,
 	Too_Many_Controllers,
 	Missing_Pool
-};
-
-enum Flows {
-	F_Either,
-	F_In,
-	F_Out
 };
 
 typedef enum {
@@ -236,3 +231,10 @@ typedef enum {
 	A_Modular,
 	A_Spinner
 } Anim_Type;
+
+typedef enum {
+	F_None,
+	F_In,
+	F_Out,
+	F_Either
+} Flow_Type;

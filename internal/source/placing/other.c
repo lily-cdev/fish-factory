@@ -63,8 +63,6 @@ bool Place_Fluid_Generator(Point Pos) {
 }
 
 bool Place_Power_Generator(Point Pos) {
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 24000;
 	Data.Settings_Grid[pt(Pos)][3] = 0;
-	Data.Wiring_Grid[pt(Pos)] = F_Out;
 	return true;
 }

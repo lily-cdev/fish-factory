@@ -8,4 +8,8 @@
 	<Width>3</Width>
 	<Height>3</Height>
 	<Speed>90</Speed>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>800</Power_Capacity>
+	<Anchor_X>60</Anchor_X>
+	<Anchor_Y>60</Anchor_Y>
 </Machine>

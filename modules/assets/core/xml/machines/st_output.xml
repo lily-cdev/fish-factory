@@ -8,4 +8,5 @@
 	<Modular />
 	<Width>2</Width>
 	<Height>2</Height>
+	<Power_Type>none</Power_Type>
 </Machine>

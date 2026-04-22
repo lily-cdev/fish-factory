@@ -5,11 +5,7 @@ bool Place_Filtration_Plant(Point Pos) {
 	Data.Plumbing_Grid[Pos.X + 1][Pos.Y] = Right;
 	Data.Plumbing_Grid[Pos.X + 1][Pos.Y + 1] = Right;
 	Data.Plumbing_Grid[Pos.X + 1][Pos.Y + 2] = Right;
-	Data.Wiring_Grid[pt(Pos)] = F_In;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 95;
 	Data.Data_Grid[pt(Pos)][4] = 5;
-	Data.Data_Grid[pt(Pos)][5] = 12;
-	Data.Data_Grid[pt(Pos)][6] = 100;
 	Data.Data_Grid[Pos.X][Pos.Y + 1][Fluid_Cap] = 16;
 	Data.Data_Grid[Pos.X + 1][Pos.Y][Fluid_Cap] = 12;
 	for (int C1 = 1; C1 < 3; C1++) {
@@ -23,16 +19,6 @@ bool Place_Filtration_Plant(Point Pos) {
 
 bool Place_Distillery(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 41 : Interface.Rotation + 116;
-	Data.Data_Grid[pt(Pos)][5] = 24;
-	Data.Data_Grid[pt(Pos)][6] = 56;
-	if (Interface.Rotation == 2 || Interface.Rotation == 3) {
-		Data.Data_Grid[pt(Pos)][5] = 56;
-	}
-	if (Interface.Rotation == 1 || Interface.Rotation == 2) {
-		Data.Data_Grid[pt(Pos)][6] = 24;
-	}
-	Data.Wiring_Grid[pt(Pos)] = F_In;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 2500;
 	Data.Animation_Grid[pt(Pos)][0] = 0;
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.D_Inputs);
@@ -54,40 +40,24 @@ bool Place_Distillery(Point Pos) {
 bool Place_Electrolytic_Cell(Point Pos) {
 	if (evn(Interface.Rotation)) {
 		for (int C1 = 0; C1 < 3; C1++) {
-			Data.Data_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5) + Pos.Y][Fluid_Cap] = 20;
-			Data.Plumbing_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5) + Pos.Y] = Interface.Rotation + Up;
-			Data.Settings_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5) + Pos.Y][0] = 2;
+			Data.Data_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5f) + Pos.Y][Fluid_Cap] = 20;
+			Data.Plumbing_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5f) + Pos.Y] = Interface.Rotation + Up;
+			Data.Settings_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5f) + Pos.Y][0] = 2;
 		}
-		Data.Data_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5) + 1][Fluid_Cap] = 16;
-		Data.Plumbing_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5) + 1] = Down - Interface.Rotation;
-		Data.Settings_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5) + 1][0] = 1;
-		if (Interface.Rotation == 0) {
-			Data.Data_Grid[pt(Pos)][5] = 44;
-			Data.Data_Grid[pt(Pos)][6] = 67;
-		} else {
-			Data.Data_Grid[pt(Pos)][5] = 76;
-			Data.Data_Grid[pt(Pos)][6] = 13;
-		}
+		Data.Data_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5f) + 1][Fluid_Cap] = 16;
+		Data.Plumbing_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5f) + 1] = Down - Interface.Rotation;
+		Data.Settings_Grid[Pos.X + 1][Pos.Y - (int)(Interface.Rotation * 0.5f) + 1][0] = 1;
 	} else {
 		for (int C1 = 0; C1 < 3; C1++) {
-			Data.Data_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5) + 1][Pos.Y + C1][Fluid_Cap] = 20;
-			Data.Plumbing_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5) + 1][Pos.Y + C1] = Right - (
+			Data.Data_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1][Fluid_Cap] = 20;
+			Data.Plumbing_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1] = Right - (
 				Interface.Rotation - 1);
-			Data.Settings_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5) + 1][Pos.Y + C1][0] = 2;
+			Data.Settings_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1][0] = 2;
 		}
-		Data.Data_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5)][Pos.Y + 1][Fluid_Cap] = 16;
-		Data.Plumbing_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5)][Pos.Y + 1] = (Interface.Rotation - 1) + Left;
-		Data.Settings_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5)][Pos.Y + 1][0] = 1;
-		if (Interface.Rotation == 1) {
-			Data.Data_Grid[pt(Pos)][5] = 13;
-			Data.Data_Grid[pt(Pos)][6] = 44;
-		} else {
-			Data.Data_Grid[pt(Pos)][5] = 67;
-			Data.Data_Grid[pt(Pos)][6] = 76;
-		}
+		Data.Data_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][Fluid_Cap] = 16;
+		Data.Plumbing_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1] = (Interface.Rotation - 1) + Left;
+		Data.Settings_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][0] = 1;
 	}
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 70000;
-	Data.Wiring_Grid[pt(Pos)] = F_In;
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 48 : Interface.Rotation + 95;
 	return true;
 }
@@ -114,10 +84,6 @@ bool Place_Fluid_Mixer(Point Pos) {
 	}
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 49 : Interface.Rotation + 98;
 	Data.Animation_Grid[pt(Pos)][1] = 0;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 800;
-	Data.Wiring_Grid[pt(Pos)] = F_In;
-	Data.Data_Grid[pt(Pos)][5] = 60;
-	Data.Data_Grid[pt(Pos)][6] = 60;
 	free_c(Nodes.Data);
 	return true;
 }

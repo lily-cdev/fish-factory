@@ -69,10 +69,12 @@ void Load_XML() {
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	free_c(Registrar);
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
-		#define Machine Metadata.Machines[C1]	
+		#define Machine Metadata.Machines[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Machine_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Machine_File, Victim))
 		char* Machine_File = Get_File(Raw_Names[C1]);
-		Machine.Name = Find_Element(Raw_Names[C1], Machine_File, "Name", NULL);
-		char* Texture_Type = Find_Element(Raw_Names[C1], Machine_File, "Texture_Type", NULL);
+		Machine.Name = get_str("Name");
+		char* Texture_Type = get_str("Texture_Type");
 		if (strcmp(Texture_Type, "none") == 0) {
 			Machine.Animation_Type = A_None;
 		} else if (strcmp(Texture_Type, "static") == 0) {
@@ -81,25 +83,43 @@ void Load_XML() {
 			Machine.Animation_Type = A_Rot;
 		} else if (strcmp(Texture_Type, "modular") == 0) {
 			Machine.Animation_Type = A_Modular;
-			Machine.Mod_Data.Parts = Get_Integer(Raw_Names[C1], Machine_File, "Parts");
+			Machine.Mod_Data.Parts = get_int("Parts");
 		} else if (strcmp(Texture_Type, "spinner") == 0) {
 			Machine.Animation_Type = A_Spinner;
-			Machine.Spin_Data.Speed = Get_Integer(Raw_Names[C1], Machine_File, "Speed");
+			Machine.Spin_Data.Speed = get_int("Speed");
 		} else {
 			jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
 		free_c(Texture_Type);
-		Machine.Path = Find_Element(Raw_Names[C1], Machine_File, "Path", NULL);
-		Machine.Price = Get_Integer(Raw_Names[C1], Machine_File, "Price");
-		Machine.Fee = Get_Integer(Raw_Names[C1], Machine_File, "Fee");
+		char* Power_Type = get_str("Power_Type");
+		if (strcmp(Power_Type, "none") == 0) {
+			Machine.Power_Type = F_None;
+		} else if (strcmp(Power_Type, "in") == 0) {
+			Machine.Power_Type = F_In;
+		} else if (strcmp(Power_Type, "out") == 0) {
+			Machine.Power_Type = F_Out;
+		} else if (strcmp(Power_Type, "any") == 0) {
+			Machine.Power_Type = F_Either;
+		} else {
+			jump(I_No_Powertype, "xml parser failed to process \"Power_Type\"");
+		}
+		if (Machine.Power_Type != F_None) {
+			Machine.Power_Capacity = get_int("Power_Capacity");
+			Machine.Anchor.X = get_int("Anchor_X");
+			Machine.Anchor.Y = get_int("Anchor_Y");
+		}
+		free_c(Power_Type);
+		Machine.Path = get_str("Path");
+		Machine.Price = get_int("Price");
+		Machine.Fee = get_int("Fee");
 		char* Quirk_Texts[4] = { "Nonrotatable", "Modular", "Interactable", "Omnidirectional" };
 		for (int C2 = 0; C2 < LDE_QUIRKS; C2++) {
 			Machine.Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
 		}
 		Machine.Single_ID = Get_Boolean(Machine_File, "Single_ID");
 		Machine.Size = (Point){
-			Get_Integer(Raw_Names[C1], Machine_File, "Width"),
-			Get_Integer(Raw_Names[C1], Machine_File, "Height")
+			get_int("Width"),
+			get_int("Height")
 		};
 		Machine.Rect = (SDL_FRect){
 			0,
@@ -108,12 +128,14 @@ void Load_XML() {
 			LDE_TILESIZE * Settings.Scalar * Machine.Size.Y
 		};
 		if (Machine.Single_ID) {
-			Machine.Visual_ID1 = Get_Integer(Raw_Names[C1], Machine_File, "Visual_ID");
+			Machine.Visual_ID1 = get_int("Visual_ID");
 		} else {
 			//idk lol
 		}
 		free_c(Machine_File);
 		free_c(Raw_Names[C1]);
+		#undef get_str
+		#undef get_int
 		#undef Machine
 	}
 	free_c(Raw_Names);

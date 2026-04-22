@@ -1,12 +1,12 @@
 #include <grid.h>
 
 bool (*Placing_Functions[])(Point Pos) = {
-	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_RTG, Place_Decoration, Place_Submarine_Dock,
+	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_RTG, NULL, Place_Submarine_Dock,
 	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
 	Place_Command_Platform, Place_Battery, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
-	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower, Place_Flowerpot, Place_Ammunition_Shelf,
-	Place_Cable_Node, Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger, Place_Petrified_Wood, Place_Basalt_Tile,
-	Place_Silicone_Carpet, Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
+	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower, NULL, Place_Ammunition_Shelf,
+	NULL, Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger, NULL, NULL,
+	NULL, Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
 	NULL, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
@@ -230,6 +230,21 @@ void Build_Grid() {
 				}
 				if (Placing_Functions[Index] && !Placing_Functions[Index](Pos)) {
 					return;
+				}
+				Data.Wiring_Grid[Column][Row] = Metadata.Machines[Index].Power_Type;
+				if (Metadata.Machines[Index].Power_Type != F_None) {
+					Data.Data_Grid[Column][Row][Power_Cap] = Metadata.Machines[Index].Power_Capacity;
+					Point_f Anchor = (Point_f){
+						(float)Metadata.Machines[Index].Anchor.X,
+						(float)Metadata.Machines[Index].Anchor.Y
+					};
+					if (evn(Rotation)) {
+						Data.Data_Grid[Column][Row][5] = (Rotation == 0) ? Anchor.X : (Size.X * 40.0f) - Anchor.X;
+						Data.Data_Grid[Column][Row][6] = (Rotation == 0) ? Anchor.Y : (Size.Y * 40.0f) - Anchor.Y;
+					} else {
+						Data.Data_Grid[Column][Row][5] = (Rotation == 1) ? (Size.Y * 40.0f) - Anchor.Y : Anchor.Y;
+						Data.Data_Grid[Column][Row][6] = (Rotation == 1) ? Anchor.X : (Size.X * 40.0f) - Anchor.X;
+					}
 				}
 				Data.Funds -= Interface.Queried_Price;
 				if (Metadata.Machines[Index].Single_ID) {

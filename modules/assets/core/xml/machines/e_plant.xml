@@ -7,4 +7,8 @@
 	<Fee>1</Fee>
 	<Width>3</Width>
 	<Height>2</Height>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>70000</Power_Capacity>
+	<Anchor_X>44</Anchor_X>
+	<Anchor_Y>67</Anchor_Y>
 </Machine>

@@ -1,34 +1,16 @@
 #include <grid.h>
 
 bool Place_Algae_Bed(Point Pos) {
-	if (evn(Interface.Rotation)) {
-		Data.Data_Grid[pt(Pos)][5] = 52;
-		Data.Data_Grid[pt(Pos)][6] = 32;
-		if (Interface.Rotation == 0) {
-			Data.Data_Grid[pt(Pos)][5] = 28;
-			Data.Data_Grid[pt(Pos)][6] = 88;
-		}
-	} else {
-		Data.Data_Grid[pt(Pos)][5] = 88;
-		Data.Data_Grid[pt(Pos)][6] = 52;
-		if (Interface.Rotation == 1) {
-			Data.Data_Grid[pt(Pos)][5] = 32;
-			Data.Data_Grid[pt(Pos)][6] = 28;
-		}
-	}
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.GB_Outputs);//+x and +y
 	for (int C1 = 0; C1 < Nodes.Length; C1++) {
-		Data.Settings_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][0] = F_Out;
-		Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Fluid_Cap] = 3;
-		Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = (Interface.Rotation + Down == 4) ? 4 : ((
-			Interface.Rotation + Down) & 3);
+		Data.Settings_Grid[pt(Nodes.Data[C1])][0] = F_Out;
+		Data.Data_Grid[pt(Nodes.Data[C1])][Fluid_Cap] = 3;
+		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = (Interface.Rotation + Down == 4) ? 4 : ((Interface.Rotation + Down) & 3);
 	}
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 42 : Interface.Rotation + 131;
-	Data.Wiring_Grid[pt(Pos)] = F_In;
 	Data.Animation_Grid[pt(Pos)][0] = 0;
 	Data.Animation_Grid[pt(Pos)][1] = 0;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 200;
 	free_c(Nodes.Data);
 	return true;
 }

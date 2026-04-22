@@ -2,20 +2,12 @@
 
 bool Place_RTG(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 19 : Interface.Rotation + 134;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 5;
-	Data.Data_Grid[pt(Pos)][5] = 20;
-	Data.Data_Grid[pt(Pos)][6] = 20;
-	Data.Wiring_Grid[pt(Pos)] = F_Out;
 	return true;
 }
 
 bool Place_Bio_Generator(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 23 : Interface.Rotation + 101;
 	Data.Animation_Grid[pt(Pos)][1] = 45;
-	Data.Wiring_Grid[pt(Pos)] = F_Out;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 9500;
-	Data.Data_Grid[pt(Pos)][5] = 60;
-	Data.Data_Grid[pt(Pos)][6] = 60;
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.BG_Inputs);
 	Data.Data_Grid[pt(Nodes.Data[0])][1] = 4;
@@ -29,7 +21,6 @@ bool Place_Bio_Generator(Point Pos) {
 
 bool Place_Geo_Well(Point Pos) {
 	if (evn(Interface.Rotation)) {
-		Data.Data_Grid[pt(Pos)][6] = 60;
 		for (int C1 = 0; C1 < 2; C1++) {
 			if (Interface.Rotation == C1 * 2) {
 				Data.Data_Grid[Pos.X + C1][Pos.Y][Fluid_Cap] = 10;
@@ -42,7 +33,6 @@ bool Place_Geo_Well(Point Pos) {
 			}
 		}
 	} else {
-		Data.Data_Grid[pt(Pos)][5] = 60;
 		for (int C1 = 0; C1 < 2; C1++) {
 			if (Interface.Rotation == (C1 * 2) + 1) {
 				Data.Data_Grid[Pos.X][Pos.Y + C1][Fluid_Cap] = 10;
@@ -56,8 +46,6 @@ bool Place_Geo_Well(Point Pos) {
 		}
 	}
 	Data.Visual_Grid[pt(Pos)] = Interface.Rotation + 67;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 3000;
-	Data.Wiring_Grid[pt(Pos)] = F_In;
 	return true;
 }
 

@@ -25,14 +25,6 @@ bool Place_Submarine_Dock(Point Pos) {
 	return true;
 }
 
-bool Place_Cable_Node(Point Pos) {
-	Data.Wiring_Grid[pt(Pos)] = F_Either;
-	Data.Data_Grid[pt(Pos)][Power_Cap] = 12000;
-	Data.Data_Grid[pt(Pos)][5] = 20;
-	Data.Data_Grid[pt(Pos)][6] = 20;
-	return true;
-}
-
 bool Place_Large_Pipe(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 71;
 	Data.Data_Grid[pt(Pos)][Fluid_Cap] = LDE_LARGECAP;

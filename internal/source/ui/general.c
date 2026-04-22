@@ -81,7 +81,8 @@ void Render_Tile_Prompts() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (!Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[Q_Interactable]) {
+				if (Data.Visual_Grid[Column][Row] == 0 || !Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[
+					Q_Interactable]) {
 					return;
 				}
 				char Subcore[64];

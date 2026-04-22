@@ -11,4 +11,8 @@
 	<Height>1</Height>
 	<Single_ID />
 	<Visual_ID>138</Visual_ID>
+	<Power_Type>out</Power_Type>
+	<Power_Capacity>24000</Power_Capacity>
+	<Anchor_X>20</Anchor_X>
+	<Anchor_Y>20</Anchor_Y>
 </Machine>

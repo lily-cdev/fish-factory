@@ -87,6 +87,9 @@ typedef struct {
 	Point Size;
 	SDL_FRect Rect;
 	Anim_Type Animation_Type;
+	Flow_Type Power_Type;
+	int Power_Capacity;
+	Point Anchor;
 	union {
 		SDL_Texture* Texture1;
 		Texture_Array Texture2;
