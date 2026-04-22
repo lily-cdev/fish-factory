@@ -283,17 +283,28 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 }
 
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y) {
+	SDL_Surface* Root;
+	load_bmp(Root, "assets/core/images/ui/sidebar/root.bmp");
+	SDL_Texture* Yield = New_Texture(Root->w, Root->h);
+	SDL_SetRenderTarget(Core.Renderer, Yield);
+	Rectangle->x = (float)(660 - (Root->w / 6)) * Settings.Scalar;
+	Rectangle->y = Y * Settings.Scalar;
+	Rectangle->w = (float)(Root->w / 6) * Settings.Scalar;
+	Rectangle->h = (float)(Root->h / 6) * Settings.Scalar;
+	SDL_Texture* Carrier = Surface_To_Texture(Root);
+	Render_Texture(Carrier, NULL);
+	free_texture(Carrier);
+	SDL_DestroySurface(Root);
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "assets/core/images/ui/sidebar/%s.bmp", Path);
 	SDL_Surface* Surface;
 	load_bmp(Surface, Buffer);
-	Rectangle->x = (float)(660 - (Surface->w / 6)) * Settings.Scalar;
-	Rectangle->y = Y * Settings.Scalar;
-	Rectangle->w = (float)(Surface->w / 6) * Settings.Scalar;
-	Rectangle->h = (float)(Surface->h / 6) * Settings.Scalar;
-	SDL_Texture* Texture = Surface_To_Texture(Surface);
+	Carrier = Surface_To_Texture(Surface);
+	//render
 	SDL_DestroySurface(Surface);
-	return Texture;
+	free_texture(Carrier);
+	SDL_SetRenderTarget(Core.Renderer, NULL);
+	return Yield;
 }
 
 SDL_Texture* Preload_Texture(const char* Path) {
