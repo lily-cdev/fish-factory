@@ -28,12 +28,12 @@ void Render_Help(Point Pos) {
 			if (Data.CMD_Placed) {
 				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y -= LDE_TILESIZE * Settings.Scalar;
+						Rects.Tutorials.Data[C1].Data[C2].y -= scale_f(LDE_TILESIZE);
 					}
 					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorials.Data[C1], (UI_Link){ (C1 == 1) ?
 						Gen_Tutorial : Fish_Tutorial }, Colors.Cherry_Blossom);
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y += LDE_TILESIZE * Settings.Scalar;
+						Rects.Tutorials.Data[C1].Data[C2].y += scale_f(LDE_TILESIZE);
 					}
 				}
 			} else {

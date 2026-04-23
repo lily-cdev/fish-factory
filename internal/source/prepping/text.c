@@ -32,11 +32,11 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 		Rectangles->Data[C1].Length = 2;
 		Rectangles->Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rectangles->Data[C1].Data[0].x = LDE_INVALID;
-		Rectangles->Data[C1].Data[0].y = (float)((C1 * 30) + 50) * Settings.Scalar;
+		Rectangles->Data[C1].Data[0].y = scale_f((C1 * 30.0f) + 50.0f);
 		Load_Button(F_Text, Carrier.Data[C1], &Yield->Data[C1], Rectangles->Data[C1],
 			Colors.Cherry_Blossom, Colors.Pure_White);
 		for (int C2 = 0; C2 < 2; C2++) {
-			Rectangles->Data[C1].Data[C2].x += Settings.Scalar * 210;
+			Rectangles->Data[C1].Data[C2].x += scale_f(210.0f);
 		}
 	}
 	Free_String2(&Carrier);

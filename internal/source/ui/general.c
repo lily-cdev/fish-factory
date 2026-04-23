@@ -7,10 +7,10 @@ void Render_Toolbar() {
 		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
 		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Machines[Interface.Item - 1].Name, Price_Query);
 		SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
-		float Y = ((Interface.Bar_Up) ? 265.0f : 290.0f) * Settings.Scalar;
-		float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + (Settings.Scalar * 18.0f);
-		float Padding = Settings.Scalar * 16.0f;
-		float Root_X = (Settings.Scalar * 312.0f) - (Machine_Texture->w * 0.5f);
+		float Y = scale_f((Interface.Bar_Up) ? 265.0f : 290.0f);
+		float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + scale_f(18.0f);
+		float Padding = scale_f(16.0f);
+		float Root_X = scale_f(312.0f) - (Machine_Texture->w * 0.5f);
 		float Root_Width = Machine_Texture->w + Padding;
 		SDL_FRect Machine_Rectangle = { Root_X, Y, Root_Width, Height };
 		Set_Renderer_Color(Colors.Dark_Grey);
@@ -19,8 +19,8 @@ void Render_Toolbar() {
 		Set_Renderer_Color(Colors.Light_Grey);
 		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
 		Clear_Renderer();
-		Machine_Rectangle.x += (Settings.Scalar * 4);
-		Machine_Rectangle.y += (Settings.Scalar * 4);
+		Machine_Rectangle.x += scale_f(4.0f);
+		Machine_Rectangle.y += scale_f(4.0f);
 		Machine_Rectangle.w = Machine_Texture->w;
 		Machine_Rectangle.h = Machine_Texture->h;
 		Render_Texture(Machine_Texture, &Machine_Rectangle);
@@ -77,9 +77,9 @@ void Verify_Settings() {
 
 void Render_Tile_Prompts() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] == 0 || !Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[
 					Q_Interactable]) {
@@ -109,9 +109,9 @@ void Render_Tile_Prompts() {
 
 void Render_Interaction() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (!Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[Q_Interactable]) {
 					return;
@@ -178,7 +178,7 @@ void Render_Effects() {
 		Set_Renderer_Color(Colors.Pure_White);
 		int Width = (int)Core.Screensize.X;
 		int Height = (int)Core.Screensize.Y;
-		for (int C1 = 0; C1 < floor(Interface.Effects[E_Radiation]); C1++) {
+		for (int C1 = 0; C1 < (int)floorf(Interface.Effects[E_Radiation]); C1++) {
 			Tick_State();
 			int X = Core.State % Width;
 			Tick_State();
@@ -198,18 +198,18 @@ void Render_Effects() {
 void Cache_Blueprint() {
 	int Width, Height;
 	ID_To_Size(Interface.Item - 1, Interface.Rotation, &Width, &Height);
-	int Max = (Width > Height ? Width : Height) * Settings.Scalar * LDE_TILESIZE;
+	int Max = scale(max(Width, Height) * LDE_TILESIZE);
 	free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = New_Texture(Width * Settings.Scalar * LDE_TILESIZE, Height * Settings.Scalar * LDE_TILESIZE);
+	SDL_Texture* Backing = New_Texture(scale(Width * LDE_TILESIZE), scale(Height * LDE_TILESIZE));
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
 	for (int X = 0; X < Width; X++) {
 		for (int Y = 0; Y < Height; Y++) {
 			SDL_FRect Pasting_Rectangle = Rects.Tile_1x1;
-			Pasting_Rectangle.x = X * Settings.Scalar * LDE_TILESIZE;
-			Pasting_Rectangle.y = Y * Settings.Scalar * LDE_TILESIZE;
+			Pasting_Rectangle.x = scale_f(X * LDE_TILESIZE);
+			Pasting_Rectangle.y = scale_f(Y * LDE_TILESIZE);
 			Render_Texture(Textures.Tile_Texture, &Pasting_Rectangle);
 		}
 	}
@@ -240,16 +240,16 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 	SDL_Color Secondary, bool Text_Visible) {
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {
-		(float)(Pos.X * Settings.Scalar),
-		(float)(Pos.Y - 3) * Settings.Scalar,
-		(float)(Width * Settings.Scalar),
-		Settings.Scalar * 6.0f
+		scale_f(Pos.X),
+		scale_f(Pos.Y - 3.0f),
+		scale_f(Width),
+		scale_f(6.0f)
 	};
 	if (Interface.Engagement == Engagement) {
 		Active = true;
 		int Separators[512];
 		for (int C1 = 0; C1 < Nodes; C1++) {
-			Separators[C1] = (int)(((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2)) + Pos.X)) * Settings.Scalar;
+			Separators[C1] = scale((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2.0f)) + Pos.X);
 		}
 		Separators[Nodes] = LDE_TERMINATOR;
 		for (int C1 = 0; C1 < Nodes; C1++) {
@@ -271,10 +271,10 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 		Set_Renderer_Color(Secondary);
 	}
 	SDL_FRect Node_Rectangle = {
-		(float)((((float)(*Position) / Nodes) * Width) + Pos.X - 6) * Settings.Scalar,
-		(float)(Pos.Y - 6.0f) * Settings.Scalar,
-		Settings.Scalar * 12.0f,
-		Settings.Scalar * 12.0f
+		scale_f((((float)(*Position) / Nodes) * Width) + Pos.X - 6.0f),
+		scale_f(Pos.Y - 6.0f),
+		scale_f(12.0f),
+		scale_f(12.0f)
 	};
 	if (Detect_Mouse_Collision(Node_Rectangle)) {
 		UI_Link Link = { Set_Engagement, .Param.Integer = Engagement };
@@ -286,8 +286,8 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 	if (Text_Visible) {
 		SDL_Texture* Caption_Texture = Render_Text(F_Subtext, Labels[*Position], Primary);
 		SDL_FRect Caption_Rectangle = {
-			(((((float)(*Position) / Nodes) * Width) + Pos.X) * Settings.Scalar) - (float)(Caption_Texture->w * 0.5),
-			(float)(Pos.Y + 10.0f) * Settings.Scalar,
+			scale_f((((float)(*Position) / Nodes) * Width) + Pos.X) - (Caption_Texture->w * 0.5f),
+			scale_f(Pos.Y + 10.0f),
 			(float)Caption_Texture->w,
 			(float)Caption_Texture->h
 		};

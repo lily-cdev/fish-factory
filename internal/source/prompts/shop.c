@@ -44,20 +44,20 @@ void Render_Shop(Point Pos) {
 		}
 		Quirk_Stack[Index] = LDE_TERMINATOR;
 		SDL_FRect Label_Rects[3] = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-		float Start = (float)((Settings.Scalar * 103) - (((intlen(Quirk_Stack) * Settings.Scalar * 20) + ((intlen(Quirk_Stack) -
-			1) * Settings.Scalar * 10)) * 0.5));
+		float Start = (float)(scale_f(103.0f) - ((scale_f(intlen(Quirk_Stack) * 20.0f) + (scale_f(intlen(Quirk_Stack) - 1.0f) *
+			10.0f)) * 0.5f));
 		for (int C1 = 0; C1 < intlen(Quirk_Stack); C1++) {
 			SDL_FRect Quirk_Rectangle = {
-				(C1 * Settings.Scalar * 30) + Start,
-				(float)(Offset + 16) * Settings.Scalar,
-				Settings.Scalar * 20.0f,
-				Settings.Scalar * 20.0f
+				scale_f(C1 * 30.0f) + Start,
+				scale_f(Offset + 16.0f),
+				scale_f(20.0f),
+				scale_f(20.0f)
 			};
 			Render_Texture(Textures.Quirk.Data[Quirk_Stack[C1]], &Quirk_Rectangle);
 			if (Detect_Mouse_Collision(Quirk_Rectangle)) {
 				SDL_GetTextureSize(Textures.Quirk_Label.Data[Quirk_Stack[C1]], &Label_Rects[C1].w, &Label_Rects[C1].h);
-				Label_Rects[C1].x = (Settings.Scalar * 10) + Quirk_Rectangle.x - (Label_Rects[C1].w * 0.5);
-				Label_Rects[C1].y = (Settings.Scalar * 24) + Quirk_Rectangle.y;
+				Label_Rects[C1].x = scale_f(10.0f) + Quirk_Rectangle.x - (Label_Rects[C1].w * 0.5f);
+				Label_Rects[C1].y = scale_f(24.0f) + Quirk_Rectangle.y;
 			}
 		}
 		if (intlen(Quirk_Stack) > 0) {
@@ -65,8 +65,8 @@ void Render_Shop(Point Pos) {
 		}
 		SDL_Texture* Name_Texture = Render_Text(F_Halftext, Metadata.Machines[Interface.Item - 1].Name, Colors.Abyss_Black);
 		SDL_FRect Name_Rectangle = {
-			(float)(Settings.Scalar * 103) - (Name_Texture->w * 0.5),
-			(float)(Offset + 10) * Settings.Scalar,
+			scale_f(103.0f) - (Name_Texture->w * 0.5f),
+			scale_f(Offset + 10.0f),
 			(float)Name_Texture->w,
 			(float)Name_Texture->h
 		};
@@ -74,8 +74,8 @@ void Render_Shop(Point Pos) {
 		free_texture(Name_Texture);
 		SDL_Texture* Description_Texture = Render_Text(F_Subtext, Metadata.Descriptions[Interface.Item - 1], Colors.Abyss_Black);
 		SDL_FRect Description_Rectangle = {
-			Settings.Scalar * 16.0f,
-			(Offset + 40.0f) * Settings.Scalar,
+			scale_f(16.0f),
+			scale_f(Offset + 40.0f),
 			(float)Description_Texture->w,
 			(float)Description_Texture->h
 		};

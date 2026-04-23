@@ -38,7 +38,7 @@ void Truncate(float Number, int Depth, char* Buffer, int Size) {
 			}
 		}
 	} else {
-		Number /= pow(1000, Depth);
+		Number /= powf(1000.0f, (float)Depth);
 	}
 	snprintf(Buffer, Size, "%.2f", Number);
 }

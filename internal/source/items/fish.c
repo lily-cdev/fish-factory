@@ -16,7 +16,7 @@ int Get_Phase(int Fish, int Progress) {
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count) {
 	float Percentage = min(((float)Progress / Fish_Catalog[Fish].Max_Growth) * 100, 100.0);
 	char Subbuffer[32];
-	snprintf(Subbuffer, sizeof(Subbuffer), " (%i%%)", (int)(floor(Percentage)));
+	snprintf(Subbuffer, sizeof(Subbuffer), " (%i%%)", (int)(floorf(Percentage)));
 	if (Count == 1) {
 		snprintf(Buffer, Length, "%s%s", Growth_Phases[Get_Phase(Fish, Progress)], Subbuffer);
 		return;

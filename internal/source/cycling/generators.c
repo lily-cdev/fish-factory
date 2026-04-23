@@ -20,10 +20,10 @@ void Cycle_Bio_Gen(Point Pos, const int Rotation) {
 	}
 	Item_Stack Target_Item = Get_Item((Point){ Pos.X + Offset.X, Pos.Y + Offset.Y });
 	Data.Animation_Grid[pt(Pos)][0] = 0;
-	if (Check_Category(Target_Item.Identifier, Preset_Categories.Biomass) > 0 && Data.Data_Grid[Pos.X + Offset.X][
-		Pos.Y + Offset.Y][Stored_Fluids] >= 2) {
+	if (Check_Category(Target_Item.Identifier, Preset_Categories.Biomass) > 0 && Data.Data_Grid[Pos.X + Offset.X][Pos.Y +
+		Offset.Y][Stored_Fluids] >= 2) {
 		Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] -= 2;
-		Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target_Item.Chemical_Energy / 100),
+		Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target_Item.Chemical_Energy * 0.01f),
 			Data.Data_Grid[pt(Pos)][Power_Cap]);
 		Data.Animation_Grid[pt(Pos)][0] = 1;
 	}
@@ -53,8 +53,9 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 		if (Temperature == 328) {
 			Temperature = 327;
 		}
-		float Benchmark = log10((float)(328 - Temperature) / 263) / log10(0.64);
-		Update_Item(Outputs.Data[Rotation], Data.Items_Grid[pt(Inputs.Data[Rotation])], (-263 * pow(0.64, Benchmark + 1)) + 328);
+		float Benchmark = log10f((328.0f - Temperature) / 263.0f) / log10f(0.64f);
+		Update_Item(Outputs.Data[Rotation], Data.Items_Grid[pt(Inputs.Data[Rotation])], (-263.0f * powf(0.64f, Benchmark +
+			1.0f)) + 328);
 	}
 	free_c(Inputs.Data);
 	free_c(Outputs.Data);
@@ -117,7 +118,7 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	float Temp_Equil = ((Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][8]) + (Data.Settings_Grid[pt(Pos)][5] *
 		Data.Settings_Grid[pt(Pos)][7])) / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5]);
 	float Difference = Data.Settings_Grid[pt(Pos)][7] - Data.Settings_Grid[pt(Pos)][8];
-	float Remaining = pow(M_E, (-1 * ((LDE_HXEFFICIENCY * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) / (
+	float Remaining = powf(M_E, (-1 * ((LDE_HXEFFICIENCY * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) / (
 		4.186 * Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][5]))));
 	float FW_Yield = Temp_Equil - (((Data.Settings_Grid[pt(Pos)][5] / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[
 		pt(Pos)][5])) * Difference) * Remaining);
@@ -148,7 +149,7 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 		if (Transferred > 0) {
 			Data.Data_Grid[pt(Input)][Stored_Fluids] -= Transferred;
 			Data.Data_Grid[pt(Output)][Stored_Fluids] += Transferred;
-			float Generated = Transferred * LDE_TURBINECOEFFICIENT * log(sqr(Data.Temperature_Grid[pt(Input)])) * log(
+			float Generated = Transferred * LDE_TURBINECOEFFICIENT * logf(sqr((float)Data.Temperature_Grid[pt(Input)])) * logf(
 				Data.Settings_Grid[pt(Pos)][3] * 1.5f);
 			Update_Item(Output, Preset_Items.Steam.Identifier, (Data.Temperature_Grid[pt(Input)] * 0.1f) + 32);
 			if (Data.Temperature_Grid[pt(Input)] < 200) {

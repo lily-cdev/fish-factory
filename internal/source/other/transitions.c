@@ -67,10 +67,10 @@ void Render_Opening() {
 			Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
 			Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 			SDL_FRect Indicator_Rectangle = {
-				(float)(((Percentage * 320) + 342.5f) * Settings.Scalar),
-				(float)(((1471 / 6.0f) - 20) * Settings.Scalar),
-				(float)Settings.Scalar * LDE_TILESIZE,
-				(float)Settings.Scalar * LDE_TILESIZE
+				scale_f((Percentage * 320.0f) + 342.5f),
+				scale_f((1471.0f / 6.0f) - 20.0f),
+				scale_f(LDE_TILESIZE),
+				scale_f(LDE_TILESIZE)
 			};
 			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
@@ -127,17 +127,16 @@ void Render_Submarine() {
 		default:
 			break;
 		}
-		Rects.Submarine.x = (int)(((Transition.Sub_Offset) - (Core.Camera.X) - 900) * Settings.Scalar);
-		Rects.Submarine.y = (int)(((-Transition.Sub_Vertical * Settings.Scalar) - Rects.Submarine.h) -
-			(Core.Camera.Y * Settings.Scalar));
-		for (int Counter = 0; Counter < 2; Counter++) {
+		Rects.Submarine.x = scale_f(Transition.Sub_Offset - Core.Camera.X - 900.0f);
+		Rects.Submarine.y = (scale_f(-Transition.Sub_Vertical) - Rects.Submarine.h) - scale_f(Core.Camera.Y);
+		for (int C1 = 0; C1 < 2; C1++) {
 			SDL_FRect Subrectangle = {
-				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * Counter),
+				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * C1),
 				Rects.Submarine.y,
 				Rects.Submarine.w * 0.5f,
 				Rects.Submarine.h
 			};
-			Render_Texture(Textures.Submarine.Data[Counter], &Subrectangle);
+			Render_Texture(Textures.Submarine.Data[C1], &Subrectangle);
 		}
 	}
 }
@@ -150,16 +149,16 @@ void Render_Transitions() {
 		Transition.Phase = 2;
 		Interface.UI_Tab = Transition.Queried_Tab;
 		Transition.Frames = 0;
-		Transition.Max_Frames = (int)(Interface.Frame_Rate * 0.5);
+		Transition.Max_Frames = (int)(Interface.Frame_Rate * 0.5f);
 	}
 	Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
 	Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 	if (Transition.Frames > (Transition.Max_Frames * 0.5) || Transition.Phase == 2) {
 		SDL_FRect Indicator_Rectangle = {
-			Settings.Scalar * 342.5f,
-			(float)(((1471 / 6.0f) - 20) * Settings.Scalar),
-			(float)(LDE_TILESIZE * Settings.Scalar),
-			(float)(LDE_TILESIZE * Settings.Scalar)
+			scale_f(342.5f),
+			scale_f((1471.0f / 6.0f) - 20.0f),
+			scale_f(LDE_TILESIZE),
+			scale_f(LDE_TILESIZE)
 		};
 		Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 	}

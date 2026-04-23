@@ -66,7 +66,7 @@ bool Place_Fluid_Mixer(Point Pos) {
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.FM_Inputs);
 	for (int C1 = 0; C1 < Nodes.Length; C1++) {
-		int Orientation = (int)(floor(C1 / 3.0f) * 2) + Left;
+		int Orientation = (int)(floorf(C1 / 3.0f) * 2.0f) + Left;
 		Orientation -= Interface.Rotation;
 		Orientation = ((Orientation + 3) & 3) + 1;
 		Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Fluid_Cap] = 24;

@@ -149,11 +149,11 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 	SDL_FRect Separating_Rectangle = {
 		0.0f,
 		0.0f,
-		(float)(Carrying_Surface->w * 0.5),
+		(float)(Carrying_Surface->w * 0.5f),
 		(float)(Carrying_Surface->h)
 	};
-	Rectangle->w = (Separating_Rectangle.w / 6) * Settings.Scalar;
-	Rectangle->h = (Separating_Rectangle.h / 6) * Settings.Scalar;
+	Rectangle->w = scale_f(Separating_Rectangle.w / 6.0f);
+	Rectangle->h = scale_f(Separating_Rectangle.h / 6.0f);
 	SDL_SetTextureBlendMode(First_Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, First_Texture);
 	SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL);
@@ -186,8 +186,8 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface;
 	load_bmp(Primary_Surface, Buffer);
-	Rectangle->w = (Primary_Surface->w / 6.0f) * Settings.Scalar;
-	Rectangle->h = (Primary_Surface->h / 6.0f) * Settings.Scalar;
+	Rectangle->w = scale_f(Primary_Surface->w / 6.0f);
+	Rectangle->h = scale_f(Primary_Surface->h / 6.0f);
 	SDL_Texture* Primary_Texture = Surface_To_Texture(Primary_Surface);
 	SDL_DestroySurface(Primary_Surface);
 	Yield->Data[0] = Primary_Texture;
@@ -205,7 +205,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 	SDL_Texture* Carrying_Texture = IMG_To_Texture(Buffer);
 	float Full_Width = 0, Full_Height = 0;
 	SDL_GetTextureSize(Carrying_Texture, &Full_Width, &Full_Height);
-	int Chunks = floor(Full_Height / (Height * 240)) + 1;
+	int Chunks = (int)floorf(Full_Height / (Height * 240.0f)) + 1;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * Chunks);
 	Yield->Length = Chunks;
 	int Index = 1;
@@ -283,25 +283,26 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 }
 
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y) {
-	SDL_Surface* Root;
-	load_bmp(Root, "assets/core/images/ui/sidebar/root.bmp");
-	SDL_Texture* Yield = New_Texture(Root->w, Root->h);
+	SDL_Surface* Subcarrier;
+	load_bmp(Subcarrier, "assets/core/images/ui/sidebar/root.bmp");
+	SDL_Texture* Yield = New_Texture(Subcarrier->w, Subcarrier->h);
 	SDL_SetRenderTarget(Core.Renderer, Yield);
-	Rectangle->x = (float)(660 - (Root->w / 6)) * Settings.Scalar;
-	Rectangle->y = Y * Settings.Scalar;
-	Rectangle->w = (float)(Root->w / 6) * Settings.Scalar;
-	Rectangle->h = (float)(Root->h / 6) * Settings.Scalar;
-	SDL_Texture* Carrier = Surface_To_Texture(Root);
+	*Rectangle = (SDL_FRect){
+		scale_f(660.0f - (Subcarrier->w / 6.0f)),
+		scale_f(Y),
+		scale_f(Subcarrier->w / 6.0f),
+		scale_f(Subcarrier->h / 6.0f)
+	};
+	SDL_Texture* Carrier = Surface_To_Texture(Subcarrier);
+	SDL_DestroySurface(Subcarrier);
 	Render_Texture(Carrier, NULL);
 	free_texture(Carrier);
-	SDL_DestroySurface(Root);
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "assets/core/images/ui/sidebar/%s.bmp", Path);
-	SDL_Surface* Surface;
-	load_bmp(Surface, Buffer);
-	Carrier = Surface_To_Texture(Surface);
+	load_bmp(Subcarrier, Buffer);
+	Carrier = Surface_To_Texture(Subcarrier);
+	SDL_DestroySurface(Subcarrier);
 	//render
-	SDL_DestroySurface(Surface);
 	free_texture(Carrier);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	return Yield;

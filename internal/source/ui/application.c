@@ -38,8 +38,8 @@ void Render_Application() {
 		}
 		Offset_X *= LDE_GRIDSIZE * 20;
 		Offset_Y *= LDE_GRIDSIZE * 20;
-		Cache.Wire_Box.x = (int)(Offset_X - Core.Camera.X) * Settings.Scalar;
-		Cache.Wire_Box.y = (int)(Offset_Y - Core.Camera.Y) * Settings.Scalar;
+		Cache.Wire_Box.x = scale_f(Offset_X - Core.Camera.X);
+		Cache.Wire_Box.y = scale_f(Offset_Y - Core.Camera.Y);
 		Render_Texture(Cache.Wire_Cache.Data[C1], &Cache.Wire_Box);
 	}
 	if (Interface.Tool == T_Plumbing) {
@@ -58,32 +58,30 @@ void Render_Application() {
 		SDL_FRect Hitbox = {
 			0.0f,
 			0.0f,
-			(float)(LDE_TILESIZE * Settings.Scalar),
-			(float)(LDE_TILESIZE * Settings.Scalar)
+			scale_f(LDE_TILESIZE),
+			scale_f(LDE_TILESIZE)
 		};
 		Point Subpos = {
-			(Core.Camera.X * Settings.Scalar) + Core.Mouse.X,
-			(Core.Camera.Y * Settings.Scalar) + Core.Mouse.Y
+			scale_f(Core.Camera.X) + Core.Mouse.X,
+			scale_f(Core.Camera.Y) + Core.Mouse.Y
 		};
-		Hitbox.x = ((int)(Subpos.X / (LDE_TILESIZE * Settings.Scalar)) * (LDE_TILESIZE * Settings.Scalar)) -
-			(Core.Camera.X * Settings.Scalar);
-		Hitbox.y = ((int)(Subpos.Y  / (LDE_TILESIZE * Settings.Scalar)) * (LDE_TILESIZE * Settings.Scalar)) -
-			(Core.Camera.Y * Settings.Scalar);
-		int Limit = LDE_TILESIZE * LDE_GRIDSIZE * Settings.Scalar;
+		Hitbox.x = ((Subpos.X / scale_f(LDE_TILESIZE)) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.X);
+		Hitbox.y = ((Subpos.Y  / scale_f(LDE_TILESIZE)) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.Y);
+		int Limit = scale_f(LDE_TILESIZE * LDE_GRIDSIZE);
 		bool Rendering = false;
 		if (Subpos.X > 0 && Subpos.Y > 0 && Subpos.X < Limit && Subpos.Y < Limit) {
 			Render_Texture(Textures.Crosshair, &Hitbox);
 			Rendering = true;
 		}
 		if (Interface.Tool == T_Inspecting && Rendering) {
-			float Padding = Settings.Scalar * 2.0f;
-			float Height = Settings.Scalar * 24.0f;
+			float Padding = scale_f(2.0f);
+			float Height = scale_f(24.0f);
 			Point Pos = { };
 			bool Satiated = false;
 			for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-				Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+				Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 				for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-					Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+					Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 					if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 						Pos = (Point){ Column, Row };
 						Satiated = true;
@@ -140,8 +138,8 @@ void Render_Application() {
 				}
 			}
 		}
-		Hitbox.x = Core.Mouse.X - (LDE_TILESIZE * Settings.Scalar * 0.5f);
-		Hitbox.y = Core.Mouse.Y - (LDE_TILESIZE * Settings.Scalar * 0.5f);
+		Hitbox.x = Core.Mouse.X - scale_f(LDE_TILESIZE * 0.5f);
+		Hitbox.y = Core.Mouse.Y - scale_f(LDE_TILESIZE * 0.5f);
 		Render_Texture(Textures.Cursor, &Hitbox);
 		bool Targeting = false;
 		switch (Interface.Tool) {
@@ -206,7 +204,7 @@ void Render_Hotbar() {
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		float Padding = Settings.Scalar * 4.0f;
-		float Width = ((640.0f / LDE_TOOLS) * Settings.Scalar) - (((1.0f / LDE_TOOLS) + 1.0f) * Padding);
+		float Width = scale_f(640.0f / LDE_TOOLS) - (((1.0f / LDE_TOOLS) + 1.0f) * Padding);
 		for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
 			SDL_FRect Pasting = {
 				(C1 * Width) + ((C1 + 1) * Padding),

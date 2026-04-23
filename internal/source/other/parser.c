@@ -122,10 +122,10 @@ void Load_XML() {
 			get_int("Height")
 		};
 		Machine.Rect = (SDL_FRect){
-			0,
-			0,
-			LDE_TILESIZE * Settings.Scalar * Machine.Size.X,
-			LDE_TILESIZE * Settings.Scalar * Machine.Size.Y
+			0.0f,
+			0.0f,
+			scale_f(LDE_TILESIZE * Machine.Size.X),
+			scale_f(LDE_TILESIZE * Machine.Size.Y)
 		};
 		if (Machine.Single_ID) {
 			Machine.Visual_ID1 = get_int("Visual_ID");

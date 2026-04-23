@@ -214,9 +214,9 @@ void Process_Inputs() {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { LDE_INVALID, LDE_INVALID };
 						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-							Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+							Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 							for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-								Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+								Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 									if (Data.Visual_Grid[Column][Row] != 0) {
 										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {

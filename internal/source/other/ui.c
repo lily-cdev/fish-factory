@@ -25,7 +25,7 @@ void Set_Renderer_Color(const SDL_Color Color) {
 
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 	Set_Renderer_Color(Color);
-	for (int C1 = 0; C1 < LDE_BORDERWIDTH * Settings.Scalar * Multiplier; C1++) {
+	for (int C1 = 0; C1 < scale(LDE_BORDERWIDTH * Multiplier); C1++) {
 		SDL_RenderRect(Core.Renderer, &Rectangle);
 		Rectangle.x++;
 		Rectangle.y++;
@@ -36,37 +36,33 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 }
 
 void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { (float)(Pos.X - 4) * Settings.Scalar, (float)(Pos.Y - 4) * Settings.Scalar, (float)(W + 8) *
-		Settings.Scalar, (float)(H + 8) * Settings.Scalar };
+	SDL_FRect External_Rectangle = { scale_f(Pos.X - 4), scale_f(Pos.Y - 4), scale_f(W + 8), scale_f(H + 8) };
 	Set_Renderer_Color(Outer_Color);
 	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
-	SDL_FRect Internal_Rectangle = { (float)(Pos.X * Settings.Scalar), (float)(Pos.Y * Settings.Scalar), (float)(W *
-		Settings.Scalar), (float)(H * Settings.Scalar) };
+	SDL_FRect Internal_Rectangle = { scale_f(Pos.X), scale_f(Pos.Y), scale_f(W), scale_f(H) };
 	Set_Renderer_Color(Inner_Color);
 	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
 	Clear_Renderer();
 }
 
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
-	SDL_FRect Yield = { Source.x - (Pos.X * Settings.Scalar), Source.y - (Pos.Y * Settings.Scalar),
-		Source.w + ((Pos.X * 2) * Settings.Scalar), Source.h + ((Pos.Y * 2) * Settings.Scalar) };
+	SDL_FRect Yield = { Source.x - scale_f(Pos.X), Source.y - scale_f(Pos.Y), Source.w + scale_f(Pos.X * 2.0f), Source.h +
+		scale_f(Pos.Y * 2.0f) };
 	return Yield;
 }
 
 void Render_Blueprint(int Size_X, int Size_Y) {
-	SDL_FRect Hitbox = { 0, 0, (float)(Size_X * LDE_TILESIZE) * Settings.Scalar, (float)(Size_Y * LDE_TILESIZE) *
-		Settings.Scalar };
-	SDL_FRect Invisible_Hitbox = { 0, 0, Settings.Scalar * (float)LDE_TILESIZE, Settings.Scalar * (float)LDE_TILESIZE };
+	SDL_FRect Hitbox = { 0.0f, 0.0f, scale_f(Size_X * LDE_TILESIZE), scale_f(Size_Y * LDE_TILESIZE) };
+	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, scale_f(LDE_TILESIZE), scale_f(LDE_TILESIZE) };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
-		Invisible_Hitbox.x = (int)((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar;
+		Hitbox.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
+		Invisible_Hitbox.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
-			Invisible_Hitbox.y = (int)((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar;
+			Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+			Invisible_Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar && Hitbox.y +
-					Hitbox.h <= ((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar) || (Size_X != 2 && Size_Y !=
-					2)) {
+				if ((Hitbox.x + Hitbox.w <= scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) && Hitbox.y + Hitbox.h <=
+					scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 					bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
 					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock + 1 &&
 						Row != 0)) {
@@ -129,9 +125,9 @@ void Render_Game_UI() {
 		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
 		bool Satiated = false;
 		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-			Rects.Tile_1x1.x = (float)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+			Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-				Rects.Tile_1x1.y = (float)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+				Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					memcpy_c(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
 					Satiated = true;
@@ -215,8 +211,8 @@ void Render_Game_UI() {
 			Max_Width = max(Max_Width, Fragment_Texture->w);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
-				(float)(Settings.Scalar * 630) - Fragment_Texture->w,
-				(float)((C1 * 20) + 10) * Settings.Scalar,
+				scale_f(630.0f) - Fragment_Texture->w,
+				scale_f((C1 * 20.0f) + 10.0f),
 				(float)Fragment_Texture->w,
 				(float)Fragment_Texture->h
 			};
@@ -246,7 +242,7 @@ void Render_Game_UI() {
 	}
 	if (Interface.Save_Frames > 0) {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
-		Fading_Color.a = (uint8_t)(ceil(((float)Interface.Save_Frames / (Interface.Frame_Rate * 2)) * 255));
+		Fading_Color.a = (uint8_t)(ceilf((Interface.Save_Frames / (Interface.Frame_Rate * 2.0f)) * 255.0f));
 		char Buffer[16] = "Data saved!";
 		Process_Supply(&Supplies.Save_Text, Buffer, F_Subtext, Fading_Color, (Point){ LDE_INVALID, 300 });
 		Interface.Save_Frames--;
@@ -286,15 +282,13 @@ void Drain_Query() {
 		if (Cache.ID_Query[C1] == 0) {
 			Render_Outline(Cache.Query[C1], Cache.Color_Query[C1], 1);
 		} else if (Cache.ID_Query[C1] == 1) {
-			float Length = sqrt(pow(Cache.Query[C1].x - Cache.Query[C1].w, 2) + pow(Cache.Query[C1].y - Cache.Query[C1].h, 2));
-			float Rotation = atan2(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
-			SDL_FPoint Centerpoint = { Settings.Scalar * 5.0f, Settings.Scalar * 5.0f };
-			for (int C2 = 0; C2 < floor(Length / (Settings.Scalar * 10)); C2++) {
-				SDL_FRect Tilebox = { 0.0f, 0.0f, Settings.Scalar * 10.0f, Settings.Scalar * 10.0f };
-				Tilebox.x = (float)(Cache.Query[C1].x - ((C2 * Settings.Scalar * 10) * cos(Rotation * (M_PI / 180))) -
-					(Settings.Scalar * 5));
-				Tilebox.y = (float)(Cache.Query[C1].y - ((C2 * Settings.Scalar * 10) * sin(Rotation * (M_PI / 180))) -
-					(Settings.Scalar * 5));
+			float Length = sqrtf(powf(Cache.Query[C1].x - Cache.Query[C1].w, 2) + powf(Cache.Query[C1].y - Cache.Query[C1].h, 2));
+			float Rotation = atan2f(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
+			SDL_FPoint Centerpoint = { scale_f(5.0f), scale_f(5.0f) };
+			for (int C2 = 0; C2 < floorf(Length / scale_f(10.0f)); C2++) {
+				SDL_FRect Tilebox = { 0.0f, 0.0f, scale_f(10.0f), scale_f(10.0f) };
+				Tilebox.x = (float)(Cache.Query[C1].x - (scale_f(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - scale_f(5.0f));
+				Tilebox.y = (float)(Cache.Query[C1].y - (scale_f(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - scale_f(5.0f));
 				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
 					SDL_FLIP_NONE);
 			}

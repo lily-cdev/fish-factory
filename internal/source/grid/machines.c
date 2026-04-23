@@ -203,9 +203,9 @@ void Update_Grid() {
 
 void Build_Grid() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[Column][Row] != 0) {
 					return;
@@ -260,7 +260,7 @@ void Build_Grid() {
 }
 
 void Remove_Machine(Point Pos) {
-	Data.Funds += (int)(floor(Metadata.Machines[Visual_To_ID(Data.Visual_Grid[pt(Pos)])].Price * 0.75f));
+	Data.Funds += (int)(floorf(Metadata.Machines[Visual_To_ID(Data.Visual_Grid[pt(Pos)])].Price * 0.75f));
 	int Width;
 	int Height;
 	ID_To_Size(Visual_To_ID(Data.Visual_Grid[pt(Pos)]), Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), &Width, &Height);
@@ -312,15 +312,17 @@ void Remove_Machine(Point Pos) {
 bool Destroy_Grid() {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		Rects.Tile_1x1.x = (int)(((Pos.X * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Pos.X * LDE_TILESIZE) - Core.Camera.X);
 		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
-			Rects.Tile_1x1.y = (int)(((Pos.Y * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Pos.Y * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[pt(Pos)] != 0) {
 					Cache.Wire_State = Deep_Recache;
 					if (Data.Visual_Grid[pt(Pos)] == LDE_INVALID) {
-						Remove_Machine((Point){ (int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[
-							pt(Pos)][S_ParentY]) });
+						Remove_Machine((Point){
+							(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]),
+							(int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
+						});
 					} else {
 						Remove_Machine(Pos);
 					}
@@ -402,9 +404,9 @@ void Recast_Machines() {
 
 int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Grid[Column][Row];
 			}
@@ -429,8 +431,8 @@ void Find_Effect() {
 			}
 			for (int C1 = 0; C1 < intlen(Metadata.Irradiating_Machines); C1++) {
 				if (Visual_To_ID(Data.Visual_Grid[pt(Pos)]) == Metadata.Irradiating_Machines[C1]) {
-					float A = ((Core.Camera.X + 320) - (Pos.X * LDE_TILESIZE)) * Settings.Scalar;
-					float B = ((Core.Camera.Y + 180) - (Pos.Y * LDE_TILESIZE)) * Settings.Scalar;
+					float A = scale_f((Core.Camera.X + 320) - (Pos.X * LDE_TILESIZE));
+					float B = scale_f((Core.Camera.Y + 180) - (Pos.Y * LDE_TILESIZE));
 					float Distance = sqrtf(sqr(A) + sqr(B));
 					Interface.Effects[E_Radiation] += fmax(35.0f - (Distance * 0.05f), 0.0f);
 				}

@@ -41,10 +41,10 @@ void Process_Tutorial(int Input) {
 void Render_Tutorial() {
 	if (Temporary.Tutorial_Step > LDE_INVALID) {
 		SDL_FRect Bounding_Rectangle = {
-			((float)(120 - Core.Camera.X) + Temporary.Tutorial_Offset.X) * Settings.Scalar,
-			((float)(120 - Core.Camera.Y) + Temporary.Tutorial_Offset.Y) * Settings.Scalar,
-			(float)(Temporary.Tutorial_Size.X * Settings.Scalar),
-			(float)(Temporary.Tutorial_Size.Y * Settings.Scalar)
+			scale_f((120.0f - Core.Camera.X) + Temporary.Tutorial_Offset.X),
+			scale_f((120.0f - Core.Camera.Y) + Temporary.Tutorial_Offset.Y),
+			scale_f(Temporary.Tutorial_Size.X),
+			scale_f(Temporary.Tutorial_Size.Y)
 		};
 		Cache.ID_Query[Cache.Query_Length] = 0;
 		Cache.Query[Cache.Query_Length] = Bounding_Rectangle;
@@ -77,12 +77,12 @@ void Render_Tutorial() {
 					int Y;
 					ID_To_Size(Visual_To_ID(Tutorial_Stack[Temporary.Tutorial_Step].Item), 0, &X, &Y);
 					SDL_FRect Outline_Rectangle = {
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X * LDE_TILESIZE *
-						Settings.Scalar) - (Core.Camera.X * Settings.Scalar)),
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y * LDE_TILESIZE *
-							Settings.Scalar) - (Core.Camera.Y * Settings.Scalar)),
-						(float)(X * LDE_TILESIZE * Settings.Scalar),
-						(float)(Y * LDE_TILESIZE * Settings.Scalar)
+						scale_f((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X * LDE_TILESIZE *
+							Settings.Scalar) - Core.Camera.X),
+						scale_f((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y * LDE_TILESIZE *
+							Settings.Scalar) - Core.Camera.Y),
+						scale_f(X * LDE_TILESIZE),
+						scale_f(Y * LDE_TILESIZE)
 					};
 					Cache.ID_Query[Cache.Query_Length] = 0;
 					Cache.Query[Cache.Query_Length] = Outline_Rectangle;
@@ -138,14 +138,14 @@ void Render_Tutorial() {
 				}
 				if (Incomplete) {
 					SDL_FRect Temporary_Rectangle = {
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X *
-						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Scalar)),
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y *
-						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Scalar)),
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X *
-						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.X) * Settings.Scalar)),
-						(float)((Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y *
-						Settings.Scalar * LDE_TILESIZE) + ((20 - Core.Camera.Y) * Settings.Scalar))
+						scale_f(Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].X * LDE_TILESIZE) + scale_f(
+							20.0f - Core.Camera.X),
+						scale_f(Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1].Y * LDE_TILESIZE) + scale_f(
+							20.0f - Core.Camera.Y),
+						scale_f(Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].X * LDE_TILESIZE) + scale_f(
+							20.0f - Core.Camera.X),
+						scale_f(Tutorial_Stack[Temporary.Tutorial_Step].Placement_Locations[C1 + 1].Y * LDE_TILESIZE) + scale_f(
+							20.0f - Core.Camera.Y)
 					};
 					Cache.Query[Cache.Query_Length] = Temporary_Rectangle;
 					Cache.ID_Query[Cache.Query_Length] = 1;

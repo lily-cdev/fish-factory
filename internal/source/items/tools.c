@@ -30,9 +30,9 @@ Item_Stack ID_To_Item(const int ID) {
 
 Item_Stack Get_Item_Stack_Data() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = (int)(((Column * LDE_TILESIZE) - Core.Camera.X) * Settings.Scalar);
+		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = (int)(((Row * LDE_TILESIZE) - Core.Camera.Y) * Settings.Scalar);
+			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Get_Item((Point){ Column, Row });
 			}
@@ -70,7 +70,7 @@ float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisat
 		return -2;
 	} else {
 		float Boiling_Point_K = (Boiling_Point + 459.67f) / 1.8f;
-		float ATM = pow(M_E, ((H_Vaporisation * -1000) / 8.314462618) * ((1 / Temperature_K) - (1 / Boiling_Point_K)));
+		float ATM = powf(M_E, ((H_Vaporisation * -1000.0f) / 8.314462618f) * ((1.0f / Temperature_K) - (1.0f / Boiling_Point_K)));
 		return ATM * 1.01325f;
 	}
 }

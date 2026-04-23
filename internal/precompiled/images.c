@@ -82,8 +82,8 @@ SDL_Surface* Load_BMP(const char* Path) {
 	SDL_Surface* Yield = SDL_CreateSurface(Width, Height, SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Yield);
 	uint32_t* Pixels = (uint32_t*)Yield->pixels;
-	uint64_t Row_Size = ceil(Width * BITSPERPIXEL * 0.03125f) * 4;
-	uint64_t Index = HEADERSIZE;
+	uint64_t Row_Size = (uint64_t)(ceilf(Width * BITSPERPIXEL * 0.03125f) * 4.0f);
+	uint64_t Index = (uint64_t)HEADERSIZE;
 	uint8_t Opacity;
 	const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
 	for (int Y = 0; Y < Height; Y++) {

@@ -5,22 +5,19 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, Font_Index 
 		return;
 	}
 	if (strcmp(Supply->Stored, Replacement) != 0 || !Compare_Colors(Supply->Color, Color) || Supply->Data == NULL ||
-		Supply->Bounds.y != Pos.Y * Settings.Scalar || Supply->Bounds.x != Pos.X * Settings.Scalar) {
+		Supply->Bounds.y != scale_f(Pos.Y) || Supply->Bounds.x != scale_f(Pos.X)) {
 		free_texture(Supply->Data);
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
-		Supply->Bounds.y = Pos.Y * Settings.Scalar;
+		Supply->Bounds.y = scale_f(Pos.Y);
 		strncpy(Supply->Stored, Replacement, sizeof(Supply->Stored));
-		Supply->Color.r = Color.r;
-		Supply->Color.g = Color.g;
-		Supply->Color.b = Color.b;
-		Supply->Color.a = Color.a;
+		Supply->Color.r = (SDL_Color){ Color.r, Color.g, Color.b, Color.a };
 		SDL_Texture* Carrier = Render_Text(Font, Replacement, Color);
 		if (Carrier == NULL) {
 			puts("1");
 		}
 		Supply->Bounds.w = Carrier->w;
 		Supply->Bounds.h = Carrier->h;
-		Supply->Bounds.x = (Pos.X == LDE_INVALID) ? Core.Screenhalfsize.X - (Carrier->w * 0.5) : Pos.X * Settings.Scalar;
+		Supply->Bounds.x = (Pos.X == LDE_INVALID) ? Core.Screenhalfsize.X - (Carrier->w * 0.5f) : scale_f(Pos.X);
 		Supply->Data = Carrier;
 	}
 	Render_Texture(Supply->Data, &Supply->Bounds);

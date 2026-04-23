@@ -198,8 +198,8 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 		SDL_Texture* Fragment_Texture = Render_Text(Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
 		if (Fragment_Texture) {
 			SDL_FRect Fragment_Rectangle = {
-				(float)(Pos.X * Settings.Scalar),
-				(float)(Pos.Y * Settings.Scalar) + Offset,
+				scale_f(Pos.X),
+				scale_f(Pos.Y) + Offset,
 				(float)Fragment_Texture->w,
 				(float)Fragment_Texture->h
 			};

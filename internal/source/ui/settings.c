@@ -6,8 +6,8 @@ void Render_Keybinds() {
 		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[C1]);
 		SDL_Texture* Prefix_Texture = Render_Text(F_Subtext, Text, Colors.Abyss_Black);
 		SDL_FRect Prefix_Rectangle = {
-			Settings.Scalar * 370.0f,
-			(float)((C1 * 16) + 40) * Settings.Scalar,
+			scale_f(370.0f),
+			scale_f((C1 * 16.0f) + 40.0f),
 			(float)Prefix_Texture->w,
 			(float)Prefix_Texture->h
 		};

@@ -104,8 +104,8 @@ void Apply_M_Cheat(Parameter Machine, Parameter Unused) {
 
 void Set_M_Cheat(Parameter Machine, Parameter Unused) {
 	Data.Settings_Grid[pt(Machine.Pos)][3] = Interface.Slider_Positions[8];
-	Data.Settings_Grid[pt(Machine.Pos)][4] = sgn(Interface.Slider_Positions[8] - 5) * pow(1000, abs(Interface.Slider_Positions[
-		8] - 5) - 1);	
+	Data.Settings_Grid[pt(Machine.Pos)][4] = sgn(Interface.Slider_Positions[8] - 5) * powf(1000, fabsf(Interface.Slider_Positions[
+		8] - 5.0f) - 1);	
 }
 
 void Apply_F_Cheat(Parameter Machine, Parameter Unused) {
@@ -130,8 +130,8 @@ void Apply_P_Cheat(Parameter Machine, Parameter Unused) {
 }
 
 void Set_P_Cheat(Parameter Machine, Parameter Unused) {
-	Data.Settings_Grid[pt(Machine.Pos)][3] = (Interface.Slider_Positions[14] == 0) ? 0 : pow(10, Interface.Slider_Positions[
-		14] - 1);
+	Data.Settings_Grid[pt(Machine.Pos)][3] = (Interface.Slider_Positions[14] == 0) ? 0 : powf(10.0f, Interface.Slider_Positions[
+		14] - 1.0f);
 }
 
 void Forward_Day(Parameter Unused, Parameter Unused2) {
@@ -221,7 +221,7 @@ void SD_Manifest(Parameter Pos, Parameter Unused) {
 			strncpy(Carrier1, "low_value", sizeof(Carrier1));
 		}
 		char Subbuffer1[64];
-		Truncate(fabs(Data.Settings_Grid[pt(Pos.Pos)][C1 + 3]), Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
+		Truncate(fabsf(Data.Settings_Grid[pt(Pos.Pos)][C1 + 3]), Get_Depth(LDE_DOCKCAPACITY), Subbuffer1, sizeof(Subbuffer1));
 		char Subbuffer2[64];
 		Abbreviate_Number(LDE_DOCKCAPACITY, Subbuffer2, sizeof(Subbuffer2));
 		snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "capacity_%d\", \"%s/%sL", C1 + 1, Subbuffer1,

@@ -15,8 +15,8 @@ void Render_Catalog(Point Pos) {
 			float Base_Padding = Settings.Scalar * 7.0f;
 			float Base_Subpadding = Settings.Scalar * 2.0f;
 			SDL_FRect Outer_Rectangle = {
-				(float)((((Index % 10) * 58) + 30) * Settings.Scalar) + Base_Padding,
-				(float)(((floor(Index * 0.1f) * 58) + 60) * Settings.Scalar) + Base_Padding,
+				scale_f(((Index % 10) * 58.0f) + 30.0f) + Base_Padding,
+				scale_f((floorf(Index * 0.1f) * 58.0f) + 60.0f) + Base_Padding,
 				Base_Subwidth,
 				Base_Subwidth
 			};

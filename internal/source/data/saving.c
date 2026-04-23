@@ -178,7 +178,7 @@ void Reload_All(bool Initialized) {
 	}
 	strncpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING, sizeof(Interface.Slider_Texts[9][LDE_ITEMS]));
 	Adjust_Sound(Settings.Volume * 0.01f);
-	Interface.Frame_Rate = (int)(pow(2, Settings.Raw_FPS) * 15);
+	Interface.Frame_Rate = (int)(powf(2.0f, (float)Settings.Raw_FPS) * 15.0f);
 	switch (Settings.Fullscreen) {
 	case 0:
 		SDL_SetWindowBordered(Core.Window, true);

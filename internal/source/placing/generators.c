@@ -29,7 +29,7 @@ bool Place_Geo_Well(Point Pos) {
 				Data.Settings_Grid[Pos.X + C1][Pos.Y + 2][0] = C1 + 1;
 				Data.Plumbing_Grid[Pos.X + C1][Pos.Y] = Up;
 				Data.Plumbing_Grid[Pos.X + C1][Pos.Y + 2] = Down;
-				Data.Data_Grid[pt(Pos)][5] = abs((C1 * 80) - 28);
+				Data.Data_Grid[pt(Pos)][5] = fabsf((C1 * 80.0f) - 28.0f);
 			}
 		}
 	} else {
@@ -41,7 +41,7 @@ bool Place_Geo_Well(Point Pos) {
 				Data.Settings_Grid[Pos.X + 2][Pos.Y + C1][0] = C1 + 1;
 				Data.Plumbing_Grid[Pos.X][Pos.Y + C1] = Left;
 				Data.Plumbing_Grid[Pos.X + 2][Pos.Y + C1] = Right;
-				Data.Data_Grid[pt(Pos)][6] = abs((C1 * 80) - 28);
+				Data.Data_Grid[pt(Pos)][6] = fabsf((C1 * 80.0f) - 28.0f);
 			}
 		}
 	}
