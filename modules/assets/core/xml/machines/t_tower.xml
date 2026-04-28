@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>transmission tower</Name>
+	<Desc>Transmits binary signals on the 2kHz bandwidth.</Desc>
+	<Index>signal_tower</Index>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/t_tower</Path>
 	<Price>32</Price>

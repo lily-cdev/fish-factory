@@ -2,8 +2,8 @@
 #include <tutorials.h>
 
 void Spawn_Cheat(Parameter Type, Parameter Unused) {
-	int Subitems[3] = { Money_Generator, Fluid_Generator, Power_Generator };
-	Interface.Item = Subitems[Type.Integer] + 1;
+	const char* Subitems[3] = { "money_cheat", "fluid_cheat", "power_cheat" };
+	Interface.Item = Get_Machine(Subitems[Type.Integer]);
 }
 
 void Cancel_Tutorial(Parameter Unused, Parameter Unused2) {
@@ -13,15 +13,14 @@ void Cancel_Tutorial(Parameter Unused, Parameter Unused2) {
 
 void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
-		{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "enable the build tool" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 10, "Special", 0, { NULLPOINT }, false, "open the \"Special\" category" },
-		{ T_Button, 0, 3, "Command Platform", 0, { NULLPOINT }, false,
-			"select the \"Command Platform\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 6, 4, 200, "", 0, { NULLPOINT }, false, "put the placement site into view" },
-		{ 2, 0, 0, "", 43, { { 3, 8 }, NULLPOINT }, false, "allow time to progress" },
-		{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "disable the build tool" },
+		{ T_Key, 4, 0, "", 0, { NULLPOINT }, NULL, "enable the build tool" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 10, "Special", 0, { NULLPOINT }, NULL, "open the \"Special\" category" },
+		{ T_Button, 0, 3, "Command Platform", 0, { NULLPOINT }, NULL, "select the \"Command Platform\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 6, 4, 200, "", 0, { NULLPOINT }, NULL, "put the placement site into view" },
+		{ 2, 0, 0, "", 43, { { 3, 8 }, NULLPOINT }, NULL, "allow time to progress" },
+		{ T_Key, 4, 0, "", 0, { NULLPOINT }, NULL, "disable the build tool" },
 		{ T_Terminator }
 	};
 	memcpy_c(Tutorial_Stack, Template, sizeof(Template));
@@ -31,62 +30,63 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 
 void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
-		{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "enable the build tool" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 4, "Extraction", 0, { NULLPOINT }, false, "open the \"Extraction\" category" },
-		{ T_Button, 0, 3, "Ram Pump", 0, { NULLPOINT }, false, "select the \"Ram Pump\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 17, { { 4, 5 }, { 3, 6 }, { 4, 7 }, NULLPOINT }, false, "pump in water for the Filtration Plant" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 6, "Processing", 0, { NULLPOINT }, false, "open the \"Processing\" category" },
-		{ T_Button, 0, 3, "Filtration Plant", 0, { NULLPOINT }, false, "select the \"Filtration Plant\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 22, { { 5, 5 }, NULLPOINT }, false, "filter water into fuel" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 9, "Other", 0, { NULLPOINT }, false, "open the \"Other\" category" },
-		{ T_Button, 0, 3, "Incinerator", 0, { NULLPOINT }, false, "select the \"Incinerator\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 18, { { 7, 5 }, { 7, 7 }, NULLPOINT }, false, "dispose of unwanted byproducts" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 7, "Generation", 0, { NULLPOINT }, false, "open the \"Generation\" category" },
-		{ T_Button, 0, 4, "Compact Firebox", 0, { NULLPOINT }, false, "select the \"Compact Firebox\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 23, { { 8, 3 }, NULLPOINT }, false, "burn fuel for electricity" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 3, "Logistics", 0, { NULLPOINT }, false, "open the \"Logistics\" category" },
-		{ T_Button, 0, 3, "Reinforced Pipe", 0, { NULLPOINT }, false, "select the \"Reinforced Pipe\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 0, { { 4, 6 }, { 7, 6 }, { 8, 6 }, NULLPOINT }, true, "transport fluids between machines" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 3, "Logistics", 0, { NULLPOINT }, false, "open the \"Logistics\" category" },
-		{ T_Button, 0, 5, "Cable Node", 0, { NULLPOINT }, false, "select the \"Cable Node\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
-		{ 2, 0, 0, "", 63, { { 8, 7 }, NULLPOINT }, false, "transport power between machines" },
-		{ T_Key, 8, 0, "", 0, { NULLPOINT }, false, "enable the plumbing tool" },
+		{ T_Key, 4, 0, "", 0, { NULLPOINT }, NULL, "enable the build tool" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 4, "Extraction", 0, { NULLPOINT }, NULL, "open the \"Extraction\" category" },
+		{ T_Button, 0, 3, "Ram Pump", 0, { NULLPOINT }, NULL, "select the \"Ram Pump\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 17, { { 4, 5 }, { 3, 6 }, { 4, 7 }, NULLPOINT }, NULL, "pump in water for the Filtration Plant" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 6, "Processing", 0, { NULLPOINT }, NULL, "open the \"Processing\" category" },
+		{ T_Button, 0, 3, "Filtration Plant", 0, { NULLPOINT }, NULL, "select the \"Filtration Plant\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 22, { { 5, 5 }, NULLPOINT }, NULL, "filter water into fuel" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 9, "Other", 0, { NULLPOINT }, NULL, "open the \"Other\" category" },
+		{ T_Button, 0, 3, "Incinerator", 0, { NULLPOINT }, NULL, "select the \"Incinerator\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 18, { { 7, 5 }, { 7, 7 }, NULLPOINT }, NULL, "dispose of unwanted byproducts" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 7, "Generation", 0, { NULLPOINT }, NULL, "open the \"Generation\" category" },
+		{ T_Button, 0, 4, "Compact Firebox", 0, { NULLPOINT }, NULL, "select the \"Compact Firebox\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 23, { { 8, 3 }, NULLPOINT }, NULL, "burn fuel for electricity" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 3, "Logistics", 0, { NULLPOINT }, NULL, "open the \"Logistics\" category" },
+		{ T_Button, 0, 3, "Reinforced Pipe", 0, { NULLPOINT }, NULL, "select the \"Reinforced Pipe\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 0, { { 4, 6 }, { 7, 6 }, { 8, 6 }, NULLPOINT }, Get_Machine("heavy_pipe"),
+			"transport fluids between machines" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 3, "Logistics", 0, { NULLPOINT }, NULL, "open the \"Logistics\" category" },
+		{ T_Button, 0, 5, "Cable Node", 0, { NULLPOINT }, NULL, "select the \"Cable Node\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
+		{ 2, 0, 0, "", 63, { { 8, 7 }, NULLPOINT }, NULL, "transport power between machines" },
+		{ T_Key, 8, 0, "", 0, { NULLPOINT }, NULL, "enable the plumbing tool" },
 		{ 3, 0, 0, "", 0, { { 4, 7 }, { 4, 6 }, { 4, 5 }, { 4, 6 }, { 3, 6 }, { 4, 6 }, { 6, 6 }, { 7, 6 }, { 7, 6 },
-			{ 8, 6 }, { 4, 6 }, { 5, 6 }, { 6, 5 }, { 7, 5 }, { 6, 7 }, { 7, 7 }, { 8, 6 }, { 8, 5 }, NULLPOINT }, false,
+			{ 8, 6 }, { 4, 6 }, { 5, 6 }, { 6, 5 }, { 7, 5 }, { 6, 7 }, { 7, 7 }, { 8, 6 }, { 8, 5 }, NULLPOINT }, NULL,
 			"allow fluids to flow" },
-		{ T_Key, 7, 0, "", 0, { NULLPOINT }, false, "enable the wiring tool" },
+		{ T_Key, 7, 0, "", 0, { NULLPOINT }, NULL, "enable the wiring tool" },
 		{ 4, 0, 0, "", 0, { { 8, 7 }, { 3, 6 }, { 8, 7 }, { 4, 5 }, { 8, 7 }, { 4, 7 }, { 8, 7 }, { 5, 5 }, NULLPOINT },
-			false, "allow power to be distributed" },
-		{ T_Key, 4, 0, "", 0, { NULLPOINT }, false, "enable the build tool" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "open the catalog" },
-		{ T_Button, 0, 7, "Generation", 0, { NULLPOINT }, false, "open the \"Generation\" category" },
-		{ 1, 0, 3, "Piezoelectric Generator", 0, { NULLPOINT }, false, "select the \"Piezoelectric Generator\" item" },
-		{ T_Key, 9, 0, "", 0, { NULLPOINT }, false, "close the catalog" },
+			NULL, "allow power to be distributed" },
+		{ T_Key, 4, 0, "", 0, { NULLPOINT }, NULL, "enable the build tool" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "open the catalog" },
+		{ T_Button, 0, 7, "Generation", 0, { NULLPOINT }, NULL, "open the \"Generation\" category" },
+		{ 1, 0, 3, "Piezoelectric Generator", 0, { NULLPOINT }, NULL, "select the \"Piezoelectric Generator\" item" },
+		{ T_Key, 9, 0, "", 0, { NULLPOINT }, NULL, "close the catalog" },
 		{ 2, 0, 0, "", 19, { { 3, 3 }, { 4, 3 }, { 5, 3 }, { 6, 3 }, { 7, 3 }, { 3, 4 }, { 4, 4 }, { 5, 4 }, { 6, 4 },
-			{ 7, 4 }, NULLPOINT }, false, "generate a temporary supply of power" },
-		{ T_Key, 7, 0, "", 0, { NULLPOINT }, false, "enable the wiring tool" },
+			{ 7, 4 }, NULLPOINT }, NULL, "generate a temporary supply of power" },
+		{ T_Key, 7, 0, "", 0, { NULLPOINT }, NULL, "enable the wiring tool" },
 		{ 4, 0, 0, "", 0, { { 3, 3 }, { 8, 7 }, { 4, 3 }, { 8, 7 }, { 5, 3 }, { 8, 7 }, { 6, 3 }, { 8, 7 }, { 7, 3 },
 			{ 8, 7 }, { 3, 4 }, { 8, 7 }, { 4, 4 }, { 8, 7 }, { 5, 4 }, { 8, 7 }, { 6, 4 }, { 8, 7 },
-			{ 7, 4 }, { 8, 7 }, NULLPOINT }, false, "jumpstart the setup" },
-		{ 5, 0, 60, "", 0, { NULLPOINT }, false, "allow the first cycle to begin" },
-		{ T_Key, 5, 0, "", 0, { NULLPOINT }, false, "enable the delete tool" },
+			{ 7, 4 }, { 8, 7 }, NULLPOINT }, NULL, "jumpstart the setup" },
+		{ 5, 0, 60, "", 0, { NULLPOINT }, NULL, "allow the first cycle to begin" },
+		{ T_Key, 5, 0, "", 0, { NULLPOINT }, NULL, "enable the delete tool" },
 		{ 2, 0, 0, "", 0, { { 3, 3 }, { 4, 3 }, { 5, 3 }, { 6, 3 }, { 7, 3 }, { 3, 4 }, { 4, 4 }, { 5, 4 }, { 6, 4 },
-			{ 7, 4 }, NULLPOINT }, false, "remove the jumpstarting equipment" },
-		{ T_Key, 7, 0, "", 0, { NULLPOINT }, false, "enable the wiring tool" },
-		{ 4, 0, 0, "", 0, { { 8, 3 }, { 8, 7 }, NULLPOINT }, false, "make the setup self-sustaining" },
-		{ T_Key, 7, 0, "", 0, { NULLPOINT }, false, "disable the wiring tool" },
+			{ 7, 4 }, NULLPOINT }, NULL, "remove the jumpstarting equipment" },
+		{ T_Key, 7, 0, "", 0, { NULLPOINT }, NULL, "enable the wiring tool" },
+		{ 4, 0, 0, "", 0, { { 8, 3 }, { 8, 7 }, NULLPOINT }, NULL, "make the setup self-sustaining" },
+		{ T_Key, 7, 0, "", 0, { NULLPOINT }, NULL, "disable the wiring tool" },
 		{ T_Terminator }
 	};
 	memcpy_c(Tutorial_Stack, Template, sizeof(Template));
@@ -326,7 +326,7 @@ void Shop_Category(Parameter Category, Parameter Unused) {
 
 void Shop_Item(Parameter Subcategory, Parameter Unused) {
 	if (In_Shop) {
-		Interface.Item = Metadata.Subcontents[Interface.Subtab - LDE_CATEGORIES - 1][Subcategory.Integer] + 1;
+		Interface.Item = Get_Machine(Metadata.Subcontents[Interface.Subtab - LDE_CATEGORIES - 1][Subcategory.Integer]);
 		Cache_Blueprint();
 	}
 }
@@ -339,7 +339,7 @@ void Shop_Subcategory(Parameter Selection, Parameter Unused) {
 
 void Shop_Subitem(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
-		Interface.Item = Metadata.Item_Labels[Interface.Subtab - 1][Selection.Integer] + 1;
+		Interface.Item = Get_Machine(Metadata.Item_Labels[Interface.Subtab - 1][Selection.Integer]);
 		Cache_Blueprint();
 	}
 }

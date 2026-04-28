@@ -11,7 +11,6 @@ void Render_Grid() {
 				Point Offset[4];
 				SDL_FRect Source;
 				SDL_FRect Destination;
-				const int Valid_Pipes[2] = { Reinforced_Pipe, Large_Pipe };
 				int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
 				switch (C1) {
 				case 0:
@@ -24,70 +23,66 @@ void Render_Grid() {
 						Render_Texture(Textures.Floor_Texture, &Rects.Tile_1x1);
 						Render_Texture(Textures.Frame_Texture, &Rects.Tile_1x1);
 					}
-					int ID = Visual_To_ID(Data.Visual_Grid[Column][Row]);
-					switch (Metadata.Machines[ID].Animation_Type) {
+					Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+					if (!Machine) {
+						break;
+					}
+					switch (Machine->Animation_Type) {
 					case A_Static:
 						Carrier = (SDL_FRect){
 							Rects.Tile_1x1.x,
 							Rects.Tile_1x1.y,
-							Metadata.Machines[ID].Rect.w,
-							Metadata.Machines[ID].Rect.h
+							Machine->Rect.w,
+							Machine->Rect.h
 						};
-						Render_Texture(Metadata.Machines[ID].Texture1, &Carrier);
+						Render_Texture(Machine->Texture1, &Carrier);
 						break;
 					case A_Rot:
 						Carrier = (SDL_FRect){
 							Rects.Tile_1x1.x,
 							Rects.Tile_1x1.y,
-							(evn(Rotation)) ? Metadata.Machines[ID].Rect.w : Metadata.Machines[ID].Rect.h,
-							(evn(Rotation)) ? Metadata.Machines[ID].Rect.h : Metadata.Machines[ID].Rect.w
+							(evn(Rotation)) ? Machine->Rect.w : Machine->Rect.h,
+							(evn(Rotation)) ? Machine->Rect.h : Machine->Rect.w
 						};
-						Render_Texture(Metadata.Machines[ID].Texture2.Data[Rotation], &Carrier);
+						Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
 						break;
 					case A_Modular:
-						if (ID == Reinforced_Pipe) {
-							Render_Texture(Metadata.Machines[Reinforced_Pipe].Texture2.Data[Data.Visual_Grid[Column][Row] - 1],
-								&Rects.Tile_1x1);
-						} else if (ID == Large_Pipe) {	
-							Render_Texture(Metadata.Machines[Large_Pipe].Texture2.Data[Data.Visual_Grid[Column][Row] - 71],
-								&Rects.Tile_1x1);
-						} else if (ID == Spawning_Pool) {
-							Render_Texture(Metadata.Machines[Spawning_Pool].Texture2.Data[Data.Visual_Grid[Column][Row] - 24],
-								&Rects.Tile_1x1);
+						if (stricmp(Machine->Index, "heavy_pipe")) {
+							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 1], &Rects.Tile_1x1);
+						} else if (stricmp(Machine->Index, "large_pipe")) {	
+							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 71], &Rects.Tile_1x1);
+						} else if (stricmp(Machine->Index, "spawning_pool")) {
+							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 24], &Rects.Tile_1x1);
 						}
 						break;
 					case A_Spinner:
 						Carrier = (SDL_FRect){
 							Rects.Tile_1x1.x,
 							Rects.Tile_1x1.y,
-							(evn(Rotation)) ? Metadata.Machines[ID].Rect.w : Metadata.Machines[ID].Rect.h,
-							(evn(Rotation)) ? Metadata.Machines[ID].Rect.h : Metadata.Machines[ID].Rect.w
+							(evn(Rotation)) ? Machine->Rect.w : Machine->Rect.h,
+							(evn(Rotation)) ? Machine->Rect.h : Machine->Rect.w
 						};
-						Centerpoint = (SDL_FPoint){
-							Metadata.Machines[ID].Rect.w * 0.5f,
-							Metadata.Machines[ID].Rect.h * 0.5f
-						};
+						Centerpoint = (SDL_FPoint){ Machine->Rect.w * 0.5f, Machine->Rect.h * 0.5f };
 						if (Data.Animation_Grid[Column][Row][0] == 1) {
-							Data.Animation_Grid[Column][Row][1] += ((float)Metadata.Machines[ID].Spin_Data.Speed) /
-								Interface.Frame_Rate;
+							Data.Animation_Grid[Column][Row][1] += ((float)Machine->Spin_Data.Speed) / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 360) {
 								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 						}
-						Render_Texture(Metadata.Machines[ID].Texture3.Data[Rotation].Data[3], &Carrier);
-						SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[ID].Texture3.Data[Rotation].Data[2], NULL,
-							&Carrier, Data.Animation_Grid[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
-						Render_Texture(Metadata.Machines[ID].Texture3.Data[Rotation].Data[1], &Carrier);
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[3], &Carrier);
+						SDL_RenderTextureRotated(Core.Renderer, Machine->Texture3.Data[Rotation].Data[2], NULL, &Carrier,
+							Data.Animation_Grid[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
 					case A_None:
-						if (ID == Ram_Pump) {
-							Render_Texture(Metadata.Machines[Ram_Pump].Texture2.Data[1], &Rects.Tile_1x1);
+						if (stricmp(Machine->Index, "ram_pump")) {
+							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_1x1);
 							if (Data.Animation_Grid[Column][Row][0] == 0) {
 								Data.Animation_Grid[Column][Row][1] += 60.0f / Interface.Frame_Rate;
 								if (Data.Animation_Grid[Column][Row][1] >= 360) {
 									Data.Animation_Grid[Column][Row][1] = 0;
 								}
 							}
-							SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Ram_Pump].Texture2.Data[2], NULL,
+							SDL_RenderTextureRotated(Core.Renderer, Machine->Texture2.Data[2], NULL,
 								&Rects.Tile_1x1, Data.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint,
 								SDL_FLIP_NONE);
 							{
@@ -96,12 +91,12 @@ void Render_Grid() {
 									Point Pos = { Column + Offsets[C1].X, Row + Offsets[C1].Y };
 									if ((Data.Plumbing_Grid[pt(Pos)] == C1 + 1 || Data.Plumbing_Grid[pt(Pos)] == Any) && (
 										Data.Settings_Grid[pt(Pos)][0] == F_In || Data.Settings_Grid[pt(Pos)][0] == F_Either)) {
-										Render_Texture(Metadata.Machines[Ram_Pump].Texture2.Data[((C1 + 2) & 3) + 3],
+										Render_Texture(Machine->Texture2.Data[((C1 + 2) & 3) + 3],
 											&Rects.Tile_1x1);
 									}
 								}
 							}
-						} else if (ID == Incinerator) {
+						} else if (stricmp(Machine->Index, "incinerator")) {
 							Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {
 								Data.Animation_Grid[Column][Row][0] = 0;
@@ -116,8 +111,8 @@ void Render_Grid() {
 							};
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 								&Source, &Destination);
-							Render_Texture(Metadata.Machines[Incinerator].Texture3.Data[Rotation].Data[1], &Rects.Tile_1x1);
-						} else if (ID == Turbine_Impulse) {
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Rects.Tile_1x1);
+						} else if (stricmp(Machine->Index, "turbine_impulse")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {
 								Lightcolor = (SDL_Color){ 255, 255, 0 };
@@ -141,8 +136,8 @@ void Render_Grid() {
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
 							SDL_FRect Carrier = (evn(Rotation)) ? Rects.Tile_2x3 : Rects.Tile_3x2;
-							Render_Texture(Metadata.Machines[Turbine_Impulse].Texture3.Data[Rotation].Data[1], &Carrier);
-						} else if (ID == Turbine_Output) {
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
+						} else if (stricmp(Machine->Index, "turbine_output")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {
 								Lightcolor.r = 255;
@@ -177,16 +172,16 @@ void Render_Grid() {
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
-							Render_Texture(Metadata.Machines[Turbine_Output].Texture3.Data[Rotation].Data[1],
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[1],
 								&Rects.Tile_2x2);
-						} else if (ID == Electrolytic_Cell) {
+						} else if (stricmp(Machine->Index, "electro_cell")) {
 							Carrier = (evn(Rotation)) ? Rects.Tile_3x2 : Rects.Tile_2x3;
 							if (Data.Visual_Grid[Column][Row] == 48) {
-								Render_Texture(Metadata.Machines[Electrolytic_Cell].Texture2.Data[0], &Rects.Tile_3x2);
+								Render_Texture(Machine->Texture2.Data[0], &Rects.Tile_3x2);
 							} else {
-								Render_Texture(Metadata.Machines[Electrolytic_Cell].Texture2.Data[Rotation], &Carrier);
+								Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
 							}
-						} else if (ID == Distillery) {
+						} else if (stricmp(Machine->Index, "distillery")) {
 							Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {
 								Data.Animation_Grid[Column][Row][0] = 0;
@@ -203,13 +198,13 @@ void Render_Grid() {
 							Destination.y = scale_f((Row * LDE_TILESIZE) + Destination.y - Core.Camera.Y);
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 								&Source, &Destination);
-							Render_Texture(Metadata.Machines[Distillery].Texture3.Data[Rotation].Data[2], &Rects.Tile_2x2);
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Rects.Tile_2x2);
 							if (Data.Settings_Grid[Column][Row][S_Time] > 0) {
-								Render_Texture(Metadata.Machines[Distillery].Texture3.Data[Rotation].Data[3], &Rects.Tile_2x2);
+								Render_Texture(Machine->Texture3.Data[Rotation].Data[3], &Rects.Tile_2x2);
 							}
-						} else if (ID == Algae_Bed) {
+						} else if (stricmp(Machine->Index, "algae_bed")) {
 							Carrier = evn(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
-							Render_Texture(Metadata.Machines[Algae_Bed].Texture3.Data[Rotation].Data[2], &Carrier);
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
 							if (Data.Animation_Grid[Column][Row][1] > 0) {
 								Data.Animation_Grid[Column][Row][0] += 1.0f / Interface.Frame_Rate;
 								if (Data.Animation_Grid[Column][Row][0] >= 0.5f) {
@@ -222,11 +217,11 @@ void Render_Grid() {
 								}
 							}
 							Render_Particles((Point){ Column, Row });
-							Render_Texture(Metadata.Machines[Algae_Bed].Texture3.Data[Rotation].Data[1], &Carrier);
-						} else if (ID == Battery) {	
-							Render_Texture(Metadata.Machines[Battery].Texture2.Data[Rotation], &Rects.Tile_2x2);
-						} else if (ID == Signal_Tower) {
-							Render_Texture(Metadata.Machines[Signal_Tower].Texture2.Data[Rotation], &Rects.Tile_3x3);
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
+						} else if (stricmp(Machine->Index, "battery")) {	
+							Render_Texture(Machine->Texture2.Data[Rotation], &Rects.Tile_2x2);
+						} else if (stricmp(Machine->Index, "signal_tower")) {
+							Render_Texture(Machine->Texture2.Data[Rotation], &Rects.Tile_3x3);
 							if (Data.Settings_Grid[Column][Row][3] == 0) {
 								int X = 57;
 								int Y = 57;
@@ -248,13 +243,13 @@ void Render_Grid() {
 								Rects.R_Flash.y = scale_f(Y) + Rects.Tile_3x3.y;
 								Render_Texture(Textures.R_Flash, &Rects.R_Flash);
 							}
-						} else if (ID == Submarine_Dock) {
+						} else if (stricmp(Machine->Index, "sub_dock")) {
 							Rects.Tunnel.Data[0].x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 							Rects.Tunnel.Data[0].y = scale_f(((Row - 2.25f) * LDE_TILESIZE) - Core.Camera.Y);
-							Render_Texture(Metadata.Machines[Submarine_Dock].Texture2.Data[0], &Rects.Tile_6x4);
+							Render_Texture(Machine->Texture2.Data[0], &Rects.Tile_6x4);
 							Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
-						} else if (ID == Filtration_Plant) {
-							Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[2], &Rects.Tile_2x3);
+						} else if (stricmp(Machine->Index, "filtration_plant")) {
+							Render_Texture(Machine->Texture2.Data[2], &Rects.Tile_2x3);
 							SDL_FRect Offset_Rectangle = Rects.Tile_2x3;
 							if (Data.Animation_Grid[Column][Row][0] == 0) {
 								Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
@@ -273,8 +268,8 @@ void Render_Grid() {
 								}
 								Offset_Rectangle.y += scale_f(Data.Animation_Grid[Column][Row][2]);
 							}
-							Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[3], &Offset_Rectangle);
-							Render_Texture(Metadata.Machines[Filtration_Plant].Texture2.Data[1], &Rects.Tile_2x3);
+							Render_Texture(Machine->Texture2.Data[3], &Offset_Rectangle);
+							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_2x3);
 						}
 						break;
 					default:

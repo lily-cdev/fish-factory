@@ -9,14 +9,14 @@ struct lde_core Core = {
 struct lde_data Data = { };
 struct lde_metadata Metadata = {
 	.Item_Labels = {
-		{ Submarine_Dock, Cable_Node, LDE_TERMINATOR },
-		{ Ram_Pump, LDE_TERMINATOR },
-		{ Algae_Bed, LDE_TERMINATOR },
-		{ Filtration_Plant, Distillery, Electrolytic_Cell, Fluid_Mixer, LDE_TERMINATOR },
-		{ RTG, Bio_Generator, Geo_Well, Heat_Exchanger, LDE_TERMINATOR },
-		{ Flowerpot, Ammunition_Shelf, LDE_TERMINATOR },
-		{ Incinerator, Signal_Tower, Battery, LDE_TERMINATOR },
-		{ Command_Platform, LDE_TERMINATOR }
+		{ "sub_dock", "cable_node", NULLSTRING },
+		{ "ram_pump", NULLSTRING },
+		{ "algae_bed", NULLSTRING },
+		{ "filtration_plant", "distillery", "electro_cell", "fluid_mixer", NULLSTRING },
+		{ "rtg", "bio_generator", "geo_well", "hx", NULLSTRING },
+		{ "flowerpot", "ammo_rack", NULLSTRING },
+		{ "incinerator", "signal_tower", "battery", NULLSTRING },
+		{ "command_platform", NULLSTRING }
 	},
 	.Subcategory_Positions = {
 		{ Reinforced, Large, LDE_TERMINATOR },
@@ -29,12 +29,12 @@ struct lde_metadata Metadata = {
 		{ LDE_TERMINATOR }
 	},
 	.Subcontents = {
-		{ Spawning_Controller, Spawning_Output, Spawning_Input, Spawning_Pool, LDE_TERMINATOR },
-		{ Decoration, Petrified_Wood, Basalt_Tile, Silicone_Carpet, Hazard_Strip, LDE_TERMINATOR },
-		{ Reinforced_Pipe, R_Intersection, LDE_TERMINATOR },
-		{ Large_Pipe, L_Intersection, LDE_TERMINATOR },
-		{ Condenser_Input, Condenser_Heatsink, Condenser_Transferor, LDE_TERMINATOR },
-		{ Turbine_Input, Turbine_Impulse, Turbine_Output, LDE_TERMINATOR }
+		{ "spawning_controller", "spawning_output", "spawning_input", "spawning_pool", NULLSTRING },
+		{ "plate", "petrified_wood", "basalt_tile", "carpet", "hazard_strip", NULLSTRING },
+		{ "heavy_pipe", "heavy_intersection", NULLSTRING },
+		{ "large_pipe", "large_intersection", NULLSTRING },
+		{ "condenser_input", "condenser_heatsink", "condenser_hx", "condenser_output", NULLSTRING },
+		{ "turbine_input", "turbine_impulse", "turbine_output", NULLSTRING }
 	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },
@@ -99,7 +99,7 @@ struct lde_interface Interface = {
 	.LR_Input = LDE_INVALID,
 	.UI_Tab = 1,
 	.Frame_Rate = 60,
-	.Item = 1,
+	.Item = NULL,
 	.Registering_Keybind = LDE_INVALID,
 	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 15, 20, 50, 100, 150, 300 },
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },

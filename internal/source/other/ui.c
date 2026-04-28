@@ -52,6 +52,9 @@ SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
 }
 
 void Render_Blueprint(int Size_X, int Size_Y) {
+	if (!Cache.Blueprint_Cache) {
+		return;
+	}
 	SDL_FRect Hitbox = { 0.0f, 0.0f, scale_f(Size_X * LDE_TILESIZE), scale_f(Size_Y * LDE_TILESIZE) };
 	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, scale_f(LDE_TILESIZE), scale_f(LDE_TILESIZE) };
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
@@ -60,25 +63,26 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			Invisible_Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Invisible_Hitbox)) {
-				if ((Hitbox.x + Hitbox.w <= scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) && Hitbox.y + Hitbox.h <=
-					scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
-					bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-					if ((Interface.Item == Command_Platform + 1 && Data.CMD_Placed) || (Interface.Item == Submarine_Dock + 1 &&
-						Row != 0)) {
-						Placeable = false;
-					}
-					if (Placeable) {
-						Render_Outline(Hitbox, Colors.Pure_White, 1);
-					} else {
-						SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r, Colors.Hostile_Red.g,
-							Colors.Hostile_Red.b);
-						Render_Outline(Hitbox, Colors.Hostile_Red, 1);
-					}
-					Render_Texture(Cache.Blueprint_Cache, &Hitbox);
-					SDL_SetTextureColorMod(Cache.Blueprint_Cache, 255, 255, 255);
-					return;
+			if (!Detect_Mouse_Collision(Invisible_Hitbox)) {
+				continue;
+			}
+			if ((Hitbox.x + Hitbox.w <= scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) && Hitbox.y + Hitbox.h <= scale_f((
+					LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
+				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
+				if ((Data.CMD_Placed && stricmp(Interface.Item->Index, "command_platform")) || (Row != 0 && stricmp(
+					Interface.Item->Index, "sub_dock"))) {
+					Placeable = false;
 				}
+				if (Placeable) {
+					Render_Outline(Hitbox, Colors.Pure_White, 1);
+				} else {
+					SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r, Colors.Hostile_Red.g,
+						Colors.Hostile_Red.b);
+					Render_Outline(Hitbox, Colors.Hostile_Red, 1);
+				}
+				Render_Texture(Cache.Blueprint_Cache, &Hitbox);
+				SDL_SetTextureColorMod(Cache.Blueprint_Cache, 255, 255, 255);
+				return;
 			}
 		}
 	}

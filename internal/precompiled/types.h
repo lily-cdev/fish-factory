@@ -1,7 +1,7 @@
 #pragma once
 #include <enums.h>
 #define NULLPOINT (Point){ LDE_TERMINATOR, LDE_TERMINATOR }
-#define NULLSTRING "NULL"
+#define NULLSTRING "_null"
 #define NULLRECIPE (Recipe){ .ID = LDE_TERMINATOR }
 
 typedef struct {
@@ -81,11 +81,13 @@ typedef struct {
 	int Fee;
 	int Depth;
 	char* Name;
+	char* Desc;
+	char* Index;
 	char* Path;
 	bool Quirks[LDE_QUIRKS];
-	bool Single_ID;
 	Point Size;
 	SDL_FRect Rect;
+	ID_Type Visual_Type;
 	Anim_Type Animation_Type;
 	Flow_Type Power_Type;
 	int Power_Capacity;
@@ -103,7 +105,11 @@ typedef struct {
 		int Visual_ID1;
 		int Visual_ID4[4];
 	};
+	bool Heating;
+	bool Irradiating;
 } Machine_Data;
+
+typedef Machine_Data* Machine_Ptr;
 
 typedef union {
 	void* Pointer;

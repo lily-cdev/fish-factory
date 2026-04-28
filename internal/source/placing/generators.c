@@ -1,10 +1,5 @@
 #include <grid.h>
 
-bool Place_RTG(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 19 : Interface.Rotation + 134;
-	return true;
-}
-
 bool Place_Bio_Generator(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 23 : Interface.Rotation + 101;
 	Data.Animation_Grid[pt(Pos)][1] = 45;

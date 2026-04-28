@@ -68,25 +68,38 @@ void Preload_Machines() {
 			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y,
 				true);
 			break;
+		case A_None:
+			char* Index = Metadata.Machines[C1].Index;
+			if (stricmp(Index, "ram_pump")) {
+				Load_Animated("core/images/machines/r_pump", &Metadata.Machines[C1].Texture2, 1, true);
+			} else if (stricmp(Index, "incinerator")) {
+				Load_Animated_Rotational("core/images/machines/incinerator", &Metadata.Machines[C1].Texture3, 1, true);
+			} else if (stricmp(Index, "distillery")) {
+				Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[C1].Texture3, 2, false);
+			} else if (stricmp(Index, "electro_cell")) {
+				Metadata.Machines[C1].Depth = 3;
+				Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[C1].Texture3, 2, true);
+			} else if (stricmp(Index, "battery")) {
+				Metadata.Machines[C1].Depth = 3;
+				Load_Animated_Rotational("core/images/machines/battery", &Metadata.Machines[C1].Texture3, 2, true);
+			} else if (stricmp(Index, "algae_bed")) {
+				Load_Animated_Rotational("core/images/machines/g_bed", &Metadata.Machines[C1].Texture3, 3, true);
+			} else if (stricmp(Index, "turbine_impulse")) {
+				Load_Animated_Rotational("core/images/machines/stit_block", &Metadata.Machines[C1].Texture3, 3, true);
+			} else if (stricmp(Index, "turbine_output")) {
+				Load_Animated_Rotational("core/images/machines/st_output", &Metadata.Machines[C1].Texture3, 2, true);
+			} else if (stricmp(Index, "filtration_plant")) {
+				Load_Animated("core/images/machines/f_plant", &Metadata.Machines[C1].Texture2, 3, true);
+			}
+			break;
 		default:
 			break;
 		}
 	}
-	Load_Animated("core/images/machines/r_pump", &Metadata.Machines[Ram_Pump].Texture2, 1, true);
-	Load_Animated_Rotational("core/images/machines/incinerator", &Metadata.Machines[Incinerator].Texture3, 1, true);
-	Load_Animated("core/images/machines/f_plant", &Metadata.Machines[Filtration_Plant].Texture2, 3, true);
-	Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[Distillery].Texture3, 2, false);
-	Load_Animated_Rotational("core/images/machines/g_bed", &Metadata.Machines[Algae_Bed].Texture3, 3, true);
-	Metadata.Machines[Electrolytic_Cell].Depth = 3;
-	Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[Electrolytic_Cell].Texture3, 2, true);
-	Metadata.Machines[Battery].Depth = 3;
-	Load_Animated_Rotational("core/images/machines/battery", &Metadata.Machines[Battery].Texture3, 2, true);
-	Load_Animated_Rotational("core/images/machines/stit_block", &Metadata.Machines[Turbine_Impulse].Texture3, 3, true);
-	Load_Animated_Rotational("core/images/machines/st_output", &Metadata.Machines[Turbine_Output].Texture3, 2, true);
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Point Pos = { };
 		SDL_Texture* Carrier;
-		if (C1 == Reinforced_Pipe || C1 == Large_Pipe) {
+		if (stricmp(Metadata.Machines[C1].Index, "heavy_pipe") || stricmp(Metadata.Machines[C1].Index, "large_pipe")) {
 			Pos.X = 1;
 		}
 		switch (Metadata.Machines[C1].Depth) {
@@ -326,7 +339,7 @@ void Preload_Assets() {
 	Textures.Subcontents.Data = malloc(sizeof(Texture2_Array) * LDE_SUBCATEGORIES);
 	Textures.Subcontents.Length = LDE_SUBCATEGORIES;
 	for (int C1 = 0; C1 < LDE_SUBCATEGORIES; C1++) {
-		int Length = intlen(Metadata.Subcontents[C1]);
+		int Length = veclen(Metadata.Subcontents[C1]);
 		Rects.Subcontents.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Rects.Subcontents.Data[C1].Length = Length;
 		Textures.Subcontents.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
@@ -336,7 +349,7 @@ void Preload_Assets() {
 			Rects.Subcontents.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = scale_f((C2 * 30.0f) + 40.0f);
-			Load_Button(F_Halftext, Metadata.Machines[Metadata.Subcontents[C1][C2]].Name, &Textures.Subcontents.Data[C1].Data[C2],
+			Load_Button(F_Halftext, Get_Machine(Metadata.Subcontents[C1][C2])->Name, &Textures.Subcontents.Data[C1].Data[C2],
 				Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
@@ -345,7 +358,7 @@ void Preload_Assets() {
 	Textures.Item_Labels.Data = malloc(sizeof(Texture2_Array) *	LDE_CATEGORIES);
 	Textures.Item_Labels.Length = LDE_CATEGORIES;
 	for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
-		int Length = intlen(Metadata.Item_Labels[C1]);
+		int Length = veclen(Metadata.Item_Labels[C1]);
 		Rects.Item_Labels.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Rects.Item_Labels.Data[C1].Length = Length;
 		Textures.Item_Labels.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
@@ -356,7 +369,7 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = scale_f(((C2 + intlen(Metadata.Subcategory_Positions[C1])) * 30.0f) +
 				40.0f);
-			Load_Button(F_Halftext, Metadata.Machines[Metadata.Item_Labels[C1][C2]].Name, &Textures.Item_Labels.Data[C1].Data[C2],
+			Load_Button(F_Halftext, Get_Machine(Metadata.Item_Labels[C1][C2])->Name, &Textures.Item_Labels.Data[C1].Data[C2],
 				Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}

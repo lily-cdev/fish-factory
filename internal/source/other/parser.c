@@ -29,7 +29,7 @@ char* Get_File(char* Path) {
 	return Yield;
 }
 
-int Get_Integer(char* Path, char* Text, char* Element) {
+int Get_Integer(const char* Path, const char* Text, const char* Element) {
 	char* Carrier = Find_Element(Path, Text, Element, NULL);
 	bool Zero = false;
 	int Yield = atoi(Carrier);
@@ -47,7 +47,7 @@ int Get_Integer(char* Path, char* Text, char* Element) {
 	return Yield;
 }
 
-bool Get_Boolean(char* Text, char* Element) {
+bool Get_Boolean(const char* Text, const char* Element) {
 	char Elements[2][64] = { };
 	snprintf(Elements[0], sizeof(Elements[0]), "<%s/>", Element);
 	snprintf(Elements[1], sizeof(Elements[1]), "<%s />", Element);
@@ -65,26 +65,28 @@ void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
-	Metadata.Descriptions = calloc(Core.Machines, sizeof(char*));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	free_c(Registrar);
+	int ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
 		#define get_str(Victim) (Find_Element(Raw_Names[C1], Machine_File, Victim, NULL))
 		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Machine_File, Victim))
 		char* Machine_File = Get_File(Raw_Names[C1]);
 		Machine.Name = get_str("Name");
+		Machine.Desc = get_str("Desc");
+		Machine.Index = get_str("Index");
 		char* Texture_Type = get_str("Texture_Type");
-		if (strcmp(Texture_Type, "none") == 0) {
+		if (stricmp(Texture_Type, "none")) {
 			Machine.Animation_Type = A_None;
-		} else if (strcmp(Texture_Type, "static") == 0) {
+		} else if (stricmp(Texture_Type, "static")) {
 			Machine.Animation_Type = A_Static;
-		} else if (strcmp(Texture_Type, "rot") == 0) {
+		} else if (stricmp(Texture_Type, "rot")) {
 			Machine.Animation_Type = A_Rot;
-		} else if (strcmp(Texture_Type, "modular") == 0) {
+		} else if (stricmp(Texture_Type, "modular")) {
 			Machine.Animation_Type = A_Modular;
 			Machine.Mod_Data.Parts = get_int("Parts");
-		} else if (strcmp(Texture_Type, "spinner") == 0) {
+		} else if (stricmp(Texture_Type, "spinner")) {
 			Machine.Animation_Type = A_Spinner;
 			Machine.Spin_Data.Speed = get_int("Speed");
 		} else {
@@ -92,13 +94,13 @@ void Load_XML() {
 		}
 		free_c(Texture_Type);
 		char* Power_Type = get_str("Power_Type");
-		if (strcmp(Power_Type, "none") == 0) {
+		if (stricmp(Power_Type, "none")) {
 			Machine.Power_Type = F_None;
-		} else if (strcmp(Power_Type, "in") == 0) {
+		} else if (stricmp(Power_Type, "in")) {
 			Machine.Power_Type = F_In;
-		} else if (strcmp(Power_Type, "out") == 0) {
+		} else if (stricmp(Power_Type, "out")) {
 			Machine.Power_Type = F_Out;
-		} else if (strcmp(Power_Type, "any") == 0) {
+		} else if (stricmp(Power_Type, "any")) {
 			Machine.Power_Type = F_Either;
 		} else {
 			jump(I_No_Powertype, "xml parser failed to process \"Power_Type\"");
@@ -116,7 +118,6 @@ void Load_XML() {
 		for (int C2 = 0; C2 < LDE_QUIRKS; C2++) {
 			Machine.Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
 		}
-		Machine.Single_ID = Get_Boolean(Machine_File, "Single_ID");
 		Machine.Size = (Point){
 			get_int("Width"),
 			get_int("Height")
@@ -127,11 +128,25 @@ void Load_XML() {
 			scale_f(LDE_TILESIZE * Machine.Size.X),
 			scale_f(LDE_TILESIZE * Machine.Size.Y)
 		};
-		if (Machine.Single_ID) {
+		bool Single_ID = Get_Boolean(Machine_File, "Single_ID");
+		bool Rot_ID = Get_Boolean(Machine_File, "Rot_ID");
+		if (Single_ID) {
+			Machine.Visual_Type = I_Single;
 			Machine.Visual_ID1 = get_int("Visual_ID");
+			ID_Record = max(ID_Record, Machine.Visual_ID1);
+		} else if (Rot_ID) {
+			Machine.Visual_Type = I_Rot;
+			const char* Tags[4] = { "Visual_Left", "Visual_Up", "Visual_Right", "Visual_Down" };
+			for (int C2 = 0; C2 < 4; C2++) {
+				Machine.Visual_ID4[C2] = get_int(Tags[C2]);
+				ID_Record = max(ID_Record, Machine.Visual_ID4[C2]);
+			}
 		} else {
+			Machine.Visual_Type = I_None_Vis;
 			//idk lol
 		}
+		Machine.Heating = Get_Boolean(Machine_File, "Heating");
+		Machine.Irradiating = Get_Boolean(Machine_File, "Irradiating");
 		free_c(Machine_File);
 		free_c(Raw_Names[C1]);
 		#undef get_str
@@ -139,6 +154,7 @@ void Load_XML() {
 		#undef Machine
 	}
 	free_c(Raw_Names);
+	printf("debug info:\nmax. reserved visual id -> %i\n", ID_Record);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {

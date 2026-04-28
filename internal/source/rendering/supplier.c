@@ -10,7 +10,7 @@ void Process_Supply(Texture_Supply* Supply, const char* Replacement, Font_Index 
 		memset(&Supply->Bounds, 0, sizeof(SDL_FRect));
 		Supply->Bounds.y = scale_f(Pos.Y);
 		strncpy(Supply->Stored, Replacement, sizeof(Supply->Stored));
-		Supply->Color.r = (SDL_Color){ Color.r, Color.g, Color.b, Color.a };
+		Supply->Color = (SDL_Color){ Color.r, Color.g, Color.b, Color.a };
 		SDL_Texture* Carrier = Render_Text(Font, Replacement, Color);
 		if (Carrier == NULL) {
 			puts("1");

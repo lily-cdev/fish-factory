@@ -22,3 +22,5 @@
 #define pt(Victim) (Victim.X)][(Victim.Y)
 #define scale(Victim) (((int)(Victim)) * Settings.Scalar)
 #define scale_f(Victim) (((float)(Victim)) * (float)Settings.Scalar)
+#undef stricmp
+#define stricmp(A, B) (_stricmp((A), (B)) == 0)

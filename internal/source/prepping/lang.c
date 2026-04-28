@@ -61,14 +61,6 @@ bool Load_Text() {
 		}
 	}
 	snprintf(Metadata.Monitor_Size, sizeof(Metadata.Monitor_Size), "Detected Resolution: %s", Buffer);
-	Metadata.Heating_Machines = malloc(sizeof(int) * 3);
-	Metadata.Heating_Machines[0] = Incinerator;
-	Metadata.Heating_Machines[1] = Geo_Well;
-	Metadata.Heating_Machines[2] = LDE_TERMINATOR;
-	Metadata.Irradiating_Machines = malloc(sizeof(int) * 2);
-	Metadata.Irradiating_Machines[0] = RTG;
-	Metadata.Irradiating_Machines[1] = LDE_TERMINATOR;
-	Load_TXT("descriptions", Metadata.Descriptions, Core.Machines);
 	Load_TXT("categories", Metadata.Categories, LDE_CATEGORIES);
 	Load_TXT("subcategories", Metadata.Subcategories, LDE_SUBCATEGORIES);
 	Load_TXT("buttons", Metadata.Buttons, LDE_BUTTONS);
@@ -81,10 +73,6 @@ bool Load_Text() {
 }
 
 void Free_Text() {
-    for (int C1 = 0; C1 < Core.Machines; C1++) {
-        free_c(Metadata.Descriptions[C1]);
-    }
-	free_c(Metadata.Descriptions);
     for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
 		free_c(Metadata.Categories[C1]);
 	}
@@ -103,7 +91,5 @@ void Free_Text() {
 	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
 		free_c(Keybinds.Keybind_Texts[C1]);
 	}
-	free_c(Metadata.Heating_Machines);
-	free_c(Metadata.Irradiating_Machines);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
 }

@@ -1,49 +1,5 @@
 #pragma once
 
-typedef enum {
-	Reinforced_Pipe,
-	Ram_Pump,
-	Incinerator,
-	RTG,
-	Decoration,
-	Submarine_Dock,
-	Filtration_Plant,
-	Bio_Generator,
-	Spawning_Pool,
-	Distillery,
-	Algae_Bed,
-	Command_Platform,
-	Battery,
-	Spawning_Controller,
-	Spawning_Output,
-	Spawning_Input,
-	Electrolytic_Cell,
-	Fluid_Mixer,
-	Signal_Tower,
-	Flowerpot,
-	Ammunition_Shelf,
-	Cable_Node,
-	Geo_Well,
-	Large_Pipe,
-	Heat_Exchanger,
-	Petrified_Wood,
-	Basalt_Tile,
-	Silicone_Carpet,
-	Money_Generator,
-	Fluid_Generator,
-	R_Intersection,
-	L_Intersection,
-	Hazard_Strip,
-	Condenser_Input,
-	Condenser_Transferor,
-	Condenser_Heatsink,
-	Condenser_Output,
-	Turbine_Input,
-	Turbine_Impulse,
-	Turbine_Output,
-	Power_Generator
-} Machine_ID;
-
 enum Subcategories {
 	Modular_Spawning_Pool,
 	Flooring,
@@ -231,6 +187,12 @@ typedef enum {
 	A_Modular,
 	A_Spinner
 } Anim_Type;
+
+typedef enum {
+	I_None_Vis,
+	I_Single,
+	I_Rot
+} ID_Type;
 
 typedef enum {
 	F_None,

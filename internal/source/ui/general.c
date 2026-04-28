@@ -1,60 +1,64 @@
 #include <ui.h>
 
 void Render_Toolbar() {
-	if (Interface.Tool == T_Building) {
-		char Machine_Text[64];
-		char Price_Query[64];
-		Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
-		snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Metadata.Machines[Interface.Item - 1].Name, Price_Query);
-		SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
-		float Y = scale_f((Interface.Bar_Up) ? 265.0f : 290.0f);
-		float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + scale_f(18.0f);
-		float Padding = scale_f(16.0f);
-		float Root_X = scale_f(312.0f) - (Machine_Texture->w * 0.5f);
-		float Root_Width = Machine_Texture->w + Padding;
-		SDL_FRect Machine_Rectangle = { Root_X, Y, Root_Width, Height };
+	if (Interface.Tool != T_Building) {
+		return;
+	}
+	if (!Interface.Item) {
+		Interface.Item = Get_Machine("heavy_pipe");
+	}
+	char Machine_Text[64];
+	char Price_Query[64];
+	Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
+	snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Interface.Item->Name, Price_Query);
+	SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
+	float Y = scale_f((Interface.Bar_Up) ? 265.0f : 290.0f);
+	float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + scale_f(18.0f);
+	float Padding = scale_f(16.0f);
+	float Root_X = scale_f(312.0f) - (Machine_Texture->w * 0.5f);
+	float Root_Width = Machine_Texture->w + Padding;
+	SDL_FRect Machine_Rectangle = { Root_X, Y, Root_Width, Height };
+	Set_Renderer_Color(Colors.Dark_Grey);
+	SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
+	Machine_Rectangle = Inline_Rect(Machine_Rectangle, 4);
+	Set_Renderer_Color(Colors.Light_Grey);
+	SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
+	Clear_Renderer();
+	Machine_Rectangle.x += scale_f(4.0f);
+	Machine_Rectangle.y += scale_f(4.0f);
+	Machine_Rectangle.w = Machine_Texture->w;
+	Machine_Rectangle.h = Machine_Texture->h;
+	Render_Texture(Machine_Texture, &Machine_Rectangle);
+	free_texture(Machine_Texture);
+	if (true) {//tmp
+		SDL_Texture* L_Texture = Render_Text(F_Subtext, "<-", Colors.Abyss_Black);
+		SDL_Texture* R_Texture = Render_Text(F_Subtext, "->", Colors.Abyss_Black);
+		float Width = L_Texture->w + Padding;
+		SDL_FRect L_Rect = {
+			Root_X - Width,
+			Y,
+			Width,
+			Height
+		};
+		SDL_FRect R_Rect = {
+			Root_X + Root_Width,
+			Y,
+			Width,
+			Height
+		};
 		Set_Renderer_Color(Colors.Dark_Grey);
-		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
-		Machine_Rectangle = Inline_Rect(Machine_Rectangle, 4);
+		SDL_RenderFillRect(Core.Renderer, &L_Rect);
+		SDL_RenderFillRect(Core.Renderer, &R_Rect);
+		L_Rect = Inline_Rect(L_Rect, 4);
+		R_Rect = Inline_Rect(R_Rect, 4);
 		Set_Renderer_Color(Colors.Light_Grey);
-		SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
+		SDL_RenderFillRect(Core.Renderer, &L_Rect);
+		SDL_RenderFillRect(Core.Renderer, &R_Rect);
 		Clear_Renderer();
-		Machine_Rectangle.x += scale_f(4.0f);
-		Machine_Rectangle.y += scale_f(4.0f);
-		Machine_Rectangle.w = Machine_Texture->w;
-		Machine_Rectangle.h = Machine_Texture->h;
-		Render_Texture(Machine_Texture, &Machine_Rectangle);
-		free_texture(Machine_Texture);
-		if (true) {//tmp
-			SDL_Texture* L_Texture = Render_Text(F_Subtext, "<-", Colors.Abyss_Black);
-			SDL_Texture* R_Texture = Render_Text(F_Subtext, "->", Colors.Abyss_Black);
-			float Width = L_Texture->w + Padding;
-			SDL_FRect L_Rect = {
-				Root_X - Width,
-				Y,
-				Width,
-				Height
-			};
-			SDL_FRect R_Rect = {
-				Root_X + Root_Width,
-				Y,
-				Width,
-				Height
-			};
-			Set_Renderer_Color(Colors.Dark_Grey);
-			SDL_RenderFillRect(Core.Renderer, &L_Rect);
-			SDL_RenderFillRect(Core.Renderer, &R_Rect);
-			L_Rect = Inline_Rect(L_Rect, 4);
-			R_Rect = Inline_Rect(R_Rect, 4);
-			Set_Renderer_Color(Colors.Light_Grey);
-			SDL_RenderFillRect(Core.Renderer, &L_Rect);
-			SDL_RenderFillRect(Core.Renderer, &R_Rect);
-			Clear_Renderer();
-			Render_Texture(L_Texture, &L_Rect);
-			Render_Texture(R_Texture, &R_Rect);
-			free_texture(L_Texture);
-			free_texture(R_Texture);
-		}
+		Render_Texture(L_Texture, &L_Rect);
+		Render_Texture(R_Texture, &R_Rect);
+		free_texture(L_Texture);
+		free_texture(R_Texture);
 	}
 }
 
@@ -81,7 +85,7 @@ void Render_Tile_Prompts() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[Column][Row] == 0 || !Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[
+				if (Data.Visual_Grid[Column][Row] == 0 || !Visual_To_Machine(Data.Visual_Grid[Column][Row])->Quirks[
 					Q_Interactable]) {
 					return;
 				}
@@ -113,57 +117,38 @@ void Render_Interaction() {
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (!Metadata.Machines[Visual_To_ID(Data.Visual_Grid[Column][Row])].Quirks[Q_Interactable]) {
+				Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+				if (!(*Machine).Quirks[Q_Interactable]) {
 					return;
 				}
-				switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
-				case Signal_Tower:
+				if (stricmp((*Machine).Index, "signal_tower")) {
 					Interface.Prompt_Identifier = P_Transmitter;
-					break;
-				case Spawning_Controller:
+				} else if (stricmp((*Machine).Index, "spawning_controller")) {
 					Interface.Prompt_Identifier = P_Spawning_Pool;
-					break;
-				case Submarine_Dock:
+				} else if (stricmp((*Machine).Index, "sub_dock")) {
 					Interface.Prompt_Identifier = P_Dock;
-					break;
-				case Heat_Exchanger:
+				} else if (stricmp((*Machine).Index, "hx")) {
 					Interface.Prompt_Identifier = P_Exchanger;
-					break;
-				case Money_Generator:
+				} else if (stricmp((*Machine).Index, "money_cheat")) {
 					Interface.Prompt_Identifier = P_Money_Generator;
-					break;
-				case Fluid_Generator:
+					Interface.Slider_Positions[8] = Data.Settings_Grid[pt(Interface.Tile)][3];
+				} else if (stricmp((*Machine).Index, "fluid_cheat")) {
 					Interface.Prompt_Identifier = P_Fluid_Generator;
-					break;
-				case Turbine_Input:
-					Interface.Prompt_Identifier = P_Turbine;
-					break;
-				case Power_Generator:
-					Interface.Prompt_Identifier = P_Power_Generator;
-					break;
-				default:
-					break;
-				}
-				Interface.Building = false;
-				Interface.Tile.X = Column;
-				Interface.Tile.Y = Row;
-				switch (Visual_To_ID(Data.Visual_Grid[Column][Row])) {
-				case Money_Generator:
-					Interface.Slider_Positions[8] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
-					break;
-				case Fluid_Generator:
-					Interface.Slider_Positions[9] = Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][3];
-					Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][4] * 0.2f);
+					Interface.Slider_Positions[9] = Data.Settings_Grid[pt(Interface.Tile)][3];
+					Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[pt(Interface.Tile)][4] * 0.2f);
 					for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
-						if (Data.Settings_Grid[Interface.Tile.X][Interface.Tile.Y][5] == Interface.Valve300_Postions[C1]) {
+						if (Data.Settings_Grid[pt(Interface.Tile)][5] == Interface.Valve300_Postions[C1]) {
 							Interface.Slider_Positions[11] = C1;
 							break;
 						}
 					}
-					break;
-				default:
-					break;
+				} else if (stricmp((*Machine).Index, "turbine_input")) {
+					Interface.Prompt_Identifier = P_Turbine;
+				} else if (stricmp((*Machine).Index, "power_cheat")) {
+					Interface.Prompt_Identifier = P_Power_Generator;
 				}
+				Interface.Building = false;
+				Interface.Tile = (Point){ Column, Row };
 				return;
 			}
 		}
@@ -196,17 +181,20 @@ void Render_Effects() {
 }
 
 void Cache_Blueprint() {
-	int Width, Height;
-	ID_To_Size(Interface.Item - 1, Interface.Rotation, &Width, &Height);
-	int Max = scale(max(Width, Height) * LDE_TILESIZE);
+	if (!Interface.Item) {
+		Interface.Item = Get_Machine("heavy_pipe");
+	}
+	Point Size;
+	ID_To_Size(Interface.Item, Interface.Rotation, &Size.X, &Size.Y);
+	int Max = scale(max(Size.X, Size.Y) * LDE_TILESIZE);
 	free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = New_Texture(scale(Width * LDE_TILESIZE), scale(Height * LDE_TILESIZE));
+	SDL_Texture* Backing = New_Texture(scale(Size.X * LDE_TILESIZE), scale(Size.Y * LDE_TILESIZE));
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
-	for (int X = 0; X < Width; X++) {
-		for (int Y = 0; Y < Height; Y++) {
+	for (int X = 0; X < Size.X; X++) {
+		for (int Y = 0; Y < Size.Y; Y++) {
 			SDL_FRect Pasting_Rectangle = Rects.Tile_1x1;
 			Pasting_Rectangle.x = scale_f(X * LDE_TILESIZE);
 			Pasting_Rectangle.y = scale_f(Y * LDE_TILESIZE);
@@ -217,19 +205,17 @@ void Cache_Blueprint() {
 	Render_Texture(Backing, NULL);
 	free_texture(Backing);
 	int Rotation = Interface.Rotation * 90;
-	if (Metadata.Machines[Interface.Item - 1].Quirks[Q_Non_Rotatable]) {
+	if (Interface.Item->Quirks[Q_Non_Rotatable]) {
 		Rotation = 0;
 	}
 	SDL_FPoint Centerpoint = { Max * 0.5f, Max * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Metadata.Machines[Interface.Item - 1].Icon, NULL, NULL, Rotation, &Centerpoint,
-		SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(Core.Renderer, Interface.Item->Icon, NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }
 
 void Cache_Price() {
-	Interface.Queried_Price = (int)((Metadata.Machines[Interface.Item - 1].Price * 1.1f)) + Metadata.Machines[Interface.Item -
-		1].Fee + 1;
+	Interface.Queried_Price = (Interface.Item) ? (int)(Interface.Item->Price * 1.1f) + Interface.Item->Fee + 1 : 0;
 }
 
 void Set_Engagement(Parameter Engagement, Parameter Unused) {

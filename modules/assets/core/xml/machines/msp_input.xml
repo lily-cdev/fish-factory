@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>spawning input</Name>
+	<Desc>An input for fish-compatible biomass.</Desc>
+	<Index>spawning_input</Index>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/msp_input</Path>
 	<Price>3</Price>

@@ -34,7 +34,7 @@ bool Place_Large_Pipe(Point Pos) {
 }
 
 bool Place_RL_Intersection(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = Interface.Rotation + ((Interface.Item - 1 == R_Intersection) ? 105 : 109);
+	Data.Visual_Grid[pt(Pos)] = Interface.Rotation + ((stricmp(Interface.Item->Index, "heavy_intersection")) ? 105 : 109);
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, 0, Preconfigs.I_Inputs);
 	for (int C1 = 0; C1 < 2; C1++) {
@@ -51,8 +51,8 @@ bool Place_RL_Intersection(Point Pos) {
 			Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.I_Inputs);
 		}
 		for (int C2 = 0; C2 < 2; C2++) {
-			Data.Data_Grid[pt(Nodes.Data[C2])][Fluid_Cap] = (Interface.Item - 1 == R_Intersection) ? LDE_REINFORCEDCAP :
-				LDE_LARGECAP;
+			Data.Data_Grid[pt(Nodes.Data[C2])][Fluid_Cap] = (stricmp(Interface.Item->Index, "heavy_intersection")) ?
+				LDE_REINFORCEDCAP : LDE_LARGECAP;
 			Data.Settings_Grid[pt(Nodes.Data[C2])][0] = C1 + 1;
 		}
 	}

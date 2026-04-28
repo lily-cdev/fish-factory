@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>ram pump</Name>
+	<Desc>A low-power pump that uses the natural pressure of the Ocean to force seawater into pipes. It's literally just a glorified valve.</Desc>
+	<Index>ram_pump</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/r_pump</Path>
 	<Price>15</Price>

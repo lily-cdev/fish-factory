@@ -4,8 +4,7 @@ void Render_Application() {
     SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
 	Render_Ocean();
 	Render_Pyramid();
-	if (Interface.Building && Data.Funds - Metadata.Machines[Interface.Item - 1].Price > 0 &&
-		Interface.Prompt_Identifier == P_None) {
+	if (Interface.Building && Data.Funds - Interface.Item->Price >= 0 && Interface.Prompt_Identifier == P_None) {
 		Build_Grid();
 		Update_Grid();
 	}
@@ -47,8 +46,10 @@ void Render_Application() {
 	}
 	if (Interface.Tool == T_Building && Interface.UI_Selection == 0 && Interface.Prompt_Identifier == P_None) {
 		Point Pos;
-		ID_To_Size(Interface.Item - 1, Interface.Rotation, &Pos.X, &Pos.Y);
-		Render_Blueprint(Pos.X, Pos.Y);
+		ID_To_Size(Interface.Item, Interface.Rotation, &Pos.X, &Pos.Y);
+		if (Pos.X > 0 || Pos.Y > 0) {
+			Render_Blueprint(Pos.X, Pos.Y);
+		}
 	}
 	Render_Submarine();
 	SDL_SetRenderTarget(Core.Renderer, NULL);

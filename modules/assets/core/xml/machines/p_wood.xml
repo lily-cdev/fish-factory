@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>petrified wood</Name>
+	<Desc>A thick slab of synthetic petrified wood. Inflammable, pretty, and VERY expensive.</Desc>
+	<Index>petrified_wood</Index>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/p_wood</Path>
-	<Price>10</Price>
+	<Price>11</Price>
 	<Fee>1</Fee>
 	<Nonrotatable />
 	<Width>1</Width>

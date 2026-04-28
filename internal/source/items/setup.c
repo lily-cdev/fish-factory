@@ -71,27 +71,28 @@ void Prep_Items() {
 		Recipes[C1] = calloc(Core.Machines, sizeof(Recipe*));
 		for (int C2 = 0; C2 < Core.Machines; C2++) {
 			int Cap = 0;
-			if (C1 == R_Outputs && C2 == Ram_Pump) {
+			Machine_Ptr Chosen = &Metadata.Machines[C2];
+			if (C1 == R_Outputs && stricmp(Chosen->Index, "ram_pump")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
 				Recipes[C1][C2][0] = Preset_O_Recipes.RP_Saltwater;
 				Cap = 1;
-			} else if (C1 == R_Both && C2 == Filtration_Plant) {
+			} else if (C1 == R_Both && stricmp(Chosen->Index, "filtration_plant")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 3);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.FP_Saltwater;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.FP_Biopaste;
 				Cap = 2;
-			} else if (C1 == R_Both && C2 == Fluid_Mixer) {
+			} else if (C1 == R_Both && stricmp(Chosen->Index, "fluid_mixer")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 5);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.FM_Drillmud_1;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.FM_Drillmud_2;
 				Recipes[C1][C2][2] = Preset_IO_Recipes.FM_Hydrogen_Chloride;
 				Recipes[C1][C2][3] = Preset_IO_Recipes.FM_Hydrochloric_Acid;
 				Cap = 4;
-			} else if (C1 == R_Both && C2 == Distillery) {
+			} else if (C1 == R_Both && stricmp(Chosen->Index, "distillery")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.D_Water;
 				Cap = 1;
-			} else if (C1 == R_Both && C2 == Electrolytic_Cell) {
+			} else if (C1 == R_Both && stricmp(Chosen->Index, "electro_cell")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 4);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.EP_Water;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.EP_Saltwater;

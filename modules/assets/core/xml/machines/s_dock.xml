@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>submarine dock</Name>
+	<Desc>A dock allowing for products to be exported and shipped. Must be placed against a wall in order to function.</Desc>
+	<Index>sub_dock</Index>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/s_dock</Path>
 	<Price>30</Price>

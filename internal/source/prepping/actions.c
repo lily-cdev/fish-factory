@@ -62,7 +62,7 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 			Start_Transition(2);
 			Core.Selected_Save = LDE_INVALID;
 			Get_Filesizes();
-			Interface.Item = 1;
+			Interface.Item = Get_Machine("heavy_pipe");
 			Cache_Blueprint();
 		} else {
 			if (Interface.Tool < 4) {

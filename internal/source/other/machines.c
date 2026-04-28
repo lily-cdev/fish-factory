@@ -1,59 +1,92 @@
 #include <prepping.h>
 
-int Visual_To_ID(const int Identifier) {
+Machine_Ptr Get_Machine(const char* Index) {
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
-		if (Metadata.Machines[C1].Single_ID && Metadata.Machines[C1].Visual_ID1 == Identifier) {
-			return C1;
+		if (stricmp(Metadata.Machines[C1].Index, Index)) {
+			return &Metadata.Machines[C1];
+		}
+	}
+	return NULL;
+}
+
+Machine_Ptr Visual_To_Machine(const int Identifier) {
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
+		if (Metadata.Machines[C1].Visual_Type == I_Single && Metadata.Machines[C1].Visual_ID1 == Identifier) {
+			return &Metadata.Machines[C1];
+		} else if (Metadata.Machines[C1].Visual_Type == I_Rot) {
+			for (int C2 = 0; C2 < 4; C2++) {
+				if (Metadata.Machines[C1].Visual_ID4[C2] == Identifier) {
+					return &Metadata.Machines[C1];
+				}
+			}
 		}
 	}
 	if (Identifier > 0 && Identifier < 17) {
-		return Reinforced_Pipe;
-	} else if (Identifier > 17 && Identifier < 24 && Identifier != 20 && Identifier != 22) {
-		return Identifier - 16;
+		return Get_Machine("heavy_pipe");
+	} else if (Identifier == 18) {
+		return Get_Machine("incinerator");
+	} else if (Identifier == 21) {
+		return Get_Machine("sub_dock");
+	} else if (Identifier == 23) {
+		return Get_Machine("bio_generator");
 	} else if (Identifier > 23 && Identifier < 41) {
-		return Spawning_Pool;
-	} else if (Identifier > 40 && Identifier < 51) {
-		return Identifier - 32;
-	} else if (Identifier > 51 && Identifier < 56) {
-		return Ammunition_Shelf;
+		return Get_Machine("spawning_pool");
+	} else if (Identifier == 41) {
+		return Get_Machine("distillery");
+	} else if (Identifier == 42) {
+		return Get_Machine("algae_bed");
+	} else if (Identifier == 43) {
+		return Get_Machine("command_platform");
+	} else if (Identifier == 44) {
+		return Get_Machine("battery");
+	} else if (Identifier == 45) {
+		return Get_Machine("spawning_controller");
+	} else if (Identifier == 46) {
+		return Get_Machine("spawning_output");
+	} else if (Identifier == 47) {
+		return Get_Machine("spawning_input");
+	} else if (Identifier == 48) {
+		return Get_Machine("electro_cell");
+	} else if (Identifier == 49) {
+		return Get_Machine("fluid_mixer");
+	} else if (Identifier == 50) {
+		return Get_Machine("signal_tower");
 	} else if (Identifier > 55 && Identifier < 59) {
-		return Command_Platform;
+		return Get_Machine("command_platform");
 	} else if (Identifier > 59 && Identifier < 63) {
-		return Signal_Tower;
+		return Get_Machine("signal_tower");
 	} else if (Identifier > 63 && Identifier < 67) {
-		return Battery;
+		return Get_Machine("battery");
 	} else if (Identifier > 66 && Identifier < 71) {
-		return Geo_Well;
+		return Get_Machine("geo_well");
 	} else if (Identifier > 70 && Identifier < 87) {
-		return Large_Pipe;
+		return Get_Machine("large_pipe");
 	} else if (Identifier > 86 && Identifier < 91) {
-		return Heat_Exchanger;
+		return Get_Machine("hx");
 	} else if (Identifier > 95 && Identifier < 99) {
-		return Electrolytic_Cell;
+		return Get_Machine("electro_cell");
 	} else if (Identifier > 98 && Identifier < 102) {
-		return Fluid_Mixer;
+		return Get_Machine("fluid_mixer");
 	} else if (Identifier > 101 && Identifier < 105) {
-		return Bio_Generator;
+		return Get_Machine("bio_generator");
 	} else if (Identifier > 104 && Identifier < 109) {
-		return R_Intersection;
+		return Get_Machine("heavy_intersection");
 	} else if (Identifier > 108 && Identifier < 113) {
-		return L_Intersection;
+		return Get_Machine("large_intersection");
 	} else if (Identifier > 113 && Identifier < 117) {
-		return Incinerator;
+		return Get_Machine("incinerator");
 	} else if (Identifier > 116 && Identifier < 120) {
-		return Distillery;
+		return Get_Machine("distillery");
 	} else if (Identifier > 119 && Identifier < 124) {
-		return Turbine_Input;
+		return Get_Machine("turbine_input");
 	} else if (Identifier > 123 && Identifier < 128) {
-		return Turbine_Impulse;
+		return Get_Machine("turbine_impulse");
 	} else if (Identifier > 127 && Identifier < 132) {
-		return Turbine_Output;
+		return Get_Machine("turbine_output");
 	} else if (Identifier > 131 && Identifier < 135) {
-		return Algae_Bed;
-	} else if (Identifier > 134 && Identifier < 138) {
-		return RTG;
+		return Get_Machine("algae_bed");
 	}
-	return LDE_INVALID;
+	return NULL;
 }
 
 int Visual_To_Rotation(const int Identifier) {
@@ -97,86 +130,12 @@ int Visual_To_Rotation(const int Identifier) {
 	return 0;
 }
 
-void ID_To_Size(const int ID, const int Rotation, int* W, int* H) {
-	int X = 1;
-	int Y = 1;
-	switch (ID) {
-	case Ammunition_Shelf:
-		if (evn(Rotation)) {
-			X = 2;
-		} else {
-			Y = 2;
-		}
-		break;
-	case Distillery:
-	case Battery:
-	case Turbine_Output:
-		X = 2;
-		Y = 2;
-		break;
-	case Filtration_Plant:
-	case Algae_Bed:
-		if (evn(Rotation)) {
-			X = 2;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 2;
-		}
-		break;
-	case Electrolytic_Cell:
-		if (evn(Rotation)) {
-			X = 3;
-			Y = 2;
-		} else {
-			X = 2;
-			Y = 3;
-		}
-		break;
-	case Bio_Generator:
-	case Fluid_Mixer:
-	case Signal_Tower:
-	case R_Intersection:
-	case L_Intersection:
-		X = 3;
-		Y = 3;
-		break;
-	case Submarine_Dock:
-		X = 6;
-		Y = 4;
-		break;
-	case Command_Platform:
-		if (evn(Rotation)) {
-			X = 8;
-			Y = 6;
-		} else {
-			X = 6;
-			Y = 8;
-		}
-		break;
-	case Geo_Well:
-	case Turbine_Input:
-	case Turbine_Impulse:
-		if (evn(Rotation)) {
-			X = 2;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 2;
-		}
-		break;
-	case Heat_Exchanger:
-		if (evn(Rotation)) {
-			X = 4;
-			Y = 3;
-		} else {
-			X = 3;
-			Y = 4;
-		}
-		break;
-	default:
-		break;
+void ID_To_Size(Machine_Ptr Machine, const int Rotation, int* W, int* H) {
+	if (!Machine) {
+		*W = 0;
+		*H = 0;
+		return;
 	}
-	*W = X;
-	*H = Y;
+	*W = (evn(Rotation)) ? (*Machine).Size.X : (*Machine).Size.Y;
+	*H = (evn(Rotation)) ? (*Machine).Size.Y : (*Machine).Size.X;
 }

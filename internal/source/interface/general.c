@@ -232,7 +232,7 @@ void Process_Inputs() {
 							}
 						}
 						if (Coordinates.X != LDE_INVALID) {
-							Interface.Item = Visual_To_ID(Data.Visual_Grid[Coordinates.X][Coordinates.Y]) + 1;
+							Interface.Item = Visual_To_Machine(Data.Visual_Grid[pt(Coordinates)]);
 							Cache_Price();
 							Cache_Blueprint();
 							Interface.Building = false;

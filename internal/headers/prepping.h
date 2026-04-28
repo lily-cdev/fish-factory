@@ -37,16 +37,13 @@ struct lde_data {
 
 struct lde_metadata {
 	char Monitor_Size[64];
-	char** Descriptions;
 	char* Categories[LDE_CATEGORIES];
 	char* Subcategories[LDE_SUBCATEGORIES];
 	char* Buttons[LDE_BUTTONS];
-	const int Item_Labels[LDE_CATEGORIES][16];
+	const char* Item_Labels[LDE_CATEGORIES][16];
 	const int Subcategory_Positions[LDE_CATEGORIES][8];
-	const int Subcontents[LDE_SUBCATEGORIES][16];
+	const char* Subcontents[LDE_SUBCATEGORIES][16];
 	char* Logs[LDE_LOGS];
-	int* Heating_Machines;
-	int* Irradiating_Machines;
 	const char* Days[LDE_DAYS];
 	const Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
 	char* Facts[LDE_FACTS];
@@ -322,7 +319,7 @@ struct lde_interface {
 	int Frame_Rate;
 	int Time_Frames;
 	int Max_Time_Frames;
-	int Item;
+	Machine_Ptr Item;
 	int Rotation;
 	int Save_Frames;
 	int Map_X;
@@ -381,9 +378,10 @@ extern struct lde_buffers Buffers;
 extern struct lde_preconfigs Preconfigs;
 
 void Preload_Fonts();
-int Visual_To_ID(const int Identifier);
 int Visual_To_Rotation(const int Identifier);
-void ID_To_Size(const int ID, const int Rotation, int* W, int* H);
+Machine_Ptr Get_Machine(const char* Index);
+Machine_Ptr Visual_To_Machine(const int Identifier);
+void ID_To_Size(Machine_Ptr Machine, const int Rotation, int* W, int* H);
 void Clear_Renderer();
 void Set_Renderer_Color(const SDL_Color Color);
 void Cleanup_Assets();
