@@ -13,4 +13,9 @@
 	<Power_Capacity>200</Power_Capacity>
 	<Anchor_X>28</Anchor_X>
 	<Anchor_Y>88</Anchor_Y>
+	<Rot_ID />
+	<Visual_Left>42</Visual_Left>
+	<Visual_Up>132</Visual_Up>
+	<Visual_Right>133</Visual_Right>
+	<Visual_Down>134</Visual_Down>	
 </Machine>

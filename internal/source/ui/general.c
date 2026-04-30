@@ -84,29 +84,33 @@ void Render_Tile_Prompts() {
 		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[Column][Row] == 0 || !Visual_To_Machine(Data.Visual_Grid[Column][Row])->Quirks[
-					Q_Interactable]) {
-					return;
-				}
-				char Subcore[64];
-				char Sub2core[64];
-				strncpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]), sizeof(Sub2core));
-				for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
-					Sub2core[C1] = (char)(tolower(Sub2core[C1]));
-				}
-				snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
-				SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
-				SDL_FRect Carrying_Rectangle = {
-					Core.Screenhalfsize.X - (Carrier->w * 0.5), Core.Screenhalfsize.X, (float)Carrier->w, (float)Carrier->h
-				};
-				Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 },
-					(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
-					Colors.Dark_Grey);
-				Render_Texture(Carrier, &Carrying_Rectangle);
-				free_texture(Carrier);
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+			if (!Machine) {
 				return;
 			}
+			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
+				continue;
+			}
+			if (Data.Visual_Grid[Column][Row] == 0 || !Machine->Quirks[Q_Interactable]) {
+				return;
+			}
+			char Subcore[64];
+			char Sub2core[64];
+			strncpy(Sub2core, SDL_GetKeyName(Keybinds.Keybind_List[10]), sizeof(Sub2core));
+			for (int C1 = 0; C1 < strlen(Sub2core); C1++) {
+				Sub2core[C1] = (char)(tolower(Sub2core[C1]));
+			}
+			snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
+			SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
+			SDL_FRect Carrying_Rectangle = {
+				Core.Screenhalfsize.X - (Carrier->w * 0.5), Core.Screenhalfsize.X, (float)Carrier->w, (float)Carrier->h
+			};
+			Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 },
+				(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
+				Colors.Dark_Grey);
+			Render_Texture(Carrier, &Carrying_Rectangle);
+			free_texture(Carrier);
+			return;
 		}
 	}
 }

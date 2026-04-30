@@ -8,9 +8,6 @@ bool Place_Algae_Bed(Point Pos) {
 		Data.Data_Grid[pt(Nodes.Data[C1])][Fluid_Cap] = 3;
 		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = (Interface.Rotation + Down == 4) ? 4 : ((Interface.Rotation + Down) & 3);
 	}
-	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 42 : Interface.Rotation + 131;
-	Data.Animation_Grid[pt(Pos)][0] = 0;
-	Data.Animation_Grid[pt(Pos)][1] = 0;
 	free_c(Nodes.Data);
 	return true;
 }

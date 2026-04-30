@@ -73,7 +73,11 @@ void Cleanup_Assets() {
 			Clear_Texture2_Array(&Metadata.Machines[C1].Texture3);
 			break;
 		}
+		free_c(Metadata.Machines[C1].Inputs);
+		free_c(Metadata.Machines[C1].Outputs);
+		free_c(Metadata.Machines[C1].Neutrals);
 		free_c(Metadata.Machines[C1].Name);
+		free_c(Metadata.Machines[C1].Desc);
 		free_c(Metadata.Machines[C1].Path);
 	}
 	free_c(Cache.FPS_Cache);

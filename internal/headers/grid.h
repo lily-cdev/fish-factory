@@ -28,8 +28,6 @@ bool Place_Bio_Generator(Point Pos);
 bool Place_Spawning_Pool(Point Pos);
 bool Place_Distillery(Point Pos);
 bool Place_Algae_Bed(Point Pos);
-bool Place_Command_Platform(Point Pos);
-bool Place_Battery(Point Pos);
 bool Place_Spawning_Controller(Point Pos);
 bool Place_Spawning_Output(Point Pos);
 bool Place_Spawning_Input(Point Pos);

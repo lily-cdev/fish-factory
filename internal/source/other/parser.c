@@ -147,6 +147,33 @@ void Load_XML() {
 		}
 		Machine.Heating = Get_Boolean(Machine_File, "Heating");
 		Machine.Irradiating = Get_Boolean(Machine_File, "Irradiating");
+		Machine.Command = Get_Boolean(Machine_File, "Command");
+		if (Get_Boolean(Machine_File, "Fluid_Processor")) {
+			int Input_Ct = get_int("Input_Ct");
+			Machine.Input_Ct = Input_Ct;
+			Machine.Inputs = malloc(sizeof(Node_Data) * Input_Ct);
+			char** Subinputs = Find_Multiple(Raw_Names[C1], Machine_File, "Input", Input_Ct);
+			for (int C2 = 0; C2 < Input_Ct; C2++) {
+				Machine.Inputs[C2].Flow = F_In;
+				Machine.Inputs[C2].Pos.X = Get_Integer(Raw_Names[C1], Subinputs[C2], "X");
+				Machine.Inputs[C2].Pos.Y = Get_Integer(Raw_Names[C1], Subinputs[C2], "Y");
+				char* Direction = Find_Element(Raw_Names[C1], Subinputs[C2], "Dir", NULL);
+				const char* Identifiers[5] = { "any", "left", "up", "right", "down" };
+				const Dir Results[5] = { Any, Left, Up, Right, Down };
+				for (int C1 = 0; C1 < 5; C1++) {
+					if (!stricmp(Direction, Identifiers[C1])) {
+						continue;
+					}
+					Machine.Inputs[C1].Connection = Results[C1];
+					break;
+				}
+				free_c(Direction);
+				free_c(Subinputs[C2]);
+			}
+			free_c(Subinputs);
+			Machine.Output_Ct = get_int("Output_Ct");
+			Machine.Neutral_Ct = get_int("Neutral_Ct");
+		}
 		free_c(Machine_File);
 		free_c(Raw_Names[C1]);
 		#undef get_str
@@ -154,7 +181,7 @@ void Load_XML() {
 		#undef Machine
 	}
 	free_c(Raw_Names);
-	printf("debug info:\nmax. reserved visual id -> %i\n", ID_Record);
+	printf("debug info:\lowest unreg. visual id -> %i\n", ID_Record + 1);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {

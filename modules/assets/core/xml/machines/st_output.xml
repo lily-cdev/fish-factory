@@ -11,4 +11,9 @@
 	<Width>2</Width>
 	<Height>2</Height>
 	<Power_Type>none</Power_Type>
+	<Rot_ID />
+	<Visual_Left>128</Visual_Left>
+	<Visual_Up>129</Visual_Up>
+	<Visual_Right>130</Visual_Right>
+	<Visual_Down>131</Visual_Down>	
 </Machine>

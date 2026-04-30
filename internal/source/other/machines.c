@@ -23,68 +23,18 @@ Machine_Ptr Visual_To_Machine(const int Identifier) {
 	}
 	if (Identifier > 0 && Identifier < 17) {
 		return Get_Machine("heavy_pipe");
-	} else if (Identifier == 18) {
-		return Get_Machine("incinerator");
 	} else if (Identifier == 21) {
 		return Get_Machine("sub_dock");
-	} else if (Identifier == 23) {
-		return Get_Machine("bio_generator");
 	} else if (Identifier > 23 && Identifier < 41) {
 		return Get_Machine("spawning_pool");
-	} else if (Identifier == 41) {
-		return Get_Machine("distillery");
-	} else if (Identifier == 42) {
-		return Get_Machine("algae_bed");
-	} else if (Identifier == 43) {
-		return Get_Machine("command_platform");
-	} else if (Identifier == 44) {
-		return Get_Machine("battery");
 	} else if (Identifier == 45) {
 		return Get_Machine("spawning_controller");
 	} else if (Identifier == 46) {
 		return Get_Machine("spawning_output");
 	} else if (Identifier == 47) {
 		return Get_Machine("spawning_input");
-	} else if (Identifier == 48) {
-		return Get_Machine("electro_cell");
-	} else if (Identifier == 49) {
-		return Get_Machine("fluid_mixer");
-	} else if (Identifier == 50) {
-		return Get_Machine("signal_tower");
-	} else if (Identifier > 55 && Identifier < 59) {
-		return Get_Machine("command_platform");
-	} else if (Identifier > 59 && Identifier < 63) {
-		return Get_Machine("signal_tower");
-	} else if (Identifier > 63 && Identifier < 67) {
-		return Get_Machine("battery");
-	} else if (Identifier > 66 && Identifier < 71) {
-		return Get_Machine("geo_well");
 	} else if (Identifier > 70 && Identifier < 87) {
 		return Get_Machine("large_pipe");
-	} else if (Identifier > 86 && Identifier < 91) {
-		return Get_Machine("hx");
-	} else if (Identifier > 95 && Identifier < 99) {
-		return Get_Machine("electro_cell");
-	} else if (Identifier > 98 && Identifier < 102) {
-		return Get_Machine("fluid_mixer");
-	} else if (Identifier > 101 && Identifier < 105) {
-		return Get_Machine("bio_generator");
-	} else if (Identifier > 104 && Identifier < 109) {
-		return Get_Machine("heavy_intersection");
-	} else if (Identifier > 108 && Identifier < 113) {
-		return Get_Machine("large_intersection");
-	} else if (Identifier > 113 && Identifier < 117) {
-		return Get_Machine("incinerator");
-	} else if (Identifier > 116 && Identifier < 120) {
-		return Get_Machine("distillery");
-	} else if (Identifier > 119 && Identifier < 124) {
-		return Get_Machine("turbine_input");
-	} else if (Identifier > 123 && Identifier < 128) {
-		return Get_Machine("turbine_impulse");
-	} else if (Identifier > 127 && Identifier < 132) {
-		return Get_Machine("turbine_output");
-	} else if (Identifier > 131 && Identifier < 135) {
-		return Get_Machine("algae_bed");
 	}
 	return NULL;
 }

@@ -76,6 +76,12 @@ typedef struct {
 } Spinner_Data;
 
 typedef struct {
+	Point Pos;
+	Flow_Type Flow;
+	Dir Connection;
+} Node_Data;
+
+typedef struct {
 	SDL_Texture* Icon;
 	int Price;
 	int Fee;
@@ -105,8 +111,15 @@ typedef struct {
 		int Visual_ID1;
 		int Visual_ID4[4];
 	};
+	int Input_Ct;
+	Node_Data* Inputs;
+	int Output_Ct;
+	Node_Data* Outputs;
+	int Neutral_Ct;
+	Node_Data* Neutrals;
 	bool Heating;
 	bool Irradiating;
+	bool Command;
 } Machine_Data;
 
 typedef Machine_Data* Machine_Ptr;

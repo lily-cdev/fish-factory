@@ -10,4 +10,10 @@
 	<Width>8</Width>
 	<Height>6</Height>
 	<Power_Type>none</Power_Type>
+	<Rot_ID />
+	<Visual_Left>43</Visual_Left>
+	<Visual_Up>56</Visual_Up>
+	<Visual_Right>57</Visual_Right>
+	<Visual_Down>58</Visual_Down>
+	<Command />
 </Machine>

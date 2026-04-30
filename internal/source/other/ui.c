@@ -69,8 +69,7 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 			if ((Hitbox.x + Hitbox.w <= scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) && Hitbox.y + Hitbox.h <= scale_f((
 					LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-				if ((Data.CMD_Placed && stricmp(Interface.Item->Index, "command_platform")) || (Row != 0 && stricmp(
-					Interface.Item->Index, "sub_dock"))) {
+				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && stricmp(Interface.Item->Index, "sub_dock"))) {
 					Placeable = false;
 				}
 				if (Placeable) {

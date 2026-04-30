@@ -1,9 +1,9 @@
 #include <grid.h>
 
-bool (*Placing_Functions[32])(Point Pos) = {
+bool (*Placing_Functions[31])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_Submarine_Dock,
 	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
-	Place_Command_Platform, Place_Battery, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
+	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
 	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower,
 	Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger,
 	Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
@@ -11,10 +11,10 @@ bool (*Placing_Functions[32])(Point Pos) = {
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
-const char* Placing_Registers[32] = {
+const char* Placing_Registers[31] = {
 	"heavy_pipe", "ram_pump", "incinerator", "sub_dock",
 	"filtration_plant", "bio_generator", "spawning_pool", "distillery", "algae_bed",
-	"command_platform", "battery", "spawning_controller", "spawning_output", "spawning_input",
+	"spawning_controller", "spawning_output", "spawning_input",
 	"electro_cell", "fluid_mixer", "signal_tower",
 	"geo_well", "large_pipe", "hx",
 	"money_cheat", "fluid_cheat", "heavy_intersection", "large_intersection",
@@ -221,6 +221,21 @@ void Update_Grid() {
 	}
 }
 
+Point Rotate_Pt(Point Input, Point Size, int Rot) {
+	for (int C1 = 0; C1 < 4; C1++) {
+		if (C1 == Rot) {
+			return Input;
+		}
+		Point Carrier = Input;
+		Input.X = (Size.Y - 1) - Carrier.Y;
+		Input.Y = Carrier.X;
+		int Subcarrier = Size.X;
+		Size.X = Size.Y;
+		Size.Y = Subcarrier;
+	}
+	return (Point){ };
+}
+
 void Build_Grid() {
 	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
 		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
@@ -235,18 +250,20 @@ void Build_Grid() {
 			int Rotation = (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
 			Point Pos = { Column, Row };
 			Point Size = Interface.Item->Size;
-			if (Data.CMD_Placed && stricmp(Interface.Item->Name, "command_platform")) {
+			if (Data.CMD_Placed && Interface.Item->Command) {
 				return;
 			}
 			if (evn(Rotation)) {
 				if (!Check_Clearance(Pos, Size.X, Size.Y)) {
 					return;
 				}
+				Destroy_Clearance(Pos, Size.X, Size.Y);
 				Fill_Clearance(LDE_INVALID, Pos, Size.X, Size.Y);
 			} else {
 				if (!Check_Clearance(Pos, Size.Y, Size.X)) {
 					return;
 				}
+				Destroy_Clearance(Pos, Size.Y, Size.X);
 				Fill_Clearance(LDE_INVALID, Pos, Size.Y, Size.X);
 			}
 			for (int C1 = 0; C1 < sizeof(Placing_Functions) / sizeof(Placing_Functions[0]); C1++) {
@@ -276,6 +293,14 @@ void Build_Grid() {
 				Data.Visual_Grid[Column][Row] = Interface.Item->Visual_ID1;
 			} else if (Interface.Item->Visual_Type == I_Rot) {
 				Data.Visual_Grid[Column][Row] = Interface.Item->Visual_ID4[Rotation];
+			}
+			if (Interface.Item->Command) {
+				Data.CMD_Placed = true;
+			}
+			for (int C1 = 0; C1 < Interface.Item->Input_Ct; C1++) {
+				Point Tile = Rotate_Pt(Interface.Item->Inputs[C1].Pos, Interface.Item->Size, Interface.Rotation);
+				Data.Plumbing_Grid[pt(Tile)] = Interface.Item->Inputs[C1].Connection;
+				Data.Settings_Grid[pt(Nodes.Data[C1])][0] = Interface.Item->Inputs[C1].Flow;
 			}
 			Update_Grid();
 			Recast_Machines();
@@ -320,7 +345,7 @@ void Remove_Machine(Point Pos) {
 				Transition.Sub_Phase = 3;
 			}
 			Recache_TT_Commands();
-		} else if (stricmp(Target->Index, "command_platform")) {
+		} else if (Interface.Item->Command) {
 			Data.CMD_Placed = false;
 		}
 		Destroy_Clearance(Pos, Width, Height);

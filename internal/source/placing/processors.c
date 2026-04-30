@@ -18,8 +18,6 @@ bool Place_Filtration_Plant(Point Pos) {
 }
 
 bool Place_Distillery(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 41 : Interface.Rotation + 116;
-	Data.Animation_Grid[pt(Pos)][0] = 0;
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.D_Inputs);
 	for (int C1 = 0; C1 < Nodes.Length; C1++) {
@@ -50,15 +48,13 @@ bool Place_Electrolytic_Cell(Point Pos) {
 	} else {
 		for (int C1 = 0; C1 < 3; C1++) {
 			Data.Data_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1][Fluid_Cap] = 20;
-			Data.Plumbing_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1] = Right - (
-				Interface.Rotation - 1);
+			Data.Plumbing_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1] = Right - (Interface.Rotation - 1);
 			Data.Settings_Grid[Pos.X - (int)((Interface.Rotation - 1) * 0.5f) + 1][Pos.Y + C1][0] = 2;
 		}
 		Data.Data_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][Fluid_Cap] = 16;
 		Data.Plumbing_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1] = (Interface.Rotation - 1) + Left;
 		Data.Settings_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][0] = 1;
 	}
-	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 48 : Interface.Rotation + 95;
 	return true;
 }
 
@@ -66,12 +62,12 @@ bool Place_Fluid_Mixer(Point Pos) {
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.FM_Inputs);
 	for (int C1 = 0; C1 < Nodes.Length; C1++) {
-		int Orientation = (int)(floorf(C1 / 3.0f) * 2.0f) + Left;
-		Orientation -= Interface.Rotation;
-		Orientation = ((Orientation + 3) & 3) + 1;
-		Data.Data_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][Fluid_Cap] = 24;
-		Data.Settings_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y][0] = F_In;
-		Data.Plumbing_Grid[Nodes.Data[C1].X][Nodes.Data[C1].Y] = Orientation;
+		//int Orientation = (int)(floorf(C1 / 3.0f) * 2.0f) + Left;
+		//Orientation -= Interface.Rotation;
+		//Orientation = ((Orientation + 3) & 3) + 1;
+		Data.Data_Grid[pt(Nodes.Data[C1])][Fluid_Cap] = 24;
+		Data.Settings_Grid[pt(Nodes.Data[C1])][0] = F_In;
+		//Data.Plumbing_Grid[pt(Nodes.Data[C1])] = Orientation;
 	}
 	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.FM_Outputs);
 	for (int C1 = 0; C1 < Nodes.Length; C1++) {
@@ -82,8 +78,6 @@ bool Place_Fluid_Mixer(Point Pos) {
 		Data.Settings_Grid[pt(Nodes.Data[C1])][0] = F_Out;
 		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = Orientation;
 	}
-	Data.Visual_Grid[pt(Pos)] = (Interface.Rotation == 0) ? 49 : Interface.Rotation + 98;
-	Data.Animation_Grid[pt(Pos)][1] = 0;
 	free_c(Nodes.Data);
 	return true;
 }

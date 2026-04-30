@@ -18,8 +18,6 @@ bool Place_Submarine_Dock(Point Pos) {
 	Data.Data_Grid[Pos.X + 1][Pos.Y + 3][Fluid_Cap] = 200;
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	Data.Settings_Grid[pt(Pos)][4] = 0;
-	Data.Settings_Grid[pt(Pos)][5] = LDE_INVALID;
-	Data.Settings_Grid[pt(Pos)][6] = LDE_INVALID;
 	Push_Docks(Pos);
 	Recache_TT_Commands();
 	return true;
@@ -34,7 +32,6 @@ bool Place_Large_Pipe(Point Pos) {
 }
 
 bool Place_RL_Intersection(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = Interface.Rotation + ((stricmp(Interface.Item->Index, "heavy_intersection")) ? 105 : 109);
 	Node Nodes = { };
 	Return_Nodes(&Nodes, Pos, 0, Preconfigs.I_Inputs);
 	for (int C1 = 0; C1 < 2; C1++) {

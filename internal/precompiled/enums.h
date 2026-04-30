@@ -35,13 +35,14 @@ enum State {
 	Deep_Recache
 };
 
-enum Direction {
-	Any,
+typedef enum {
+	None,
 	Left,
 	Up,
 	Right,
-	Down
-};
+	Down,
+	Any
+} Dir;
 
 enum Data_Grid {
 	Stored_Fluids,

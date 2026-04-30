@@ -13,4 +13,9 @@
 	<Power_Capacity>500000</Power_Capacity>
 	<Anchor_X>40</Anchor_X>
 	<Anchor_Y>47</Anchor_Y>
+	<Rot_ID />
+	<Visual_Left>44</Visual_Left>
+	<Visual_Up>64</Visual_Up>
+	<Visual_Right>65</Visual_Right>
+	<Visual_Down>66</Visual_Down>	
 </Machine>

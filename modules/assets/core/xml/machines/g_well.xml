@@ -14,4 +14,9 @@
 	<Anchor_X>60</Anchor_X>
 	<Anchor_Y>60</Anchor_Y>
 	<Heating />
+	<Rot_ID />
+	<Visual_Left>67</Visual_Left>
+	<Visual_Up>68</Visual_Up>
+	<Visual_Right>69</Visual_Right>
+	<Visual_Down>70</Visual_Down>	
 </Machine>

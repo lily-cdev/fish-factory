@@ -66,8 +66,8 @@ void Render_Application() {
 			scale_f(Core.Camera.X) + Core.Mouse.X,
 			scale_f(Core.Camera.Y) + Core.Mouse.Y
 		};
-		Hitbox.x = ((Subpos.X / scale_f(LDE_TILESIZE)) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.X);
-		Hitbox.y = ((Subpos.Y  / scale_f(LDE_TILESIZE)) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.Y);
+		Hitbox.x = floorf(Subpos.X / scale_f(LDE_TILESIZE) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.X);
+		Hitbox.y = floorf(Subpos.Y / scale_f(LDE_TILESIZE) * scale_f(LDE_TILESIZE)) - scale_f(Core.Camera.Y);
 		int Limit = scale_f(LDE_TILESIZE * LDE_GRIDSIZE);
 		bool Rendering = false;
 		if (Subpos.X > 0 && Subpos.Y > 0 && Subpos.X < Limit && Subpos.Y < Limit) {
@@ -83,18 +83,19 @@ void Render_Application() {
 				Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
 				for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
 					Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
-					if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-						Pos = (Point){ Column, Row };
-						Satiated = true;
-						break;
+					if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
+						continue;
 					}
+					Pos = (Point){ Column, Row };
+					Satiated = true;
+					break;
 				}
 			}
 			if (Satiated && Data.Data_Grid[pt(Pos)][Power_Cap] >= 0.1f) {
 				SDL_FRect Energy = {
 					0,
 					0,
-					Settings.Scalar * 6.0f,
+					scale_f(6.0f),
 					Height
 				};
 				Energy.x = Hitbox.x - Energy.w - Padding;

@@ -176,11 +176,7 @@ void Render_Grid() {
 								&Rects.Tile_2x2);
 						} else if (stricmp(Machine->Index, "electro_cell")) {
 							Carrier = (evn(Rotation)) ? Rects.Tile_3x2 : Rects.Tile_2x3;
-							if (Data.Visual_Grid[Column][Row] == 48) {
-								Render_Texture(Machine->Texture2.Data[0], &Rects.Tile_3x2);
-							} else {
-								Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
-							}
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[0], &Carrier);
 						} else if (stricmp(Machine->Index, "distillery")) {
 							Data.Animation_Grid[Column][Row][0] += LDE_STATICRATE / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {
