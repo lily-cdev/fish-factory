@@ -12,4 +12,3 @@ extern char Exception_Text[128];
 
 SDL_Surface* Load_BMP(const char* Path);
 void Save_BMP(const char* Path, SDL_Surface* Carrier);
-int sgn(float Input);

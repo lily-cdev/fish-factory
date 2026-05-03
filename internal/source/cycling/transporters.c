@@ -19,12 +19,12 @@ void Cycle_Intersection(Point Pos, const int Rotation) {
 		int IY = Inputs.Data[C1].Y;
 		float Difference = Data.Data_Grid[OX][OY][Fluid_Cap] - Data.Data_Grid[OX][OY][Stored_Fluids];
 		Difference = min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
-		if (Difference > 0 && (Data.Items_Grid[IX][IY] == Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == LDE_INVALID)) {
+		if (Difference > 0 && (Data.Items_Grid[IX][IY] == Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == ktn_invalid)) {
 			Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
 			Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
 			Update_Item((Point){ Outputs.Data[C1].X, OY }, Data.Items_Grid[IX][IY], Data.Temperature_Grid[IX][IY]);
 		}
 	}
-	free_c(Inputs.Data);
-	free_c(Outputs.Data);
+	ktn_free(Inputs.Data);
+	ktn_free(Outputs.Data);
 }

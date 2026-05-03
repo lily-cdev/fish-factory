@@ -67,12 +67,12 @@ void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Lin
 void Push_Docks(Point Input) {
 	if (Temporary.Docks.Length >= Temporary.Docks.Full_Size) {
 		Point* Buffer = malloc(sizeof(Point) * Temporary.Docks.Length);
-		memcpy_c(Buffer, Temporary.Docks.Data, sizeof(Point) * Temporary.Docks.Length);
-		free_c(Temporary.Docks.Data);
+		ktn_memcpy(Buffer, Temporary.Docks.Data, sizeof(Point) * Temporary.Docks.Length);
+		ktn_free(Temporary.Docks.Data);
 		Temporary.Docks.Full_Size += 16;
 		Temporary.Docks.Data = malloc(sizeof(Point) * Temporary.Docks.Full_Size);
-		memcpy_c(Temporary.Docks.Data, Buffer, sizeof(Point) * Temporary.Docks.Length);
-		free_c(Buffer);
+		ktn_memcpy(Temporary.Docks.Data, Buffer, sizeof(Point) * Temporary.Docks.Length);
+		ktn_free(Buffer);
 	}
 	Temporary.Docks.Data[Temporary.Docks.Length] = Input;
 	Temporary.Docks.Length++;
@@ -88,7 +88,7 @@ void Pull_Docks(int Position) {
 }
 
 bool Check_Clearance(Point Pos, const int W, const int H) {
-	if (Pos.X + W > LDE_GRIDSIZE || Pos.Y + H > LDE_GRIDSIZE) {
+	if (Pos.X + W > ktn_grid_size || Pos.Y + H > ktn_grid_size) {
 		return false;
 	} 
 	for (int C1 = 0; C1 < W; C1++) {
@@ -117,7 +117,7 @@ void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect) {
 	if (Texture == NULL) {
 		char Carrier[512];
 		snprintf(Carrier, sizeof(Carrier), "could not render texture; %s", SDL_GetError());
-		jump(I_Render_Failed, Carrier);
+		ktn_jump(I_Render_Failed, Carrier);
 	}
 	SDL_RenderTexture(Core.Renderer, Texture, NULL, Rect);
 }
@@ -145,13 +145,13 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 	while ((Yield = strchr(Raw_Text + Start, '|'))) {
 		End = Yield - Raw_Text;
 		int Length = End - Start;
-		memcpy_c(Fragments[Index], Raw_Text + Start, Length);
+		ktn_memcpy(Fragments[Index], Raw_Text + Start, Length);
 		Fragments[Index][Length] = '\0';
 		Index++;
 		Start = End + 1;
 	}
 	strncpy(Fragments[Index], Raw_Text + Start, Lengths[Index]);
-	int Multiplier = LDE_INVALID;
+	int Multiplier = ktn_invalid;
 	int Subtractor = 0;
 	if (Inverted) {
 		Multiplier = 1;
@@ -171,7 +171,7 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 		}
 	}
 	for (size_t C1 = 0; C1 < Fragment_Count; C1++) {
-		int Type = LDE_INVALID;
+		int Type = ktn_invalid;
 		char Targets[2][4] = { "[a]", "[b]" };
 		for (int C2 = 0; C2 < 2; C2++) {
 			bool Matched = true;
@@ -191,15 +191,15 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 		}
 		if ((Type == 0 && Inverted) || (Type == 1 && !Inverted)) {
 			continue;
-		} else if (Type != LDE_INVALID) {
+		} else if (Type != ktn_invalid) {
 			char* Subfragment = Fragments[Multiplier * (Subtractor - C1)];
 			memmove(Subfragment, Subfragment + 3, strlen(Subfragment + 3) + 1);
 		}
 		SDL_Texture* Fragment_Texture = Render_Text(Font, Fragments[Multiplier * (Subtractor - C1)], Colors.Abyss_Black);
 		if (Fragment_Texture) {
 			SDL_FRect Fragment_Rectangle = {
-				scale_f(Pos.X),
-				scale_f(Pos.Y) + Offset,
+				ktn_fscale(Pos.X),
+				ktn_fscale(Pos.Y) + Offset,
 				(float)Fragment_Texture->w,
 				(float)Fragment_Texture->h
 			};
@@ -208,25 +208,20 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 			}
 			Offset += Fragment_Rectangle.h;
 		}
-		free_texture(Fragment_Texture);
+		ktn_free_texture(Fragment_Texture);
 	}
 	for (int C1 = 0; C1 < Fragment_Count; C1++) {
-		free_c(Fragments[C1]);
+		ktn_free(Fragments[C1]);
 	}
-	free_c(Fragments);
-	free_c(Lengths);
+	ktn_free(Fragments);
+	ktn_free(Lengths);
 	return Offset;
-}
-
-void Tick_State() {
-	Core.State = (Core.State * 2891336453u) + 747796405u;
-	Core.State ^= Core.State >> 16;
 }
 
 void Reseed_State() {
 	struct timespec Spec;
 	timespec_get(&Spec, TIME_UTC);
-	Core.State = (uint32_t)(Spec.tv_nsec / 1000000);
+	Core.State = (uint32_t)Spec.tv_nsec;
 }
 
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border) {
@@ -239,7 +234,7 @@ SDL_FRect Inline_Rect(SDL_FRect Input, const int Border) {
 }
 
 bool Is_Bound(Point Input) {
-	return (Input.X >= 0 && Input.Y >= 0 && Input.X < LDE_GRIDSIZE && Input.Y < LDE_GRIDSIZE);
+	return (Input.X >= 0 && Input.Y >= 0 && Input.X < ktn_grid_size && Input.Y < ktn_grid_size);
 }
 
 SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
@@ -256,20 +251,20 @@ SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
 SDL_Texture* New_Texture(int Width, int Height) {
 	SDL_Texture* Texture = SDL_CreateTexture(Core.Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Width, Height);
 	if (Texture == NULL) {
-		jump(I_No_Texture, "could not create texture");
+		ktn_jump(I_No_Texture, "could not create texture");
 	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_BLEND);
 	void* Pixels = calloc(Width * Height, 4);
 	SDL_UpdateTexture(Texture, NULL, Pixels, Width * 4);
-	free_c(Pixels);
+	ktn_free(Pixels);
 	return Texture;
 }
 
 SDL_Texture* Surface_To_Texture(SDL_Surface* Surface) {
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Core.Renderer, Surface);
 	if (Texture == NULL) {
-		jump(I_No_Surface_Texture, "could not create texture from surface");
+		ktn_jump(I_No_Surface_Texture, "could not create texture from surface");
 	}
 	SDL_SetTextureScaleMode(Texture, Scaling_Quality);
 	return Texture;
@@ -277,7 +272,7 @@ SDL_Texture* Surface_To_Texture(SDL_Surface* Surface) {
 
 SDL_Texture* IMG_To_Texture(const char* Path) {
 	SDL_Surface* Surface;
-	load_bmp(Surface, Path);
+	ktn_load_bmp(Surface, Path);
 	SDL_Texture* Texture = Surface_To_Texture(Surface);
 	SDL_DestroySurface(Surface);
 	return Texture;

@@ -1,26 +1,25 @@
 #pragma once
-#define free_c(Victim) do { if ((Victim)) { free(Victim); (Victim) = NULL; } } while(0)
-#define memcpy_c(Victim, Source, Size) do { if ((Source) == NULL) { memset(Victim, 0, Size); } else { memcpy(Victim, \
+#define ktn_min(A, B) ((A) > (B) ? (B) : (A))
+#define ktn_max(A, B) ((A) > (B) ? (A) : (B))
+#define ktn_free(Victim) do { if ((Victim)) { free(Victim); (Victim) = NULL; } } while (0)
+#define ktn_memcpy(Victim, Source, Size) do { if ((Source) == NULL) { memset(Victim, 0, Size); } else { memcpy(Victim, \
     Source, Size); } } while (0)
-#define intlen(Victim) ({ int Yield = 0; while ((Victim)[Yield] != LDE_TERMINATOR) { Yield++; } Yield; })
-#define reclen(Victim) ({ int Yield = 0; while ((Victim)[Yield].ID != LDE_TERMINATOR) { Yield++; } Yield; })
-#define ptlen(Victim) ({ int Yield = 0; while ((Victim)[Yield].X != LDE_TERMINATOR || (Victim)[Yield].Y != \
-    LDE_TERMINATOR) { Yield++; } Yield; })
-#define veclen(Victim) ({ int Yield = 0; while (strcmp((Victim)[Yield], NULLSTRING) != 0) { Yield++; } Yield; })
-#define clamp_c(Victim, A, B) ({ int Yield = (Victim); if ((A) < (B)) { if ((Victim) < (A)) { Yield = (A); } else if \
-    ((Victim) > (B)) { Yield = (B); } } else { if ((Victim) < (B)) { Yield = (B); } else if ((Victim) > (A)) { Yield = \
-    (A); } } Yield; })
-#define charcat(Victim, A, B) do { int Length = strlen(Victim); if (Length < B) { (Victim)[Length] = (A); (Victim)[ \
-    Length + 1] = '\0'; } } while(0)
-#define free_texture(Victim) do { if (Victim) { SDL_DestroyTexture(Victim); Victim = NULL; } } while(0)
-#define jump(Value, Text) do { strcpy(Exception_Text, Text); Exception_Value = Value; longjmp(Exception, Value); } while(0)
-#define load_bmp(Victim, Path) do { (Victim) = Load_BMP(Path); if ((Victim) == NULL) { char Carrier[128]; snprintf( \
-    Carrier, sizeof(Carrier), "could not load image \"%s\"", Path); jump(I_No_Image, Carrier); } } while(0)
-#define sqr(Victim) ((Victim) * (Victim))
-#define strcat_c(Victim, Source, Length) do { strncat(Victim, Source, Length - strlen(Source) - 1); } while(0)
-#define evn(Victim) (((int)(Victim) & 1) == 0)
-#define pt(Victim) (Victim.X)][(Victim.Y)
-#define scale(Victim) (((int)(Victim)) * Settings.Scalar)
-#define scale_f(Victim) (((float)(Victim)) * (float)Settings.Scalar)
-#undef stricmp
-#define stricmp(A, B) (_stricmp((A), (B)) == 0)
+#define ktn_intlen(Victim) ({ int Yield = 0; while ((Victim)[Yield] != ktn_terminator) { Yield++; } Yield; })
+#define ktn_reclen(Victim) ({ int Yield = 0; while ((Victim)[Yield].ID != ktn_terminator) { Yield++; } Yield; })
+#define ktn_ptlen(Victim) ({ int Yield = 0; while ((Victim)[Yield].X != ktn_terminator || (Victim)[Yield].Y != \
+    ktn_terminator) { Yield++; } Yield; })
+#define ktn_veclen(Victim) ({ int Yield = 0; while (strcmp((Victim)[Yield], ktn_null_string) != 0) { Yield++; } Yield; })
+#define ktn_clamp(Victim, Low, High) (ktn_max(ktn_min((Victim), (High)), (Low)))
+#define ktn_charcat(Victim, A, B) do { int Length = strlen(Victim); if (Length < B) { (Victim)[Length] = (A); (Victim)[ \
+    Length + 1] = '\0'; } } while (0)
+#define ktn_free_texture(Victim) do { if (Victim) { SDL_DestroyTexture(Victim); Victim = NULL; } } while (0)
+#define ktn_load_bmp(Victim, Path) do { (Victim) = Load_BMP(Path); if ((Victim) == NULL) { char Carrier[128]; snprintf( \
+    Carrier, sizeof(Carrier), "could not load image \"%s\"", Path); ktn_jump(I_No_Image, Carrier); } } while (0)
+#define ktn_sqr(Victim) ((Victim) * (Victim))
+#define ktn_evn(Victim) (((int)(Victim) & 1) == 0)
+#define ktn_scale(Victim) (((int)(Victim)) * Settings.Scalar)
+#define ktn_fscale(Victim) (((float)(Victim)) * (float)Settings.Scalar)
+#define ktn_sgn(Victim) (((Victim) == 0) ? 0 : (((Victim) > 0) ? 1 : -1))
+#define ktn_tick() do { Core.State = (Core.State * 2891336453u) + 747796405u; Core.State ^= Core.State >> 16; } while (0)
+#define ktn_jump(Value, Text) do { strcpy(Exception_Text, Text); Exception_Value = Value; longjmp(Exception, Value); } while (0)
+#define ktn_stricmp(A, B) (_stricmp((A), (B)) == 0)//add unix support via ifdef

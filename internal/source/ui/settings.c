@@ -1,13 +1,13 @@
 #include <ui.h>
 
 void Render_Keybinds() {
-    for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+    for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		char Text[64];
 		snprintf(Text, sizeof(Text), "%s...", Keybinds.Keybind_Texts[C1]);
 		SDL_Texture* Prefix_Texture = Render_Text(F_Subtext, Text, Colors.Abyss_Black);
 		SDL_FRect Prefix_Rectangle = {
-			scale_f(370.0f),
-			scale_f((C1 * 16.0f) + 40.0f),
+			ktn_fscale(370.0f),
+			ktn_fscale((C1 * 16.0f) + 40.0f),
 			(float)Prefix_Texture->w,
 			(float)Prefix_Texture->h
 		};
@@ -21,7 +21,7 @@ void Render_Keybinds() {
 				(float)Registering_Texture->h
 			};
 			Render_Texture(Registering_Texture, &Registering_Rectangle);
-			free_texture(Registering_Texture);
+			ktn_free_texture(Registering_Texture);
 		} else {
 			char Subcore[32];
 			strncpy(Subcore, SDL_GetKeyName(Keybinds.Keybind_Settings[C1]), sizeof(Subcore));
@@ -42,7 +42,7 @@ void Render_Keybinds() {
 				SDL_Texture* Alivebutton_Texture = Render_Text(F_Subtext, Alivebutton_Text, Colors.Cherry_Blossom);
 				SDL_Texture* Temporary_Texture = Render_Text(F_Subtext, "> ", Colors.Cherry_Blossom);
 				int Offset = Temporary_Texture->w;
-				free_texture(Temporary_Texture);
+				ktn_free_texture(Temporary_Texture);
 				SDL_FRect Alivebutton_Rectangle = {
 					Deadbutton_Rectangle.x - Offset,
 					Deadbutton_Rectangle.y,
@@ -61,13 +61,13 @@ void Render_Keybinds() {
 					SDL_ALPHA_OPAQUE);
 				SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
 				Clear_Renderer();
-				free_texture(Alivebutton_Texture);
+				ktn_free_texture(Alivebutton_Texture);
 			} else {
 				Render_Texture(Deadbutton_Texture, &Deadbutton_Rectangle);
 			}
-			free_texture(Deadbutton_Texture);
+			ktn_free_texture(Deadbutton_Texture);
 		}
-		free_texture(Prefix_Texture);
+		ktn_free_texture(Prefix_Texture);
 	}
 }
 

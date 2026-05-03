@@ -24,16 +24,16 @@ void Render_Help(Point Pos) {
 				" obstructions.";
 			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 60 }, false, false);
 		}
-		if (Temporary.Tutorial_Step == LDE_INVALID) {
+		if (Temporary.Tutorial_Step == ktn_invalid) {
 			if (Data.CMD_Placed) {
 				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y -= scale_f(LDE_TILESIZE);
+						Rects.Tutorials.Data[C1].Data[C2].y -= ktn_fscale(ktn_tile_size);
 					}
 					Render_Button(&Textures.Tutorials.Data[C1], &Rects.Tutorials.Data[C1], (UI_Link){ (C1 == 1) ?
 						Gen_Tutorial : Fish_Tutorial }, Colors.Cherry_Blossom);
 					for (int C2 = 0; C2 < 2; C2++) {
-						Rects.Tutorials.Data[C1].Data[C2].y += scale_f(LDE_TILESIZE);
+						Rects.Tutorials.Data[C1].Data[C2].y += ktn_fscale(ktn_tile_size);
 					}
 				}
 			} else {

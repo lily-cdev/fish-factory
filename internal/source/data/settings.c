@@ -14,7 +14,7 @@ bool Save_Settings() {
 	fputc((uint8_t)Settings.Scalar, File);
 	fputc((uint8_t)Settings.Volume, File);
 	fputc((uint8_t)Settings.Raw_FPS, File);
-	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		fwrite(&(uint32_t){ Keybinds.Keybind_List[C1] }, sizeof(uint32_t), 1, File);
 	}
 	fclose(File);
@@ -36,7 +36,7 @@ void Load_Settings() {
 				Settings.Scalar = fgetc(File);
 				Settings.Volume = fgetc(File);
 				Settings.Raw_FPS = fgetc(File);
-				for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+				for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 					fread(&Keybinds.Keybind_List[C1], sizeof(uint32_t), 1, File);
 				}
 				fclose(File);
@@ -48,7 +48,7 @@ void Load_Settings() {
 	Clear_File("settings.pkg");
 	SDL_DisplayID Index = SDL_GetDisplayForWindow(Core.Window);
 	const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
-	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
+	for (int C1 = 0; C1 < ktn_supported_res; C1++) {
 		if (Display->w >= Metadata.Supported_Resolutions[C1].X &&
 			Display->h >= Metadata.Supported_Resolutions[C1].Y) {
 			Settings.Scalar++;
@@ -69,7 +69,7 @@ void Clear_Settings() {
 	Interface.Slider_Positions[6] = Settings.Fullscreen;
 	Settings.AA_Temporary = (bool)(Settings.Anti_Aliasing);
 	Settings.VS_Temporary = (bool)(Settings.VSync);
-	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		Keybinds.Keybind_Settings[C1] = Keybinds.Keybind_List[C1];
 	}
 }
@@ -81,7 +81,7 @@ void Recalibrate_Settings() {
 	Settings.Fullscreen = Interface.Slider_Positions[6];
 	Settings.Anti_Aliasing = (int)(Settings.AA_Temporary);
 	Settings.VSync = (int)(Settings.VS_Temporary);
-	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		Keybinds.Keybind_List[C1] = Keybinds.Keybind_Settings[C1];
 	}
 	Reload_All(true);

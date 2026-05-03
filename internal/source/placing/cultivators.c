@@ -8,7 +8,7 @@ bool Place_Algae_Bed(Point Pos) {
 		Data.Data_Grid[pt(Nodes.Data[C1])][Fluid_Cap] = 3;
 		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = (Interface.Rotation + Down == 4) ? 4 : ((Interface.Rotation + Down) & 3);
 	}
-	free_c(Nodes.Data);
+	ktn_free(Nodes.Data);
 	return true;
 }
 

@@ -7,7 +7,7 @@ void Cycle_Ram_Pump(Point Pos, const int Rotation) {
 		Data.Animation_Grid[pt(Pos)][0] = 0;
 		Play_Sound(Ram1, false);
 	} else if (Data.Animation_Grid[pt(Pos)][0] == 0) {
-		Data.Animation_Grid[pt(Pos)][0] = LDE_INVALID;
+		Data.Animation_Grid[pt(Pos)][0] = ktn_invalid;
 	}
-	free_c(Outputs.Data);
+	ktn_free(Outputs.Data);
 }

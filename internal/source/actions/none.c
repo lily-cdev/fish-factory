@@ -36,7 +36,7 @@ void Handle_None(Point Pos) {
 		}
 		break;
 	case 3:
-		if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
+		if (Interface.Engagement == 0 && Interface.Registering_Keybind == ktn_invalid) {
 			if (Interface.UI_Selection > 5 && Interface.UI_Selection < 20) {
 				Interface.Registering_Keybind = Interface.UI_Selection - 6;
 			}

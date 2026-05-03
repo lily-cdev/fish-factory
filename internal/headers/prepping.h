@@ -7,7 +7,7 @@ struct lde_core {
 	SDL_Texture* Game_Texture;
 	bool Is_Running;
 	bool Debug_Mode;
-	char Suffixes[LDE_SUFFIXES];
+	char Suffixes[ktn_suffixes];
 	float Save_Filesizes[4];
 	int Selected_Save;
 	Point_f Camera;
@@ -23,31 +23,31 @@ struct lde_data {
 	int Version;
 	int Time;
 	int Day;
-	int Visual_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Behavior_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Wiring_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Plumbing_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Items_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	int Temperature_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
-	float Animation_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][3];
-	float Data_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][7];
-	float Settings_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE][16];
+	int Visual_Grid[ktn_grid_size][ktn_grid_size];
+	int Behavior_Grid[ktn_grid_size][ktn_grid_size];
+	int Wiring_Grid[ktn_grid_size][ktn_grid_size];
+	int Plumbing_Grid[ktn_grid_size][ktn_grid_size];
+	int Items_Grid[ktn_grid_size][ktn_grid_size];
+	int Temperature_Grid[ktn_grid_size][ktn_grid_size];
+	float Animation_Grid[ktn_grid_size][ktn_grid_size][3];
+	float Data_Grid[ktn_grid_size][ktn_grid_size][7];
+	float Settings_Grid[ktn_grid_size][ktn_grid_size][16];
 	int64_t Funds;
 };
 
 struct lde_metadata {
 	char Monitor_Size[64];
-	char* Categories[LDE_CATEGORIES];
-	char* Subcategories[LDE_SUBCATEGORIES];
-	char* Buttons[LDE_BUTTONS];
-	const char* Item_Labels[LDE_CATEGORIES][16];
-	const int Subcategory_Positions[LDE_CATEGORIES][8];
-	const char* Subcontents[LDE_SUBCATEGORIES][16];
-	char* Logs[LDE_LOGS];
-	const char* Days[LDE_DAYS];
-	const Point Supported_Resolutions[LDE_SUPPORTEDRESOLUTIONS];
-	char* Facts[LDE_FACTS];
-	const char Tool_Texts[LDE_TOOLS][64];
+	char* Categories[ktn_categories];
+	char* Subcategories[ktn_subcategories];
+	char* Buttons[ktn_buttons];
+	const char* Item_Labels[ktn_categories][16];
+	const int Subcategory_Positions[ktn_categories][8];
+	const char* Subcontents[ktn_subcategories][16];
+	char* Logs[ktn_logs];
+	const char* Days[ktn_days];
+	const Point Supported_Resolutions[ktn_supported_res];
+	char* Facts[ktn_facts];
+	const char Tool_Texts[ktn_tools][64];
 	Machine_Data* Machines;
 };
 
@@ -178,7 +178,7 @@ struct lde_rects {
 	Rect_Array Clear_Tutorial;
 	Rect_Array Settings_Label;
 	Rect_Array Save_Settings;
-	SDL_FRect Tool[LDE_TOOLS];
+	SDL_FRect Tool[ktn_tools];
 	SDL_FRect Help_Content[2];
 	SDL_FRect Recipe_Content;
 	SDL_FRect Door[2];
@@ -225,15 +225,15 @@ struct lde_colors {
 };
 
 struct lde_fonts {
-	TTF_Font* Faces[LDE_FONTS];
-	const char* Paths[LDE_FONTS];
-	const int Sizes[LDE_FONTS];
+	TTF_Font* Faces[ktn_fonts];
+	const char* Paths[ktn_fonts];
+	const int Sizes[ktn_fonts];
 };
 
 struct lde_keybinds {
-	char* Keybind_Texts[LDE_KEYBINDS];
-	SDL_Keycode Keybind_List[LDE_KEYBINDS];
-	SDL_Keycode Keybind_Settings[LDE_KEYBINDS];
+	char* Keybind_Texts[ktn_keybinds];
+	SDL_Keycode Keybind_List[ktn_keybinds];
+	SDL_Keycode Keybind_Settings[ktn_keybinds];
 };
 
 struct lde_temporary {
@@ -289,11 +289,11 @@ struct lde_supplies {
 	Texture_Supply Save_Text;
 	Texture_Supply Terminal_Title;
 	Texture_Supply Terminal_Command;
-	Texture_Supply Terminal_Logs[LDE_LOGMAX];
-	Texture_Supply Catalog1[LDE_RECIPETYPES];
-	Texture_Supply Catalog2[LDE_RECIPETYPES];
-	Texture_Supply Catalog3[LDE_RECIPETYPES];
-	Texture_Supply Filesizes[LDE_SAVEFILES];
+	Texture_Supply Terminal_Logs[ktn_log_max];
+	Texture_Supply Catalog1[ktn_recipe_types];
+	Texture_Supply Catalog2[ktn_recipe_types];
+	Texture_Supply Catalog3[ktn_recipe_types];
+	Texture_Supply Filesizes[ktn_savefiles];
 };
 
 struct lde_interface {
@@ -325,22 +325,22 @@ struct lde_interface {
 	int Map_X;
 	int Map_Y;
 	int Registering_Keybind;
-	int Slider_Positions[LDE_SLIDERS];
+	int Slider_Positions[ktn_sliders];
 	SDL_FPoint Tile_Centerpoint;
-	float Log_Heights[LDE_LOGS];
-	int Valve300_Postions[LDE_VALVE300LENGTH];
-	char Slider_Texts[LDE_SLIDERS][256][32];
-	float Effects[LDE_EFFECTS];
-	char Terminal_Logs[LDE_LOGMAX][LDE_PARAMMAX];
+	float Log_Heights[ktn_logs];
+	int Valve300_Postions[ktn_valve300_len];
+	char Slider_Texts[ktn_sliders][256][32];
+	float Effects[ktn_effects];
+	char Terminal_Logs[ktn_log_max][ktn_param_max];
 	char Terminal_Entry[128];
 	int Terminal_Length;
 	bool Bar_Up;
 };
 
 struct lde_buffers {
-	char JSON[LDE_JSONMAX][128];
-	int Commands[LDE_CMDMAX];
-	char Parameters[LDE_CMDMAX][4][LDE_PARAMMAX];
+	char JSON[ktn_json_max][128];
+	int Commands[ktn_cmd_max];
+	char Parameters[ktn_cmd_max][4][ktn_param_max];
 };
 
 struct lde_preconfigs {
@@ -429,7 +429,6 @@ void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preclear_Temporaries();
 void Render_Loadscreen();
-void Tick_State();
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);
 SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color);

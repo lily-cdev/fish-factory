@@ -4,12 +4,12 @@ void Push_Bridge(Bridges* List, Bridge Input) {
 	List->Length++;
 	if (List->Length >= List->Full_Size) {
 		Bridge* Buffer = malloc(sizeof(Bridge) * List->Length);
-		memcpy_c(Buffer, List->Data, sizeof(Bridge) * List->Length);
-		free_c(List->Data);
+		ktn_memcpy(Buffer, List->Data, sizeof(Bridge) * List->Length);
+		ktn_free(List->Data);
 		List->Full_Size += 16;
 		List->Data = malloc(sizeof(Bridge) * List->Full_Size);
-		memcpy_c(List->Data, Buffer, sizeof(Bridge) * List->Length);
-		free_c(Buffer);
+		ktn_memcpy(List->Data, Buffer, sizeof(Bridge) * List->Length);
+		ktn_free(Buffer);
 	}
 	List->Data[List->Length - 1] = Input;
 }
@@ -26,7 +26,7 @@ void Pull_Bridge(Bridges* List, int Position) {
 void Clear_Bridges(Bridges* List) {
 	List->Length = 0;
 	List->Full_Size = 0;
-	free_c(List->Data);
+	ktn_free(List->Data);
 }
 
 void Clear_Unconnected_Bridges(Bridges* List) {

@@ -44,16 +44,16 @@ const char* Cycle_Matches[18] = {
 
 void Update_Machines() {
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
 			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (Data.Visual_Grid[pt(Pos)] > 0) {
 				if (Data.Settings_Grid[pt(Pos)][S_Time] > 0) {
 					Data.Settings_Grid[pt(Pos)][S_Time]--;
-					if (stricmp(Chosen->Index, "distillery")) {
+					if (ktn_stricmp(Chosen->Index, "distillery")) {
 						Extend_Recipe(Preset_IO_Recipes.D_Water, Pos, Preconfigs.D_Outputs);
-					} else if (stricmp(Chosen->Index, "electro_cell")) {
+					} else if (ktn_stricmp(Chosen->Index, "electro_cell")) {
 						if (Data.Settings_Grid[pt(Pos)][2] == 1) {
 							Extend_Recipe(Preset_IO_Recipes.EP_Water, Pos, Preconfigs.EP_Outputs);
 						} else if (Data.Settings_Grid[pt(Pos)][2] == 2) {
@@ -61,7 +61,7 @@ void Update_Machines() {
 						} else {
 							Extend_Recipe(Preset_IO_Recipes.EP_Salt, Pos, Preconfigs.EP_Outputs);
 						}
-					} else if (stricmp(Chosen->Index, "algae_bed")) {
+					} else if (ktn_stricmp(Chosen->Index, "algae_bed")) {
 						if (Extend_Recipe(Preset_O_Recipes.GB_Algae, Pos, Preconfigs.GB_Outputs)) {
 							Data.Animation_Grid[pt(Pos)][1] = 0;
 						}
@@ -70,7 +70,7 @@ void Update_Machines() {
 			}
 			if (Chosen) {
 				for (int C1 = 0; C1 < sizeof(Cycle_Functions) / sizeof(Cycle_Functions[0]); C1++) {
-					if (stricmp(Chosen->Index, Cycle_Matches[C1])) {
+					if (ktn_stricmp(Chosen->Index, Cycle_Matches[C1])) {
 						Cycle_Functions[C1](Pos, Rotation);
 					}
 				}
@@ -79,9 +79,9 @@ void Update_Machines() {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
 						if (Data.Settings_Grid[pt(Pos)][C1 + 5] == Get_Item((Point){ Pos.X + C1, Pos.Y + 3 }).Identifier ||
-							Data.Settings_Grid[Pos.X][Pos.Y][C1 + 5] == LDE_INVALID) {
+							Data.Settings_Grid[Pos.X][Pos.Y][C1 + 5] == ktn_invalid) {
 							Data.Settings_Grid[pt(Pos)][C1 + 3] = min(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[
-								Pos.X + C1][Pos.Y + 3][Stored_Fluids], LDE_DOCKCAPACITY);
+								Pos.X + C1][Pos.Y + 3][Stored_Fluids], ktn_dock_cap);
 							Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] = 0;
 							Data.Settings_Grid[pt(Pos)][C1 + 5] = Get_Item((Point){ Pos.X + C1, Pos.Y + 3 }).Identifier;
 						}
@@ -103,11 +103,11 @@ void Update_Machines() {
 				if (Running1 || Running2) {
 					Play_Sound(Filtration1, false);
 				} else if (Data.Animation_Grid[pt(Pos)][0] == 0) {
-					Data.Animation_Grid[pt(Pos)][0] = LDE_INVALID;
+					Data.Animation_Grid[pt(Pos)][0] = ktn_invalid;
 					Data.Animation_Grid[pt(Pos)][1] = 0;
 				}
-				free_c(tmp1.Data);
-				free_c(tmp2.Data);
+				ktn_free(tmp1.Data);
+				ktn_free(tmp2.Data);
 			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
 				if (Data.Settings_Grid[pt(Pos)][5] != 0) {
 					if (Data.Settings_Grid[pt(Pos)][4] >= Data.Settings_Grid[pt(Pos)][5] * Fish_Catalog[(int)(
@@ -126,7 +126,7 @@ void Update_Machines() {
 						Data.Settings_Grid[pt(Pos)][7] = 0;
 						Point Coord = Find_Linked("spawning_output", Pos);
 						Item_Stack Fish = Get_Fish_Item((int)(Data.Settings_Grid[pt(Pos)][6]));
-						Update_Item(Coord, Fish.Identifier, LDE_ROOMTEMP);
+						Update_Item(Coord, Fish.Identifier, ktn_room_temp);
 						Data.Data_Grid[pt(Coord)][0] = min(Data.Settings_Grid[pt(Pos)][5], Data.Data_Grid[pt(Coord)][Fluid_Cap]);
 					}
 					Data.Settings_Grid[pt(Pos)][7] += 1;

@@ -10,7 +10,7 @@ enum Subcategories {
 };
 
 enum Prompts {
-	P_None = LDE_INVALID,
+	P_None = ktn_invalid,
 	P_Help,
 	P_Shop,
 	P_Daily_Report,
@@ -84,7 +84,7 @@ enum Log {
 };
 
 enum Tool {
-	T_None = LDE_INVALID,
+	T_None = ktn_invalid,
 	T_Building,
 	T_Deleting,
 	T_Inspecting,
@@ -136,7 +136,7 @@ typedef enum {
 } Sound;
 
 enum Recipe_Types {
-	R_None = LDE_INVALID,
+	R_None = ktn_invalid,
 	R_Inputs,
 	R_Outputs,
 	R_Both

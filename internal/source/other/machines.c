@@ -2,7 +2,7 @@
 
 Machine_Ptr Get_Machine(const char* Index) {
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
-		if (stricmp(Metadata.Machines[C1].Index, Index)) {
+		if (ktn_stricmp(Metadata.Machines[C1].Index, Index)) {
 			return &Metadata.Machines[C1];
 		}
 	}
@@ -86,6 +86,6 @@ void ID_To_Size(Machine_Ptr Machine, const int Rotation, int* W, int* H) {
 		*H = 0;
 		return;
 	}
-	*W = (evn(Rotation)) ? (*Machine).Size.X : (*Machine).Size.Y;
-	*H = (evn(Rotation)) ? (*Machine).Size.Y : (*Machine).Size.X;
+	*W = (ktn_evn(Rotation)) ? (*Machine).Size.X : (*Machine).Size.Y;
+	*H = (ktn_evn(Rotation)) ? (*Machine).Size.Y : (*Machine).Size.X;
 }

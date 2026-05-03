@@ -1,21 +1,21 @@
 #include <grid.h>
 
-bool (*Placing_Functions[31])(Point Pos) = {
+bool (*Placing_Functions[])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_Submarine_Dock,
-	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Distillery, Place_Algae_Bed,
+	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Algae_Bed,
 	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
-	Place_Electrolytic_Cell, Place_Fluid_Mixer, Place_Signal_Tower,
+	Place_Electrolytic_Cell, Place_Signal_Tower,
 	Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger,
 	Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
 	Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
-const char* Placing_Registers[31] = {
+const char* Placing_Registers[] = {
 	"heavy_pipe", "ram_pump", "incinerator", "sub_dock",
-	"filtration_plant", "bio_generator", "spawning_pool", "distillery", "algae_bed",
+	"filtration_plant", "bio_generator", "spawning_pool", "algae_bed",
 	"spawning_controller", "spawning_output", "spawning_input",
-	"electro_cell", "fluid_mixer", "signal_tower",
+	"electro_cell", "signal_tower",
 	"geo_well", "large_pipe", "hx",
 	"money_cheat", "fluid_cheat", "heavy_intersection", "large_intersection",
 	"condenser_input", "condenser_hx", "condenser_heatsink", "condenser_output",
@@ -24,15 +24,15 @@ const char* Placing_Registers[31] = {
 
 Point Find_Linked(const char* Index, Point Parent) {
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
-			if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Index) && Data.Settings_Grid[pt(Pos)][3] ==
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
+			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Index) && Data.Settings_Grid[pt(Pos)][3] ==
 				Parent.X && Data.Settings_Grid[pt(Pos)][4] == Parent.Y) {
 				return Pos;
 			}
 		}
 	}
-	return (Point){ LDE_INVALID, LDE_INVALID };
+	return (Point){ ktn_invalid, ktn_invalid };
 }
 
 bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
@@ -52,7 +52,7 @@ bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
 
 #define Param(XM, YM, Direction) (Point){ Pos.X + (XM), Pos.Y + (YM) }, Pos, Direction, Target, Is_Pipe
 int Modular_Detection(Point Pos, int Target, bool Is_Pipe) {
-	if (Target == LDE_INVALID) {
+	if (Target == ktn_invalid) {
 		Target = -2;
 	}
 	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
@@ -104,28 +104,28 @@ int Modular_Detection(Point Pos, int Target, bool Is_Pipe) {
 }
 #undef Param
 
-int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
+int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size],
 	bool Self_Accounted, const char* Target1, const char* Target2);
 
-int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[LDE_GRIDSIZE][LDE_GRIDSIZE],
+int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size],
 	bool Self_Accounted, const char* Target1, const char* Target2) {
 	bool Progressing = false;
-	if (Pos.X >= 0 && Pos.Y >= 0 && Pos.X < LDE_GRIDSIZE && Pos.Y < LDE_GRIDSIZE && !Grid[pt(Pos)]) {
-		if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target)) {
+	if (Pos.X >= 0 && Pos.Y >= 0 && Pos.X < ktn_grid_size && Pos.Y < ktn_grid_size && !Grid[pt(Pos)]) {
+		if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target)) {
 			Progressing = true;
-		} else if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Self)) {
+		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Self)) {
 			if (Self_Accounted) {
 				return -9999;
 			} else {
 				Self_Accounted = true;
 				Progressing = true;
 			}
-		} else if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target1)) {
+		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target1)) {
 			Temporary.Modular1_Requirement++;
 			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
 			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
 			Progressing = true;
-		} else if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target2)) {
+		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target2)) {
 			Temporary.Modular2_Requirement++;
 			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
 			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
@@ -144,9 +144,9 @@ int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[
 
 int Find_Modular_Size(Point Pos, const char* Target, const char* Self, const char* Target1, const char* Target2) {
 	bool Self_Accounted = false;
-	bool Checked_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
-	for (int X2 = 0; X2 < LDE_GRIDSIZE; X2++) {
-		for (int Y2 = 0; Y2 < LDE_GRIDSIZE; Y2++) {
+	bool Checked_Grid[ktn_grid_size][ktn_grid_size] = { };
+	for (int X2 = 0; X2 < ktn_grid_size; X2++) {
+		for (int Y2 = 0; Y2 < ktn_grid_size; Y2++) {
 			Checked_Grid[X2][Y2] = false;
 		}
 	}
@@ -156,15 +156,15 @@ int Find_Modular_Size(Point Pos, const char* Target, const char* Self, const cha
 void Restore_Cache() {
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
-	free_c(Temporary.Docks.Data);
+	ktn_free(Temporary.Docks.Data);
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				continue;
 			}
-			if (stricmp(Machine->Index, "sub_dock")) {
+			if (ktn_stricmp(Machine->Index, "sub_dock")) {
 				Push_Docks(Pos);
 			}
 		}
@@ -181,21 +181,21 @@ void Destroy_Clearance(Point Pos, int Width, int Height) {
 }
 
 void Update_Grid() {
-	int Temporary_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE];
+	int Temporary_Grid[ktn_grid_size][ktn_grid_size];
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Temporary_Grid[pt(Pos)] = Data.Visual_Grid[pt(Pos)];
 		}
 	}
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				continue;
 			}
-			if (stricmp(Machine->Index, "heavy_pipe")) {
-				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, LDE_INVALID, true) + 1;
+			if (ktn_stricmp(Machine->Index, "heavy_pipe")) {
+				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, ktn_invalid, true) + 1;
 			} else if (Data.Visual_Grid[pt(Pos)] > 23 && Data.Visual_Grid[pt(Pos)] < 41) {
 				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, 0, false) + 24;
 			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
@@ -209,13 +209,13 @@ void Update_Grid() {
 				Data.Settings_Grid[pt(Pos)][3] = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
-			} else if (stricmp(Machine->Index, "large_pipe")) {
-				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, LDE_INVALID, true) + 71;
+			} else if (ktn_stricmp(Machine->Index, "large_pipe")) {
+				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, ktn_invalid, true) + 71;
 			}
 		}
 	}
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Data.Visual_Grid[pt(Pos)] = Temporary_Grid[pt(Pos)];
 		}
 	}
@@ -237,10 +237,10 @@ Point Rotate_Pt(Point Input, Point Size, int Rot) {
 }
 
 void Build_Grid() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
@@ -253,21 +253,21 @@ void Build_Grid() {
 			if (Data.CMD_Placed && Interface.Item->Command) {
 				return;
 			}
-			if (evn(Rotation)) {
+			if (ktn_evn(Rotation)) {
 				if (!Check_Clearance(Pos, Size.X, Size.Y)) {
 					return;
 				}
 				Destroy_Clearance(Pos, Size.X, Size.Y);
-				Fill_Clearance(LDE_INVALID, Pos, Size.X, Size.Y);
+				Fill_Clearance(ktn_invalid, Pos, Size.X, Size.Y);
 			} else {
 				if (!Check_Clearance(Pos, Size.Y, Size.X)) {
 					return;
 				}
 				Destroy_Clearance(Pos, Size.Y, Size.X);
-				Fill_Clearance(LDE_INVALID, Pos, Size.Y, Size.X);
+				Fill_Clearance(ktn_invalid, Pos, Size.Y, Size.X);
 			}
 			for (int C1 = 0; C1 < sizeof(Placing_Functions) / sizeof(Placing_Functions[0]); C1++) {
-				if (stricmp(Interface.Item->Index, Placing_Registers[C1])) {
+				if (ktn_stricmp(Interface.Item->Index, Placing_Registers[C1])) {
 					if (!Placing_Functions[C1](Pos)) {
 						return;
 					}
@@ -280,7 +280,7 @@ void Build_Grid() {
 					(float)Interface.Item->Anchor.X,
 					(float)Interface.Item->Anchor.Y
 				};
-				if (evn(Rotation)) {
+				if (ktn_evn(Rotation)) {
 					Data.Data_Grid[Column][Row][5] = (Rotation == 0) ? Anchor.X : (Size.X * 40.0f) - Anchor.X;
 					Data.Data_Grid[Column][Row][6] = (Rotation == 0) ? Anchor.Y : (Size.Y * 40.0f) - Anchor.Y;
 				} else {
@@ -297,10 +297,20 @@ void Build_Grid() {
 			if (Interface.Item->Command) {
 				Data.CMD_Placed = true;
 			}
-			for (int C1 = 0; C1 < Interface.Item->Input_Ct; C1++) {
-				Point Tile = Rotate_Pt(Interface.Item->Inputs[C1].Pos, Interface.Item->Size, Interface.Rotation);
-				Data.Plumbing_Grid[pt(Tile)] = Interface.Item->Inputs[C1].Connection;
-				Data.Settings_Grid[pt(Nodes.Data[C1])][0] = Interface.Item->Inputs[C1].Flow;
+			int Node_Cts[3] = { Interface.Item->Input_Ct, Interface.Item->Output_Ct, Interface.Item->Neutral_Ct };
+			Node_Data* Node_Ptrs[3] = { Interface.Item->Inputs, Interface.Item->Outputs, Interface.Item->Neutrals };
+			for (int C1 = 0; C1 < 3; C1++) {
+				for (int C2 = 0; C2 < Node_Cts[C1]; C2++) {
+					Point Tile = Rotate_Pt(Node_Ptrs[C1][C2].Pos, Interface.Item->Size, Interface.Rotation);
+					Tile.X += Column;
+					Tile.Y += Row;
+					Data.Plumbing_Grid[pt(Tile)] = Node_Ptrs[C1][C2].Connection + Interface.Rotation;
+					if (Data.Plumbing_Grid[pt(Tile)] > Down) {
+						Data.Plumbing_Grid[pt(Tile)] -= 4;
+					}
+					Data.Settings_Grid[pt(Tile)][0] = Node_Ptrs[C1][C2].Flow;
+					Data.Data_Grid[pt(Tile)][Fluid_Cap] = Node_Ptrs[C1][C2].Cap;
+				}
 			}
 			Update_Grid();
 			Recast_Machines();
@@ -322,20 +332,20 @@ void Remove_Machine(Point Pos) {
 	if (Width == 1 && Height == 1) {
 		Wipe_Tile(Pos);
 		Data.Visual_Grid[pt(Pos)] = 0;
-		Data.Wiring_Grid[pt(Pos)] = LDE_INVALID;
-		Data.Plumbing_Grid[pt(Pos)] = LDE_INVALID;
-		Data.Behavior_Grid[pt(Pos)] = LDE_INVALID;
+		Data.Wiring_Grid[pt(Pos)] = ktn_invalid;
+		Data.Plumbing_Grid[pt(Pos)] = ktn_invalid;
+		Data.Behavior_Grid[pt(Pos)] = ktn_invalid;
 		memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
-		Data.Data_Grid[pt(Pos)][4] = LDE_INVALID;
+		Data.Data_Grid[pt(Pos)][4] = ktn_invalid;
 		for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
-			Data.Settings_Grid[pt(Pos)][C1] = LDE_INVALID;
+			Data.Settings_Grid[pt(Pos)][C1] = ktn_invalid;
 		}
 		for (int C1 = 0; C1 < sizeof(Data.Animation_Grid[pt(Pos)]) / sizeof(Data.Animation_Grid[pt(Pos)][0]); C1++) {
-			Data.Animation_Grid[pt(Pos)][C1] = LDE_INVALID;
+			Data.Animation_Grid[pt(Pos)][C1] = ktn_invalid;
 		}
-		Update_Item(Pos, LDE_INVALID, LDE_ROOMTEMP);
+		Update_Item(Pos, ktn_invalid, ktn_room_temp);
 	} else {
-		if (stricmp(Target->Index, "sub_dock")) {
+		if (ktn_stricmp(Target->Index, "sub_dock")) {
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
 				if (Temporary.Docks.Data[C1].X == Pos.X && Temporary.Docks.Data[C1].Y == Pos.Y) {
 					Pull_Docks(C1);
@@ -366,14 +376,14 @@ void Remove_Machine(Point Pos) {
 
 bool Destroy_Grid() {
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		Rects.Tile_1x1.x = scale_f((Pos.X * LDE_TILESIZE) - Core.Camera.X);
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
-			Rects.Tile_1x1.y = scale_f((Pos.Y * LDE_TILESIZE) - Core.Camera.Y);
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		Rects.Tile_1x1.x = ktn_fscale((Pos.X * ktn_tile_size) - Core.Camera.X);
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
+			Rects.Tile_1x1.y = ktn_fscale((Pos.Y * ktn_tile_size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (Data.Visual_Grid[pt(Pos)] != 0) {
 					Cache.Wire_State = Deep_Recache;
-					if (Data.Visual_Grid[pt(Pos)] == LDE_INVALID) {
+					if (Data.Visual_Grid[pt(Pos)] == ktn_invalid) {
 						Remove_Machine((Point){
 							(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]),
 							(int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
@@ -395,13 +405,13 @@ bool Destroy_Grid() {
 }
 
 void Recast_Machines() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
 			if (!Machine) {
 				continue;
 			}
-			if (stricmp(Machine->Index, "turbine_input")) {
+			if (ktn_stricmp(Machine->Index, "turbine_input")) {
 				Data.Settings_Grid[Column][Row][3] = 0;
 				Data.Settings_Grid[Column][Row][4] = 0;
 				bool Chaining = true;
@@ -413,10 +423,10 @@ void Recast_Machines() {
 						(Chain.Y - 3 >= 0) ? (Chain.Y -= 3) : (Chaining = false);
 						break;
 					case 1:
-						(Chain.X + 3 < LDE_GRIDSIZE) ? (Chain.X += 3) : (Chaining = false);
+						(Chain.X + 3 < ktn_grid_size) ? (Chain.X += 3) : (Chaining = false);
 						break;
 					case 2:
-						(Chain.Y + 3 < LDE_GRIDSIZE) ? (Chain.Y += 3) : (Chaining = false);
+						(Chain.Y + 3 < ktn_grid_size) ? (Chain.Y += 3) : (Chaining = false);
 						break;
 					case 3:
 						(Chain.X - 3 >= 0) ? (Chain.X -= 3) : (Chaining = false);
@@ -428,7 +438,7 @@ void Recast_Machines() {
 					if (!Chaining || !Machine2) {
 						break;
 					}
-					if (stricmp(Machine2->Index, "turbine_impulse")) {
+					if (ktn_stricmp(Machine2->Index, "turbine_impulse")) {
 						if (Rotation == Visual_To_Rotation(Data.Visual_Grid[pt(Chain)])) {
 							Data.Settings_Grid[Column][Row][3]++;
 							Data.Settings_Grid[pt(Chain)][3] = 1;
@@ -437,10 +447,10 @@ void Recast_Machines() {
 						}
 					} else {
 						Point End_Pos = { Chain.X - ((Rotation == 3) ? -1 : 0), Chain.Y - ((Rotation == 0) ? 1 : 0) };
-						if (End_Pos.X < 0 || End_Pos.Y < 0 || End_Pos.X >= LDE_GRIDSIZE || End_Pos.Y >= LDE_GRIDSIZE) {
+						if (End_Pos.X < 0 || End_Pos.Y < 0 || End_Pos.X >= ktn_grid_size || End_Pos.Y >= ktn_grid_size) {
 							Chaining = false;
 						}
-						if (stricmp(Machine2->Index, "turbine_output") &&
+						if (ktn_stricmp(Machine2->Index, "turbine_output") &&
 							Rotation == Visual_To_Rotation(Data.Visual_Grid[pt(End_Pos)])) {
 							Data.Settings_Grid[Column][Row][4] = 1;
 							Data.Settings_Grid[pt(End_Pos)][3] = 1;
@@ -455,11 +465,11 @@ void Recast_Machines() {
 	}
 }
 
-int Get_Simple_Grid_Tile(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], int Neutral) {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+int Get_Simple_Grid_Tile(int Grid[ktn_grid_size][ktn_grid_size], int Neutral) {
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Grid[Column][Row];
 			}
@@ -472,21 +482,21 @@ void Find_Effect() {
 	Interface.Effects[E_Heat] = 0;
 	Interface.Effects[E_Radiation] = 0;
 	Point Pos;
-	for (Pos.X = 0; Pos.X < LDE_GRIDSIZE; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < LDE_GRIDSIZE; Pos.Y++) {
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				continue;
 			}
-			if (Machine->Heating && Pos.X * LDE_TILESIZE > Core.Camera.X && Pos.Y * LDE_TILESIZE > Core.Camera.Y && Pos.X *
-				LDE_TILESIZE < Core.Camera.X + 640.0f && Pos.Y * LDE_TILESIZE < Core.Camera.Y + 360.0f) {
+			if (Machine->Heating && Pos.X * ktn_tile_size > Core.Camera.X && Pos.Y * ktn_tile_size > Core.Camera.Y && Pos.X *
+				ktn_tile_size < Core.Camera.X + 640.0f && Pos.Y * ktn_tile_size < Core.Camera.Y + 360.0f) {
 				Interface.Effects[E_Heat] += 0.1f;
 				return;
 			}
 			if (Machine->Irradiating) {
-				float A = scale_f((Core.Camera.X + 320.0f) - (Pos.X * LDE_TILESIZE));
-				float B = scale_f((Core.Camera.Y + 180.0f) - (Pos.Y * LDE_TILESIZE));
-				float Distance = sqrtf(sqr(A) + sqr(B));
+				float A = ktn_fscale((Core.Camera.X + 320.0f) - (Pos.X * ktn_tile_size));
+				float B = ktn_fscale((Core.Camera.Y + 180.0f) - (Pos.Y * ktn_tile_size));
+				float Distance = sqrtf(ktn_sqr(A) + ktn_sqr(B));
 				Interface.Effects[E_Radiation] += fmaxf(35.0f - (Distance * 0.05f), 0.0f);
 			}
 		}

@@ -55,12 +55,12 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 			Update_Grid();
 			Cache_Blueprint();
 		}
-		if (Interface.Tool == LDE_INVALID) {
+		if (Interface.Tool == ktn_invalid) {
 			Save_Data(Core.Selected_Save);
 			memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
-			Temporary.Tutorial_Step = LDE_INVALID;
+			Temporary.Tutorial_Step = ktn_invalid;
 			Start_Transition(2);
-			Core.Selected_Save = LDE_INVALID;
+			Core.Selected_Save = ktn_invalid;
 			Get_Filesizes();
 			Interface.Item = Get_Machine("heavy_pipe");
 			Cache_Blueprint();

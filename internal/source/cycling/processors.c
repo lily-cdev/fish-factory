@@ -6,8 +6,8 @@ void Cycle_Distillery(Point Pos, const int Rotation) {
 	Return_Nodes(&Inputs, Pos, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), Preconfigs.D_Inputs);
 	Return_Nodes(&Outputs, Pos, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), Preconfigs.D_Outputs);
 	Process_IO_Recipe(Preset_IO_Recipes.D_Water, Pos, Inputs, Outputs);
-	free_c(Inputs.Data);
-	free_c(Outputs.Data);
+	ktn_free(Inputs.Data);
+	ktn_free(Outputs.Data);
 }
 
 void Cycle_Electrolytic_Cell(Point Pos, const int Rotation) {
@@ -23,8 +23,8 @@ void Cycle_Electrolytic_Cell(Point Pos, const int Rotation) {
 	for (int C1 = 0; C1 < 3; C1++) {
 		Process_IO_Recipe(Selected_Recipes[C1], Pos, Inputs, Outputs);
 	}
-	free_c(Inputs.Data);
-	free_c(Outputs.Data);
+	ktn_free(Inputs.Data);
+	ktn_free(Outputs.Data);
 }
 
 void Cycle_Fluid_Mixer(Point Pos, const int Rotation) {
@@ -42,7 +42,7 @@ void Cycle_Fluid_Mixer(Point Pos, const int Rotation) {
 			Data.Animation_Grid[pt(Pos)][0] = 1;
 			break;
 		}
-		free_c(Subinputs.Data);
-		free_c(Suboutputs.Data);
+		ktn_free(Subinputs.Data);
+		ktn_free(Suboutputs.Data);
 	}
 }

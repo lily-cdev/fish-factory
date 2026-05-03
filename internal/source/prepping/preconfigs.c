@@ -2,7 +2,7 @@
 
 void Free_Preconfig(Node Target[4]) {
 	for (int C1 = 0; C1 < 4; C1++) {
-		free_c(Target[C1].Data);
+		ktn_free(Target[C1].Data);
 	}
 }
 
@@ -78,7 +78,7 @@ void Free_Preconfigs() {
 }
 
 void Return_Nodes(Node* Yield, Point Pos, const int Rotation, Node Preconfig[4]) {
-	free_c(Yield->Data);
+	ktn_free(Yield->Data);
 	Yield->Length = Preconfig[Rotation].Length;
 	Yield->Data = malloc(sizeof(Point) * Yield->Length);
 	for (int C1 = 0; C1 < Yield->Length; C1++) {

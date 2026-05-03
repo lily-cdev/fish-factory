@@ -2,7 +2,7 @@
 
 bool Place_Reinforced_Pipe(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 1;
-	Data.Data_Grid[pt(Pos)][Fluid_Cap] = LDE_REINFORCEDCAP;
+	Data.Data_Grid[pt(Pos)][Fluid_Cap] = ktn_reinforced_cap;
 	Data.Settings_Grid[pt(Pos)][0] = F_Either;
 	Data.Plumbing_Grid[pt(Pos)] = Any;
 	return true;
@@ -25,7 +25,7 @@ bool Place_Submarine_Dock(Point Pos) {
 
 bool Place_Large_Pipe(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 71;
-	Data.Data_Grid[pt(Pos)][Fluid_Cap] = LDE_LARGECAP;
+	Data.Data_Grid[pt(Pos)][Fluid_Cap] = ktn_large_cap;
 	Data.Settings_Grid[pt(Pos)][0] = F_Either;
 	Data.Plumbing_Grid[pt(Pos)] = Any;
 	return true;
@@ -48,11 +48,11 @@ bool Place_RL_Intersection(Point Pos) {
 			Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.I_Inputs);
 		}
 		for (int C2 = 0; C2 < 2; C2++) {
-			Data.Data_Grid[pt(Nodes.Data[C2])][Fluid_Cap] = (stricmp(Interface.Item->Index, "heavy_intersection")) ?
-				LDE_REINFORCEDCAP : LDE_LARGECAP;
+			Data.Data_Grid[pt(Nodes.Data[C2])][Fluid_Cap] = (ktn_stricmp(Interface.Item->Index, "heavy_intersection")) ?
+				ktn_reinforced_cap : ktn_large_cap;
 			Data.Settings_Grid[pt(Nodes.Data[C2])][0] = C1 + 1;
 		}
 	}
-	free_c(Nodes.Data);
+	ktn_free(Nodes.Data);
 	return true;
 }

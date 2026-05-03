@@ -57,13 +57,13 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 		Update_Item(Outputs.Data[Rotation], Data.Items_Grid[pt(Inputs.Data[Rotation])], (-263.0f * powf(0.64f, Benchmark +
 			1.0f)) + 328);
 	}
-	free_c(Inputs.Data);
-	free_c(Outputs.Data);
+	ktn_free(Inputs.Data);
+	ktn_free(Outputs.Data);
 }
 
 void Cycle_HX(Point Pos, const int Rotation) {
 	bool Boiling = false;
-	if (Data.Settings_Grid[pt(Interface.Tile)][8] >= LDE_WATERBOILPOINT) {
+	if (Data.Settings_Grid[pt(Interface.Tile)][8] >= ktn_water_boil_pt) {
 		Boiling = true;
 	}
 	Point Outputs[2][4] = {
@@ -72,7 +72,7 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	};
 	for (int C1 = 0; C1 < 2; C1++) {
 		Point Output_Pos = Outputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
-		if ((Data.Items_Grid[pt(Output_Pos)] == LDE_INVALID || (Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[
+		if ((Data.Items_Grid[pt(Output_Pos)] == ktn_invalid || (Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[
 			pt(Output_Pos)] && !Boiling) || (Data.Items_Grid[pt(Output_Pos)] == Preset_Items.Steam.Identifier && Boiling &&
 			C1 == 1)) && Data.Settings_Grid[pt(Pos)][C1 + 5] > 0) {
 			Data.Items_Grid[pt(Output_Pos)] = (Boiling && C1 == 1) ? Preset_Items.Steam.Identifier : Data.Settings_Grid[
@@ -95,14 +95,14 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Point Input_Pos = Inputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
 		if (Check_Category(ID_To_Item(Data.Items_Grid[pt(Input_Pos)]).Identifier, Categories[C1]) && (Data.Settings_Grid[
-			pt(Pos)][C1 + 9] == LDE_INVALID || Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[pt(Input_Pos)])) {
+			pt(Pos)][C1 + 9] == ktn_invalid || Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[pt(Input_Pos)])) {
 			Data.Settings_Grid[pt(Pos)][C1 + 9] = Data.Items_Grid[pt(Input_Pos)];
 			int Volume = Data.Settings_Grid[pt(Pos)][C1 + 5], Intake = 0;
-			if (Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > 0 && Volume < LDE_HXCAPACITY) {
-				if (Volume + Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > LDE_HXCAPACITY) {
-					Intake = LDE_HXCAPACITY - Volume;
+			if (Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > 0 && Volume < ktn_hx_cap) {
+				if (Volume + Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > ktn_hx_cap) {
+					Intake = ktn_hx_cap - Volume;
 					Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] -= Intake;
-					Data.Settings_Grid[pt(Pos)][C1 + 5] = LDE_HXCAPACITY;
+					Data.Settings_Grid[pt(Pos)][C1 + 5] = ktn_hx_cap;
 				} else {
 					Intake = Data.Data_Grid[pt(Input_Pos)][Stored_Fluids];
 					Data.Settings_Grid[pt(Pos)][C1 + 5] += Intake;
@@ -118,7 +118,7 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	float Temp_Equil = ((Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][8]) + (Data.Settings_Grid[pt(Pos)][5] *
 		Data.Settings_Grid[pt(Pos)][7])) / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5]);
 	float Difference = Data.Settings_Grid[pt(Pos)][7] - Data.Settings_Grid[pt(Pos)][8];
-	float Remaining = powf(M_E, (-1 * ((LDE_HXEFFICIENCY * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) / (
+	float Remaining = powf(M_E, (-1 * ((ktn_hx_efficiency * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) / (
 		4.186 * Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][5]))));
 	float FW_Yield = Temp_Equil - (((Data.Settings_Grid[pt(Pos)][5] / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[
 		pt(Pos)][5])) * Difference) * Remaining);
@@ -131,7 +131,7 @@ void Cycle_HX(Point Pos, const int Rotation) {
 }
 
 void Cycle_Turbine_Input(Point Pos, const int Rotation) {
-	if (Data.Settings_Grid[pt(Pos)][5] == LDE_INVALID || Data.Settings_Grid[pt(Pos)][6] == LDE_INVALID) {
+	if (Data.Settings_Grid[pt(Pos)][5] == ktn_invalid || Data.Settings_Grid[pt(Pos)][6] == ktn_invalid) {
 		return;
 	}
 	Data.Settings_Grid[pt(Pos)][7] = 0;
@@ -141,7 +141,7 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 	Return_Nodes(&Nodes, (Point){ Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] }, Visual_To_Rotation(
 		Data.Visual_Grid[(int)(Data.Settings_Grid[pt(Pos)][5])][(int)(Data.Settings_Grid[pt(Pos)][6])]), Preconfigs.STO_Outputs);
 	Point Output = Nodes.Data[0];
-	free_c(Nodes.Data);
+	ktn_free(Nodes.Data);
 	if (Data.Settings_Grid[pt(Pos)][3] > 0 && Data.Settings_Grid[pt(Pos)][4] == 1 && Data.Items_Grid[pt(Input)] ==
 		Preset_Items.Steam.Identifier && Data.Items_Grid[pt(Output)] == Preset_Items.Steam.Identifier) {
 		float Transferred = Data.Data_Grid[pt(Output)][Fluid_Cap] - Data.Data_Grid[pt(Output)][Stored_Fluids];
@@ -149,8 +149,8 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 		if (Transferred > 0) {
 			Data.Data_Grid[pt(Input)][Stored_Fluids] -= Transferred;
 			Data.Data_Grid[pt(Output)][Stored_Fluids] += Transferred;
-			float Generated = Transferred * LDE_TURBINECOEFFICIENT * logf(sqr((float)Data.Temperature_Grid[pt(Input)])) * logf(
-				Data.Settings_Grid[pt(Pos)][3] * 1.5f);
+			float Generated = Transferred * ktn_turbine_coefficient * logf(ktn_sqr((float)Data.Temperature_Grid[pt(Input)])) *
+				logf(Data.Settings_Grid[pt(Pos)][3] * 1.5f);
 			Update_Item(Output, Preset_Items.Steam.Identifier, (Data.Temperature_Grid[pt(Input)] * 0.1f) + 32);
 			if (Data.Temperature_Grid[pt(Input)] < 200) {
 				Generated = 0;

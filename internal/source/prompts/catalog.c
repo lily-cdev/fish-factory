@@ -5,18 +5,19 @@ void Render_Catalog(Point Pos) {
 	Render_Box((Point){ 10, 10 }, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	Render_Texture(Textures.Recipe_Content, &Rects.Recipe_Content);
 	//render custom box with outside bound
-	if (Interface.Subprompt_Identifier == LDE_INVALID) {
+	if (Interface.Subprompt_Identifier == ktn_invalid) {
 		Index = 0;
 		for (int C1 = 0; C1 < Core.Machines; C1++) {
-			if (reclen(Recipes[R_Inputs][C1]) == 0 && reclen(Recipes[R_Outputs][C1]) == 0 && reclen(Recipes[R_Both][C1]) == 0) {
+			if (ktn_reclen(Recipes[R_Inputs][C1]) == 0 && ktn_reclen(Recipes[R_Outputs][C1]) == 0 && ktn_reclen(Recipes[R_Both][
+				C1]) == 0) {
 				continue;
 			}
 			float Base_Subwidth = Settings.Scalar * 44.0f;
 			float Base_Padding = Settings.Scalar * 7.0f;
 			float Base_Subpadding = Settings.Scalar * 2.0f;
 			SDL_FRect Outer_Rectangle = {
-				scale_f(((Index % 10) * 58.0f) + 30.0f) + Base_Padding,
-				scale_f((floorf(Index * 0.1f) * 58.0f) + 60.0f) + Base_Padding,
+				ktn_fscale(((Index % 10) * 58.0f) + 30.0f) + Base_Padding,
+				ktn_fscale((floorf(Index * 0.1f) * 58.0f) + 60.0f) + Base_Padding,
 				Base_Subwidth,
 				Base_Subwidth
 			};
@@ -60,19 +61,19 @@ void Render_Catalog(Point Pos) {
 		int Index = Interface.Subprompt_Identifier;
 		char Candidate[256];
 		int Number = 1;
-		for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
-			for (int C2 = 0; C2 < reclen(Recipes[C1][Index]); C2++, Number++) {
+		for (int C1 = 0; C1 < ktn_recipe_types; C1++) {
+			for (int C2 = 0; C2 < ktn_reclen(Recipes[C1][Index]); C2++, Number++) {
 				strncpy(Candidate, "Recipe No. ", sizeof(Candidate));
 				if (Number < 10) {
-					charcat(Candidate, '0', sizeof(Candidate));
+					ktn_charcat(Candidate, '0', sizeof(Candidate));
 				}
 				char Buffer[128];
 				char Subbuffer[64];
 				Abbreviate_Number(Recipes[C1][Index][C2].Power, Subbuffer, sizeof(Subbuffer));
 				snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, Recipes[C1][Index][C2].Time);
-				strcat_c(Candidate, Buffer, sizeof(Candidate));
+				strcat(Candidate, Buffer);
 				if (Recipes[C1][Index][C2].Voiding_Excess) {
-					strcat_c(Candidate, ", cannot overflow", sizeof(Candidate));
+					strcat(Candidate, ", cannot overflow");
 				}
 				Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 16, Offset });
 				Offset += 20;
@@ -83,7 +84,7 @@ void Render_Catalog(Point Pos) {
 					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Input_Items[
 						C3].Display_Name);
 					if (C3 < Recipes[C1][Index][C2].Inputs - 1) {
-						strcat_c(Candidate, ", ", sizeof(Candidate));
+						strcat(Candidate, ", ");
 					}
 				}
 				Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
@@ -95,7 +96,7 @@ void Render_Catalog(Point Pos) {
 					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Output_Items[
 						C3].Display_Name);
 					if (C3 < Recipes[C1][Index][C2].Outputs - 1) {
-						strcat_c(Candidate, ", ", sizeof(Candidate));
+						strcat(Candidate, ", ");
 					}
 				}
 				Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });

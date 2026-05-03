@@ -2,7 +2,7 @@
 
 AUDIO Audio = { };
 
-char* Paths[LDE_AUDIOCOUNT] = {
+char* Paths[ktn_audio_ct] = {
 	"Ambient/Background",
 	"Machines/Filtration_Loop",
 	"Machines/Ram_Loop",
@@ -14,7 +14,7 @@ void Startup_Miniaudio() {
 	if (Yield != MA_SUCCESS) {
 		char Carrier[512];
 		snprintf(Carrier, sizeof(Carrier), "could not load Miniaudio; %s", ma_result_description(Yield));
-		jump(I_No_Miniaudio, Carrier);
+		ktn_jump(I_No_Miniaudio, Carrier);
 	}
 }
 
@@ -23,14 +23,14 @@ void Shutdown_Miniaudio() {
 }
 
 void Load_Sounds() {
-	for (int C1 = 0; C1 < LDE_AUDIOCOUNT; C1++) {
+	for (int C1 = 0; C1 < ktn_audio_ct; C1++) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Paths[C1]);
 		ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &(Audio.Data[C1].Data));
 		if (Yield != MA_SUCCESS) {
 			char Carrier[512];
 			snprintf(Carrier, sizeof(Carrier), "could not load a sound; %s", ma_result_description(Yield));
-			jump(I_No_Sound, Carrier);
+			ktn_jump(I_No_Sound, Carrier);
 		}
 		Audio.Data[C1].Volume = 0.5f;
 		Audio.Data[C1].Allocated = true;
@@ -54,13 +54,13 @@ void Terminate_Sound(Sound Target) {
 }
 
 void Adjust_Sound(float Volume) {
-	for (int C1 = 0; C1 < LDE_AUDIOCOUNT; C1++) {
+	for (int C1 = 0; C1 < ktn_audio_ct; C1++) {
 		Audio.Data[C1].Volume = Volume;
 	}
 }
 
 void Free_Sounds() {
-	for (int C1 = 0; C1 < LDE_AUDIOCOUNT; C1++) {
+	for (int C1 = 0; C1 < ktn_audio_ct; C1++) {
 		if (Audio.Data[C1].Allocated) {
 			ma_sound_uninit(&(Audio.Data[C1].Data));
 			Audio.Data[C1].Allocated = false;

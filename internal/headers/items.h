@@ -65,7 +65,7 @@ typedef struct {
 	Item_Stack Sodium_Hydroxide;
 	Item_Stack Hydrogen_Chloride;
 	Item_Stack Hydrochloric_Acid;
-	Item_Stack Item_List[LDE_ITEMS];
+	Item_Stack Item_List[ktn_items];
 } PRESET_ITEMS;
 
 typedef struct {
@@ -110,11 +110,11 @@ extern PRESET_IO_RECIPES Preset_IO_Recipes;
 extern PRESET_I_RECIPES Preset_I_Recipes;
 extern PRESET_O_RECIPES Preset_O_Recipes;
 extern PRESET_FISH Preset_Fish;
-extern Fish Fish_Catalog[LDE_FISH];
-extern char Growth_Phases[LDE_FISHPHASES][32];
-extern char Plural_Growth_Phases[LDE_FISHPHASES][32];
-extern int Growth_Weights[LDE_FISHPHASES];
-extern Recipe** Recipes[LDE_RECIPETYPES];
+extern Fish Fish_Catalog[ktn_fish];
+extern char Growth_Phases[ktn_fish_phases][32];
+extern char Plural_Growth_Phases[ktn_fish_phases][32];
+extern int Growth_Weights[ktn_fish_phases];
+extern Recipe** Recipes[ktn_recipe_types];
 
 void Prep_Items();
 void Free_Items();

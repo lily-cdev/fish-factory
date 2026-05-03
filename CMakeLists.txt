@@ -90,7 +90,6 @@ add_executable(Fish_Factory
 	internal/source/items/recipes.c
 	internal/source/items/setup.c
 	internal/precompiled/images.c
-	internal/precompiled/tools.c
 	external/miniaudio/miniaudio.c
 	modules/resource.rc
 )

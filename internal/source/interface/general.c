@@ -2,7 +2,7 @@
 
 void Close_Prompt() {
 	Interface.Prompt_Identifier = P_None;
-	Interface.Subprompt_Identifier = LDE_INVALID;
+	Interface.Subprompt_Identifier = ktn_invalid;
 }
 
 void Update_Cursor() {
@@ -35,7 +35,7 @@ void Process_Inputs() {
 				Process_Tutorial(Application_Event.key.key);
 				if (Interface.Prompt_Identifier == P_None) {
 					switch (Interface.UI_Tab) {
-					case LDE_INVALID:
+					case ktn_invalid:
 						break;
 					case 0:
 						for (int C1 = T_Building; C1 <= T_Plumbing; C1++) {
@@ -81,9 +81,9 @@ void Process_Inputs() {
 						}
 						break;
 					case 3:
-						if (Interface.Registering_Keybind != LDE_INVALID) {
+						if (Interface.Registering_Keybind != ktn_invalid) {
 							Keybinds.Keybind_Settings[Interface.Registering_Keybind] = Application_Event.key.key;
-							Interface.Registering_Keybind = LDE_INVALID;
+							Interface.Registering_Keybind = ktn_invalid;
 						}
 						break;
 					default:
@@ -110,11 +110,11 @@ void Process_Inputs() {
 			if (Interface.UI_Tab == 0 && !Interface.Locked) {
 				if (Application_Event.key.key == Keybinds.Keybind_List[0] || Application_Event.key.key ==
 					Keybinds.Keybind_List[1]) {
-					Interface.UD_Input = LDE_INVALID;
+					Interface.UD_Input = ktn_invalid;
 				}
 				if (Application_Event.key.key == Keybinds.Keybind_List[2] || Application_Event.key.key ==
 					Keybinds.Keybind_List[3]) {
-					Interface.LR_Input = LDE_INVALID;
+					Interface.LR_Input = ktn_invalid;
 				}
 				if (Application_Event.key.key == Keybinds.Keybind_List[12] && Interface.Sprinting) {
 					Interface.Sprinting = false;
@@ -212,14 +212,14 @@ void Process_Inputs() {
 					}		
 				} else if (Application_Event.button.button == SDL_BUTTON_RIGHT) {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
-						Point Coordinates = { LDE_INVALID, LDE_INVALID };
-						for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-							Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-							for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-								Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+						Point Coordinates = { ktn_invalid, ktn_invalid };
+						for (int Column = 0; Column < ktn_grid_size; Column++) {
+							Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+							for (int Row = 0; Row < ktn_grid_size; Row++) {
+								Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 									if (Data.Visual_Grid[Column][Row] != 0) {
-										if (Data.Visual_Grid[Column][Row] == LDE_INVALID) {
+										if (Data.Visual_Grid[Column][Row] == ktn_invalid) {
 											Coordinates = (Point){
 												(int)(Data.Settings_Grid[Column][Row][S_ParentX]),
 												(int)(Data.Settings_Grid[Column][Row][S_ParentY])
@@ -231,7 +231,7 @@ void Process_Inputs() {
 								}
 							}
 						}
-						if (Coordinates.X != LDE_INVALID) {
+						if (Coordinates.X != ktn_invalid) {
 							Interface.Item = Visual_To_Machine(Data.Visual_Grid[pt(Coordinates)]);
 							Cache_Price();
 							Cache_Blueprint();

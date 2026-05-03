@@ -1,19 +1,19 @@
 #include <items.h>
 
-Recipe** Recipes[LDE_RECIPETYPES];
+Recipe** Recipes[ktn_recipe_types];
 
 void Prep_Items() {
     Fish_Catalog[0] = Preset_Fish.Milkfish;
     Fish_Catalog[1] = Preset_Fish.Mojarra;
     Fish_Catalog[2] = Preset_Fish.Menhaden;
-    Item_Stack Item_Carrier[LDE_ITEMS] = {
+    Item_Stack Item_Carrier[ktn_items] = {
         Preset_Items.Raw_Saltwater, Preset_Items.Saltwater, Preset_Items.Marine_Snow, Preset_Items.Waste,Preset_Items.Steam,
 		Preset_Items.Desalinated_Water, Preset_Items.Salt, Preset_Items.Raw_Algae, Preset_Items.Biopaste,
 		Preset_Items.Milkfish, Preset_Items.Mojarra, Preset_Items.Menhaden, Preset_Items.Drill_Mud, Preset_Items.J1,
         Preset_Items.J2, Preset_Items.Hydrogen, Preset_Items.Oxygen, Preset_Items.Chlorine, Preset_Items.Sodium_Hydroxide,
 		Preset_Items.Hydrogen_Chloride, Preset_Items.Hydrochloric_Acid
 	};
-    memcpy_c(Preset_Items.Item_List, Item_Carrier, sizeof(Preset_Items.Item_List)); 
+    ktn_memcpy(Preset_Items.Item_List, Item_Carrier, sizeof(Preset_Items.Item_List)); 
 	Preset_O_Recipes.RP_Saltwater = (Recipe){ false, false, 1, 4, { }, { }, 0, { Preset_Items.Raw_Saltwater }, { 0.5 }, 1, 1 };
 	Preset_O_Recipes.GB_Algae = (Recipe){ false, false, 10, 15, { }, { }, 0, { Preset_Items.Raw_Algae,
 		Preset_Items.Raw_Algae }, { 2.5, 2.5 }, 2, 1 };
@@ -67,32 +67,32 @@ void Prep_Items() {
 		},
 		.Length = 6
 	};
-	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+	for (int C1 = 0; C1 < ktn_recipe_types; C1++) {
 		Recipes[C1] = calloc(Core.Machines, sizeof(Recipe*));
 		for (int C2 = 0; C2 < Core.Machines; C2++) {
 			int Cap = 0;
 			Machine_Ptr Chosen = &Metadata.Machines[C2];
-			if (C1 == R_Outputs && stricmp(Chosen->Index, "ram_pump")) {
+			if (C1 == R_Outputs && ktn_stricmp(Chosen->Index, "ram_pump")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
 				Recipes[C1][C2][0] = Preset_O_Recipes.RP_Saltwater;
 				Cap = 1;
-			} else if (C1 == R_Both && stricmp(Chosen->Index, "filtration_plant")) {
+			} else if (C1 == R_Both && ktn_stricmp(Chosen->Index, "filtration_plant")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 3);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.FP_Saltwater;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.FP_Biopaste;
 				Cap = 2;
-			} else if (C1 == R_Both && stricmp(Chosen->Index, "fluid_mixer")) {
+			} else if (C1 == R_Both && ktn_stricmp(Chosen->Index, "fluid_mixer")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 5);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.FM_Drillmud_1;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.FM_Drillmud_2;
 				Recipes[C1][C2][2] = Preset_IO_Recipes.FM_Hydrogen_Chloride;
 				Recipes[C1][C2][3] = Preset_IO_Recipes.FM_Hydrochloric_Acid;
 				Cap = 4;
-			} else if (C1 == R_Both && stricmp(Chosen->Index, "distillery")) {
+			} else if (C1 == R_Both && ktn_stricmp(Chosen->Index, "distillery")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 2);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.D_Water;
 				Cap = 1;
-			} else if (C1 == R_Both && stricmp(Chosen->Index, "electro_cell")) {
+			} else if (C1 == R_Both && ktn_stricmp(Chosen->Index, "electro_cell")) {
 				Recipes[C1][C2] = malloc(sizeof(Recipe) * 4);
 				Recipes[C1][C2][0] = Preset_IO_Recipes.EP_Water;
 				Recipes[C1][C2][1] = Preset_IO_Recipes.EP_Saltwater;
@@ -101,16 +101,16 @@ void Prep_Items() {
 			} else {
 				Recipes[C1][C2] = malloc(sizeof(Recipe));
 			}
-			Recipes[C1][C2][Cap] = NULLRECIPE;
+			Recipes[C1][C2][Cap] = ktn_null_recipe;
 		}
 	}
 }
 
 void Free_Items() {
-	for (int C1 = 0; C1 < LDE_RECIPETYPES; C1++) {
+	for (int C1 = 0; C1 < ktn_recipe_types; C1++) {
 		for (int C2 = 0; C2 < Core.Machines; C2++) {
-			free_c(Recipes[C1][C2]);
+			ktn_free(Recipes[C1][C2]);
 		}
-		free_c(Recipes[C1]);
+		ktn_free(Recipes[C1]);
 	}
 }

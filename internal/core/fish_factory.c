@@ -35,19 +35,19 @@ int main(int argc, char* args[]) {
 		exit(Exception_Value);
 	}
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
-		jump(I_No_SDL3, "could not load SDL3");
+		ktn_jump(I_No_SDL3, "could not load SDL3");
 	}
 	if (!TTF_Init()) {
-		jump(I_No_SDL3_TTF, "could not load SDL3_ttf");
+		ktn_jump(I_No_SDL3_TTF, "could not load SDL3_ttf");
 	}
 	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
 	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY, &Core.Window, &Core.Renderer);
 	if (Core.Window == NULL) {
-		jump(I_No_Window, "window creation failed");
+		ktn_jump(I_No_Window, "window creation failed");
 	}
 	if (Core.Renderer == NULL) {
-		jump(I_No_Renderer, "renderer creation failed");
+		ktn_jump(I_No_Renderer, "renderer creation failed");
 	}
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
@@ -62,7 +62,7 @@ int main(int argc, char* args[]) {
 		SDL_RenderClear(Core.Renderer);
 		Clear_Renderer();
 		SDL_GetMouseState(&Core.Mouse.X, &Core.Mouse.Y);
-		if (Interface.UI_Tab >= LDE_INVALID && Interface.UI_Tab <= 5) {
+		if (Interface.UI_Tab >= ktn_invalid && Interface.UI_Tab <= 5) {
 			Menu_Functions[Interface.UI_Tab + 1]();
 		}
 		if (Interface.UI_Tab >= 1 && Interface.UI_Tab <= 5) {
@@ -84,16 +84,16 @@ int main(int argc, char* args[]) {
 						Update_Power();
 						Update_Pipes();
 						Purge_Items();
-						Process_Tutorial(LDE_INVALID);
+						Process_Tutorial(ktn_invalid);
 					}
 				} else if (Interface.Prompt_Identifier != P_Daily_Report) {
 					Interface.Prompt_Identifier = P_Daily_Report;
-					Interface.Tool = LDE_INVALID;
+					Interface.Tool = ktn_invalid;
 				}
 			} else {
 				Render_Texture(Textures.CMD_Warning1, &Rects.CMD_Warning1);
 			}
-			if (!Interface.Locked && Interface.Prompt_Identifier == P_None && Interface.Tool == LDE_INVALID) {
+			if (!Interface.Locked && Interface.Prompt_Identifier == P_None && Interface.Tool == ktn_invalid) {
 				Render_Tile_Prompts();
 			}
 			Process_Movement();
@@ -133,7 +133,7 @@ int main(int argc, char* args[]) {
 	}
 	Wipe_Grid();
 	Free_Preconfigs();
-	free_c(Temporary.Docks.Data);
+	ktn_free(Temporary.Docks.Data);
 	Free_Supplies();
 	SDL_ShowCursor();
 	Cleanup_Assets();

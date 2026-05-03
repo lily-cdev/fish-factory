@@ -25,7 +25,7 @@ void Set_Renderer_Color(const SDL_Color Color) {
 
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 	Set_Renderer_Color(Color);
-	for (int C1 = 0; C1 < scale(LDE_BORDERWIDTH * Multiplier); C1++) {
+	for (int C1 = 0; C1 < ktn_scale(ktn_border_width * Multiplier); C1++) {
 		SDL_RenderRect(Core.Renderer, &Rectangle);
 		Rectangle.x++;
 		Rectangle.y++;
@@ -36,18 +36,22 @@ void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier) {
 }
 
 void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color) {
-	SDL_FRect External_Rectangle = { scale_f(Pos.X - 4), scale_f(Pos.Y - 4), scale_f(W + 8), scale_f(H + 8) };
+	SDL_FRect External_Rectangle = { ktn_fscale(Pos.X - 4), ktn_fscale(Pos.Y - 4), ktn_fscale(W + 8), ktn_fscale(H + 8) };
 	Set_Renderer_Color(Outer_Color);
 	SDL_RenderFillRect(Core.Renderer, &External_Rectangle);
-	SDL_FRect Internal_Rectangle = { scale_f(Pos.X), scale_f(Pos.Y), scale_f(W), scale_f(H) };
+	SDL_FRect Internal_Rectangle = { ktn_fscale(Pos.X), ktn_fscale(Pos.Y), ktn_fscale(W), ktn_fscale(H) };
 	Set_Renderer_Color(Inner_Color);
 	SDL_RenderFillRect(Core.Renderer, &Internal_Rectangle);
 	Clear_Renderer();
 }
 
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
-	SDL_FRect Yield = { Source.x - scale_f(Pos.X), Source.y - scale_f(Pos.Y), Source.w + scale_f(Pos.X * 2.0f), Source.h +
-		scale_f(Pos.Y * 2.0f) };
+	SDL_FRect Yield = {
+		Source.x - ktn_fscale(Pos.X),
+		Source.y - ktn_fscale(Pos.Y),
+		Source.w + ktn_fscale(Pos.X * 2.0f),
+		Source.h + ktn_fscale(Pos.Y * 2.0f)
+	};
 	return Yield;
 }
 
@@ -55,21 +59,21 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 	if (!Cache.Blueprint_Cache) {
 		return;
 	}
-	SDL_FRect Hitbox = { 0.0f, 0.0f, scale_f(Size_X * LDE_TILESIZE), scale_f(Size_Y * LDE_TILESIZE) };
-	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, scale_f(LDE_TILESIZE), scale_f(LDE_TILESIZE) };
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Hitbox.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		Invisible_Hitbox.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
-			Invisible_Hitbox.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+	SDL_FRect Hitbox = { 0.0f, 0.0f, ktn_fscale(Size_X * ktn_tile_size), ktn_fscale(Size_Y * ktn_tile_size) };
+	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, ktn_fscale(ktn_tile_size), ktn_fscale(ktn_tile_size) };
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Hitbox.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Invisible_Hitbox.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Hitbox.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Invisible_Hitbox.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Invisible_Hitbox)) {
 				continue;
 			}
-			if ((Hitbox.x + Hitbox.w <= scale_f((LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.X) && Hitbox.y + Hitbox.h <= scale_f((
-					LDE_GRIDSIZE * LDE_TILESIZE) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
+			if ((Hitbox.x + Hitbox.w <= ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.X) && Hitbox.y + Hitbox.h <=
+				ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && stricmp(Interface.Item->Index, "sub_dock"))) {
+				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && ktn_stricmp(Interface.Item->Index, "sub_dock"))) {
 					Placeable = false;
 				}
 				if (Placeable) {
@@ -91,7 +95,7 @@ void Render_Game_UI() {
 	SDL_FRect Rectangles[4] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Exit };
 	SDL_Texture* Bars[4] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton,
 		Textures.Exit_Sidebutton };
-	if (Interface.Tool == T_None && Interface.Prompt_Identifier == LDE_INVALID) {
+	if (Interface.Tool == T_None && Interface.Prompt_Identifier == ktn_invalid) {
 		for (int C1 = 0; C1 < 4; C1++) {
 			if (Detect_Mouse_Collision(Rectangles[C1])) {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
@@ -125,21 +129,21 @@ void Render_Game_UI() {
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
 	Process_Supply(&Supplies.Time, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 50 });
 	if (Interface.Tool == T_Inspecting) {
-		float Content_Vector[7] = { 0, 0, 0, 0, LDE_INVALID, 0, 0 };
+		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
 		bool Satiated = false;
-		for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-			Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-			for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-				Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+		for (int Column = 0; Column < ktn_grid_size; Column++) {
+			Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+			for (int Row = 0; Row < ktn_grid_size; Row++) {
+				Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-					memcpy_c(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
+					ktn_memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
 					Satiated = true;
 					break;
 				}
 			}
 		}
 		Item_Stack Returned_Item = Get_Item_Stack_Data();
-		if (Returned_Item.Identifier != LDE_INVALID && Satiated) {
+		if (Returned_Item.Identifier != ktn_invalid && Satiated) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "Item: %s", Returned_Item.Display_Name);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
@@ -152,7 +156,7 @@ void Render_Game_UI() {
 			float Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
 				Returned_Item.Vaporisation_Enthalpy);
 			int Multiplier = 1;
-			if (Pressure == LDE_INVALID) {
+			if (Pressure == ktn_invalid) {
 				strncpy(Data_Fragments[Index], "gas", sizeof(Data_Fragments[Index]));
 				Index++;
 				Multiplier = 10;
@@ -204,9 +208,9 @@ void Render_Game_UI() {
 			strncpy(Data_Fragments[Index], "No data", sizeof(Data_Fragments[Index]));
 			Index++;
 		}
-		strncpy(Data_Fragments[Index], NULLSTRING, sizeof(Data_Fragments[Index]));
+		strncpy(Data_Fragments[Index], ktn_null_string, sizeof(Data_Fragments[Index]));
 		Index++;
-		int Fragment_Size = veclen(Data_Fragments), Max_Width = 0;
+		int Fragment_Size = ktn_veclen(Data_Fragments), Max_Width = 0;
 		SDL_Texture* Fragment_Textures[16];
 		SDL_FRect Fragment_Rectangles[16];
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
@@ -214,8 +218,8 @@ void Render_Game_UI() {
 			Max_Width = max(Max_Width, Fragment_Texture->w);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
-				scale_f(630.0f) - Fragment_Texture->w,
-				scale_f((C1 * 20.0f) + 10.0f),
+				ktn_fscale(630.0f) - Fragment_Texture->w,
+				ktn_fscale((C1 * 20.0f) + 10.0f),
 				(float)Fragment_Texture->w,
 				(float)Fragment_Texture->h
 			};
@@ -240,21 +244,21 @@ void Render_Game_UI() {
 		Clear_Renderer();
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
 			Render_Texture(Fragment_Textures[C1], &Fragment_Rectangles[C1]);
-			free_texture(Fragment_Textures[C1]);
+			ktn_free_texture(Fragment_Textures[C1]);
 		}
 	}
 	if (Interface.Save_Frames > 0) {
 		SDL_Color Fading_Color = Colors.Cherry_Blossom;
 		Fading_Color.a = (uint8_t)(ceilf((Interface.Save_Frames / (Interface.Frame_Rate * 2.0f)) * 255.0f));
 		char Buffer[16] = "Data saved!";
-		Process_Supply(&Supplies.Save_Text, Buffer, F_Subtext, Fading_Color, (Point){ LDE_INVALID, 300 });
+		Process_Supply(&Supplies.Save_Text, Buffer, F_Subtext, Fading_Color, (Point){ ktn_invalid, 300 });
 		Interface.Save_Frames--;
 	}
 }
 
 void Render_Saveloader() {
 	Render_Texture(Textures.Saveloader, &Rects.Saveloader);
-	for (int C1 = 0; C1 < LDE_SAVEFILES; C1++) {
+	for (int C1 = 0; C1 < ktn_savefiles; C1++) {
 		if (Core.Save_Filesizes[C1] > 0) {
 			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], (UI_Link){ Load_Save, .Param.Integer = C1 },
 				Colors.Cherry_Blossom);
@@ -265,7 +269,7 @@ void Render_Saveloader() {
 				Colors.Cherry_Blossom);
 		}
 	}
-	for (int C1 = 0; C1 < LDE_SAVEFILES; C1++) {
+	for (int C1 = 0; C1 < ktn_savefiles; C1++) {
 		char Buffer[64];
 		char Subbuffer[64];
 		Abbreviate_Number(Core.Save_Filesizes[C1], Subbuffer, sizeof(Subbuffer));
@@ -275,7 +279,7 @@ void Render_Saveloader() {
 }
 
 void Render_Prompts() {
-	if (Interface.Prompt_Identifier != LDE_INVALID) {
+	if (Interface.Prompt_Identifier != ktn_invalid) {
 		Interface_Functions[Interface.Prompt_Identifier](Interface.Tile);
 	}
 }
@@ -287,11 +291,11 @@ void Drain_Query() {
 		} else if (Cache.ID_Query[C1] == 1) {
 			float Length = sqrtf(powf(Cache.Query[C1].x - Cache.Query[C1].w, 2) + powf(Cache.Query[C1].y - Cache.Query[C1].h, 2));
 			float Rotation = atan2f(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
-			SDL_FPoint Centerpoint = { scale_f(5.0f), scale_f(5.0f) };
-			for (int C2 = 0; C2 < floorf(Length / scale_f(10.0f)); C2++) {
-				SDL_FRect Tilebox = { 0.0f, 0.0f, scale_f(10.0f), scale_f(10.0f) };
-				Tilebox.x = (float)(Cache.Query[C1].x - (scale_f(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - scale_f(5.0f));
-				Tilebox.y = (float)(Cache.Query[C1].y - (scale_f(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - scale_f(5.0f));
+			SDL_FPoint Centerpoint = { ktn_fscale(5.0f), ktn_fscale(5.0f) };
+			for (int C2 = 0; C2 < floorf(Length / ktn_fscale(10.0f)); C2++) {
+				SDL_FRect Tilebox = { 0.0f, 0.0f, ktn_fscale(10.0f), ktn_fscale(10.0f) };
+				Tilebox.x = (float)(Cache.Query[C1].x - (ktn_fscale(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - ktn_fscale(5.0f));
+				Tilebox.y = (float)(Cache.Query[C1].y - (ktn_fscale(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - ktn_fscale(5.0f));
 				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
 					SDL_FLIP_NONE);
 			}

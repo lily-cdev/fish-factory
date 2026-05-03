@@ -3,17 +3,17 @@
 
 void Free_String2(String2* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
-		free_c((*Target).Data[C1]);
+		ktn_free((*Target).Data[C1]);
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Texture_Array(Texture_Array* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
-		free_texture((*Target).Data[C1]);
+		ktn_free_texture((*Target).Data[C1]);
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
@@ -21,7 +21,7 @@ void Clear_Texture2_Array(Texture2_Array* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
 		Clear_Texture_Array(&((*Target).Data[C1]));
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
@@ -29,15 +29,15 @@ void Clear_Texture3_Array(Texture3_Array* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
 		Clear_Texture2_Array(&((*Target).Data[C1]));
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
 void Clear_Rect2_Array(Rect2_Array* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
-		free_c((*Target).Data[C1].Data);
+		ktn_free((*Target).Data[C1].Data);
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
@@ -45,7 +45,7 @@ void Clear_Rect3_Array(Rect3_Array* Target) {
 	for (int C1 = 0; C1 < (*Target).Length; C1++) {
 		Clear_Rect2_Array(&((*Target).Data[C1]));
 	}
-	free_c((*Target).Data);
+	ktn_free((*Target).Data);
 	(*Target).Length = 0;
 }
 
@@ -57,14 +57,14 @@ void Clear_File(const char* Path) {
 }
 
 void Cleanup_Assets() {
-	free_texture(Core.Game_Texture);
-	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
+	ktn_free_texture(Core.Game_Texture);
+	for (int C1 = 0; C1 < ktn_fonts; C1++) {
 		TTF_CloseFont(Fonts.Faces[C1]);
 	}
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		switch (Metadata.Machines[C1].Depth) {
 		case 1:
-			free_texture(Metadata.Machines[C1].Texture1);
+			ktn_free_texture(Metadata.Machines[C1].Texture1);
 			break;
 		case 2:
 			Clear_Texture_Array(&Metadata.Machines[C1].Texture2);
@@ -73,26 +73,26 @@ void Cleanup_Assets() {
 			Clear_Texture2_Array(&Metadata.Machines[C1].Texture3);
 			break;
 		}
-		free_c(Metadata.Machines[C1].Inputs);
-		free_c(Metadata.Machines[C1].Outputs);
-		free_c(Metadata.Machines[C1].Neutrals);
-		free_c(Metadata.Machines[C1].Name);
-		free_c(Metadata.Machines[C1].Desc);
-		free_c(Metadata.Machines[C1].Path);
+		ktn_free(Metadata.Machines[C1].Inputs);
+		ktn_free(Metadata.Machines[C1].Outputs);
+		ktn_free(Metadata.Machines[C1].Neutrals);
+		ktn_free(Metadata.Machines[C1].Name);
+		ktn_free(Metadata.Machines[C1].Desc);
+		ktn_free(Metadata.Machines[C1].Path);
 	}
-	free_c(Cache.FPS_Cache);
-	free_texture(Textures.Logo1);
-	free_texture(Textures.Logo2);
-	free_texture(Textures.CMD_Warning1);
-	free_texture(Textures.CMD_Warning2);
-	free_texture(Textures.Terminal_Prompt);
-	free_texture(Textures.Price_Header);
-	free_texture(Textures.CMD_Warning1);
-	free_texture(Textures.CMD_Warning2);
+	ktn_free(Cache.FPS_Cache);
+	ktn_free_texture(Textures.Logo1);
+	ktn_free_texture(Textures.Logo2);
+	ktn_free_texture(Textures.CMD_Warning1);
+	ktn_free_texture(Textures.CMD_Warning2);
+	ktn_free_texture(Textures.Terminal_Prompt);
+	ktn_free_texture(Textures.Price_Header);
+	ktn_free_texture(Textures.CMD_Warning1);
+	ktn_free_texture(Textures.CMD_Warning2);
 	Clear_Texture_Array(&Textures.Tool);
 	Clear_Texture_Array(&Textures.Help_Content);
 	Clear_Texture_Array(&Textures.Door);
-	free_texture(Textures.Recipe_Content);
+	ktn_free_texture(Textures.Recipe_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
 	Clear_Texture3_Array(&Textures.Subcategories);
@@ -112,7 +112,7 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Textures.Categories);
 	Clear_Rect2_Array(&Rects.Categories);
 	Clear_Texture_Array(&Textures.Error_Exit);
-	free_c(Rects.Error_Exit.Data);
+	ktn_free(Rects.Error_Exit.Data);
 	Clear_Texture2_Array(&Textures.MSP_Buttons);
 	Clear_Rect2_Array(&Rects.MSP_Buttons);
 	Clear_Texture2_Array(&Textures.SD_Buttons);
@@ -132,66 +132,66 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Textures.TBW_Texture);
 	Clear_Rect2_Array(&Rects.TBW_Rectangle);
 	Clear_Texture_Array(&Textures.Clear_Tutorial);
-	free_c(Rects.Clear_Tutorial.Data);
+	ktn_free(Rects.Clear_Tutorial.Data);
 	Clear_Texture_Array(&Textures.Settings_Label);
-	free_c(Rects.Settings_Label.Data);
+	ktn_free(Rects.Settings_Label.Data);
 	Clear_Texture_Array(&Textures.Save_Settings);
-	free_c(Rects.Save_Settings.Data);
+	ktn_free(Rects.Save_Settings.Data);
 	Clear_Texture_Array(&Textures.Arrow);
 	Clear_Texture_Array(&Textures.S_Dock);
 	Clear_Texture_Array(&Textures.Tunnel);
-	free_c(Rects.Tunnel.Data);
+	ktn_free(Rects.Tunnel.Data);
 	Clear_Texture_Array(&Textures.Return);
-	free_c(Rects.Return.Data);
+	ktn_free(Rects.Return.Data);
 	Clear_Texture_Array(&Textures.New_Game);
-	free_c(Rects.New_Game.Data);
+	ktn_free(Rects.New_Game.Data);
 	Clear_Texture_Array(&Textures.Settings);
-	free_c(Rects.Settings.Data);
+	ktn_free(Rects.Settings.Data);
 	Clear_Texture_Array(&Textures.Update_Logs);
-	free_c(Rects.Update_Logs.Data);
+	ktn_free(Rects.Update_Logs.Data);
 	Clear_Texture_Array(&Textures.Credits);
-	free_c(Rects.Credits.Data);
+	ktn_free(Rects.Credits.Data);
 	Clear_Texture_Array(&Textures.Quit_Game);
-	free_c(Rects.Quit_Game.Data);
+	ktn_free(Rects.Quit_Game.Data);
 	Clear_Texture_Array(&Textures.Apply);
-	free_c(Rects.Apply.Data);
+	ktn_free(Rects.Apply.Data);
 	Clear_Texture_Array(&Textures.Cancel);
-	free_c(Rects.Cancel.Data);
+	ktn_free(Rects.Cancel.Data);
 	Clear_Texture_Array(&Textures.Next_Day);
-	free_c(Rects.Next_Day.Data);
+	ktn_free(Rects.Next_Day.Data);
 	Clear_Texture_Array(&Textures.Quirk);
 	Clear_Texture_Array(&Textures.Quirk_Label);
-	free_texture(Textures.Emblem);
-	free_texture(Textures.Crosshair);
-	free_texture(Textures.Cursor_Core);
-	free_texture(Textures.Sapling);
-	free_texture(Textures.Node);
-	free_texture(Textures.Log_Background);
-	free_texture(Textures.Saveloader);
-	free_texture(Textures.Help_Sidebutton);
-	free_texture(Textures.Save_Sidebutton);
-	free_texture(Textures.Recipe_Sidebutton);
-	free_texture(Textures.Exit_Sidebutton);
-	free_texture(Textures.R_Flash);
+	ktn_free_texture(Textures.Emblem);
+	ktn_free_texture(Textures.Crosshair);
+	ktn_free_texture(Textures.Cursor_Core);
+	ktn_free_texture(Textures.Sapling);
+	ktn_free_texture(Textures.Node);
+	ktn_free_texture(Textures.Log_Background);
+	ktn_free_texture(Textures.Saveloader);
+	ktn_free_texture(Textures.Help_Sidebutton);
+	ktn_free_texture(Textures.Save_Sidebutton);
+	ktn_free_texture(Textures.Recipe_Sidebutton);
+	ktn_free_texture(Textures.Exit_Sidebutton);
+	ktn_free_texture(Textures.R_Flash);
 	Clear_Texture_Array(&Textures.A_Bubble);
-	free_texture(Textures.Floor_Texture);
-	free_texture(Textures.Frame_Texture);
-	free_texture(Textures.Tile_Texture);
+	ktn_free_texture(Textures.Floor_Texture);
+	ktn_free_texture(Textures.Frame_Texture);
+	ktn_free_texture(Textures.Tile_Texture);
 	Clear_Texture_Array(&Textures.Submarine);
-	free_texture(Textures.Scrap);
+	ktn_free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);
 	Clear_Rect2_Array(&Rects.Confirmation);
 	Clear_Texture_Array(&Textures.Pyramid);
-	free_texture(Textures.Mesh);
+	ktn_free_texture(Textures.Mesh);
 	Clear_Texture_Array(&Textures.Items);
-	free_texture(Textures.None_Item);
+	ktn_free_texture(Textures.None_Item);
 	Clear_Texture_Array(&Textures.Fire);
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);
-	free_texture(Cache.Blueprint_Cache);
+	ktn_free_texture(Cache.Blueprint_Cache);
 	Clear_Texture2_Array(&Cache.Log_Cache);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
-	free_c(Metadata.Machines);
+	ktn_free(Metadata.Machines);
 	Free_Items();
 	Free_Text();
 }

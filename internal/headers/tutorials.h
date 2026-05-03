@@ -5,7 +5,7 @@
 #include <rendering.h>
 
 enum Tutorial_Types {
-    T_Terminator = LDE_INVALID,
+    T_Terminator = ktn_invalid,
     T_Key,
     T_Button,
 };

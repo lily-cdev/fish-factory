@@ -5,7 +5,7 @@
 #include <rendering.h>
 #include <tutorials.h>
 
-extern char Errors[LDE_ERRORS][32];
+extern char Errors[ktn_errors][32];
 
 void Render_Toolbar();
 void Verify_Settings();
@@ -35,7 +35,7 @@ void Print_JSON();
 void Print_Input();
 void Render_Necessities(char* Machine, char* Prefix);
 void Tick_Input(int Target, bool Slider);
-void Return_Command(const int Type, const int Length, const char Parameters[Length][LDE_PARAMMAX]);
+void Return_Command(const int Type, const int Length, const char Parameters[Length][ktn_param_max]);
 void Process_Commands();
 void Render_Blueprint(int Size_X, int Size_Y);
 void Render_Game_UI();

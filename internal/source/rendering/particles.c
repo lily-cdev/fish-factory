@@ -4,9 +4,9 @@ const float Deltas[1] = {
 	5.0f
 };
 
-Particle* Particle_Grid[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
-int Lengths[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
-int Full_Lengths[LDE_GRIDSIZE][LDE_GRIDSIZE] = { };
+Particle* Particle_Grid[ktn_grid_size][ktn_grid_size] = { };
+int Lengths[ktn_grid_size][ktn_grid_size] = { };
+int Full_Lengths[ktn_grid_size][ktn_grid_size] = { };
 
 void Push_Particle(const int Type, const Point Pos, const Point_f Subpos) {
 	if (Lengths[pt(Pos)] >= Full_Lengths[pt(Pos)]) {
@@ -22,9 +22,9 @@ void Push_Particle(const int Type, const Point Pos, const Point_f Subpos) {
 }
 
 void Wipe_Grid() {
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
-			free_c(Particle_Grid[X][Y]);
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
+			ktn_free(Particle_Grid[X][Y]);
 		}
 	}
 }
@@ -32,8 +32,8 @@ void Wipe_Grid() {
 void Init_Grid() {
 	Wipe_Grid();
 	memset(Lengths, 0, sizeof(Lengths));
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			Particle_Grid[X][Y] = calloc(1, sizeof(Particle));
 			Full_Lengths[X][Y] = 1;
 		}
@@ -68,10 +68,10 @@ void Render_Particles(const Point Pos) {
 		if (Carrier.Type == P_Bubble) {
 			float Increment = Carrier.Max / 3.0f;
 			Point_f Rootpos = {
-				scale_f((Pos.X * LDE_TILESIZE) + Carrier.Pos.X - Core.Camera.X),
-				scale_f((Pos.Y * LDE_TILESIZE) + Carrier.Pos.Y - Core.Camera.Y)
+				ktn_fscale((Pos.X * ktn_tile_size) + Carrier.Pos.X - Core.Camera.X),
+				ktn_fscale((Pos.Y * ktn_tile_size) + Carrier.Pos.Y - Core.Camera.Y)
 			};
-			float Rootsize = scale_f(12.0f);
+			float Rootsize = ktn_fscale(12.0f);
 			if (Carrier.Delta < (Increment * 2.0f)) {
 				float Size = (Carrier.Delta / (Increment * 2.0f)) * Rootsize;
 				SDL_FRect Destination = {

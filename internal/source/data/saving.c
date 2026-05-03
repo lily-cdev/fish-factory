@@ -16,17 +16,17 @@ void Get_Filesizes() {
 	}
 }
 
-void Write_2D_Array(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], FILE* File) {
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+void Write_2D_Array(int Grid[ktn_grid_size][ktn_grid_size], FILE* File) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			fwrite(&(int32_t){ Grid[X][Y] }, sizeof(int32_t), 1, File);
 		}
 	}
 }
 
-void Read_2D_Array(int Grid[LDE_GRIDSIZE][LDE_GRIDSIZE], FILE* File) {
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+void Read_2D_Array(int Grid[ktn_grid_size][ktn_grid_size], FILE* File) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			fread(&Grid[X][Y], sizeof(int32_t), 1, File);
 		}
 	}
@@ -50,22 +50,22 @@ bool Save_Data(int Slot) {
 	Write_2D_Array(Data.Plumbing_Grid, File);
 	Write_2D_Array(Data.Items_Grid, File);
 	Write_2D_Array(Data.Temperature_Grid, File);
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			for (int Z = 0; Z < 3; Z++) {
 				fwrite(&(float){ Data.Animation_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
 		}
 	}
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			for (int Z = 0; Z < 7; Z++) {
 				fwrite(&(float){ Data.Data_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
 		}
 	}
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			for (int Z = 0; Z < 16; Z++) {
 				fwrite(&(float){ Data.Settings_Grid[X][Y][Z] }, sizeof(float), 1, File);
 			}
@@ -98,22 +98,22 @@ bool Load_Data(int Slot) {
 			Read_2D_Array(Data.Plumbing_Grid, File);
 			Read_2D_Array(Data.Items_Grid, File);
 			Read_2D_Array(Data.Temperature_Grid, File);
-			for (int X = 0; X < LDE_GRIDSIZE; X++) {
-				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			for (int X = 0; X < ktn_grid_size; X++) {
+				for (int Y = 0; Y < ktn_grid_size; Y++) {
 					for (int Z = 0; Z < 3; Z++) {
 						fread(&Data.Animation_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
 				}
 			}
-			for (int X = 0; X < LDE_GRIDSIZE; X++) {
-				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			for (int X = 0; X < ktn_grid_size; X++) {
+				for (int Y = 0; Y < ktn_grid_size; Y++) {
 					for (int Z = 0; Z < 7; Z++) {
 						fread(&Data.Data_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
 				}
 			}
-			for (int X = 0; X < LDE_GRIDSIZE; X++) {
-				for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+			for (int X = 0; X < ktn_grid_size; X++) {
+				for (int Y = 0; Y < ktn_grid_size; Y++) {
 					for (int Z = 0; Z < 16; Z++) {
 						fread(&Data.Settings_Grid[X][Y][Z], sizeof(float), 1, File);
 					}
@@ -131,24 +131,24 @@ bool Load_Data(int Slot) {
 
 void Reset_Tile(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 0;
-	Data.Behavior_Grid[pt(Pos)] = LDE_INVALID;
-	Data.Wiring_Grid[pt(Pos)] = LDE_INVALID;
-	Data.Plumbing_Grid[pt(Pos)] = LDE_INVALID;
-	Data.Items_Grid[pt(Pos)] = LDE_INVALID;
-	Data.Temperature_Grid[pt(Pos)] = LDE_ROOMTEMP;
+	Data.Behavior_Grid[pt(Pos)] = ktn_invalid;
+	Data.Wiring_Grid[pt(Pos)] = ktn_invalid;
+	Data.Plumbing_Grid[pt(Pos)] = ktn_invalid;
+	Data.Items_Grid[pt(Pos)] = ktn_invalid;
+	Data.Temperature_Grid[pt(Pos)] = ktn_room_temp;
 	memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
 	memset(Data.Animation_Grid[pt(Pos)], 0, sizeof(Data.Animation_Grid[pt(Pos)]));
-	Data.Data_Grid[pt(Pos)][4] = LDE_INVALID;
+	Data.Data_Grid[pt(Pos)][4] = ktn_invalid;
 	for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
-		Data.Settings_Grid[pt(Pos)][C1] = LDE_INVALID;
+		Data.Settings_Grid[pt(Pos)][C1] = ktn_invalid;
 	}
 }
 
 void Reset_Statistics() {
 	Data.Funds = 750;
 	Data.CMD_Placed = false;
-	for (int X = 0; X < LDE_GRIDSIZE; X++) {
-		for (int Y = 0; Y < LDE_GRIDSIZE; Y++) {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			Reset_Tile((Point){ X, Y });
 		}
 	}
@@ -174,10 +174,10 @@ void Reload_All(bool Initialized) {
 	Load_Sounds();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
-	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+	for (int C1 = 0; C1 < ktn_items; C1++) {
 		strncpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name, sizeof(Interface.Slider_Texts[9][C1]));
 	}
-	strncpy(Interface.Slider_Texts[9][LDE_ITEMS], NULLSTRING, sizeof(Interface.Slider_Texts[9][LDE_ITEMS]));
+	strncpy(Interface.Slider_Texts[9][ktn_items], ktn_null_string, sizeof(Interface.Slider_Texts[9][ktn_items]));
 	Adjust_Sound(Settings.Volume * 0.01f);
 	Interface.Frame_Rate = (int)(powf(2.0f, (float)Settings.Raw_FPS) * 15.0f);
 	switch (Settings.Fullscreen) {

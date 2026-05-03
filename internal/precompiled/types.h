@@ -1,8 +1,8 @@
 #pragma once
 #include <enums.h>
-#define NULLPOINT (Point){ LDE_TERMINATOR, LDE_TERMINATOR }
-#define NULLSTRING "_null"
-#define NULLRECIPE (Recipe){ .ID = LDE_TERMINATOR }
+#define ktn_null_point (Point){ ktn_terminator, ktn_terminator }
+#define ktn_null_string "_null"
+#define ktn_null_recipe (Recipe){ .ID = ktn_terminator }
 
 typedef struct {
 	int Length;
@@ -79,6 +79,7 @@ typedef struct {
 	Point Pos;
 	Flow_Type Flow;
 	Dir Connection;
+	int Cap;
 } Node_Data;
 
 typedef struct {
@@ -90,7 +91,7 @@ typedef struct {
 	char* Desc;
 	char* Index;
 	char* Path;
-	bool Quirks[LDE_QUIRKS];
+	bool Quirks[ktn_quirks];
 	Point Size;
 	SDL_FRect Rect;
 	ID_Type Visual_Type;

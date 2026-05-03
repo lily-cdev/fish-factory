@@ -3,110 +3,110 @@
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
-	SDL_FPoint Tile_Centerpoint = { LDE_TILESIZE * Size * 0.5f, LDE_TILESIZE * Size * 0.5f };
+	SDL_FPoint Tile_Centerpoint = { ktn_tile_size * Size * 0.5f, ktn_tile_size * Size * 0.5f };
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 16);
 	Yield->Length = 16;
 	SDL_Surface* Spritesheet_Surface;
-	load_bmp(Spritesheet_Surface, Buffer);
+	ktn_load_bmp(Spritesheet_Surface, Buffer);
 	SDL_Texture* Spritesheet_Texture = Surface_To_Texture(Spritesheet_Surface);
 	Texture_Array Subtextures;
 	Subtextures.Data = malloc(sizeof(SDL_Texture*) * 6);
 	Subtextures.Length = 6;
 	for (int C1 = 0; C1 < 6; C1++) {
-		Subtextures.Data[C1] = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+		Subtextures.Data[C1] = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 		SDL_FRect Separating_Rectangle = {
-			(float)(LDE_TILESIZE * Size) * C1,
+			(float)(ktn_tile_size * Size) * C1,
 			0.0f,
-			(float)(LDE_TILESIZE * Size),
-			(float)(LDE_TILESIZE * Size)
+			(float)(ktn_tile_size * Size),
+			(float)(ktn_tile_size * Size)
 		};
 		SDL_SetRenderTarget(Core.Renderer, Subtextures.Data[C1]);
 		SDL_SetTextureBlendMode(Subtextures.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_RenderTexture(Core.Renderer, Spritesheet_Texture, &Separating_Rectangle, NULL);
 	}
-	SDL_Texture* Isolated_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Isolated_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Isolated_Texture);
 	SDL_SetTextureBlendMode(Isolated_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[0], NULL);
 	Yield->Data[0] = Isolated_Texture;
-	SDL_Texture* Surrounded_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Surrounded_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Surrounded_Texture);
 	SDL_SetTextureBlendMode(Surrounded_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[1], NULL);
 	Yield->Data[1] = Surrounded_Texture;
-	SDL_Texture* Junction1_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Junction1_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction1_Texture);
 	SDL_SetTextureBlendMode(Junction1_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[2], NULL);
 	Yield->Data[2] = Junction1_Texture;
-	SDL_Texture* Junction2_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Junction2_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction2_Texture);
 	SDL_SetTextureBlendMode(Junction2_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[2], NULL, NULL, 180, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[3] = Junction2_Texture;
-	SDL_Texture* Junction3_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Junction3_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction3_Texture);
 	SDL_SetTextureBlendMode(Junction3_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[2], NULL, NULL, 90, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[4] = Junction3_Texture;
-	SDL_Texture* Junction4_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Junction4_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Junction4_Texture);
 	SDL_SetTextureBlendMode(Junction4_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[2], NULL, NULL, 270, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[5] = Junction4_Texture;
-	SDL_Texture* Vertical_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Vertical_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Vertical_Texture);
 	SDL_SetTextureBlendMode(Vertical_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[3], NULL);
 	Yield->Data[6] = Vertical_Texture;
-	SDL_Texture* Horizontal_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Horizontal_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Horizontal_Texture);
 	SDL_SetTextureBlendMode(Horizontal_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[3], NULL, NULL, 90, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[7] = Horizontal_Texture;
-	SDL_Texture* Corner1_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Corner1_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner1_Texture);
 	SDL_SetTextureBlendMode(Corner1_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[4], NULL);
 	Yield->Data[8] = Corner1_Texture;
-	SDL_Texture* Corner2_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Corner2_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner2_Texture);
 	SDL_SetTextureBlendMode(Corner2_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[4], NULL, NULL, 90, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[9] = Corner2_Texture;
-	SDL_Texture* Corner3_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Corner3_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner3_Texture);
 	SDL_SetTextureBlendMode(Corner3_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[4], NULL, NULL, 180, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[10] = Corner3_Texture;
-	SDL_Texture* Corner4_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Corner4_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Corner4_Texture);
 	SDL_SetTextureBlendMode(Corner4_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[4], NULL, NULL, 270, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[11] = Corner4_Texture;
-	SDL_Texture* Cap1_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Cap1_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap1_Texture);
 	SDL_SetTextureBlendMode(Cap1_Texture, SDL_BLENDMODE_BLEND);
 	Render_Texture(Subtextures.Data[5], NULL);
 	Yield->Data[12] = Cap1_Texture;
-	SDL_Texture* Cap2_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Cap2_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap2_Texture);
 	SDL_SetTextureBlendMode(Cap2_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[5], NULL, NULL, 90, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[13] = Cap2_Texture;
-	SDL_Texture* Cap3_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Cap3_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap3_Texture);
 	SDL_SetTextureBlendMode(Cap3_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[5], NULL, NULL, 180, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[14] = Cap3_Texture;
-	SDL_Texture* Cap4_Texture = New_Texture(LDE_TILESIZE * Size, LDE_TILESIZE * Size);
+	SDL_Texture* Cap4_Texture = New_Texture(ktn_tile_size * Size, ktn_tile_size * Size);
 	SDL_SetRenderTarget(Core.Renderer, Cap4_Texture);
 	SDL_SetTextureBlendMode(Cap4_Texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderTextureRotated(Core.Renderer, Subtextures.Data[5], NULL, NULL, 270, &Tile_Centerpoint, SDL_FLIP_NONE);
 	Yield->Data[15] = Cap4_Texture;
 	Clear_Texture_Array(&Subtextures);
 	SDL_DestroySurface(Spritesheet_Surface);
-	free_texture(Spritesheet_Texture);
+	ktn_free_texture(Spritesheet_Texture);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
@@ -116,7 +116,7 @@ void Load_Rotational(const char* Path, Texture_Array* Yield) {
 	Yield->Length = 4;
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 4);
 	SDL_Surface* Primary_Surface;
-	load_bmp(Primary_Surface, Buffer);
+	ktn_load_bmp(Primary_Surface, Buffer);
 	float Maximum = Primary_Surface->w;
 	if (Primary_Surface->h > Maximum) {
 		Maximum = Primary_Surface->h;
@@ -143,7 +143,7 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 		Yield->Data[C1].Length = 2;
 	}
 	SDL_Surface* Carrying_Surface;
-	load_bmp(Carrying_Surface, Buffer);
+	ktn_load_bmp(Carrying_Surface, Buffer);
 	SDL_Texture* Carrying_Texture = Surface_To_Texture(Carrying_Surface);
 	SDL_Texture* First_Texture = New_Texture(Carrying_Surface->w * 0.5, Carrying_Surface->h);
 	SDL_FRect Separating_Rectangle = {
@@ -152,8 +152,8 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 		(float)(Carrying_Surface->w * 0.5f),
 		(float)(Carrying_Surface->h)
 	};
-	Rectangle->w = scale_f(Separating_Rectangle.w / 6.0f);
-	Rectangle->h = scale_f(Separating_Rectangle.h / 6.0f);
+	Rectangle->w = ktn_fscale(Separating_Rectangle.w / 6.0f);
+	Rectangle->h = ktn_fscale(Separating_Rectangle.h / 6.0f);
 	SDL_SetTextureBlendMode(First_Texture, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, First_Texture);
 	SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL);
@@ -175,7 +175,7 @@ void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Re
 	SDL_RenderTextureRotated(Core.Renderer, Carrying_Texture, &Separating_Rectangle, NULL, 0, NULL, SDL_FLIP_HORIZONTAL);
 	Yield->Data[1].Data[1] = Fourth_Texture;
 	SDL_DestroySurface(Carrying_Surface);
-	free_texture(Carrying_Texture);
+	ktn_free_texture(Carrying_Texture);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 }
 
@@ -185,9 +185,9 @@ void Load_Mirrored(const char* Path, Texture_Array* Yield, SDL_FRect* Rectangle)
 	Yield->Data = malloc(sizeof(SDL_Texture*) * 2);
 	Yield->Length = 2;
 	SDL_Surface* Primary_Surface;
-	load_bmp(Primary_Surface, Buffer);
-	Rectangle->w = scale_f(Primary_Surface->w / 6.0f);
-	Rectangle->h = scale_f(Primary_Surface->h / 6.0f);
+	ktn_load_bmp(Primary_Surface, Buffer);
+	Rectangle->w = ktn_fscale(Primary_Surface->w / 6.0f);
+	Rectangle->h = ktn_fscale(Primary_Surface->h / 6.0f);
 	SDL_Texture* Primary_Texture = Surface_To_Texture(Primary_Surface);
 	SDL_DestroySurface(Primary_Surface);
 	Yield->Data[0] = Primary_Texture;
@@ -230,7 +230,7 @@ void Load_Animated(const char* Path, Texture_Array* Yield, int Height, bool Inve
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	Yield->Data[0] = Root_Texture;
-	free_texture(Carrying_Texture);
+	ktn_free_texture(Carrying_Texture);
 }
 
 void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
@@ -256,7 +256,7 @@ void Load_Subanimated(const char* Path, Texture_Array* Yield, int Height) {
 		SDL_RenderTexture(Core.Renderer, Carrier, &Splitter, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
-	free_texture(Carrier);
+	ktn_free_texture(Carrier);
 }
 
 void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Height, bool Inverted) {
@@ -284,26 +284,26 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 
 SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y) {
 	SDL_Surface* Subcarrier;
-	load_bmp(Subcarrier, "assets/core/images/ui/sidebar/root.bmp");
+	ktn_load_bmp(Subcarrier, "assets/core/images/ui/sidebar/root.bmp");
 	SDL_Texture* Yield = New_Texture(Subcarrier->w, Subcarrier->h);
 	SDL_SetRenderTarget(Core.Renderer, Yield);
 	*Rectangle = (SDL_FRect){
-		scale_f(660.0f - (Subcarrier->w / 6.0f)),
-		scale_f(Y),
-		scale_f(Subcarrier->w / 6.0f),
-		scale_f(Subcarrier->h / 6.0f)
+		ktn_fscale(660.0f - (Subcarrier->w / 6.0f)),
+		ktn_fscale(Y),
+		ktn_fscale(Subcarrier->w / 6.0f),
+		ktn_fscale(Subcarrier->h / 6.0f)
 	};
 	SDL_Texture* Carrier = Surface_To_Texture(Subcarrier);
 	SDL_DestroySurface(Subcarrier);
 	Render_Texture(Carrier, NULL);
-	free_texture(Carrier);
+	ktn_free_texture(Carrier);
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "assets/core/images/ui/sidebar/%s.bmp", Path);
-	load_bmp(Subcarrier, Buffer);
+	ktn_load_bmp(Subcarrier, Buffer);
 	Carrier = Surface_To_Texture(Subcarrier);
 	SDL_DestroySurface(Subcarrier);
 	//render
-	free_texture(Carrier);
+	ktn_free_texture(Carrier);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	return Yield;
 }
@@ -312,7 +312,7 @@ SDL_Texture* Preload_Texture(const char* Path) {
 	char Buffer[512];
 	snprintf(Buffer, sizeof(Buffer), "assets/%s.bmp", Path);
 	SDL_Surface* Carrier;
-	load_bmp(Carrier, Buffer);
+	ktn_load_bmp(Carrier, Buffer);
 	SDL_Texture* Carrying_Texture = Surface_To_Texture(Carrier);
 	SDL_DestroySurface(Carrier);
 	return Carrying_Texture;

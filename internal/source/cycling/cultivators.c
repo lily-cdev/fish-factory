@@ -7,5 +7,5 @@ void Cycle_Algae_Bed(Point Pos, const int Rotation) {
 		Data.Animation_Grid[pt(Pos)][0] = 0;
 		Data.Animation_Grid[pt(Pos)][1] = 1;
 	}
-	free_c(Outputs.Data);
+	ktn_free(Outputs.Data);
 }

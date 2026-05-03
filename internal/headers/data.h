@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct {
 	ma_engine Engine;
-	Subsound Data[LDE_AUDIOCOUNT];
+	Subsound Data[ktn_audio_ct];
 } AUDIO;
 
 extern AUDIO Audio;

@@ -16,15 +16,4 @@
 	<Power_Capacity>95</Power_Capacity>
 	<Anchor_X>12</Anchor_X>
 	<Anchor_Y>100</Anchor_Y>
-	<Fluid_Processor />
-	<Input_Ct>6</Input_Ct>
-	<Inputs>
-		<Input>
-			<X>0</X>
-			<Y>0</Y>
-			<Dir>left</Dir>
-		</Input>
-	</Inputs>
-	<Output_Ct>2</Output_Ct>
-	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

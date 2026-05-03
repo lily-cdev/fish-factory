@@ -1,44 +1,44 @@
 #include <prepping.h>
 
 void Load_Rects() {
-	Rects.Tile_1x1.w = scale_f(LDE_TILESIZE);
-	Rects.Tile_1x1.h = scale_f(LDE_TILESIZE);
-	Rects.Tile_1x2.w = scale_f(LDE_TILESIZE);
-	Rects.Tile_1x2.h = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_2x1.w = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_2x1.h = scale_f(LDE_TILESIZE);
-	Rects.Tile_2x2.w = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_2x2.h = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_2x3.w = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_2x3.h = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_3x2.w = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_3x2.h = scale_f(LDE_TILESIZE * 2.0f);
-	Rects.Tile_3x3.w = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_3x3.h = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_3x4.w = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_3x4.h = scale_f(LDE_TILESIZE * 4.0f);
-	Rects.Tile_4x3.w = scale_f(LDE_TILESIZE * 4.0f);
-	Rects.Tile_4x3.h = scale_f(LDE_TILESIZE * 3.0f);
-	Rects.Tile_4x6.w = scale_f(LDE_TILESIZE * 4.0f);
-	Rects.Tile_4x6.h = scale_f(LDE_TILESIZE * 6.0f);
-	Rects.Tile_6x4.w = scale_f(LDE_TILESIZE * 6.0f);
-	Rects.Tile_6x4.h = scale_f(LDE_TILESIZE * 4.0f);
-	Rects.Tile_6x8.w = scale_f(LDE_TILESIZE * 6.0f);
-	Rects.Tile_6x8.h = scale_f(LDE_TILESIZE * 8.0f);
-	Rects.Tile_8x6.w = scale_f(LDE_TILESIZE * 8.0f);
-	Rects.Tile_8x6.h = scale_f(LDE_TILESIZE * 6.0f);
+	Rects.Tile_1x1.w = ktn_fscale(ktn_tile_size);
+	Rects.Tile_1x1.h = ktn_fscale(ktn_tile_size);
+	Rects.Tile_1x2.w = ktn_fscale(ktn_tile_size);
+	Rects.Tile_1x2.h = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_2x1.w = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_2x1.h = ktn_fscale(ktn_tile_size);
+	Rects.Tile_2x2.w = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_2x2.h = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_2x3.w = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_2x3.h = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_3x2.w = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_3x2.h = ktn_fscale(ktn_tile_size * 2.0f);
+	Rects.Tile_3x3.w = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_3x3.h = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_3x4.w = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_3x4.h = ktn_fscale(ktn_tile_size * 4.0f);
+	Rects.Tile_4x3.w = ktn_fscale(ktn_tile_size * 4.0f);
+	Rects.Tile_4x3.h = ktn_fscale(ktn_tile_size * 3.0f);
+	Rects.Tile_4x6.w = ktn_fscale(ktn_tile_size * 4.0f);
+	Rects.Tile_4x6.h = ktn_fscale(ktn_tile_size * 6.0f);
+	Rects.Tile_6x4.w = ktn_fscale(ktn_tile_size * 6.0f);
+	Rects.Tile_6x4.h = ktn_fscale(ktn_tile_size * 4.0f);
+	Rects.Tile_6x8.w = ktn_fscale(ktn_tile_size * 6.0f);
+	Rects.Tile_6x8.h = ktn_fscale(ktn_tile_size * 8.0f);
+	Rects.Tile_8x6.w = ktn_fscale(ktn_tile_size * 8.0f);
+	Rects.Tile_8x6.h = ktn_fscale(ktn_tile_size * 6.0f);
 }
 
 void Preload_Fonts() {
 	Load_Rects();
-	for (int C1 = 0; C1 < LDE_FONTS; C1++) {
+	for (int C1 = 0; C1 < ktn_fonts; C1++) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "assets/core/fonts/%s.ttf", Fonts.Paths[C1]);
-		Fonts.Faces[C1] = TTF_OpenFont(Carrier, scale_f(Fonts.Sizes[C1]));
+		Fonts.Faces[C1] = TTF_OpenFont(Carrier, ktn_fscale(Fonts.Sizes[C1]));
 		if (Fonts.Faces[C1] == NULL) {
 			char Subcarrier[128];
 			snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"; \"%s\"", Carrier, SDL_GetError());
-			jump(I_No_Font, Subcarrier);
+			ktn_jump(I_No_Font, Subcarrier);
 		}
 	}
 }
@@ -70,25 +70,25 @@ void Preload_Machines() {
 			break;
 		case A_None:
 			char* Index = Metadata.Machines[C1].Index;
-			if (stricmp(Index, "ram_pump")) {
+			if (ktn_stricmp(Index, "ram_pump")) {
 				Load_Animated("core/images/machines/r_pump", &Metadata.Machines[C1].Texture2, 1, true);
-			} else if (stricmp(Index, "incinerator")) {
+			} else if (ktn_stricmp(Index, "incinerator")) {
 				Load_Animated_Rotational("core/images/machines/incinerator", &Metadata.Machines[C1].Texture3, 1, true);
-			} else if (stricmp(Index, "distillery")) {
+			} else if (ktn_stricmp(Index, "distillery")) {
 				Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[C1].Texture3, 2, false);
-			} else if (stricmp(Index, "electro_cell")) {
+			} else if (ktn_stricmp(Index, "electro_cell")) {
 				Metadata.Machines[C1].Depth = 3;
 				Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[C1].Texture3, 2, true);
-			} else if (stricmp(Index, "battery")) {
+			} else if (ktn_stricmp(Index, "battery")) {
 				Metadata.Machines[C1].Depth = 3;
 				Load_Animated_Rotational("core/images/machines/battery", &Metadata.Machines[C1].Texture3, 2, true);
-			} else if (stricmp(Index, "algae_bed")) {
+			} else if (ktn_stricmp(Index, "algae_bed")) {
 				Load_Animated_Rotational("core/images/machines/g_bed", &Metadata.Machines[C1].Texture3, 3, true);
-			} else if (stricmp(Index, "turbine_impulse")) {
+			} else if (ktn_stricmp(Index, "turbine_impulse")) {
 				Load_Animated_Rotational("core/images/machines/stit_block", &Metadata.Machines[C1].Texture3, 3, true);
-			} else if (stricmp(Index, "turbine_output")) {
+			} else if (ktn_stricmp(Index, "turbine_output")) {
 				Load_Animated_Rotational("core/images/machines/st_output", &Metadata.Machines[C1].Texture3, 2, true);
-			} else if (stricmp(Index, "filtration_plant")) {
+			} else if (ktn_stricmp(Index, "filtration_plant")) {
 				Load_Animated("core/images/machines/f_plant", &Metadata.Machines[C1].Texture2, 3, true);
 			}
 			break;
@@ -99,7 +99,7 @@ void Preload_Machines() {
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		Point Pos = { };
 		SDL_Texture* Carrier;
-		if (stricmp(Metadata.Machines[C1].Index, "heavy_pipe") || stricmp(Metadata.Machines[C1].Index, "large_pipe")) {
+		if (ktn_stricmp(Metadata.Machines[C1].Index, "heavy_pipe") || ktn_stricmp(Metadata.Machines[C1].Index, "large_pipe")) {
 			Pos.X = 1;
 		}
 		switch (Metadata.Machines[C1].Depth) {
@@ -123,13 +123,13 @@ void Preload_Machines() {
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 40.0f, Settings.Scalar * 40.0f };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
-	const char Paths[LDE_ITEMS][32] = {
+	const char Paths[ktn_items][32] = {
 		"r_seawater", "c_saltwater", "am_snow", "l_waste", "steam", "d_water", "s_solution", "w_algae", "a_paste", "milkfish",
 		"mojarra", "menhaden", "d_mud", "none", "none", "hydrogen", "oxygen", "chlorine", "a_lye", "h_chloride", "m_acid"
 	};
-	Textures.Items.Length = LDE_ITEMS;
-	Textures.Items.Data = malloc(sizeof(SDL_Texture*) * LDE_ITEMS);
-	for (int C1 = 0; C1 < LDE_ITEMS; C1++) {
+	Textures.Items.Length = ktn_items;
+	Textures.Items.Data = malloc(sizeof(SDL_Texture*) * ktn_items);
+	for (int C1 = 0; C1 < ktn_items; C1++) {
 		char Carrier[64];
 		snprintf(Carrier, sizeof(Carrier), "core/images/items/%s", Paths[C1]);
 		Textures.Items.Data[C1] = Preload_Texture(Carrier);
@@ -140,9 +140,9 @@ void Preload_Machines() {
 void Preload_Foundation() {
 	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Textures.Pyramid.Length = 4;
-	float Full_Width = scale_f((LDE_GRIDSIZE * LDE_TILESIZE) + (LDE_BUFFERSIZE * 2.0f));
+	float Full_Width = ktn_fscale((ktn_grid_size * ktn_tile_size) + (ktn_buffer_size * 2.0f));
 	int Candidate_Length = Full_Width * 0.25f;
-	if (evn(Candidate_Length)) {
+	if (ktn_evn(Candidate_Length)) {
 		Candidate_Length--;
 	}
 	const int Resolution = 2001;
@@ -153,8 +153,8 @@ void Preload_Foundation() {
 	uint32_t Light = SDL_MapRGBA(Pixel_Format, NULL, Colors.Mid_Grey.r, Colors.Mid_Grey.g, Colors.Mid_Grey.b,
 		SDL_ALPHA_OPAQUE);
 	uint32_t* Pixels = (uint32_t*)(Mesh_Surface->pixels);
-	for (int C1 = 0; C1 < sqr(Resolution); C1++) {
-		if (evn(C1) && (int)(C1 & 3) == 0) {
+	for (int C1 = 0; C1 < ktn_sqr(Resolution); C1++) {
+		if (ktn_evn(C1) && (int)(C1 & 3) == 0) {
 			Pixels[C1] = Light;
 		} else {
 			Pixels[C1] = Empty;
@@ -172,13 +172,13 @@ void Preload_Foundation() {
 	SDL_Color Pyramid_Color = Colors.Reinforced_Grey;
 	Pyramid_Color.a = SDL_ALPHA_OPAQUE;
 	Set_Renderer_Color(Pyramid_Color);
-	float Subwidth = scale_f((LDE_GRIDSIZE + 2) * 40.0f) * 0.5f;
+	float Subwidth = ktn_fscale((ktn_grid_size + 2) * 40.0f) * 0.5f;
 	for (int X = 0; X < 2; X++) {
 		for (int Y = 0; Y < 2; Y++) {
 			SDL_SetRenderTarget(Core.Renderer, Textures.Pyramid.Data[(X * 2) + Y]);
 			SDL_FRect Subrectangle = {
-				scale_f(LDE_BUFFERSIZE - 280.0f) - (X * Subwidth),
-				scale_f(LDE_BUFFERSIZE - 280.0f) - (Y * Subwidth),
+				ktn_fscale(ktn_buffer_size - 280.0f) - (X * Subwidth),
+				ktn_fscale(ktn_buffer_size - 280.0f) - (Y * Subwidth),
 				Settings.Scalar * 500.0f,
 				Settings.Scalar * 500.0f
 			};
@@ -187,7 +187,7 @@ void Preload_Foundation() {
 			Subrectangle.y -= Settings.Scalar * 5.0f;
 			Subrectangle.w += Settings.Scalar * 10.0f;
 			Subrectangle.h += Settings.Scalar * 10.0f;
-			for (int C1 = 0; C1 < scale(5); C1++) {
+			for (int C1 = 0; C1 < ktn_scale(5); C1++) {
 				Subrectangle.x--;
 				Subrectangle.y--;
 				Subrectangle.w += 2;
@@ -206,16 +206,16 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, Font
 	SDL_Texture* Carrier = Render_Text(Font, Text, Color);
 	Rect->w = Carrier->w;
 	Rect->h = Carrier->h;
-	Rect->x = (Position.X == LDE_INVALID) ? Core.Screenhalfsize.X - (Carrier->w * 0.5f) : Settings.Scalar * Position.X;
-	Rect->y = (Position.Y == LDE_INVALID) ? Core.Screenhalfsize.Y - (Carrier->h * 0.5f) : Settings.Scalar * Position.Y;
+	Rect->x = (Position.X == ktn_invalid) ? Core.Screenhalfsize.X - (Carrier->w * 0.5f) : Settings.Scalar * Position.X;
+	Rect->y = (Position.Y == ktn_invalid) ? Core.Screenhalfsize.Y - (Carrier->h * 0.5f) : Settings.Scalar * Position.Y;
 	(*Texture) = Carrier;
 }
 
 void Preload_Assets() {
 	SDL_Texture* Carrying_Texture;
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
-	Interface.Tile_Centerpoint.x = Settings.Scalar * (LDE_TILESIZE * 0.5f);
-	Interface.Tile_Centerpoint.y = Settings.Scalar * (LDE_TILESIZE * 0.5f);
+	Interface.Tile_Centerpoint.x = Settings.Scalar * (ktn_tile_size * 0.5f);
+	Interface.Tile_Centerpoint.y = Settings.Scalar * (ktn_tile_size * 0.5f);
 	Preload_Machines();
 	Preload_Foundation();
 	Carrying_Texture = Preload_Texture("core/images/ui/backgrounds/doors");
@@ -231,30 +231,29 @@ void Preload_Assets() {
 		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Half_Rectangle, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
-	free_texture(Carrying_Texture);
+	ktn_free_texture(Carrying_Texture);
 	Preload_Text(&Textures.Logo1, &Rects.Logo1, "fish", F_Logo, Colors.Abyss_Black, (Point){ 325, 44 });
 	Preload_Text(&Textures.Logo2, &Rects.Logo2, "factory", F_Logo, Colors.Abyss_Black, (Point){ 325, 78 });
 	Preload_Text(&Textures.CMD_Warning1, &Rects.CMD_Warning1, "time will not progress until the command platform is installed",
-		F_Text, Colors.Cherry_Blossom, (Point){ LDE_INVALID, LDE_INVALID });
+		F_Text, Colors.Cherry_Blossom, (Point){ ktn_invalid, ktn_invalid });
 	Preload_Text(&Textures.CMD_Warning2, &Rects.CMD_Warning2, "install the command platform for complete tutorial access",
-		F_Halftext, Colors.Abyss_Black, (Point){ LDE_INVALID, 120.0f });
-	Preload_Text(&Textures.Price_Header, &Rects.Price_Header, "machine price:", F_Subtext, Colors.Abyss_Black,
-		(Point){ 456, 10 });
+		F_Halftext, Colors.Abyss_Black, (Point){ ktn_invalid, 120.0f });
+	Preload_Text(&Textures.Price_Header, &Rects.Price_Header, "machine price:", F_Subtext, Colors.Abyss_Black, (Point){ 456, 10 });
 	Rects.Tunnel.Length = 2;
 	Rects.Tunnel.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Tunnel.Data[0].w = Settings.Scalar * 240.0f;
-	Rects.Tunnel.Data[0].h = Settings.Scalar * 90.0f;
-	Rects.Tunnel.Data[1].w = Settings.Scalar * 90.0f;
-	Rects.Tunnel.Data[1].h = Settings.Scalar * 240.0f;
+	Rects.Tunnel.Data[0].w = ktn_fscale(240.0f);
+	Rects.Tunnel.Data[0].h = ktn_fscale(90.0f);
+	Rects.Tunnel.Data[1].w = ktn_fscale(90.0f);
+	Rects.Tunnel.Data[1].h = ktn_fscale(240.0f);
 	Load_Rotational("core/images/other/tunnel", &Textures.Tunnel);
 	SDL_Surface* Carrying_Surface;
-	load_bmp(Carrying_Surface, "assets/core/images/ui/other/logo.bmp");
+	ktn_load_bmp(Carrying_Surface, "assets/core/images/ui/other/logo.bmp");
 	Textures.Emblem = Surface_To_Texture(Carrying_Surface);
 	SDL_SetWindowIcon(Core.Window, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Emblem, &Rects.Emblem.w, &Rects.Emblem.h);
-	Rects.Emblem.w = scale_f(Rects.Emblem.w / 6.0f);
-	Rects.Emblem.h = scale_f(Rects.Emblem.h / 6.0f);
+	Rects.Emblem.w = ktn_fscale(Rects.Emblem.w / 6.0f);
+	Rects.Emblem.h = ktn_fscale(Rects.Emblem.h / 6.0f);
 	Rects.Emblem.x = (Settings.Scalar * 315.0f) - Rects.Emblem.w;
 	Rects.Emblem.y = Settings.Scalar * 32.0f;
 	Textures.Crosshair = Preload_Texture("core/images/ui/other/crosshair");
@@ -282,23 +281,23 @@ void Preload_Assets() {
 	Rects.Return.Data[0].y = Settings.Scalar * 334.0f;
 	Rects.New_Game.Length = 2;
 	Rects.New_Game.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.New_Game.Data[0].x = LDE_INVALID;
+	Rects.New_Game.Data[0].x = ktn_invalid;
 	Rects.New_Game.Data[0].y = Settings.Scalar * 160.0f;
 	Rects.Settings.Length = 2;
 	Rects.Settings.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Settings.Data[0].x = LDE_INVALID;
+	Rects.Settings.Data[0].x = ktn_invalid;
 	Rects.Settings.Data[0].y = Settings.Scalar * 190.0f;
 	Rects.Update_Logs.Length = 2;
 	Rects.Update_Logs.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Update_Logs.Data[0].x = LDE_INVALID;
+	Rects.Update_Logs.Data[0].x = ktn_invalid;
 	Rects.Update_Logs.Data[0].y = Settings.Scalar * 220.0f;
 	Rects.Credits.Length = 2;
 	Rects.Credits.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Credits.Data[0].x = LDE_INVALID;
+	Rects.Credits.Data[0].x = ktn_invalid;
 	Rects.Credits.Data[0].y = Settings.Scalar * 250.0f;
 	Rects.Quit_Game.Length = 2;
 	Rects.Quit_Game.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Quit_Game.Data[0].x = LDE_INVALID;
+	Rects.Quit_Game.Data[0].x = ktn_invalid;
 	Rects.Quit_Game.Data[0].y = Settings.Scalar * 280.0f;
 	Rects.Apply.Length = 2;
 	Rects.Apply.Data = calloc(2, sizeof(SDL_FRect));
@@ -310,16 +309,16 @@ void Preload_Assets() {
 	Rects.Cancel.Data[0].y = Settings.Scalar * 334.0f;
 	Rects.Next_Day.Length = 2;
 	Rects.Next_Day.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Next_Day.Data[0].x = LDE_INVALID;
+	Rects.Next_Day.Data[0].x = ktn_invalid;
 	Rects.Next_Day.Data[0].y = Settings.Scalar * 300.0f;
-	Interface.Map_X = (LDE_TILESIZE * LDE_GRIDSIZE) - 640 + LDE_BUFFERSIZE;
-	Interface.Map_Y = (LDE_TILESIZE * LDE_GRIDSIZE) - 360 + LDE_BUFFERSIZE;
-	Rects.Subcategories.Length = LDE_CATEGORIES;
-	Rects.Subcategories.Data = malloc(sizeof(Rect2_Array) * LDE_CATEGORIES);
-	Textures.Subcategories.Length = LDE_CATEGORIES;
-	Textures.Subcategories.Data = malloc(sizeof(Texture2_Array) * LDE_CATEGORIES);
-	for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
-		int Length = intlen(Metadata.Subcategory_Positions[C1]);
+	Interface.Map_X = (ktn_tile_size * ktn_grid_size) - 640 + ktn_buffer_size;
+	Interface.Map_Y = (ktn_tile_size * ktn_grid_size) - 360 + ktn_buffer_size;
+	Rects.Subcategories.Length = ktn_categories;
+	Rects.Subcategories.Data = malloc(sizeof(Rect2_Array) * ktn_categories);
+	Textures.Subcategories.Length = ktn_categories;
+	Textures.Subcategories.Data = malloc(sizeof(Texture2_Array) * ktn_categories);
+	for (int C1 = 0; C1 < ktn_categories; C1++) {
+		int Length = ktn_intlen(Metadata.Subcategory_Positions[C1]);
 		Rects.Subcategories.Data[C1].Length = Length;
 		Rects.Subcategories.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Textures.Subcategories.Data[C1].Length =  Length;
@@ -327,19 +326,19 @@ void Preload_Assets() {
 		for (int C2 = 0; C2 < Length; C2++) {
 			Rects.Subcategories.Data[C1].Data[C2].Length = 2;
 			Rects.Subcategories.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
-			Rects.Subcategories.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
-			Rects.Subcategories.Data[C1].Data[C2].Data[0].y = scale_f((C2 * 30.0f) + 40.0f);
+			Rects.Subcategories.Data[C1].Data[C2].Data[0].x = ktn_invalid;
+			Rects.Subcategories.Data[C1].Data[C2].Data[0].y = ktn_fscale((C2 * 30.0f) + 40.0f);
 			Load_Button(F_Halftext, Metadata.Subcategories[Metadata.Subcategory_Positions[C1][C2]],
 				&Textures.Subcategories.Data[C1].Data[C2], Rects.Subcategories.Data[C1].Data[C2], Colors.Abyss_Black,
 				Colors.Cherry_Blossom);
 		}
 	}
-	Rects.Subcontents.Data = malloc(sizeof(Rect2_Array) * LDE_SUBCATEGORIES);
-	Rects.Subcontents.Length = LDE_SUBCATEGORIES;
-	Textures.Subcontents.Data = malloc(sizeof(Texture2_Array) * LDE_SUBCATEGORIES);
-	Textures.Subcontents.Length = LDE_SUBCATEGORIES;
-	for (int C1 = 0; C1 < LDE_SUBCATEGORIES; C1++) {
-		int Length = veclen(Metadata.Subcontents[C1]);
+	Rects.Subcontents.Data = malloc(sizeof(Rect2_Array) * ktn_subcategories);
+	Rects.Subcontents.Length = ktn_subcategories;
+	Textures.Subcontents.Data = malloc(sizeof(Texture2_Array) * ktn_subcategories);
+	Textures.Subcontents.Length = ktn_subcategories;
+	for (int C1 = 0; C1 < ktn_subcategories; C1++) {
+		int Length = ktn_veclen(Metadata.Subcontents[C1]);
 		Rects.Subcontents.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Rects.Subcontents.Data[C1].Length = Length;
 		Textures.Subcontents.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
@@ -347,18 +346,18 @@ void Preload_Assets() {
 		for (int C2 = 0; C2 < Length; C2++) {
 			Rects.Subcontents.Data[C1].Data[C2].Length = 2;
 			Rects.Subcontents.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
-			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
-			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = scale_f((C2 * 30.0f) + 40.0f);
+			Rects.Subcontents.Data[C1].Data[C2].Data[0].x = ktn_invalid;
+			Rects.Subcontents.Data[C1].Data[C2].Data[0].y = ktn_fscale((C2 * 30.0f) + 40.0f);
 			Load_Button(F_Halftext, Get_Machine(Metadata.Subcontents[C1][C2])->Name, &Textures.Subcontents.Data[C1].Data[C2],
 				Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
-	Rects.Item_Labels.Length = LDE_CATEGORIES;
-	Rects.Item_Labels.Data = malloc(sizeof(Rect2_Array) * LDE_CATEGORIES);
-	Textures.Item_Labels.Data = malloc(sizeof(Texture2_Array) *	LDE_CATEGORIES);
-	Textures.Item_Labels.Length = LDE_CATEGORIES;
-	for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
-		int Length = veclen(Metadata.Item_Labels[C1]);
+	Rects.Item_Labels.Length = ktn_categories;
+	Rects.Item_Labels.Data = malloc(sizeof(Rect2_Array) * ktn_categories);
+	Textures.Item_Labels.Data = malloc(sizeof(Texture2_Array) *	ktn_categories);
+	Textures.Item_Labels.Length = ktn_categories;
+	for (int C1 = 0; C1 < ktn_categories; C1++) {
+		int Length = ktn_veclen(Metadata.Item_Labels[C1]);
 		Rects.Item_Labels.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Rects.Item_Labels.Data[C1].Length = Length;
 		Textures.Item_Labels.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
@@ -366,8 +365,8 @@ void Preload_Assets() {
 		for (int C2 = 0; C2 < Length; C2++) {
 			Rects.Item_Labels.Data[C1].Data[C2].Length = 2;
 			Rects.Item_Labels.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
-			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = LDE_INVALID;
-			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = scale_f(((C2 + intlen(Metadata.Subcategory_Positions[C1])) * 30.0f) +
+			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = ktn_invalid;
+			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = ktn_fscale(((C2 + ktn_intlen(Metadata.Subcategory_Positions[C1])) * 30.0f) +
 				40.0f);
 			Load_Button(F_Halftext, Get_Machine(Metadata.Item_Labels[C1][C2])->Name, &Textures.Item_Labels.Data[C1].Data[C2],
 				Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
@@ -382,36 +381,36 @@ void Preload_Assets() {
 		snprintf(Buffer, sizeof(Buffer), "%i%%", C1);
 		strncpy(Interface.Slider_Texts[5][C1], Buffer, sizeof(Interface.Slider_Texts[5][C1]));
 	}
-	strncpy(Interface.Slider_Texts[5][101], NULLSTRING, sizeof(Interface.Slider_Texts[5][101]));
+	strncpy(Interface.Slider_Texts[5][101], ktn_null_string, sizeof(Interface.Slider_Texts[5][101]));
 	const int Queried[4] = {
 		7,
 		11,
 		13,
-		LDE_TERMINATOR
+		ktn_terminator
 	};
-	for (int C1 = 0; C1 < intlen(Queried); C1++) {
-		for (int C2 = 0; C2 < LDE_VALVE300LENGTH; C2++) {
+	for (int C1 = 0; C1 < ktn_intlen(Queried); C1++) {
+		for (int C2 = 0; C2 < ktn_valve300_len; C2++) {
 			snprintf(Interface.Slider_Texts[Queried[C1]][C2], sizeof(Interface.Slider_Texts[Queried[C1]][C2]), "%iL/s",
 				Interface.Valve300_Postions[C2]);
 		}
-		strncpy(Interface.Slider_Texts[Queried[C1]][LDE_VALVE300LENGTH], NULLSTRING, sizeof(Interface.Slider_Texts[Queried[C1]][
-			LDE_VALVE300LENGTH]));
+		strncpy(Interface.Slider_Texts[Queried[C1]][ktn_valve300_len], ktn_null_string, sizeof(Interface.Slider_Texts[Queried[C1]][
+			ktn_valve300_len]));
 	}
 	for (int C1 = 0; C1 < 241; C1++) {
 		char Buffer[32];
-		snprintf(Buffer, sizeof(Buffer), "%i %sF", C1 * 5, LDE_DEGREE);
+		snprintf(Buffer, sizeof(Buffer), "%i %sF", C1 * 5, ktn_degree);
 		strncpy(Interface.Slider_Texts[10][C1], Buffer, sizeof(Interface.Slider_Texts[10][C1]));
 	}
-	strncpy(Interface.Slider_Texts[10][241], NULLSTRING, sizeof(Interface.Slider_Texts[10][241]));
+	strncpy(Interface.Slider_Texts[10][241], ktn_null_string, sizeof(Interface.Slider_Texts[10][241]));
 	for (int C1 = 0; C1 < 6; C1++) {
 		char Subcarrier[64];
 		Abbreviate_Number((C1 == 0) ? 0 : powf(10.0f, C1 - 1.0f), Subcarrier, sizeof(Subcarrier));
 		snprintf(Interface.Slider_Texts[14][C1], sizeof(Interface.Slider_Texts[14][C1]), "%sJ/s", Subcarrier);
 	}
-	strncpy(Interface.Slider_Texts[14][6], NULLSTRING, sizeof(Interface.Slider_Texts[14][6]));
-	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * LDE_TOOLS);
-	Textures.Tool.Length = LDE_TOOLS;
-	for (int C1 = 0; C1 < LDE_TOOLS; C1++) {
+	strncpy(Interface.Slider_Texts[14][6], ktn_null_string, sizeof(Interface.Slider_Texts[14][6]));
+	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * ktn_tools);
+	Textures.Tool.Length = ktn_tools;
+	for (int C1 = 0; C1 < ktn_tools; C1++) {
 		SDL_Texture* Text_Texture = Render_Text(F_Halftext, Metadata.Tool_Texts[C1], Colors.Abyss_Black);
 		Rects.Tool[C1].w = (float)Text_Texture->w;
 		Rects.Tool[C1].h = (float)Text_Texture->h;
@@ -460,36 +459,36 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		Textures.Quirk_Label.Data[C1] = Render_Text(F_Subtext, Quirk_Texts[C1], Colors.Abyss_Black);
 	}
-	load_bmp(Carrying_Surface, "assets/core/images/ui/backgrounds/scrollframe.bmp");
+	ktn_load_bmp(Carrying_Surface, "assets/core/images/ui/backgrounds/scrollframe.bmp");
 	Textures.Log_Background = Surface_To_Texture(Carrying_Surface);
 	Rects.Log_Background = (SDL_FRect){
 		0.0f,
 		0.0f,
-		scale_f(Carrying_Surface->w / 6.0f),
-		scale_f(Carrying_Surface->h / 6.0f)
+		ktn_fscale(Carrying_Surface->w / 6.0f),
+		ktn_fscale(Carrying_Surface->h / 6.0f)
 	};
 	SDL_DestroySurface(Carrying_Surface);
 	memset(Interface.Log_Heights, 0, sizeof(Interface.Log_Heights));
-	Cache.Log_Rectangles.Data = calloc(LDE_LOGS, sizeof(Rect_Array));
-	Cache.Log_Rectangles.Length = LDE_LOGS;
-	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * LDE_LOGS);
-	Cache.Log_Cache.Length = LDE_LOGS;
-	for (int C1 = 0; C1 < LDE_LOGS; C1++) {
+	Cache.Log_Rectangles.Data = calloc(ktn_logs, sizeof(Rect_Array));
+	Cache.Log_Rectangles.Length = ktn_logs;
+	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * ktn_logs);
+	Cache.Log_Cache.Length = ktn_logs;
+	for (int C1 = 0; C1 < ktn_logs; C1++) {
 		int Height = Render_Rich_Text(F_Halftext, Metadata.Logs[C1], (Point) { 0, 0 }, Temporary.Log_Inversions[C1], true) -
-			scale_f(210.0f);
+			ktn_fscale(210.0f);
 		Interface.Log_Heights[C1] = Height;
-		int Cap = (int)ceilf(Height / scale_f(341.0f));
+		int Cap = (int)ceilf(Height / ktn_fscale(341.0f));
 		Cache.Log_Rectangles.Data[C1].Data = calloc(Cap, sizeof(SDL_FRect));
 		Cache.Log_Rectangles.Data[C1].Length = Cap;
 		Cache.Log_Cache.Data[C1].Data = malloc(sizeof(SDL_Texture*) * Cap);
 		Cache.Log_Cache.Data[C1].Length = Cap;
 		for (int C2 = 0; C2 < Cap; C2++) {
-			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Screensize.X, scale_f(1000.0f));
+			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Screensize.X, ktn_fscale(1000.0f));
 			SDL_FRect New_Rectangle = {
 				0,
-				scale_f(C2 * 1000.0f),
+				ktn_fscale(C2 * 1000.0f),
 				Core.Screensize.X,
-				scale_f(1000.0f)
+				ktn_fscale(1000.0f)
 			};
 			SDL_SetTextureBlendMode(Cache.Log_Cache.Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
 			SDL_SetRenderTarget(Core.Renderer, Cache.Log_Cache.Data[C1].Data[C2]);
@@ -502,17 +501,17 @@ void Preload_Assets() {
 	Cache.Wire_Cache.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Cache.Wire_Cache.Length = 4;
 	for (int C1 = 0; C1 < 4; C1++) {
-		Cache.Wire_Cache.Data[C1] = New_Texture(Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5),
-			Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5));
+		Cache.Wire_Cache.Data[C1] = New_Texture(Settings.Scalar * ktn_grid_size * (ktn_tile_size * 0.5),
+			Settings.Scalar * ktn_grid_size * (ktn_tile_size * 0.5));
 		SDL_SetTextureBlendMode(Cache.Wire_Cache.Data[C1], SDL_BLENDMODE_BLEND);
 	}
 	Cache.Wire_Box.x = 0;
 	Cache.Wire_Box.y = 0;
-	Cache.Wire_Box.w = Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
-	Cache.Wire_Box.h = Settings.Scalar * LDE_GRIDSIZE * (LDE_TILESIZE * 0.5);
+	Cache.Wire_Box.w = Settings.Scalar * ktn_grid_size * (ktn_tile_size * 0.5);
+	Cache.Wire_Box.h = Settings.Scalar * ktn_grid_size * (ktn_tile_size * 0.5);
 	Rects.Clear_Tutorial.Length = 2;
 	Rects.Clear_Tutorial.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Clear_Tutorial.Data[0].x = LDE_INVALID;
+	Rects.Clear_Tutorial.Data[0].x = ktn_invalid;
 	Rects.Clear_Tutorial.Data[0].y = 160;
 	Load_Button(F_Halftext, Metadata.Buttons[11], &Textures.Clear_Tutorial, Rects.Clear_Tutorial, Colors.Abyss_Black,
 		Colors.Cherry_Blossom);
@@ -523,8 +522,8 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 3; C1++) {
 		Rects.Tutorials.Data[C1].Length = 2;
 		Rects.Tutorials.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Tutorials.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Tutorials.Data[C1].Data[0].y = scale_f((C1 * 40.0f) + 160.0f);
+		Rects.Tutorials.Data[C1].Data[0].x = ktn_invalid;
+		Rects.Tutorials.Data[C1].Data[0].y = ktn_fscale((C1 * 40.0f) + 160.0f);
 		Load_Button(F_Halftext, Metadata.Buttons[C1 + 12], &Textures.Tutorials.Data[C1], Rects.Tutorials.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -535,8 +534,8 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 3; C1++) {
 		Rects.Cheats.Data[C1].Length = 2;
 		Rects.Cheats.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Cheats.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Cheats.Data[C1].Data[0].y = scale_f((C1 * 40.0f) + 160.0f);
+		Rects.Cheats.Data[C1].Data[0].x = ktn_invalid;
+		Rects.Cheats.Data[C1].Data[0].y = ktn_fscale((C1 * 40.0f) + 160.0f);
 		Load_Button(F_Halftext, Metadata.Buttons[(C1 == 2) ? 49 : C1 + 9], &Textures.Cheats.Data[C1], Rects.Cheats.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
@@ -550,9 +549,9 @@ void Preload_Assets() {
 		Load_Button(F_Halftext, Metadata.Buttons[C1 + 6], &Textures.Confirmation.Data[C1], Rects.Confirmation.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 		for (int C2 = 0; C2 < 2; C2++) {
-			Rects.Confirmation.Data[C1].Data[C2].x = scale_f((C1 * 320.0f) + 160.0f) - (Rects.Confirmation.Data[C1].Data[C2].w *
+			Rects.Confirmation.Data[C1].Data[C2].x = ktn_fscale((C1 * 320.0f) + 160.0f) - (Rects.Confirmation.Data[C1].Data[C2].w *
 				0.5);
-			Rects.Confirmation.Data[C1].Data[C2].y = scale_f(260.0f);
+			Rects.Confirmation.Data[C1].Data[C2].y = ktn_fscale(260.0f);
 		}
 	}
 	String2 Carrier;
@@ -603,44 +602,44 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		Rects.New.Data[C1].Length = 2;
 		Rects.New.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.New.Data[C1].Data[0].x = scale_f(340.0f);
-		Rects.New.Data[C1].Data[0].y = scale_f((C1 * 40.0f) + 160.0f);
+		Rects.New.Data[C1].Data[0].x = ktn_fscale(340.0f);
+		Rects.New.Data[C1].Data[0].y = ktn_fscale((C1 * 40.0f) + 160.0f);
 		Load_Button(F_Subtext, Metadata.Buttons[24], &Textures.New.Data[C1], Rects.New.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 		Rects.Load.Data[C1].Length = 2;
 		Rects.Load.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Load.Data[C1].Data[0].x = scale_f(340.0f);
-		Rects.Load.Data[C1].Data[0].y = scale_f((C1 * 40.0f) + 160.0f);
+		Rects.Load.Data[C1].Data[0].x = ktn_fscale(340.0f);
+		Rects.Load.Data[C1].Data[0].y = ktn_fscale((C1 * 40.0f) + 160.0f);
 		Load_Button(F_Subtext, Metadata.Buttons[25], &Textures.Load.Data[C1], Rects.Load.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 		Rects.Clear.Data[C1].Length = 2;
 		Rects.Clear.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Clear.Data[C1].Data[0].x = scale_f(490.0f);
-		Rects.Clear.Data[C1].Data[0].y = scale_f((C1 * 40.0f) + 160.0f);
+		Rects.Clear.Data[C1].Data[0].x = ktn_fscale(490.0f);
+		Rects.Clear.Data[C1].Data[0].y = ktn_fscale((C1 * 40.0f) + 160.0f);
 		Load_Button(F_Subtext, Metadata.Buttons[26], &Textures.Clear.Data[C1], Rects.Clear.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 	}
-	Textures.Categories.Data = malloc(sizeof(Texture_Array) * LDE_CATEGORIES);
-	Textures.Categories.Length = LDE_CATEGORIES;
-	Rects.Categories.Data = malloc(sizeof(Rect_Array) * LDE_CATEGORIES);
-	Rects.Categories.Length = LDE_CATEGORIES;
-	for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
+	Textures.Categories.Data = malloc(sizeof(Texture_Array) * ktn_categories);
+	Textures.Categories.Length = ktn_categories;
+	Rects.Categories.Data = malloc(sizeof(Rect_Array) * ktn_categories);
+	Rects.Categories.Length = ktn_categories;
+	for (int C1 = 0; C1 < ktn_categories; C1++) {
 		Rects.Categories.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Categories.Data[C1].Length = 2;
-		Rects.Categories.Data[C1].Data[0].x = LDE_INVALID;
-		Rects.Categories.Data[C1].Data[0].y = scale_f((C1 * 30.0f) + 40.0f);
+		Rects.Categories.Data[C1].Data[0].x = ktn_invalid;
+		Rects.Categories.Data[C1].Data[0].y = ktn_fscale((C1 * 30.0f) + 40.0f);
 		Load_Button(F_Text, Metadata.Categories[C1], &Textures.Categories.Data[C1], Rects.Categories.Data[C1],
 			Colors.Abyss_Black, Colors.Cherry_Blossom);
 	}
-	char* Captions[LDE_CAPTIONS] = {
+	char* Captions[ktn_captions] = {
 		Metadata.Buttons[43], Metadata.Buttons[44], Metadata.Buttons[45], Metadata.Buttons[46], Metadata.Buttons[47],
 		Metadata.Buttons[48]
 	};
-	Rects.Settings_Label.Length = LDE_CAPTIONS;
-	Rects.Settings_Label.Data = calloc(LDE_CAPTIONS, sizeof(SDL_FRect));
-	Textures.Settings_Label.Length = LDE_CAPTIONS;
-	Textures.Settings_Label.Data = malloc(sizeof(SDL_Texture*) * LDE_CAPTIONS);
-	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
+	Rects.Settings_Label.Length = ktn_captions;
+	Rects.Settings_Label.Data = calloc(ktn_captions, sizeof(SDL_FRect));
+	Textures.Settings_Label.Length = ktn_captions;
+	Textures.Settings_Label.Data = malloc(sizeof(SDL_Texture*) * ktn_captions);
+	for (int C1 = 0; C1 < ktn_captions; C1++) {
 		SDL_Texture* Carrier = Render_Text(F_Halftext, Captions[C1], Colors.Abyss_Black);
 		Textures.Settings_Label.Data[C1] = Carrier;
 		Rects.Settings_Label.Data[C1].x = Settings.Scalar * 10.0f;
@@ -655,7 +654,7 @@ void Preload_Assets() {
 	Rects.Settings_Label.Data[4].x = Settings.Scalar * 330.0f;
 	Rects.Settings_Label.Data[5].y = 10.0f;
 	Rects.Settings_Label.Data[5].x = Settings.Scalar * 330.0f;
-	for (int C1 = 0; C1 < LDE_CAPTIONS; C1++) {
+	for (int C1 = 0; C1 < ktn_captions; C1++) {
 		Rects.Settings_Label.Data[C1].y *= Settings.Scalar;
 	}
 	Rects.Save_Settings.Length = 2;
@@ -668,7 +667,7 @@ void Preload_Assets() {
 		(Rects.Save_Settings.Data[1].w * 0.5f);
 	Rects.Error_Exit.Length = 2;
 	Rects.Error_Exit.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Error_Exit.Data[0].x = LDE_INVALID;
+	Rects.Error_Exit.Data[0].x = ktn_invalid;
 	Rects.Error_Exit.Data[0].y = Settings.Scalar * 50.0f;
 	Load_Button(F_Terminal, Metadata.Buttons[36], &Textures.Error_Exit, Rects.Error_Exit, Colors.Cherry_Blossom,
 		Colors.Pure_White);
@@ -710,7 +709,7 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Rects.Sort.Data[C1].Length = 2;
 		Rects.Sort.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
-		Rects.Sort.Data[C1].Data[0].x = LDE_INVALID;
+		Rects.Sort.Data[C1].Data[0].x = ktn_invalid;
 		Rects.Sort.Data[C1].Data[0].y = Settings.Scalar * 334.0f;
 	}
 	Load_Button(F_Subtext, Metadata.Buttons[18], &Textures.Sort.Data[0], Rects.Sort.Data[0], Colors.Abyss_Black,
@@ -735,7 +734,7 @@ void Preload_Assets() {
 		Rects.TBW_Rectangle.Data[C1].Data[1].x = Rects.TBW_Rectangle.Data[C1].Data[0].x + (Rects.TBW_Rectangle.Data[C1].Data[
 			0].w * 0.5f) - (Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5f);
 	}
-	load_bmp(Carrying_Surface, "assets/core/images/other/submarine.bmp");
+	ktn_load_bmp(Carrying_Surface, "assets/core/images/other/submarine.bmp");
 	Textures.Submarine.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Submarine.Length = 2;
 	for (int C1 = 0; C1 < 2; C1++) {
@@ -748,6 +747,6 @@ void Preload_Assets() {
 	}
 	SDL_DestroySurface(Carrying_Surface);
 	SDL_GetTextureSize(Textures.Submarine.Data[0], &Rects.Submarine.w, &Rects.Submarine.h);
-	Rects.Submarine.w = scale_f(Rects.Submarine.w / 3.0f);
-	Rects.Submarine.h = scale_f(Rects.Submarine.h / 6.0f);
+	Rects.Submarine.w = ktn_fscale(Rects.Submarine.w / 3.0f);
+	Rects.Submarine.h = ktn_fscale(Rects.Submarine.h / 6.0f);
 }

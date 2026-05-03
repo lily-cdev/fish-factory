@@ -3,38 +3,38 @@
 struct lde_core Core = {
 	.Is_Running = true,
 	.Suffixes = { 'J', 'k', 'M', 'G', 'T' },
-	.Selected_Save = LDE_INVALID,
+	.Selected_Save = ktn_invalid,
 	.Camera = { -140, 0 }
 };
 struct lde_data Data = { };
 struct lde_metadata Metadata = {
 	.Item_Labels = {
-		{ "sub_dock", "cable_node", NULLSTRING },
-		{ "ram_pump", NULLSTRING },
-		{ "algae_bed", NULLSTRING },
-		{ "filtration_plant", "distillery", "electro_cell", "fluid_mixer", NULLSTRING },
-		{ "rtg", "bio_generator", "geo_well", "hx", NULLSTRING },
-		{ "flowerpot", "ammo_rack", NULLSTRING },
-		{ "incinerator", "signal_tower", "battery", NULLSTRING },
-		{ "command_platform", NULLSTRING }
+		{ "sub_dock", "cable_node", ktn_null_string },
+		{ "ram_pump", ktn_null_string },
+		{ "algae_bed", ktn_null_string },
+		{ "filtration_plant", "distillery", "electro_cell", "fluid_mixer", ktn_null_string },
+		{ "rtg", "bio_generator", "geo_well", "hx", ktn_null_string },
+		{ "flowerpot", "ammo_rack", ktn_null_string },
+		{ "incinerator", "signal_tower", "battery", ktn_null_string },
+		{ "command_platform", ktn_null_string }
 	},
 	.Subcategory_Positions = {
-		{ Reinforced, Large, LDE_TERMINATOR },
-		{ LDE_TERMINATOR },
-		{ Modular_Spawning_Pool, LDE_TERMINATOR },
-		{ Condenser, LDE_TERMINATOR },
-		{ Turbine, LDE_TERMINATOR },
-		{ Flooring, LDE_TERMINATOR },
-		{ LDE_TERMINATOR },
-		{ LDE_TERMINATOR }
+		{ Reinforced, Large, ktn_terminator },
+		{ ktn_terminator },
+		{ Modular_Spawning_Pool, ktn_terminator },
+		{ Condenser, ktn_terminator },
+		{ Turbine, ktn_terminator },
+		{ Flooring, ktn_terminator },
+		{ ktn_terminator },
+		{ ktn_terminator }
 	},
 	.Subcontents = {
-		{ "spawning_controller", "spawning_output", "spawning_input", "spawning_pool", NULLSTRING },
-		{ "plate", "petrified_wood", "basalt_tile", "carpet", "hazard_strip", NULLSTRING },
-		{ "heavy_pipe", "heavy_intersection", NULLSTRING },
-		{ "large_pipe", "large_intersection", NULLSTRING },
-		{ "condenser_input", "condenser_heatsink", "condenser_hx", "condenser_output", NULLSTRING },
-		{ "turbine_input", "turbine_impulse", "turbine_output", NULLSTRING }
+		{ "spawning_controller", "spawning_output", "spawning_input", "spawning_pool", ktn_null_string },
+		{ "plate", "petrified_wood", "basalt_tile", "carpet", "hazard_strip", ktn_null_string },
+		{ "heavy_pipe", "heavy_intersection", ktn_null_string },
+		{ "large_pipe", "large_intersection", ktn_null_string },
+		{ "condenser_input", "condenser_heatsink", "condenser_hx", "condenser_output", ktn_null_string },
+		{ "turbine_input", "turbine_impulse", "turbine_output", ktn_null_string }
 	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },
@@ -83,43 +83,43 @@ struct lde_keybinds Keybinds = {
 		SDLK_LSHIFT, SDLK_ESCAPE }
 };
 struct lde_temporary Temporary = {
-	.Tutorial_Step = LDE_INVALID,
+	.Tutorial_Step = ktn_invalid,
 	.Log_Inversions = { true, false, false }
 };
 struct lde_cache Cache = {
-	.Wire_State = LDE_INVALID
+	.Wire_State = ktn_invalid
 };
 struct lde_supplies Supplies = { };
 struct lde_interface Interface = {
 	.Movespeed = 120,
 	.Prompt_Identifier = P_None,
-	.Subprompt_Identifier = LDE_INVALID,
-	.Tool = LDE_INVALID,
-	.UD_Input = LDE_INVALID,
-	.LR_Input = LDE_INVALID,
+	.Subprompt_Identifier = ktn_invalid,
+	.Tool = ktn_invalid,
+	.UD_Input = ktn_invalid,
+	.LR_Input = ktn_invalid,
 	.UI_Tab = 1,
 	.Frame_Rate = 60,
 	.Item = NULL,
-	.Registering_Keybind = LDE_INVALID,
+	.Registering_Keybind = ktn_invalid,
 	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 15, 20, 50, 100, 150, 300 },
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
 	.Slider_Texts = {
-		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", NULLSTRING },
-		{ "Milkfish", "Mojarra", "Menhaden", NULLSTRING },
-		{ "credits", "legal", NULLSTRING },
-		{ "overview", "tutorials", "cheats", NULLSTRING },
-		{ "15 FPS", "30 FPS", "60 FPS", "120 FPS", "240 FPS", NULLSTRING },
-		{ NULLSTRING },
-		{ "windowed", "borderless", "fullscreen", NULLSTRING },
-		{ NULLSTRING },
+		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", ktn_null_string },
+		{ "Milkfish", "Mojarra", "Menhaden", ktn_null_string },
+		{ "credits", "legal", ktn_null_string },
+		{ "overview", "tutorials", "cheats", ktn_null_string },
+		{ "15 FPS", "30 FPS", "60 FPS", "120 FPS", "240 FPS", ktn_null_string },
+		{ ktn_null_string },
+		{ "windowed", "borderless", "fullscreen", ktn_null_string },
+		{ ktn_null_string },
 		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s",
-			NULLSTRING },
-		{ NULLSTRING },
-		{ NULLSTRING },
-		{ NULLSTRING },
-		{ NULLSTRING },
-		{ NULLSTRING },
-		{ NULLSTRING }
+			ktn_null_string },
+		{ ktn_null_string },
+		{ ktn_null_string },
+		{ ktn_null_string },
+		{ ktn_null_string },
+		{ ktn_null_string },
+		{ ktn_null_string }
 	}
 };
 struct lde_buffers Buffers = { };

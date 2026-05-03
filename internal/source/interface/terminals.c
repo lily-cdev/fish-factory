@@ -1,6 +1,6 @@
 #include <ui.h>
 
-char Errors[LDE_ERRORS][32] = {
+char Errors[ktn_errors][32] = {
 	"no docked sub",
 	"sub docked",
 	"target empty",
@@ -17,7 +17,7 @@ char Errors[LDE_ERRORS][32] = {
 };
 
 void Push_Terminal(const char* Line) {
-	for (int C1 = LDE_LOGMAX - 1; C1 > 0; C1--) {
+	for (int C1 = ktn_log_max - 1; C1 > 0; C1--) {
 		strncpy(Interface.Terminal_Logs[C1], Interface.Terminal_Logs[C1 - 1], sizeof(Interface.Terminal_Logs[C1]));
 	}
 	strncpy(Interface.Terminal_Logs[0], Line, sizeof(Interface.Terminal_Logs[0]));
@@ -51,11 +51,11 @@ void Print_Fatal_Error(int Input) {
 		(float)Carrying_Texture->h
 	};
 	Render_Texture(Carrying_Texture, &Destination);
-	free_texture(Carrying_Texture);
+	ktn_free_texture(Carrying_Texture);
 	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom);
 	if (Interface.UI_Selection == 3) {
-		char Parameters[2][LDE_PARAMMAX] = { "quit" };
-		strcpy(Parameters[1], NULLSTRING);
+		char Parameters[2][ktn_param_max] = { "quit" };
+		strcpy(Parameters[1], ktn_null_string);
 		Return_Command(Execute, 2, Parameters);
 	}
 	Tick_Input(3, false);
@@ -67,7 +67,7 @@ void Render_Backing() {
 }
 
 void Machine_Clear(Parameter Unused, Parameter Unused2) {
-	memset(Interface.Terminal_Logs, 0, LDE_LOGMAX * LDE_PARAMMAX);
+	memset(Interface.Terminal_Logs, 0, ktn_log_max * ktn_param_max);
 	Interface.Terminal_Length = 0;
 	Print_Response("cleared console log");
 }
@@ -88,9 +88,9 @@ void Print_Response(const char* Response) {
 
 void Print_JSON() {
 	Push_Terminal("{");
-	for (int C1 = 0; C1 < veclen(Buffers.JSON); C1++) {
+	for (int C1 = 0; C1 < ktn_veclen(Buffers.JSON); C1++) {
 		char Comma[4] = "\",";
-		if (C1 == veclen(Buffers.JSON) - 1) {
+		if (C1 == ktn_veclen(Buffers.JSON) - 1) {
 			strncpy(Comma, "\"", sizeof(Comma));
 		}
 		char Buffer[128];
@@ -130,9 +130,9 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		if (strlen(Result) > 0) {
 			Process_Supply(&Supplies.Terminal_Command, Result, F_Terminal, Colors.Cherry_Blossom, (Point){ 64, 300 });
 		}
-		free_c(Result);
+		ktn_free(Result);
 	}
-	for (int C1 = LDE_LOGMAX - 1; C1 > LDE_INVALID; C1--) {
+	for (int C1 = ktn_log_max - 1; C1 > ktn_invalid; C1--) {
 		Process_Supply(&Supplies.Terminal_Logs[C1], Interface.Terminal_Logs[C1], F_Terminal, Colors.Cherry_Blossom,
 			(Point){ 50, 280 - (C1 * 20) });
 	}
@@ -160,45 +160,41 @@ void Tick_Input(int Target, bool Slider) {
 	}
 }
 
-void Return_Command(const int Type, const int Length, const char Parameters[Length][LDE_PARAMMAX]) {
+void Return_Command(const int Type, const int Length, const char Parameters[Length][ktn_param_max]) {
 	if (Type == Get_Data) {
 		strncpy(Interface.Terminal_Entry, "open(", sizeof(Interface.Terminal_Entry));
 	} else {
 		strncpy(Interface.Terminal_Entry, "call(", sizeof(Interface.Terminal_Entry));
 	}
 	for (int C1 = 0; C1 < Length; C1++) {
-		charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
-		strcat_c(Interface.Terminal_Entry, Parameters[C1], sizeof(Interface.Terminal_Entry));
+		ktn_charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
+		strcat(Interface.Terminal_Entry, Parameters[C1]);
 		if (C1 == 0) {
-			if (Type == Get_Data) {
-				strcat_c(Interface.Terminal_Entry, ".json", sizeof(Interface.Terminal_Entry));
-			} else {
-				strcat_c(Interface.Terminal_Entry, ".so", sizeof(Interface.Terminal_Entry));
-			}
+			strcat(Interface.Terminal_Entry, (Type == Get_Data) ? ".json" : ".so");
 		}
-		charcat(Interface.Terminal_Entry, '\"',  sizeof(Interface.Terminal_Entry));
+		ktn_charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
 		if (C1 < Length - 1) {
-			strcat_c(Interface.Terminal_Entry, ", ", sizeof(Interface.Terminal_Entry));
+			strcat(Interface.Terminal_Entry, ", ");
 		}
 	}
-	charcat(Interface.Terminal_Entry, ')', sizeof(Interface.Terminal_Entry));
+	ktn_charcat(Interface.Terminal_Entry, ')', sizeof(Interface.Terminal_Entry));
 }
 
 void Process_Commands() {
-	int Base = intlen(Buffers.Commands);
+	int Base = ktn_intlen(Buffers.Commands);
 	Buffers.Commands[Base] = Execute;
 	strncpy(Buffers.Parameters[Base][0], "clear", sizeof(Buffers.Parameters[Base][0]));
-	strncpy(Buffers.Parameters[Base][1], NULLSTRING, sizeof(Buffers.Parameters[Base][1]));
+	strncpy(Buffers.Parameters[Base][1], ktn_null_string, sizeof(Buffers.Parameters[Base][1]));
 	Buffers.Commands[Base + 1] = Execute;
 	strncpy(Buffers.Parameters[Base + 1][0], "quit", sizeof(Buffers.Parameters[Base + 1][0]));
-	strncpy(Buffers.Parameters[Base + 1][1], NULLSTRING, sizeof(Buffers.Parameters[Base + 1][1]));
-	Buffers.Commands[Base + 2] = LDE_TERMINATOR;
-	for (int C1 = 0; C1 < intlen(Buffers.Commands); C1++) {
+	strncpy(Buffers.Parameters[Base + 1][1], ktn_null_string, sizeof(Buffers.Parameters[Base + 1][1]));
+	Buffers.Commands[Base + 2] = ktn_terminator;
+	for (int C1 = 0; C1 < ktn_intlen(Buffers.Commands); C1++) {
 		if (Interface.UI_Selection == C1 + 3) {//fix
 			Return_Command(Buffers.Commands[C1], 4, Buffers.Parameters[C1]);
 		}
 	}
-	for (int C1 = 3; C1 < intlen(Buffers.Commands) + 3; C1++) {
+	for (int C1 = 3; C1 < ktn_intlen(Buffers.Commands) + 3; C1++) {
 		Tick_Input(C1, false);
 	}
 }

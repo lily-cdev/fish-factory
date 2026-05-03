@@ -42,7 +42,7 @@ Item_Stack Get_Fish_Item(int Identifier) {
 	return Preset_Items.Waste;
 }
 
-Fish Fish_Catalog[LDE_FISH] = { };
-char Growth_Phases[LDE_FISHPHASES][32] = { "Egg", "Larva", "Fry", "Fingerling", "Juvenile", "Near-Adult" };
-char Plural_Growth_Phases[LDE_FISHPHASES][32] = { "Eggs", "Larvae", "Fries", "Fingerlings", "Juveniles", "Near-Adults" };
-int Growth_Weights[LDE_FISHPHASES] = { 0, 5, 20, 35, 55, 100 };
+Fish Fish_Catalog[ktn_fish] = { };
+char Growth_Phases[ktn_fish_phases][32] = { "Egg", "Larva", "Fry", "Fingerling", "Juvenile", "Near-Adult" };
+char Plural_Growth_Phases[ktn_fish_phases][32] = { "Eggs", "Larvae", "Fries", "Fingerlings", "Juveniles", "Near-Adults" };
+int Growth_Weights[ktn_fish_phases] = { 0, 5, 20, 35, 55, 100 };

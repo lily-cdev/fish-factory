@@ -12,10 +12,10 @@ void Render_Toolbar() {
 	Abbreviate_Number(Interface.Queried_Price, Price_Query, sizeof(Price_Query));
 	snprintf(Machine_Text, sizeof(Machine_Text), "%s | %sLA", Interface.Item->Name, Price_Query);
 	SDL_Texture* Machine_Texture = Render_Text(F_Subtext, Machine_Text, Colors.Abyss_Black);
-	float Y = scale_f((Interface.Bar_Up) ? 265.0f : 290.0f);
-	float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + scale_f(18.0f);
-	float Padding = scale_f(16.0f);
-	float Root_X = scale_f(312.0f) - (Machine_Texture->w * 0.5f);
+	float Y = ktn_fscale((Interface.Bar_Up) ? 265.0f : 290.0f);
+	float Height = TTF_GetFontHeight(Fonts.Faces[F_Subtext]) + ktn_fscale(18.0f);
+	float Padding = ktn_fscale(16.0f);
+	float Root_X = ktn_fscale(312.0f) - (Machine_Texture->w * 0.5f);
 	float Root_Width = Machine_Texture->w + Padding;
 	SDL_FRect Machine_Rectangle = { Root_X, Y, Root_Width, Height };
 	Set_Renderer_Color(Colors.Dark_Grey);
@@ -24,12 +24,12 @@ void Render_Toolbar() {
 	Set_Renderer_Color(Colors.Light_Grey);
 	SDL_RenderFillRect(Core.Renderer, &Machine_Rectangle);
 	Clear_Renderer();
-	Machine_Rectangle.x += scale_f(4.0f);
-	Machine_Rectangle.y += scale_f(4.0f);
+	Machine_Rectangle.x += ktn_fscale(4.0f);
+	Machine_Rectangle.y += ktn_fscale(4.0f);
 	Machine_Rectangle.w = Machine_Texture->w;
 	Machine_Rectangle.h = Machine_Texture->h;
 	Render_Texture(Machine_Texture, &Machine_Rectangle);
-	free_texture(Machine_Texture);
+	ktn_free_texture(Machine_Texture);
 	if (true) {//tmp
 		SDL_Texture* L_Texture = Render_Text(F_Subtext, "<-", Colors.Abyss_Black);
 		SDL_Texture* R_Texture = Render_Text(F_Subtext, "->", Colors.Abyss_Black);
@@ -57,14 +57,14 @@ void Render_Toolbar() {
 		Clear_Renderer();
 		Render_Texture(L_Texture, &L_Rect);
 		Render_Texture(R_Texture, &R_Rect);
-		free_texture(L_Texture);
-		free_texture(R_Texture);
+		ktn_free_texture(L_Texture);
+		ktn_free_texture(R_Texture);
 	}
 }
 
 void Verify_Settings() {
 	bool Keybinds_Altered = false;
-	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
+	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		if (Keybinds.Keybind_Settings[C1] != Keybinds.Keybind_List[C1]) {
 			Keybinds_Altered = true;
 			break;
@@ -80,10 +80,10 @@ void Verify_Settings() {
 }
 
 void Render_Tile_Prompts() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
 			if (!Machine) {
 				return;
@@ -109,46 +109,46 @@ void Render_Tile_Prompts() {
 				(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
 				Colors.Dark_Grey);
 			Render_Texture(Carrier, &Carrying_Rectangle);
-			free_texture(Carrier);
+			ktn_free_texture(Carrier);
 			return;
 		}
 	}
 }
 
 void Render_Interaction() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
 				if (!(*Machine).Quirks[Q_Interactable]) {
 					return;
 				}
-				if (stricmp((*Machine).Index, "signal_tower")) {
+				if (ktn_stricmp((*Machine).Index, "signal_tower")) {
 					Interface.Prompt_Identifier = P_Transmitter;
-				} else if (stricmp((*Machine).Index, "spawning_controller")) {
+				} else if (ktn_stricmp((*Machine).Index, "spawning_controller")) {
 					Interface.Prompt_Identifier = P_Spawning_Pool;
-				} else if (stricmp((*Machine).Index, "sub_dock")) {
+				} else if (ktn_stricmp((*Machine).Index, "sub_dock")) {
 					Interface.Prompt_Identifier = P_Dock;
-				} else if (stricmp((*Machine).Index, "hx")) {
+				} else if (ktn_stricmp((*Machine).Index, "hx")) {
 					Interface.Prompt_Identifier = P_Exchanger;
-				} else if (stricmp((*Machine).Index, "money_cheat")) {
+				} else if (ktn_stricmp((*Machine).Index, "money_cheat")) {
 					Interface.Prompt_Identifier = P_Money_Generator;
 					Interface.Slider_Positions[8] = Data.Settings_Grid[pt(Interface.Tile)][3];
-				} else if (stricmp((*Machine).Index, "fluid_cheat")) {
+				} else if (ktn_stricmp((*Machine).Index, "fluid_cheat")) {
 					Interface.Prompt_Identifier = P_Fluid_Generator;
 					Interface.Slider_Positions[9] = Data.Settings_Grid[pt(Interface.Tile)][3];
 					Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[pt(Interface.Tile)][4] * 0.2f);
-					for (int C1 = 0; C1 < LDE_VALVE300LENGTH; C1++) {
+					for (int C1 = 0; C1 < ktn_valve300_len; C1++) {
 						if (Data.Settings_Grid[pt(Interface.Tile)][5] == Interface.Valve300_Postions[C1]) {
 							Interface.Slider_Positions[11] = C1;
 							break;
 						}
 					}
-				} else if (stricmp((*Machine).Index, "turbine_input")) {
+				} else if (ktn_stricmp((*Machine).Index, "turbine_input")) {
 					Interface.Prompt_Identifier = P_Turbine;
-				} else if (stricmp((*Machine).Index, "power_cheat")) {
+				} else if (ktn_stricmp((*Machine).Index, "power_cheat")) {
 					Interface.Prompt_Identifier = P_Power_Generator;
 				}
 				Interface.Building = false;
@@ -168,15 +168,15 @@ void Render_Effects() {
 		int Width = (int)Core.Screensize.X;
 		int Height = (int)Core.Screensize.Y;
 		for (int C1 = 0; C1 < (int)floorf(Interface.Effects[E_Radiation]); C1++) {
-			Tick_State();
+			ktn_tick();
 			int X = Core.State % Width;
-			Tick_State();
+			ktn_tick();
 			int Y = Core.State % Height;
 			for (int Offset_X = -1; Offset_X <= 1; Offset_X++) {
-				SDL_RenderPoint(Core.Renderer, (float)(clamp_c(X + Offset_X, 0, Width)), (float)Y);
+				SDL_RenderPoint(Core.Renderer, (float)(ktn_clamp(X + Offset_X, 0, Width)), (float)Y);
 			}
 			for (int Offset_Y = -1; Offset_Y <= 1; Offset_Y++) {
-				SDL_RenderPoint(Core.Renderer, (float)X, (float)(clamp_c(Y + Offset_Y, 0, Height)));
+				SDL_RenderPoint(Core.Renderer, (float)X, (float)(ktn_clamp(Y + Offset_Y, 0, Height)));
 			}
 		}
 		Clear_Renderer();
@@ -190,24 +190,24 @@ void Cache_Blueprint() {
 	}
 	Point Size;
 	ID_To_Size(Interface.Item, Interface.Rotation, &Size.X, &Size.Y);
-	int Max = scale(max(Size.X, Size.Y) * LDE_TILESIZE);
-	free_texture(Cache.Blueprint_Cache);
+	int Max = ktn_scale(max(Size.X, Size.Y) * ktn_tile_size);
+	ktn_free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = New_Texture(scale(Size.X * LDE_TILESIZE), scale(Size.Y * LDE_TILESIZE));
+	SDL_Texture* Backing = New_Texture(ktn_scale(Size.X * ktn_tile_size), ktn_scale(Size.Y * ktn_tile_size));
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
 	for (int X = 0; X < Size.X; X++) {
 		for (int Y = 0; Y < Size.Y; Y++) {
 			SDL_FRect Pasting_Rectangle = Rects.Tile_1x1;
-			Pasting_Rectangle.x = scale_f(X * LDE_TILESIZE);
-			Pasting_Rectangle.y = scale_f(Y * LDE_TILESIZE);
+			Pasting_Rectangle.x = ktn_fscale(X * ktn_tile_size);
+			Pasting_Rectangle.y = ktn_fscale(Y * ktn_tile_size);
 			Render_Texture(Textures.Tile_Texture, &Pasting_Rectangle);
 		}
 	}
 	SDL_SetRenderTarget(Core.Renderer, Cache.Blueprint_Cache);
 	Render_Texture(Backing, NULL);
-	free_texture(Backing);
+	ktn_free_texture(Backing);
 	int Rotation = Interface.Rotation * 90;
 	if (Interface.Item->Quirks[Q_Non_Rotatable]) {
 		Rotation = 0;
@@ -230,18 +230,18 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 	SDL_Color Secondary, bool Text_Visible) {
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {
-		scale_f(Pos.X),
-		scale_f(Pos.Y - 3.0f),
-		scale_f(Width),
-		scale_f(6.0f)
+		ktn_fscale(Pos.X),
+		ktn_fscale(Pos.Y - 3.0f),
+		ktn_fscale(Width),
+		ktn_fscale(6.0f)
 	};
 	if (Interface.Engagement == Engagement) {
 		Active = true;
 		int Separators[512];
 		for (int C1 = 0; C1 < Nodes; C1++) {
-			Separators[C1] = scale((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2.0f)) + Pos.X);
+			Separators[C1] = ktn_scale((((float)C1 / Nodes) * Width) + (Width / (Nodes * 2.0f)) + Pos.X);
 		}
-		Separators[Nodes] = LDE_TERMINATOR;
+		Separators[Nodes] = ktn_terminator;
 		for (int C1 = 0; C1 < Nodes; C1++) {
 			if (Core.Debug_Mode) {
 				SDL_RenderLine(Core.Renderer, (float)(Separators[C1]), 0, (float)(Separators[C1]), Core.Screensize.Y);
@@ -261,10 +261,10 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 		Set_Renderer_Color(Secondary);
 	}
 	SDL_FRect Node_Rectangle = {
-		scale_f((((float)(*Position) / Nodes) * Width) + Pos.X - 6.0f),
-		scale_f(Pos.Y - 6.0f),
-		scale_f(12.0f),
-		scale_f(12.0f)
+		ktn_fscale((((float)(*Position) / Nodes) * Width) + Pos.X - 6.0f),
+		ktn_fscale(Pos.Y - 6.0f),
+		ktn_fscale(12.0f),
+		ktn_fscale(12.0f)
 	};
 	if (Detect_Mouse_Collision(Node_Rectangle)) {
 		UI_Link Link = { Set_Engagement, .Param.Integer = Engagement };
@@ -276,12 +276,12 @@ void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Positio
 	if (Text_Visible) {
 		SDL_Texture* Caption_Texture = Render_Text(F_Subtext, Labels[*Position], Primary);
 		SDL_FRect Caption_Rectangle = {
-			scale_f((((float)(*Position) / Nodes) * Width) + Pos.X) - (Caption_Texture->w * 0.5f),
-			scale_f(Pos.Y + 10.0f),
+			ktn_fscale((((float)(*Position) / Nodes) * Width) + Pos.X) - (Caption_Texture->w * 0.5f),
+			ktn_fscale(Pos.Y + 10.0f),
 			(float)Caption_Texture->w,
 			(float)Caption_Texture->h
 		};
 		Render_Texture(Caption_Texture, &Caption_Rectangle);
-		free_texture(Caption_Texture);
+		ktn_free_texture(Caption_Texture);
 	}
 }

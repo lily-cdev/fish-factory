@@ -52,20 +52,20 @@ bool Load_Text() {
 	int Index = SDL_GetDisplayForWindow(Core.Window);
 	const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
 	snprintf(Metadata.Monitor_Size, sizeof(Metadata.Monitor_Size), "%dx%d", Display->w, Display->h);
-	char Resolution_Names[LDE_SUPPORTEDRESOLUTIONS][8] = { "nHD", "HD", "FHD", "QHD", "QHD+", "4K" };
+	char Resolution_Names[ktn_supported_res][8] = { "nHD", "HD", "FHD", "QHD", "QHD+", "4K" };
 	char Buffer[64];
-	for (int C1 = 0; C1 < LDE_SUPPORTEDRESOLUTIONS; C1++) {
+	for (int C1 = 0; C1 < ktn_supported_res; C1++) {
 		if (Display->w == Metadata.Supported_Resolutions[C1].X && Display->h == Metadata.Supported_Resolutions[C1].Y) {
 			snprintf(Buffer, sizeof(Buffer), "%s (%s)", Metadata.Monitor_Size, Resolution_Names[C1]);
 			break;
 		}
 	}
 	snprintf(Metadata.Monitor_Size, sizeof(Metadata.Monitor_Size), "Detected Resolution: %s", Buffer);
-	Load_TXT("categories", Metadata.Categories, LDE_CATEGORIES);
-	Load_TXT("subcategories", Metadata.Subcategories, LDE_SUBCATEGORIES);
-	Load_TXT("buttons", Metadata.Buttons, LDE_BUTTONS);
-	Load_TXT("facts", Metadata.Facts, LDE_FACTS);
-	Load_TXT("keybinds", Keybinds.Keybind_Texts, LDE_KEYBINDS);
+	Load_TXT("categories", Metadata.Categories, ktn_categories);
+	Load_TXT("subcategories", Metadata.Subcategories, ktn_subcategories);
+	Load_TXT("buttons", Metadata.Buttons, ktn_buttons);
+	Load_TXT("facts", Metadata.Facts, ktn_facts);
+	Load_TXT("keybinds", Keybinds.Keybind_Texts, ktn_keybinds);
 	Load_Full("changes", &Metadata.Logs[Changelog]);
 	Load_Full("credits", &Metadata.Logs[Credits]);
 	Load_Full("license", &Metadata.Logs[Legal]);
@@ -73,23 +73,23 @@ bool Load_Text() {
 }
 
 void Free_Text() {
-    for (int C1 = 0; C1 < LDE_CATEGORIES; C1++) {
-		free_c(Metadata.Categories[C1]);
+    for (int C1 = 0; C1 < ktn_categories; C1++) {
+		ktn_free(Metadata.Categories[C1]);
 	}
-    for (int C1 = 0; C1 < LDE_SUBCATEGORIES; C1++) {
-		free_c(Metadata.Subcategories[C1]);
+    for (int C1 = 0; C1 < ktn_subcategories; C1++) {
+		ktn_free(Metadata.Subcategories[C1]);
 	}
-    for (int C1 = 0; C1 < LDE_BUTTONS; C1++) {
-		free_c(Metadata.Buttons[C1]);
+    for (int C1 = 0; C1 < ktn_buttons; C1++) {
+		ktn_free(Metadata.Buttons[C1]);
 	}
-	for (int C1 = 0; C1 < LDE_LOGS; C1++) {
-		free_c(Metadata.Logs[C1]);
+	for (int C1 = 0; C1 < ktn_logs; C1++) {
+		ktn_free(Metadata.Logs[C1]);
 	}
-	for (int C1 = 0; C1 < LDE_FACTS; C1++) {
-		free_c(Metadata.Facts[C1]);
+	for (int C1 = 0; C1 < ktn_facts; C1++) {
+		ktn_free(Metadata.Facts[C1]);
 	}
-	for (int C1 = 0; C1 < LDE_KEYBINDS; C1++) {
-		free_c(Keybinds.Keybind_Texts[C1]);
+	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
+		ktn_free(Keybinds.Keybind_Texts[C1]);
 	}
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
 }

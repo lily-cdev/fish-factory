@@ -3,5 +3,5 @@ plutonium-239 was chosen as fissile material for the RTG due to it being a fissi
 the filtration plant was the first building to recieve an animation
 the displayed fact depends on the millisecond that fish factory was initialized
 the game was formerly written in C++ until its upgrade to C during Alpha V0.0
-though game loading is multithreaded, this screen is always rendered on the main thread
+game loading is single-threaded because the SDL3 can only load textures on the main thread
 the battery has the longest history, as it was originally a drill and later a scrubber

@@ -19,42 +19,39 @@ void Orient_Pipe(Bridge* Input) {
 }
 
 void Place_Pipe() {
-	for (int Column = 0; Column < LDE_GRIDSIZE; Column++) {
-		Rects.Tile_1x1.x = scale_f((Column * LDE_TILESIZE) - Core.Camera.X);
-		for (int Row = 0; Row < LDE_GRIDSIZE; Row++) {
-			Rects.Tile_1x1.y = scale_f((Row * LDE_TILESIZE) - Core.Camera.Y);
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
 			int End = Pipes.Length - 1;
 			if (Pipes.Length > 0 && !Pipes.Data[End].Filled) {
 				bool Is_Adjacent = false;
-				if ((Column < LDE_GRIDSIZE && Pipes.Data[End].X1 == Column + 1) || (Column >= 0 && Pipes.Data[End].X1 == Column -
+				if ((Column < ktn_grid_size && Pipes.Data[End].X1 == Column + 1) || (Column >= 0 && Pipes.Data[End].X1 == Column -
 					1)) {
 					Is_Adjacent = true;
-				} else if ((Row < LDE_GRIDSIZE && Pipes.Data[End].Y1 == Row + 1) || (Row >= 0 && Pipes.Data[End].Y1 == Row -
+				} else if ((Row < ktn_grid_size && Pipes.Data[End].Y1 == Row + 1) || (Row >= 0 && Pipes.Data[End].Y1 == Row -
 					1)) {
 					Is_Adjacent = true;
 				}
 				bool Is_Pipe_Adjacent = false;
 				if (Is_Adjacent) {
-					if (Data.Plumbing_Grid[Column][Row] == 0) {
+					if (Data.Plumbing_Grid[Column][Row] == Any) {
 						Is_Pipe_Adjacent = true;
-					} else if ((Data.Plumbing_Grid[Column][Row] == 1 || Data.Plumbing_Grid[Column][Row] == 5) && Column > 0 &&
-						Pipes.Data[End].X1 == Column - 1) {
+					} else if (Data.Plumbing_Grid[Column][Row] == Left && Column > 0 && Pipes.Data[End].X1 == Column - 1) {
 						Is_Pipe_Adjacent = true;
-					} else if ((Data.Plumbing_Grid[Column][Row] == 2 || Data.Plumbing_Grid[Column][Row] == 6) && Row > 0 &&
-						Pipes.Data[End].Y1 == Row - 1) {
+					} else if (Data.Plumbing_Grid[Column][Row] == Up && Row > 0 && Pipes.Data[End].Y1 == Row - 1) {
 						Is_Pipe_Adjacent = true;
-					} else if ((Data.Plumbing_Grid[Column][Row] == 3 || Data.Plumbing_Grid[Column][Row] == 7) && Column <
-						LDE_GRIDSIZE && Pipes.Data[End].X1 == Column + 1) {
+					} else if (Data.Plumbing_Grid[Column][Row] == Right && Column < ktn_grid_size && Pipes.Data[End].X1 ==
+						Column + 1) {
 						Is_Pipe_Adjacent = true;
-					} else if ((Data.Plumbing_Grid[Column][Row] == 4 || Data.Plumbing_Grid[Column][Row] == 8) && Row <
-						LDE_GRIDSIZE && Pipes.Data[End].Y1 == Row + 1) {
+					} else if (Data.Plumbing_Grid[Column][Row] == Down && Row < ktn_grid_size && Pipes.Data[End].Y1 == Row + 1) {
 						Is_Pipe_Adjacent = true;
 					}
 				}
-				if (Is_Pipe_Adjacent && Data.Plumbing_Grid[Column][Row] != LDE_INVALID && (Data.Settings_Grid[Column][Row][0] ==
+				if (Is_Pipe_Adjacent && Data.Plumbing_Grid[Column][Row] != ktn_invalid && (Data.Settings_Grid[Column][Row][0] ==
 					F_In || Data.Settings_Grid[Column][Row][0] == F_Either)) {
 					Pipes.Data[End].X2 = Column;
 					Pipes.Data[End].Y2 = Row;
@@ -74,7 +71,7 @@ void Place_Pipe() {
 					Pull_Bridge(&Pipes, End);
 				}
 			} else {
-				if ((Data.Plumbing_Grid[Column][Row] > LDE_INVALID) && (Data.Settings_Grid[Column][Row][0] == F_Out ||
+				if ((Data.Plumbing_Grid[Column][Row] > ktn_invalid) && (Data.Settings_Grid[Column][Row][0] == F_Out ||
 					Data.Settings_Grid[Column][Row][0] == F_Either)) {
 					Bridge Pipe = { };
 					Pipe.X1 = Column;
@@ -89,14 +86,14 @@ void Place_Pipe() {
 void Render_Pipes() {
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
 		if (Pipes.Data[C1].Filled) {
-			Rects.Tile_1x1.x = (int)((Pipes.Data[C1].X1 * LDE_TILESIZE) + Pipes.Data[C1].X_Offset - Core.Camera.X) *
+			Rects.Tile_1x1.x = (int)((Pipes.Data[C1].X1 * ktn_tile_size) + Pipes.Data[C1].X_Offset - Core.Camera.X) *
 				Settings.Scalar;
-			Rects.Tile_1x1.y = (int)((Pipes.Data[C1].Y1 * LDE_TILESIZE) + Pipes.Data[C1].Y_Offset - Core.Camera.Y) *
+			Rects.Tile_1x1.y = (int)((Pipes.Data[C1].Y1 * ktn_tile_size) + Pipes.Data[C1].Y_Offset - Core.Camera.Y) *
 				Settings.Scalar;
 			Render_Texture(Textures.Arrow.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
 		} else {
-			Rects.Sapling.x = scale_f((Pipes.Data[C1].X1 * LDE_TILESIZE) - Core.Camera.X);
-			Rects.Sapling.y = scale_f((Pipes.Data[C1].Y1 * LDE_TILESIZE) - Core.Camera.Y);
+			Rects.Sapling.x = ktn_fscale((Pipes.Data[C1].X1 * ktn_tile_size) - Core.Camera.X);
+			Rects.Sapling.y = ktn_fscale((Pipes.Data[C1].Y1 * ktn_tile_size) - Core.Camera.Y);
 			Render_Texture(Textures.Sapling, &Rects.Sapling);
 		}
 	}
@@ -107,7 +104,7 @@ void Distribute_Fluid(Bridge** Grouped_List, int Grouped, int* Sizes) {
 		float Remaining_Fluid = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids];
 		float Used_Fluid = 0;
 		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
-			if (Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2] == LDE_INVALID || Data.Items_Grid[
+			if (Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2] == ktn_invalid || Data.Items_Grid[
 				Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1] == Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[
 				C1][C2].Y2]) {
 				float Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][1] -
@@ -161,8 +158,8 @@ void Update_Pipes() {
 		Distribute_Fluid(Grouped_List, Grouped, Sizes);
 	}
 	for (int C1 = 0; C1 < Grouped; C1++) {
-		free_c(Grouped_List[C1]);
+		ktn_free(Grouped_List[C1]);
 	}
-	free_c(Grouped_List);
-	free_c(Sizes);
+	ktn_free(Grouped_List);
+	ktn_free(Sizes);
 }

@@ -1,13 +1,13 @@
 #include <ui.h>
 
 void Back(Parameter Unused, Parameter Unused2) {
-	if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
+	if (Interface.Engagement == 0 && Interface.Registering_Keybind == ktn_invalid) {
 		Start_Transition(1);
 	}
 }
 
 void Swap_AA(Parameter Unused, Parameter Unused2) {
-	if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
+	if (Interface.Engagement == 0 && Interface.Registering_Keybind == ktn_invalid) {
 		Settings.AA_Temporary = !Settings.AA_Temporary;
 	}
 }
@@ -18,7 +18,7 @@ void Quit(Parameter Unused, Parameter Unused2) {
 
 void Tab_Saveloader(Parameter Unused, Parameter Unused2) {
 	Start_Transition(2);
-	Core.Selected_Save = LDE_INVALID;
+	Core.Selected_Save = ktn_invalid;
 	Get_Filesizes();	
 }
 
@@ -52,13 +52,13 @@ void Swap_VS(Parameter Unused, Parameter Unused2) {
 }
 
 void Clear_Configs(Parameter Unused, Parameter Unused2) {
-	if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {
+	if (Interface.Engagement == 0 && Interface.Registering_Keybind == ktn_invalid) {
 		Clear_Settings();
 	}
 }
 
 void Apply_Configs(Parameter Unused, Parameter Unused2) {
-	if (Interface.Engagement == 0 && Interface.Registering_Keybind == LDE_INVALID) {	
+	if (Interface.Engagement == 0 && Interface.Registering_Keybind == ktn_invalid) {	
 		Recalibrate_Settings();
 		Temporary.Settings_Changed = true;
 	}

@@ -7,7 +7,7 @@ char* Get_File(char* Path) {
 	if (File == NULL) {
 		char Subcarrier[128];
 		snprintf(Subcarrier, sizeof(Subcarrier), "failed to open xml file \"%s\"", Carrier);
-		jump(I_No_XML_File, Subcarrier);
+		ktn_jump(I_No_XML_File, Subcarrier);
 	}
 	fseek(File, 0L, SEEK_END);
 	int Length = ftell(File);
@@ -37,12 +37,12 @@ int Get_Integer(const char* Path, const char* Text, const char* Element) {
 		Zero = true;
 		Yield = 0;
 	}
-	free_c(Carrier);
+	ktn_free(Carrier);
 	if (Yield == 0 && !Zero) {
 		char Subcarrier[128];
 		snprintf(Subcarrier, sizeof(Subcarrier), "xml parser failed to process integer \"%s\" at \"assets/%s.xml\"", Element,
 			Path);
-		jump(I_No_Integer, Subcarrier);
+		ktn_jump(I_No_Integer, Subcarrier);
 	}
 	return Yield;
 }
@@ -61,12 +61,41 @@ bool Get_Boolean(const char* Text, const char* Element) {
 	return false;
 }
 
+
+void Get_Node(const char* Path, const char* Data, const char* Label, int* Ct_Ptr, Node_Data** Node_Ptr, Flow_Type Flow) {
+	char Carrier[64];
+	snprintf(Carrier, sizeof(Carrier), "%s_Ct", Label);
+	int Node_Ct = Get_Integer(Path, Data, Carrier);
+	*Ct_Ptr = Node_Ct;
+	*Node_Ptr = malloc(sizeof(Node_Data) * Node_Ct);
+	char** Subnodes = Find_Multiple(Path, Data, Label, Node_Ct);
+	for (int C1 = 0; C1 < Node_Ct; C1++) {
+		(*Node_Ptr)[C1].Flow = Flow;
+		(*Node_Ptr)[C1].Pos.X = Get_Integer(Path, Subnodes[C1], "X");
+		(*Node_Ptr)[C1].Pos.Y = Get_Integer(Path, Subnodes[C1], "Y");
+		(*Node_Ptr)[C1].Cap = Get_Integer(Path, Subnodes[C1], "Cap");
+		char* Direction = Find_Element(Path, Subnodes[C1], "Dir", NULL);
+		const char* Identifiers[5] = { "any", "left", "up", "right", "down" };
+		const Dir Results[5] = { Any, Left, Up, Right, Down };
+		for (int C2 = 0; C2 < 5; C2++) {
+			if (!ktn_stricmp(Direction, Identifiers[C2])) {
+				continue;
+			}
+			(*Node_Ptr)[C1].Connection = Results[C2];
+			break;
+		}
+		ktn_free(Direction);
+		ktn_free(Subnodes[C1]);
+	}
+	ktn_free(Subnodes);
+}
+
 void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
-	free_c(Registrar);
+	ktn_free(Registrar);
 	int ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
@@ -77,45 +106,45 @@ void Load_XML() {
 		Machine.Desc = get_str("Desc");
 		Machine.Index = get_str("Index");
 		char* Texture_Type = get_str("Texture_Type");
-		if (stricmp(Texture_Type, "none")) {
+		if (ktn_stricmp(Texture_Type, "none")) {
 			Machine.Animation_Type = A_None;
-		} else if (stricmp(Texture_Type, "static")) {
+		} else if (ktn_stricmp(Texture_Type, "static")) {
 			Machine.Animation_Type = A_Static;
-		} else if (stricmp(Texture_Type, "rot")) {
+		} else if (ktn_stricmp(Texture_Type, "rot")) {
 			Machine.Animation_Type = A_Rot;
-		} else if (stricmp(Texture_Type, "modular")) {
+		} else if (ktn_stricmp(Texture_Type, "modular")) {
 			Machine.Animation_Type = A_Modular;
 			Machine.Mod_Data.Parts = get_int("Parts");
-		} else if (stricmp(Texture_Type, "spinner")) {
+		} else if (ktn_stricmp(Texture_Type, "spinner")) {
 			Machine.Animation_Type = A_Spinner;
 			Machine.Spin_Data.Speed = get_int("Speed");
 		} else {
-			jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
+			ktn_jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
-		free_c(Texture_Type);
+		ktn_free(Texture_Type);
 		char* Power_Type = get_str("Power_Type");
-		if (stricmp(Power_Type, "none")) {
+		if (ktn_stricmp(Power_Type, "none")) {
 			Machine.Power_Type = F_None;
-		} else if (stricmp(Power_Type, "in")) {
+		} else if (ktn_stricmp(Power_Type, "in")) {
 			Machine.Power_Type = F_In;
-		} else if (stricmp(Power_Type, "out")) {
+		} else if (ktn_stricmp(Power_Type, "out")) {
 			Machine.Power_Type = F_Out;
-		} else if (stricmp(Power_Type, "any")) {
+		} else if (ktn_stricmp(Power_Type, "any")) {
 			Machine.Power_Type = F_Either;
 		} else {
-			jump(I_No_Powertype, "xml parser failed to process \"Power_Type\"");
+			ktn_jump(I_No_Powertype, "xml parser failed to process \"Power_Type\"");
 		}
 		if (Machine.Power_Type != F_None) {
 			Machine.Power_Capacity = get_int("Power_Capacity");
 			Machine.Anchor.X = get_int("Anchor_X");
 			Machine.Anchor.Y = get_int("Anchor_Y");
 		}
-		free_c(Power_Type);
+		ktn_free(Power_Type);
 		Machine.Path = get_str("Path");
 		Machine.Price = get_int("Price");
 		Machine.Fee = get_int("Fee");
 		char* Quirk_Texts[4] = { "Nonrotatable", "Modular", "Interactable", "Omnidirectional" };
-		for (int C2 = 0; C2 < LDE_QUIRKS; C2++) {
+		for (int C2 = 0; C2 < ktn_quirks; C2++) {
 			Machine.Quirks[C2] = Get_Boolean(Machine_File, Quirk_Texts[C2]);
 		}
 		Machine.Size = (Point){
@@ -125,8 +154,8 @@ void Load_XML() {
 		Machine.Rect = (SDL_FRect){
 			0.0f,
 			0.0f,
-			scale_f(LDE_TILESIZE * Machine.Size.X),
-			scale_f(LDE_TILESIZE * Machine.Size.Y)
+			ktn_fscale(ktn_tile_size * Machine.Size.X),
+			ktn_fscale(ktn_tile_size * Machine.Size.Y)
 		};
 		bool Single_ID = Get_Boolean(Machine_File, "Single_ID");
 		bool Rot_ID = Get_Boolean(Machine_File, "Rot_ID");
@@ -149,39 +178,18 @@ void Load_XML() {
 		Machine.Irradiating = Get_Boolean(Machine_File, "Irradiating");
 		Machine.Command = Get_Boolean(Machine_File, "Command");
 		if (Get_Boolean(Machine_File, "Fluid_Processor")) {
-			int Input_Ct = get_int("Input_Ct");
-			Machine.Input_Ct = Input_Ct;
-			Machine.Inputs = malloc(sizeof(Node_Data) * Input_Ct);
-			char** Subinputs = Find_Multiple(Raw_Names[C1], Machine_File, "Input", Input_Ct);
-			for (int C2 = 0; C2 < Input_Ct; C2++) {
-				Machine.Inputs[C2].Flow = F_In;
-				Machine.Inputs[C2].Pos.X = Get_Integer(Raw_Names[C1], Subinputs[C2], "X");
-				Machine.Inputs[C2].Pos.Y = Get_Integer(Raw_Names[C1], Subinputs[C2], "Y");
-				char* Direction = Find_Element(Raw_Names[C1], Subinputs[C2], "Dir", NULL);
-				const char* Identifiers[5] = { "any", "left", "up", "right", "down" };
-				const Dir Results[5] = { Any, Left, Up, Right, Down };
-				for (int C1 = 0; C1 < 5; C1++) {
-					if (!stricmp(Direction, Identifiers[C1])) {
-						continue;
-					}
-					Machine.Inputs[C1].Connection = Results[C1];
-					break;
-				}
-				free_c(Direction);
-				free_c(Subinputs[C2]);
-			}
-			free_c(Subinputs);
-			Machine.Output_Ct = get_int("Output_Ct");
+			Get_Node(Raw_Names[C1], Machine_File, "Input", &Machine.Input_Ct, &Machine.Inputs, F_In);
+			Get_Node(Raw_Names[C1], Machine_File, "Output", &Machine.Output_Ct, &Machine.Outputs, F_Out);
 			Machine.Neutral_Ct = get_int("Neutral_Ct");
 		}
-		free_c(Machine_File);
-		free_c(Raw_Names[C1]);
+		ktn_free(Machine_File);
+		ktn_free(Raw_Names[C1]);
 		#undef get_str
 		#undef get_int
 		#undef Machine
 	}
-	free_c(Raw_Names);
-	printf("debug info:\lowest unreg. visual id -> %i\n", ID_Record + 1);
+	ktn_free(Raw_Names);
+	printf("debug info:\nlowest unreg. visual id -> %i\n", ID_Record + 1);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {
@@ -212,7 +220,7 @@ char* Find_Element(const char* Path, const char* Text, const char* Element, int*
 	if (!Found_Start || !Found_End) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "xml parser failed to find element \"%s\" in xml file \"%s\"", Element, Path);
-		jump(I_No_Element, Carrier);
+		ktn_jump(I_No_Element, Carrier);
 	}
 	int Length = End - Start - strlen(Start_Target);
 	char* Yield = malloc(Length + 1);
@@ -231,7 +239,7 @@ char** Find_Multiple(const char* Path, const char* Text, const char* Element, in
 		int Carrier = 0;
 		Yield[C1] = Find_Element(Path, Text + End, Element, &Carrier);
 		if (Yield[C1] == NULL || Carrier <= 0) {
-			free_c(Yield);
+			ktn_free(Yield);
 			return NULL;
 		}
 		End += Carrier;

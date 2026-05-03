@@ -4,10 +4,10 @@ TRANSITION Transition = {
 	.Queried_Tab = 0,
 	.Frames = 0,
 	.Max_Frames = 0,
-	.Phase = LDE_INVALID,
-	.Sub_Pos = { LDE_INVALID, LDE_INVALID },
+	.Phase = ktn_invalid,
+	.Sub_Pos = { ktn_invalid, ktn_invalid },
 	.Sub_Side = 1,
-	.Sub_Phase = LDE_INVALID,
+	.Sub_Phase = ktn_invalid,
 	.Sub_Offset = 0,
 	.Sub_Vertical = 0
 };
@@ -41,7 +41,7 @@ void Render_Closing(bool Clearing) {
 			Rects.Door[1].x = (int)(Core.Screensize.X - (Core.Screenhalfsize.X * Percentage));
 		} else {
 			Transition.Phase = 1;
-			Interface.UI_Tab = LDE_INVALID;
+			Interface.UI_Tab = ktn_invalid;
 			Transition.Frames = 0;
 			Transition.Max_Frames = (int)(Interface.Frame_Rate / 1.5f);
 			Rects.Door[0].x = 0;
@@ -67,14 +67,14 @@ void Render_Opening() {
 			Render_Texture(Textures.Door.Data[0], &Rects.Door[0]);
 			Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 			SDL_FRect Indicator_Rectangle = {
-				scale_f((Percentage * 320.0f) + 342.5f),
-				scale_f((1471.0f / 6.0f) - 20.0f),
-				scale_f(LDE_TILESIZE),
-				scale_f(LDE_TILESIZE)
+				ktn_fscale((Percentage * 320.0f) + 342.5f),
+				ktn_fscale((1471.0f / 6.0f) - 20.0f),
+				ktn_fscale(ktn_tile_size),
+				ktn_fscale(ktn_tile_size)
 			};
 			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
-			Transition.Phase = LDE_INVALID;
+			Transition.Phase = ktn_invalid;
 			Interface.Locked = false;
 		}
 	}
@@ -92,12 +92,12 @@ void Trigger_Ambiance() {
 }
 
 void Render_Submarine() {
-	if (Transition.Sub_Phase != LDE_INVALID) {
+	if (Transition.Sub_Phase != ktn_invalid) {
 		switch (Transition.Sub_Phase) {
 		case 0:
-			Transition.Sub_Offset -= (float)(LDE_VESSELSPEED * LDE_TILESIZE) / Interface.Frame_Rate;
-			if (Transition.Sub_Offset < (Transition.Sub_Pos.X * LDE_TILESIZE) + 120) {
-				Transition.Sub_Offset = (Transition.Sub_Pos.X * LDE_TILESIZE) + 120;
+			Transition.Sub_Offset -= (float)(ktn_sub_speed * ktn_tile_size) / Interface.Frame_Rate;
+			if (Transition.Sub_Offset < (Transition.Sub_Pos.X * ktn_tile_size) + 120) {
+				Transition.Sub_Offset = (Transition.Sub_Pos.X * ktn_tile_size) + 120;
 				Transition.Sub_Phase = 1;
 			}
 			break;
@@ -116,19 +116,19 @@ void Render_Submarine() {
 			}
 			break;
 		case 4:
-			Transition.Sub_Offset -= (float)(LDE_VESSELSPEED * LDE_TILESIZE) / Interface.Frame_Rate;
+			Transition.Sub_Offset -= (float)(ktn_sub_speed * ktn_tile_size) / Interface.Frame_Rate;
 			if (Transition.Sub_Offset < -3000) {
 				Transition.Sub_Offset = 3000;
-				Transition.Sub_Phase = LDE_INVALID;
-				Transition.Sub_Pos.X = LDE_INVALID;
-				Transition.Sub_Pos.Y = LDE_INVALID;
+				Transition.Sub_Phase = ktn_invalid;
+				Transition.Sub_Pos.X = ktn_invalid;
+				Transition.Sub_Pos.Y = ktn_invalid;
 			}
 			break;
 		default:
 			break;
 		}
-		Rects.Submarine.x = scale_f(Transition.Sub_Offset - Core.Camera.X - 900.0f);
-		Rects.Submarine.y = (scale_f(-Transition.Sub_Vertical) - Rects.Submarine.h) - scale_f(Core.Camera.Y);
+		Rects.Submarine.x = ktn_fscale(Transition.Sub_Offset - Core.Camera.X - 900.0f);
+		Rects.Submarine.y = (ktn_fscale(-Transition.Sub_Vertical) - Rects.Submarine.h) - ktn_fscale(Core.Camera.Y);
 		for (int C1 = 0; C1 < 2; C1++) {
 			SDL_FRect Subrectangle = {
 				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * C1),
@@ -155,10 +155,10 @@ void Render_Transitions() {
 	Render_Texture(Textures.Door.Data[1], &Rects.Door[1]);
 	if (Transition.Frames > (Transition.Max_Frames * 0.5) || Transition.Phase == 2) {
 		SDL_FRect Indicator_Rectangle = {
-			scale_f(342.5f),
-			scale_f((1471.0f / 6.0f) - 20.0f),
-			scale_f(LDE_TILESIZE),
-			scale_f(LDE_TILESIZE)
+			ktn_fscale(342.5f),
+			ktn_fscale((1471.0f / 6.0f) - 20.0f),
+			ktn_fscale(ktn_tile_size),
+			ktn_fscale(ktn_tile_size)
 		};
 		Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 	}

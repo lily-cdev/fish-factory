@@ -10,22 +10,22 @@ void Progress_Tutorial() {
 	}
 	if (Temporary.Tutorial_Step >= Limiter) {
 		memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
-		Temporary.Tutorial_Step = LDE_INVALID;
+		Temporary.Tutorial_Step = ktn_invalid;
 	}
 }
 
 void Process_Tutorial(int Input) {
-	if (Temporary.Tutorial_Step > LDE_INVALID) {
+	if (Temporary.Tutorial_Step > ktn_invalid) {
 		bool Step_Completed = false;
-		if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 0 && Input != LDE_INVALID) {
+		if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 0 && Input != ktn_invalid) {
 			if ((SDL_Keycode)(Input) == Keybinds.Keybind_List[Tutorial_Stack[Temporary.Tutorial_Step].Hotkey]) {
 				Step_Completed = true;
 			}
-		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 1 && Input != LDE_INVALID) {
+		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 1 && Input != ktn_invalid) {
 			if (Input == Tutorial_Stack[Temporary.Tutorial_Step].Selection) {
 				Step_Completed = true;
 			}
-		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 5 && Input == LDE_INVALID) {
+		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 5 && Input == ktn_invalid) {
 			if (Tutorial_Stack[Temporary.Tutorial_Step].Hotkey < Tutorial_Stack[Temporary.Tutorial_Step].Selection) {
 				Tutorial_Stack[Temporary.Tutorial_Step].Hotkey++;
 			} else {
@@ -39,12 +39,12 @@ void Process_Tutorial(int Input) {
 }
 
 void Render_Tutorial() {
-	if (Temporary.Tutorial_Step > LDE_INVALID) {
+	if (Temporary.Tutorial_Step > ktn_invalid) {
 		SDL_FRect Bounding_Rectangle = {
-			scale_f((120.0f - Core.Camera.X) + Temporary.Tutorial_Offset.X),
-			scale_f((120.0f - Core.Camera.Y) + Temporary.Tutorial_Offset.Y),
-			scale_f(Temporary.Tutorial_Size.X),
-			scale_f(Temporary.Tutorial_Size.Y)
+			ktn_fscale((120.0f - Core.Camera.X) + Temporary.Tutorial_Offset.X),
+			ktn_fscale((120.0f - Core.Camera.Y) + Temporary.Tutorial_Offset.Y),
+			ktn_fscale(Temporary.Tutorial_Size.X),
+			ktn_fscale(Temporary.Tutorial_Size.Y)
 		};
 		Cache.ID_Query[Cache.Query_Length] = 0;
 		Cache.Query[Cache.Query_Length] = Bounding_Rectangle;
@@ -60,15 +60,15 @@ void Render_Tutorial() {
 			strncpy(Keycore, SDL_GetKeyName(Keybinds.Keybind_List[Step.Hotkey]), sizeof(
 				Keycore));
 			snprintf(Carrier, sizeof(Carrier), "Press \"%s\" (%s).", Keycore, Keybinds.Keybind_Texts[Step.Hotkey]);
-			strcat_c(Text, Carrier, sizeof(Text));
+			strcat(Text, Carrier);
 		} else if (Step.Type == 1) {
 			snprintf(Carrier, sizeof(Carrier), "Click on the \"%s\" button.", Step.Label);
-			strcat_c(Text, Carrier, sizeof(Text));
+			strcat(Text, Carrier);
 		} else if (Step.Type == 2) {
 			int Remaining = 0;
-			for (int C1 = 0; C1 < ptlen(Step.Placement_Locations); C1++) {
+			for (int C1 = 0; C1 < ktn_ptlen(Step.Placement_Locations); C1++) {
 				if (Step.ID_Override) {
-					if (stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Step.Placement_Locations[C1])])->Index,
+					if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Step.Placement_Locations[C1])])->Index,
 						Step.ID_Override->Index) == 0) {
 						continue;
 					}
@@ -81,10 +81,10 @@ void Render_Tutorial() {
 				int Y;
 				ID_To_Size(Visual_To_Machine(Step.Item), 0, &X, &Y);
 				SDL_FRect Outline_Rectangle = {
-					scale_f((Step.Placement_Locations[C1].X * LDE_TILESIZE * Settings.Scalar) - Core.Camera.X),
-					scale_f((Step.Placement_Locations[C1].Y * LDE_TILESIZE * Settings.Scalar) - Core.Camera.Y),
-					scale_f(X * LDE_TILESIZE),
-					scale_f(Y * LDE_TILESIZE)
+					ktn_fscale((Step.Placement_Locations[C1].X * ktn_tile_size * Settings.Scalar) - Core.Camera.X),
+					ktn_fscale((Step.Placement_Locations[C1].Y * ktn_tile_size * Settings.Scalar) - Core.Camera.Y),
+					ktn_fscale(X * ktn_tile_size),
+					ktn_fscale(Y * ktn_tile_size)
 				};
 				Cache.ID_Query[Cache.Query_Length] = 0;
 				Cache.Query[Cache.Query_Length] = Outline_Rectangle;
@@ -98,7 +98,7 @@ void Render_Tutorial() {
 			}
 			if (Step.Item == 0 && !Step.ID_Override) {
 				snprintf(Carrier, sizeof(Carrier), "Remove the %i machine%sshown.", Remaining, Suffix);
-				strcat_c(Text, Carrier, sizeof(Text));
+				strcat(Text, Carrier);
 			} else {
 				char Subcore[64];
 				if (Step.ID_Override) {
@@ -107,14 +107,14 @@ void Render_Tutorial() {
 					strncpy(Subcore, Visual_To_Machine(Step.Item)->Name, sizeof(Subcore));
 				}
 				snprintf(Carrier, sizeof(Carrier), "Place %ix %s in the space%sshown.", Remaining, Subcore, Suffix);
-				strcat_c(Text, Carrier, sizeof(Text));
+				strcat(Text, Carrier);
 			}
 			if (Remaining == 0) {
 				Progress_Tutorial();
 			}
 		} else if (Step.Type == 3 || Step.Type == 4) {
 			int Remaining = 0;
-			for (int C1 = 0; C1 < ptlen(Step.Placement_Locations);
+			for (int C1 = 0; C1 < ktn_ptlen(Step.Placement_Locations);
 				C1 += 2) {
 				bool Incomplete = true;
 				if (Step.Type == 3) {
@@ -138,13 +138,13 @@ void Render_Tutorial() {
 				}
 				if (Incomplete) {
 					SDL_FRect Temporary_Rectangle = {
-						scale_f(Step.Placement_Locations[C1].X * LDE_TILESIZE) + scale_f(
+						ktn_fscale(Step.Placement_Locations[C1].X * ktn_tile_size) + ktn_fscale(
 							20.0f - Core.Camera.X),
-						scale_f(Step.Placement_Locations[C1].Y * LDE_TILESIZE) + scale_f(
+						ktn_fscale(Step.Placement_Locations[C1].Y * ktn_tile_size) + ktn_fscale(
 							20.0f - Core.Camera.Y),
-						scale_f(Step.Placement_Locations[C1 + 1].X * LDE_TILESIZE) + scale_f(
+						ktn_fscale(Step.Placement_Locations[C1 + 1].X * ktn_tile_size) + ktn_fscale(
 							20.0f - Core.Camera.X),
-						scale_f(Step.Placement_Locations[C1 + 1].Y * LDE_TILESIZE) + scale_f(
+						ktn_fscale(Step.Placement_Locations[C1 + 1].Y * ktn_tile_size) + ktn_fscale(
 							20.0f - Core.Camera.Y)
 					};
 					Cache.Query[Cache.Query_Length] = Temporary_Rectangle;
@@ -164,14 +164,14 @@ void Render_Tutorial() {
 			}
 			snprintf(Carrier, sizeof(Carrier), "Connect %i %s%sbetween the machine%sshown.", Remaining, Subcore, Suffix,
 				Suffix);
-			strcat_c(Text, Carrier, sizeof(Text));
+			strcat(Text, Carrier);
 			if (Remaining == 0) {
 				Progress_Tutorial();
 			}
 		} else if (Step.Type == 5) {
 			snprintf(Carrier, sizeof(Carrier), "Wait for %i/%i seconds.", Step.Hotkey,
 				Step.Selection);
-			strcat_c(Text, Carrier, sizeof(Text));
+			strcat(Text, Carrier);
 		} else if (Step.Type == 6) {
 			int Keybind = 0;
 			float Position = 0;
@@ -199,7 +199,7 @@ void Render_Tutorial() {
 			snprintf(Carrier, sizeof(Carrier), "Hold down \"%c\" to drift the camera %i/%ipx %s.", (char)(tolower(
 				SDL_GetKeyName(Keybinds.Keybind_List[Keybind])[0])), (int)Position, (int)Tutorial_Stack[
 				Temporary.Tutorial_Step].Selection, Direction);
-			strcat_c(Text, Carrier, sizeof(Text));
+			strcat(Text, Carrier);
 			if ((Position < Step.Selection && Keybind == 2) ||
 				(Position < Step.Selection && Keybind == 0) ||
 				(Position > Step.Selection && Keybind == 3) ||
@@ -211,9 +211,9 @@ void Render_Tutorial() {
 			Settings.Scalar * 300.0f, Settings.Scalar * 30.0f })) {
 			char Buffer[128];
 			snprintf(Buffer, sizeof(Buffer), "This will %s.", Step.Context);
-			Process_Supply(&Supplies.Tutorial, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
+			Process_Supply(&Supplies.Tutorial, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ ktn_invalid, 26 });
 		} else {
-			Process_Supply(&Supplies.Subtutorial, Text, F_Subtext, Colors.Abyss_Black, (Point){ LDE_INVALID, 26 });
+			Process_Supply(&Supplies.Subtutorial, Text, F_Subtext, Colors.Abyss_Black, (Point){ ktn_invalid, 26 });
 		}
 	}
 }

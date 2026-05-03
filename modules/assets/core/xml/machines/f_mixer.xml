@@ -18,5 +18,61 @@
 	<Visual_Left>49</Visual_Left>
 	<Visual_Up>99</Visual_Up>
 	<Visual_Right>100</Visual_Right>
-	<Visual_Down>101</Visual_Down>	
+	<Visual_Down>101</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>6</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>24</Cap>
+		</Input>
+		<Input>
+			<X>0</X>
+			<Y>1</Y>
+			<Dir>left</Dir>
+			<Cap>24</Cap>
+		</Input>
+		<Input>
+			<X>0</X>
+			<Y>2</Y>
+			<Dir>left</Dir>
+			<Cap>24</Cap>
+		</Input>
+		<Input>
+			<X>2</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>24</Cap>
+		</Input>
+		<Input>
+			<X>2</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>24</Cap>
+		</Input>
+		<Input>
+			<X>2</X>
+			<Y>2</Y>
+			<Dir>right</Dir>
+			<Cap>24</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>36</Cap>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>36</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>
