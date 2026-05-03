@@ -18,4 +18,36 @@
 	<Visual_Up>96</Visual_Up>
 	<Visual_Right>97</Visual_Right>
 	<Visual_Down>98</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>1</X>
+			<Y>1</Y>
+			<Dir>down</Dir>
+			<Cap>16</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>3</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>20</Cap>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>20</Cap>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>20</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>	
 </Machine>

@@ -17,7 +17,7 @@ bool Place_Filtration_Plant(Point Pos) {
 	return true;
 }
 
-bool Place_Electrolytic_Cell(Point Pos) {
+bool Place_Electrolytic_Cell(Point Pos) {/*
 	if (ktn_evn(Interface.Rotation)) {
 		for (int C1 = 0; C1 < 3; C1++) {
 			Data.Data_Grid[Pos.X + C1][(int)(Interface.Rotation * 0.5f) + Pos.Y][Fluid_Cap] = 20;
@@ -36,7 +36,7 @@ bool Place_Electrolytic_Cell(Point Pos) {
 		Data.Data_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][Fluid_Cap] = 16;
 		Data.Plumbing_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1] = (Interface.Rotation - 1) + Left;
 		Data.Settings_Grid[Pos.X + (int)((Interface.Rotation - 1) * 0.5f)][Pos.Y + 1][0] = 1;
-	}
+	}*/
 	return true;
 }
 
