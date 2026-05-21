@@ -133,11 +133,7 @@ void Render_Application() {
 					Settings.Scalar * 20.0f,
 					Settings.Scalar * 20.0f
 				};
-				if (Get_ID_Item(Data.Items_Grid[pt(Pos)])) {
-					Render_Texture(Textures.None_Item, &Item_Rect);
-				} else {
-					Render_Texture(Textures.Items.Data[Data.Items_Grid[pt(Pos)]], &Item_Rect);
-				}
+				Render_Texture(Get_ID_Item(Data.Items_Grid[pt(Pos)])->Icon, &Item_Rect);
 			}
 		}
 		Hitbox.x = Core.Mouse.X - ktn_fscale(ktn_tile_size * 0.5f);

@@ -25,18 +25,18 @@ void Prep_Items() {
 		{ 1, 5 }, 2, { Preset_Items.Drill_Mud }, { 6 }, 1, 1 };
 	Preset_IO_Recipes.FM_Drillmud_2 = (Recipe){ false, false, 1, 650, { Preset_Items.Desalinated_Water,
 		Preset_Items.Marine_Snow }, { 1, 5 }, 2, { Preset_Items.Drill_Mud }, { 6 }, 1, 2 };
-	Preset_IO_Recipes.FM_Hydrogen_Chloride = (Recipe){ false, false, 1, 650, { Preset_Items.Hydrogen,
-		Preset_Items.Chlorine }, { 3, 3 }, 2, { Preset_Items.Hydrogen_Chloride }, { 3 }, 1, 3 };
+	Preset_IO_Recipes.FM_Hydrogen_Chloride = (Recipe){ false, false, 1, 650, { Get_Item("hydrogen"),
+		Get_Item("chlorine") }, { 3, 3 }, 2, { Preset_Items.Hydrogen_Chloride }, { 3 }, 1, 3 };
 	Preset_IO_Recipes.FM_Hydrochloric_Acid = (Recipe){ false, false, 1, 650, { Preset_Items.Hydrogen_Chloride,
 		Preset_Items.Desalinated_Water }, { 6, 1 }, 2, { Preset_Items.Hydrochloric_Acid }, { 1 }, 1, 4 };
-	Preset_IO_Recipes.D_Water = (Recipe){ true, false, 5, 400, { Preset_Items.Saltwater }, { 4 }, 1, { Preset_Items.Salt,
+	Preset_IO_Recipes.D_Water = (Recipe){ true, false, 5, 400, { Preset_Items.Saltwater }, { 4 }, 1, { Get_Item("wet_salt"),
 		Preset_Items.Desalinated_Water }, { 1, 2.5 }, 2, 1 };
 	Preset_IO_Recipes.EP_Water = (Recipe){ true, false, 10, 5000, { Preset_Items.Desalinated_Water }, { 12 }, 1,
-		{ Preset_IO_Recipes.Blank_Item, Preset_Items.Hydrogen, Preset_Items.Oxygen }, { 0, 12, 12 }, 3, 1 };
+		{ &Metadata.Null_Item, Get_Item("hydrogen"), Get_Item("oxygen") }, { 0, 12, 12 }, 3, 1 };
 	Preset_IO_Recipes.EP_Saltwater = (Recipe){ true, false, 10, 5000, { Preset_Items.Saltwater }, { 12 }, 1, {
-		Preset_Items.Sodium_Hydroxide, Preset_Items.Hydrogen, Preset_Items.Chlorine }, { 12, 6, 6 }, 3, 2 };
-	Preset_IO_Recipes.EP_Salt = (Recipe){ true, false, 10, 5000, { Preset_Items.Salt }, { 18 }, 1,
-		{ Preset_Items.Hydrogen, Preset_Items.Sodium_Hydroxide, Preset_Items.Chlorine }, { 9, 18, 9 }, 3, 3 };
+		Get_Item("wet_lye"), Get_Item("hydrogen"), Get_Item("chlorine") }, { 12, 6, 6 }, 3, 2 };
+	Preset_IO_Recipes.EP_Salt = (Recipe){ true, false, 10, 5000, { Get_Item("wet_salt") }, { 18 }, 1, { Get_Item("hydrogen"),
+		Get_Item("wet_lye"), Get_Item("chlorine") }, { 9, 18, 9 }, 3, 3 };
 	for (int C1 = 0; C1 < ktn_recipe_types; C1++) {
 		Recipes[C1] = calloc(Core.Machines, sizeof(Recipe*));
 		for (int C2 = 0; C2 < Core.Machines; C2++) {

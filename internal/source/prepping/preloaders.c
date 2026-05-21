@@ -121,20 +121,13 @@ void Preload_Machines() {
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
-	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, Settings.Scalar * 40.0f, Settings.Scalar * 40.0f };
+	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(40.0f), ktn_fscale(40.0f) };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
-	const char Paths[ktn_items][32] = {
-		"r_seawater", "c_saltwater", "am_snow", "l_waste", "steam", "d_water", "s_solution", "w_algae", "a_paste", "milkfish",
-		"mojarra", "menhaden", "d_mud", "none", "none", "hydrogen", "oxygen", "chlorine", "a_lye", "h_chloride", "m_acid"
-	};
-	Textures.Items.Length = ktn_items;
-	Textures.Items.Data = malloc(sizeof(SDL_Texture*) * ktn_items);
-	for (int C1 = 0; C1 < ktn_items; C1++) {
+	for (int C1 = 0; C1 < Core.Items; C1++) {
 		char Carrier[64];
-		snprintf(Carrier, sizeof(Carrier), "core/images/items/%s", Paths[C1]);
-		Textures.Items.Data[C1] = Preload_Texture(Carrier);
+		snprintf(Carrier, sizeof(Carrier), "core/images/items/%s", Metadata.Items[C1].Path);
+		Metadata.Items[C1].Icon = Preload_Texture(Carrier);
 	}
-	Textures.None_Item = Preload_Texture("core/images/items/none");
 }
 
 void Preload_Foundation() {
@@ -223,7 +216,8 @@ void Preload_Assets() {
 		.Nutrition = 0,
 		.Chem_Energy = 0,
 		.Boil_Pt = -2,
-		.V_Enthalpy = -2
+		.V_Enthalpy = -2,
+		.Icon = Preload_Texture("core/images/items/none")
 	};
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Interface.Tile_Centerpoint.x = Settings.Scalar * (ktn_tile_size * 0.5f);

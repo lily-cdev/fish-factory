@@ -174,10 +174,10 @@ void Reload_All(bool Initialized) {
 	Load_Sounds();
 	Render_Loadscreen();
 	SDL_SetWindowPosition(Core.Window, 0, 0);
-	for (int C1 = 0; C1 < ktn_items; C1++) {
-		strncpy(Interface.Slider_Texts[9][C1], Preset_Items.Item_List[C1].Display_Name, sizeof(Interface.Slider_Texts[9][C1]));
+	for (int C1 = 0; C1 < Core.Items; C1++) {
+		strncpy(Interface.Slider_Texts[9][C1], Metadata.Items[C1].Name, sizeof(Interface.Slider_Texts[9][C1]));
 	}
-	strncpy(Interface.Slider_Texts[9][ktn_items], ktn_null_string, sizeof(Interface.Slider_Texts[9][ktn_items]));
+	strncpy(Interface.Slider_Texts[9][Core.Items], ktn_null_string, sizeof(Interface.Slider_Texts[9][Core.Items]));
 	Adjust_Sound(Settings.Volume * 0.01f);
 	Interface.Frame_Rate = (int)(powf(2.0f, (float)Settings.Raw_FPS) * 15.0f);
 	switch (Settings.Fullscreen) {

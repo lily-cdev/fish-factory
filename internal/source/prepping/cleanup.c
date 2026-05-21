@@ -84,6 +84,7 @@ void Cleanup_Assets() {
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		ktn_free(Metadata.Items[C1].Name);
 		ktn_free(Metadata.Items[C1].Index);
+		ktn_free(Metadata.Items[C1].Path);
 	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo1);
@@ -188,8 +189,6 @@ void Cleanup_Assets() {
 	Clear_Rect2_Array(&Rects.Confirmation);
 	Clear_Texture_Array(&Textures.Pyramid);
 	ktn_free_texture(Textures.Mesh);
-	Clear_Texture_Array(&Textures.Items);
-	ktn_free_texture(Textures.None_Item);
 	Clear_Texture_Array(&Textures.Fire);
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);

@@ -17,7 +17,7 @@ void Render_M_Generator(Point Pos) {
 
 void Render_F_Generator(Point Pos) {
 	Render_Box((Point){ 60, 60 }, 520, 240, Colors.Light_Grey, Colors.Dark_Grey);
-	Render_Slider(Interface.Slider_Texts[9], 1, ktn_items - 1, &Interface.Slider_Positions[9], (Point){ 120, 80 }, 400,
+	Render_Slider(Interface.Slider_Texts[9], 1, Core.Items - 1, &Interface.Slider_Positions[9], (Point){ 120, 80 }, 400,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Render_Slider(Interface.Slider_Texts[10], 2, 240, &Interface.Slider_Positions[10], (Point){ 120, 120 }, 400,
 		Colors.Abyss_Black, Colors.Cherry_Blossom, true);

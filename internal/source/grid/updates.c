@@ -78,7 +78,7 @@ void Update_Machines() {
 			if (Data.Visual_Grid[pt(Pos)] == 21) {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
-						if (Data.Settings_Grid[pt(Pos)][C1 + 5] == Get_Item((Point){ Pos.X + C1, Pos.Y + 3 }).Identifier ||
+						if (Data.Settings_Grid[pt(Pos)][C1 + 5] == Data.Items_Grid[Pos.X + C1][Pos.Y] ||
 							Data.Settings_Grid[Pos.X][Pos.Y][C1 + 5] == ktn_invalid) {
 							Data.Settings_Grid[pt(Pos)][C1 + 3] = min(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[
 								Pos.X + C1][Pos.Y + 3][Stored_Fluids], ktn_dock_cap);
@@ -126,7 +126,7 @@ void Update_Machines() {
 						Data.Settings_Grid[pt(Pos)][7] = 0;
 						Point Coord = Find_Linked("spawning_output", Pos);
 						Item_Ptr Fish = Get_Fish_Item((int)(Data.Settings_Grid[pt(Pos)][6]));
-						Update_Item(Coord, Fish.Identifier, ktn_room_temp);
+						Update_Item(Coord, Fish->ID, ktn_room_temp);
 						Data.Data_Grid[pt(Coord)][0] = min(Data.Settings_Grid[pt(Pos)][5], Data.Data_Grid[pt(Coord)][Fluid_Cap]);
 					}
 					Data.Settings_Grid[pt(Pos)][7] += 1;
@@ -134,7 +134,7 @@ void Update_Machines() {
 			} else if (Data.Visual_Grid[pt(Pos)] == 47) {
 				int Parent_X = (int)(Data.Settings_Grid[pt(Pos)][3]);
 				int Parent_Y = (int)(Data.Settings_Grid[pt(Pos)][4]);
-				float Food_Multiplier = Get_Item(Data.Items_Grid[pt(Pos)])->Nutrition;
+				float Food_Multiplier = Get_ID_Item(Data.Items_Grid[pt(Pos)])->Nutrition;
 				if (Data.Data_Grid[pt(Pos)][Stored_Fluids] > 0 && Food_Multiplier > 0) {
 					Data.Settings_Grid[Parent_X][Parent_Y][4] += Data.Data_Grid[pt(Pos)][Stored_Fluids] * Food_Multiplier;
 					Data.Data_Grid[pt(Pos)][Stored_Fluids] = 0;

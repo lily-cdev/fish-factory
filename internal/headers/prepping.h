@@ -136,8 +136,6 @@ struct lde_textures {
 	Texture2_Array Confirmation;
 	Texture_Array Pyramid;
 	SDL_Texture* Mesh;
-	Texture_Array Items;
-	SDL_Texture* None_Item;
 	Texture_Array Fire;
 	Texture_Array None;
 };

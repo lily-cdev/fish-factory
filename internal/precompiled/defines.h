@@ -24,7 +24,6 @@
 #define ktn_hx_cap 1200
 #define ktn_hx_efficiency 1200
 #define ktn_invalid -1
-#define ktn_items 21
 #define ktn_json_max 8
 #define ktn_keybinds 14
 #define ktn_large_cap 150

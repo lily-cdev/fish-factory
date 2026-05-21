@@ -185,8 +185,8 @@ void SD_Link(Parameter Pos, Parameter Unused) {
 	if (Transition.Sub_Pos.X == Pos.Pos.X && Transition.Sub_Pos.Y == Pos.Pos.Y && Transition.Sub_Phase == 2) {
 		int Issues[2] = { 0, 0 };
 		for (int C1 = 0; C1 < 2; C1++) {
-			if (Get_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 + 5]))->Worth == Worthless && Data.Settings_Grid[pt(Pos.Pos)][
-				C1 + 5] != ktn_invalid) {
+			if (Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 + 5]))->Worth == Worthless && Data.Settings_Grid[pt(
+				Pos.Pos)][C1 + 5] != ktn_invalid) {
 				Issues[C1] = 1;
 			}
 			if (Data.Settings_Grid[pt(Pos.Pos)][C1 + 5] == ktn_invalid) {
@@ -196,7 +196,7 @@ void SD_Link(Parameter Pos, Parameter Unused) {
 		if (Issues[0] == 0 || Issues[1] == 0) {
 			for (int C2 = 0; C2 < 2; C2++) {
 				if (Issues[C2] == 0) {
-					Data.Funds += Data.Settings_Grid[pt(Pos.Pos)][C2 + 3] * Get_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C2 +
+					Data.Funds += Data.Settings_Grid[pt(Pos.Pos)][C2 + 3] * Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C2 +
 						5]))->Price;
 					Data.Settings_Grid[pt(Pos.Pos)][C2 + 3] = 0;
 					Data.Settings_Grid[pt(Pos.Pos)][C2 + 5] = ktn_invalid;
@@ -219,8 +219,8 @@ void SD_Manifest(Parameter Pos, Parameter Unused) {
 	int Index = 0;
 	for (int C1 = 0; C1 < 2; C1++) {
 		char Carrier1[32] = "none";
-		if (Data.Settings_Grid[pt(Pos.Pos)][C1 + 5] != ktn_invalid && Get_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][
-			C1 + 5]))->Worth < 1) {
+		if (Data.Settings_Grid[pt(Pos.Pos)][C1 + 5] != ktn_invalid && Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 +
+			5]))->Worth < 1) {
 			strncpy(Carrier1, "low_value", sizeof(Carrier1));
 		}
 		char Subbuffer1[64];
@@ -233,7 +233,7 @@ void SD_Manifest(Parameter Pos, Parameter Unused) {
 		Index++;
 		char Carrier2[32] = "none";
 		if (Data.Settings_Grid[pt(Pos.Pos)][C1 + 5] != ktn_invalid) {
-			strncpy(Carrier2, Get_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 + 5]))->Name, sizeof(Carrier2));
+			strncpy(Carrier2, Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 + 5]))->Name, sizeof(Carrier2));
 			for (int C2 = 0; C2 < strlen(Carrier2); C2++) {
 				Carrier2[C2] = (char)(tolower(Carrier2[C2]));
 				if (Carrier2[C2] == ' ') {

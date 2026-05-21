@@ -204,6 +204,7 @@ void Load_XML() {
 		char* Item_File = Get_File(Raw_Names[C1]);
 		Item.Name = get_str("Name");
 		Item.Index = get_str("Index");
+		Item.Path = get_str("Path");
 		Item.ID = get_int("ID");
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
