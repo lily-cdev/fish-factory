@@ -4,7 +4,7 @@ void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
 	Cycle_Ram_Pump,
 	Cycle_Incinerator,
 	Cycle_RTG,
-	Cycle_Bio_Gen,
+	Cycle_Furnace,
 	Cycle_Distillery,
 	Cycle_Algae_Bed,
 	Cycle_Electrolytic_Cell,
@@ -25,7 +25,7 @@ const char* Cycle_Matches[18] = {
 	"ram_pump",
 	"incinerator",
 	"rtg",
-	"bio_generator",
+	"furnace",
 	"distillery",
 	"algae_bed",
 	"electro_cell",
@@ -83,7 +83,7 @@ void Update_Machines() {
 							Data.Settings_Grid[pt(Pos)][C1 + 3] = min(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[
 								Pos.X + C1][Pos.Y + 3][Stored_Fluids], ktn_dock_cap);
 							Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] = 0;
-							Data.Settings_Grid[pt(Pos)][C1 + 5] = Get_Item((Point){ Pos.X + C1, Pos.Y + 3 }).Identifier;
+							Data.Settings_Grid[pt(Pos)][C1 + 5] = Data.Items_Grid[Pos.X + C1][Pos.Y + 3];
 						}
 					}
 				}
@@ -125,7 +125,7 @@ void Update_Machines() {
 					if (Data.Settings_Grid[pt(Pos)][7] >= Fish_Catalog[(int)(Data.Settings_Grid[pt(Pos)][6])].Max_Growth) {
 						Data.Settings_Grid[pt(Pos)][7] = 0;
 						Point Coord = Find_Linked("spawning_output", Pos);
-						Item_Stack Fish = Get_Fish_Item((int)(Data.Settings_Grid[pt(Pos)][6]));
+						Item_Ptr Fish = Get_Fish_Item((int)(Data.Settings_Grid[pt(Pos)][6]));
 						Update_Item(Coord, Fish.Identifier, ktn_room_temp);
 						Data.Data_Grid[pt(Coord)][0] = min(Data.Settings_Grid[pt(Pos)][5], Data.Data_Grid[pt(Coord)][Fluid_Cap]);
 					}
@@ -134,14 +134,7 @@ void Update_Machines() {
 			} else if (Data.Visual_Grid[pt(Pos)] == 47) {
 				int Parent_X = (int)(Data.Settings_Grid[pt(Pos)][3]);
 				int Parent_Y = (int)(Data.Settings_Grid[pt(Pos)][4]);
-				float Food_Multiplier = 0;
-				if (Data.Items_Grid[pt(Pos)] == Preset_Items.Marine_Snow.Identifier) {
-					Food_Multiplier = 0.35;
-				} else if (Data.Items_Grid[pt(Pos)] == Preset_Items.Raw_Algae.Identifier) {
-					Food_Multiplier = 0.5;
-				} else if (Data.Items_Grid[pt(Pos)] == Preset_Items.Biopaste.Identifier) {
-					Food_Multiplier = 0.65;
-				}
+				float Food_Multiplier = Get_Item(Data.Items_Grid[pt(Pos)])->Nutrition;
 				if (Data.Data_Grid[pt(Pos)][Stored_Fluids] > 0 && Food_Multiplier > 0) {
 					Data.Settings_Grid[Parent_X][Parent_Y][4] += Data.Data_Grid[pt(Pos)][Stored_Fluids] * Food_Multiplier;
 					Data.Data_Grid[pt(Pos)][Stored_Fluids] = 0;

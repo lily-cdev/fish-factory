@@ -6,7 +6,7 @@
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/b_tile</Path>
 	<Price>4</Price>
-	<Fee>1</Fee>
+	<Fee>0</Fee>
 	<Nonrotatable />
 	<Width>1</Width>
 	<Height>1</Height>

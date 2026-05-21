@@ -5,8 +5,8 @@
 	<Index>ammo_rack</Index>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/a_shelf</Path>
-	<Price>3</Price>
-	<Fee>2</Fee>
+	<Price>7</Price>
+	<Fee>1</Fee>
 	<Width>2</Width>
 	<Height>1</Height>
 	<Power_Type>none</Power_Type>

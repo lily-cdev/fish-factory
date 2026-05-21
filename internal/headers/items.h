@@ -3,27 +3,14 @@
 #include <prepping.h>
 
 typedef struct {
-	int Identifier;
-	int Hazard;
-	int Value;
-	char Display_Name[32];
-	float Sale_Value;
-	float Toxicity;
-	float Temperature;
-	float Chemical_Energy;
-	float Boiling_Point;
-	float Vaporisation_Enthalpy;
-} Item_Stack;
-
-typedef struct {
 	bool Shuffling_Barred;
 	bool Voiding_Excess;
 	int Time;
 	int Power;
-	Item_Stack Input_Items[16];
+	Item_Ptr Input_Items[16];
 	float Input_Counts[16];
     int Inputs;
-	Item_Stack Output_Items[16];
+	Item_Ptr Output_Items[16];
 	float Output_Counts[16];
     int Outputs;
 	int ID;
@@ -37,45 +24,7 @@ typedef struct {
 } Fish;
 
 typedef struct {
-	int Identifier;
-	char Display_Name[32];
-	Item_Stack Contents[64];
-    int Length;
-} Item_Category;
-
-typedef struct {
-	Item_Stack Raw_Saltwater;
-	Item_Stack Saltwater;
-	Item_Stack Marine_Snow;
-	Item_Stack Waste;
-	Item_Stack Steam;
-	Item_Stack Desalinated_Water;
-	Item_Stack Salt;
-	Item_Stack Raw_Algae;
-	Item_Stack Biopaste;
-	Item_Stack Milkfish;
-	Item_Stack Mojarra;
-	Item_Stack Menhaden;
-	Item_Stack Drill_Mud;
-	Item_Stack J1;
-	Item_Stack J2;
-	Item_Stack Hydrogen;
-	Item_Stack Oxygen;
-	Item_Stack Chlorine;
-	Item_Stack Sodium_Hydroxide;
-	Item_Stack Hydrogen_Chloride;
-	Item_Stack Hydrochloric_Acid;
-	Item_Stack Item_List[ktn_items];
-} PRESET_ITEMS;
-
-typedef struct {
-	Item_Category Coolant;
-	Item_Category Feedwater;
-	Item_Category Biomass;
-} PRESET_CATEGORIES;
-
-typedef struct {
-	Item_Stack Blank_Item;
+	Item_Ptr Blank_Item;
 	Recipe FP_Saltwater;
 	Recipe FP_Biopaste;
 	Recipe FM_Drillmud_1;
@@ -89,11 +38,11 @@ typedef struct {
 } PRESET_IO_RECIPES;
 
 typedef struct {
-	Item_Stack Blank_Item;
+	Item_Ptr Blank_Item;
 } PRESET_I_RECIPES;
 
 typedef struct {
-	Item_Stack Blank_Item;
+	Item_Ptr Blank_Item;
 	Recipe RP_Saltwater;
 	Recipe GB_Algae;
 } PRESET_O_RECIPES;
@@ -104,8 +53,6 @@ typedef struct {
 	Fish Menhaden;
 } PRESET_FISH;
 
-extern PRESET_ITEMS Preset_Items;
-extern PRESET_CATEGORIES Preset_Categories;
 extern PRESET_IO_RECIPES Preset_IO_Recipes;
 extern PRESET_I_RECIPES Preset_I_Recipes;
 extern PRESET_O_RECIPES Preset_O_Recipes;
@@ -119,15 +66,13 @@ extern Recipe** Recipes[ktn_recipe_types];
 void Prep_Items();
 void Free_Items();
 void Update_Item(Point Pos, int Identifier, int Temperature);
-Item_Stack Get_Item(Point Pos);
-Item_Stack ID_To_Item(const int ID);
-Item_Stack Get_Item_Stack_Data();
+Item_Ptr Get_Item(const char* Index);
+Item_Ptr Get_ID_Item(const int ID);
+Item_Ptr Get_Fish_Item(int Identifier);
 void Purge_Items();
-bool Check_Category(int Item, Item_Category Category);
 float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation);
 int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
-Item_Stack Get_Fish_Item(int Identifier);
 bool Process_O_Recipe(Recipe Selected_Recipe, Point Pos, Node Output_Locations);
 bool Process_IO_Recipe(Recipe Selected_Recipe, Point Pos, Node Input_Locations, Node Output_Locations);
 bool Extend_Recipe(Recipe Selected_Recipe, Point Pos, Node Preconfiguration[4]);

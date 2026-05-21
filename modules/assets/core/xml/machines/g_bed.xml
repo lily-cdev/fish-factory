@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>growth bed</Name>
-	<Desc>An enclosed chamber, holding perfect conditions for rapid algae growth.</Desc>
+	<Desc>An enclosed chamber lit up with a solar tube, holding perfect conditions for rapid algae growth. Its batteries for nighttime lighting require constant power input to recharge.</Desc>
 	<Index>algae_bed</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/g_bed</Path>

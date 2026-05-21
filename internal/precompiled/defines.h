@@ -14,6 +14,7 @@
 #define ktn_degree "\u00b0"
 #define ktn_dock_cap 750.0
 #define ktn_effects 2
+#define ktn_epsilon 1e-7
 #define ktn_errors 13
 #define ktn_facts 7
 #define ktn_fish 3
@@ -49,5 +50,4 @@
 #define ktn_turbine_coefficient 0.15
 #define ktn_valve300_len 12
 #define ktn_sub_speed 4
-#define ktn_waste_tox 200
 #define ktn_water_boil_pt 211.3

@@ -13,7 +13,7 @@ struct lde_metadata Metadata = {
 		{ "ram_pump", ktn_null_string },
 		{ "algae_bed", ktn_null_string },
 		{ "filtration_plant", "distillery", "electro_cell", "fluid_mixer", ktn_null_string },
-		{ "rtg", "bio_generator", "geo_well", "hx", ktn_null_string },
+		{ "rtg", "furnace", "geo_well", "hx", ktn_null_string },
 		{ "flowerpot", "ammo_rack", ktn_null_string },
 		{ "incinerator", "signal_tower", "battery", ktn_null_string },
 		{ "command_platform", ktn_null_string }

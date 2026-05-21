@@ -15,6 +15,7 @@ struct lde_core {
 	Point_f Screensize;
 	Point_f Screenhalfsize;
 	int Machines;
+	int Items;
 	uint32_t State;
 };
 
@@ -49,6 +50,8 @@ struct lde_metadata {
 	char* Facts[ktn_facts];
 	const char Tool_Texts[ktn_tools][64];
 	Machine_Data* Machines;
+	Item_Data* Items;
+	Item_Data Null_Item;
 };
 
 struct lde_settings {

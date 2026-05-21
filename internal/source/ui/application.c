@@ -133,7 +133,7 @@ void Render_Application() {
 					Settings.Scalar * 20.0f,
 					Settings.Scalar * 20.0f
 				};
-				if (Data.Items_Grid[pt(Pos)] == ktn_invalid) {
+				if (Get_ID_Item(Data.Items_Grid[pt(Pos)])) {
 					Render_Texture(Textures.None_Item, &Item_Rect);
 				} else {
 					Render_Texture(Textures.Items.Data[Data.Items_Grid[pt(Pos)]], &Item_Rect);

@@ -5,12 +5,12 @@
 	<Index>battery</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/battery</Path>
-	<Price>35</Price>
-	<Fee>1</Fee>
+	<Price>244</Price>
+	<Fee>5</Fee>
 	<Width>2</Width>
 	<Height>2</Height>
 	<Power_Type>any</Power_Type>
-	<Power_Capacity>500000</Power_Capacity>
+	<Power_Capacity>1200000</Power_Capacity>
 	<Anchor_X>40</Anchor_X>
 	<Anchor_Y>47</Anchor_Y>
 	<Rot_ID />

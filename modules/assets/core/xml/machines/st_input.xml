@@ -5,8 +5,8 @@
 	<Index>turbine_input</Index>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/st_input</Path>
-	<Price>28</Price>
-	<Fee>1</Fee>
+	<Price>1280</Price>
+	<Fee>10</Fee>
 	<Modular />
 	<Interactable />
 	<Width>2</Width>

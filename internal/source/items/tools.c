@@ -1,51 +1,27 @@
 #include <items.h>
 
-Item_Stack Get_Item(Point Pos) {
-	for (int C1 = 0; C1 < ktn_items; C1++) {
-		if (Preset_Items.Item_List[C1].Identifier == Data.Items_Grid[pt(Pos)]) {
-			Item_Stack Selected_Item = Preset_Items.Item_List[C1];
-			Selected_Item.Temperature = Data.Temperature_Grid[pt(Pos)];
-			return Selected_Item;
+Item_Ptr Get_Item(const char* Index) {
+	for (int C1 = 0; C1 < Core.Items; C1++) {
+		if (ktn_stricmp(Metadata.Items[C1].Index, Index)) {
+			return &Metadata.Items[C1];
 		}
 	}
-	Item_Stack Blank_Item;
-	strncpy(Blank_Item.Display_Name, "[none]", sizeof(Blank_Item.Display_Name));
-	Blank_Item.Identifier = ktn_invalid;
-	Blank_Item.Temperature = ktn_room_temp;
-	return Blank_Item;
+	return &Metadata.Null_Item;
 }
 
-Item_Stack ID_To_Item(const int ID) {
-	for (int C1 = 0; C1 < ktn_items; C1++) {
-		if (Preset_Items.Item_List[C1].Identifier == ID) {
-			return Preset_Items.Item_List[C1];
+Item_Ptr Get_ID_Item(const int ID) {
+	for (int C1 = 0; C1 < Core.Items; C1++) {
+		if (Metadata.Items[C1].id == ID) {
+			return &Metadata.Items[C1];
 		}
 	}
-	Item_Stack Blank_Item;
-	strncpy(Blank_Item.Display_Name, "[none]", sizeof(Blank_Item.Display_Name));
-	Blank_Item.Identifier = ktn_invalid;
-	Blank_Item.Temperature = ktn_room_temp;
-	return Blank_Item;
-}
-
-Item_Stack Get_Item_Stack_Data() {
-	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
-		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				return Get_Item((Point){ Column, Row });
-			}
-		}
-	}
-	Item_Stack Blank_Stack;
-	return Blank_Stack;
+	return &Metadata.Null_Item;
 }
 
 void Purge_Items() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			if (Data.Data_Grid[Column][Row][Stored_Fluids] < 0.1) {
+			if (Data.Data_Grid[Column][Row][Stored_Fluids] < ktn_epsilon) {
 				Data.Items_Grid[Column][Row] = ktn_invalid;
 				Data.Temperature_Grid[Column][Row] = ktn_room_temp;
 			}

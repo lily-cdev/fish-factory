@@ -26,8 +26,8 @@ void Render_F_Generator(Point Pos) {
 	char Buffer[256];
 	char Subbuffer[256];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos)][5], Subbuffer, sizeof(Subbuffer));
-	snprintf(Buffer, sizeof(Buffer), "Producing %sL/s of %i °F ", Subbuffer, (int)Data.Settings_Grid[pt(Pos)][4]);
-	strcat(Buffer, ID_To_Item(Data.Settings_Grid[pt(Pos)][3]).Display_Name);
+	snprintf(Buffer, sizeof(Buffer), "Producing %s mol/s of %i °F ", Subbuffer, (int)Data.Settings_Grid[pt(Pos)][4]);
+	strcat(Buffer, Get_ID_Item(Data.Settings_Grid[pt(Pos)][3])->Name);
 	Process_Supply(&Supplies.Fluid_Production, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ ktn_invalid, 200 });
 	Render_Button(&Textures.Confirmation.Data[0], &Rects.Confirmation.Data[0], (UI_Link){ Set_F_Cheat, .Param.Pos = Pos },
 		Colors.Cherry_Blossom);

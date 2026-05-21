@@ -213,6 +213,18 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, Font
 
 void Preload_Assets() {
 	SDL_Texture* Carrying_Texture;
+	Metadata.Null_Item = (Item_Data){
+		.Name = "none",
+		.Index = "none",
+		.ID = ktn_invalid,
+		.Worth = Worthless,
+		.Danger = Harmless,
+		.Price = 0,
+		.Nutrition = 0,
+		.Chem_Energy = 0,
+		.Boil_Pt = -2,
+		.V_Enthalpy = -2
+	};
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Interface.Tile_Centerpoint.x = Settings.Scalar * (ktn_tile_size * 0.5f);
 	Interface.Tile_Centerpoint.y = Settings.Scalar * (ktn_tile_size * 0.5f);

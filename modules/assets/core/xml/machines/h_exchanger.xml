@@ -15,5 +15,37 @@
 	<Visual_Left>87</Visual_Left>
 	<Visual_Up>88</Visual_Up>
 	<Visual_Right>89</Visual_Right>
-	<Visual_Down>90</Visual_Down>	
+	<Visual_Down>90</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>2</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>300</Cap>
+		</Input>
+		<Input>
+			<X>3</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>300</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>300</Cap>
+		</Output>
+		<Output>
+			<X>3</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>300</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

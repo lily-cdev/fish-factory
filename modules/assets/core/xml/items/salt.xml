@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>salt sol'n</Name>
+	<Index>16</Index>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>230</Boil_Pt>
+	<V_Enthalpy>48</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

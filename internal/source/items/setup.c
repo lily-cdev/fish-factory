@@ -37,36 +37,6 @@ void Prep_Items() {
 		Preset_Items.Sodium_Hydroxide, Preset_Items.Hydrogen, Preset_Items.Chlorine }, { 12, 6, 6 }, 3, 2 };
 	Preset_IO_Recipes.EP_Salt = (Recipe){ true, false, 10, 5000, { Preset_Items.Salt }, { 18 }, 1,
 		{ Preset_Items.Hydrogen, Preset_Items.Sodium_Hydroxide, Preset_Items.Chlorine }, { 9, 18, 9 }, 3, 3 };
-	Preset_Categories.Coolant = (Item_Category){
-		.Identifier = 0,
-		.Display_Name = "Heating Medium",
-		.Contents = {
-			Preset_Items.Saltwater,
-			Preset_Items.Desalinated_Water
-		},
-		.Length = 2
-	};
-	Preset_Categories.Feedwater = (Item_Category){
-		.Identifier = 0,
-		.Display_Name = "Feedwater",
-		.Contents = {
-			Preset_Items.Desalinated_Water
-		},
-		.Length = 1
-	};
-	Preset_Categories.Biomass = (Item_Category){
-		.Identifier = 1,
-		.Display_Name = "Biomass",
-		.Contents = {
-			Preset_Items.Marine_Snow,
-			Preset_Items.Raw_Algae,
-			Preset_Items.Biopaste,
-			Preset_Items.Milkfish,
-			Preset_Items.Mojarra,
-			Preset_Items.Menhaden
-		},
-		.Length = 6
-	};
 	for (int C1 = 0; C1 < ktn_recipe_types; C1++) {
 		Recipes[C1] = calloc(Core.Machines, sizeof(Recipe*));
 		for (int C2 = 0; C2 < Core.Machines; C2++) {

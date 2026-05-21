@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>clean saltwater</Name>
+	<Index>5</Index>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>215</Boil_Pt>
+	<V_Enthalpy>42</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

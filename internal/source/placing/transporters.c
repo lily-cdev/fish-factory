@@ -30,29 +30,3 @@ bool Place_Large_Pipe(Point Pos) {
 	Data.Plumbing_Grid[pt(Pos)] = Any;
 	return true;
 }
-
-bool Place_RL_Intersection(Point Pos) {
-	Node Nodes = { };
-	Return_Nodes(&Nodes, Pos, 0, Preconfigs.I_Inputs);
-	for (int C1 = 0; C1 < 2; C1++) {
-		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = C1 + 1;
-	}
-	Return_Nodes(&Nodes, Pos, 0, Preconfigs.I_Outputs);
-	for (int C1 = 0; C1 < 2; C1++) {
-		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = C1 + 3;
-	}
-	for (int C1 = 0; C1 < 2; C1++) {
-		if (C1 == 1) {
-			Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.I_Outputs);
-		} else {
-			Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.I_Inputs);
-		}
-		for (int C2 = 0; C2 < 2; C2++) {
-			Data.Data_Grid[pt(Nodes.Data[C2])][Fluid_Cap] = (ktn_stricmp(Interface.Item->Index, "heavy_intersection")) ?
-				ktn_reinforced_cap : ktn_large_cap;
-			Data.Settings_Grid[pt(Nodes.Data[C2])][0] = C1 + 1;
-		}
-	}
-	ktn_free(Nodes.Data);
-	return true;
-}

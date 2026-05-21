@@ -123,7 +123,21 @@ typedef struct {
 	bool Command;
 } Machine_Data;
 
+typedef struct {
+	char* Name;
+	char* Index;
+	int ID;
+	enum Hazard Danger;
+	enum Value Worth;
+	int Price;
+	int Chem_Energy;
+	int Boil_Pt;
+	int V_Enthalpy;
+	float Nutrition;
+} Item_Data;
+
 typedef Machine_Data* Machine_Ptr;
+typedef Item_Data* Item_Ptr;
 
 typedef union {
 	void* Pointer;

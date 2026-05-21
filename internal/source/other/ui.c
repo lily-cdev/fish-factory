@@ -130,40 +130,36 @@ void Render_Game_UI() {
 	Process_Supply(&Supplies.Time, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 50 });
 	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
-		bool Satiated = false;
+		Item_Ptr Item;
+		int Temperature;
 		for (int Column = 0; Column < ktn_grid_size; Column++) {
 			Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
 			for (int Row = 0; Row < ktn_grid_size; Row++) {
 				Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					ktn_memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
-					Satiated = true;
+					Item = Get_ID_Item(Data.Items_Grid[Column][Row]);
+					Temperature = Data.Temperature_Grid[Column][Row];
 					break;
 				}
 			}
 		}
-		Item_Stack Returned_Item = Get_Item_Stack_Data();
-		if (Returned_Item.Identifier != ktn_invalid && Satiated) {
+		if (Item->ID != ktn_invalid) {
 			char Buffer[64];
-			snprintf(Buffer, sizeof(Buffer), "Item: %s", Returned_Item.Display_Name);
+			snprintf(Buffer, sizeof(Buffer), "item: %s", Item->Name);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
 			char Subbuffer[64];
-			Truncate(Returned_Item.Temperature, 0, Subbuffer, sizeof(Subbuffer));
+			Truncate(Temperature, 0, Subbuffer, sizeof(Subbuffer));
 			snprintf(Buffer, sizeof(Buffer), "%s °F", Subbuffer);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
-			float Pressure = Calculate_Pressure(Returned_Item.Temperature, Returned_Item.Boiling_Point,
-				Returned_Item.Vaporisation_Enthalpy);
-			int Multiplier = 1;
+			float Pressure = Calculate_Pressure(Temperature, Item->Boil_Pt, Item->V_Enthalpy);
 			if (Pressure == ktn_invalid) {
 				strncpy(Data_Fragments[Index], "gas", sizeof(Data_Fragments[Index]));
 				Index++;
-				Multiplier = 10;
 			} else {
-				if (Pressure < 1) {
-					Pressure = 1;
-				}
+				Pressure = ktn_max(Pressure, 1);
 				char Buffer[64];
 				char Subbuffer[64];
 				Abbreviate_Number(Pressure, Subbuffer, sizeof(Subbuffer));
@@ -174,11 +170,10 @@ void Render_Game_UI() {
 			if (Content_Vector[1] != 0) {
 				char Buffer[64];
 				char Subbuffer1[64];
-				Truncate(Content_Vector[0] * Multiplier, Get_Depth(Content_Vector[1] * Multiplier), Subbuffer1,
-					sizeof(Subbuffer1));
+				Truncate(Content_Vector[0], Get_Depth(Content_Vector[1]), Subbuffer1, sizeof(Subbuffer1));
 				char Subbuffer2[64];
-				Abbreviate_Number(Content_Vector[1] * Multiplier, Subbuffer2, sizeof(Subbuffer2));
-				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
+				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
+				snprintf(Buffer, sizeof(Buffer), "%s / %s mol.", Subbuffer1, Subbuffer2);
 				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}
@@ -189,7 +184,7 @@ void Render_Game_UI() {
 				Truncate(0, 0, Subbuffer1, sizeof(Subbuffer1));
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
-				snprintf(Buffer, sizeof(Buffer), "%s / %sL.", Subbuffer1, Subbuffer2);
+				snprintf(Buffer, sizeof(Buffer), "%s / %s mol.", Subbuffer1, Subbuffer2);
 				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}

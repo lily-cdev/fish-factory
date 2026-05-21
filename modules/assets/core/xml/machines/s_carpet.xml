@@ -5,7 +5,7 @@
 	<Index>carpet</Index>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/s_carpet</Path>
-	<Price>2</Price>
+	<Price>13</Price>
 	<Fee>1</Fee>
 	<Nonrotatable />
 	<Width>1</Width>

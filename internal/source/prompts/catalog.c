@@ -81,8 +81,7 @@ void Render_Catalog(Point Pos) {
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Inputs; C3++) {
 					Abbreviate_Number(Recipes[C1][Index][C2].Input_Counts[C3] / Recipes[C1][Index][C2].Time, Buffer,
 						sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Input_Items[
-						C3].Display_Name);
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Input_Items[C3]->Name);
 					if (C3 < Recipes[C1][Index][C2].Inputs - 1) {
 						strcat(Candidate, ", ");
 					}
@@ -93,8 +92,7 @@ void Render_Catalog(Point Pos) {
 				for (int C3 = 0; C3 < Recipes[C1][Index][C2].Outputs; C3++) {
 					Abbreviate_Number(Recipes[C1][Index][C2].Output_Counts[C3] / Recipes[C1][Index][C2].Time, Buffer,
 						sizeof(Buffer));
-					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Output_Items[
-						C3].Display_Name);
+					snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1][Index][C2].Output_Items[C3]->Name);
 					if (C3 < Recipes[C1][Index][C2].Outputs - 1) {
 						strcat(Candidate, ", ");
 					}

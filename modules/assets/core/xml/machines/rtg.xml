@@ -5,12 +5,12 @@
 	<Index>rtg</Index>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/rtg</Path>
-	<Price>4</Price>
+	<Price>50</Price>
 	<Fee>2</Fee>
 	<Width>1</Width>
 	<Height>1</Height>
 	<Power_Type>out</Power_Type>
-	<Power_Capacity>5</Power_Capacity>
+	<Power_Capacity>650</Power_Capacity>
 	<Anchor_X>20</Anchor_X>
 	<Anchor_Y>20</Anchor_Y>
 	<Irradiating />

@@ -77,8 +77,13 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Machines[C1].Outputs);
 		ktn_free(Metadata.Machines[C1].Neutrals);
 		ktn_free(Metadata.Machines[C1].Name);
+		ktn_free(Metadata.Machines[C1].Index);
 		ktn_free(Metadata.Machines[C1].Desc);
 		ktn_free(Metadata.Machines[C1].Path);
+	}
+	for (int C1 = 0; C1 < Core.Items; C1++) {
+		ktn_free(Metadata.Items[C1].Name);
+		ktn_free(Metadata.Items[C1].Index);
 	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo1);
@@ -192,6 +197,7 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Cache.Log_Cache);
 	Clear_Rect2_Array(&Cache.Log_Rectangles);
 	ktn_free(Metadata.Machines);
+	ktn_free(Metadata.Items);
 	Free_Items();
 	Free_Text();
 }

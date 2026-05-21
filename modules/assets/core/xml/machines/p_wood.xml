@@ -5,8 +5,8 @@
 	<Index>petrified_wood</Index>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/p_wood</Path>
-	<Price>11</Price>
-	<Fee>1</Fee>
+	<Price>350</Price>
+	<Fee>3</Fee>
 	<Nonrotatable />
 	<Width>1</Width>
 	<Height>1</Height>

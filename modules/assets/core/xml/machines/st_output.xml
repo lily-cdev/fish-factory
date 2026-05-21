@@ -5,8 +5,8 @@
 	<Index>turbine_output</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/st_output</Path>
-	<Price>22</Price>
-	<Fee>1</Fee>
+	<Price>800</Price>
+	<Fee>8</Fee>
 	<Modular />
 	<Width>2</Width>
 	<Height>2</Height>

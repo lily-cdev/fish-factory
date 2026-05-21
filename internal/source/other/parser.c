@@ -93,6 +93,7 @@ void Get_Node(const char* Path, const char* Data, const char* Label, int* Ct_Ptr
 void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
+	Core.Items = Get_Integer("registrar", Registrar, "Item_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	ktn_free(Registrar);
@@ -187,6 +188,44 @@ void Load_XML() {
 		#undef get_str
 		#undef get_int
 		#undef Machine
+	}
+	ktn_free(Raw_Names);
+	/*
+	enum Hazard Danger;
+	enum Value Worth;
+	float Nutrition;
+	*/
+	Raw_Names = Find_Multiple("registrar", Registrar, "Item", Core.Items);
+	Metadata.Items = calloc(Core.Items, sizeof(Item_Data));
+	for (int C1 = 0; C1 < Core.Items; C1++) {
+		#define Item Metadata.Items[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Item_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Item_File, Victim))
+		char* Item_File = Get_File(Raw_Names[C1]);
+		Item.Name = get_str("Name");
+		Item.Index = get_str("Index");
+		Item.ID = get_int("ID");
+		Item.Price = get_int("Price");
+		Item.Chem_Energy = get_int("Chem_Energy");
+		if (ktn_stricmp(get_str("Boil_Pt"), "none")) {
+			Item.Boil_Pt = -2;
+		} else if (ktn_stricmp(get_str("Boil_Pt"), "gas")) {
+			Item.Boil_Pt = ktn_invalid;
+		} else {
+			Item.Boil_Pt = get_int("Boil_Pt");
+		}
+		if (ktn_stricmp(get_str("V_Enthalpy"), "none")) {
+			Item.V_Enthalpy = -2;
+		} else if (ktn_stricmp(get_str("V_Enthalpy"), "gas")) {
+			Item.V_Enthalpy = ktn_invalid;
+		} else {
+			Item.V_Enthalpy = get_int("V_Enthalpy");
+		}
+		#undef get_str
+		#undef get_int
+		#undef Item
+		ktn_free(Item_File);
+		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);
 	printf("debug info:\nlowest unreg. visual id -> %i\n", ID_Record + 1);

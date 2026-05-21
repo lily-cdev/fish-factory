@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>liquid waste</Name>
+	<Index>18</Index>
+	<Hazard>mid</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Boil_Pt>none</Boil_Pt>
+	<Chem_Energy>0</Chem_Energy>
+	<V_Enthalpy>none</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

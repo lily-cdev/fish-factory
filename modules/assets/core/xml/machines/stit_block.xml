@@ -5,8 +5,8 @@
 	<Index>turbine_impulse</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/stit_block</Path>
-	<Price>38</Price>
-	<Fee>1</Fee>
+	<Price>950</Price>
+	<Fee>9</Fee>
 	<Modular />
 	<Width>2</Width>
 	<Height>3</Height>

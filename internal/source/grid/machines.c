@@ -2,23 +2,19 @@
 
 bool (*Placing_Functions[])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_Submarine_Dock,
-	Place_Filtration_Plant, Place_Bio_Generator, Place_Spawning_Pool, Place_Algae_Bed,
+	Place_Filtration_Plant, Place_Spawning_Pool, Place_Algae_Bed,
 	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
-	Place_Electrolytic_Cell, Place_Signal_Tower,
-	Place_Geo_Well, Place_Large_Pipe, Place_Heat_Exchanger,
-	Place_Money_Generator, Place_Fluid_Generator, Place_RL_Intersection, Place_RL_Intersection,
-	Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
+	Place_Signal_Tower, Place_Large_Pipe, Place_Heat_Exchanger,
+	Place_Money_Generator, Place_Fluid_Generator, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
 	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
 };
 
 const char* Placing_Registers[] = {
 	"heavy_pipe", "ram_pump", "incinerator", "sub_dock",
-	"filtration_plant", "bio_generator", "spawning_pool", "algae_bed",
+	"filtration_plant", "spawning_pool", "algae_bed",
 	"spawning_controller", "spawning_output", "spawning_input",
-	"electro_cell", "signal_tower",
-	"geo_well", "large_pipe", "hx",
-	"money_cheat", "fluid_cheat", "heavy_intersection", "large_intersection",
-	"condenser_input", "condenser_hx", "condenser_heatsink", "condenser_output",
+	"signal_tower", "large_pipe", "hx",
+	"money_cheat", "fluid_cheat", "condenser_input", "condenser_hx", "condenser_heatsink", "condenser_output",
 	"turbine_input", "turbine_impulse", "turbine_output", "power_cheat"
 };
 

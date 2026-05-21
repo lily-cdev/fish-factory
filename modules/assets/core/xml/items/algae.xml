@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>raw_algae</Name>
+	<Index>3</Index>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>5000</Chem_Energy>
+	<Boil_Pt>214</Boil_Pt>
+	<V_Enthalpy>41</V_Enthalpy>
+	<Nutrition>0.5</Nutrition>
+</Item>

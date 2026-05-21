@@ -2,46 +2,68 @@
 <Registrar>
 	<Machine_Ct>41</Machine_Ct>
 	<Machines>
-		<Machine>core/xml/machines/r_pipe</Machine>
-		<Machine>core/xml/machines/r_pump</Machine>
+		<Machine>core/xml/machines/r_pipe</Machine>//ub
+		<Machine>core/xml/machines/r_pump</Machine>//ub
 		<Machine>core/xml/machines/incinerator</Machine>
 		<Machine>core/xml/machines/rtg</Machine>
-		<Machine>core/xml/machines/decoration</Machine>
-		<Machine>core/xml/machines/s_dock</Machine>
-		<Machine>core/xml/machines/f_plant</Machine>
-		<Machine>core/xml/machines/b_generator</Machine>
-		<Machine>core/xml/machines/ms_pool</Machine>
-		<Machine>core/xml/machines/distillery</Machine>
-		<Machine>core/xml/machines/g_bed</Machine>
+		<Machine>core/xml/machines/decoration</Machine>//ub
+		<Machine>core/xml/machines/s_dock</Machine>//ub
+		<Machine>core/xml/machines/f_plant</Machine>//ub
+		<Machine>core/xml/machines/furnace</Machine>
+		<Machine>core/xml/machines/ms_pool</Machine>//ub
+		<Machine>core/xml/machines/distillery</Machine>//ub
+		<Machine>core/xml/machines/g_bed</Machine>//ub
 		<Machine>core/xml/machines/c_platform</Machine>
 		<Machine>core/xml/machines/battery</Machine>
-		<Machine>core/xml/machines/msp_controller</Machine>
-		<Machine>core/xml/machines/msp_output</Machine>
-		<Machine>core/xml/machines/msp_input</Machine>
-		<Machine>core/xml/machines/e_plant</Machine>
-		<Machine>core/xml/machines/f_mixer</Machine>
+		<Machine>core/xml/machines/msp_controller</Machine>//ub
+		<Machine>core/xml/machines/msp_output</Machine>//ub
+		<Machine>core/xml/machines/msp_input</Machine>//ub
+		<Machine>core/xml/machines/e_plant</Machine>//ub
+		<Machine>core/xml/machines/f_mixer</Machine>//ub
 		<Machine>core/xml/machines/t_tower</Machine>
 		<Machine>core/xml/machines/flowerpot</Machine>
 		<Machine>core/xml/machines/a_shelf</Machine>
-		<Machine>core/xml/machines/c_node</Machine>
-		<Machine>core/xml/machines/g_well</Machine>
-		<Machine>core/xml/machines/l_pipe</Machine>
-		<Machine>core/xml/machines/h_exchanger</Machine>
+		<Machine>core/xml/machines/c_node</Machine>//ub
+		<Machine>core/xml/machines/g_well</Machine>//ub
+		<Machine>core/xml/machines/l_pipe</Machine>//ub
+		<Machine>core/xml/machines/h_exchanger</Machine>//ub
 		<Machine>core/xml/machines/p_wood</Machine>
 		<Machine>core/xml/machines/b_tile</Machine>
 		<Machine>core/xml/machines/s_carpet</Machine>
-		<Machine>core/xml/machines/m_generator</Machine>
-		<Machine>core/xml/machines/f_generator</Machine>
-		<Machine>core/xml/machines/r_intersection</Machine>
-		<Machine>core/xml/machines/l_intersection</Machine>
-		<Machine>core/xml/machines/h_strip</Machine>
-		<Machine>core/xml/machines/sc_input</Machine>
-		<Machine>core/xml/machines/sc_transferor</Machine>
-		<Machine>core/xml/machines/sch_sink</Machine>
-		<Machine>core/xml/machines/sc_output</Machine>
+		<Machine>core/xml/machines/m_generator</Machine>//ub
+		<Machine>core/xml/machines/f_generator</Machine>//ub
+		<Machine>core/xml/machines/r_intersection</Machine>//ub
+		<Machine>core/xml/machines/l_intersection</Machine>//ub
+		<Machine>core/xml/machines/h_strip</Machine>//ub
+		<Machine>core/xml/machines/sc_input</Machine>//ub
+		<Machine>core/xml/machines/sc_transferor</Machine>//ub
+		<Machine>core/xml/machines/sch_sink</Machine>//ub
+		<Machine>core/xml/machines/sc_output</Machine>//ub
 		<Machine>core/xml/machines/st_input</Machine>
 		<Machine>core/xml/machines/stit_block</Machine>
 		<Machine>core/xml/machines/st_output</Machine>
-		<Machine>core/xml/machines/p_generator</Machine>
+		<Machine>core/xml/machines/p_generator</Machine>//ub
 	</Machines>
+	<Item_Ct>19</Item_Ct>
+	<Items>
+		<Item>core/xml/items/am_snow</Item>
+		<Item>core/xml/items/r_seawater</Item>
+		<Item>core/xml/items/c_saltwater</Item>
+		<Item>core/xml/items/waste</Item>
+		<Item>core/xml/items/steam</Item>
+		<Item>core/xml/items/water</Item>
+		<Item>core/xml/items/salt</Item>
+		<Item>core/xml/items/algae</Item>
+		<Item>core/xml/items/a_paste</Item>
+		<Item>core/xml/items/milkfish</Item>//ub
+		<Item>core/xml/items/mojarra</Item>//ub
+		<Item>core/xml/items/menhaden</Item>//ub
+		<Item>core/xml/items/hydrogen</Item>
+		<Item>core/xml/items/oxygen</Item>
+		<Item>core/xml/items/chlorine</Item>
+		<Item>core/xml/items/d_mud</Item>//ub
+		<Item>core/xml/items/a_lye</Item>//ub
+		<Item>core/xml/items/m_acid</Item>//ub
+		<Item>core/xml/items/h_chloride</Item>//ub
+	</Items>
 </Registrar>

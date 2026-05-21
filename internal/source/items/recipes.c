@@ -13,8 +13,8 @@ bool Process_O_Recipe(Recipe Selected_Recipe, Point Pos, Node Output_Locations) 
 		if (Data.Data_Grid[pt(Pos)][Stored_Power] >= Selected_Recipe.Power) {
 			if (!Selected_Recipe.Voiding_Excess) {
 				for (int C1 = 0; C1 < Output_Locations.Length; C1++) {
-					if (Data.Data_Grid[pt(Output_Locations.Data[C1])][Stored_Fluids] + Selected_Recipe.Output_Counts[
-						C1] < Data.Data_Grid[pt(Output_Locations.Data[C1])][Fluid_Cap]) {
+					if (Data.Data_Grid[pt(Output_Locations.Data[C1])][Stored_Fluids] + Selected_Recipe.Output_Counts[C1] <
+						Data.Data_Grid[pt(Output_Locations.Data[C1])][Fluid_Cap]) {
 						return false;
 					}
 				}

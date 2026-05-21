@@ -3,12 +3,13 @@
 	<Name>geothermal well</Name>
 	<Desc>Uses the heat of underground magma to raise the temperature of a heating medium.</Desc>
 	<Index>geo_well</Index>
-	<Texture_Type>rot</Texture_Type>
+	<Texture_Type>spinner</Texture_Type>
 	<Path>core/images/machines/g_well</Path>
 	<Price>15</Price>
 	<Fee>1</Fee>
 	<Width>2</Width>
 	<Height>3</Height>
+	<Speed>15</Speed>
 	<Power_Type>in</Power_Type>
 	<Power_Capacity>3000</Power_Capacity>
 	<Anchor_X>60</Anchor_X>
@@ -18,5 +19,25 @@
 	<Visual_Left>67</Visual_Left>
 	<Visual_Up>68</Visual_Up>
 	<Visual_Right>69</Visual_Right>
-	<Visual_Down>70</Visual_Down>	
+	<Visual_Down>70</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>12</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>12</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

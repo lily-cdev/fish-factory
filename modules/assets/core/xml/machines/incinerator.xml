@@ -5,7 +5,7 @@
 	<Index>incinerator</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/incinerator</Path>
-	<Price>20</Price>
+	<Price>28</Price>
 	<Fee>1</Fee>
 	<Width>1</Width>
 	<Height>1</Height>
