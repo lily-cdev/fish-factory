@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>drilling mud</Name>
-	<Index>7</Index>
+	<Index>drill_mud</Index>
+	<ID>7</ID>
+	<Path>core/images/items/d_mud</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
 	<Price>40</Price>

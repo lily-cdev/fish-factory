@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>clean saltwater</Name>
-	<Index>5</Index>
+	<Index>saltwater</Index>
+	<ID>5</ID>
+	<Path>core/images/items/saltwater</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

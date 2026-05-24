@@ -25,21 +25,21 @@ void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count)
 	return;
 }
 
-Item_Stack Get_Fish_Item(int Identifier) {
+Item_Ptr Get_Fish_Item(int Identifier) {
 	switch (Identifier) {
 	case 0:
-		return Preset_Items.Milkfish;
+		return Get_Item("milkfish");
 		break;
 	case 1:
-		return Preset_Items.Mojarra;
+		return Get_Item("mojarra");
 		break;
 	case 2:
-		return Preset_Items.Menhaden;
+		return Get_Item("menhaden");
 		break;
 	default:
 		break;
 	}
-	return Preset_Items.Waste;
+	return Get_Item("wet_waste");
 }
 
 Fish Fish_Catalog[ktn_fish] = { };

@@ -3,6 +3,7 @@
 	<Name>oxygen</Name>
 	<Index>oxygen</Index>
 	<ID>14</ID>
+	<Path>core/images/items/oxygen</Path>
 	<Hazard>low</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

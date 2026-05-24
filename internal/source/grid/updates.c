@@ -1,14 +1,9 @@
 #include <grid.h>
 
 void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
-	Cycle_Ram_Pump,
 	Cycle_Incinerator,
 	Cycle_RTG,
 	Cycle_Furnace,
-	Cycle_Distillery,
-	Cycle_Algae_Bed,
-	Cycle_Electrolytic_Cell,
-	Cycle_Fluid_Mixer,
 	Cycle_Signal_Tower,
 	Cycle_Geo_Well,
 	Cycle_Large_Pipe,
@@ -21,15 +16,10 @@ void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
 	Cycle_Power_Generator
 };
 
-const char* Cycle_Matches[18] = {
-	"ram_pump",
+const char* Cycle_Matches[13] = {
 	"incinerator",
 	"rtg",
 	"furnace",
-	"distillery",
-	"algae_bed",
-	"electro_cell",
-	"fluid_mixer",
 	"signal_tower",
 	"geo_well",
 	"large_pipe",
@@ -46,28 +36,44 @@ void Update_Machines() {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
-			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
-			if (Data.Visual_Grid[pt(Pos)] > 0) {
+			for (int C1 = 0; C1 < Recipe_Ct; C1++) {
+				if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Recipes[C1].Machine->Index)) {
+					continue;
+				}
+				Point* Outputs = NULL;
+				Point* Inputs = NULL;
+				bool Yielded;
+				switch (Recipes[C1].Type) {
+				case 0:
+					Yielded = Process_IO_Recipe(Recipes[C1], Pos, Inputs, Outputs);
+					ktn_free(Outputs);
+					ktn_free(Inputs);
+					break;
+				case 1:
+					//Process_I_Recipe
+					break;
+				case 2:
+					Yielded = Process_O_Recipe(Recipes[C1], Pos, Outputs);
+					ktn_free(Outputs);
+				default:
+					break;
+				}
 				if (Data.Settings_Grid[pt(Pos)][S_Time] > 0) {
 					Data.Settings_Grid[pt(Pos)][S_Time]--;
-					if (ktn_stricmp(Chosen->Index, "distillery")) {
-						Extend_Recipe(Preset_IO_Recipes.D_Water, Pos, Preconfigs.D_Outputs);
-					} else if (ktn_stricmp(Chosen->Index, "electro_cell")) {
-						if (Data.Settings_Grid[pt(Pos)][2] == 1) {
-							Extend_Recipe(Preset_IO_Recipes.EP_Water, Pos, Preconfigs.EP_Outputs);
-						} else if (Data.Settings_Grid[pt(Pos)][2] == 2) {
-							Extend_Recipe(Preset_IO_Recipes.EP_Saltwater, Pos, Preconfigs.EP_Outputs);
-						} else {
-							Extend_Recipe(Preset_IO_Recipes.EP_Salt, Pos, Preconfigs.EP_Outputs);
-						}
-					} else if (ktn_stricmp(Chosen->Index, "algae_bed")) {
-						if (Extend_Recipe(Preset_O_Recipes.GB_Algae, Pos, Preconfigs.GB_Outputs)) {
-							Data.Animation_Grid[pt(Pos)][1] = 0;
-						}
+					if (Extend_Recipe(Recipes[C1], Pos, Outputs)) {
+						Yielded = true;
 					}
+					ktn_free(Outputs);
+				}
+				if (Yielded) {
+					Data.Animation_Grid[pt(Pos)][0] = 0;
+					//play sound
+				} else {
+					Data.Animation_Grid[pt(Pos)][0] = ktn_invalid;
 				}
 			}
+			int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
+			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (Chosen) {
 				for (int C1 = 0; C1 < sizeof(Cycle_Functions) / sizeof(Cycle_Functions[0]); C1++) {
 					if (ktn_stricmp(Chosen->Index, Cycle_Matches[C1])) {
@@ -87,27 +93,6 @@ void Update_Machines() {
 						}
 					}
 				}
-			} else if (Data.Visual_Grid[pt(Pos)] == 22) {
-				Node tmp1 = { };tmp1.Data = (Point*)malloc(sizeof(Point));
-				tmp1.Length = 1;tmp1.Data[0].X = Pos.X;
-				tmp1.Data[0].Y = Pos.Y + 1;
-				Node tmp2 = { };tmp2.Data = (Point*)malloc(sizeof(Point)*3);
-				tmp2.Length = 3;tmp2.Data[0].X = Pos.X + 1;
-				tmp2.Data[0].Y = Pos.Y;tmp2.Data[1].X = Pos.X + 1;
-				tmp2.Data[1].Y = Pos.Y + 1;tmp2.Data[2].X = Pos.X + 1;
-				tmp2.Data[2].Y = Pos.Y + 2;
-				bool Running1 = Process_IO_Recipe(Preset_IO_Recipes.FP_Saltwater, Pos, tmp1, tmp2);
-				bool Running2 = Process_IO_Recipe(Preset_IO_Recipes.FP_Biopaste, Pos, tmp1, tmp2);
-				Data.Animation_Grid[pt(Pos)][0] = 0;
-				Data.Animation_Grid[pt(Pos)][1] = 0;
-				if (Running1 || Running2) {
-					Play_Sound(Filtration1, false);
-				} else if (Data.Animation_Grid[pt(Pos)][0] == 0) {
-					Data.Animation_Grid[pt(Pos)][0] = ktn_invalid;
-					Data.Animation_Grid[pt(Pos)][1] = 0;
-				}
-				ktn_free(tmp1.Data);
-				ktn_free(tmp2.Data);
 			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
 				if (Data.Settings_Grid[pt(Pos)][5] != 0) {
 					if (Data.Settings_Grid[pt(Pos)][4] >= Data.Settings_Grid[pt(Pos)][5] * Fish_Catalog[(int)(

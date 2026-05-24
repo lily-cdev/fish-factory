@@ -3,6 +3,7 @@
 #include <prepping.h>
 
 typedef struct {
+	int Type;
 	bool Shuffling_Barred;
 	bool Voiding_Excess;
 	int Time;
@@ -14,6 +15,7 @@ typedef struct {
 	float Output_Counts[16];
     int Outputs;
 	int ID;
+	Machine_Ptr Machine;
 } Recipe;
 
 typedef struct {
@@ -53,15 +55,13 @@ typedef struct {
 	Fish Menhaden;
 } PRESET_FISH;
 
-extern PRESET_IO_RECIPES Preset_IO_Recipes;
-extern PRESET_I_RECIPES Preset_I_Recipes;
-extern PRESET_O_RECIPES Preset_O_Recipes;
 extern PRESET_FISH Preset_Fish;
 extern Fish Fish_Catalog[ktn_fish];
 extern char Growth_Phases[ktn_fish_phases][32];
 extern char Plural_Growth_Phases[ktn_fish_phases][32];
 extern int Growth_Weights[ktn_fish_phases];
-extern Recipe** Recipes[ktn_recipe_types];
+extern Recipe* Recipes;
+extern int Recipe_Ct;
 
 void Prep_Items();
 void Free_Items();
@@ -73,6 +73,6 @@ void Purge_Items();
 float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation);
 int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
-bool Process_O_Recipe(Recipe Selected_Recipe, Point Pos, Node Output_Locations);
-bool Process_IO_Recipe(Recipe Selected_Recipe, Point Pos, Node Input_Locations, Node Output_Locations);
-bool Extend_Recipe(Recipe Selected_Recipe, Point Pos, Node Preconfiguration[4]);
+bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs);
+bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs);
+bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs);

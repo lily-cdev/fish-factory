@@ -1,5 +1,6 @@
 #pragma once
 #include <core.h>
+#include <buttons.h>
 
 struct lde_core {
 	SDL_Window* Window;
@@ -330,7 +331,7 @@ struct lde_interface {
 	SDL_FPoint Tile_Centerpoint;
 	float Log_Heights[ktn_logs];
 	int Valve300_Postions[ktn_valve300_len];
-	char Slider_Texts[ktn_sliders][256][32];
+	char Slider_Texts[ktn_sliders][256][64];
 	float Effects[ktn_effects];
 	char Terminal_Logs[ktn_log_max][ktn_param_max];
 	char Terminal_Entry[128];

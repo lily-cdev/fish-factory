@@ -3,6 +3,7 @@
 	<Name>hydrogen</Name>
 	<Index>hydrogen</Index>
 	<ID>9</ID>
+	<Path>core/images/items/hydrogen</Path>
 	<Hazard>mid</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

@@ -127,6 +127,7 @@ typedef struct {
 	char* Name;
 	char* Index;
 	char* Path;
+	bool Coolant;
 	SDL_Texture* Icon;
 	int ID;
 	enum Hazard Danger;

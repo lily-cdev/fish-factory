@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>raw seawater</Name>
-	<Index>15</Index>
+	<Index>seawater</Index>
+	<ID>15</ID>
+	<Path>core/images/items/seawater</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

@@ -3,6 +3,7 @@
 	<Name>chlorine</Name>
 	<Index>chlorine</Index>
 	<ID>6</ID>
+	<Path>core/images/items/chlorine</Path>
 	<Hazard>mid</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

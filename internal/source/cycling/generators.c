@@ -1,7 +1,7 @@
 #include <grid.h>
 
 void Cycle_RTG(Point Pos, const int Rotation) {
-	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + 0.5, Data.Data_Grid[pt(Pos)][Power_Cap]);
+	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + 500, Data.Data_Grid[pt(Pos)][Power_Cap]);
 }
 
 void Cycle_Furnace(Point Pos, const int Rotation) {
@@ -18,12 +18,11 @@ void Cycle_Furnace(Point Pos, const int Rotation) {
 		Offset.X = 2;
 		break;
 	}
-	Item_Stack Target_Item = Get_Item((Point){ Pos.X + Offset.X, Pos.Y + Offset.Y });
+	Item_Ptr Target = Get_ID_Item(Data.Items_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y]);
 	Data.Animation_Grid[pt(Pos)][0] = 0;
-	if (Check_Category(Target_Item.Identifier, Preset_Categories.Biomass) > 0 && Data.Data_Grid[Pos.X + Offset.X][Pos.Y +
-		Offset.Y][Stored_Fluids] >= 2) {
+	if (Target->Chem_Energy > 0 && Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] >= 2) {
 		Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] -= 2;
-		Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target_Item.Chemical_Energy * 0.01f),
+		Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target->Chem_Energy * 0.9f),
 			Data.Data_Grid[pt(Pos)][Power_Cap]);
 		Data.Animation_Grid[pt(Pos)][0] = 1;
 	}
@@ -41,7 +40,7 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 	if (Data.Data_Grid[pt(Inputs.Data[0])][Stored_Fluids] < 8 || Data.Data_Grid[pt(Outputs.Data[0])][Stored_Fluids] > 0) {
 		Conditional = false;
 	}
-	if (Check_Category(Data.Items_Grid[pt(Outputs.Data[0])], Preset_Categories.Coolant)) {
+	if (!Get_ID_Item(Data.Items_Grid[pt(Outputs.Data[0])])->Coolant) {
 		Conditional = false;
 	}
 	Data.Animation_Grid[pt(Pos)][0] = 0;
@@ -73,10 +72,9 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Point Output_Pos = Outputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
 		if ((Data.Items_Grid[pt(Output_Pos)] == ktn_invalid || (Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[
-			pt(Output_Pos)] && !Boiling) || (Data.Items_Grid[pt(Output_Pos)] == Preset_Items.Steam.Identifier && Boiling &&
+			pt(Output_Pos)] && !Boiling) || (Data.Items_Grid[pt(Output_Pos)] == Get_Item("steam")->ID && Boiling &&
 			C1 == 1)) && Data.Settings_Grid[pt(Pos)][C1 + 5] > 0) {
-			Data.Items_Grid[pt(Output_Pos)] = (Boiling && C1 == 1) ? Preset_Items.Steam.Identifier : Data.Settings_Grid[
-				pt(Pos)][C1 + 9];
+			Data.Items_Grid[pt(Output_Pos)] = (Boiling && C1 == 1) ? Get_Item("steam")->ID : Data.Settings_Grid[pt(Pos)][C1 + 9];
 			float Draining_Amount = min(Data.Settings_Grid[pt(Pos)][C1 + 3], Data.Settings_Grid[pt(Pos)][C1 + 5]);
 			Draining_Amount = min(Draining_Amount, Data.Data_Grid[pt(Output_Pos)][Fluid_Cap] - Data.Data_Grid[pt(Output_Pos)][
 				Stored_Fluids]);
@@ -88,14 +86,10 @@ void Cycle_HX(Point Pos, const int Rotation) {
 		{ { Pos.X + 3, Pos.Y + 2 }, { Pos.X, Pos.Y + 3 }, Pos, { Pos.X + 2, Pos.Y } },
 		{ { Pos.X, Pos.Y + 2 }, Pos, { Pos.X + 3, Pos.Y }, { Pos.X + 2, Pos.Y + 3 } }
 	};
-	Item_Category Categories[2] = {
-		Preset_Categories.Coolant,
-		Preset_Categories.Feedwater
-	};
 	for (int C1 = 0; C1 < 2; C1++) {
 		Point Input_Pos = Inputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
-		if (Check_Category(ID_To_Item(Data.Items_Grid[pt(Input_Pos)]).Identifier, Categories[C1]) && (Data.Settings_Grid[
-			pt(Pos)][C1 + 9] == ktn_invalid || Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[pt(Input_Pos)])) {
+		if (Get_ID_Item(Data.Items_Grid[pt(Input_Pos)])->Coolant && (Data.Settings_Grid[pt(Pos)][C1 + 9] == ktn_invalid ||
+			Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[pt(Input_Pos)])) {
 			Data.Settings_Grid[pt(Pos)][C1 + 9] = Data.Items_Grid[pt(Input_Pos)];
 			int Volume = Data.Settings_Grid[pt(Pos)][C1 + 5], Intake = 0;
 			if (Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > 0 && Volume < ktn_hx_cap) {

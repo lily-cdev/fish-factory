@@ -302,7 +302,14 @@ SDL_Texture* Preload_Sidebutton(const char* Path, SDL_FRect* Rectangle, float Y)
 	ktn_load_bmp(Subcarrier, Buffer);
 	Carrier = Surface_To_Texture(Subcarrier);
 	SDL_DestroySurface(Subcarrier);
-	//render
+	float Half = (Yield->h * 0.5f) - (Carrier->h * 0.5f);
+	SDL_FRect Rect = {
+		Half * 2.0f,
+		Half,
+		Carrier->w,
+		Carrier->h
+	};
+	Render_Texture(Carrier, &Rect);
 	ktn_free_texture(Carrier);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	return Yield;

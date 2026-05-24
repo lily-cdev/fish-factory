@@ -3,6 +3,7 @@
 	<Name>aqueous lye</Name>
 	<Index>wet_lye</Index>
 	<ID>1</ID>
+	<Path>core/images/items/a_lye</Path>
 	<Hazard>mid</Hazard>
 	<Value>low</Value>
 	<Price>30</Price>

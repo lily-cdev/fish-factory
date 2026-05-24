@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>liquid waste</Name>
-	<Index>18</Index>
+	<Index>wet_waste</Index>
+	<ID>18</ID>
+	<Path>core/images/items/waste</Path>
 	<Hazard>mid</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

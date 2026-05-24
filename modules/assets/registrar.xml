@@ -66,4 +66,8 @@
 		<Item>core/xml/items/m_acid</Item>//ub
 		<Item>core/xml/items/h_chloride</Item>//ub
 	</Items>
+	<Recipe_Ct>1</Recipe_Ct>
+	<Recipes>
+		<Recipe>core/xml/recipes/gb_algae</Recipe>
+	</Recipes>
 </Registrar>

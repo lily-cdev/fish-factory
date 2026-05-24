@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>hydrogen chloride</Name>
-	<Index>8</Index>
+	<Index>hydrogen_chloride</Index>
+	<ID>8</ID>
+	<Path>core/images/items/h_chloride</Path>
 	<Hazard>high</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

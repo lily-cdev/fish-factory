@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>mojarra</Name>
-	<Index>13</Index>
+	<Index>mojarra</Index>
+	<ID>13</ID>
+	<Path>core/images/items/mojarra</Path>
 	<Hazard>none</Hazard>
 	<Value>mid</Value>
 	<Price>120</Price>

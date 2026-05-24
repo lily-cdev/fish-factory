@@ -11,7 +11,7 @@ Item_Ptr Get_Item(const char* Index) {
 
 Item_Ptr Get_ID_Item(const int ID) {
 	for (int C1 = 0; C1 < Core.Items; C1++) {
-		if (Metadata.Items[C1].id == ID) {
+		if (Metadata.Items[C1].ID == ID) {
 			return &Metadata.Items[C1];
 		}
 	}
@@ -27,15 +27,6 @@ void Purge_Items() {
 			}
 		}
 	}
-}
-
-bool Check_Category(int Item, Item_Category Category) {
-	for (int C1 = 0; C1 < Category.Length; C1++) {
-		if (Item == Category.Contents[C1].Identifier) {
-			return true;
-		}
-	}
-	return false;
 }
 
 float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation) {

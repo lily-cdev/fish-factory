@@ -109,7 +109,9 @@ enum Issues {
 	I_No_XML_File,
 	I_No_Element,
 	I_No_Animtype,
-	I_No_Powertype
+	I_No_Powertype,
+	I_No_Hazard,
+	I_No_Value
 };
 
 enum Error {

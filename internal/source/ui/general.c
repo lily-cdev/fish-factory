@@ -84,14 +84,14 @@ void Render_Tile_Prompts() {
 		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
 			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
+				continue;
+			}
 			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
 			if (!Machine) {
 				return;
 			}
-			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				continue;
-			}
-			if (Data.Visual_Grid[Column][Row] == 0 || !Machine->Quirks[Q_Interactable]) {
+			if (!Machine->Quirks[Q_Interactable]) {
 				return;
 			}
 			char Subcore[64];
@@ -103,7 +103,7 @@ void Render_Tile_Prompts() {
 			snprintf(Subcore, sizeof(Subcore), "interact - (\"%s\")", Sub2core);
 			SDL_Texture* Carrier = Render_Text(F_Halftext, Subcore, Colors.Cherry_Blossom);
 			SDL_FRect Carrying_Rectangle = {
-				Core.Screenhalfsize.X - (Carrier->w * 0.5), Core.Screenhalfsize.X, (float)Carrier->w, (float)Carrier->h
+				Core.Screenhalfsize.X - (Carrier->w * 0.5f), Core.Screenhalfsize.X, Carrier->w, Carrier->h
 			};
 			Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 },
 				(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
@@ -120,41 +120,48 @@ void Render_Interaction() {
 		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
 			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
-				if (!(*Machine).Quirks[Q_Interactable]) {
-					return;
-				}
-				if (ktn_stricmp((*Machine).Index, "signal_tower")) {
-					Interface.Prompt_Identifier = P_Transmitter;
-				} else if (ktn_stricmp((*Machine).Index, "spawning_controller")) {
-					Interface.Prompt_Identifier = P_Spawning_Pool;
-				} else if (ktn_stricmp((*Machine).Index, "sub_dock")) {
-					Interface.Prompt_Identifier = P_Dock;
-				} else if (ktn_stricmp((*Machine).Index, "hx")) {
-					Interface.Prompt_Identifier = P_Exchanger;
-				} else if (ktn_stricmp((*Machine).Index, "money_cheat")) {
-					Interface.Prompt_Identifier = P_Money_Generator;
-					Interface.Slider_Positions[8] = Data.Settings_Grid[pt(Interface.Tile)][3];
-				} else if (ktn_stricmp((*Machine).Index, "fluid_cheat")) {
-					Interface.Prompt_Identifier = P_Fluid_Generator;
-					Interface.Slider_Positions[9] = Data.Settings_Grid[pt(Interface.Tile)][3];
-					Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[pt(Interface.Tile)][4] * 0.2f);
-					for (int C1 = 0; C1 < ktn_valve300_len; C1++) {
-						if (Data.Settings_Grid[pt(Interface.Tile)][5] == Interface.Valve300_Postions[C1]) {
-							Interface.Slider_Positions[11] = C1;
-							break;
-						}
-					}
-				} else if (ktn_stricmp((*Machine).Index, "turbine_input")) {
-					Interface.Prompt_Identifier = P_Turbine;
-				} else if (ktn_stricmp((*Machine).Index, "power_cheat")) {
-					Interface.Prompt_Identifier = P_Power_Generator;
-				}
-				Interface.Building = false;
-				Interface.Tile = (Point){ Column, Row };
+			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
+				continue;
+			}
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+			if (!Machine) {
 				return;
 			}
+			if (!(*Machine).Quirks[Q_Interactable]) {
+				return;
+			}
+			if (ktn_stricmp((*Machine).Index, "signal_tower")) {
+				Interface.Prompt_Identifier = P_Transmitter;
+			} else if (ktn_stricmp((*Machine).Index, "spawning_controller")) {
+				Interface.Prompt_Identifier = P_Spawning_Pool;
+			} else if (ktn_stricmp((*Machine).Index, "sub_dock")) {
+				Interface.Prompt_Identifier = P_Dock;
+			} else if (ktn_stricmp((*Machine).Index, "hx")) {
+				Interface.Prompt_Identifier = P_Exchanger;
+			} else if (ktn_stricmp((*Machine).Index, "money_cheat")) {
+				Interface.Prompt_Identifier = P_Money_Generator;
+				Interface.Slider_Positions[8] = Data.Settings_Grid[pt(Interface.Tile)][3];
+				Apply_M_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+			} else if (ktn_stricmp((*Machine).Index, "fluid_cheat")) {
+				Interface.Prompt_Identifier = P_Fluid_Generator;
+				Interface.Slider_Positions[9] = Data.Settings_Grid[pt(Interface.Tile)][3];
+				Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[pt(Interface.Tile)][4] * 0.2f);
+				for (int C1 = 0; C1 < ktn_valve300_len; C1++) {
+					if (Data.Settings_Grid[pt(Interface.Tile)][5] == Interface.Valve300_Postions[C1]) {
+						Interface.Slider_Positions[11] = C1;
+						break;
+					}
+				}
+				Apply_F_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+			} else if (ktn_stricmp((*Machine).Index, "turbine_input")) {
+				Interface.Prompt_Identifier = P_Turbine;
+			} else if (ktn_stricmp((*Machine).Index, "power_cheat")) {
+				Interface.Prompt_Identifier = P_Power_Generator;
+				Apply_P_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+			}
+			Interface.Building = false;
+			Interface.Tile = (Point){ Column, Row };
+			return;
 		}
 	}
 }
@@ -226,7 +233,7 @@ void Set_Engagement(Parameter Engagement, Parameter Unused) {
 	Interface.Engagement = (Interface.Engagement == 0) ? Engagement.Integer : 0;
 }
 
-void Render_Slider(char Labels[256][32], int Engagement, int Nodes, int* Position, Point Pos, int Width, SDL_Color Primary,
+void Render_Slider(char Labels[256][64], int Engagement, int Nodes, int* Position, Point Pos, int Width, SDL_Color Primary,
 	SDL_Color Secondary, bool Text_Visible) {
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {

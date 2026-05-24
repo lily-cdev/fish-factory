@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>menhaden</Name>
-	<Index>11</Index>
+	<Index>menhaden</Index>
+	<ID>11</ID>
+	<Path>core/images/items/menhaden</Path>
 	<Hazard>none</Hazard>
 	<Value>mid</Value>
 	<Price>105</Price>

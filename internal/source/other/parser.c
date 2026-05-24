@@ -96,7 +96,6 @@ void Load_XML() {
 	Core.Items = Get_Integer("registrar", Registrar, "Item_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
-	ktn_free(Registrar);
 	int ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
@@ -190,11 +189,6 @@ void Load_XML() {
 		#undef Machine
 	}
 	ktn_free(Raw_Names);
-	/*
-	enum Hazard Danger;
-	enum Value Worth;
-	float Nutrition;
-	*/
 	Raw_Names = Find_Multiple("registrar", Registrar, "Item", Core.Items);
 	Metadata.Items = calloc(Core.Items, sizeof(Item_Data));
 	for (int C1 = 0; C1 < Core.Items; C1++) {
@@ -205,9 +199,11 @@ void Load_XML() {
 		Item.Name = get_str("Name");
 		Item.Index = get_str("Index");
 		Item.Path = get_str("Path");
+		Item.Coolant = Get_Boolean(Item_File, "Coolant");
 		Item.ID = get_int("ID");
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
+		Item.Nutrition = get_int("Nutrition") * 0.01f;
 		if (ktn_stricmp(get_str("Boil_Pt"), "none")) {
 			Item.Boil_Pt = -2;
 		} else if (ktn_stricmp(get_str("Boil_Pt"), "gas")) {
@@ -222,6 +218,34 @@ void Load_XML() {
 		} else {
 			Item.V_Enthalpy = get_int("V_Enthalpy");
 		}
+		char* Danger = get_str("Hazard");
+		if (ktn_stricmp(Danger, "none")) {
+			Item.Danger = Harmless;
+		} else if (ktn_stricmp(Danger, "low")) {
+			Item.Danger = Mild;
+		} else if (ktn_stricmp(Danger, "mid")) {
+			Item.Danger = Medium;
+		} else if (ktn_stricmp(Danger, "high")) {
+			Item.Danger = Severe;
+		} else {
+			ktn_jump(I_No_Hazard, "xml parser failed to process \"Hazard\"");
+		}
+		ktn_free(Danger);
+		char* Value = get_str("Value");
+		if (ktn_stricmp(Value, "none")) {
+			Item.Worth = Worthless;
+		} else if (ktn_stricmp(Value, "low")) {
+			Item.Worth = Normal;
+		} else if (ktn_stricmp(Value, "mid")) {
+			Item.Worth = Expensive;
+		} else if (ktn_stricmp(Value, "high")) {
+			Item.Worth = Exotic;
+		} else {
+			char Carrier[128];
+			snprintf(Carrier, sizeof(Carrier), "xml parser failed to process \"Value\" at \"%s\"", Raw_Names[C1]);
+			ktn_jump(I_No_Value, Carrier);
+		}
+		ktn_free(Value);
 		#undef get_str
 		#undef get_int
 		#undef Item
@@ -229,6 +253,7 @@ void Load_XML() {
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);
+	ktn_free(Registrar);
 	printf("debug info:\nlowest unreg. visual id -> %i\n", ID_Record + 1);
 }
 

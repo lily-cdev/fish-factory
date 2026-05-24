@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>aqueous marine snow</Name>
-	<Index>4</Index>
+	<Index>wet_marine_snow</Index>
+	<ID>4</ID>
+	<Path>core/images/items/am_snow</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
 	<Price>5</Price>
 	<Chem_Energy>30000</Chem_Energy>
 	<Boil_Pt>212</Boil_Pt>
 	<V_Enthalpy>45</V_Enthalpy>
-	<Nutrition>0.35</Nutrition>
+	<Nutrition>35</Nutrition>
 </Item>

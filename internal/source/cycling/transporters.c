@@ -1,7 +1,7 @@
 #include <grid.h>
 
 void Cycle_Large_Pipe(Point Pos, const int Rotation) {
-	if (Get_Item(Pos).Hazard > Harmless) {
+	if (Get_ID_Item(Data.Items_Grid[pt(Pos)])->Danger > Harmless) {
 		//if hazard then go boom
 	}
 }

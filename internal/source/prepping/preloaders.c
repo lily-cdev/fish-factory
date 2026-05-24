@@ -124,9 +124,7 @@ void Preload_Machines() {
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(40.0f), ktn_fscale(40.0f) };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
 	for (int C1 = 0; C1 < Core.Items; C1++) {
-		char Carrier[64];
-		snprintf(Carrier, sizeof(Carrier), "core/images/items/%s", Metadata.Items[C1].Path);
-		Metadata.Items[C1].Icon = Preload_Texture(Carrier);
+		Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
 	}
 }
 
@@ -405,9 +403,9 @@ void Preload_Assets() {
 	for (int C1 = 0; C1 < 241; C1++) {
 		char Buffer[32];
 		snprintf(Buffer, sizeof(Buffer), "%i %sF", C1 * 5, ktn_degree);
-		strncpy(Interface.Slider_Texts[10][C1], Buffer, sizeof(Interface.Slider_Texts[10][C1]));
+		strcpy(Interface.Slider_Texts[10][C1], Buffer);
 	}
-	strncpy(Interface.Slider_Texts[10][241], ktn_null_string, sizeof(Interface.Slider_Texts[10][241]));
+	strcpy(Interface.Slider_Texts[10][241], ktn_null_string);
 	for (int C1 = 0; C1 < 6; C1++) {
 		char Subcarrier[64];
 		Abbreviate_Number((C1 == 0) ? 0 : powf(10.0f, C1 - 1.0f), Subcarrier, sizeof(Subcarrier));

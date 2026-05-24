@@ -3,6 +3,7 @@
 	<Name>salt sol'n</Name>
 	<Index>wet_salt</Index>
 	<ID>16</ID>
+	<Path>core/images/items/s_solution</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

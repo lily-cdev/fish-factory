@@ -3,6 +3,7 @@
 	<Name>steam</Name>
 	<Index>steam</Index>
 	<ID>17</ID>
+	<Path>core/images/items/steam</Path>
 	<Hazard>low</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

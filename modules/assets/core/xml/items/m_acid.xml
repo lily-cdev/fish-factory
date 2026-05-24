@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>muriatic acid</Name>
-	<Index>10</Index>
+	<Index>muriatic_acid</Index>
+	<ID>10</ID>
+	<Path>core/images/items/m_acid</Path>
 	<Hazard>mid</Hazard>
-	<Value>normal</Value>
+	<Value>low</Value>
 	<Price>38</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Boil_Pt>110</Boil_Pt>

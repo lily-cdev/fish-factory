@@ -63,7 +63,7 @@ void Render_Grid() {
 							(ktn_evn(Rotation)) ? Machine->Rect.h : Machine->Rect.w
 						};
 						Centerpoint = (SDL_FPoint){ Machine->Rect.w * 0.5f, Machine->Rect.h * 0.5f };
-						if (Data.Animation_Grid[Column][Row][0] == 1) {
+						if (Data.Animation_Grid[Column][Row][0] > ktn_invalid) {
 							Data.Animation_Grid[Column][Row][1] += ((float)Machine->Spin_Data.Speed) / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 360) {
 								Data.Animation_Grid[Column][Row][1] = 0;
@@ -105,7 +105,8 @@ void Render_Grid() {
 							Destination = (SDL_FRect){
 								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(
 									Core.Camera.X),
-								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(Core.Camera.Y),
+								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(
+									Core.Camera.Y),
 								ktn_fscale(21.0f),
 								ktn_fscale(21.0f)
 							};
@@ -201,10 +202,10 @@ void Render_Grid() {
 						} else if (ktn_stricmp(Machine->Index, "algae_bed")) {
 							Carrier = ktn_evn(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
-							if (Data.Animation_Grid[Column][Row][1] > 0) {
-								Data.Animation_Grid[Column][Row][0] += 1.0f / Interface.Frame_Rate;
-								if (Data.Animation_Grid[Column][Row][0] >= 0.5f) {
-									Data.Animation_Grid[Column][Row][0] = 0;
+							if (Data.Animation_Grid[Column][Row][0] > ktn_invalid) {
+								Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
+								if (Data.Animation_Grid[Column][Row][1] >= 0.5f) {
+									Data.Animation_Grid[Column][Row][1] = 0;
 									ktn_tick();
 									Point_f Coordinate = { (float)(Core.State % 52) + 16.0f };
 									ktn_tick();

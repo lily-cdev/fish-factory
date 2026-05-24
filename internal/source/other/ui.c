@@ -289,8 +289,10 @@ void Drain_Query() {
 			SDL_FPoint Centerpoint = { ktn_fscale(5.0f), ktn_fscale(5.0f) };
 			for (int C2 = 0; C2 < floorf(Length / ktn_fscale(10.0f)); C2++) {
 				SDL_FRect Tilebox = { 0.0f, 0.0f, ktn_fscale(10.0f), ktn_fscale(10.0f) };
-				Tilebox.x = (float)(Cache.Query[C1].x - (ktn_fscale(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - ktn_fscale(5.0f));
-				Tilebox.y = (float)(Cache.Query[C1].y - (ktn_fscale(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - ktn_fscale(5.0f));
+				Tilebox.x = (float)(Cache.Query[C1].x - (ktn_fscale(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - ktn_fscale(
+					5.0f));
+				Tilebox.y = (float)(Cache.Query[C1].y - (ktn_fscale(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - ktn_fscale(
+					5.0f));
 				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
 					SDL_FLIP_NONE);
 			}

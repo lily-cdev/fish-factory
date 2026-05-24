@@ -5,7 +5,6 @@
 #define ktn_memcpy(Victim, Source, Size) do { if ((Source) == NULL) { memset(Victim, 0, Size); } else { memcpy(Victim, \
     Source, Size); } } while (0)
 #define ktn_intlen(Victim) ({ int Yield = 0; while ((Victim)[Yield] != ktn_terminator) { Yield++; } Yield; })
-#define ktn_reclen(Victim) ({ int Yield = 0; while ((Victim)[Yield].ID != ktn_terminator) { Yield++; } Yield; })
 #define ktn_ptlen(Victim) ({ int Yield = 0; while ((Victim)[Yield].X != ktn_terminator || (Victim)[Yield].Y != \
     ktn_terminator) { Yield++; } Yield; })
 #define ktn_veclen(Victim) ({ int Yield = 0; while (strcmp((Victim)[Yield], ktn_null_string) != 0) { Yield++; } Yield; })

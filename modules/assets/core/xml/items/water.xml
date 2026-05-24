@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
 	<Name>water</Name>
-	<Index>19</Index>
+	<Index>water</Index>
+	<ID>19</ID>
+	<Path>core/images/items/water</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>
@@ -9,4 +11,5 @@
 	<Boil_Pt>212</Boil_Pt>
 	<V_Enthalpy>41</V_Enthalpy>
 	<Nutrition>0</Nutrition>
+	<Coolant />
 </Item>
