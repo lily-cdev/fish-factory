@@ -1,4 +1,5 @@
 #include <prepping.h>
+#include <items.h>
 
 char* Get_File(char* Path) {
 	char Carrier[128];
@@ -44,6 +45,13 @@ int Get_Integer(const char* Path, const char* Text, const char* Element) {
 			Path);
 		ktn_jump(I_No_Integer, Subcarrier);
 	}
+	return Yield;
+}
+
+float Get_Float(const char* Path, const char* Text, const char* Element) {
+	char* Carrier = Find_Element(Path, Text, Element, NULL);
+	float Yield = atof(Carrier);
+	ktn_free(Carrier);
 	return Yield;
 }
 
@@ -94,6 +102,7 @@ void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Core.Items = Get_Integer("registrar", Registrar, "Item_Ct");
+	Core.Recipes = Get_Integer("registrar", Registrar, "Recipe_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	int ID_Record = 0;
@@ -250,6 +259,58 @@ void Load_XML() {
 		#undef get_int
 		#undef Item
 		ktn_free(Item_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Recipe", Core.Recipes);
+	Metadata.Recipes = calloc(Core.Recipes, sizeof(Recipe));
+	for (int C1 = 0; C1 < Core.Recipes; C1++) {
+		#define Recipe Metadata.Recipes[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Recipe_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Recipe_File, Victim))
+		char* Recipe_File = Get_File(Raw_Names[C1]);
+		char* Subtype = get_str("Type");
+		if (ktn_stricmp(Subtype, "both")) {
+			Recipe.Type = 0;
+		} else if (ktn_stricmp(Subtype, "in")) {
+			Recipe.Type = 1;
+		} else if (ktn_stricmp(Subtype, "out")) {
+			Recipe.Type = 2;
+		} else {
+			char Carrier[128];
+			snprintf(Carrier, sizeof(Carrier), "xml parser failed to process \"Type\" at \"%s\"", Raw_Names[C1]);
+			ktn_jump(I_No_Type, Carrier);
+		}
+		ktn_free(Subtype);
+		Recipe.Shuffling_Barred = Get_Boolean(Recipe_File, "Shuffling_Barred");
+		Recipe.Voiding_Excess = Get_Boolean(Recipe_File, "Voiding_Excess");
+		Recipe.Time = get_int("Time");
+		Recipe.Power = get_int("Power");
+		Recipe.Machine = Get_Machine(get_str("Parent"));
+		char** IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Input", Recipe.Machine->Input_Ct);
+		for (int C2 = 0; C2 < Recipe.Machine->Input_Ct; C2++) {
+			//l8er
+			ktn_free(IO_Carrier[C2]);
+		}
+		ktn_free(IO_Carrier);
+		IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Output", Recipe.Machine->Output_Ct);
+		for (int C2 = 0; C2 < Recipe.Machine->Output_Ct; C2++) {
+			Recipe.Output_Items[C2] = Get_Item(get_str("Item"));
+			Recipe.Output_Counts[C2] = Get_Float(Raw_Names[C1], Recipe_File, "Volume");
+			ktn_free(IO_Carrier[C2]);
+		}
+		ktn_free(IO_Carrier);
+/*
+	Item_Ptr Input_Items[16];
+	float Input_Counts[16];
+	float Output_Counts[16];
+*/
+
+
+		#undef get_str
+		#undef get_int
+		#undef Recipe
+		ktn_free(Recipe_File);
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);

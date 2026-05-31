@@ -36,16 +36,20 @@ void Update_Machines() {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			for (int C1 = 0; C1 < Recipe_Ct; C1++) {
-				if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Recipes[C1].Machine->Index)) {
+			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+			if (!Chosen) {
+				continue;
+			}
+			for (int C1 = 0; C1 < Core.Recipes; C1++) {
+				if (!ktn_stricmp(Chosen->Index, Metadata.Recipes[C1].Machine->Index)) {
 					continue;
 				}
 				Point* Outputs = NULL;
 				Point* Inputs = NULL;
 				bool Yielded;
-				switch (Recipes[C1].Type) {
+				switch (Metadata.Recipes[C1].Type) {
 				case 0:
-					Yielded = Process_IO_Recipe(Recipes[C1], Pos, Inputs, Outputs);
+					Yielded = Process_IO_Recipe(Metadata.Recipes[C1], Pos, Inputs, Outputs);
 					ktn_free(Outputs);
 					ktn_free(Inputs);
 					break;
@@ -53,32 +57,28 @@ void Update_Machines() {
 					//Process_I_Recipe
 					break;
 				case 2:
-					Yielded = Process_O_Recipe(Recipes[C1], Pos, Outputs);
+					Yielded = Process_O_Recipe(Metadata.Recipes[C1], Pos, Outputs);
 					ktn_free(Outputs);
 				default:
 					break;
 				}
-				if (Data.Settings_Grid[pt(Pos)][S_Time] > 0) {
+				if (Data.Settings_Grid[pt(Pos)][S_Time] > ktn_epsilon) {
 					Data.Settings_Grid[pt(Pos)][S_Time]--;
-					if (Extend_Recipe(Recipes[C1], Pos, Outputs)) {
-						Yielded = true;
-					}
+					Extend_Recipe(Metadata.Recipes[C1], Pos, Outputs);
+					Yielded = true;
 					ktn_free(Outputs);
 				}
 				if (Yielded) {
-					Data.Animation_Grid[pt(Pos)][0] = 0;
+					Data.Animation_Grid[pt(Pos)][0] = 1.0f;
 					//play sound
 				} else {
-					Data.Animation_Grid[pt(Pos)][0] = ktn_invalid;
+					Data.Animation_Grid[pt(Pos)][0] = 0.0f;
 				}
 			}
 			int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
-			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
-			if (Chosen) {
-				for (int C1 = 0; C1 < sizeof(Cycle_Functions) / sizeof(Cycle_Functions[0]); C1++) {
-					if (ktn_stricmp(Chosen->Index, Cycle_Matches[C1])) {
-						Cycle_Functions[C1](Pos, Rotation);
-					}
+			for (int C1 = 0; C1 < sizeof(Cycle_Functions) / sizeof(Cycle_Functions[0]); C1++) {
+				if (ktn_stricmp(Chosen->Index, Cycle_Matches[C1])) {
+					Cycle_Functions[C1](Pos, Rotation);
 				}
 			}
 			if (Data.Visual_Grid[pt(Pos)] == 21) {

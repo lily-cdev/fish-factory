@@ -3,51 +3,11 @@
 #include <prepping.h>
 
 typedef struct {
-	int Type;
-	bool Shuffling_Barred;
-	bool Voiding_Excess;
-	int Time;
-	int Power;
-	Item_Ptr Input_Items[16];
-	float Input_Counts[16];
-    int Inputs;
-	Item_Ptr Output_Items[16];
-	float Output_Counts[16];
-    int Outputs;
-	int ID;
-	Machine_Ptr Machine;
-} Recipe;
-
-typedef struct {
 	char Name[32];
 	int Identifier;
 	int Max_Growth;
 	float Food_Consumption;
 } Fish;
-
-typedef struct {
-	Item_Ptr Blank_Item;
-	Recipe FP_Saltwater;
-	Recipe FP_Biopaste;
-	Recipe FM_Drillmud_1;
-	Recipe FM_Drillmud_2;
-	Recipe FM_Hydrogen_Chloride;
-	Recipe FM_Hydrochloric_Acid;
-	Recipe D_Water;
-	Recipe EP_Water;
-	Recipe EP_Saltwater;
-	Recipe EP_Salt;
-} PRESET_IO_RECIPES;
-
-typedef struct {
-	Item_Ptr Blank_Item;
-} PRESET_I_RECIPES;
-
-typedef struct {
-	Item_Ptr Blank_Item;
-	Recipe RP_Saltwater;
-	Recipe GB_Algae;
-} PRESET_O_RECIPES;
 
 typedef struct {
 	Fish Milkfish;
@@ -60,8 +20,6 @@ extern Fish Fish_Catalog[ktn_fish];
 extern char Growth_Phases[ktn_fish_phases][32];
 extern char Plural_Growth_Phases[ktn_fish_phases][32];
 extern int Growth_Weights[ktn_fish_phases];
-extern Recipe* Recipes;
-extern int Recipe_Ct;
 
 void Prep_Items();
 void Free_Items();

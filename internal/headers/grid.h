@@ -24,7 +24,6 @@ bool Place_Incinerator(Point Pos);
 bool Place_Submarine_Dock(Point Pos);
 bool Place_Filtration_Plant(Point Pos);
 bool Place_Spawning_Pool(Point Pos);
-bool Place_Algae_Bed(Point Pos);
 bool Place_Spawning_Controller(Point Pos);
 bool Place_Spawning_Output(Point Pos);
 bool Place_Spawning_Input(Point Pos);

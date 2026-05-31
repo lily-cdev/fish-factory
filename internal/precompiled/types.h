@@ -142,6 +142,19 @@ typedef struct {
 typedef Machine_Data* Machine_Ptr;
 typedef Item_Data* Item_Ptr;
 
+typedef struct {
+	int Type;
+	bool Shuffling_Barred;
+	bool Voiding_Excess;
+	int Time;
+	int Power;
+	Machine_Ptr Machine;
+	Item_Ptr Input_Items[16];
+	float Input_Counts[16];
+	Item_Ptr Output_Items[16];
+	float Output_Counts[16];
+} Recipe;
+
 typedef union {
 	void* Pointer;
 	int Integer;

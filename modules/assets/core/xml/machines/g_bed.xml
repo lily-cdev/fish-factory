@@ -10,12 +10,30 @@
 	<Width>2</Width>
 	<Height>3</Height>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>200</Power_Capacity>
+	<Power_Capacity>700</Power_Capacity>
 	<Anchor_X>28</Anchor_X>
 	<Anchor_Y>88</Anchor_Y>
 	<Rot_ID />
 	<Visual_Left>42</Visual_Left>
 	<Visual_Up>132</Visual_Up>
 	<Visual_Right>133</Visual_Right>
-	<Visual_Down>134</Visual_Down>	
+	<Visual_Down>134</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>2</Cap>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>2</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

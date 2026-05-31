@@ -202,7 +202,7 @@ void Render_Grid() {
 						} else if (ktn_stricmp(Machine->Index, "algae_bed")) {
 							Carrier = ktn_evn(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
-							if (Data.Animation_Grid[Column][Row][0] > ktn_invalid) {
+							if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
 								Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
 								if (Data.Animation_Grid[Column][Row][1] >= 0.5f) {
 									Data.Animation_Grid[Column][Row][1] = 0;

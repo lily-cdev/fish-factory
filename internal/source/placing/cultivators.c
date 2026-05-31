@@ -1,17 +1,5 @@
 #include <grid.h>
 
-bool Place_Algae_Bed(Point Pos) {
-	Node Nodes = { };
-	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.GB_Outputs);//+x and +y
-	for (int C1 = 0; C1 < Nodes.Length; C1++) {
-		Data.Settings_Grid[pt(Nodes.Data[C1])][0] = F_Out;
-		Data.Data_Grid[pt(Nodes.Data[C1])][Fluid_Cap] = 3;
-		Data.Plumbing_Grid[pt(Nodes.Data[C1])] = (Interface.Rotation + Down == 4) ? 4 : ((Interface.Rotation + Down) & 3);
-	}
-	ktn_free(Nodes.Data);
-	return true;
-}
-
 bool Place_Spawning_Pool(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 24;
 	Data.Behavior_Grid[pt(Pos)] = 0;

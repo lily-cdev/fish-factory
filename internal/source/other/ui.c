@@ -144,7 +144,7 @@ void Render_Game_UI() {
 				}
 			}
 		}
-		if (Item->ID != ktn_invalid) {
+		if (Item && Item->ID != ktn_invalid) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "item: %s", Item->Name);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));

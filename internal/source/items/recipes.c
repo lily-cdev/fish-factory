@@ -47,7 +47,6 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 					}
 				}
 				Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
-				Data.Settings_Grid[pt(Pos)][2] = Chosen.ID;
 				return true;
 			}
 		}
@@ -76,7 +75,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 					return false;
 				}
 			}
-			for (int C1 = 0; C1 < Chosen.Inputs; C1++) {
+			for (int C1 = 0; C1 < Chosen.Machine->Input_Ct; C1++) {
 				if (Data.Items_Grid[pt(Inputs[C1])] != Chosen.Input_Items[C1]->ID) {
 					return false;
 				}
@@ -114,7 +113,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 					return false;
 				}
 			}
-			for (int C1 = 0; C1 < Chosen.Inputs; C1++) {
+			for (int C1 = 0; C1 < Chosen.Machine->Input_Ct; C1++) {
 				if (Data.Items_Grid[pt(Inputs[C1])] != Chosen.Input_Items[C1]->ID) {
 					return false;
 				}
@@ -131,7 +130,6 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				Data.Data_Grid[pt(Inputs[C1])][Stored_Fluids] -= Chosen.Input_Counts[C1];
 			}
 			Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
-			Data.Settings_Grid[pt(Pos)][2] = Chosen.ID;
 		} else {
 			//later
 		}
@@ -147,8 +145,9 @@ bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 		Outputs[C1] = (Point){ Chosen.Machine->Outputs[C1].Pos.X + Pos.X, Chosen.Machine->Outputs[C1].Pos.Y + Pos.Y };
 	}
 	Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
-	if (Data.Settings_Grid[pt(Pos)][S_Time] <= 0) {
+	if (Data.Settings_Grid[pt(Pos)][S_Time] < ktn_epsilon) {
 		Data.Settings_Grid[pt(Pos)][S_Time] = 0;
+		Data.Animation_Grid[pt(Pos)][0] = 0.0f;
 		for (int C1 = 0; C1 < Output_Ct; C1++) {
 			Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
 		}

@@ -1,8 +1,5 @@
 #include <items.h>
 
-Recipe* Recipes;
-int Recipe_Ct;
-
 void Prep_Items() {
     Fish_Catalog[0] = Preset_Fish.Milkfish;
     Fish_Catalog[1] = Preset_Fish.Mojarra;
@@ -10,5 +7,5 @@ void Prep_Items() {
 }
 
 void Free_Items() {
-	ktn_free(Recipes);
+	ktn_free(Metadata.Recipes);
 }

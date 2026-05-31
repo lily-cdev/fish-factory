@@ -7,7 +7,7 @@ void Render_Catalog(Point Pos) {
 	//render custom box with outside bound
 	if (Interface.Subprompt_Identifier == ktn_invalid) {
 		Index = 0;
-		for (int C1 = 0; C1 < Recipe_Ct; C1++) {
+		for (int C1 = 0; C1 < Core.Recipes; C1++) {
 			float Base_Subwidth = Settings.Scalar * 44.0f;
 			float Base_Padding = Settings.Scalar * 7.0f;
 			float Base_Subpadding = Settings.Scalar * 2.0f;
@@ -52,49 +52,49 @@ void Render_Catalog(Point Pos) {
 		}
 	} else {
 		int Offset = 120;
-		//i recipes
-		//o recipes
+		//i Metadata.Recipes
+		//o Metadata.Recipes
 		int Index = Interface.Subprompt_Identifier;
 		char Candidate[256];
 		int Number = 1;
-		for (int C1 = 0; C1 < Recipe_Ct; C1++) {
+		for (int C1 = 0; C1 < Core.Recipes; C1++) {
 			strncpy(Candidate, "Recipe No. ", sizeof(Candidate));
 			if (Number < 10) {
 				ktn_charcat(Candidate, '0', sizeof(Candidate));
 			}
 			char Buffer[128];
 			char Subbuffer[64];
-			Abbreviate_Number(Recipes[C1].Power, Subbuffer, sizeof(Subbuffer));
-			snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, Recipes[C1].Time);
+			Abbreviate_Number(Metadata.Recipes[C1].Power, Subbuffer, sizeof(Subbuffer));
+			snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, Metadata.Recipes[C1].Time);
 			strcat(Candidate, Buffer);
-			if (Recipes[C1].Voiding_Excess) {
+			if (Metadata.Recipes[C1].Voiding_Excess) {
 				strcat(Candidate, ", cannot overflow");
 			}
 			Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 16, Offset });
 			Offset += 20;
 			strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
-			for (int C3 = 0; C3 < Recipes[C1].Inputs; C3++) {
-				Abbreviate_Number(Recipes[C1].Input_Counts[C3] / Recipes[C1].Time, Buffer,
+			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Input_Ct; C3++) {
+				Abbreviate_Number(Metadata.Recipes[C1].Input_Counts[C3] / Metadata.Recipes[C1].Time, Buffer,
 					sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1].Input_Items[C3]->Name);
-				if (C3 < Recipes[C1].Inputs - 1) {
+				snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Metadata.Recipes[C1].Input_Items[C3]->Name);
+				if (C3 < Metadata.Recipes[C1].Machine->Input_Ct - 1) {
 					strcat(Candidate, ", ");
 				}
 			}
 			Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 			Offset += 20;
 			strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
-			for (int C3 = 0; C3 < Recipes[C1].Outputs; C3++) {
-				Abbreviate_Number(Recipes[C1].Output_Counts[C3] / Recipes[C1].Time, Buffer,
+			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Output_Ct; C3++) {
+				Abbreviate_Number(Metadata.Recipes[C1].Output_Counts[C3] / Metadata.Recipes[C1].Time, Buffer,
 					sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Recipes[C1].Output_Items[C3]->Name);
-				if (C3 < Recipes[C1].Outputs - 1) {
+				snprintf(Candidate, sizeof(Candidate), "%sL/s %s", Buffer, Metadata.Recipes[C1].Output_Items[C3]->Name);
+				if (C3 < Metadata.Recipes[C1].Machine->Output_Ct - 1) {
 					strcat(Candidate, ", ");
 				}
 			}
 			Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 			Offset += 20;
-			//io recipes
+			//io Metadata.Recipes
 		}
 		//recipe list
 	}
