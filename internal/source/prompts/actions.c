@@ -37,8 +37,8 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 7, "cultivation", 0, { ktn_null_point }, NULL, "open the \"cultivation\" category" },//fix
-		{ T_Button, 0, 4, "algae bed", 0, { ktn_null_point }, NULL, "select the \"algae bed\" item" },
+		{ T_Button, 0, 2, "cultivation", 0, { ktn_null_point }, NULL, "open the \"cultivation\" category" },//fix
+		{ T_Button, 0, 2, "algae bed", 0, { ktn_null_point }, NULL, "select the \"algae bed\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },//end
 		{ 2, 0, 0, "", 17, { { 4, 5 }, { 3, 6 }, { 4, 7 }, ktn_null_point }, NULL, "pump in water for the Filtration Plant" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
