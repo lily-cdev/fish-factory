@@ -59,6 +59,7 @@ void Update_Machines() {
 				case 2:
 					Yielded = Process_O_Recipe(Metadata.Recipes[C1], Pos, Outputs);
 					ktn_free(Outputs);
+					break;
 				default:
 					break;
 				}

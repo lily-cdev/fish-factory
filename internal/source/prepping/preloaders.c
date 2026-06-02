@@ -88,8 +88,6 @@ void Preload_Machines() {
 				Load_Animated_Rotational("core/images/machines/stit_block", &Metadata.Machines[C1].Texture3, 3, true);
 			} else if (ktn_stricmp(Index, "turbine_output")) {
 				Load_Animated_Rotational("core/images/machines/st_output", &Metadata.Machines[C1].Texture3, 2, true);
-			} else if (ktn_stricmp(Index, "filtration_plant")) {
-				Load_Animated("core/images/machines/f_plant", &Metadata.Machines[C1].Texture2, 3, true);
 			}
 			break;
 		default:

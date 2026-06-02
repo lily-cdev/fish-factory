@@ -12,7 +12,7 @@ void Render_Subcable(Bridge Chosen, Point Pos, Point Offset) {
 }
 
 void Render_Cable(Bridge Chosen, Point Offset) {
-	float Radius = Settings.Scalar * 3.0f;
+	float Radius = Settings.Scalar * 1.5f;
 	for (int X = -Radius; X <= Radius; X++) {
 		for (int Y = -Radius; Y <= Radius; Y++) {
 			if ((float)sqrtf(ktn_sqr(X) + ktn_sqr(Y)) <= Radius) {

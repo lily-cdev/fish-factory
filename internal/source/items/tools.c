@@ -1,6 +1,9 @@
 #include <items.h>
 
 Item_Ptr Get_Item(const char* Index) {
+	if (ktn_stricmp(Index, "none")) {
+		return &Metadata.Null_Item;
+	}
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		if (ktn_stricmp(Metadata.Items[C1].Index, Index)) {
 			return &Metadata.Items[C1];

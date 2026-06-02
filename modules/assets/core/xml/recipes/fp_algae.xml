@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>52</Power>
+	<Parent>filtration_plant</Parent>
+	<Inputs>
+		<Input>
+			<Item>algae</Item>
+			<Volume>0.5</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>algae_paste</Item>
+			<Volume>0.25</Volume>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Output>
+		<Output>
+			<Item>wet_waste</Item>
+			<Volume>0.25</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

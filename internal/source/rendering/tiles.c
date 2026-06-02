@@ -59,11 +59,14 @@ void Render_Grid() {
 						Carrier = (SDL_FRect){
 							Rects.Tile_1x1.x,
 							Rects.Tile_1x1.y,
-							(ktn_evn(Rotation)) ? Machine->Rect.w : Machine->Rect.h,
-							(ktn_evn(Rotation)) ? Machine->Rect.h : Machine->Rect.w
+							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
+							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
 						};
-						Centerpoint = (SDL_FPoint){ Machine->Rect.w * 0.5f, Machine->Rect.h * 0.5f };
-						if (Data.Animation_Grid[Column][Row][0] > ktn_invalid) {
+						Centerpoint = (SDL_FPoint){
+							(ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h) * 0.5f,
+							(ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w) * 0.5f
+						};
+						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
 							Data.Animation_Grid[Column][Row][1] += ((float)Machine->Spin_Data.Speed) / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 360) {
 								Data.Animation_Grid[Column][Row][1] = 0;
@@ -210,6 +213,9 @@ void Render_Grid() {
 									Point_f Coordinate = { (float)(Core.State % 52) + 16.0f };
 									ktn_tick();
 									Coordinate.Y = (float)(Core.State % 52) + 16.0f;
+									if (Rotation == 1) {
+										Coordinate.X += ktn_tile_size;
+									}
 									Push_Particle(P_Bubble, (Point){ Column, Row }, Coordinate);
 								}
 							}
@@ -245,28 +251,6 @@ void Render_Grid() {
 							Rects.Tunnel.Data[0].y = ktn_fscale(((Row - 2.25f) * ktn_tile_size) - Core.Camera.Y);
 							Render_Texture(Machine->Texture2.Data[0], &Rects.Tile_6x4);
 							Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
-						} else if (ktn_stricmp(Machine->Index, "filtration_plant")) {
-							Render_Texture(Machine->Texture2.Data[2], &Rects.Tile_2x3);
-							SDL_FRect Offset_Rectangle = Rects.Tile_2x3;
-							if (Data.Animation_Grid[Column][Row][0] == 0) {
-								Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
-								SDL_FRect Progress_Rectangle = {
-									ktn_fscale(19.0f) + Rects.Tile_2x3.x,
-									ktn_fscale(57.0f) + Rects.Tile_2x3.y,
-									ktn_fscale(Data.Animation_Grid[Column][Row][1] * 50.0f),
-									Settings.Scalar * 7.0f
-								};
-								Set_Renderer_Color(Colors.Cherry_Blossom);
-								SDL_RenderFillRect(Core.Renderer, &Progress_Rectangle);
-								Clear_Renderer();
-								Data.Animation_Grid[Column][Row][2] += 64.0f / Interface.Frame_Rate;
-								if (Data.Animation_Grid[Column][Row][2] > 16.0f / 3.0f) {
-									Data.Animation_Grid[Column][Row][2] = 0;
-								}
-								Offset_Rectangle.y += ktn_fscale(Data.Animation_Grid[Column][Row][2]);
-							}
-							Render_Texture(Machine->Texture2.Data[3], &Offset_Rectangle);
-							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_2x3);
 						}
 						break;
 					default:

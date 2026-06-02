@@ -18,8 +18,8 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 10, "Special", 0, { ktn_null_point }, NULL, "open the \"Special\" category" },
-		{ T_Button, 0, 3, "Command Platform", 0, { ktn_null_point }, NULL, "select the \"Command Platform\" item" },
+		{ T_Button, 0, 7, "special", 0, { ktn_null_point }, NULL, "open the \"special\" category" },
+		{ T_Button, 0, 0, "command platform", 0, { ktn_null_point }, NULL, "select the \"command platform\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
 		{ 6, 4, 200, "", 0, { ktn_null_point }, NULL, "put the placement site into view" },
 		{ 2, 0, 0, "", 43, { { 3, 8 }, ktn_null_point }, NULL, "allow time to progress" },
@@ -29,15 +29,17 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
 	Temporary.Tutorial_Size = (Point){ 320, 240 };
 	Temporary.Tutorial_Offset = (Point){ 0, 200 };
+	Temporary.Tutorial_Step = 0;
+	Interface.Prompt_Identifier = P_None;
 }
 
 void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 4, "Extraction", 0, { ktn_null_point }, NULL, "open the \"Extraction\" category" },
-		{ T_Button, 0, 3, "Ram Pump", 0, { ktn_null_point }, NULL, "select the \"Ram Pump\" item" },
-		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Button, 0, 7, "cultivation", 0, { ktn_null_point }, NULL, "open the \"cultivation\" category" },//fix
+		{ T_Button, 0, 4, "algae bed", 0, { ktn_null_point }, NULL, "select the \"algae bed\" item" },
+		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },//end
 		{ 2, 0, 0, "", 17, { { 4, 5 }, { 3, 6 }, { 4, 7 }, ktn_null_point }, NULL, "pump in water for the Filtration Plant" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 6, "Processing", 0, { ktn_null_point }, NULL, "open the \"Processing\" category" },
@@ -95,6 +97,8 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
 	Temporary.Tutorial_Size = (Point){ 320, 200 };
 	Temporary.Tutorial_Offset = (Point){ 0, 0 };
+	Temporary.Tutorial_Step = 0;
+	Interface.Prompt_Identifier = P_None;
 }
 
 void Fish_Tutorial(Parameter Unused, Parameter Unused2) {
@@ -156,14 +160,14 @@ void Machine_Exit(Parameter Unused, Parameter Unused2) {
 void HX_Diagnostics(Parameter Pos, Parameter Unused) {
 	char Buffer1[128];
 	char Buffer2[128];
-	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "primary_valve\", \"%i mol/s", (int)Data.Settings_Grid[pt(Pos.Pos)][3]);
-	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "feedwater_valve\", \"%i mol/s", (int)Data.Settings_Grid[pt(Pos.Pos)][4]);
+	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "primary_valve\", \"%i "ktn_unit"/s", (int)Data.Settings_Grid[pt(Pos.Pos)][3]);
+	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "feedwater_valve\", \"%i "ktn_unit"/s", (int)Data.Settings_Grid[pt(Pos.Pos)][4]);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][5], Buffer1, sizeof(Buffer1));
 	Truncate(ktn_hx_cap, 0, Buffer2, sizeof(Buffer2));
-	snprintf(Buffers.JSON[2], sizeof(Buffers.JSON[2]), "primary_loop\", \"%s/%s mol", Buffer1, Buffer2);
+	snprintf(Buffers.JSON[2], sizeof(Buffers.JSON[2]), "primary_loop\", \"%s/%s "ktn_unit, Buffer1, Buffer2);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][6], Buffer1, sizeof(Buffer1));
 	Truncate(ktn_hx_cap, 0, Buffer2, sizeof(Buffer2));
-	snprintf(Buffers.JSON[3], sizeof(Buffers.JSON[3]), "feedwater_loop\", \"%s/%s mol", Buffer1, Buffer2);
+	snprintf(Buffers.JSON[3], sizeof(Buffers.JSON[3]), "feedwater_loop\", \"%s/%s "ktn_unit, Buffer1, Buffer2);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][7], Buffer1, sizeof(Buffer1));
 	snprintf(Buffers.JSON[4], sizeof(Buffers.JSON[4]), "primary_temp\", \"%s °F", Buffer1);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][8], Buffer1, sizeof(Buffer1)); 
@@ -227,7 +231,7 @@ void SD_Manifest(Parameter Pos, Parameter Unused) {
 		Truncate(fabsf(Data.Settings_Grid[pt(Pos.Pos)][C1 + 3]), Get_Depth(ktn_dock_cap), Subbuffer1, sizeof(Subbuffer1));
 		char Subbuffer2[64];
 		Abbreviate_Number(ktn_dock_cap, Subbuffer2, sizeof(Subbuffer2));
-		snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "capacity_%d\", \"%s/%s mol", C1 + 1, Subbuffer1, Subbuffer2);
+		snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "capacity_%d\", \"%s/%s "ktn_unit, C1 + 1, Subbuffer1, Subbuffer2);
 		Index++;
 		snprintf(Buffers.JSON[Index], sizeof(Buffers.JSON[Index]), "flags_%i\", \"%s", C1 + 1, Carrier1);
 		Index++;
@@ -261,7 +265,7 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 void MSP_TInfo(Parameter Pos, Parameter Unused) {
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][3] * 90, Subbuffer, sizeof(Subbuffer));
-	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "volume\", \"%s mol", Subbuffer);
+	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "volume\", \"%s "ktn_unit, Subbuffer);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][4], Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "food\", \"%sg", Subbuffer);
 	strncpy(Buffers.JSON[2], ktn_null_string, sizeof(Buffers.JSON[2]));

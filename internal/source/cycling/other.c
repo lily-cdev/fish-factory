@@ -13,10 +13,11 @@ void Cycle_Money_Generator(Point Pos, const int Rotation) {
 }
 
 void Cycle_Fluid_Generator(Point Pos, const int Rotation) {
-	if (Data.Items_Grid[pt(Pos)] != Data.Settings_Grid[pt(Pos)][3] || Data.Temperature_Grid[pt(Pos)] != Data.Settings_Grid[
+	Item_Ptr Item = &Metadata.Items[(int)Data.Settings_Grid[pt(Pos)][3]];
+	if (Data.Items_Grid[pt(Pos)] != Item->ID || Data.Temperature_Grid[pt(Pos)] != Data.Settings_Grid[
 		pt(Pos)][4]) {
 		Data.Data_Grid[pt(Pos)][Stored_Fluids] = 0;
-		Data.Items_Grid[pt(Pos)] = Data.Settings_Grid[pt(Pos)][3];
+		Data.Items_Grid[pt(Pos)] = Item->ID;
 		Data.Temperature_Grid[pt(Pos)] = Data.Settings_Grid[pt(Pos)][4];
 	}
 	Data.Data_Grid[pt(Pos)][Stored_Fluids] = min(Data.Settings_Grid[pt(Pos)][5] + Data.Data_Grid[pt(Pos)][Stored_Fluids],

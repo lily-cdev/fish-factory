@@ -1,7 +1,7 @@
 #include <grid.h>
 
 bool (*Placing_Functions[])(Point Pos) = {
-	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_Submarine_Dock, Place_Filtration_Plant, Place_Spawning_Pool,
+	Place_Reinforced_Pipe, Place_Ram_Pump, Place_Incinerator, Place_Submarine_Dock, Place_Spawning_Pool,
 	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
 	Place_Signal_Tower, Place_Large_Pipe, Place_Heat_Exchanger,
 	Place_Money_Generator, Place_Fluid_Generator, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
@@ -9,7 +9,7 @@ bool (*Placing_Functions[])(Point Pos) = {
 };
 
 const char* Placing_Registers[] = {
-	"heavy_pipe", "ram_pump", "incinerator", "sub_dock", "filtration_plant", "spawning_pool",
+	"heavy_pipe", "ram_pump", "incinerator", "sub_dock", "spawning_pool",
 	"spawning_controller", "spawning_output", "spawning_input",
 	"signal_tower", "large_pipe", "hx",
 	"money_cheat", "fluid_cheat", "condenser_input", "condenser_hx", "condenser_heatsink", "condenser_output",
@@ -213,21 +213,6 @@ void Update_Grid() {
 			Data.Visual_Grid[pt(Pos)] = Temporary_Grid[pt(Pos)];
 		}
 	}
-}
-
-Point Rotate_Pt(Point Input, Point Size, int Rot) {
-	for (int C1 = 0; C1 < 4; C1++) {
-		if (C1 == Rot) {
-			return Input;
-		}
-		Point Carrier = Input;
-		Input.X = (Size.Y - 1) - Carrier.Y;
-		Input.Y = Carrier.X;
-		int Subcarrier = Size.X;
-		Size.X = Size.Y;
-		Size.Y = Subcarrier;
-	}
-	return (Point){ };
 }
 
 void Build_Grid() {

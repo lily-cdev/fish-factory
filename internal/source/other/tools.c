@@ -277,3 +277,18 @@ SDL_Texture* IMG_To_Texture(const char* Path) {
 	SDL_DestroySurface(Surface);
 	return Texture;
 }
+
+Point Rotate_Pt(Point Input, Point Size, int Rot) {
+	for (int C1 = 0; C1 < 4; C1++) {
+		if (C1 == Rot) {
+			return Input;
+		}
+		Point Carrier = Input;
+		Input.X = (Size.Y - 1) - Carrier.Y;
+		Input.Y = Carrier.X;
+		int Subcarrier = Size.X;
+		Size.X = Size.Y;
+		Size.Y = Subcarrier;
+	}
+	return (Point){ };
+}

@@ -289,24 +289,18 @@ void Load_XML() {
 		Recipe.Machine = Get_Machine(get_str("Parent"));
 		char** IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Input", Recipe.Machine->Input_Ct);
 		for (int C2 = 0; C2 < Recipe.Machine->Input_Ct; C2++) {
-			//l8er
+			Recipe.Input_Items[C2] = Get_Item(Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL));
+			Recipe.Input_Counts[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Volume");
 			ktn_free(IO_Carrier[C2]);
 		}
 		ktn_free(IO_Carrier);
 		IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Output", Recipe.Machine->Output_Ct);
 		for (int C2 = 0; C2 < Recipe.Machine->Output_Ct; C2++) {
-			Recipe.Output_Items[C2] = Get_Item(get_str("Item"));
-			Recipe.Output_Counts[C2] = Get_Float(Raw_Names[C1], Recipe_File, "Volume");
+			Recipe.Output_Items[C2] = Get_Item(Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL));
+			Recipe.Output_Counts[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Volume");
 			ktn_free(IO_Carrier[C2]);
 		}
 		ktn_free(IO_Carrier);
-/*
-	Item_Ptr Input_Items[16];
-	float Input_Counts[16];
-	float Output_Counts[16];
-*/
-
-
 		#undef get_str
 		#undef get_int
 		#undef Recipe

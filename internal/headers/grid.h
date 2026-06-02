@@ -22,7 +22,6 @@ bool Place_Reinforced_Pipe(Point Pos);
 bool Place_Ram_Pump(Point Pos);
 bool Place_Incinerator(Point Pos);
 bool Place_Submarine_Dock(Point Pos);
-bool Place_Filtration_Plant(Point Pos);
 bool Place_Spawning_Pool(Point Pos);
 bool Place_Spawning_Controller(Point Pos);
 bool Place_Spawning_Output(Point Pos);

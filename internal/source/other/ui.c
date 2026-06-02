@@ -173,7 +173,7 @@ void Render_Game_UI() {
 				Truncate(Content_Vector[0], Get_Depth(Content_Vector[1]), Subbuffer1, sizeof(Subbuffer1));
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
-				snprintf(Buffer, sizeof(Buffer), "%s / %s mol.", Subbuffer1, Subbuffer2);
+				snprintf(Buffer, sizeof(Buffer), "%s / %s "ktn_unit".", Subbuffer1, Subbuffer2);
 				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}
@@ -184,7 +184,7 @@ void Render_Game_UI() {
 				Truncate(0, 0, Subbuffer1, sizeof(Subbuffer1));
 				char Subbuffer2[64];
 				Abbreviate_Number(Content_Vector[1], Subbuffer2, sizeof(Subbuffer2));
-				snprintf(Buffer, sizeof(Buffer), "%s / %s mol.", Subbuffer1, Subbuffer2);
+				snprintf(Buffer, sizeof(Buffer), "%s / %s "ktn_unit".", Subbuffer1, Subbuffer2);
 				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 				Index++;
 			}

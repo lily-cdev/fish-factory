@@ -250,6 +250,7 @@ struct lde_temporary {
 	int Tutorial_Step;
 	Point Tutorial_Size;
 	Point Tutorial_Offset;
+	int Tutorial_Buffer;
 	int Temporary_FPS;
 	float Scroll_Percent;
 	bool Log_Inversions[3];
@@ -444,3 +445,4 @@ char* Find_Element(const char* Path, const char* Text, const char* Element, int*
 char** Find_Multiple(const char* Path, const char* Text, const char* Element, int Count);
 bool Load_Text();
 void Free_Text();
+Point Rotate_Pt(Point Input, Point Size, int Rot);
