@@ -98,6 +98,7 @@ void Get_Node(const char* Path, const char* Data, const char* Label, int* Ct_Ptr
 	ktn_free(Subnodes);
 }
 
+~start;
 void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
@@ -366,3 +367,4 @@ char** Find_Multiple(const char* Path, const char* Text, const char* Element, in
 	}
 	return Yield;
 }
+~end;

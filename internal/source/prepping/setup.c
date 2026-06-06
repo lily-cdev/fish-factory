@@ -10,34 +10,17 @@ void Preclear_Temporaries() {
 	}
 }
 
-void Render_Loadscreen() {
+void Render_Loadscreen(const char* Line) {
 	Set_Renderer_Color(Colors.Pure_White);
 	SDL_RenderClear(Core.Renderer);
 	Clear_Renderer();
-	SDL_Texture* Text_Texture = Render_Text(F_Logo, "loading assets", Colors.Abyss_Black);
-	char Carrier[128];
-	struct timespec Spec;
-	timespec_get(&Spec, TIME_UTC);
-	snprintf(Carrier, sizeof(Carrier), "fun fact: %s.", Metadata.Facts[Spec.tv_nsec % ktn_facts]);
-	SDL_FRect Pasting_Rectangle = {
-		Core.Screenhalfsize.X - (Text_Texture->w * 0.5),
-		Core.Screenhalfsize.Y - (Text_Texture->h * 0.5),
-		(float)Text_Texture->w,
-		(float)Text_Texture->h
-	};
-	Render_Texture(Text_Texture, &Pasting_Rectangle);
-	ktn_free_texture(Text_Texture);
-	SDL_Texture* Fact_Texture = Render_Text(F_Subtext, Carrier, Colors.Abyss_Black);
-	SDL_FRect Fact_Rectangle = {
-		Core.Screenhalfsize.X - (Fact_Texture->w * 0.5f),
-		(Settings.Scalar * 10.0f) + Pasting_Rectangle.y + Pasting_Rectangle.h,
-		(float)Fact_Texture->w,
-		(float)Fact_Texture->h
-	};
-	Render_Texture(Fact_Texture, &Fact_Rectangle);
-	ktn_free_texture(Fact_Texture);
+	Render_Texture(Temporary.Load_Text, &Temporary.Load_Text_Rect);
+	uint64_t Carrier = SDL_GetTicks();
+	SDL_RenderTextureRotated(Core.Renderer, Temporary.Spinner, NULL, &Temporary.Spinner_Rect, (Carrier & 1023) * 0.3515625f,
+		NULL, SDL_FLIP_NONE);
 	SDL_RenderPresent(Core.Renderer);
 	SDL_PumpEvents();
+	SDL_FlushEvents(SDL_EVENT_FIRST, SDL_EVENT_LAST);
 }
 
 void Preload_Noise() {

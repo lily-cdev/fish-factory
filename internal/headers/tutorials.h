@@ -8,6 +8,7 @@ enum Tutorial_Types {
     T_Terminator = ktn_invalid,
     T_Key,
     T_Button,
+	T_Placement
 };
 
 typedef struct {

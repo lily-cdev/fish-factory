@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(Fish_Factory LANGUAGES C CXX)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
+set(PREPROCESSOR "${CMAKE_SOURCE_DIR}/pre2processor.py")
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
@@ -14,6 +16,20 @@ if(NOT CMAKE_CXX_COMPILER)
     message(FATAL_ERROR "compiler (CXX) failed to initialise :(")
 endif()
 
+
+function(add_presource TARGET SOURCE_FILE)
+	get_filename_component(NAME_WE ${SOURCE_FILE} NAME_WE)
+	get_filename_component(EXT ${SOURCE_FILE} EXT)
+	get_filename_component(ABS_SRC ${SOURCE_FILE} ABSOLUTE BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+	set(OUT "${CMAKE_CURRENT_BINARY_DIR}/traced/${NAME_WE}${EXT}")
+	add_custom_command(
+		OUTPUT ${OUT} COMMAND ${Python3_EXECUTABLE} ${PREPROCESSOR} ${ABS_SRC} ${OUT} DEPENDS ${ABS_SRC} ${PREPROCESSOR}
+		COMMENT "processing ${SOURCE_FILE}" VERBATIM
+	)
+	target_sources(${TARGET} PRIVATE ${OUT})
+	target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+endfunction()
+
 set(SDL_SHARED OFF)
 set(SDL_STATIC ON)
 add_subdirectory(external/SDL3)
@@ -26,7 +42,6 @@ add_executable(Fish_Factory
 	internal/core/fish_factory.c
 	internal/source/other/transitions.c
 	internal/source/other/ui.c
-	internal/source/other/parser.c
 	internal/source/other/tools.c
 	internal/source/other/machines.c
 	internal/source/connectables/general.c
@@ -64,10 +79,8 @@ add_executable(Fish_Factory
 	internal/source/prepping/definitions.c
 	internal/source/prepping/other.c
 	internal/source/prepping/preconfigs.c
-	internal/source/prepping/preloaders.c
 	internal/source/prepping/subloaders.c
 	internal/source/prepping/text.c
-	internal/source/prepping/setup.c
 	internal/source/prepping/lang.c
 	internal/source/data/audio.c
 	internal/source/data/saving.c
@@ -90,6 +103,10 @@ add_executable(Fish_Factory
 	external/miniaudio/miniaudio.c
 	modules/resource.rc
 )
+
+add_presource(Fish_Factory internal/source/prepping/preloaders.c)
+add_presource(Fish_Factory internal/source/prepping/setup.c)
+add_presource(Fish_Factory internal/source/other/parser.c)
 
 target_include_directories(Fish_Factory PRIVATE
     internal/core

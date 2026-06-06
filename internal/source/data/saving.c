@@ -160,6 +160,25 @@ void Reset_Statistics() {
 
 void Reload_All(bool Initialized) {
 	uint64_t Start = SDL_GetTicks();
+	Core.Screensize = (Point_f){ ktn_fscale(640.0f), ktn_fscale(360.0f) };
+	Core.Screenhalfsize = (Point_f){ ktn_fscale(320.0f), ktn_fscale(180.0f) };
+	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);
+	SDL_SetWindowPosition(Core.Window, 0, 0);
+	Preload_Fonts();
+	Temporary.Spinner = Preload_Texture("core/images/ui/other/spinner");
+	Temporary.Spinner_Rect = (SDL_FRect){
+		Core.Screenhalfsize.X - ktn_fscale((Temporary.Spinner->w * 0.5f) / 6.0f),
+		Core.Screenhalfsize.Y - ktn_fscale((Temporary.Spinner->h * 0.5f) / 6.0f),
+		ktn_fscale(Temporary.Spinner->w / 6.0f),
+		ktn_fscale(Temporary.Spinner->h / 6.0f)
+	};
+	Temporary.Load_Text = Render_Text(F_Logo, "loading assets", Colors.Abyss_Black);
+	Temporary.Load_Text_Rect = (SDL_FRect){
+		Core.Screenhalfsize.X - (Temporary.Load_Text->w * 0.5f),
+		Core.Screenhalfsize.Y - (Temporary.Load_Text->h * 0.5f) - ktn_fscale((Temporary.Spinner->h * 1.5f) / 6.0f),
+		(float)Temporary.Load_Text->w,
+		(float)Temporary.Load_Text->h
+	};
 	if (Initialized) {
 		Cleanup_Assets();
 		Free_Sounds();
@@ -167,13 +186,7 @@ void Reload_All(bool Initialized) {
 	Load_XML();
 	Prep_Items();
 	Load_Text();
-	Core.Screensize = (Point_f){ Settings.Scalar * 640.0f, Settings.Scalar * 360.0f };
-	Core.Screenhalfsize = (Point_f){ Settings.Scalar * 320.0f, Settings.Scalar * 180.0f };
-	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);
-	Preload_Fonts();
 	Load_Sounds();
-	Render_Loadscreen();
-	SDL_SetWindowPosition(Core.Window, 0, 0);
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		strncpy(Interface.Slider_Texts[9][C1], Metadata.Items[C1].Name, sizeof(Interface.Slider_Texts[9][C1]));
 	}
@@ -200,6 +213,8 @@ void Reload_All(bool Initialized) {
 	(Settings.VSync == 0) ? SDL_SetRenderVSync(Core.Renderer, 0) : SDL_SetRenderVSync(Core.Renderer, 1);
 	Preload_Assets();
 	Preload_Noise();
-	float Loading_Time = (SDL_GetTicks() - Start) / 1000.0;
+	ktn_free_texture(Temporary.Spinner);
+	ktn_free_texture(Temporary.Load_Text);
+	float Loading_Time = (SDL_GetTicks() - Start) / 1000.0f;
 	//do smth with loading time ig
 }

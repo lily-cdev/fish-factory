@@ -22,13 +22,13 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Button, 0, 0, "command platform", 0, { ktn_null_point }, NULL, "select the \"command platform\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
 		{ 6, 4, 200, "", 0, { ktn_null_point }, NULL, "put the placement site into view" },
-		{ 2, 0, 0, "", 43, { { 3, 8 }, ktn_null_point }, NULL, "allow time to progress" },
+		{ T_Placement, 0, 0, "", 43, { { 3, 10 }, ktn_null_point }, NULL, "allow time to progress" },
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "disable the build tool" },
 		{ T_Terminator }
 	};
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
 	Temporary.Tutorial_Size = (Point){ 320, 240 };
-	Temporary.Tutorial_Offset = (Point){ 0, 200 };
+	Temporary.Tutorial_Offset = (Point){ 0, 280 };
 	Temporary.Tutorial_Step = 0;
 	Interface.Prompt_Identifier = P_None;
 }
@@ -37,30 +37,32 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 2, "cultivation", 0, { ktn_null_point }, NULL, "open the \"cultivation\" category" },//fix
-		{ T_Button, 0, 2, "algae bed", 0, { ktn_null_point }, NULL, "select the \"algae bed\" item" },
-		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },//end
-		{ 2, 0, 0, "", 17, { { 4, 5 }, { 3, 6 }, { 4, 7 }, ktn_null_point }, NULL, "pump in water for the Filtration Plant" },
-		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 6, "Processing", 0, { ktn_null_point }, NULL, "open the \"Processing\" category" },
-		{ T_Button, 0, 3, "Filtration Plant", 0, { ktn_null_point }, NULL, "select the \"Filtration Plant\" item" },
+		{ T_Button, 0, 2, "cultivation", 0, { ktn_null_point }, NULL, "open the \"cultivation\" category" },
+		{ T_Button, 0, 0, "algae bed", 0, { ktn_null_point }, NULL, "select the \"algae bed\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 22, { { 5, 5 }, ktn_null_point }, NULL, "filter water into fuel" },
+		{ T_Placement, 0, 0, "", 42, { { 5, 3 }, { 3, 3 }, { 7, 3 }, { 9, 3 }, { 11, 3 }, ktn_null_point }, NULL,
+			"pump in algae for the filtration plant" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 9, "Other", 0, { ktn_null_point }, NULL, "open the \"Other\" category" },
-		{ T_Button, 0, 3, "Incinerator", 0, { ktn_null_point }, NULL, "select the \"Incinerator\" item" },
+		{ T_Button, 0, 3, "processing", 0, { ktn_null_point }, NULL, "open the \"processing\" category" },
+		{ T_Button, 0, 0, "filtration plant", 0, { ktn_null_point }, NULL, "select the \"filtration plant\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 18, { { 7, 5 }, { 7, 7 }, ktn_null_point }, NULL, "dispose of unwanted byproducts" },
+		{ T_Placement, 0, 0, "", 22, { { 4, 7 }, ktn_null_point }, NULL, "filter water into fuel" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 7, "Generation", 0, { ktn_null_point }, NULL, "open the \"Generation\" category" },
-		{ T_Button, 0, 4, "Compact Firebox", 0, { ktn_null_point }, NULL, "select the \"Compact Firebox\" item" },
+		{ T_Button, 0, 6, "other", 0, { ktn_null_point }, NULL, "open the \"other\" category" },
+		{ T_Button, 0, 0, "incinerator", 0, { ktn_null_point }, NULL, "select the \"incinerator\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 23, { { 8, 3 }, ktn_null_point }, NULL, "burn fuel for electricity" },
+		{ T_Placement, 0, 0, "", 18, { { 6, 9 }, ktn_null_point }, NULL, "dispose of unwanted byproducts" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 3, "Logistics", 0, { ktn_null_point }, NULL, "open the \"Logistics\" category" },
+		{ T_Button, 0, 4, "generation", 0, { ktn_null_point }, NULL, "open the \"generation\" category" },
+		{ T_Button, 0, 1, "furnace", 0, { ktn_null_point }, NULL, "select the \"furnace\" item" },
+		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", 23, { { 13, 3 }, ktn_null_point }, NULL, "burn fuel for electricity" },
+		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },//end
+		{ T_Button, 0, 0, "logistics", 0, { ktn_null_point }, NULL, "open the \"logistics\" category" },
+		{ T_Button, 0, ktn_categories, "reinforced", 0, { ktn_null_point }, NULL, "open the \"reinforced\" subcategory" },
 		{ T_Button, 0, 3, "Reinforced Pipe", 0, { ktn_null_point }, NULL, "select the \"Reinforced Pipe\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 0, { { 4, 6 }, { 7, 6 }, { 8, 6 }, ktn_null_point }, Get_Machine("heavy_pipe"),
+		{ 2, 0, 0, "", 0, { { 4, 6 }, ktn_null_point }, Get_Machine("heavy_pipe"),
 			"transport fluids between machines" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 3, "Logistics", 0, { ktn_null_point }, NULL, "open the \"Logistics\" category" },
@@ -95,7 +97,7 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Terminator }
 	};
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
-	Temporary.Tutorial_Size = (Point){ 320, 200 };
+	Temporary.Tutorial_Size = (Point){ 520, 280 };
 	Temporary.Tutorial_Offset = (Point){ 0, 0 };
 	Temporary.Tutorial_Step = 0;
 	Interface.Prompt_Identifier = P_None;
@@ -327,6 +329,7 @@ void TT_Call_Sub(Parameter Dock, Parameter Unused) {
 void Shop_Category(Parameter Category, Parameter Unused) {
 	if (Category.Integer >= 0 && Category.Integer < ktn_categories && In_Shop) {
 		Interface.Subtab = Category.Integer + 1;
+		Temporary.Tutorial_Buffer = Category.Integer;
 	}
 }
 
@@ -341,12 +344,14 @@ void Shop_Subcategory(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
 		Interface.Subtab = Metadata.Subcategory_Positions[Interface.Subtab - 1][Selection.Integer] + ktn_categories + 1;
 	}
+	Temporary.Tutorial_Buffer = ktn_categories + Selection.Integer;
 }
 
 void Shop_Subitem(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
 		Interface.Item = Get_Machine(Metadata.Item_Labels[Interface.Subtab - 1][Selection.Integer]);
 		Cache_Blueprint();
+		Temporary.Tutorial_Buffer = Selection.Integer;
 	}
 }
 #undef In_Shop

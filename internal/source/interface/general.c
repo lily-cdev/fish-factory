@@ -189,10 +189,7 @@ void Process_Inputs() {
 				if (Application_Event.button.button == SDL_BUTTON_LEFT) {
 					//forward essentials
 					if (Interface.Engagement == 0) {
-						if (Interface.UI_Tab == 0) {
-							Process_Tutorial(ktn_invalid);
-						}
-						if (Interface.UI_Query.Carrier ) {
+						if (Interface.UI_Query.Carrier) {
 							Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
 							Play_Sound(Click, false);
 						} else {
@@ -206,6 +203,9 @@ void Process_Inputs() {
 									Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);//rem
 								}
 							}
+						}
+						if (Interface.UI_Tab == 0) {
+							Process_Tutorial(ktn_invalid);
 						}
 					} else {
 						Interface.Engagement = 0;

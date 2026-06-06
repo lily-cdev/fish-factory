@@ -56,16 +56,16 @@ void Render_Tutorial() {
 	Render_Box((Point){ 140, 20 }, 360, 30, Colors.Light_Grey, Colors.Dark_Grey);
 	char Text[128];
 	char Carrier[128];
-	snprintf(Text, sizeof(Text), "Step %i: ", Temporary.Tutorial_Step + 1);
+	snprintf(Text, sizeof(Text), "step %i: ", Temporary.Tutorial_Step + 1);
 	Tutorial_Step Step = Tutorial_Stack[Temporary.Tutorial_Step];
 	if (Step.Type == 0) {
 		char Keycore[32];
 		strncpy(Keycore, SDL_GetKeyName(Keybinds.Keybind_List[Step.Hotkey]), sizeof(
 			Keycore));
-		snprintf(Carrier, sizeof(Carrier), "Press \"%s\" (%s).", Keycore, Keybinds.Keybind_Texts[Step.Hotkey]);
+		snprintf(Carrier, sizeof(Carrier), "press \"%s\" (%s).", Keycore, Keybinds.Keybind_Texts[Step.Hotkey]);
 		strcat(Text, Carrier);
 	} else if (Step.Type == 1) {
-		snprintf(Carrier, sizeof(Carrier), "Click on the \"%s\" button.", Step.Label);
+		snprintf(Carrier, sizeof(Carrier), "click on the \"%s\" button.", Step.Label);
 		strcat(Text, Carrier);
 	} else if (Step.Type == 2) {
 		int Remaining = 0;
@@ -84,8 +84,8 @@ void Render_Tutorial() {
 			int Y;
 			ID_To_Size(Visual_To_Machine(Step.Item), 0, &X, &Y);
 			SDL_FRect Outline_Rectangle = {
-				ktn_fscale((Step.Placement_Locations[C1].X * ktn_tile_size * Settings.Scalar) - Core.Camera.X),
-				ktn_fscale((Step.Placement_Locations[C1].Y * ktn_tile_size * Settings.Scalar) - Core.Camera.Y),
+				ktn_fscale((Step.Placement_Locations[C1].X * ktn_tile_size) - Core.Camera.X),
+				ktn_fscale((Step.Placement_Locations[C1].Y * ktn_tile_size) - Core.Camera.Y),
 				ktn_fscale(X * ktn_tile_size),
 				ktn_fscale(Y * ktn_tile_size)
 			};
@@ -100,7 +100,7 @@ void Render_Tutorial() {
 			strncpy(Suffix, " ", sizeof(Suffix));
 		}
 		if (Step.Item == 0 && !Step.ID_Override) {
-			snprintf(Carrier, sizeof(Carrier), "Remove the %i machine%sshown.", Remaining, Suffix);
+			snprintf(Carrier, sizeof(Carrier), "remove the %i machine%sshown.", Remaining, Suffix);
 			strcat(Text, Carrier);
 		} else {
 			char Subcore[64];
@@ -109,7 +109,7 @@ void Render_Tutorial() {
 			} else {
 				strncpy(Subcore, Visual_To_Machine(Step.Item)->Name, sizeof(Subcore));
 			}
-			snprintf(Carrier, sizeof(Carrier), "Place %ix %s in the space%sshown.", Remaining, Subcore, Suffix);
+			snprintf(Carrier, sizeof(Carrier), "place %ix %s in the space%sshown.", Remaining, Subcore, Suffix);
 			strcat(Text, Carrier);
 		}
 		if (Remaining == 0) {
@@ -159,15 +159,13 @@ void Render_Tutorial() {
 		if (Step.Type == 4) {
 			strncpy(Subcore, "wire", sizeof(Subcore));
 		}
-		snprintf(Carrier, sizeof(Carrier), "connect %i %s%sbetween the machine%sshown.", Remaining, Subcore, Suffix,
-			Suffix);
+		snprintf(Carrier, sizeof(Carrier), "connect %i %s%sbetween the machine%sshown.", Remaining, Subcore, Suffix, Suffix);
 		strcat(Text, Carrier);
 		if (Remaining == 0) {
 			Progress_Tutorial();
 		}
 	} else if (Step.Type == 5) {
-		snprintf(Carrier, sizeof(Carrier), "wait for %i/%i seconds.", Step.Hotkey,
-			Step.Selection);
+		snprintf(Carrier, sizeof(Carrier), "wait for %i/%i seconds.", Step.Hotkey, Step.Selection);
 		strcat(Text, Carrier);
 	} else if (Step.Type == 6) {
 		int Keybind = 0;

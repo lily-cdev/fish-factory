@@ -46,7 +46,7 @@ void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 	}
 }
 
-void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Link Link, SDL_Color Underline_Color) {
+bool Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Link Link, SDL_Color Underline_Color) {
 	if (Detect_Mouse_Collision(Hitbox->Data[0])) {
 		Interface.UI_Query = Link;
 		SDL_FRect Underline_Rectangle = {
@@ -59,9 +59,10 @@ void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Lin
 		SDL_RenderFillRect(Core.Renderer, &Underline_Rectangle);
 		Clear_Renderer();
 		Render_Texture(Button->Data[1], &Hitbox->Data[1]);
-	} else {
-		Render_Texture(Button->Data[0], &Hitbox->Data[0]);
+		return true;
 	}
+	Render_Texture(Button->Data[0], &Hitbox->Data[0]);
+	return false;
 }
 
 void Push_Docks(Point Input) {

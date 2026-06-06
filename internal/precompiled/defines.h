@@ -16,7 +16,6 @@
 #define ktn_effects 2
 #define ktn_epsilon 1e-7
 #define ktn_errors 13
-#define ktn_facts 7
 #define ktn_fish 3
 #define ktn_fish_phases 6
 #define ktn_fonts 7

@@ -10,7 +10,6 @@ void Render_Shop(Point Pos) {
 					Interface.Subtab - 1].Data[C1], (UI_Link){ Shop_Subcategory, .Param.Integer = C1 }, Colors.Cherry_Blossom);
 			}
 			for (int C1 = 0; C1 < ktn_veclen(Metadata.Item_Labels[Interface.Subtab - 1]); C1++) {
-				Temporary.Tutorial_Buffer = C1;
 				Render_Button(&Textures.Item_Labels.Data[Interface.Subtab - 1].Data[C1], &Rects.Item_Labels.Data[
 					Interface.Subtab - 1].Data[C1], (UI_Link){ Shop_Subitem, .Param.Integer = C1 }, Colors.Cherry_Blossom);
 			}
@@ -103,7 +102,6 @@ void Render_Shop(Point Pos) {
 		Process_Supply(&Supplies.Shop5, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 110 });
 	} else {
 		for (int C1 = 0; C1 < ktn_categories; C1++) {
-			Temporary.Tutorial_Buffer = C1;
 			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category,
 				.Param.Integer = C1 }, Colors.Cherry_Blossom);
 		}

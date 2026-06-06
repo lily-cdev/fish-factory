@@ -49,7 +49,6 @@ struct lde_metadata {
 	char* Logs[ktn_logs];
 	const char* Days[ktn_days];
 	const Point Supported_Resolutions[ktn_supported_res];
-	char* Facts[ktn_facts];
 	const char Tool_Texts[ktn_tools][64];
 	Machine_Data* Machines;
 	Item_Data* Items;
@@ -256,6 +255,10 @@ struct lde_temporary {
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
+	SDL_Texture* Spinner;
+	SDL_FRect Spinner_Rect;
+	SDL_Texture* Load_Text;
+	SDL_FRect Load_Text_Rect;
 };
 
 struct lde_cache {
@@ -400,7 +403,7 @@ void Clear_Rect3_Array(Rect3_Array* Target);
 int Get_Depth(float Number);
 void Render_Outline(SDL_FRect Rectangle, SDL_Color Color, int Multiplier);
 void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_Color);
-void Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Link Link, SDL_Color Underline_Color);
+bool Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Link Link, SDL_Color Underline_Color);
 void Preload_Assets();
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
@@ -433,7 +436,7 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preclear_Temporaries();
-void Render_Loadscreen();
+void Render_Loadscreen(const char* Line);
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);
 SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color);

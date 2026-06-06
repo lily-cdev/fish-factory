@@ -64,7 +64,6 @@ bool Load_Text() {
 	Load_TXT("categories", Metadata.Categories, ktn_categories);
 	Load_TXT("subcategories", Metadata.Subcategories, ktn_subcategories);
 	Load_TXT("buttons", Metadata.Buttons, ktn_buttons);
-	Load_TXT("facts", Metadata.Facts, ktn_facts);
 	Load_TXT("keybinds", Keybinds.Keybind_Texts, ktn_keybinds);
 	Load_Full("changes", &Metadata.Logs[Changelog]);
 	Load_Full("credits", &Metadata.Logs[Credits]);
@@ -84,9 +83,6 @@ void Free_Text() {
 	}
 	for (int C1 = 0; C1 < ktn_logs; C1++) {
 		ktn_free(Metadata.Logs[C1]);
-	}
-	for (int C1 = 0; C1 < ktn_facts; C1++) {
-		ktn_free(Metadata.Facts[C1]);
 	}
 	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		ktn_free(Keybinds.Keybind_Texts[C1]);

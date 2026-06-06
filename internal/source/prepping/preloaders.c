@@ -43,6 +43,7 @@ void Preload_Fonts() {
 	}
 }
 
+~start;
 void Preload_Machines() {
 	const int Depth_Carrier[] = {//to rem
 		2, 2, 3, 2, 1, 2, 2, 3, 2, 3, 3, 2, 2, 1, 1, 1, 2, 3, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2,
@@ -125,6 +126,7 @@ void Preload_Machines() {
 		Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
 	}
 }
+~end;
 
 void Preload_Foundation() {
 	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
@@ -200,8 +202,9 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, Font
 	(*Texture) = Carrier;
 }
 
+~start;
 void Preload_Assets() {
-	SDL_Texture* Carrying_Texture;
+	SDL_Texture* Carrying_Texture = NULL;
 	Metadata.Null_Item = (Item_Data){
 		.Name = "none",
 		.Index = "none",
@@ -752,3 +755,4 @@ void Preload_Assets() {
 	Rects.Submarine.w = ktn_fscale(Rects.Submarine.w / 3.0f);
 	Rects.Submarine.h = ktn_fscale(Rects.Submarine.h / 6.0f);
 }
+~end;
