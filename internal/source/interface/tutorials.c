@@ -37,6 +37,7 @@ void Process_Tutorial(int Input) {
 			Progress_Tutorial();
 		}
 	}
+	Temporary.Tutorial_Buffer = ktn_invalid;
 }
 
 void Render_Tutorial() {
@@ -71,8 +72,8 @@ void Render_Tutorial() {
 		int Remaining = 0;
 		for (int C1 = 0; C1 < ktn_ptlen(Step.Placement_Locations); C1++) {
 			if (Step.ID_Override) {
-				if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Step.Placement_Locations[C1])])->Index,
-					Step.ID_Override->Index) == 0) {
+				Machine_Ptr Highlighted = Visual_To_Machine(Data.Visual_Grid[pt(Step.Placement_Locations[C1])]);
+				if (Highlighted && ktn_stricmp(Highlighted->Index, Step.ID_Override->Index)) {
 					continue;
 				}
 			} else {
@@ -82,7 +83,7 @@ void Render_Tutorial() {
 			}
 			int X;
 			int Y;
-			ID_To_Size(Visual_To_Machine(Step.Item), 0, &X, &Y);
+			ID_To_Size((Step.ID_Override) ? Get_Machine(Step.ID_Override->Index) : Visual_To_Machine(Step.Item), 0, &X, &Y);
 			SDL_FRect Outline_Rectangle = {
 				ktn_fscale((Step.Placement_Locations[C1].X * ktn_tile_size) - Core.Camera.X),
 				ktn_fscale((Step.Placement_Locations[C1].Y * ktn_tile_size) - Core.Camera.Y),

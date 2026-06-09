@@ -268,9 +268,9 @@ struct lde_cache {
 	SDL_Texture* Blueprint_Cache;
 	Texture2_Array Log_Cache;
 	Rect2_Array Log_Rectangles;
-	SDL_FRect Query[32];
-	int ID_Query[32];
-	SDL_Color Color_Query[32];
+	SDL_FRect Query[64];
+	int ID_Query[64];
+	SDL_Color Color_Query[64];
 	int Query_Length;
 	float* FPS_Cache;
 	int FPS_Tick;

@@ -1,3 +1,4 @@
+universal fluid index 
 item  | uFI | mols
 water | 1   | 100
 other | 1   | 1

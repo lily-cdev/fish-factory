@@ -17,7 +17,7 @@ typedef struct {
 	int Selection;
 	char Label[128];
 	int Item;
-	Point Placement_Locations[64];
+	Point Placement_Locations[128];
 	Machine_Ptr ID_Override;
 	char Context[128];
 } Tutorial_Step;

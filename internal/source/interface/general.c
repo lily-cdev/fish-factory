@@ -89,19 +89,17 @@ void Process_Inputs() {
 					default:
 						break;
 					}
-				} else if (Interface.Prompt_Identifier == P_Help) {
-					if (Application_Event.key.key == Keybinds.Keybind_List[13]) {
-						Close_Prompt();
-					}
-				} else if (Interface.Prompt_Identifier == P_Shop) {
-					if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
-						Close_Prompt();
-						Interface.Subtab = 0;
-					}
 				} else {
-					if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
+					if (Application_Event.key.key == Keybinds.Keybind_List[13] || Application_Event.key.key ==
+						Keybinds.Keybind_List[10]) {
 						Close_Prompt();
 						Interface.Terminal_Length = 0;
+					}
+					if (Interface.Prompt_Identifier == P_Shop) {
+						if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
+							Close_Prompt();
+							Interface.Subtab = 0;
+						}
 					}
 				}
 			}

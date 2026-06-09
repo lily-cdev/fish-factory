@@ -56,48 +56,46 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Button, 0, 4, "generation", 0, { ktn_null_point }, NULL, "open the \"generation\" category" },
 		{ T_Button, 0, 1, "furnace", 0, { ktn_null_point }, NULL, "select the \"furnace\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ T_Placement, 0, 0, "", 23, { { 13, 3 }, ktn_null_point }, NULL, "burn fuel for electricity" },
-		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },//end
+		{ T_Key, 11, 0, "", 0, { ktn_null_point }, NULL, "rotate the machine" },
+		{ T_Placement, 0, 0, "", 102, { { 7, 7 }, ktn_null_point }, NULL, "burn fuel for electricity" },
+		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 0, "logistics", 0, { ktn_null_point }, NULL, "open the \"logistics\" category" },
 		{ T_Button, 0, ktn_categories, "reinforced", 0, { ktn_null_point }, NULL, "open the \"reinforced\" subcategory" },
-		{ T_Button, 0, 3, "Reinforced Pipe", 0, { ktn_null_point }, NULL, "select the \"Reinforced Pipe\" item" },
+		{ T_Button, 0, 0, "reinforced pipe", 0, { ktn_null_point }, NULL, "select the \"reinforced pipe\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 0, { { 4, 6 }, ktn_null_point }, Get_Machine("heavy_pipe"),
+		{ T_Placement, 0, 0, "", 0, { { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 }, { 8, 6 },
+			{ 9, 6 }, { 10, 6 }, { 11, 6 }, { 12, 6 }, { 6, 7 }, ktn_null_point }, Get_Machine("heavy_pipe"),
 			"transport fluids between machines" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 3, "Logistics", 0, { ktn_null_point }, NULL, "open the \"Logistics\" category" },
-		{ T_Button, 0, 5, "Cable Node", 0, { ktn_null_point }, NULL, "select the \"Cable Node\" item" },
+		{ T_Button, 0, 0, "logistics", 0, { ktn_null_point }, NULL, "open the \"logistics\" category" },
+		{ T_Button, 0, 1, "cable node", 0, { ktn_null_point }, NULL, "select the \"cable node\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 63, { { 8, 7 }, ktn_null_point }, NULL, "transport power between machines" },
+		{ T_Placement, 0, 0, "", 63, { { 6, 8 }, ktn_null_point }, NULL, "transport power between machines" },
 		{ T_Key, 8, 0, "", 0, { ktn_null_point }, NULL, "enable the plumbing tool" },
-		{ 3, 0, 0, "", 0, { { 4, 7 }, { 4, 6 }, { 4, 5 }, { 4, 6 }, { 3, 6 }, { 4, 6 }, { 6, 6 }, { 7, 6 }, { 7, 6 },
-			{ 8, 6 }, { 4, 6 }, { 5, 6 }, { 6, 5 }, { 7, 5 }, { 6, 7 }, { 7, 7 }, { 8, 6 }, { 8, 5 }, ktn_null_point }, NULL,
-			"allow fluids to flow" },
+		{ 3, 0, 0, "", 0, { { 3, 5 }, { 3, 6 }, { 4, 5 }, { 4, 6 }, { 5, 5 }, { 5, 6 }, { 6, 5 }, { 6, 6 }, { 7, 5 }, { 7, 6 },
+			{ 8, 5 }, { 8, 6 }, { 9, 5 }, { 9, 6 }, { 10, 5 }, { 10, 6 }, { 11, 5 }, { 11, 6 }, { 12, 5 }, { 12, 6 }, { 3, 6 },
+			{ 3, 7 }, { 3, 7 }, { 3, 8 }, { 12, 6 }, { 11, 6 }, { 11, 6 }, { 10, 6 }, { 10, 6 }, { 9, 6 }, { 9, 6 }, { 8, 6 },
+			{ 8, 6 }, { 7, 6 }, { 7, 6 }, { 6, 6 }, { 6, 6 }, { 5, 6 }, { 5, 6 }, { 4, 6 }, { 4, 6 }, { 3, 6 }, { 3, 8 },
+			{ 4, 8 }, { 5, 7 }, { 6, 7 }, { 6, 7 }, { 7, 7 }, { 5, 9 }, { 6, 9 },
+			ktn_null_point }, NULL, "allow fluids to flow" },
 		{ T_Key, 7, 0, "", 0, { ktn_null_point }, NULL, "enable the wiring tool" },
-		{ 4, 0, 0, "", 0, { { 8, 7 }, { 3, 6 }, { 8, 7 }, { 4, 5 }, { 8, 7 }, { 4, 7 }, { 8, 7 }, { 5, 5 }, ktn_null_point },
+		{ 4, 0, 0, "", 0, { { 6, 8 }, { 3, 3 }, { 6, 8 }, { 5, 3 }, { 6, 8 }, { 7, 3 }, { 6, 8 }, { 9, 3 }, { 6, 8 }, { 11, 3 },
+			{ 6, 8 }, { 4, 7 }, ktn_null_point },
 			NULL, "allow power to be distributed" },
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 7, "Generation", 0, { ktn_null_point }, NULL, "open the \"Generation\" category" },
-		{ 1, 0, 3, "Piezoelectric Generator", 0, { ktn_null_point }, NULL, "select the \"Piezoelectric Generator\" item" },
-		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
-		{ 2, 0, 0, "", 19, { { 3, 3 }, { 4, 3 }, { 5, 3 }, { 6, 3 }, { 7, 3 }, { 3, 4 }, { 4, 4 }, { 5, 4 }, { 6, 4 },
-			{ 7, 4 }, ktn_null_point }, NULL, "generate a temporary supply of power" },
+		{ T_Button, 0, 4, "generation", 0, { ktn_null_point }, NULL, "open the \"generation\" category" },
+		{ T_Button, 0, 0, "radioisotopic generator", 0, { ktn_null_point }, NULL, "select the \"radioisotopic generator\" item" },
+		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },//end
+		{ T_Placement, 0, 0, "", 19, { { 10, 7 }, { 11, 7 }, { 12, 7 }, ktn_null_point }, NULL, "generate a supply of power" },
 		{ T_Key, 7, 0, "", 0, { ktn_null_point }, NULL, "enable the wiring tool" },
-		{ 4, 0, 0, "", 0, { { 3, 3 }, { 8, 7 }, { 4, 3 }, { 8, 7 }, { 5, 3 }, { 8, 7 }, { 6, 3 }, { 8, 7 }, { 7, 3 },
-			{ 8, 7 }, { 3, 4 }, { 8, 7 }, { 4, 4 }, { 8, 7 }, { 5, 4 }, { 8, 7 }, { 6, 4 }, { 8, 7 },
-			{ 7, 4 }, { 8, 7 }, ktn_null_point }, NULL, "jumpstart the setup" },
-		{ 5, 0, 60, "", 0, { ktn_null_point }, NULL, "allow the first cycle to begin" },
-		{ T_Key, 5, 0, "", 0, { ktn_null_point }, NULL, "enable the delete tool" },
-		{ 2, 0, 0, "", 0, { { 3, 3 }, { 4, 3 }, { 5, 3 }, { 6, 3 }, { 7, 3 }, { 3, 4 }, { 4, 4 }, { 5, 4 }, { 6, 4 },
-			{ 7, 4 }, ktn_null_point }, NULL, "remove the jumpstarting equipment" },
-		{ T_Key, 7, 0, "", 0, { ktn_null_point }, NULL, "enable the wiring tool" },
-		{ 4, 0, 0, "", 0, { { 8, 3 }, { 8, 7 }, ktn_null_point }, NULL, "make the setup self-sustaining" },
+		{ 4, 0, 0, "", 0, { { 10, 7 }, { 6, 8 }, { 11, 7 }, { 6, 8 }, { 12, 7 }, { 6, 8 }, ktn_null_point }, NULL,
+			"power the setup" },
 		{ T_Key, 7, 0, "", 0, { ktn_null_point }, NULL, "disable the wiring tool" },
 		{ T_Terminator }
 	};
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
-	Temporary.Tutorial_Size = (Point){ 520, 280 };
+	Temporary.Tutorial_Size = (Point){ 400, 280 };
 	Temporary.Tutorial_Offset = (Point){ 0, 0 };
 	Temporary.Tutorial_Step = 0;
 	Interface.Prompt_Identifier = P_None;
@@ -336,6 +334,7 @@ void Shop_Category(Parameter Category, Parameter Unused) {
 void Shop_Item(Parameter Subcategory, Parameter Unused) {
 	if (In_Shop) {
 		Interface.Item = Get_Machine(Metadata.Subcontents[Interface.Subtab - ktn_categories - 1][Subcategory.Integer]);
+		Temporary.Tutorial_Buffer = Subcategory.Integer;
 		Cache_Blueprint();
 	}
 }
@@ -343,8 +342,8 @@ void Shop_Item(Parameter Subcategory, Parameter Unused) {
 void Shop_Subcategory(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
 		Interface.Subtab = Metadata.Subcategory_Positions[Interface.Subtab - 1][Selection.Integer] + ktn_categories + 1;
+		Temporary.Tutorial_Buffer = ktn_categories + Selection.Integer;
 	}
-	Temporary.Tutorial_Buffer = ktn_categories + Selection.Integer;
 }
 
 void Shop_Subitem(Parameter Selection, Parameter Unused) {

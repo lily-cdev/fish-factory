@@ -3,7 +3,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>1</Time>
-	<Power>52</Power>
+	<Power>250</Power>
 	<Parent>filtration_plant</Parent>
 	<Inputs>
 		<Input>
