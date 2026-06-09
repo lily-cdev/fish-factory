@@ -9,7 +9,7 @@
 	}, {
 		"label": "release f2",
 		"type": "shell",
-		"command": "echo tba",
+		"command": "${workspaceFolder}\\release.bat",
 		"group": "build",
 		"problemMatcher": []
 	}, {
