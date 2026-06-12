@@ -27,7 +27,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 		if (Data.Data_Grid[pt(Pos)][Stored_Power] >= Chosen.Power) {
 			if (!Chosen.Voiding_Excess) {
 				for (int C1 = 0; C1 < Output_Ct; C1++) {
-					if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1] < Data.Data_Grid[pt(Outputs[
+					if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1] > Data.Data_Grid[pt(Outputs[
 						C1])][Fluid_Cap]) {
 						return false;
 					}

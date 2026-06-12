@@ -22,7 +22,7 @@ void Abbreviate_Number(float Number, char* Buffer, int Size) {
 		}
 	}
 	int Length = snprintf(Buffer, Size, "%.2f", Number);
-	if (Core.Suffixes[Marker] != 'J' && Length < Size) {
+	if (Core.Suffixes[Marker] != 'J' && Length < Size - 1) {
 		Buffer[Length] = Core.Suffixes[Marker];
 		Buffer[Length + 1] = '\0';
 	}

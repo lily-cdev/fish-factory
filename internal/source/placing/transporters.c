@@ -10,12 +10,6 @@ bool Place_Reinforced_Pipe(Point Pos) {
 
 bool Place_Submarine_Dock(Point Pos) {
 	Data.Visual_Grid[pt(Pos)] = 21;
-	Data.Plumbing_Grid[Pos.X][Pos.Y + 3] = Down;
-	Data.Plumbing_Grid[Pos.X + 1][Pos.Y + 3] = Down;
-	Data.Settings_Grid[Pos.X][Pos.Y + 3][0] = F_In;
-	Data.Settings_Grid[Pos.X + 1][Pos.Y + 3][0] = F_In;
-	Data.Data_Grid[Pos.X][Pos.Y + 3][Fluid_Cap] = 200;
-	Data.Data_Grid[Pos.X + 1][Pos.Y + 3][Fluid_Cap] = 200;
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	Data.Settings_Grid[pt(Pos)][4] = 0;
 	Push_Docks(Pos);

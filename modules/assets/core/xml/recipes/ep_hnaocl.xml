@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>10</Time>
+	<Power>6000000</Power>
+	<Parent>electro_cell</Parent>
+	<Inputs>
+		<Input>
+			<Item>saltwater</Item>
+			<Volume>2</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>hydrogen</Item>
+			<Volume>2</Volume>
+		</Output>
+		<Output>
+			<Item>wet_lye</Item>
+			<Volume>1</Volume>
+		</Output>
+		<Output>
+			<Item>chlorine</Item>
+			<Volume>1</Volume>
+		</Output>
+	</Outputs>	
+</Recipe>

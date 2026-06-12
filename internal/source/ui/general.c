@@ -140,18 +140,9 @@ void Render_Interaction() {
 				Interface.Prompt_Identifier = P_Exchanger;
 			} else if (ktn_stricmp((*Machine).Index, "money_cheat")) {
 				Interface.Prompt_Identifier = P_Money_Generator;
-				Interface.Slider_Positions[8] = Data.Settings_Grid[pt(Interface.Tile)][3];
 				Apply_M_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
 			} else if (ktn_stricmp((*Machine).Index, "fluid_cheat")) {
 				Interface.Prompt_Identifier = P_Fluid_Generator;
-				Interface.Slider_Positions[9] = Data.Settings_Grid[pt(Interface.Tile)][3];
-				Interface.Slider_Positions[10] = (int)(Data.Settings_Grid[pt(Interface.Tile)][4] * 0.2f);
-				for (int C1 = 0; C1 < ktn_valve300_len; C1++) {
-					if (Data.Settings_Grid[pt(Interface.Tile)][5] == Interface.Valve300_Postions[C1]) {
-						Interface.Slider_Positions[11] = C1;
-						break;
-					}
-				}
 				Apply_F_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
 			} else if (ktn_stricmp((*Machine).Index, "turbine_input")) {
 				Interface.Prompt_Identifier = P_Turbine;
@@ -233,8 +224,9 @@ void Set_Engagement(Parameter Engagement, Parameter Unused) {
 	Interface.Engagement = (Interface.Engagement == 0) ? Engagement.Integer : 0;
 }
 
-void Render_Slider(char Labels[256][64], int Engagement, int Nodes, int* Position, Point Pos, int Width, SDL_Color Primary,
-	SDL_Color Secondary, bool Text_Visible) {
+void Render_Slider(int ID, int Engagement, int Nodes, Point Pos, int Width, SDL_Color Primary, SDL_Color Secondary,
+	bool Text_Visible) {
+	int* Position = &(Interface.Slider_Positions[ID]);
 	bool Active = false;
 	SDL_FRect Background_Rectangle = {
 		ktn_fscale(Pos.X),
@@ -281,7 +273,7 @@ void Render_Slider(char Labels[256][64], int Engagement, int Nodes, int* Positio
 	SDL_RenderFillRect(Core.Renderer, &Node_Rectangle);
 	Clear_Renderer();
 	if (Text_Visible) {
-		SDL_Texture* Caption_Texture = Render_Text(F_Subtext, Labels[*Position], Primary);
+		SDL_Texture* Caption_Texture = Render_Text(F_Subtext, Interface.Slider_Texts[ID][*Position], Primary);
 		SDL_FRect Caption_Rectangle = {
 			ktn_fscale((((float)(*Position) / Nodes) * Width) + Pos.X) - (Caption_Texture->w * 0.5f),
 			ktn_fscale(Pos.Y + 10.0f),

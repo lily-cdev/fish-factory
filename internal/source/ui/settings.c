@@ -76,14 +76,10 @@ void Render_Settings() {
 		Render_Texture(Textures.Settings_Label.Data[C1], &Rects.Settings_Label.Data[C1]);
 	}
 	Render_Button(&Textures.Return, &Rects.Return, (UI_Link){ Back }, Colors.Cherry_Blossom);
-	Render_Slider(Interface.Slider_Texts[0], 1, 5, &Interface.Slider_Positions[0], (Point){ 50, 70 }, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[4], 2, 4, &Interface.Slider_Positions[4], (Point){ 50, 140 }, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[5], 3, 100, &Interface.Slider_Positions[5], (Point){ 50, 210 }, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
-	Render_Slider(Interface.Slider_Texts[6], 4, 2, &Interface.Slider_Positions[6], (Point){ 50, 280 }, 220, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
+	Render_Slider(0, 1, 5, (Point){ 50, 70 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(4, 2, 4, (Point){ 50, 140 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(5, 3, 100, (Point){ 50, 210 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
+	Render_Slider(6, 4, 2, (Point){ 50, 280 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Render_Button(&Textures.Anti_Aliasing.Data[(int)(!Settings.AA_Temporary)], &Rects.Anti_Aliasing.Data[(int)(
 		!Settings.AA_Temporary)], (UI_Link){ Swap_AA }, Colors.Cherry_Blossom);
 	Render_Button(&Textures.V_Sync.Data[(int)Settings.VS_Temporary], &Rects.V_Sync.Data[(int)Settings.VS_Temporary],

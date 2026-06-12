@@ -10,8 +10,7 @@ void Render_MSP_Controller(Point Pos) {
 			(UI_Link){ MSP_Empty, .Param.Pos = Pos }
 		};
 		Render_Sidebuttons(&Textures.MSP_Buttons, &Rects.MSP_Buttons, Links);
-		Render_Slider(Interface.Slider_Texts[1], 1, 2, &Interface.Slider_Positions[1], (Point){ 475, 210 }, 110,
-			Colors.Cherry_Blossom, Colors.Pure_White, false);
+		Render_Slider(1, 1, 2, (Point){ 475, 210 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 		if (Interface.Engagement == 0) {
 			char* Parameters[5][4] = {
 				{ "tank_info", ktn_null_string },
@@ -118,10 +117,8 @@ void Render_H_Exchanger(Point Pos) {
 		(UI_Link){ HX_Diagnostics, .Param.Pos = Pos }
 	};
 	Render_Sidebuttons(&Textures.HX_Buttons, &Rects.HX_Buttons, Links);
-	Render_Slider(Interface.Slider_Texts[13], 3, ktn_valve300_len - 1, &Interface.Slider_Positions[13], (Point){ 475, 190 },
-		110, Colors.Cherry_Blossom, Colors.Pure_White, false);
-	Render_Slider(Interface.Slider_Texts[7], 2, ktn_valve300_len - 1, &Interface.Slider_Positions[7], (Point){ 475, 150 },
-		110, Colors.Cherry_Blossom, Colors.Pure_White, false);
+	Render_Slider(13, 3, ktn_valve300_len - 1, (Point){ 475, 190 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
+	Render_Slider(7, 2, ktn_valve300_len - 1, (Point){ 475, 150 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 	if (Interface.Engagement == 0) {
 		strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
 		strncpy(Buffers.Parameters[0][1], ktn_null_string, sizeof(Buffers.Parameters[0][1]));

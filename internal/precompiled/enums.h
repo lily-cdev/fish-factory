@@ -190,7 +190,8 @@ typedef enum {
 	A_Static,
 	A_Rot,
 	A_Modular,
-	A_Spinner
+	A_Spinner,
+	A_Gauged
 } Anim_Type;
 
 typedef enum {

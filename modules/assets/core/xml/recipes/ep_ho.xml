@@ -2,27 +2,27 @@
 <Recipe>
 	<Type>both</Type>
 	<Shuffling_Barred />
-	<Time>1</Time>
-	<Power>210</Power>
-	<Parent>filtration_plant</Parent>
+	<Time>10</Time>
+	<Power>5000000</Power>
+	<Parent>electro_cell</Parent>
 	<Inputs>
 		<Input>
-			<Item>seawater</Item>
-			<Volume>1</Volume>
+			<Item>water</Item>
+			<Volume>2</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
-			<Item>wet_marine_snow</Item>
-			<Volume>0.1</Volume>
+			<Item>hydrogen</Item>
+			<Volume>2</Volume>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Output>
 		<Output>
-			<Item>saltwater</Item>
-			<Volume>0.9</Volume>
+			<Item>oxygen</Item>
+			<Volume>1</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

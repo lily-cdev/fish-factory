@@ -1,4 +1,14 @@
 universal fluid index 
-item  | uFI | mols
-water | 1   | 100
-other | 1   | 1
+item           | uFI | mols
+water          | 1   | 100
+seawater       | 1   | 100
+saltwater      | 1   | 100
+hydrogen       | 1   | 100
+oxygen         | 1   | 100
+chlorine       | 1   | 100
+sod. hydroxide | 1   | 100
+salt           | 1   | 1
+marine snow    | 1   | 1
+algae          | 1   | 1
+algae paste    | 1   | 1
+other          | 1   | 1

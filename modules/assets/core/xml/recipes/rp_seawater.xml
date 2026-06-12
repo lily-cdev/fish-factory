@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Type>out</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>5</Power>
+	<Parent>ram_pump</Parent>
+	<Outputs>
+		<Output>
+			<Item>seawater</Item>
+			<Volume>0.25</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

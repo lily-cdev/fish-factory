@@ -19,8 +19,6 @@ void Find_Effect();
 Point Find_Linked(const char* Identifier, Point Parent);
 int Get_Simple_Grid_Tile(int Grid[ktn_grid_size][ktn_grid_size], int Neutral);
 bool Place_Reinforced_Pipe(Point Pos);
-bool Place_Ram_Pump(Point Pos);
-bool Place_Incinerator(Point Pos);
 bool Place_Submarine_Dock(Point Pos);
 bool Place_Spawning_Pool(Point Pos);
 bool Place_Spawning_Controller(Point Pos);

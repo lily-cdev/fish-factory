@@ -279,17 +279,25 @@ SDL_Texture* IMG_To_Texture(const char* Path) {
 	return Texture;
 }
 
-Point Rotate_Pt(Point Input, Point Size, int Rot) {
+Point Rotate_Internal(Point Input, Point Size, int Rot, int Subtraction) {
 	for (int C1 = 0; C1 < 4; C1++) {
 		if (C1 == Rot) {
 			return Input;
 		}
 		Point Carrier = Input;
-		Input.X = (Size.Y - 1) - Carrier.Y;
+		Input.X = Size.Y - Subtraction - Carrier.Y;
 		Input.Y = Carrier.X;
 		int Subcarrier = Size.X;
 		Size.X = Size.Y;
 		Size.Y = Subcarrier;
 	}
 	return (Point){ };
+}
+
+Point Rotate_Pt(Point Input, Point Size, int Rot) {
+	return Rotate_Internal(Input, Size, Rot, 1);
+}
+
+Point Rotate_Px(Point Input, Point Size, int Rot) {
+	return Rotate_Internal(Input, Size, Rot, 0);
 }

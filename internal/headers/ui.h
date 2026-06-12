@@ -18,8 +18,8 @@ void Render_Daily_Report(Point Pos);
 void Render_Help(Point Pos);
 void Render_Shop(Point Pos);
 void Render_Catalog(Point Pos);
-void Render_Slider(char Labels[256][64], int Engagement, int Nodes, int* Position, Point Pos, int Width, SDL_Color Primary,
-	SDL_Color Secondary, bool Text_Visible);
+void Render_Slider(int ID, int Engagement, int Nodes, Point Pos, int Width, SDL_Color Primary, SDL_Color Secondary,
+	bool Text_Visible);
 void Render_Application();
 void Render_Main();
 void Render_Loader();

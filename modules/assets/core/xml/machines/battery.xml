@@ -3,14 +3,18 @@
 	<Name>battery</Name>
 	<Desc>A device for storing large quantities of electricity. Though officially labelled a battery, its quick discharge time makes it a supercapacitor.</Desc>
 	<Index>battery</Index>
-	<Texture_Type>none</Texture_Type>
+	<Texture_Type>gauged</Texture_Type>
+	<Gauge_X>20</Gauge_X>
+	<Gauge_Y>20</Gauge_Y>
+	<Gauge_W>40</Gauge_W>
+	<Gauge_H>8</Gauge_H>
 	<Path>core/images/machines/battery</Path>
 	<Price>244</Price>
 	<Fee>5</Fee>
 	<Width>2</Width>
 	<Height>2</Height>
 	<Power_Type>any</Power_Type>
-	<Power_Capacity>1200000</Power_Capacity>
+	<Power_Capacity>250000000</Power_Capacity>
 	<Anchor_X>40</Anchor_X>
 	<Anchor_Y>47</Anchor_Y>
 	<Rot_ID />

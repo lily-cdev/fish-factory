@@ -76,29 +76,44 @@ void Render_Grid() {
 						SDL_RenderTextureRotated(Core.Renderer, Machine->Texture3.Data[Rotation].Data[2], NULL, &Carrier,
 							Data.Animation_Grid[Column][Row][1], &Centerpoint, SDL_FLIP_NONE);
 						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
+						break;
+					case A_Gauged:
+						Carrier = (SDL_FRect){
+							Rects.Tile_1x1.x,
+							Rects.Tile_1x1.y,
+							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
+							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
+						};
+						Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
+						float Width = (Data.Data_Grid[Column][Row][Stored_Power] / Data.Data_Grid[Column][Row][Power_Cap]) *
+							Machine->Gauge_Data.Size.X;
+						Point Subsize = { Machine->Size.X * ktn_tile_size, Machine->Size.Y * ktn_tile_size };
+						Point Origin = Rotate_Px(Machine->Gauge_Data.Pos, Subsize, Rotation);
+						Point End = Rotate_Px((Point){ Machine->Gauge_Data.Pos.X + Width, Machine->Gauge_Data.Size.Y +
+							Machine->Gauge_Data.Pos.Y }, Subsize, Rotation);
+						SDL_FRect Rect = {
+							ktn_fscale((Column * ktn_tile_size) + Origin.X - Core.Camera.X),
+							ktn_fscale((Row * ktn_tile_size) + Origin.Y - Core.Camera.Y),
+							ktn_fscale(End.X - Origin.X),
+							ktn_fscale(End.Y - Origin.Y)
+						};
+						Set_Renderer_Color(Colors.Cherry_Blossom);
+						SDL_RenderFillRect(Core.Renderer, &Rect);
+						Clear_Renderer();
+						break;
 					case A_None:
 						if (ktn_stricmp(Machine->Index, "ram_pump")) {
-							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_1x1);
-							if (Data.Animation_Grid[Column][Row][0] == 0) {
+							if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
 								Data.Animation_Grid[Column][Row][1] += 60.0f / Interface.Frame_Rate;
 								if (Data.Animation_Grid[Column][Row][1] >= 360) {
 									Data.Animation_Grid[Column][Row][1] = 0;
 								}
 							}
+							Render_Texture(Machine->Texture2.Data[3], &Rects.Tile_1x1);
 							SDL_RenderTextureRotated(Core.Renderer, Machine->Texture2.Data[2], NULL,
 								&Rects.Tile_1x1, Data.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint,
 								SDL_FLIP_NONE);
-							{
-								const Point Offsets[4] = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-								for (int C1 = 0; C1 < 4; C1++) {
-									Point Pos = { Column + Offsets[C1].X, Row + Offsets[C1].Y };
-									if ((Data.Plumbing_Grid[pt(Pos)] == C1 + 1 || Data.Plumbing_Grid[pt(Pos)] == Any) && (
-										Data.Settings_Grid[pt(Pos)][0] == F_In || Data.Settings_Grid[pt(Pos)][0] == F_Either)) {
-										Render_Texture(Machine->Texture2.Data[((C1 + 2) & 3) + 3],
-											&Rects.Tile_1x1);
-									}
-								}
-							}
+							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_1x1);
 						} else if (ktn_stricmp(Machine->Index, "incinerator")) {
 							Data.Animation_Grid[Column][Row][0] += ktn_static_rate / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {

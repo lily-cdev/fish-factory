@@ -17,4 +17,16 @@
 	<Power_Capacity>10</Power_Capacity>
 	<Anchor_X>20</Anchor_X>
 	<Anchor_Y>20</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>any</Dir>
+			<Cap>3</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

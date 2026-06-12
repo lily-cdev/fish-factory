@@ -12,4 +12,22 @@
 	<Width>6</Width>
 	<Height>4</Height>
 	<Power_Type>none</Power_Type>
+	<Fluid_Processor />
+	<Input_Ct>2</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>3</Y>
+			<Dir>down</Dir>
+			<Cap>200</Cap>
+		</Input>
+		<Input>
+			<X>1</X>
+			<Y>3</Y>
+			<Dir>down</Dir>
+			<Cap>200</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>0</Output_Ct>
+	<Neutral_Ct>0</Neutral_Ct>	
 </Machine>

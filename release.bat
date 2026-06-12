@@ -18,6 +18,8 @@ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ^
   ../..
 ninja
 
+cd ..
+
 cd "win32"
 cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ^
   -DCMAKE_C_COMPILER=clang ^
@@ -27,7 +29,7 @@ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ^
   ../..
 ninja
 
-robocopy ".../modules" "../../build/win64" /e /NFL /NDL /NJH /NJS /nc /ns /np
-robocopy ".../modules" "../../build/win32" /e /NFL /NDL /NJH /NJS /nc /ns /np
+robocopy "../../modules" "../../build/win64" /e /NFL /NDL /NJH /NJS /nc /ns /np
+robocopy "../../modules" "../../build/win32" /e /NFL /NDL /NJH /NJS /nc /ns /np
 
 echo build complete

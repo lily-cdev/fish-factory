@@ -69,6 +69,10 @@ void Preload_Machines() {
 			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y,
 				true);
 			break;
+		case A_Gauged:
+			Metadata.Machines[C1].Depth = 2;
+			Load_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture2);
+			break;
 		case A_None:
 			char* Index = Metadata.Machines[C1].Index;
 			if (ktn_stricmp(Index, "ram_pump")) {
@@ -80,9 +84,6 @@ void Preload_Machines() {
 			} else if (ktn_stricmp(Index, "electro_cell")) {
 				Metadata.Machines[C1].Depth = 3;
 				Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[C1].Texture3, 2, true);
-			} else if (ktn_stricmp(Index, "battery")) {
-				Metadata.Machines[C1].Depth = 3;
-				Load_Animated_Rotational("core/images/machines/battery", &Metadata.Machines[C1].Texture3, 2, true);
 			} else if (ktn_stricmp(Index, "algae_bed")) {
 				Load_Animated_Rotational("core/images/machines/g_bed", &Metadata.Machines[C1].Texture3, 3, true);
 			} else if (ktn_stricmp(Index, "turbine_impulse")) {
@@ -226,6 +227,7 @@ void Preload_Assets() {
 	Carrying_Texture = Preload_Texture("core/images/ui/backgrounds/doors");
 	Textures.Door.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Door.Length = 2;
+~end;
 	for (int C1 = 0; C1 < 2; C1++) {
 		Textures.Door.Data[C1] = New_Texture((int)Core.Screenhalfsize.X, (int)Core.Screensize.Y);
 		SDL_SetTextureBlendMode(Textures.Door.Data[C1], SDL_BLENDMODE_BLEND);
@@ -236,6 +238,7 @@ void Preload_Assets() {
 		SDL_RenderTexture(Core.Renderer, Carrying_Texture, &Half_Rectangle, NULL);
 	}
 	SDL_SetRenderTarget(Core.Renderer, NULL);
+~start;
 	ktn_free_texture(Carrying_Texture);
 	Preload_Text(&Textures.Logo1, &Rects.Logo1, "fish", F_Logo, Colors.Abyss_Black, (Point){ 325, 44 });
 	Preload_Text(&Textures.Logo2, &Rects.Logo2, "factory", F_Logo, Colors.Abyss_Black, (Point){ 325, 78 });
@@ -407,12 +410,12 @@ void Preload_Assets() {
 		strcpy(Interface.Slider_Texts[10][C1], Buffer);
 	}
 	strcpy(Interface.Slider_Texts[10][241], ktn_null_string);
-	for (int C1 = 0; C1 < 6; C1++) {
-		char Subcarrier[64];
+	for (int C1 = 0; C1 < 12; C1++) {
+		char Subcarrier[64] = { 0 };
 		Abbreviate_Number((C1 == 0) ? 0 : powf(10.0f, C1 - 1.0f), Subcarrier, sizeof(Subcarrier));
-		snprintf(Interface.Slider_Texts[14][C1], sizeof(Interface.Slider_Texts[14][C1]), "%sJ/s", Subcarrier);
+		snprintf(Interface.Slider_Texts[14][C1], sizeof(Interface.Slider_Texts[14][C1]), "%sW", Subcarrier);
 	}
-	strncpy(Interface.Slider_Texts[14][6], ktn_null_string, sizeof(Interface.Slider_Texts[14][6]));
+	strncpy(Interface.Slider_Texts[14][12], ktn_null_string, sizeof(Interface.Slider_Texts[14][6]));
 	Textures.Tool.Data = malloc(sizeof(SDL_Texture*) * ktn_tools);
 	Textures.Tool.Length = ktn_tools;
 	for (int C1 = 0; C1 < ktn_tools; C1++) {

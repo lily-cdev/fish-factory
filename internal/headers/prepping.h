@@ -449,3 +449,4 @@ char** Find_Multiple(const char* Path, const char* Text, const char* Element, in
 bool Load_Text();
 void Free_Text();
 Point Rotate_Pt(Point Input, Point Size, int Rot);
+Point Rotate_Px(Point Input, Point Size, int Rot);

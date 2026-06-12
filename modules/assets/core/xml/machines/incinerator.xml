@@ -15,5 +15,17 @@
 	<Visual_Left>18</Visual_Left>
 	<Visual_Up>114</Visual_Up>
 	<Visual_Right>115</Visual_Right>
-	<Visual_Down>116</Visual_Down>	
+	<Visual_Down>116</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>any</Dir>
+			<Cap>10</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>0</Output_Ct>
+	<Neutral_Ct>0</Neutral_Ct>
 </Machine>

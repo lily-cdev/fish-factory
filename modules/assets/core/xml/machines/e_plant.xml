@@ -5,14 +5,14 @@
 	<Index>electro_cell</Index>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/e_plant</Path>
-	<Price>16</Price>
+	<Price>400</Price>
 	<Fee>1</Fee>
 	<Width>3</Width>
 	<Height>2</Height>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>70000</Power_Capacity>
-	<Anchor_X>44</Anchor_X>
-	<Anchor_Y>67</Anchor_Y>
+	<Power_Capacity>100000000</Power_Capacity>
+	<Anchor_X>0</Anchor_X>
+	<Anchor_Y>0</Anchor_Y>
 	<Rot_ID />
 	<Visual_Left>48</Visual_Left>
 	<Visual_Up>96</Visual_Up>
@@ -25,7 +25,7 @@
 			<X>1</X>
 			<Y>1</Y>
 			<Dir>down</Dir>
-			<Cap>16</Cap>
+			<Cap>3</Cap>
 		</Input>
 	</Inputs>
 	<Output_Ct>3</Output_Ct>
@@ -34,19 +34,19 @@
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>20</Cap>
+			<Cap>5</Cap>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>20</Cap>
+			<Cap>5</Cap>
 		</Output>
 		<Output>
 			<X>2</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>20</Cap>
+			<Cap>5</Cap>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

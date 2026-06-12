@@ -77,6 +77,11 @@ typedef struct {
 
 typedef struct {
 	Point Pos;
+	Point Size;
+} Gauged_Data;
+
+typedef struct {
+	Point Pos;
 	Flow_Type Flow;
 	Dir Connection;
 	int Cap;
@@ -107,6 +112,7 @@ typedef struct {
 	union {
 		Modular_Data Mod_Data;
 		Spinner_Data Spin_Data;
+		Gauged_Data Gauge_Data;
 	};
 	union {
 		int Visual_ID1;

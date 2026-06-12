@@ -48,6 +48,5 @@ void Render_Credits() {
 	snprintf(Buffer, sizeof(Buffer), "%s - %s%%", Prefix, Subbuffer);
 	Process_Supply(&Supplies.Scroll_Percent, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ ktn_invalid, 10 });
 	Render_Button(&Textures.Return, &Rects.Return, (UI_Link){ Back }, Colors.Cherry_Blossom);
-	Render_Slider(Interface.Slider_Texts[2], 1, 1, &Interface.Slider_Positions[2], (Point){ 200, 340 }, 240, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, false);
+	Render_Slider(2, 1, 1, (Point){ 200, 340 }, 240, Colors.Abyss_Black, Colors.Cherry_Blossom, false);
 }

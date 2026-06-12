@@ -1,12 +1,5 @@
 #include <grid.h>
 
-bool Place_Incinerator(Point Pos) {
-	Data.Data_Grid[pt(Pos)][Fluid_Cap] = 12;
-	Data.Plumbing_Grid[pt(Pos)] = Any;
-	Data.Settings_Grid[pt(Pos)][0] = F_In;
-	return true;
-}
-
 bool Place_Signal_Tower(Point Pos) {
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	return true;

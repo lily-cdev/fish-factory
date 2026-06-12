@@ -133,7 +133,8 @@ void Set_F_Cheat(Parameter Machine, Parameter Unused) {
 }
 
 void Apply_P_Cheat(Parameter Machine, Parameter Unused) {
-	Interface.Slider_Positions[14] = Data.Settings_Grid[pt(Machine.Pos)][3];
+	Interface.Slider_Positions[14] = (Data.Settings_Grid[pt(Machine.Pos)][3] == 0) ? 0 : log10f(Data.Settings_Grid[
+		pt(Machine.Pos)][3]) + 1.0f;
 }
 
 void Set_P_Cheat(Parameter Machine, Parameter Unused) {

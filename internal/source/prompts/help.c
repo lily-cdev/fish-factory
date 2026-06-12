@@ -5,8 +5,7 @@ void Render_Help(Point Pos) {
 	for (int C1 = 0; C1 < 2; C1++) {
 		Render_Texture(Textures.Help_Content.Data[C1], &Rects.Help_Content[C1]);
 	}
-	Render_Slider(Interface.Slider_Texts[3], 1, 2, &Interface.Slider_Positions[3], (Point){ 130, 300 }, 380, Colors.Abyss_Black,
-		Colors.Cherry_Blossom, true);
+	Render_Slider(3, 1, 2, (Point){ 130, 300 }, 380, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	switch (Interface.Slider_Positions[3]) {
 	case 0:
 		{

@@ -128,6 +128,10 @@ void Load_XML() {
 		} else if (ktn_stricmp(Texture_Type, "spinner")) {
 			Machine.Animation_Type = A_Spinner;
 			Machine.Spin_Data.Speed = get_int("Speed");
+		} else if (ktn_stricmp(Texture_Type, "gauged")) {
+			Machine.Animation_Type = A_Gauged;
+			Machine.Gauge_Data.Pos = (Point){ get_int("Gauge_X"), get_int("Gauge_Y") };
+			Machine.Gauge_Data.Size = (Point){ get_int("Gauge_W"), get_int("Gauge_H") };
 		} else {
 			ktn_jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
