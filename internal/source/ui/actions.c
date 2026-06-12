@@ -63,3 +63,25 @@ void Apply_Configs(Parameter Unused, Parameter Unused2) {
 		Temporary.Settings_Changed = true;
 	}
 }
+
+void Loop_Back(Parameter Unused, Parameter Unused2) {
+	Interface.Looper.Y--;
+	int Max = ktn_veclen(Metadata.Subcontents[Interface.Looper.X]) - 1;
+	if (Interface.Looper.Y < 0) {
+		Interface.Looper.Y = Max;
+	}
+	Interface.Item = Get_Machine(Metadata.Subcontents[pt(Interface.Looper)]);
+	Cache_Price();
+	Cache_Blueprint();
+}
+
+void Loop_Forward(Parameter Unused, Parameter Unused2) {
+	Interface.Looper.Y++;
+	int Max = ktn_veclen(Metadata.Subcontents[Interface.Looper.X]);
+	if (Interface.Looper.Y >= Max) {
+		Interface.Looper.Y = 0;
+	}
+	Interface.Item = Get_Machine(Metadata.Subcontents[pt(Interface.Looper)]);
+	Cache_Price();
+	Cache_Blueprint();
+}

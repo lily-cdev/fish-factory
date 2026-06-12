@@ -30,7 +30,21 @@ void Render_Toolbar() {
 	Machine_Rectangle.h = Machine_Texture->h;
 	Render_Texture(Machine_Texture, &Machine_Rectangle);
 	ktn_free_texture(Machine_Texture);
-	if (true) {//tmp
+	Interface.Looper.X = ktn_invalid;
+	Interface.Looper.Y = ktn_invalid;
+	for (int C1 = 0; C1 < ktn_subcategories; C1++) {
+		for (int C2 = 0; C2 < ktn_veclen(Metadata.Subcontents[C1]); C2++) {
+			if (ktn_stricmp(Interface.Item->Index, Metadata.Subcontents[C1][C2])) {
+				Interface.Looper.X = C1;
+				Interface.Looper.Y = C2;
+				break;
+			}
+		}
+		if (Interface.Looper.Y != ktn_invalid) {
+			break;
+		}
+	}
+	if (Interface.Looper.Y != ktn_invalid) {
 		SDL_Texture* L_Texture = Render_Text(F_Subtext, "<-", Colors.Abyss_Black);
 		SDL_Texture* R_Texture = Render_Text(F_Subtext, "->", Colors.Abyss_Black);
 		float Width = L_Texture->w + Padding;
@@ -46,6 +60,12 @@ void Render_Toolbar() {
 			Width,
 			Height
 		};
+		if (Detect_Mouse_Collision(L_Rect)) {
+			Interface.UI_Query = (UI_Link){ Loop_Back };
+		}
+		if (Detect_Mouse_Collision(R_Rect)) {
+			Interface.UI_Query = (UI_Link){ Loop_Forward };
+		}
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_RenderFillRect(Core.Renderer, &L_Rect);
 		SDL_RenderFillRect(Core.Renderer, &R_Rect);

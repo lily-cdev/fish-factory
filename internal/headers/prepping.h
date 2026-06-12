@@ -320,6 +320,7 @@ struct lde_interface {
 	int LR_Input;
 	int Queried_Price;
 	int Engagement;
+	Point Looper;
 	int UI_Tab;
 	int Subtab;
 	int UI_Selection;

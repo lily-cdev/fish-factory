@@ -44,3 +44,5 @@ void Shop_Item(Parameter Subcategory, Parameter Unused);
 void Shop_Subcategory(Parameter Selection, Parameter Unused);
 void Shop_Subitem(Parameter Selection, Parameter Unused);
 void Click_Sidebar(Parameter Bar, Parameter Unused);
+void Loop_Back(Parameter Unused, Parameter Unused2);
+void Loop_Forward(Parameter Unused, Parameter Unused2);
