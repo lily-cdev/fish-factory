@@ -64,7 +64,6 @@ add_executable(Fish_Factory
 	internal/source/placing/cultivators.c
 	internal/source/placing/generators.c
 	internal/source/placing/other.c
-	internal/source/placing/processors.c
 	internal/source/placing/transporters.c
 	internal/source/prompts/actions.c
 	internal/source/prompts/catalog.c

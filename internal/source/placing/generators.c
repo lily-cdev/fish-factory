@@ -11,29 +11,12 @@ bool Place_Heat_Exchanger(Point Pos) {
 }
 
 bool Place_Turbine_Input(Point Pos) {
-	Node Nodes = { };
-	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.STI_Inputs);
 	Data.Settings_Grid[pt(Interface.Tile)][3] = 0;
 	Data.Settings_Grid[pt(Interface.Tile)][4] = 0;
-	Data.Data_Grid[pt(Nodes.Data[0])][Fluid_Cap] = ktn_large_cap;
-	Data.Settings_Grid[pt(Nodes.Data[0])][0] = F_In;
-	Data.Plumbing_Grid[pt(Nodes.Data[0])] = Interface.Rotation + Left;
-	ktn_free(Nodes.Data);
 	return true;
 }
 
 bool Place_Turbine_Impulse(Point Pos) {
 	Data.Settings_Grid[pt(Pos)][3] = 0;
-	return true;
-}
-
-bool Place_Turbine_Output(Point Pos) {
-	Node Nodes = { };
-	Return_Nodes(&Nodes, Pos, Interface.Rotation, Preconfigs.STO_Outputs);
-	Data.Data_Grid[pt(Nodes.Data[0])][Fluid_Cap] = ktn_large_cap;
-	Data.Settings_Grid[pt(Nodes.Data[0])][0] = F_Out;
-	Data.Plumbing_Grid[pt(Nodes.Data[0])] = Interface.Rotation + Left;
-	//do outputZ!
-	ktn_free(Nodes.Data);
 	return true;
 }

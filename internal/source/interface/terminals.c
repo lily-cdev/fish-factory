@@ -13,7 +13,8 @@ char Errors[ktn_errors][32] = {
 	"too many inputs",
 	"too many outputs",
 	"too many controllers",
-	"no pool tiles"
+	"no pool tiles",
+	"no impulse"
 };
 
 void Push_Terminal(const char* Line) {
@@ -52,13 +53,12 @@ void Print_Fatal_Error(int Input) {
 	};
 	Render_Texture(Carrying_Texture, &Destination);
 	ktn_free_texture(Carrying_Texture);
-	Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom);
-	if (Interface.UI_Selection == 3) {
+	if (Render_Button(&Textures.Error_Exit, &Rects.Error_Exit, (UI_Link){ Machine_Exit }, Colors.Cherry_Blossom)) {
 		char Parameters[2][ktn_param_max] = { "quit" };
 		strcpy(Parameters[1], ktn_null_string);
 		Return_Command(Execute, 2, Parameters);
+		Tick_Input(1, false);
 	}
-	Tick_Input(3, false);
 }
 
 void Render_Backing() {
@@ -73,10 +73,40 @@ void Machine_Clear(Parameter Unused, Parameter Unused2) {
 }
 
 void Render_Sidebuttons(Texture2_Array* Buttons, Rect2_Array* Hitboxes, UI_Link* Links) {
-	Links[Hitboxes->Length - 1] = (UI_Link){ Machine_Clear };
-	Links[Hitboxes->Length - 2] = (UI_Link){ Machine_Exit };
+	Links[Hitboxes->Length - 2] = (UI_Link){ Machine_Clear };
+	Links[Hitboxes->Length - 1] = (UI_Link){ Machine_Exit };
+	bool Hit = false;
 	for (int C1 = 0; C1 < Hitboxes->Length; C1++) {
-		Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], Links[C1], Colors.Pure_White);
+		if (!Render_Button(&Buttons->Data[C1], &Hitboxes->Data[C1], Links[C1], Colors.Pure_White)) {
+			continue;
+		}
+		if (Interface.Engagement != 0) {
+			continue;
+		}
+		Return_Command(Buffers.Commands[C1], 4, Buffers.Parameters[C1]);
+		Tick_Input(C1 + 1, false);
+		Hit = true;
+	}
+	if (!Hit && Interface.Engagement == 0) {
+		Temporary.Ticker_Frames = 0;
+		Temporary.Ticker_Position = 0;
+		Temporary.Ticker_Target = 0;
+	}
+}
+
+void Tick_Input(int Target, bool Slider) {
+	if (Slider && -Target != Interface.Engagement) {
+		return;
+	}
+	if (Temporary.Ticker_Target != Target) {
+		Temporary.Ticker_Target = Target;
+		Temporary.Ticker_Frames = 0;
+		Temporary.Ticker_Position = 0;
+	}
+	Temporary.Ticker_Frames++;
+	if (Temporary.Ticker_Frames > Interface.Frame_Rate * 0.05f) {
+		Temporary.Ticker_Frames = 0;
+		Temporary.Ticker_Position++;
 	}
 }
 
@@ -117,8 +147,9 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		char Carrier[128];
 		snprintf(Carrier, sizeof(Carrier), "%s.%s;", Prefix, Interface.Terminal_Entry);
 		strncpy(Interface.Terminal_Entry, Carrier, sizeof(Interface.Terminal_Entry));
-		char* Result = malloc(strlen(Interface.Terminal_Entry) + 1);
-		int Index = 0;
+		char* Result = malloc(strlen(Interface.Terminal_Entry) + 3);
+		strcpy(Result, "> ");
+		int Index = 2;
 		for (int C1 = 0; C1 < strlen(Interface.Terminal_Entry); C1++) {
 			if (C1 >= Temporary.Ticker_Position || C1 > strlen(Interface.Terminal_Entry)) {
 				break;
@@ -128,7 +159,7 @@ void Render_Necessities(char* Machine, char* Prefix) {
 		}
 		Result[Index] = '\0';
 		if (strlen(Result) > 0) {
-			Process_Supply(&Supplies.Terminal_Command, Result, F_Terminal, Colors.Cherry_Blossom, (Point){ 64, 300 });
+			Process_Supply(&Supplies.Terminal_Command, Result, F_Terminal, Colors.Cherry_Blossom, (Point){ 50, 300 });
 		}
 		ktn_free(Result);
 	}
@@ -138,42 +169,20 @@ void Render_Necessities(char* Machine, char* Prefix) {
 	}
 }
 
-void Tick_Input(int Target, bool Slider) {
-	int Cross_Checker = Interface.UI_Selection;
-	if (Slider) {
-		Cross_Checker = Interface.Engagement;
-	}
-	if (Cross_Checker == Target) {
-		Temporary.Ticker_Target = Target;
-		if (Temporary.Ticker_Position < 50) {
-			Temporary.Ticker_Frames++;
-			if (Temporary.Ticker_Frames > Interface.Frame_Rate / 20) {
-				Temporary.Ticker_Frames = 0;
-				Temporary.Ticker_Position++;
-			}
-		}
-	} else {
-		if (Temporary.Ticker_Target == Target) {
-			Temporary.Ticker_Position = 0;
-			Temporary.Ticker_Frames = 0;
-		}
-	}
-}
-
 void Return_Command(const int Type, const int Length, const char Parameters[Length][ktn_param_max]) {
 	if (Type == Get_Data) {
-		strncpy(Interface.Terminal_Entry, "open(", sizeof(Interface.Terminal_Entry));
+		strcpy(Interface.Terminal_Entry, "open(");
 	} else {
-		strncpy(Interface.Terminal_Entry, "call(", sizeof(Interface.Terminal_Entry));
+		strcpy(Interface.Terminal_Entry, "call(");
 	}
-	for (int C1 = 0; C1 < Length; C1++) {
+	for (int C1 = 0; C1 < ktn_veclen(Parameters); C1++) {
 		ktn_charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
 		strcat(Interface.Terminal_Entry, Parameters[C1]);
 		if (C1 == 0) {
 			strcat(Interface.Terminal_Entry, (Type == Get_Data) ? ".json" : ".so");
 		}
 		ktn_charcat(Interface.Terminal_Entry, '\"', sizeof(Interface.Terminal_Entry));
-		if (C1 < Length - 1) {
+		if (C1 < ktn_veclen(Parameters) - 1) {
 			strcat(Interface.Terminal_Entry, ", ");
 		}
 	}
@@ -189,12 +198,4 @@ void Process_Commands() {
 	strncpy(Buffers.Parameters[Base + 1][0], "quit", sizeof(Buffers.Parameters[Base + 1][0]));
 	strncpy(Buffers.Parameters[Base + 1][1], ktn_null_string, sizeof(Buffers.Parameters[Base + 1][1]));
 	Buffers.Commands[Base + 2] = ktn_terminator;
-	for (int C1 = 0; C1 < ktn_intlen(Buffers.Commands); C1++) {
-		if (Interface.UI_Selection == C1 + 3) {//fix
-			Return_Command(Buffers.Commands[C1], 4, Buffers.Parameters[C1]);
-		}
-	}
-	for (int C1 = 3; C1 < ktn_intlen(Buffers.Commands) + 3; C1++) {
-		Tick_Input(C1, false);
-	}
 }

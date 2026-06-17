@@ -172,12 +172,3 @@ typedef struct {
 	Parameter Param;
 	Parameter Param2;
 } UI_Link;
-
-typedef struct {
-	bool Allocated;
-	char Key;
-	Point Bounds;
-	Point Bearing;
-	int Advance;
-	SDL_Texture* Data;
-} Glyph;

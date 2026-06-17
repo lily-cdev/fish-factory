@@ -5,7 +5,6 @@ enum Subcategories {
 	Flooring,
 	Reinforced,
 	Large,
-	Condenser,
 	Turbine
 };
 
@@ -129,7 +128,8 @@ enum Error {
 	Too_Many_Inputs,
 	Too_Many_Outputs,
 	Too_Many_Controllers,
-	Missing_Pool
+	Missing_Pool,
+	Missing_Impulse
 };
 
 typedef enum {

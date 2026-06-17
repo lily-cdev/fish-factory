@@ -5,6 +5,7 @@ void Spawn_Cheat(Parameter Type, Parameter Unused) {
 	const char* Subitems[3] = { "money_cheat", "fluid_cheat", "power_cheat" };
 	Interface.Item = Get_Machine(Subitems[Type.Integer]);
 	Cache_Blueprint();
+	Cache_Price();
 	Interface.Prompt_Identifier = P_None;
 	Interface.Tool = T_Building;
 }
@@ -154,11 +155,16 @@ void Forward_Day(Parameter Unused, Parameter Unused2) {
 }
 
 void Machine_Exit(Parameter Unused, Parameter Unused2) {
-	Interface.Prompt_Identifier = ktn_invalid;
+	Interface.Prompt_Identifier = P_None;
 	Interface.Subprompt_Identifier = ktn_invalid;
+	memset(Interface.Terminal_Logs, 0, ktn_log_max * ktn_param_max);
+	Interface.Terminal_Length = 0;
+	Temporary.Ticker_Position = 0;
+	Temporary.Ticker_Frames = 0;
 }
 
 void HX_Diagnostics(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	char Buffer1[128];
 	char Buffer2[128];
 	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "primary_valve\", \"%i "ktn_unit"/s", (int)Data.Settings_Grid[pt(Pos.Pos)][3]);
@@ -178,6 +184,7 @@ void HX_Diagnostics(Parameter Pos, Parameter Unused) {
 }
 
 void MT_Diagnostics(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	char Buffer[256];
 	Truncate((Data.Settings_Grid[pt(Pos.Pos)][3] * 1.5f) + 0.5f + ((bool)(Data.Settings_Grid[pt(Pos.Pos)][4]) ? 0.5f : 0), 0,
 		Buffer, sizeof(Buffer));
@@ -187,6 +194,7 @@ void MT_Diagnostics(Parameter Pos, Parameter Unused) {
 }
 
 void SD_Link(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	if (Transition.Sub_Pos.X == Pos.Pos.X && Transition.Sub_Pos.Y == Pos.Pos.Y && Transition.Sub_Phase == 2) {
 		int Issues[2] = { 0, 0 };
 		for (int C1 = 0; C1 < 2; C1++) {
@@ -221,6 +229,7 @@ void SD_Link(Parameter Pos, Parameter Unused) {
 }
 
 void SD_Manifest(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	int Index = 0;
 	for (int C1 = 0; C1 < 2; C1++) {
 		char Carrier1[32] = "none";
@@ -254,6 +263,7 @@ void SD_Manifest(Parameter Pos, Parameter Unused) {
 }
 
 void SD_Drain(Parameter Pos, Parameter Tank) {
+	Print_Input();
 	char Buffer[64];
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 3], Subbuffer, sizeof(Subbuffer));
@@ -264,6 +274,7 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 }
 
 void MSP_TInfo(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][3] * 90, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "volume\", \"%s "ktn_unit, Subbuffer);
@@ -274,6 +285,7 @@ void MSP_TInfo(Parameter Pos, Parameter Unused) {
 }
 
 void MSP_FInfo(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
 		char Buffer[64];
 		Get_Phase_Name(Buffer, sizeof(Buffer), (int)(Data.Settings_Grid[pt(Pos.Pos)][6]), (int)(Data.Settings_Grid[pt(Pos.Pos)][
@@ -289,6 +301,7 @@ void MSP_FInfo(Parameter Pos, Parameter Unused) {
 }
 
 void MSP_Fill(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
 		Print_Error(Fish_Present);
 	} else {
@@ -301,6 +314,7 @@ void MSP_Fill(Parameter Pos, Parameter Unused) {
 }
 
 void MSP_Empty(Parameter Pos, Parameter Unused) {
+	Print_Input();
 	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "released %i fish", (int)Data.Settings_Grid[pt(Pos.Pos)][5]);
@@ -313,6 +327,7 @@ void MSP_Empty(Parameter Pos, Parameter Unused) {
 }
 
 void TT_Call_Sub(Parameter Dock, Parameter Unused) {
+	Print_Input();
 	if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
 		Print_Response("submarine sent");
 		Transition.Sub_Pos = Temporary.Docks.Data[Dock.Integer];
@@ -351,6 +366,7 @@ void Shop_Subitem(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
 		Interface.Item = Get_Machine(Metadata.Item_Labels[Interface.Subtab - 1][Selection.Integer]);
 		Cache_Blueprint();
+		Cache_Price();
 		Temporary.Tutorial_Buffer = Selection.Integer;
 	}
 }

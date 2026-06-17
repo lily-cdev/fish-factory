@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>250</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>hydrogen</Item>
+			<Volume>20.0</Volume>
+		</Input>
+		<Input>
+			<Item>chlorine</Item>
+			<Volume>20.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>hydrogen_chloride</Item>
+			<Volume>20.0</Volume>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

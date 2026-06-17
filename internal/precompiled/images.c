@@ -1,8 +1,9 @@
 #include <core.h>
-#define byte unsigned char
 #define TRANSPARENT 254
 #define BITSPERPIXEL 24
 #define HEADERSIZE 54
+
+typedef unsigned char byte;
 
 int32_t Read_Byte4(byte* Data, uint64_t Position) {
 	int32_t Yield = 0;

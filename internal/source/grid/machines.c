@@ -4,16 +4,16 @@ bool (*Placing_Functions[])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Submarine_Dock, Place_Spawning_Pool,
 	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
 	Place_Signal_Tower, Place_Large_Pipe, Place_Heat_Exchanger,
-	Place_Money_Generator, Place_Fluid_Generator, Place_Condenser_Input, Place_Condenser_Transferor, Place_Condenser_Heatsink, Place_Condenser_Output,
-	Place_Turbine_Input, Place_Turbine_Impulse, Place_Turbine_Output, Place_Power_Generator
+	Place_Money_Generator, Place_Fluid_Generator,
+	Place_Turbine_Input, Place_Turbine_Impulse, Place_Power_Generator
 };
 
 const char* Placing_Registers[] = {
 	"heavy_pipe", "sub_dock", "spawning_pool",
 	"spawning_controller", "spawning_output", "spawning_input",
 	"signal_tower", "large_pipe", "hx",
-	"money_cheat", "fluid_cheat", "condenser_input", "condenser_hx", "condenser_heatsink", "condenser_output",
-	"turbine_input", "turbine_impulse", "turbine_output", "power_cheat"
+	"money_cheat", "fluid_cheat",
+	"turbine_input", "turbine_impulse", "power_cheat"
 };
 
 Point Find_Linked(const char* Index, Point Parent) {
@@ -105,7 +105,8 @@ int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[
 	bool Self_Accounted, const char* Target1, const char* Target2) {
 	bool Progressing = false;
 	if (Pos.X >= 0 && Pos.Y >= 0 && Pos.X < ktn_grid_size && Pos.Y < ktn_grid_size && !Grid[pt(Pos)]) {
-		if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target)) {
+		Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+		if (Chosen && ktn_stricmp(Chosen->Index, Target)) {
 			Progressing = true;
 		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Self)) {
 			if (Self_Accounted) {
@@ -384,18 +385,19 @@ bool Destroy_Grid() {
 }
 
 void Recast_Machines() {
-	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+	Point Pos;
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				continue;
 			}
 			if (ktn_stricmp(Machine->Index, "turbine_input")) {
-				Data.Settings_Grid[Column][Row][3] = 0;
-				Data.Settings_Grid[Column][Row][4] = 0;
+				Data.Settings_Grid[pt(Pos)][3] = 0;
+				Data.Settings_Grid[pt(Pos)][4] = 0;
 				bool Chaining = true;
-				Point Chain = { Column, Row };
-				int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
+				Point Chain = Pos;
+				int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
 				while (Chaining) {
 					switch (Rotation) {
 					case 0:
@@ -419,23 +421,39 @@ void Recast_Machines() {
 					}
 					if (ktn_stricmp(Machine2->Index, "turbine_impulse")) {
 						if (Rotation == Visual_To_Rotation(Data.Visual_Grid[pt(Chain)])) {
-							Data.Settings_Grid[Column][Row][3]++;
+							Data.Settings_Grid[pt(Pos)][3]++;
 							Data.Settings_Grid[pt(Chain)][3] = 1;
 						} else {
 							Chaining = false;
 						}
-					} else {
-						Point End_Pos = { Chain.X - ((Rotation == 3) ? -1 : 0), Chain.Y - ((Rotation == 0) ? 1 : 0) };
-						if (End_Pos.X < 0 || End_Pos.Y < 0 || End_Pos.X >= ktn_grid_size || End_Pos.Y >= ktn_grid_size) {
-							Chaining = false;
-						}
-						if (ktn_stricmp(Machine2->Index, "turbine_output") &&
-							Rotation == Visual_To_Rotation(Data.Visual_Grid[pt(End_Pos)])) {
-							Data.Settings_Grid[Column][Row][4] = 1;
-							Data.Settings_Grid[pt(End_Pos)][3] = 1;
-							Data.Settings_Grid[Column][Row][5] = End_Pos.X;
-							Data.Settings_Grid[Column][Row][6] = End_Pos.Y;
-						}
+					}
+					Point End_Pos = Chain;
+					switch (Rotation) {
+					case 0:
+						End_Pos.Y -= 2;
+						break;
+					case 1:
+						End_Pos.X += 3;
+						break;
+					case 2:
+						End_Pos.Y += 3;
+						break;
+					case 3:
+						End_Pos.X -= 2;
+						break;
+					default:
+						break;
+					}
+					if (End_Pos.X < 0 || End_Pos.Y < 0 || End_Pos.X >= ktn_grid_size || End_Pos.Y >= ktn_grid_size) {
+						Chaining = false;
+					}
+					Machine2 = Visual_To_Machine(Data.Visual_Grid[pt(End_Pos)]);
+					if (Machine2 && ktn_stricmp(Machine2->Index, "turbine_output") &&
+						Rotation == Visual_To_Rotation(Data.Visual_Grid[pt(End_Pos)])) {
+						Data.Settings_Grid[pt(Pos)][4] = 1;
+						Data.Settings_Grid[pt(End_Pos)][3] = 1;
+						Data.Settings_Grid[pt(Pos)][5] = End_Pos.X;
+						Data.Settings_Grid[pt(Pos)][6] = End_Pos.Y;
 						Chaining = false;
 					}
 				}

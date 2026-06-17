@@ -101,7 +101,7 @@ void Render_Game_UI() {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
 				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };
 			} else {
-				Rectangles[C1].x = (Settings.Scalar * 14) + Core.Screensize.X - Rectangles[C1].w;
+				Rectangles[C1].x = ktn_fscale(14.0f) + Core.Screensize.X - Rectangles[C1].w;
 			}
 			Render_Texture(Bars[C1], &Rectangles[C1]);
 		}
@@ -222,18 +222,18 @@ void Render_Game_UI() {
 		int Total_Height = Fragment_Rectangles[Fragment_Size - 1].y + Fragment_Rectangles[Fragment_Size - 1].h;
 		Set_Renderer_Color(Colors.Dark_Grey);
 		SDL_FRect Background = {
-			(Settings.Scalar * 615.0f) - Max_Width,
+			ktn_fscale(615.0f) - Max_Width,
 			0,
-			(Settings.Scalar * 25.0f) + Max_Width,
-			(Settings.Scalar * 15.0f) + Total_Height
+			ktn_fscale(25.0f) + Max_Width,
+			ktn_fscale(15.0f) + Total_Height
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Set_Renderer_Color(Colors.Light_Grey);
 		Background = (SDL_FRect){
-			(Settings.Scalar * 620.0f) - Max_Width,
+			ktn_fscale(620.0f) - Max_Width,
 			0,
-			(Settings.Scalar * 20.0f) + Max_Width,
-			(Settings.Scalar * 10.0f) + Total_Height
+			ktn_fscale(20.0f) + Max_Width,
+			ktn_fscale(10.0f) + Total_Height
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
 		Clear_Renderer();

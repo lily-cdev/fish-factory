@@ -1,13 +1,13 @@
 #include <prepping.h>
 
-struct lde_core Core = {
+struct Proto_Core Core = {
 	.Is_Running = true,
 	.Suffixes = { 'J', 'k', 'M', 'G', 'T' },
 	.Selected_Save = ktn_invalid,
 	.Camera = { -140, 0 }
 };
-struct lde_data Data = { };
-struct lde_metadata Metadata = {
+struct Proto_Data Data = { };
+struct Proto_Metadata Metadata = {
 	.Item_Labels = {
 		{ "sub_dock", "cable_node", ktn_null_string },
 		{ "ram_pump", ktn_null_string },
@@ -22,7 +22,7 @@ struct lde_metadata Metadata = {
 		{ Reinforced, Large, ktn_terminator },
 		{ ktn_terminator },
 		{ Modular_Spawning_Pool, ktn_terminator },
-		{ Condenser, ktn_terminator },
+		{ ktn_terminator },
 		{ Turbine, ktn_terminator },
 		{ Flooring, ktn_terminator },
 		{ ktn_terminator },
@@ -33,14 +33,13 @@ struct lde_metadata Metadata = {
 		{ "plate", "petrified_wood", "basalt_tile", "carpet", "hazard_strip", ktn_null_string },
 		{ "heavy_pipe", "heavy_intersection", ktn_null_string },
 		{ "large_pipe", "large_intersection", ktn_null_string },
-		{ "condenser_input", "condenser_heatsink", "condenser_hx", "condenser_output", ktn_null_string },
 		{ "turbine_input", "turbine_impulse", "turbine_output", ktn_null_string }
 	},
 	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },
 	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing" }
 };
-struct lde_settings Settings = {
+struct Proto_Settings Settings = {
 	.AA_Temporary = true,
 	.Anti_Aliasing = 1,
 	.VS_Temporary = true,
@@ -48,9 +47,9 @@ struct lde_settings Settings = {
 	.Volume = 50,
 	.Raw_FPS = 2
 };
-struct lde_textures Textures = { };
-struct lde_rects Rects = { };
-const struct lde_colors Colors = {
+struct Proto_Textures Textures = { };
+struct Proto_Rects Rects = { };
+const struct Proto_Colors Colors = {
 	.Abyss_Black = { 0, 0, 0 },
 	.Pure_White = { 255, 255, 255 },
 	.Light_Grey = { 235, 240, 240 },
@@ -64,7 +63,7 @@ const struct lde_colors Colors = {
 	.Hostile_Red = { 187, 10, 30 },
 	.Ocean = { 6, 66, 116 }
 };
-struct lde_fonts Fonts = {
+struct Proto_Fonts Fonts = {
 	.Paths = {
 		"oxygen/regular",
 		"cantarell/regular",
@@ -76,21 +75,21 @@ struct lde_fonts Fonts = {
 	},
 	.Sizes = { 32, 24, 18, 16, 12, 10, 12 }
 };
-struct lde_keybinds Keybinds = {
+struct Proto_Keybinds Keybinds = {
 	.Keybind_List = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
 		SDLK_LSHIFT, SDLK_ESCAPE },
 	.Keybind_Settings = { SDLK_W, SDLK_S, SDLK_A, SDLK_D, SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_C, SDLK_E, SDLK_R,
 		SDLK_LSHIFT, SDLK_ESCAPE }
 };
-struct lde_temporary Temporary = {
+struct Proto_Temporary Temporary = {
 	.Tutorial_Step = ktn_invalid,
 	.Log_Inversions = { true, false, false }
 };
-struct lde_cache Cache = {
+struct Proto_Cache Cache = {
 	.Wire_State = ktn_invalid
 };
-struct lde_supplies Supplies = { };
-struct lde_interface Interface = {
+struct Proto_Supplies Supplies = { };
+struct Proto_Interface Interface = {
 	.Movespeed = 120,
 	.Prompt_Identifier = P_None,
 	.Subprompt_Identifier = ktn_invalid,
@@ -122,5 +121,5 @@ struct lde_interface Interface = {
 		{ ktn_null_string }
 	}
 };
-struct lde_buffers Buffers = { };
-struct lde_preconfigs Preconfigs = { };
+struct Proto_Buffers Buffers = { };
+struct Proto_Preconfigs Preconfigs = { };

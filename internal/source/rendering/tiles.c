@@ -134,9 +134,8 @@ void Render_Grid() {
 						} else if (ktn_stricmp(Machine->Index, "turbine_impulse")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {
-								Lightcolor = (SDL_Color){ 255, 255, 0 };
+								Lightcolor = (SDL_Color){ 0, 255, 0 };
 							}
-							//if active, set lights green
 							SDL_FRect Lightplate = {
 								ktn_fscale((Column * ktn_tile_size) - Core.Camera.X),
 								ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y + 21.0f),
@@ -159,17 +158,14 @@ void Render_Grid() {
 						} else if (ktn_stricmp(Machine->Index, "turbine_output")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {
-								Lightcolor.r = 255;
-								Lightcolor.g = 255;
-								Lightcolor.b = 0;
+								Lightcolor = (SDL_Color){ 0, 255, 0 };
 							}
-							//if active, set lights green
 							SDL_FRect Lightplate;
 							#define Set_Lightplate(X, Y, W, H) Lightplate = (SDL_FRect) { \
-									Lightplate.x = Settings.Scalar * ((float)(X)), \
-									Lightplate.y = Settings.Scalar * ((float)(Y)), \
-									Lightplate.w = Settings.Scalar * ((float)(W)), \
-									Lightplate.h = Settings.Scalar * ((float)(H)), \
+									Lightplate.x = ktn_fscale((float)(X)), \
+									Lightplate.y = ktn_fscale((float)(Y)), \
+									Lightplate.w = ktn_fscale((float)(W)), \
+									Lightplate.h = ktn_fscale((float)(H)), \
 								}
 							switch (Rotation) {
 							case 1:
@@ -191,8 +187,7 @@ void Render_Grid() {
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
-							Render_Texture(Machine->Texture3.Data[Rotation].Data[1],
-								&Rects.Tile_2x2);
+							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Rects.Tile_2x2);
 						} else if (ktn_stricmp(Machine->Index, "electro_cell")) {
 							Carrier = (ktn_evn(Rotation)) ? Rects.Tile_3x2 : Rects.Tile_2x3;
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[0], &Carrier);

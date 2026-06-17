@@ -31,6 +31,7 @@ void Purge_Items();
 float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation);
 int Get_Phase(int Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count);
+Point Get_Transformed(Machine_Ptr Machine, Node_Data Node, Point Pos);
 bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs);
 bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs);
 bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs);

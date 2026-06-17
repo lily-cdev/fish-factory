@@ -113,7 +113,7 @@ void Render_Application() {
 				SDL_FRect Item = {
 					0,
 					0,
-					Settings.Scalar * 24.0f,
+					ktn_fscale(24.0f),
 					Height
 				};
 				Item.x = Hitbox.x + Hitbox.w + Padding;
@@ -128,10 +128,10 @@ void Render_Application() {
 				SDL_RenderFillRect(Core.Renderer, &Item);
 				Clear_Renderer();
 				SDL_FRect Item_Rect = {
-					(Settings.Scalar * 2.0f) + Item.x,
-					(Settings.Scalar * 2.0f) + Y_Cache,
-					Settings.Scalar * 20.0f,
-					Settings.Scalar * 20.0f
+					ktn_fscale(2.0f) + Item.x,
+					ktn_fscale(2.0f) + Y_Cache,
+					ktn_fscale(20.0f),
+					ktn_fscale(20.0f)
 				};
 				Render_Texture(Get_ID_Item(Data.Items_Grid[pt(Pos)])->Icon, &Item_Rect);
 			}
@@ -160,7 +160,7 @@ void Render_Hotbar() {
 		SDL_Texture* Fragment_Texture = Render_Text(F_Subtext, Metadata.Tool_Texts[Interface.Tool], Colors.Abyss_Black);
 		SDL_FRect Fragment_Rectangle = (SDL_FRect){
 			0,
-			Settings.Scalar * 10.0f,
+			ktn_fscale(10.0f),
 			(float)Fragment_Texture->w,
 			(float)Fragment_Texture->h
 		};
@@ -170,8 +170,8 @@ void Render_Hotbar() {
 		SDL_FRect Background = {
 			0,
 			0,
-			(Settings.Scalar * 30.0f) + Fragment_Rectangle.w,
-			(Settings.Scalar * 15.0f) + Height
+			ktn_fscale(30.0f) + Fragment_Rectangle.w,
+			ktn_fscale(15.0f) + Height
 		};
 		Background.x = Core.Screenhalfsize.X - (Background.w * 0.5f);
 		SDL_RenderFillRect(Core.Renderer, &Background);
@@ -179,8 +179,8 @@ void Render_Hotbar() {
 		Background = (SDL_FRect){
 			0,
 			0,
-			(Settings.Scalar * 20.0f) + Fragment_Rectangle.w,
-			(Settings.Scalar * 10.0f) + Height
+			ktn_fscale(20.0f) + Fragment_Rectangle.w,
+			ktn_fscale(10.0f) + Height
 		};
 		Background.x = Core.Screenhalfsize.X - (Background.w * 0.5f);
 		SDL_RenderFillRect(Core.Renderer, &Background);
@@ -188,39 +188,41 @@ void Render_Hotbar() {
 		Render_Texture(Fragment_Texture, &Fragment_Rectangle);
 		ktn_free_texture(Fragment_Texture);
 	}
-	float Bar_Height = Settings.Scalar * 310.0f;
+	float Bar_Height = ktn_fscale(50.0f);
+	float Bar_Y = Core.Screensize.Y - Bar_Height;
 	Interface.Bar_Up = false;
-	if (Core.Mouse.Y >= Bar_Height && Interface.Prompt_Identifier == P_None) {
+	if (Core.Mouse.Y >= Bar_Y && Interface.Prompt_Identifier == P_None) {
 		Interface.Bar_Up = true;
 		Set_Renderer_Color(Colors.Dark_Grey);
-		float Bar_Width = Core.Screenhalfsize.Y - Bar_Height;
+		float Bar_Y = Core.Screensize.Y - Bar_Height;
 		const SDL_FRect Background = {
 			0,
-			Bar_Height,
+			Bar_Y,
 			Core.Screensize.X,
-			Bar_Width
+			Bar_Height
 		};
 		SDL_RenderFillRect(Core.Renderer, &Background);
-		float Padding = Settings.Scalar * 4.0f;
+		float Padding = ktn_fscale(4.0f);
 		float Width = ktn_fscale(640.0f / ktn_tools) - (((1.0f / ktn_tools) + 1.0f) * Padding);
 		for (int C1 = 0; C1 < ktn_tools; C1++) {
 			SDL_FRect Pasting = {
 				(C1 * Width) + ((C1 + 1) * Padding),
-				Bar_Height + Padding,
+				Bar_Y + Padding,
 				Width,
-				Bar_Width - (Padding * 2.0f)
+				Bar_Height - (Padding * 2.0f)
 			};
 			SDL_Color Color = (Detect_Mouse_Collision(Pasting)) ? Colors.Light_Grey : Colors.Mid_Grey;
 			if (C1 == Interface.Tool) {
 				Color = Colors.Cherry_Blossom;
-			} else if (Detect_Mouse_Collision(Pasting)) {
+			}
+			if (Detect_Mouse_Collision(Pasting)) {
 				Interface.UI_Selection = C1;
 			}
 			Set_Renderer_Color(Color);
 			SDL_RenderFillRect(Core.Renderer, &Pasting);
 			Clear_Renderer();
 			Rects.Tool[C1].x = (Pasting.w * 0.5f) - (Rects.Tool[C1].w * 0.5f) + Pasting.x;
-			Rects.Tool[C1].y = (Bar_Width * 0.5f) - (Rects.Tool[C1].h * 0.5f) + Bar_Height;
+			Rects.Tool[C1].y = (Bar_Height * 0.5f) - (Rects.Tool[C1].h * 0.5f) + Bar_Y;
 			Render_Texture(Textures.Tool.Data[C1], &Rects.Tool[C1]);
 			char Carrier[32];
 			snprintf(Carrier, sizeof(Carrier), "[%s]", SDL_GetKeyName(Keybinds.Keybind_List[C1 + 4]));

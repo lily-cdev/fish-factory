@@ -1,5 +1,6 @@
 universal fluid index 
 item           | uFI | mols
+steam          | 1   | 1000
 water          | 1   | 100
 seawater       | 1   | 100
 saltwater      | 1   | 100

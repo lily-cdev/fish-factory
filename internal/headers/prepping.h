@@ -2,7 +2,7 @@
 #include <core.h>
 #include <buttons.h>
 
-struct lde_core {
+struct Proto_Core {
 	SDL_Window* Window;
 	SDL_Renderer* Renderer;
 	SDL_Texture* Game_Texture;
@@ -21,7 +21,7 @@ struct lde_core {
 	uint32_t State;
 };
 
-struct lde_data {
+struct Proto_Data {
 	bool CMD_Placed;
 	int Version;
 	int Time;
@@ -38,7 +38,7 @@ struct lde_data {
 	int64_t Funds;
 };
 
-struct lde_metadata {
+struct Proto_Metadata {
 	char Monitor_Size[64];
 	char* Categories[ktn_categories];
 	char* Subcategories[ktn_subcategories];
@@ -56,7 +56,7 @@ struct lde_metadata {
 	Item_Data Null_Item;
 };
 
-struct lde_settings {
+struct Proto_Settings {
 	bool AA_Temporary;
 	bool VS_Temporary;
 	int Fullscreen;
@@ -67,7 +67,7 @@ struct lde_settings {
 	int Raw_FPS;
 };
 
-struct lde_textures {
+struct Proto_Textures {
 	SDL_Texture* Logo1;
 	SDL_Texture* Logo2;
 	SDL_Texture* Terminal_Prompt;
@@ -142,7 +142,7 @@ struct lde_textures {
 	Texture_Array None;
 };
 
-struct lde_rects {
+struct Proto_Rects {
 	SDL_FRect Logo1;
 	SDL_FRect Logo2;
 	SDL_FRect Terminal_Prompt;
@@ -187,18 +187,11 @@ struct lde_rects {
 	SDL_FRect Door[2];
 	SDL_FRect Emblem;
 	SDL_FRect Tile_1x1;
-	SDL_FRect Tile_1x2;
-	SDL_FRect Tile_2x1;
 	SDL_FRect Tile_2x2;
 	SDL_FRect Tile_2x3;
 	SDL_FRect Tile_3x2;
 	SDL_FRect Tile_3x3;
-	SDL_FRect Tile_3x4;
-	SDL_FRect Tile_4x3;
-	SDL_FRect Tile_4x6;
 	SDL_FRect Tile_6x4;
-	SDL_FRect Tile_6x8;
-	SDL_FRect Tile_8x6;
 	SDL_FRect Sapling;
 	SDL_FRect Node;
 	SDL_FRect R_Flash;
@@ -212,7 +205,7 @@ struct lde_rects {
 	Rect2_Array Confirmation;
 };
 
-struct lde_colors {
+struct Proto_Colors {
 	SDL_Color Abyss_Black;
 	SDL_Color Pure_White;
 	SDL_Color Light_Grey;
@@ -227,19 +220,19 @@ struct lde_colors {
 	SDL_Color Ocean;
 };
 
-struct lde_fonts {
+struct Proto_Fonts {
 	TTF_Font* Faces[ktn_fonts];
 	const char* Paths[ktn_fonts];
 	const int Sizes[ktn_fonts];
 };
 
-struct lde_keybinds {
+struct Proto_Keybinds {
 	char* Keybind_Texts[ktn_keybinds];
 	SDL_Keycode Keybind_List[ktn_keybinds];
 	SDL_Keycode Keybind_Settings[ktn_keybinds];
 };
 
-struct lde_temporary {
+struct Proto_Temporary {
 	bool Settings_Changed;
 	int Modular1_Requirement;
 	int Modular2_Requirement;
@@ -261,7 +254,7 @@ struct lde_temporary {
 	SDL_FRect Load_Text_Rect;
 };
 
-struct lde_cache {
+struct Proto_Cache {
 	int Wire_State;
 	Texture_Array Wire_Cache;
 	SDL_FRect Wire_Box;
@@ -276,7 +269,7 @@ struct lde_cache {
 	int FPS_Tick;
 };
 
-struct lde_supplies {
+struct Proto_Supplies {
 	Texture_Supply FPS;
 	Texture_Supply Scroll_Percent;
 	Texture_Supply Changelog_Scroll;
@@ -304,7 +297,7 @@ struct lde_supplies {
 	Texture_Supply Filesizes[ktn_savefiles];
 };
 
-struct lde_interface {
+struct Proto_Interface {
 	bool Locked;
 	bool Building;
 	bool Sprinting;
@@ -346,45 +339,34 @@ struct lde_interface {
 	bool Bar_Up;
 };
 
-struct lde_buffers {
+struct Proto_Buffers {
 	char JSON[ktn_json_max][128];
 	int Commands[ktn_cmd_max];
 	char Parameters[ktn_cmd_max][4][ktn_param_max];
 };
 
-struct lde_preconfigs {
-	Node EP_Inputs[4];
-	Node EP_Outputs[4];
-	Node FM_Inputs[4];
-	Node FM_Outputs[4];
-	Node BG_Inputs[4];
+struct Proto_Preconfigs {
 	Node I_Inputs[4];
 	Node I_Outputs[4];
-	Node D_Inputs[4];
-	Node D_Outputs[4];
-	Node STI_Inputs[4];
-	Node GB_Outputs[4];
-	Node STO_Outputs[4];
 	Node GW_Inputs[4];
 	Node GW_Outputs[4];
-	Node RP_Outputs[4];
 };
 
-extern struct lde_core Core;
-extern struct lde_data Data;
-extern struct lde_metadata Metadata;
-extern struct lde_settings Settings;
-extern struct lde_textures Textures;
-extern struct lde_rects Rects;
-extern const struct lde_colors Colors;
-extern struct lde_fonts Fonts;
-extern struct lde_keybinds Keybinds;
-extern struct lde_temporary Temporary;
-extern struct lde_cache Cache;
-extern struct lde_supplies Supplies;
-extern struct lde_interface Interface;
-extern struct lde_buffers Buffers;
-extern struct lde_preconfigs Preconfigs;
+extern struct Proto_Core Core;
+extern struct Proto_Data Data;
+extern struct Proto_Metadata Metadata;
+extern struct Proto_Settings Settings;
+extern struct Proto_Textures Textures;
+extern struct Proto_Rects Rects;
+extern const struct Proto_Colors Colors;
+extern struct Proto_Fonts Fonts;
+extern struct Proto_Keybinds Keybinds;
+extern struct Proto_Temporary Temporary;
+extern struct Proto_Cache Cache;
+extern struct Proto_Supplies Supplies;
+extern struct Proto_Interface Interface;
+extern struct Proto_Buffers Buffers;
+extern struct Proto_Preconfigs Preconfigs;
 
 void Preload_Fonts();
 int Visual_To_Rotation(const int Identifier);

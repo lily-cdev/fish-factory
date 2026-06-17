@@ -20,10 +20,10 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 		Carrier.Data[C1] = malloc(strlen(Texts->Data[C1]) + 1);
 		strcpy(Carrier.Data[C1], Texts->Data[C1]);
 	}
-	Carrier.Data[Carrier.Length - 1] = malloc(strlen(Metadata.Buttons[37]) + 1);
-	Carrier.Data[Carrier.Length - 2] = malloc(strlen(Metadata.Buttons[36]) + 1);
-	strcpy(Carrier.Data[Carrier.Length - 1], Metadata.Buttons[37]);
-	strcpy(Carrier.Data[Carrier.Length - 2], Metadata.Buttons[36]);
+	Carrier.Data[Carrier.Length - 2] = malloc(strlen(Metadata.Buttons[37]) + 1);
+	Carrier.Data[Carrier.Length - 1] = malloc(strlen(Metadata.Buttons[36]) + 1);
+	strcpy(Carrier.Data[Carrier.Length - 2], Metadata.Buttons[37]);
+	strcpy(Carrier.Data[Carrier.Length - 1], Metadata.Buttons[36]);
 	Yield->Length = Carrier.Length;
 	Yield->Data = malloc(sizeof(Texture_Array) * Carrier.Length);
 	Rectangles->Length = Carrier.Length;

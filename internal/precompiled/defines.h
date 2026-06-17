@@ -15,7 +15,7 @@
 #define ktn_dock_cap 750.0
 #define ktn_effects 2
 #define ktn_epsilon 1e-7
-#define ktn_errors 13
+#define ktn_errors 14
 #define ktn_fish 3
 #define ktn_fish_phases 6
 #define ktn_fonts 7
@@ -40,7 +40,7 @@
 #define ktn_sliders 15
 #define ktn_static_rate 15
 #define ktn_sub_speed 4
-#define ktn_subcategories 6
+#define ktn_subcategories 5
 #define ktn_suffixes 5
 #define ktn_supported_res 6
 #define ktn_terminator -105

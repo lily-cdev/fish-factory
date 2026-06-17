@@ -125,33 +125,21 @@ void Cycle_HX(Point Pos, const int Rotation) {
 }
 
 void Cycle_Turbine_Input(Point Pos, const int Rotation) {
-	if (Data.Settings_Grid[pt(Pos)][5] == ktn_invalid || Data.Settings_Grid[pt(Pos)][6] == ktn_invalid) {
+	if (Data.Settings_Grid[pt(Pos)][4] < ktn_epsilon) {
 		return;
 	}
-	Data.Settings_Grid[pt(Pos)][7] = 0;
-	Node Nodes = { };
-	Return_Nodes(&Nodes, Pos, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), Preconfigs.STI_Inputs);
-	Point Input = Nodes.Data[0];
-	Return_Nodes(&Nodes, (Point){ Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] }, Visual_To_Rotation(
-		Data.Visual_Grid[(int)(Data.Settings_Grid[pt(Pos)][5])][(int)(Data.Settings_Grid[pt(Pos)][6])]), Preconfigs.STO_Outputs);
-	Point Output = Nodes.Data[0];
-	ktn_free(Nodes.Data);
-	if (Data.Settings_Grid[pt(Pos)][3] > 0 && Data.Settings_Grid[pt(Pos)][4] == 1 && Data.Items_Grid[pt(Input)] == 17 &&
-		Data.Items_Grid[pt(Output)] == 17) {
-		float Transferred = Data.Data_Grid[pt(Output)][Fluid_Cap] - Data.Data_Grid[pt(Output)][Stored_Fluids];
-		Transferred = min(Transferred, Data.Data_Grid[pt(Input)][Stored_Fluids]);
-		if (Transferred > 0) {
-			Data.Data_Grid[pt(Input)][Stored_Fluids] -= Transferred;
-			Data.Data_Grid[pt(Output)][Stored_Fluids] += Transferred;
-			float Generated = Transferred * ktn_turbine_coefficient * logf(ktn_sqr((float)Data.Temperature_Grid[pt(Input)])) *
-				logf(Data.Settings_Grid[pt(Pos)][3] * 1.5f);
-			Update_Item(Output, 17, (Data.Temperature_Grid[pt(Input)] * 0.1f) + 32);
-			if (Data.Temperature_Grid[pt(Input)] < 200) {
-				Generated = 0;
-			}
-			Data.Settings_Grid[pt(Pos)][7] = Generated;
-			Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Power_Cap], Data.Data_Grid[pt(Pos)][
-				Stored_Power] + Generated);
-		}
+	Machine_Ptr Machine = Get_Machine("turbine_input");
+	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
+	if (Data.Data_Grid[pt(Input)][Stored_Fluids] > 2) {
+		Machine_Ptr Submachine = Get_Machine("turbine_output");
+		Data.Data_Grid[pt(Input)][Stored_Fluids] -= 2;
+		Point End = {
+			Data.Settings_Grid[pt(Pos)][5],
+			Data.Settings_Grid[pt(Pos)][6]
+		};
+		Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
+		Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 2, Data.Data_Grid[
+			pt(Output)][Fluid_Cap]);//broken
+		Recast_Machines();
 	}
 }

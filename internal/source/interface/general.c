@@ -3,6 +3,13 @@
 void Close_Prompt() {
 	Interface.Prompt_Identifier = P_None;
 	Interface.Subprompt_Identifier = ktn_invalid;
+	Temporary.Ticker_Frames = 0;
+	Temporary.Ticker_Position = 0;
+	Temporary.Ticker_Target = 0;
+	memset(Interface.Terminal_Logs, 0, ktn_log_max * ktn_param_max);
+	Interface.Terminal_Length = 0;
+	Temporary.Ticker_Position = 0;
+	Temporary.Ticker_Frames = 0;
 }
 
 void Update_Cursor() {
@@ -162,14 +169,13 @@ void Process_Inputs() {
 						if (Interface.Engagement == 2) {
 							Data.Settings_Grid[pt(Pos)][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iL/s", (int)Data.Settings_Grid[pt(Pos)][
-								3]);
+							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iuFI/s", (int)Data.Settings_Grid[pt(Pos)][3]);
 							Print_Response(Buffer);
 						} else {
 							Data.Settings_Grid[pt(Pos)][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iL/s", (int)Data.Settings_Grid[
-								pt(Pos)][4]);
+							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iuFI/s", (int)Data.Settings_Grid[pt(Pos)][
+								4]);
 							Print_Response(Buffer);
 						}
 						break;

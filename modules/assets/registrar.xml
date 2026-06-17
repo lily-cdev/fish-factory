@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>41</Machine_Ct>
+	<Machine_Ct>37</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -35,10 +35,6 @@
 		<Machine>core/xml/machines/r_intersection</Machine>
 		<Machine>core/xml/machines/l_intersection</Machine>
 		<Machine>core/xml/machines/h_strip</Machine>
-		<Machine>core/xml/machines/sc_input</Machine>
-		<Machine>core/xml/machines/sc_transferor</Machine>
-		<Machine>core/xml/machines/sch_sink</Machine>
-		<Machine>core/xml/machines/sc_output</Machine>
 		<Machine>core/xml/machines/st_input</Machine>
 		<Machine>core/xml/machines/stit_block</Machine>
 		<Machine>core/xml/machines/st_output</Machine>
@@ -66,7 +62,7 @@
 		<Item>core/xml/items/m_acid</Item>
 		<Item>core/xml/items/h_chloride</Item>
 	</Items>
-	<Recipe_Ct>7</Recipe_Ct>
+	<Recipe_Ct>8</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -75,5 +71,6 @@
 		<Recipe>core/xml/recipes/ep_ho</Recipe>
 		<Recipe>core/xml/recipes/ep_hnaocl</Recipe>
 		<Recipe>core/xml/recipes/rp_seawater</Recipe>
+		<Recipe>core/xml/recipes/fm_hcl</Recipe>
 	</Recipes>
 </Registrar>

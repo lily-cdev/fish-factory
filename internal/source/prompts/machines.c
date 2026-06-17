@@ -38,7 +38,7 @@ void Render_MSP_Controller(Point Pos) {
 			strcpy(Parameters[1], Interface.Slider_Texts[1][Interface.Slider_Positions[1]]);
 			strcpy(Parameters[2], ktn_null_string);
 			Return_Command(Execute, 4, Parameters);
-			Tick_Input(1, true);
+			//tick
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
 	} else if (Data.Settings_Grid[pt(Pos)][3] == -6) {
@@ -128,19 +128,19 @@ void Render_H_Exchanger(Point Pos) {
 	} else if (Interface.Engagement == 2) {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[7]]);
-		char Subparameters[4][ktn_param_max] = { "set_primary_valve" };
+		char Subparameters[4][ktn_param_max] = { "set_valve1" };
 		strcpy(Subparameters[1], Buffer);
-		strcpy(Subparameters[1], ktn_null_string);
+		strcpy(Subparameters[2], ktn_null_string);
 		Return_Command(Execute, 4, Subparameters);
-		Tick_Input(2, true);
+		Tick_Input(-2, true);
 	} else {
 		char Buffer[64];
 		snprintf(Buffer, sizeof(Buffer), "%i", (int)Interface.Valve300_Postions[Interface.Slider_Positions[13]]);
-		char Subparameters[4][ktn_param_max] = { "set_feedwater_valve" };
+		char Subparameters[4][ktn_param_max] = { "set_valve2" };
 		strcpy(Subparameters[1], Buffer);
-		strcpy(Subparameters[1], ktn_null_string);
+		strcpy(Subparameters[2], ktn_null_string);
 		Return_Command(Execute, 4, Subparameters);
-		Tick_Input(3, true);
+		Tick_Input(-3, true);
 	}
 	Render_Necessities("heat_exchanger", "exchanger");
 }
@@ -150,7 +150,13 @@ void Render_MT_Input(Point Pos) {
 	UI_Link Links[ktn_perm_buttons + 1] = {
 		(UI_Link){ MT_Diagnostics, .Param.Pos = Pos }
 	};
-	Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons, Links);
+	if (Data.Settings_Grid[pt(Pos)][3] < ktn_epsilon) {
+		Print_Fatal_Error(Missing_Impulse);
+	} else if (Data.Settings_Grid[pt(Pos)][4] < ktn_epsilon) {
+		Print_Fatal_Error(Missing_Output);
+	} else {
+		Render_Sidebuttons(&Textures.MT_Buttons, &Rects.MT_Buttons, Links);
+	}
 	strncpy(Buffers.Parameters[0][0], "diagnostics", sizeof(Buffers.Parameters[0][0]));
 	strncpy(Buffers.Parameters[0][1], ktn_null_string, sizeof(Buffers.Parameters[0][1]));
 	Buffers.Commands[0] = Get_Data;
