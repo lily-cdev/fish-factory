@@ -130,10 +130,18 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 					}
 				}
 			}
-			//item subtraction
-			//item updating
+			for (int C1 = 0; C1 < Input_Ct; C1++) {
+				Data.Data_Grid[pt(Subinputs[C1])][Stored_Fluids] -= Chosen.Input_Counts[C1];
+			}
+			for (int C1 = 0; C1 < Output_Ct; C1++) {
+				check_output();
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
+				Point Pos = Outputs[C1];
+				Data.Data_Grid[pt(Pos)][Stored_Fluids] = min(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1],
+					Data.Data_Grid[pt(Pos)][Fluid_Cap]);
+			}
 			ktn_free(Subinputs);
-			//later
+			//test!
 		}
 		Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 		return true;
