@@ -141,7 +141,6 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 					Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 			}
 			ktn_free(Subinputs);
-			//test!
 		}
 		Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 		return true;
