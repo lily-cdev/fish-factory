@@ -393,7 +393,7 @@ void Preload_Assets() {
 	}
 	for (int C1 = 0; C1 < 241; C1++) {
 		char Buffer[32];
-		snprintf(Buffer, sizeof(Buffer), "%i %sF", C1 * 5, ktn_degree);
+		snprintf(Buffer, sizeof(Buffer), "%iF", C1 * 5);
 		strcpy(Interface.Slider_Texts[10][C1], Buffer);
 	}
 	strcpy(Interface.Slider_Texts[10][241], ktn_null_string);

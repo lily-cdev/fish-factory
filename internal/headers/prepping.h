@@ -345,13 +345,6 @@ struct Proto_Buffers {
 	char Parameters[ktn_cmd_max][4][ktn_param_max];
 };
 
-struct Proto_Preconfigs {
-	Node I_Inputs[4];
-	Node I_Outputs[4];
-	Node GW_Inputs[4];
-	Node GW_Outputs[4];
-};
-
 extern struct Proto_Core Core;
 extern struct Proto_Data Data;
 extern struct Proto_Metadata Metadata;
@@ -366,7 +359,6 @@ extern struct Proto_Cache Cache;
 extern struct Proto_Supplies Supplies;
 extern struct Proto_Interface Interface;
 extern struct Proto_Buffers Buffers;
-extern struct Proto_Preconfigs Preconfigs;
 
 void Preload_Fonts();
 int Visual_To_Rotation(const int Identifier);
@@ -392,9 +384,6 @@ void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
 bool Is_Bound(Point Input);
 bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2);
-void Generate_Preconfigs();
-void Free_Preconfigs();
-void Return_Nodes(Node* Yield, Point Pos, const int Rotation, Node Preconfig[4]);
 bool Check_Clearance(Point Pos, const int W, const int H);
 void Fill_Clearance(const int Identifier, Point Pos, const int W, const int H);
 void Push_Docks(Point Input);

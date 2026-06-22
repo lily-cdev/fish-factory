@@ -11,7 +11,6 @@
 #define ktn_channels 1
 #define ktn_cmd_max 16
 #define ktn_days 7
-#define ktn_degree "\u00b0"
 #define ktn_dock_cap 750.0
 #define ktn_effects 2
 #define ktn_epsilon 1e-7
@@ -48,5 +47,5 @@
 #define ktn_tools 5
 #define ktn_turbine_coefficient 0.15
 #define ktn_unit "uFI"
-#define ktn_valve300_len 12
+#define ktn_valve300_len 4
 #define ktn_water_boil_pt 211.3

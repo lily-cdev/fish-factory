@@ -51,7 +51,6 @@ int main(int argc, char* args[]) {
 	}
 	Temporary.Docks.Length = 0;
 	Temporary.Docks.Full_Size = 0;
-	Generate_Preconfigs();
 	Load_Settings();
 	Clear_Settings();
 	Reload_All(false);
@@ -132,7 +131,6 @@ int main(int argc, char* args[]) {
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
 	Wipe_Grid();
-	Free_Preconfigs();
 	ktn_free(Temporary.Docks.Data);
 	Free_Supplies();
 	SDL_ShowCursor();

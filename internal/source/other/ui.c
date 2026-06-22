@@ -151,7 +151,7 @@ void Render_Game_UI() {
 			Index++;
 			char Subbuffer[64];
 			Truncate(Temperature, 0, Subbuffer, sizeof(Subbuffer));
-			snprintf(Buffer, sizeof(Buffer), "%s °F", Subbuffer);
+			snprintf(Buffer, sizeof(Buffer), "%sF", Subbuffer);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
 			float Pressure = Calculate_Pressure(Temperature, Item->Boil_Pt, Item->V_Enthalpy);

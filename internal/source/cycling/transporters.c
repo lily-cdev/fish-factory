@@ -8,23 +8,20 @@ void Cycle_Large_Pipe(Point Pos, const int Rotation) {
 
 void Cycle_Intersection(Point Pos, const int Rotation) {
 	//check4hazard!
-	Node Inputs = { };
-	Node Outputs = { };
-	Return_Nodes(&Inputs, Pos, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), Preconfigs.I_Inputs);
-	Return_Nodes(&Outputs, Pos, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), Preconfigs.I_Outputs);
+	Machine_Ptr Machine = Get_Machine("heavy_intersection");
 	for (int C1 = 0; C1 < 2; C1++) {
-		int OX = Outputs.Data[C1].X;
-		int OY = Outputs.Data[C1].Y;
-		int IX = Inputs.Data[C1].X;
-		int IY = Inputs.Data[C1].Y;
+		Point Input = Get_Transformed(Machine, Machine->Inputs[C1], Pos);
+		Point Output = Get_Transformed(Machine, Machine->Outputs[C1], Pos);
+		int OX = Output.X;
+		int OY = Output.Y;
+		int IX = Input.X;
+		int IY = Input.Y;
 		float Difference = Data.Data_Grid[OX][OY][Fluid_Cap] - Data.Data_Grid[OX][OY][Stored_Fluids];
 		Difference = min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
 		if (Difference > 0 && (Data.Items_Grid[IX][IY] == Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == ktn_invalid)) {
 			Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
 			Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;
-			Update_Item((Point){ Outputs.Data[C1].X, OY }, Data.Items_Grid[IX][IY], Data.Temperature_Grid[IX][IY]);
+			Update_Item(Output, Data.Items_Grid[IX][IY], Data.Temperature_Grid[IX][IY]);
 		}
 	}
-	ktn_free(Inputs.Data);
-	ktn_free(Outputs.Data);
 }

@@ -284,9 +284,13 @@ void Build_Grid() {
 					Point Tile = Rotate_Pt(Node_Ptrs[C1][C2].Pos, Interface.Item->Size, Interface.Rotation);
 					Tile.X += Column;
 					Tile.Y += Row;
-					Data.Plumbing_Grid[pt(Tile)] = Node_Ptrs[C1][C2].Connection + Interface.Rotation;
-					if (Data.Plumbing_Grid[pt(Tile)] > Down) {
-						Data.Plumbing_Grid[pt(Tile)] -= 4;
+					if (Node_Ptrs[C1][C2].Connection == Any) {
+						Data.Plumbing_Grid[pt(Tile)] = Any;
+					} else {
+						Data.Plumbing_Grid[pt(Tile)] = Node_Ptrs[C1][C2].Connection + Interface.Rotation;
+						if (Data.Plumbing_Grid[pt(Tile)] > Down) {
+							Data.Plumbing_Grid[pt(Tile)] -= 4;
+						}
 					}
 					Data.Settings_Grid[pt(Tile)][0] = Node_Ptrs[C1][C2].Flow;
 					Data.Data_Grid[pt(Tile)][Fluid_Cap] = Node_Ptrs[C1][C2].Cap;

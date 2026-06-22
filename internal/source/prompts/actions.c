@@ -176,9 +176,9 @@ void HX_Diagnostics(Parameter Pos, Parameter Unused) {
 	Truncate(ktn_hx_cap, 0, Buffer2, sizeof(Buffer2));
 	snprintf(Buffers.JSON[3], sizeof(Buffers.JSON[3]), "feedwater_loop\", \"%s/%s "ktn_unit, Buffer1, Buffer2);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][7], Buffer1, sizeof(Buffer1));
-	snprintf(Buffers.JSON[4], sizeof(Buffers.JSON[4]), "primary_temp\", \"%s °F", Buffer1);
+	snprintf(Buffers.JSON[4], sizeof(Buffers.JSON[4]), "primary_temp\", \"%sF", Buffer1);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][8], Buffer1, sizeof(Buffer1)); 
-	snprintf(Buffers.JSON[5], sizeof(Buffers.JSON[5]), "feedwater_temp\", \"%s °F", Buffer1);
+	snprintf(Buffers.JSON[5], sizeof(Buffers.JSON[5]), "feedwater_temp\", \"%sF", Buffer1);
 	strncpy(Buffers.JSON[6], ktn_null_string, sizeof(Buffers.JSON[6]));
 	Print_JSON();
 }
@@ -189,7 +189,11 @@ void MT_Diagnostics(Parameter Pos, Parameter Unused) {
 	Truncate((Data.Settings_Grid[pt(Pos.Pos)][3] * 1.5f) + 0.5f + ((bool)(Data.Settings_Grid[pt(Pos.Pos)][4]) ? 0.5f : 0), 0,
 		Buffer, sizeof(Buffer));
 	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "length\", \"%sm", Buffer);
-	strncpy(Buffers.JSON[1], ktn_null_string, sizeof(Buffers.JSON[1]));
+	for (int C1 = 0; C1 < 2; C1++) {
+		Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][C1 + 8], Buffer, sizeof(Buffer));
+		snprintf(Buffers.JSON[C1 + 1], sizeof(Buffers.JSON[C1 + 1]), "%s\", \"%sW", (C1 == 0) ? "target" : "yield", Buffer);
+	}
+	strcpy(Buffers.JSON[3], ktn_null_string);
 	Print_JSON();
 }
 

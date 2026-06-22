@@ -100,7 +100,7 @@ struct Proto_Interface Interface = {
 	.Frame_Rate = 60,
 	.Item = NULL,
 	.Registering_Keybind = ktn_invalid,
-	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 15, 20, 50, 100, 150, 300 },
+	.Valve300_Postions = { 0, 1, 2, 3 },
 	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
 	.Slider_Texts = {
 		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", ktn_null_string },
@@ -122,4 +122,3 @@ struct Proto_Interface Interface = {
 	}
 };
 struct Proto_Buffers Buffers = { };
-struct Proto_Preconfigs Preconfigs = { };

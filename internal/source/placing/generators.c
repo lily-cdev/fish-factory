@@ -13,6 +13,7 @@ bool Place_Heat_Exchanger(Point Pos) {
 bool Place_Turbine_Input(Point Pos) {
 	Data.Settings_Grid[pt(Interface.Tile)][3] = 0;
 	Data.Settings_Grid[pt(Interface.Tile)][4] = 0;
+	Data.Settings_Grid[pt(Interface.Tile)][9] = 0;
 	return true;
 }
 

@@ -12,7 +12,7 @@
 	<Speed>15</Speed>
 	<Power_Type>in</Power_Type>
 	<Power_Capacity>3000</Power_Capacity>
-	<Anchor_X>60</Anchor_X>
+	<Anchor_X>7</Anchor_X>
 	<Anchor_Y>60</Anchor_Y>
 	<Heating />
 	<Rot_ID />

@@ -7,6 +7,7 @@
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>
+	<Coolant />
 	<Chem_Energy>0</Chem_Energy>
 	<Boil_Pt>212</Boil_Pt>
 	<V_Enthalpy>41</V_Enthalpy>

@@ -29,35 +29,29 @@ void Cycle_Furnace(Point Pos, const int Rotation) {
 }
 
 void Cycle_Geo_Well(Point Pos, const int Rotation) {
-	bool Conditional = true;
-	Node Inputs = { };
-	Node Outputs = { };
-	if (Data.Data_Grid[pt(Pos)][Stored_Power] < 2500) {
-		Conditional = false;
-	}
-	Return_Nodes(&Inputs, Pos, Rotation, Preconfigs.GW_Inputs);
-	Return_Nodes(&Outputs, Pos, Rotation, Preconfigs.GW_Outputs);
-	if (Data.Data_Grid[pt(Inputs.Data[0])][Stored_Fluids] < 8 || Data.Data_Grid[pt(Outputs.Data[0])][Stored_Fluids] > 0) {
-		Conditional = false;
-	}
-	if (!Get_ID_Item(Data.Items_Grid[pt(Outputs.Data[0])])->Coolant) {
-		Conditional = false;
-	}
 	Data.Animation_Grid[pt(Pos)][0] = 0;
-	if (Conditional) {
-		Data.Data_Grid[pt(Pos)][Stored_Power] -= 2500;
-		Data.Data_Grid[pt(Inputs.Data[0])][Stored_Fluids] -= 8;
-		Data.Data_Grid[pt(Outputs.Data[0])][Stored_Fluids] += 8;
-		int Temperature = Data.Temperature_Grid[pt(Inputs.Data[0])];
-		if (Temperature == 328) {
-			Temperature = 327;
-		}
-		float Benchmark = log10f((328.0f - Temperature) / 263.0f) / log10f(0.64f);
-		Update_Item(Outputs.Data[Rotation], Data.Items_Grid[pt(Inputs.Data[0])], (-263.0f * powf(0.64f, Benchmark + 1.0f)) + 328);
-		Data.Animation_Grid[pt(Pos)][0] = 1;
+	if (Data.Data_Grid[pt(Pos)][Stored_Power] < 2500) {
+		return;
 	}
-	ktn_free(Inputs.Data);
-	ktn_free(Outputs.Data);
+	Machine_Ptr Machine = Get_Machine("geo_well");
+	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
+	Point Output = Get_Transformed(Machine, Machine->Outputs[0], Pos);
+	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 8 || Data.Data_Grid[pt(Output)][Stored_Fluids] > 4) {
+		return;
+	}
+	if (!Get_ID_Item(Data.Items_Grid[pt(Input)])->Coolant) {
+		return;
+	}
+	Data.Data_Grid[pt(Pos)][Stored_Power] -= 2500;
+	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 8;
+	Data.Data_Grid[pt(Output)][Stored_Fluids] += 8;
+	int Temperature = Data.Temperature_Grid[pt(Input)];
+	if (Temperature == 328) {
+		Temperature = 327;
+	}
+	float Benchmark = log10f((328.0f - Temperature) / 263.0f) / log10f(0.64f);
+	Update_Item(Output, Data.Items_Grid[pt(Input)], (-263.0f * powf(0.64f, Benchmark + 1.0f)) + 328);
+	Data.Animation_Grid[pt(Pos)][0] = 1;
 }
 
 void Cycle_HX(Point Pos, const int Rotation) {
@@ -112,8 +106,8 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	float Temp_Equil = ((Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][8]) + (Data.Settings_Grid[pt(Pos)][5] *
 		Data.Settings_Grid[pt(Pos)][7])) / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5]);
 	float Difference = Data.Settings_Grid[pt(Pos)][7] - Data.Settings_Grid[pt(Pos)][8];
-	float Remaining = powf(M_E, (-1 * ((ktn_hx_efficiency * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) / (
-		4.186 * Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][5]))));
+	float Remaining = powf(M_E, (-1 * ((ktn_hx_efficiency * (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[pt(Pos)][5])) /
+		(4.186f * Data.Settings_Grid[pt(Pos)][6] * Data.Settings_Grid[pt(Pos)][5]))));
 	float FW_Yield = Temp_Equil - (((Data.Settings_Grid[pt(Pos)][5] / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[
 		pt(Pos)][5])) * Difference) * Remaining);
 	float HM_Yield = Temp_Equil + (((Data.Settings_Grid[pt(Pos)][6] / (Data.Settings_Grid[pt(Pos)][6] + Data.Settings_Grid[
@@ -125,21 +119,35 @@ void Cycle_HX(Point Pos, const int Rotation) {
 }
 
 void Cycle_Turbine_Input(Point Pos, const int Rotation) {
+	float Delta = 750000;
+	Data.Settings_Grid[pt(Pos)][8] = 0;
 	if (Data.Settings_Grid[pt(Pos)][4] < ktn_epsilon) {
+		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
 	Machine_Ptr Machine = Get_Machine("turbine_input");
 	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
-	if (Data.Data_Grid[pt(Input)][Stored_Fluids] > 2) {
-		Machine_Ptr Submachine = Get_Machine("turbine_output");
-		Data.Data_Grid[pt(Input)][Stored_Fluids] -= 2;
-		Point End = {
-			Data.Settings_Grid[pt(Pos)][5],
-			Data.Settings_Grid[pt(Pos)][6]
-		};
-		Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
-		Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 2, Data.Data_Grid[
-			pt(Output)][Fluid_Cap]);//broken
-		Recast_Machines();
+	if (Data.Items_Grid[pt(Input)] != Get_Item("steam")->ID) {
+		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
+		return;
 	}
+	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 2) {
+		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
+		return;
+	}
+	Machine_Ptr Submachine = Get_Machine("turbine_output");
+	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 2;
+	Point End = { Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] };
+	Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
+	float Temp = Data.Temperature_Grid[pt(Input)];
+	float Target = ((((min(Data.Settings_Grid[pt(Pos)][3], 5) * 0.1f) + 1.0f) * 120000000.0f) * Temp) / 600.0f;
+	Data.Settings_Grid[pt(Pos)][8] = Target;
+	float Current = Data.Settings_Grid[pt(Pos)][9];
+	Data.Settings_Grid[pt(Pos)][9] = (Current > Target) ? max(Current - Delta, Target) : min(Current + Delta, Target);
+	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + Data.Settings_Grid[pt(Pos)][9],
+		Data.Data_Grid[pt(Pos)][Power_Cap]);
+	Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 2, Data.Data_Grid[pt(Output)][
+		Fluid_Cap]);
+	Update_Item(Output, Get_Item("water")->ID, min(Temp, 90));
+	
 }
