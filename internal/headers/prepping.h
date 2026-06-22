@@ -259,8 +259,6 @@ struct Proto_Cache {
 	Texture_Array Wire_Cache;
 	SDL_FRect Wire_Box;
 	SDL_Texture* Blueprint_Cache;
-	Texture2_Array Log_Cache;
-	Rect2_Array Log_Rectangles;
 	SDL_FRect Query[64];
 	int ID_Query[64];
 	SDL_Color Color_Query[64];

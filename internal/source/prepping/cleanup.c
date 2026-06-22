@@ -193,8 +193,6 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);
 	ktn_free_texture(Cache.Blueprint_Cache);
-	Clear_Texture2_Array(&Cache.Log_Cache);
-	Clear_Rect2_Array(&Cache.Log_Rectangles);
 	ktn_free(Metadata.Machines);
 	ktn_free(Metadata.Items);
 	Free_Items();

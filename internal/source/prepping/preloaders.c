@@ -464,34 +464,9 @@ void Preload_Assets() {
 	};
 	SDL_DestroySurface(Carrying_Surface);
 	memset(Interface.Log_Heights, 0, sizeof(Interface.Log_Heights));
-	Cache.Log_Rectangles.Data = calloc(ktn_logs, sizeof(Rect_Array));
-	Cache.Log_Rectangles.Length = ktn_logs;
-	Cache.Log_Cache.Data = malloc(sizeof(Texture_Array) * ktn_logs);
-	Cache.Log_Cache.Length = ktn_logs;
 	for (int C1 = 0; C1 < ktn_logs; C1++) {
-		int Height = Render_Rich_Text(F_Halftext, Metadata.Logs[C1], (Point) { 0, 0 }, Temporary.Log_Inversions[C1], true) -
-			ktn_fscale(210.0f);
-		Interface.Log_Heights[C1] = Height;
-		int Cap = (int)ceilf(Height / ktn_fscale(341.0f));
-		Cache.Log_Rectangles.Data[C1].Data = calloc(Cap, sizeof(SDL_FRect));
-		Cache.Log_Rectangles.Data[C1].Length = Cap;
-		Cache.Log_Cache.Data[C1].Data = malloc(sizeof(SDL_Texture*) * Cap);
-		Cache.Log_Cache.Data[C1].Length = Cap;
-		for (int C2 = 0; C2 < Cap; C2++) {
-			Cache.Log_Cache.Data[C1].Data[C2] = New_Texture(Core.Screensize.X, ktn_fscale(1000.0f));
-			SDL_FRect New_Rectangle = {
-				0,
-				ktn_fscale(C2 * 1000.0f),
-				Core.Screensize.X,
-				ktn_fscale(1000.0f)
-			};
-			SDL_SetTextureBlendMode(Cache.Log_Cache.Data[C1].Data[C2], SDL_BLENDMODE_BLEND);
-			SDL_SetRenderTarget(Core.Renderer, Cache.Log_Cache.Data[C1].Data[C2]);
-			Render_Rich_Text(F_Subtext, Metadata.Logs[C1], (Point){ 52, 52 - (New_Rectangle.y / Settings.Scalar) },
-				Temporary.Log_Inversions[C1], false);
-			SDL_SetRenderTarget(Core.Renderer, NULL);
-			Cache.Log_Rectangles.Data[C1].Data[C2] = New_Rectangle;
-		}
+		Interface.Log_Heights[C1] = ktn_fscale(Render_Rich_Text(F_Halftext, Metadata.Logs[C1], (Point) { 0, 0 },
+			Temporary.Log_Inversions[C1], true) / 6.0f);
 	}
 	Cache.Wire_Cache.Data = malloc(sizeof(SDL_Texture*) * 4);
 	Cache.Wire_Cache.Length = 4;

@@ -87,5 +87,4 @@ void Free_Text() {
 	for (int C1 = 0; C1 < ktn_keybinds; C1++) {
 		ktn_free(Keybinds.Keybind_Texts[C1]);
 	}
-	Clear_Rect2_Array(&Cache.Log_Rectangles);
 }

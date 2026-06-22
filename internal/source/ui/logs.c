@@ -1,11 +1,8 @@
 #include <ui.h>
 
 void Render_Changelog() {
-	for (int C1 = 0; C1 < Cache.Log_Cache.Data[Changelog].Length; C1++) {
-		SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Changelog].Data[C1];
-		Log_Rectangle.y -= Interface.Log_Offset;
-		Render_Texture(Cache.Log_Cache.Data[Changelog].Data[C1], &Log_Rectangle);
-	}
+	Render_Rich_Text(F_Halftext, Metadata.Logs[Changelog], (Point){ 52, 52 - Interface.Log_Offset }, Temporary.Log_Inversions[
+		Changelog], false);
 	Render_Texture(Textures.Log_Background, &Rects.Log_Background);
 	char Buffer[64];
 	char Subbuffer[64];
@@ -24,19 +21,13 @@ void Render_Credits() {
 	char Prefix[16] = "credits";
 	switch (Interface.Slider_Positions[2]) {
 	case 0:
-		for (int C1 = 0; C1 < Cache.Log_Cache.Data[Credits].Length; C1++) {
-			SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Credits].Data[C1];
-			Log_Rectangle.y -= Interface.Log_Offset;
-			Render_Texture(Cache.Log_Cache.Data[Credits].Data[C1], &Log_Rectangle);
-		}
+		Render_Rich_Text(F_Halftext, Metadata.Logs[Credits], (Point){ 52, 52 - Interface.Log_Offset }, Temporary.Log_Inversions[
+			Credits], false);
 		break;
 	case 1:
-		for (int C1 = 0; C1 < Cache.Log_Cache.Data[Legal].Length; C1++) {
-			SDL_FRect Log_Rectangle = Cache.Log_Rectangles.Data[Legal].Data[C1];
-			Log_Rectangle.y -= Interface.Log_Offset;
-			Render_Texture(Cache.Log_Cache.Data[Legal].Data[C1], &Log_Rectangle);
-		}
-		strncpy(Prefix, "legal", sizeof(Prefix));
+		Render_Rich_Text(F_Halftext, Metadata.Logs[Legal], (Point){ 52, 52 - Interface.Log_Offset }, Temporary.Log_Inversions[
+			Legal], false);
+		strcpy(Prefix, "legal");
 		break;
 	default:
 		break;
