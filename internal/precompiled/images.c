@@ -16,35 +16,28 @@ int32_t Read_Byte4(byte* Data, uint64_t Position) {
 void Save_BMP(const char* Path, SDL_Surface* Carrier) {
 	FILE* Image = fopen(Path, "wb");
 	const SDL_PixelFormatDetails* Details = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
+	#define write(Val, Type) do { fwrite(&(Type){ (Val) }, sizeof(Type), 1, Image); } while (0)
 	fputc('B', Image);
 	fputc('M', Image);
 	uint32_t Size = (Carrier->w * Carrier->h * 3) + HEADERSIZE;
-	fwrite(&Size, sizeof(uint32_t), 1, Image);
-	uint16_t Zero = 0;
-	fwrite(&Zero, sizeof(uint16_t), 1, Image);
-	fwrite(&Zero, sizeof(uint16_t), 1, Image);
-	uint32_t Offset = HEADERSIZE;
-	fwrite(&Offset, sizeof(uint32_t), 1, Image);
-	uint32_t Subsize = 40;
-	fwrite(&Subsize, sizeof(uint32_t), 1, Image);
-	int32_t Formatted_Width = Carrier->w;
-	fwrite(&Formatted_Width, sizeof(int32_t), 1, Image);
-	int32_t Formatted_Height = Carrier->h;
-	fwrite(&Formatted_Height, sizeof(int32_t), 1, Image);
-	uint16_t Planes = 1;
-	fwrite(&Planes, sizeof(uint16_t), 1, Image);
-	uint16_t Formatted_BPP = BITSPERPIXEL;
-	fwrite(&Formatted_BPP, sizeof(uint16_t), 1, Image);
-	uint32_t Compression = 0;
-	fwrite(&Compression, sizeof(uint32_t), 1, Image);
-	uint32_t Large_Zero = 0;
-	fwrite(&Large_Zero, sizeof(uint32_t), 1, Image);
+	write(Size, uint32_t);
+	write(0, uint16_t);
+	write(0, uint16_t);
+	write(HEADERSIZE, uint32_t);
+	write(40, uint32_t);
+	write(Carrier->w, int32_t);
+	write(Carrier->h, int32_t);
+	write(1, uint16_t);
+	write(BITSPERPIXEL, uint16_t);
+	write(0, uint32_t);
+	write(0, uint32_t);
 	int32_t PPM = 2835;
-	fwrite(&PPM, sizeof(int32_t), 1, Image);
-	fwrite(&PPM, sizeof(int32_t), 1, Image);
-	fwrite(&Large_Zero, sizeof(uint32_t), 1, Image);
-	fwrite(&Large_Zero, sizeof(uint32_t), 1, Image);
+	write(PPM, int32_t);
+	write(PPM, int32_t);
+	write(0, uint32_t);
+	write(0, uint32_t);
 	SDL_LockSurface(Carrier);
+	#undef write
 	for (int X = 0; X < Carrier->w; X++) {
 		for (int Y = 0; Y < Carrier->h; Y++) {
 			uint32_t* Pixels = (uint32_t*)Carrier->pixels;

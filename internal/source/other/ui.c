@@ -130,7 +130,7 @@ void Render_Game_UI() {
 	Process_Supply(&Supplies.Time, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 50 });
 	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
-		Item_Ptr Item;
+		Item_Ptr Item = NULL;
 		int Temperature;
 		for (int Column = 0; Column < ktn_grid_size; Column++) {
 			Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);

@@ -85,8 +85,8 @@ void Update_Machines() {
 			if (Data.Visual_Grid[pt(Pos)] == 21) {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
-						if (Data.Settings_Grid[pt(Pos)][C1 + 5] == Data.Items_Grid[Pos.X + C1][Pos.Y] ||
-							Data.Settings_Grid[Pos.X][Pos.Y][C1 + 5] == ktn_invalid) {
+						if ((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]) == Data.Items_Grid[Pos.X + C1][Pos.Y + 3] || Data.Settings_Grid[
+							pt(Pos)][C1 + 5] == ktn_invalid) {
 							Data.Settings_Grid[pt(Pos)][C1 + 3] = min(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[
 								Pos.X + C1][Pos.Y + 3][Stored_Fluids], ktn_dock_cap);
 							Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] = 0;

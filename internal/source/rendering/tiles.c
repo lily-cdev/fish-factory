@@ -256,15 +256,15 @@ void Render_Grid() {
 								Rects.R_Flash.y = ktn_fscale(Y) + Rects.Tile_3x3.y;
 								Render_Texture(Textures.R_Flash, &Rects.R_Flash);
 							}
-						} else if (ktn_stricmp(Machine->Index, "sub_dock")) {
-							Rects.Tunnel.Data[0].x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
-							Rects.Tunnel.Data[0].y = ktn_fscale(((Row - 2.25f) * ktn_tile_size) - Core.Camera.Y);
-							Render_Texture(Machine->Texture2.Data[0], &Rects.Tile_6x4);
-							Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 						}
 						break;
 					default:
 						break;
+					}
+					if (ktn_stricmp(Machine->Index, "sub_dock")) {
+						Rects.Tunnel.Data[0].x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+						Rects.Tunnel.Data[0].y = ktn_fscale(((Row - 2.25f) * ktn_tile_size) - Core.Camera.Y);
+						Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 					}
 					break;
 				default:
