@@ -255,12 +255,12 @@ void Render_Saveloader() {
 	Render_Texture(Textures.Saveloader, &Rects.Saveloader);
 	for (int C1 = 0; C1 < ktn_savefiles; C1++) {
 		if (Core.Save_Filesizes[C1] > 0) {
-			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], (UI_Link){ Load_Save, .Param.Integer = C1 + 1 },
+			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], (UI_Link){ Load_Save, .Param.Integer = C1 },
 				Colors.Cherry_Blossom);
-			Render_Button(&Textures.Clear.Data[C1], &Rects.Clear.Data[C1], (UI_Link){ Free_Save, .Param.Integer = C1 + 1 },
+			Render_Button(&Textures.Clear.Data[C1], &Rects.Clear.Data[C1], (UI_Link){ Free_Save, .Param.Integer = C1 },
 				Colors.Cherry_Blossom);
 		} else {
-			Render_Button(&Textures.New.Data[C1], &Rects.New.Data[C1], (UI_Link){ New_Save, .Param.Integer = C1 + 1 },
+			Render_Button(&Textures.New.Data[C1], &Rects.New.Data[C1], (UI_Link){ New_Save, .Param.Integer = C1 },
 				Colors.Cherry_Blossom);
 		}
 	}

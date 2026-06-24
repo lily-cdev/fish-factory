@@ -4,7 +4,7 @@
 void Get_Filesizes() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		char Path[64];
-		snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", C1 + 1);
+		snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", C1);
 		FILE* File = fopen(Path, "rb");
 		if (File == NULL) {
 			Core.Save_Filesizes[C1] = 0;
@@ -190,7 +190,7 @@ void Reset_Statistics() {
 	Clear_Bridges(&Wires);
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
-	Save_Data(Core.Selected_Save + 1);
+	Save_Data(Core.Selected_Save);
 }
 
 void Reload_All(bool Initialized) {
