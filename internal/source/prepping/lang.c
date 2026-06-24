@@ -4,7 +4,7 @@ static bool Yield;
 
 void Load_TXT(const char* Path, char* Input[], int Lines) {
 	char Carrier[512];
-	snprintf(Carrier, sizeof(Carrier), "Assets/Data/%s.txt", Path);
+	snprintf(Carrier, sizeof(Carrier), "assets/data/%s.txt", Path);
 	FILE* File = fopen(Carrier, "r");
 	if (File == NULL) {
 		Yield = false;
@@ -27,7 +27,7 @@ void Load_TXT(const char* Path, char* Input[], int Lines) {
 
 void Load_Full(const char* Path, char** Input) {
 	char Carrier[512];
-	snprintf(Carrier, sizeof(Carrier), "Assets/Data/%s.txt", Path);
+	snprintf(Carrier, sizeof(Carrier), "assets/data/%s.txt", Path);
 	FILE* File = fopen(Carrier, "r");
 	if (File == NULL) {
 		Yield = false;

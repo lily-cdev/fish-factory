@@ -25,7 +25,7 @@ void Shutdown_Miniaudio() {
 void Load_Sounds() {
 	for (int C1 = 0; C1 < ktn_audio_ct; C1++) {
 		char Carrier[128];
-		snprintf(Carrier, sizeof(Carrier), "Assets/Core/Audio/%s.wav", Paths[C1]);
+		snprintf(Carrier, sizeof(Carrier), "assets/core/audio/%s.wav", Paths[C1]);
 		ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &(Audio.Data[C1].Data));
 		if (Yield != MA_SUCCESS) {
 			char Carrier[512];

@@ -71,12 +71,26 @@ bool Save_Data(int Slot) {
 			}
 		}
 	}
+	fwrite(&Wires.Length, sizeof(int64_t), 1, File);
+	fwrite(&Pipes.Length, sizeof(int64_t), 1, File);
+	for (int C1 = 0; C1 < 2; C1++) {
+		for (int C2 = 0; C2 < ((C1 == 0) ? Wires.Length : Pipes.Length); C2++) {
+			Bridge Subbridge = ((C1 == 0) ? Wires.Data[C2] : Pipes.Data[C2]);
+			fputc((char)Subbridge.Filled, File);
+			fputc((char)Subbridge.X1, File);
+			fputc((char)Subbridge.Y1, File);
+			fputc((char)Subbridge.X2, File);
+			fputc((char)Subbridge.Y2, File);
+			fwrite(&(int16_t){ Subbridge.X_Offset }, sizeof(int16_t), 1, File);
+			fwrite(&(int16_t){ Subbridge.Y_Offset }, sizeof(int16_t), 1, File);
+			fputc((char)Subbridge.Orienation, File);
+		}
+	}
 	fclose(File);
 	return true;
 }
 
 bool Load_Data(int Slot) {
-	Reset_Statistics();
 	char Path[64];
 	snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", Slot);
 	FILE* File = fopen(Path, "rb");
@@ -119,6 +133,27 @@ bool Load_Data(int Slot) {
 					}
 				}
 			}
+			int64_t Limiters[2];
+			fread(&Limiters[0], sizeof(int64_t), 1, File);
+			fread(&Limiters[1], sizeof(int64_t), 1, File);
+			Wires.Full_Size = 0;
+			Pipes.Full_Size = 0;
+			Wires.Length = 0;
+			Pipes.Length = 0;
+			for (int C1 = 0; C1 < 2; C1++) {
+				for (int C2 = 0; C2 < Limiters[C1]; C2++) {
+					Bridge Subbridge = { };
+					Subbridge.Filled = (bool)fgetc(File);
+					Subbridge.X1 = (int8_t)fgetc(File);
+					Subbridge.Y1 = (int8_t)fgetc(File);
+					Subbridge.X2 = (int8_t)fgetc(File);
+					Subbridge.Y2 = (int8_t)fgetc(File);
+					fread(&Subbridge.X_Offset, sizeof(int16_t), 1, File);
+					fread(&Subbridge.Y_Offset, sizeof(int16_t), 1, File);
+					Subbridge.Orienation = (int8_t)fgetc(File);
+					Push_Bridge(((C1 == 0) ? &Wires : &Pipes), Subbridge);
+				}
+			}
 		}
 	} else {
 		Reset_Statistics();
@@ -155,7 +190,7 @@ void Reset_Statistics() {
 	Clear_Bridges(&Wires);
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
-	Save_Data(Core.Selected_Save);
+	Save_Data(Core.Selected_Save + 1);
 }
 
 void Reload_All(bool Initialized) {

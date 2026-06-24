@@ -11,13 +11,13 @@ typedef struct {
 	int Y2;
 	int X_Offset;
 	int Y_Offset;
-	int Orienation;	
+	int Orienation;
 } Bridge;
 
 typedef struct {
 	Bridge* Data;
-	int Full_Size;
-	int Length;
+	int64_t Full_Size;
+	int64_t Length;
 } Bridges;
 
 extern Bridges Pipes;

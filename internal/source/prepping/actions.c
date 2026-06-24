@@ -41,7 +41,7 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 	case 1:
 		if (Interface.Save_Frames < 1) {
 			Interface.Save_Frames = Interface.Frame_Rate * 2;
-			Save_Data(Core.Selected_Save);
+			Save_Data(Core.Selected_Save + 1);
 		}
 		break;
 	case 2:
@@ -56,7 +56,13 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 			Cache_Blueprint();
 		}
 		if (Interface.Tool == ktn_invalid) {
-			Save_Data(Core.Selected_Save);
+			Save_Data(Core.Selected_Save + 1);
+			Wires.Length = 0;
+			Wires.Full_Size = 0;
+			ktn_free(Wires.Data);
+			Pipes.Length = 0;
+			Pipes.Full_Size = 0;
+			ktn_free(Pipes.Data);
 			memset(Tutorial_Stack, 0, sizeof(Tutorial_Stack));
 			Temporary.Tutorial_Step = ktn_invalid;
 			Start_Transition(2);

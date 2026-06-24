@@ -51,7 +51,7 @@ void Clear_Rect3_Array(Rect3_Array* Target) {
 
 void Clear_File(const char* Path) {
 	char Buffer[512];
-	snprintf(Buffer, sizeof(Buffer), "Assets/Data/%s", Path);
+	snprintf(Buffer, sizeof(Buffer), "assets/data/%s", Path);
 	FILE* File = fopen(Path, "w");
 	fclose(File);
 }

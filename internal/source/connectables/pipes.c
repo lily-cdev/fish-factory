@@ -126,7 +126,7 @@ void Update_Pipes() {
 	Bridge** Grouped_List = calloc(Pipes.Length, sizeof(Bridge*));
 	int* Sizes = calloc(Pipes.Length, sizeof(int));
 	int Grouped = 0;
-    if (Pipes.Length > 0) {
+	if (Pipes.Length > 0) {
 		for (int C1 = 0; C1 < Pipes.Length; C1++) {
 			if (Pipes.Data[C1].Filled) {
 				Bridge Pipe = Pipes.Data[C1];
@@ -135,8 +135,8 @@ void Update_Pipes() {
 					for (int C2 = 0; C2 < Grouped; C2++) {
 						if (Pipe.X1 == Grouped_List[C2][0].X1 && Pipe.Y1 == Grouped_List[C2][0].Y1) {
 							Grouped_List[C2] = realloc(Grouped_List[C2], sizeof(Bridge) * (C2 + 1));
-							Grouped_List[C2][C2] = Pipe;
-							Sizes[C2] = C2 + 1;
+							Grouped_List[C2][Sizes[C2]] = Pipe;
+							Sizes[C2]++;
 							Uncategorized = false;
 							break;
 						}
