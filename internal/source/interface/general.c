@@ -153,14 +153,15 @@ void Process_Inputs() {
 					switch (Interface.Prompt_Identifier) {
 					case P_Spawning_Pool:
 						Print_Input();
-						if (Data.Settings_Grid[pt(Pos)][5] > 0) {
+						int ID = Data.Settings_Grid[pt(Pos)][5];
+						if (Fishlinks[ID].Fish_Ct > 0) {
 							Print_Error(Fish_Present);
-							Interface.Slider_Positions[1] = (int)(Data.Settings_Grid[pt(Pos)][6]);
+							Interface.Slider_Positions[1] = Fishlinks[ID].Type->Identifier;
 						} else {
-							Data.Settings_Grid[pt(Pos)][6] = Interface.Slider_Positions[1];
+							Fishlinks[ID].Type = Get_Fish(Interface.Slider_Positions[1]);
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set fish type to %s", Interface.Slider_Texts[1][
-								Interface.Slider_Positions[1]]);
+							snprintf(Buffer, sizeof(Buffer), "set fish type to %s", Interface.Slider_Texts[1][Interface.Slider_Positions[
+								1]]);
 							Print_Response(Buffer);
 						}
 						break;

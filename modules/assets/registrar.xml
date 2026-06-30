@@ -73,4 +73,10 @@
 		<Recipe>core/xml/recipes/rp_seawater</Recipe>
 		<Recipe>core/xml/recipes/fm_hcl</Recipe>
 	</Recipes>
+	<Fish_Ct>3</Fish_Ct>
+	<Fishes>
+		<Fish>core/xml/fish/milkfish</Fish>
+		<Fish>core/xml/fish/mojarra</Fish>
+		<Fish>core/xml/fish/menhaden</Fish>
+	</Fishes>
 </Registrar>

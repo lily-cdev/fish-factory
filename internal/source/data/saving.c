@@ -91,6 +91,7 @@ bool Save_Data(int Slot) {
 }
 
 bool Load_Data(int Slot) {
+	Reset_Statistics();
 	char Path[64];
 	snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", Slot);
 	FILE* File = fopen(Path, "rb");
@@ -156,7 +157,6 @@ bool Load_Data(int Slot) {
 			}
 		}
 	} else {
-		Reset_Statistics();
 		Save_Data(Slot);
 	}
 	fclose(File);
@@ -191,6 +191,10 @@ void Reset_Statistics() {
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
 	Save_Data(Core.Selected_Save);
+	for (int C1 = 0; C1 < 16; C1++) {
+		ktn_free(Fishlinks[C1].Fish);
+	}
+	memset(Fishlinks, 0, 16);
 }
 
 void Reload_All(bool Initialized) {
@@ -219,7 +223,6 @@ void Reload_All(bool Initialized) {
 		Free_Sounds();
 	}
 	Load_XML();
-	Prep_Items();
 	Load_Text();
 	Load_Sounds();
 	for (int C1 = 0; C1 < Core.Items; C1++) {

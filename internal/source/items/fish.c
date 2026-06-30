@@ -1,7 +1,7 @@
 #include <items.h>
 
-int Get_Phase(int Fish, int Progress) {
-	float Percentage = min(((float)Progress / Fish_Catalog[Fish].Max_Growth) * 100, 100.0);
+int Get_Phase(Fish_Ptr Fish, int Progress) {
+	float Percentage = min(((float)Progress / Fish->Max_Growth) * 100, 100.0);
 	int Phase = 0;
 	for (int C1 = 0; C1 < 5; C1++) {
 		if (Percentage > Growth_Weights[C1]) {
@@ -13,8 +13,8 @@ int Get_Phase(int Fish, int Progress) {
 	return Phase;
 }
 
-void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count) {
-	float Percentage = min(((float)Progress / Fish_Catalog[Fish].Max_Growth) * 100, 100.0);
+void Get_Phase_Name(char* Buffer, int Length, Fish_Ptr Fish, int Progress, int Count) {
+	float Percentage = min(((float)Progress / Fish->Max_Growth) * 100, 100.0);
 	char Subbuffer[32];
 	snprintf(Subbuffer, sizeof(Subbuffer), " (%i%%)", (int)(floorf(Percentage)));
 	if (Count == 1) {
@@ -25,24 +25,21 @@ void Get_Phase_Name(char* Buffer, int Length, int Fish, int Progress, int Count)
 	return;
 }
 
-Item_Ptr Get_Fish_Item(int Identifier) {
-	switch (Identifier) {
-	case 0:
-		return Get_Item("milkfish");
-		break;
-	case 1:
-		return Get_Item("mojarra");
-		break;
-	case 2:
-		return Get_Item("menhaden");
-		break;
-	default:
-		break;
+Fish_Ptr Get_Fish(int Identifier) {
+	for (int C1 = 0; C1 < Core.Fishes; C1++) {
+		if (Metadata.Fish[C1].Identifier == Identifier) {
+			return &Metadata.Fish[C1];
+		}
 	}
-	return Get_Item("wet_waste");
+	return NULL;
 }
 
-Fish Fish_Catalog[ktn_fish] = { };
-char Growth_Phases[ktn_fish_phases][32] = { "Egg", "Larva", "Fry", "Fingerling", "Juvenile", "Near-Adult" };
-char Plural_Growth_Phases[ktn_fish_phases][32] = { "Eggs", "Larvae", "Fries", "Fingerlings", "Juveniles", "Near-Adults" };
+void Cycle_Fish(int ID) {
+
+}
+
+char Growth_Phases[ktn_fish_phases][32] = { "egg", "larva", "fry", "fingerling", "juvenile", "near-adult" };
+char Plural_Growth_Phases[ktn_fish_phases][32] = { "eggs", "larvae", "fries", "fingerlings", "juveniles", "near-adults" };
 int Growth_Weights[ktn_fish_phases] = { 0, 5, 20, 35, 55, 100 };
+int Pool_Ct = 0;
+struct Fishlink Fishlinks[16];

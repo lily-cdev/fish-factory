@@ -67,6 +67,7 @@ add_executable(Fish_Factory
 	internal/source/placing/transporters.c
 	internal/source/prompts/actions.c
 	internal/source/prompts/catalog.c
+	internal/source/prompts/genetics.c
 	internal/source/prompts/cheats.c
 	internal/source/prompts/daily_report.c
 	internal/source/prompts/help.c
@@ -93,9 +94,7 @@ add_executable(Fish_Factory
 	internal/source/cycling/transporters.c
 	internal/source/items/tools.c
 	internal/source/items/fish.c
-	internal/source/items/definitions.c
 	internal/source/items/recipes.c
-	internal/source/items/setup.c
 	internal/precompiled/images.c
 	external/miniaudio/miniaudio.c
 	modules/resource.rc

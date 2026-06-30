@@ -18,6 +18,7 @@ struct Proto_Core {
 	int Machines;
 	int Items;
 	int Recipes;
+	int Fishes;
 	uint32_t State;
 };
 
@@ -52,6 +53,7 @@ struct Proto_Metadata {
 	const char Tool_Texts[ktn_tools][64];
 	Machine_Data* Machines;
 	Item_Data* Items;
+	Fish_Data* Fish;
 	Recipe* Recipes;
 	Item_Data Null_Item;
 };
@@ -68,8 +70,7 @@ struct Proto_Settings {
 };
 
 struct Proto_Textures {
-	SDL_Texture* Logo1;
-	SDL_Texture* Logo2;
+	SDL_Texture* Logo;
 	SDL_Texture* Terminal_Prompt;
 	SDL_Texture* Price_Header;
 	SDL_Texture* CMD_Warning1;
@@ -114,6 +115,7 @@ struct Proto_Textures {
 	Texture_Array Tool;
 	Texture_Array Help_Content;
 	SDL_Texture* Recipe_Content;
+	SDL_Texture* Genetics_Content;
 	Texture_Array Door;
 	SDL_Texture* Emblem;
 	SDL_Texture* Crosshair;
@@ -124,6 +126,7 @@ struct Proto_Textures {
 	SDL_Texture* Path_Arrow;
 	SDL_Texture* Log_Background;
 	SDL_Texture* Saveloader;
+	SDL_Texture* Genetics;
 	SDL_Texture* R_Flash;
 	Texture_Array A_Bubble;
 	SDL_Texture* Floor_Texture;
@@ -133,6 +136,7 @@ struct Proto_Textures {
 	SDL_Texture* Help_Sidebutton;
 	SDL_Texture* Save_Sidebutton;
 	SDL_Texture* Recipe_Sidebutton;
+	SDL_Texture* Genetics_Sidebutton;
 	SDL_Texture* Exit_Sidebutton;
 	Texture_Array Submarine;
 	Texture2_Array Confirmation;
@@ -143,8 +147,7 @@ struct Proto_Textures {
 };
 
 struct Proto_Rects {
-	SDL_FRect Logo1;
-	SDL_FRect Logo2;
+	SDL_FRect Logo;
 	SDL_FRect Terminal_Prompt;
 	SDL_FRect Price_Header;
 	SDL_FRect CMD_Warning1;
@@ -184,6 +187,7 @@ struct Proto_Rects {
 	SDL_FRect Tool[ktn_tools];
 	SDL_FRect Help_Content[2];
 	SDL_FRect Recipe_Content;
+	SDL_FRect Genetics_Content;
 	SDL_FRect Door[2];
 	SDL_FRect Emblem;
 	SDL_FRect Tile_1x1;
@@ -200,6 +204,7 @@ struct Proto_Rects {
 	SDL_FRect Help;
 	SDL_FRect Save;
 	SDL_FRect Recipe;
+	SDL_FRect Genetics;
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	Rect2_Array Confirmation;
@@ -218,6 +223,7 @@ struct Proto_Colors {
 	SDL_Color Carnage_Pink;
 	SDL_Color Hostile_Red;
 	SDL_Color Ocean;
+	SDL_Color Base_Pair[4];
 };
 
 struct Proto_Fonts {

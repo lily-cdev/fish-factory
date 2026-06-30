@@ -1,7 +1,6 @@
 #include <connectables.h>
 
 void Push_Bridge(Bridges* List, Bridge Input) {
-	List->Length++;
 	if (List->Length >= List->Full_Size) {
 		Bridge* Buffer = malloc(sizeof(Bridge) * List->Length);
 		ktn_memcpy(Buffer, List->Data, sizeof(Bridge) * List->Length);
@@ -11,7 +10,8 @@ void Push_Bridge(Bridges* List, Bridge Input) {
 		ktn_memcpy(List->Data, Buffer, sizeof(Bridge) * List->Length);
 		ktn_free(Buffer);
 	}
-	List->Data[List->Length - 1] = Input;
+	List->Data[List->Length] = Input;
+	List->Length++;
 }
 
 void Pull_Bridge(Bridges* List, int Position) {

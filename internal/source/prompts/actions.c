@@ -280,24 +280,40 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 void MSP_TInfo(Parameter Pos, Parameter Unused) {
 	Print_Input();
 	char Subbuffer[64];
-	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][3] * 90, Subbuffer, sizeof(Subbuffer));
+	int ID = Data.Settings_Grid[pt(Pos.Pos)][5];
+	Abbreviate_Number(Fishlinks[ID].Size * 0.9f, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "volume\", \"%s "ktn_unit, Subbuffer);
-	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][4], Subbuffer, sizeof(Subbuffer));
-	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "food\", \"%sg", Subbuffer);
+	Abbreviate_Number(Fishlinks[ID].Nutrition, Subbuffer, sizeof(Subbuffer));
+	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "food\", \"%suNI", Subbuffer);
 	strncpy(Buffers.JSON[2], ktn_null_string, sizeof(Buffers.JSON[2]));
 	Print_JSON();
 }
 
 void MSP_FInfo(Parameter Pos, Parameter Unused) {
 	Print_Input();
-	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
+	int ID = Data.Settings_Grid[pt(Pos.Pos)][5];
+	if (Fishlinks[ID].Fish_Ct > 0) {
 		char Buffer[64];
-		Get_Phase_Name(Buffer, sizeof(Buffer), (int)(Data.Settings_Grid[pt(Pos.Pos)][6]), (int)(Data.Settings_Grid[pt(Pos.Pos)][
-			7]), (int)(Data.Settings_Grid[pt(Pos.Pos)][5]));
-		snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "type\", \"%s %s", Fish_Catalog[(int)(Data.Settings_Grid[pt(Pos.Pos)][
-			6])].Name, Buffer);
-		snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "quantity\", \"%i", (int)Data.Settings_Grid[pt(Pos.Pos)][5]);
-		strncpy(Buffers.JSON[2], ktn_null_string, sizeof(Buffers.JSON[2]));
+		int Alive = 0;
+		int Injured = 0;
+		int Dead = 0;
+		int Max_Growth = 0;
+		for (int C1 = 0; C1 < Fishlinks[ID].Fish_Ct; C1++) {
+			if (Fishlinks[ID].Fish[C1].Damage >= ktn_health) {
+				Dead++;
+			} else if (Fishlinks[ID].Fish[C1].Damage > ktn_health * 0.5f) {
+				Injured++;
+			} else {
+				Alive++;
+			}
+			Max_Growth = ktn_max(Fishlinks[ID].Fish[C1].Growth, Max_Growth);
+		}
+		Get_Phase_Name(Buffer, sizeof(Buffer), Fishlinks[ID].Type, Max_Growth, Fishlinks[ID].Fish_Ct);
+		snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "oldest_type\", \"%s %s", Fishlinks[ID].Type->Name, Buffer);
+		snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "quantity_live\", \"%i", Alive);
+		snprintf(Buffers.JSON[2], sizeof(Buffers.JSON[2]), "quantity_hurt\", \"%i", Injured);
+		snprintf(Buffers.JSON[3], sizeof(Buffers.JSON[3]), "quantity_dead\", \"%i", Dead);
+		strncpy(Buffers.JSON[4], ktn_null_string, sizeof(Buffers.JSON[2]));
 		Print_JSON();
 	} else {
 		Print_Error(No_File);
@@ -306,24 +322,19 @@ void MSP_FInfo(Parameter Pos, Parameter Unused) {
 
 void MSP_Fill(Parameter Pos, Parameter Unused) {
 	Print_Input();
-	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
-		Print_Error(Fish_Present);
-	} else {
-		int Added_Fish = (int)(Data.Settings_Grid[pt(Pos.Pos)][3] * 1.125f);
-		char Buffer[64];
-		snprintf(Buffer, sizeof(Buffer), "added %i fish", Added_Fish);
-		Print_Response(Buffer);
-		Data.Settings_Grid[pt(Pos.Pos)][5] = Added_Fish;
-	}
+	int ID = Data.Settings_Grid[pt(Pos.Pos)][5];
+	Print_Response((Fishlinks[ID].Autofill) ? "autofill off" : "autofill on");
+	Fishlinks[ID].Autofill = !Fishlinks[ID].Autofill;
 }
 
 void MSP_Empty(Parameter Pos, Parameter Unused) {
 	Print_Input();
-	if (Data.Settings_Grid[pt(Pos.Pos)][5] > 0) {
+	int ID = Data.Settings_Grid[pt(Pos.Pos)][5];
+	if (Fishlinks[ID].Fish_Ct > 0) {
 		char Buffer[64];
-		snprintf(Buffer, sizeof(Buffer), "released %i fish", (int)Data.Settings_Grid[pt(Pos.Pos)][5]);
+		snprintf(Buffer, sizeof(Buffer), "released %i fish", Fishlinks[ID].Fish_Ct);
 		Print_Response(Buffer);
-		Data.Settings_Grid[pt(Pos.Pos)][5] = 0;
+		Fishlinks[ID].Fish_Ct = 0;
 		Data.Settings_Grid[pt(Pos.Pos)][7] = 0;
 	} else {
 		Print_Error(No_Fish);

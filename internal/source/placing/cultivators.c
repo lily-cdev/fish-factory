@@ -7,10 +7,23 @@ bool Place_Spawning_Pool(Point Pos) {
 }
 
 bool Place_Spawning_Controller(Point Pos) {
+	if (Pool_Ct >= 16) {
+		return false;
+	}
+	Pool_Ct++;
 	Data.Visual_Grid[pt(Pos)] = 45;
 	Data.Settings_Grid[pt(Pos)][4] = 0;
-	Data.Settings_Grid[pt(Pos)][5] = 0;
-	Data.Settings_Grid[pt(Pos)][6] = 0;
+	for (int C1 = 0; C1 < 16; C1++) {
+		if (!Fishlinks[C1].Allocated) {
+			Data.Settings_Grid[pt(Pos)][5] = C1;
+			Fishlinks[C1] = (struct Fishlink){
+				.Allocated = true,
+				.Fish = malloc(0),
+				.Type = Get_Fish(0)
+			};
+			break;
+		}
+	}
 	Data.Settings_Grid[pt(Pos)][7] = 0;
 	Data.Behavior_Grid[pt(Pos)] = 0;
 	return true;

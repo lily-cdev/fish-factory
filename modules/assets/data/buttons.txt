@@ -27,7 +27,7 @@ load factory
 clear factory
 tank info
 fish info
-fill pool
+set autofill
 empty pool
 export items
 view manifest

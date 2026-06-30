@@ -131,6 +131,7 @@ int main(int argc, char* args[]) {
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
 	Wipe_Grid();
+	Reset_Statistics();
 	ktn_free(Temporary.Docks.Data);
 	Free_Supplies();
 	SDL_ShowCursor();

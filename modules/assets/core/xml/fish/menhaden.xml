@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Fish>
+	<Name>menhaden</Name>
+	<ID>2</ID>
+	<Item>menhaden</Item>
+	<Max_Growth>100</Max_Growth>
+	<Hunger>0.15</Hunger>
+	<Size>0.9</Size>
+	<Fragility>1.2</Fragility>
+</Fish>

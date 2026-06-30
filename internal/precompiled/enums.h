@@ -21,7 +21,8 @@ enum Prompts {
 	P_Fluid_Generator,
 	P_Catalog,
 	P_Turbine,
-	P_Power_Generator
+	P_Power_Generator,
+	P_Genetics
 };
 
 enum Effect {

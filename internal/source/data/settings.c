@@ -45,12 +45,11 @@ void Load_Settings() {
 		}
 		fclose(File);
 	}
-	Clear_File("settings.pkg");
+	Clear_File("assets/data/settings.pkg");
 	SDL_DisplayID Index = SDL_GetDisplayForWindow(Core.Window);
 	const SDL_DisplayMode* Display = SDL_GetDesktopDisplayMode(Index);
 	for (int C1 = 0; C1 < ktn_supported_res; C1++) {
-		if (Display->w >= Metadata.Supported_Resolutions[C1].X &&
-			Display->h >= Metadata.Supported_Resolutions[C1].Y) {
+		if (Display->w >= Metadata.Supported_Resolutions[C1].X && Display->h >= Metadata.Supported_Resolutions[C1].Y) {
 			Settings.Scalar++;
 		} else {
 			break;

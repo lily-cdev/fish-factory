@@ -5,13 +5,13 @@
 
 typedef struct {
 	bool Filled;
-	int X1;
-	int Y1;
-	int X2;
-	int Y2;
-	int X_Offset;
-	int Y_Offset;
-	int Orienation;
+	int8_t X1;
+	int8_t Y1;
+	int8_t X2;
+	int8_t Y2;
+	int16_t X_Offset;
+	int16_t Y_Offset;
+	int8_t Orienation;
 } Bridge;
 
 typedef struct {

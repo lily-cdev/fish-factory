@@ -207,8 +207,7 @@ void Preload_Assets() {
 		.Icon = Preload_Texture("core/images/items/none")
 	};
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
-	Interface.Tile_Centerpoint.x = ktn_fscale((ktn_tile_size * 0.5f));
-	Interface.Tile_Centerpoint.y = ktn_fscale((ktn_tile_size * 0.5f));
+	Interface.Tile_Centerpoint = (SDL_FPoint){ ktn_fscale((ktn_tile_size * 0.5f)), ktn_fscale((ktn_tile_size * 0.5f)) };
 	Preload_Machines();
 	Preload_Foundation();
 	Carrying_Texture = Preload_Texture("core/images/ui/backgrounds/doors");
@@ -227,8 +226,7 @@ void Preload_Assets() {
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 ~start;
 	ktn_free_texture(Carrying_Texture);
-	Preload_Text(&Textures.Logo1, &Rects.Logo1, "fish", F_Logo, Colors.Abyss_Black, (Point){ 325, 44 });
-	Preload_Text(&Textures.Logo2, &Rects.Logo2, "factory", F_Logo, Colors.Abyss_Black, (Point){ 325, 78 });
+	Preload_Text(&Textures.Logo, &Rects.Logo, "fish factory", F_Logo, Colors.Abyss_Black, (Point){ 47, 44 });
 	Preload_Text(&Textures.CMD_Warning1, &Rects.CMD_Warning1, "time will not progress until the command platform is installed",
 		F_Text, Colors.Cherry_Blossom, (Point){ ktn_invalid, ktn_invalid });
 	Preload_Text(&Textures.CMD_Warning2, &Rects.CMD_Warning2, "install the command platform for complete tutorial access",
@@ -246,11 +244,12 @@ void Preload_Assets() {
 	Textures.Emblem = Surface_To_Texture(Carrying_Surface);
 	SDL_SetWindowIcon(Core.Window, Carrying_Surface);
 	SDL_DestroySurface(Carrying_Surface);
-	SDL_GetTextureSize(Textures.Emblem, &Rects.Emblem.w, &Rects.Emblem.h);
-	Rects.Emblem.w = ktn_fscale(Rects.Emblem.w / 6.0f);
-	Rects.Emblem.h = ktn_fscale(Rects.Emblem.h / 6.0f);
-	Rects.Emblem.x = (ktn_fscale(315.0f) - Rects.Emblem.w);
-	Rects.Emblem.y = ktn_fscale(32.0f);
+	Rects.Emblem = (SDL_FRect){
+		.w = ktn_fscale(Textures.Emblem->w / 6.0f),
+		.h = ktn_fscale(Textures.Emblem->h / 6.0f)
+	};
+	Rects.Emblem.x = Core.Screensize.X - (Rects.Emblem.w * 0.5f) - ktn_fscale(160.0f);
+	Rects.Emblem.y = Core.Screenhalfsize.Y - (Rects.Emblem.h * 0.5f);
 	Textures.Crosshair = Preload_Texture("core/images/ui/other/crosshair");
 	Textures.Cursor = Preload_Texture("core/images/ui/other/cursor");
 	Textures.Cursor_Core = Preload_Texture("core/images/ui/other/cursor_core");
@@ -260,6 +259,7 @@ void Preload_Assets() {
 	Rects.Node = Rects.Tile_1x1;
 	Textures.Path_Arrow = Preload_Texture("core/images/ui/other/path_arrow");
 	Textures.Saveloader = Preload_Texture("core/images/ui/backgrounds/saveloader");
+	Textures.Genetics = Preload_Texture("core/images/ui/other/dna");
 	Rects.Saveloader = (SDL_FRect) {
 		0,
 		0,
@@ -269,31 +269,32 @@ void Preload_Assets() {
 	Textures.Help_Sidebutton = Preload_Sidebutton("help", &Rects.Help, 60);
 	Textures.Save_Sidebutton = Preload_Sidebutton("save", &Rects.Save, 84);
 	Textures.Recipe_Sidebutton = Preload_Sidebutton("recipe", &Rects.Recipe, 108);
-	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 132);
+	Textures.Genetics_Sidebutton = Preload_Sidebutton("genetics", &Rects.Genetics, 132);
+	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 156);
 	Rects.Return.Length = 2;
 	Rects.Return.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Return.Data[0].x = ktn_fscale(10.0f);
 	Rects.Return.Data[0].y = ktn_fscale(334.0f);
 	Rects.New_Game.Length = 2;
 	Rects.New_Game.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.New_Game.Data[0].x = ktn_invalid;
-	Rects.New_Game.Data[0].y = ktn_fscale(160.0f);
+	Rects.New_Game.Data[0].x = ktn_fscale(64.0f);
+	Rects.New_Game.Data[0].y = ktn_fscale(86.0f);
 	Rects.Settings.Length = 2;
 	Rects.Settings.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Settings.Data[0].x = ktn_invalid;
-	Rects.Settings.Data[0].y = ktn_fscale(190.0f);
+	Rects.Settings.Data[0].x = ktn_fscale(64.0f);
+	Rects.Settings.Data[0].y = ktn_fscale(120.0f);
 	Rects.Update_Logs.Length = 2;
 	Rects.Update_Logs.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Update_Logs.Data[0].x = ktn_invalid;
-	Rects.Update_Logs.Data[0].y = ktn_fscale(220.0f);
+	Rects.Update_Logs.Data[0].x = ktn_fscale(64.0f);
+	Rects.Update_Logs.Data[0].y = ktn_fscale(154.0f);
 	Rects.Credits.Length = 2;
 	Rects.Credits.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Credits.Data[0].x = ktn_invalid;
-	Rects.Credits.Data[0].y = ktn_fscale(250.0f);
+	Rects.Credits.Data[0].x = ktn_fscale(64.0f);
+	Rects.Credits.Data[0].y = ktn_fscale(188.0f);
 	Rects.Quit_Game.Length = 2;
 	Rects.Quit_Game.Data = calloc(2, sizeof(SDL_FRect));
-	Rects.Quit_Game.Data[0].x = ktn_invalid;
-	Rects.Quit_Game.Data[0].y = ktn_fscale(280.0f);
+	Rects.Quit_Game.Data[0].x = ktn_fscale(64.0f);
+	Rects.Quit_Game.Data[0].y = ktn_fscale(222.0f);
 	Rects.Apply.Length = 2;
 	Rects.Apply.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Apply.Data[0].x = ktn_fscale(60.0f);
@@ -388,8 +389,8 @@ void Preload_Assets() {
 			snprintf(Interface.Slider_Texts[Queried[C1]][C2], sizeof(Interface.Slider_Texts[Queried[C1]][C2]), "%iuFI/s",
 				Interface.Valve300_Postions[C2]);
 		}
-		strncpy(Interface.Slider_Texts[Queried[C1]][ktn_valve300_len], ktn_null_string, sizeof(Interface.Slider_Texts[Queried[
-			C1]][ktn_valve300_len]));
+		strncpy(Interface.Slider_Texts[Queried[C1]][ktn_valve300_len], ktn_null_string, sizeof(Interface.Slider_Texts[Queried[C1]][
+			ktn_valve300_len]));
 	}
 	for (int C1 = 0; C1 < 241; C1++) {
 		char Buffer[32];
@@ -429,6 +430,14 @@ void Preload_Assets() {
 		(float)Carrying_Texture->h
 	};
 	Textures.Recipe_Content = Carrying_Texture;
+	Carrying_Texture = Render_Text(F_Large, "genetics", Colors.Abyss_Black);
+	Rects.Genetics_Content = (SDL_FRect){
+		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
+		ktn_fscale(20.0f),
+		(float)Carrying_Texture->w,
+		(float)Carrying_Texture->h
+	};
+	Textures.Genetics_Content = Carrying_Texture;
 	char Keycore[64];
 	char Subkeycore[64];
 	strncpy(Subkeycore, SDL_GetKeyName(Keybinds.Keybind_List[13]), sizeof(Subkeycore));
@@ -549,11 +558,11 @@ void Preload_Assets() {
 	Preload_Terminal_Sidebar(&Carrier, &Textures.MT_Buttons, &Rects.MT_Buttons);
 	Free_String2(&Carrier);
 	Load_Button(F_Subtext, Metadata.Buttons[0], &Textures.Return, Rects.Return, Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Text, Metadata.Buttons[1], &Textures.New_Game, Rects.New_Game, Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Text, Metadata.Buttons[2], &Textures.Settings, Rects.Settings, Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Text, Metadata.Buttons[3], &Textures.Update_Logs, Rects.Update_Logs, Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Text, Metadata.Buttons[4], &Textures.Credits, Rects.Credits, Colors.Abyss_Black, Colors.Cherry_Blossom);
-	Load_Button(F_Text, Metadata.Buttons[5], &Textures.Quit_Game, Rects.Quit_Game, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Large, Metadata.Buttons[1], &Textures.New_Game, Rects.New_Game, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Large, Metadata.Buttons[2], &Textures.Settings, Rects.Settings, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Large, Metadata.Buttons[3], &Textures.Update_Logs, Rects.Update_Logs, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Large, Metadata.Buttons[4], &Textures.Credits, Rects.Credits, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Large, Metadata.Buttons[5], &Textures.Quit_Game, Rects.Quit_Game, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(F_Subtext, Metadata.Buttons[6], &Textures.Apply, Rects.Apply, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(F_Subtext, Metadata.Buttons[7], &Textures.Cancel, Rects.Cancel, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(F_Subtext, Metadata.Buttons[8], &Textures.Next_Day, Rects.Next_Day, Colors.Abyss_Black, Colors.Cherry_Blossom);

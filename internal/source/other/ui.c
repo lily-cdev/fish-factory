@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[12])(Point Pos) = {
+void (*Interface_Functions[13])(Point Pos) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -12,7 +12,8 @@ void (*Interface_Functions[12])(Point Pos) = {
 	Render_F_Generator,
 	Render_Catalog,
 	Render_MT_Input,
-	Render_P_Generator
+	Render_P_Generator,
+	Render_Genetics
 };
 
 void Clear_Renderer() {
@@ -73,7 +74,8 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 			if ((Hitbox.x + Hitbox.w <= ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.X) && Hitbox.y + Hitbox.h <=
 				ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && ktn_stricmp(Interface.Item->Index, "sub_dock"))) {
+				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && ktn_stricmp(Interface.Item->Index, "sub_dock")) ||
+					Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller")) {
 					Placeable = false;
 				}
 				if (Placeable) {
@@ -92,11 +94,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 }
 
 void Render_Game_UI() {
-	SDL_FRect Rectangles[4] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Exit };
-	SDL_Texture* Bars[4] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton,
+	SDL_FRect Rectangles[5] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Exit };
+	SDL_Texture* Bars[5] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton, Textures.Genetics_Sidebutton,
 		Textures.Exit_Sidebutton };
 	if (Interface.Tool == T_None && Interface.Prompt_Identifier == ktn_invalid) {
-		for (int C1 = 0; C1 < 4; C1++) {
+		for (int C1 = 0; C1 < 5; C1++) {
 			if (Detect_Mouse_Collision(Rectangles[C1])) {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
 				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };
@@ -254,7 +256,7 @@ void Render_Game_UI() {
 void Render_Saveloader() {
 	Render_Texture(Textures.Saveloader, &Rects.Saveloader);
 	for (int C1 = 0; C1 < ktn_savefiles; C1++) {
-		if (Core.Save_Filesizes[C1] > 0) {
+		if (Core.Save_Filesizes[C1] > ktn_epsilon) {
 			Render_Button(&Textures.Load.Data[C1], &Rects.Load.Data[C1], (UI_Link){ Load_Save, .Param.Integer = C1 },
 				Colors.Cherry_Blossom);
 			Render_Button(&Textures.Clear.Data[C1], &Rects.Clear.Data[C1], (UI_Link){ Free_Save, .Param.Integer = C1 },

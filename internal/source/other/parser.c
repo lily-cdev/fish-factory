@@ -104,6 +104,7 @@ void Load_XML() {
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Core.Items = Get_Integer("registrar", Registrar, "Item_Ct");
 	Core.Recipes = Get_Integer("registrar", Registrar, "Recipe_Ct");
+	Core.Fishes = Get_Integer("registrar", Registrar, "Fish_Ct");
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	int ID_Record = 0;
@@ -310,6 +311,27 @@ void Load_XML() {
 		#undef get_int
 		#undef Recipe
 		ktn_free(Recipe_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Fish", Core.Fishes);
+	Metadata.Fish = calloc(Core.Fishes, sizeof(Fish_Data));
+	for (int C1 = 0; C1 < Core.Fishes; C1++) {
+		#define Fish Metadata.Fish[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Fish_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Fish_File, Victim))
+		char* Fish_File = Get_File(Raw_Names[C1]);
+		Fish.Name = get_str("Name");
+		Fish.Identifier = get_int("ID");
+		Fish.Item = Get_Item(get_str("Item"));
+		Fish.Max_Growth = get_int("Max_Growth");
+		Fish.Size = Get_Float(Raw_Names[C1], Fish_File, "Size");
+		Fish.Food_Consumption = Get_Float(Raw_Names[C1], Fish_File, "Hunger");
+		Fish.Fragility = Get_Float(Raw_Names[C1], Fish_File, "Fragility");
+		#undef get_str
+		#undef get_int
+		#undef Fish
+		ktn_free(Fish_File);
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);

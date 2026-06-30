@@ -20,8 +20,8 @@ Point Find_Linked(const char* Index, Point Parent) {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Index) && Data.Settings_Grid[pt(Pos)][3] ==
-				Parent.X && Data.Settings_Grid[pt(Pos)][4] == Parent.Y) {
+			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Index) && Data.Settings_Grid[pt(Pos)][3] == Parent.X &&
+				Data.Settings_Grid[pt(Pos)][4] == Parent.Y) {
 				return Pos;
 			}
 		}
@@ -30,13 +30,12 @@ Point Find_Linked(const char* Index, Point Parent) {
 }
 
 bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
-	bool Yield = (Is_Bound(Pos) && ((Is_Pipe && (Data.Plumbing_Grid[pt(Pos)] == Direction || Data.Plumbing_Grid[pt(Pos)] ==
-		Any)) || Data.Behavior_Grid[pt(Pos)] == Target));
+	bool Yield = (Is_Bound(Pos) && ((Is_Pipe && (Data.Plumbing_Grid[pt(Pos)] == Direction || Data.Plumbing_Grid[pt(Pos)] == Any)) ||
+		Data.Behavior_Grid[pt(Pos)] == Target));
 	bool Unconnected = true;
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		if ((Pipes.Data[C1].X1 == Pos.X || Pipes.Data[C1].X2 == Pos.X) && (Pipes.Data[C1].Y1 == Pos.Y || Pipes.Data[
-			C1].Y2 == Pos.Y) && (Pipes.Data[C1].X1 == Og.X || Pipes.Data[C1].X2 == Og.X) && (Pipes.Data[C1].Y1 == Og.Y ||
-			Pipes.Data[C1].Y2 == Og.Y)) {
+		if ((Pipes.Data[C1].X1 == Pos.X || Pipes.Data[C1].X2 == Pos.X) && (Pipes.Data[C1].Y1 == Pos.Y || Pipes.Data[C1].Y2 == Pos.Y) &&
+			(Pipes.Data[C1].X1 == Og.X || Pipes.Data[C1].X2 == Og.X) && (Pipes.Data[C1].Y1 == Og.Y || Pipes.Data[C1].Y2 == Og.Y)) {
 			Unconnected = false;
 			break;
 		}
@@ -98,29 +97,29 @@ int Modular_Detection(Point Pos, int Target, bool Is_Pipe) {
 }
 #undef Param
 
-int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size],
-	bool Self_Accounted, const char* Target1, const char* Target2);
+int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size], bool Self_Accounted,
+	const char* Target1, const char* Target2);
 
-int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size],
-	bool Self_Accounted, const char* Target1, const char* Target2) {
+int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size], bool Self_Accounted,
+	const char* Target1, const char* Target2) {
 	bool Progressing = false;
 	if (Pos.X >= 0 && Pos.Y >= 0 && Pos.X < ktn_grid_size && Pos.Y < ktn_grid_size && !Grid[pt(Pos)]) {
 		Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 		if (Chosen && ktn_stricmp(Chosen->Index, Target)) {
 			Progressing = true;
-		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Self)) {
+		} else if (Chosen && ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Self)) {
 			if (Self_Accounted) {
 				return -9999;
 			} else {
 				Self_Accounted = true;
 				Progressing = true;
 			}
-		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target1)) {
+		} else if (Chosen && ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target1)) {
 			Temporary.Modular1_Requirement++;
 			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
 			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
 			Progressing = true;
-		} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target2)) {
+		} else if (Chosen && ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Target2)) {
 			Temporary.Modular2_Requirement++;
 			Data.Settings_Grid[pt(Pos)][3] = Temporary.First_Coordinate.X;
 			Data.Settings_Grid[pt(Pos)][4] = Temporary.First_Coordinate.Y;
@@ -195,13 +194,17 @@ void Update_Grid() {
 				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, 0, false) + 24;
 			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
 				Temporary.First_Coordinate = Pos;
-				Data.Settings_Grid[pt(Pos)][3] = Find_Modular_Size(Pos, "spawning_pool", "spawning_controller", "spawning_output",
-					"spawning_input");
-				if (Data.Settings_Grid[pt(Pos)][3] < 0) {
-					Data.Settings_Grid[pt(Pos)][3] = -2;
+				int ID = Data.Settings_Grid[pt(Pos)][5];
+				Fishlinks[ID].Size = Find_Modular_Size(Pos, "spawning_pool", "spawning_controller", "spawning_output", "spawning_input");
+				if (Fishlinks[ID].Size < 0) {
+					Fishlinks[ID].Size = -2;
 				}
-				Data.Settings_Grid[pt(Pos)][3] = (Temporary.Modular1_Requirement < 1) ? -3 : -4;
-				Data.Settings_Grid[pt(Pos)][3] = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
+				if (Temporary.Modular1_Requirement != 1) {
+					Fishlinks[ID].Size = (Temporary.Modular1_Requirement < 1) ? -3 : -4;
+				}
+				if (Temporary.Modular2_Requirement != 1) {
+					Fishlinks[ID].Size = (Temporary.Modular2_Requirement < 1) ? -5 : -6;
+				}
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
 			} else if (ktn_stricmp(Machine->Index, "large_pipe")) {
@@ -230,7 +233,8 @@ void Build_Grid() {
 			int Rotation = (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
 			Point Pos = { Column, Row };
 			Point Size = Interface.Item->Size;
-			if (Data.CMD_Placed && Interface.Item->Command) {
+			if ((Data.CMD_Placed && Interface.Item->Command) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index,
+				"spawning_controller"))) {
 				return;
 			}
 			if (ktn_evn(Rotation)) {
@@ -298,6 +302,7 @@ void Build_Grid() {
 			}
 			Update_Grid();
 			Recast_Machines();
+			Bake_Lights();
 			Find_Effect();
 			return;
 		}
@@ -328,6 +333,12 @@ void Remove_Machine(Point Pos) {
 			Data.Animation_Grid[pt(Pos)][C1] = ktn_invalid;
 		}
 		Update_Item(Pos, ktn_invalid, ktn_room_temp);
+		if (ktn_stricmp(Target->Index, "spawning_controller")) {
+			Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Allocated = false;
+			ktn_free(Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Fish);
+			//rem fishlink
+			Pool_Ct--;
+		}
 	} else {
 		if (ktn_stricmp(Target->Index, "sub_dock")) {
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
@@ -339,7 +350,8 @@ void Remove_Machine(Point Pos) {
 				Transition.Sub_Phase = 3;
 			}
 			Recache_TT_Commands();
-		} else if (Interface.Item->Command) {
+		}
+		if (Interface.Item->Command) {
 			Data.CMD_Placed = false;
 		}
 		Destroy_Clearance(Pos, Width, Height);
@@ -379,6 +391,7 @@ bool Destroy_Grid() {
 					Clear_Unconnected_Bridges(&Pipes);
 					Update_Grid();
 					Recast_Machines();
+					Bake_Lights();
 					Find_Effect();
 					return true;
 				}

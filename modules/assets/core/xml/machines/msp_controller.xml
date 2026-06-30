@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>spawning controller</Name>
-	<Desc>A controller required for the spawning pool to function.</Desc>
+	<Desc>A controller required for the spawning pool to function. Up to 16 may be placed.</Desc>
 	<Index>spawning_controller</Index>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/msp_controller</Path>

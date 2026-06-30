@@ -86,9 +86,11 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Items[C1].Index);
 		ktn_free(Metadata.Items[C1].Path);
 	}
+	for (int C1 = 0; C1 < Core.Fishes; C1++) {
+		ktn_free(Metadata.Fish[C1].Name);
+	}
 	ktn_free(Cache.FPS_Cache);
-	ktn_free_texture(Textures.Logo1);
-	ktn_free_texture(Textures.Logo2);
+	ktn_free_texture(Textures.Logo);
 	ktn_free_texture(Textures.CMD_Warning1);
 	ktn_free_texture(Textures.CMD_Warning2);
 	ktn_free_texture(Textures.Terminal_Prompt);
@@ -99,6 +101,7 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.Help_Content);
 	Clear_Texture_Array(&Textures.Door);
 	ktn_free_texture(Textures.Recipe_Content);
+	ktn_free_texture(Textures.Genetics_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
 	Clear_Texture3_Array(&Textures.Subcategories);
@@ -174,9 +177,11 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Node);
 	ktn_free_texture(Textures.Log_Background);
 	ktn_free_texture(Textures.Saveloader);
+	ktn_free_texture(Textures.Genetics);
 	ktn_free_texture(Textures.Help_Sidebutton);
 	ktn_free_texture(Textures.Save_Sidebutton);
 	ktn_free_texture(Textures.Recipe_Sidebutton);
+	ktn_free_texture(Textures.Genetics_Sidebutton);
 	ktn_free_texture(Textures.Exit_Sidebutton);
 	ktn_free_texture(Textures.R_Flash);
 	Clear_Texture_Array(&Textures.A_Bubble);
@@ -195,6 +200,7 @@ void Cleanup_Assets() {
 	ktn_free_texture(Cache.Blueprint_Cache);
 	ktn_free(Metadata.Machines);
 	ktn_free(Metadata.Items);
-	Free_Items();
+	ktn_free(Metadata.Recipes);
+    ktn_free(Metadata.Fish);
 	Free_Text();
 }

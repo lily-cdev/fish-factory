@@ -129,6 +129,8 @@ typedef struct {
 	bool Command;
 } Machine_Data;
 
+typedef Machine_Data* Machine_Ptr;
+
 typedef struct {
 	char* Name;
 	char* Index;
@@ -145,8 +147,19 @@ typedef struct {
 	float Nutrition;
 } Item_Data;
 
-typedef Machine_Data* Machine_Ptr;
 typedef Item_Data* Item_Ptr;
+
+typedef struct {
+	char* Name;
+	int Identifier;
+	Item_Ptr Item;
+	int Max_Growth;
+	float Size;
+	float Food_Consumption;
+	float Fragility;
+} Fish_Data;
+
+typedef Fish_Data* Fish_Ptr;
 
 typedef struct {
 	int Type;

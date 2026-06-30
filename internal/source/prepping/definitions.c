@@ -61,7 +61,8 @@ const struct Proto_Colors Colors = {
 	.Copper_Wire = { 184, 115, 51 },
 	.Carnage_Pink = { 204, 163, 185 },
 	.Hostile_Red = { 187, 10, 30 },
-	.Ocean = { 6, 66, 116 }
+	.Ocean = { 6, 66, 116 },
+	.Base_Pair = { { 0, 255, 0 }, { 255, 0, 0 }, { 0, 0, 0 }, { 0, 0, 255 } }
 };
 struct Proto_Fonts Fonts = {
 	.Paths = {

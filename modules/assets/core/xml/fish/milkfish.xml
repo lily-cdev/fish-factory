@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Fish>
+	<Name>milkfish</Name>
+	<ID>0</ID>
+	<Item>milkfish</Item>
+	<Max_Growth>300</Max_Growth>
+	<Hunger>0.05</Hunger>
+	<Size>1.1</Size>
+	<Fragility>0.5</Fragility>
+</Fish>

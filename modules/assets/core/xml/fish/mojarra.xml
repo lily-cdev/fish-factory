@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Fish>
+	<Name>mojarra</Name>
+	<ID>1</ID>
+	<Item>mojarra</Item>
+	<Max_Growth>50</Max_Growth>
+	<Hunger>0.1</Hunger>
+	<Size>0.6</Size>
+	<Fragility>3.1</Fragility>
+</Fish>

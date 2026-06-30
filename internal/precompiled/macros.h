@@ -7,7 +7,7 @@
 #define ktn_intlen(Victim) ({ int Yield = 0; while ((Victim)[Yield] != ktn_terminator) { Yield++; } Yield; })
 #define ktn_ptlen(Victim) ({ int Yield = 0; while ((Victim)[Yield].X != ktn_terminator || (Victim)[Yield].Y != \
     ktn_terminator) { Yield++; } Yield; })
-#define ktn_veclen(Victim) ({ int Yield = 0; while (strcmp((Victim)[Yield], ktn_null_string) != 0) { Yield++; } Yield; })
+#define ktn_veclen(Victim) ({ int Yield = 0; while (strcmp((Victim)[Yield], ktn_null_string)) { Yield++; } Yield; })
 #define ktn_clamp(Victim, Low, High) (ktn_max(ktn_min((Victim), (High)), (Low)))
 #define ktn_charcat(Victim, A, B) do { int Length = strlen(Victim); if (Length < B) { (Victim)[Length] = (A); (Victim)[ \
     Length + 1] = '\0'; } } while (0)

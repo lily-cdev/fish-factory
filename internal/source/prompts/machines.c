@@ -2,7 +2,8 @@
 
 void Render_MSP_Controller(Point Pos) {
 	Render_Backing();
-	if (Data.Settings_Grid[pt(Pos)][3] > 3) {
+	int Size = Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Size;
+	if (Size > 3) {
 		UI_Link Links[ktn_perm_buttons + 4] = {
 			(UI_Link){ MSP_TInfo, .Param.Pos = Pos },
 			(UI_Link){ MSP_FInfo, .Param.Pos = Pos },
@@ -15,13 +16,13 @@ void Render_MSP_Controller(Point Pos) {
 			char* Parameters[5][4] = {
 				{ "tank_info", ktn_null_string },
 				{ "fish_info", ktn_null_string },
-				{ "fill_pool", ktn_null_string },
+				{ "autofill", ktn_null_string },
 				{ "drain_pool", ktn_null_string },
 				{ ktn_null_string }
 			};
 			for (int C1 = 0; C1 < 5; C1++) {
-				for (int C2 = 0; C2 < ktn_veclen(Parameters[C2]) + 1; C2++) {
-					strncpy(Buffers.Parameters[C1][C2], Parameters[C1][C2], sizeof(Buffers.Parameters[C1][C2]));
+				for (int C2 = 0; C2 < ktn_veclen(Parameters[C1]) + 1; C2++) {
+					strcpy(Buffers.Parameters[C1][C2], Parameters[C1][C2]);
 				}
 			}
 			int Command_Types[5] = {
@@ -41,17 +42,17 @@ void Render_MSP_Controller(Point Pos) {
 			//tick
 		}
 		Render_Necessities("modular_spawning_pool", "pool");
-	} else if (Data.Settings_Grid[pt(Pos)][3] == -6) {
+	} else if (Size == -6) {
 		Print_Fatal_Error(Too_Many_Inputs);
-	} else if (Data.Settings_Grid[pt(Pos)][3] == -5) {
+	} else if (Size == -5) {
 		Print_Fatal_Error(Missing_Input);
-	} else if (Data.Settings_Grid[pt(Pos)][3] == -4) {
+	} else if (Size == -4) {
 		Print_Fatal_Error(Too_Many_Outputs);
-	} else if (Data.Settings_Grid[pt(Pos)][3] == -3) {
+	} else if (Size == -3) {
 		Print_Fatal_Error(Missing_Output);
-	} else if (Data.Settings_Grid[pt(Pos)][3] == -2) {
+	} else if (Size == -2) {
 		Print_Fatal_Error(Too_Many_Controllers);
-	} else if (Data.Settings_Grid[pt(Pos)][3] < 4) {
+	} else if (Size < 4) {
 		Print_Fatal_Error(Missing_Pool);					
 	}
 }

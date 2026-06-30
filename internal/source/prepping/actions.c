@@ -16,7 +16,7 @@ void Load_Save(Parameter Slot, Parameter Unused) {
 
 void Free_Save(Parameter Slot, Parameter Unused) {
 	char Buffer[256];
-	snprintf(Buffer, sizeof(Buffer), "slot%d.pkg", Slot.Integer);
+	snprintf(Buffer, sizeof(Buffer), "assets/data/slot%d.pkg", Slot.Integer);
 	Clear_File(Buffer);
 	Get_Filesizes();
 }
@@ -48,6 +48,9 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 		Interface.Prompt_Identifier = P_Catalog;
 		break;
 	case 3:
+		Interface.Prompt_Identifier = P_Genetics;
+		break;
+	case 4:
 		if (Interface.Tool == T_Building) {
 			Interface.Rotation = 0;
 			Clear_Unconnected_Bridges(&Wires);
