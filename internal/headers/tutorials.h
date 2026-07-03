@@ -20,6 +20,7 @@ typedef struct {
 	Point Placement_Locations[128];
 	Machine_Ptr ID_Override;
 	char Context[128];
+	char Subselection[64];
 } Tutorial_Step;
 
 void Process_Tutorial(int Input);

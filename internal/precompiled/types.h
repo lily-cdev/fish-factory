@@ -87,6 +87,23 @@ typedef struct {
 	int Cap;
 } Node_Data;
 
+typedef struct Category_Data {
+	char* Name;
+	char* Index;
+	struct Category_Data* Parent;
+} Category_Data;
+
+typedef Category_Data* Category_Ptr;
+typedef Category_Data* Subcategory_Ptr;
+
+typedef struct {
+	union {
+		Category_Ptr Parent;
+		Subcategory_Ptr Subparent;
+	};
+	bool Subcategory;
+} Category_Bundle;
+
 typedef struct {
 	SDL_Texture* Icon;
 	int Price;
@@ -95,6 +112,7 @@ typedef struct {
 	char* Name;
 	char* Desc;
 	char* Index;
+	Category_Ptr Parent;
 	char* Path;
 	bool Quirks[ktn_quirks];
 	Point Size;
@@ -127,6 +145,8 @@ typedef struct {
 	bool Heating;
 	bool Irradiating;
 	bool Command;
+	bool Has_Audio;
+	ma_sound Run;
 } Machine_Data;
 
 typedef Machine_Data* Machine_Ptr;
@@ -160,6 +180,18 @@ typedef struct {
 } Fish_Data;
 
 typedef Fish_Data* Fish_Ptr;
+
+typedef struct {
+	char* Name;
+	char* Path;
+	SDL_Texture* Icon;
+	int ID;
+	float Rate;
+	float Consumption;
+	float Space;
+} Gene_Data;
+
+typedef Gene_Data* Gene_Ptr;
 
 typedef struct {
 	int Type;

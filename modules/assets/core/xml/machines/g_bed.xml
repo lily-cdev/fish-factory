@@ -3,6 +3,7 @@
 	<Name>algae bed</Name>
 	<Desc>An enclosed chamber lit up with a solar tube, holding perfect conditions for rapid algae growth. Its batteries for nighttime lighting require constant power input to recharge.</Desc>
 	<Index>algae_bed</Index>
+	<Parent>cultivation</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/g_bed</Path>
 	<Price>44</Price>
@@ -36,4 +37,6 @@
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
+	<Has_Audio />
+	<Run_Audio>core/audio/machines/g_bed</Run_Audio>
 </Machine>

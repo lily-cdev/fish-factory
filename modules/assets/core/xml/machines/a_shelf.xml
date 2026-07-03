@@ -3,6 +3,7 @@
 	<Name>ammunition shelf</Name>
 	<Desc>An ammunition rack holding an array of 40x399mm anti-aircraft rounds.</Desc>
 	<Index>ammo_rack</Index>
+	<Parent>decoration</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/a_shelf</Path>
 	<Price>7</Price>

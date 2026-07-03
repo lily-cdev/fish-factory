@@ -3,6 +3,7 @@
 	<Name>spawning output</Name>
 	<Desc>A valve that can output grown fish.</Desc>
 	<Index>spawning_output</Index>
+	<Parent>cultivation</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/msp_output</Path>
 	<Price>3</Price>

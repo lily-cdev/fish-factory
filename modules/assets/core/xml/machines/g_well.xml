@@ -3,6 +3,7 @@
 	<Name>geothermal well</Name>
 	<Desc>Uses the heat of underground magma to raise the temperature of a heating medium.</Desc>
 	<Index>geo_well</Index>
+	<Parent>generation</Parent>
 	<Texture_Type>spinner</Texture_Type>
 	<Path>core/images/machines/g_well</Path>
 	<Price>15</Price>

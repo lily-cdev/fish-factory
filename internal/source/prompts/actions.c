@@ -19,8 +19,8 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 	Tutorial_Step Template[256] = {
 		{ T_Key, 4, 0, "", 0, { ktn_null_point }, NULL, "enable the build tool" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
-		{ T_Button, 0, 7, "special", 0, { ktn_null_point }, NULL, "open the \"special\" category" },
-		{ T_Button, 0, 0, "command platform", 0, { ktn_null_point }, NULL, "select the \"command platform\" item" },
+		{ T_Button, 0, 0, "other", 0, { ktn_null_point }, NULL, "open the \"other\" category", "other" },
+		{ T_Button, 0, 0, "command platform", 0, { ktn_null_point }, NULL, "select the \"command platform\" item", "command_platform" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
 		{ 6, 4, 200, "", 0, { ktn_null_point }, NULL, "put the placement site into view" },
 		{ T_Placement, 0, 0, "", 43, { { 3, 10 }, ktn_null_point }, NULL, "allow time to progress" },
@@ -61,7 +61,7 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Placement, 0, 0, "", 102, { { 7, 7 }, ktn_null_point }, NULL, "burn fuel for electricity" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 0, "logistics", 0, { ktn_null_point }, NULL, "open the \"logistics\" category" },
-		{ T_Button, 0, ktn_categories, "reinforced", 0, { ktn_null_point }, NULL, "open the \"reinforced\" subcategory" },
+		{ T_Button, 0, Core.Categories, "reinforced", 0, { ktn_null_point }, NULL, "open the \"reinforced\" subcategory" },
 		{ T_Button, 0, 0, "reinforced pipe", 0, { ktn_null_point }, NULL, "select the \"reinforced pipe\" item" },
 		{ T_Key, 9, 0, "", 0, { ktn_null_point }, NULL, "close the catalog" },
 		{ T_Placement, 0, 0, "", 0, { { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 5, 6 }, { 6, 6 }, { 7, 6 }, { 8, 6 },
@@ -356,33 +356,41 @@ void TT_Call_Sub(Parameter Dock, Parameter Unused) {
 
 #define In_Shop (Interface.Engagement == 0 && Interface.Prompt_Identifier == P_Shop)
 void Shop_Category(Parameter Category, Parameter Unused) {
-	if (Category.Integer >= 0 && Category.Integer < ktn_categories && In_Shop) {
+	if (Category.Integer >= 0 && Category.Integer < Core.Categories && In_Shop) {
 		Interface.Subtab = Category.Integer + 1;
-		Temporary.Tutorial_Buffer = Category.Integer;
+		strcpy(Temporary.Tutorial_Selection, Metadata.Categories[Category.Integer].Index);
 	}
 }
 
 void Shop_Item(Parameter Subcategory, Parameter Unused) {
 	if (In_Shop) {
-		Interface.Item = Get_Machine(Metadata.Subcontents[Interface.Subtab - ktn_categories - 1][Subcategory.Integer]);
-		Temporary.Tutorial_Buffer = Subcategory.Integer;
+		Interface.Item = Get_Machine(Metadata.Subcontents[Interface.Subtab - Core.Categories - 1][Subcategory.Integer]);
+		strcpy(Temporary.Tutorial_Selection, Interface.Item->Index);
 		Cache_Blueprint();
-	}
-}
-
-void Shop_Subcategory(Parameter Selection, Parameter Unused) {
-	if (In_Shop) {
-		Interface.Subtab = Metadata.Subcategory_Positions[Interface.Subtab - 1][Selection.Integer] + ktn_categories + 1;
-		Temporary.Tutorial_Buffer = ktn_categories + Selection.Integer;
 	}
 }
 
 void Shop_Subitem(Parameter Selection, Parameter Unused) {
 	if (In_Shop) {
-		Interface.Item = Get_Machine(Metadata.Item_Labels[Interface.Subtab - 1][Selection.Integer]);
-		Cache_Blueprint();
-		Cache_Price();
-		Temporary.Tutorial_Buffer = Selection.Integer;
+		char* Carrier = Metadata.Contents[Interface.Subtab - 1][Selection.Integer];
+		Machine_Ptr Ptr1 = Get_Machine(Carrier);
+		Subcategory_Ptr Ptr2 = Get_Category(Carrier);
+		if (Ptr1) {
+			Interface.Item = Ptr1;
+			Cache_Blueprint();
+			Cache_Price();
+			strcpy(Temporary.Tutorial_Selection, Ptr1->Index);
+		} else if (Ptr2) {
+			int ID = ktn_invalid;
+			for (int C1 = 0; C1 < Core.Subcategories; C1++) {
+				if (ktn_stricmp(Ptr2->Index, Metadata.Subcategories[C1].Index)) {
+					ID = C1;
+					break;
+				}
+			}
+			Interface.Subtab = Core.Categories + ID + 1;
+			strcpy(Temporary.Tutorial_Selection, Ptr2->Index);
+		}
 	}
 }
 #undef In_Shop

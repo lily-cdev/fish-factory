@@ -7,7 +7,6 @@
 #define ktn_buffer_size 360
 #define ktn_buttons 50
 #define ktn_captions 6
-#define ktn_categories 8
 #define ktn_channels 1
 #define ktn_cmd_max 16
 #define ktn_days 7

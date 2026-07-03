@@ -160,6 +160,9 @@ void Render_Game_UI() {
 			if (Pressure == ktn_invalid) {
 				strncpy(Data_Fragments[Index], "gas", sizeof(Data_Fragments[Index]));
 				Index++;
+			} else if (Pressure == -3) {
+				strncpy(Data_Fragments[Index], "solid", sizeof(Data_Fragments[Index]));
+				Index++;
 			} else {
 				Pressure = ktn_max(Pressure, 1);
 				char Buffer[64];

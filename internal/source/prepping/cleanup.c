@@ -80,14 +80,21 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Machines[C1].Index);
 		ktn_free(Metadata.Machines[C1].Desc);
 		ktn_free(Metadata.Machines[C1].Path);
+		ma_sound_uninit(&Metadata.Machines[C1].Run);
 	}
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		ktn_free(Metadata.Items[C1].Name);
 		ktn_free(Metadata.Items[C1].Index);
 		ktn_free(Metadata.Items[C1].Path);
+		ktn_free_texture(Metadata.Items[C1].Icon);
 	}
 	for (int C1 = 0; C1 < Core.Fishes; C1++) {
 		ktn_free(Metadata.Fish[C1].Name);
+	}
+	for (int C1 = 0; C1 < Core.Genes; C1++) {
+		ktn_free(Metadata.Genes[C1].Name);
+		ktn_free(Metadata.Genes[C1].Path);
+		ktn_free_texture(Metadata.Genes[C1].Icon);
 	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo);
@@ -104,7 +111,6 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Genetics_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
-	Clear_Texture3_Array(&Textures.Subcategories);
 	Clear_Rect3_Array(&Rects.Subcategories);
 	Clear_Texture3_Array(&Textures.Subcontents);
 	Clear_Rect3_Array(&Rects.Subcontents);
@@ -188,6 +194,7 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Floor_Texture);
 	ktn_free_texture(Textures.Frame_Texture);
 	ktn_free_texture(Textures.Tile_Texture);
+	ktn_free_texture(Textures.Gene_Add);
 	Clear_Texture_Array(&Textures.Submarine);
 	ktn_free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);
@@ -202,5 +209,6 @@ void Cleanup_Assets() {
 	ktn_free(Metadata.Items);
 	ktn_free(Metadata.Recipes);
     ktn_free(Metadata.Fish);
+    ktn_free(Metadata.Genes);
 	Free_Text();
 }

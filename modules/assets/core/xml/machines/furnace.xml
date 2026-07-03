@@ -3,6 +3,7 @@
 	<Name>furnace</Name>
 	<Desc>Burns items for electricity.</Desc>
 	<Index>furnace</Index>
+	<Parent>generation</Parent>
 	<Texture_Type>spinner</Texture_Type>
 	<Path>core/images/machines/furnace</Path>
 	<Price>65</Price>

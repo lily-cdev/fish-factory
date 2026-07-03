@@ -3,6 +3,7 @@
 	<Name>command platform</Name>
 	<Desc>A space for the staff of two to work and sleep, containing a gun rack, command center, bunk bed, and bathroom. Required for the factory to function.</Desc>
 	<Index>command_platform</Index>
+	<Parent>other</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/c_platform</Path>
 	<Price>0</Price>

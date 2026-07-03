@@ -1,5 +1,6 @@
 #include <prepping.h>
 #include <items.h>
+#include <data.h>
 
 char* Get_File(char* Path) {
 	char Carrier[128];
@@ -98,15 +99,55 @@ void Get_Node(const char* Path, const char* Data, const char* Label, int* Ct_Ptr
 	ktn_free(Subnodes);
 }
 
-~start;
 void Load_XML() {
 	char* Registrar = Get_File("registrar");
 	Core.Machines = Get_Integer("registrar", Registrar, "Machine_Ct");
 	Core.Items = Get_Integer("registrar", Registrar, "Item_Ct");
 	Core.Recipes = Get_Integer("registrar", Registrar, "Recipe_Ct");
 	Core.Fishes = Get_Integer("registrar", Registrar, "Fish_Ct");
+	Core.Genes = Get_Integer("registrar", Registrar, "Gene_Ct");
+	Core.Categories = Get_Integer("registrar", Registrar, "Category_Ct");
+	Core.Subcategories = Get_Integer("registrar", Registrar, "Subcategory_Ct");
+	char** Raw_Names = Find_Multiple("registrar", Registrar, "Category", Core.Categories);
+	Metadata.Categories = calloc(Core.Categories, sizeof(Category_Data));
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
+		#define Category Metadata.Categories[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Category_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Category_File, Victim))
+		char* Category_File = Get_File(Raw_Names[C1]);
+		Category.Name = get_str("Name");
+		Category.Index = get_str("Index");
+		#undef get_str
+		#undef get_int
+		#undef Category
+		ktn_free(Category_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Subcategory", Core.Subcategories);
+	Metadata.Subcategories = calloc(Core.Subcategories, sizeof(Category_Data));
+	for (int C1 = 0; C1 < Core.Subcategories; C1++) {
+		#define Subcategory Metadata.Subcategories[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Subcategory_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Subcategory_File, Victim))
+		char* Subcategory_File = Get_File(Raw_Names[C1]);
+		Subcategory.Name = get_str("Name");
+		Subcategory.Index = get_str("Index");
+		char* Carrier = get_str("Parent");
+		Subcategory.Parent = Get_Category(Carrier);
+		if (!Subcategory.Parent && !ktn_stricmp(Carrier, "none")) {
+			//throw error
+		}
+		ktn_free(Carrier);
+		#undef get_str
+		#undef get_int
+		#undef Subcategory
+		ktn_free(Subcategory_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
-	char** Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	int ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
@@ -116,6 +157,13 @@ void Load_XML() {
 		Machine.Name = get_str("Name");
 		Machine.Desc = get_str("Desc");
 		Machine.Index = get_str("Index");
+		char* Carrier = get_str("Parent");
+		Machine.Parent = Get_Category(Carrier);
+		if (!Machine.Parent && !ktn_stricmp(Carrier, "none")) {
+
+			//throw error
+		}
+		ktn_free(Carrier);
 		char* Texture_Type = get_str("Texture_Type");
 		if (ktn_stricmp(Texture_Type, "none")) {
 			Machine.Animation_Type = A_None;
@@ -197,6 +245,19 @@ void Load_XML() {
 			Get_Node(Raw_Names[C1], Machine_File, "Output", &Machine.Output_Ct, &Machine.Outputs, F_Out);
 			Machine.Neutral_Ct = get_int("Neutral_Ct");
 		}
+		Machine.Has_Audio = Get_Boolean(Machine_File, "Has_Audio");
+		if (Machine.Has_Audio) {
+			char Carrier[128];
+			char* Subcarrier = get_str("Run_Audio");
+			snprintf(Carrier, sizeof(Carrier), "assets/%s.wav", Subcarrier);
+			ktn_free(Subcarrier);
+			ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &Machine.Run);
+			if (Yield != MA_SUCCESS) {
+				char Carrier2[512];
+				snprintf(Carrier2, sizeof(Carrier2), "could not load a sound; %s", ma_result_description(Yield));
+				ktn_jump(I_No_Sound, Carrier2);
+			}
+		}
 		ktn_free(Machine_File);
 		ktn_free(Raw_Names[C1]);
 		#undef get_str
@@ -230,6 +291,8 @@ void Load_XML() {
 			Item.V_Enthalpy = -2;
 		} else if (ktn_stricmp(get_str("V_Enthalpy"), "gas")) {
 			Item.V_Enthalpy = ktn_invalid;
+		} else if (ktn_stricmp(get_str("V_Enthalpy"), "solid")) {
+			Item.V_Enthalpy = -3;
 		} else {
 			Item.V_Enthalpy = get_int("V_Enthalpy");
 		}
@@ -335,6 +398,26 @@ void Load_XML() {
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Gene", Core.Genes);
+	Metadata.Genes = calloc(Core.Genes, sizeof(Gene_Data));
+	for (int C1 = 0; C1 < Core.Genes; C1++) {
+		#define Gene Metadata.Genes[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Gene_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Gene_File, Victim))
+		char* Gene_File = Get_File(Raw_Names[C1]);
+		Gene.Name = get_str("Name");
+		Gene.Path = get_str("Path");
+		Gene.ID = get_int("ID");
+		Gene.Rate = Get_Float(Raw_Names[C1], Gene_File, "Growth_Rate");
+		Gene.Consumption = Get_Float(Raw_Names[C1], Gene_File, "Hunger");
+		Gene.Space = Get_Float(Raw_Names[C1], Gene_File, "Space");
+		#undef get_str
+		#undef get_int
+		#undef Gene
+		ktn_free(Gene_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
 	ktn_free(Registrar);
 	printf("debug info:\nlowest unreg. visual id -> %i\n", ID_Record + 1);
 }
@@ -393,4 +476,3 @@ char** Find_Multiple(const char* Path, const char* Text, const char* Element, in
 	}
 	return Yield;
 }
-~end;

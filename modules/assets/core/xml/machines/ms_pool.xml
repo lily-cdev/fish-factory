@@ -3,6 +3,7 @@
 	<Name>spawning pool</Name>
 	<Desc>A pool in which to grow fish.</Desc>
 	<Index>spawning_pool</Index>
+	<Parent>cultivation</Parent>
 	<Texture_Type>modular</Texture_Type>
 	<Parts>6</Parts>
 	<Path>core/images/machines/ms_pool</Path>

@@ -3,6 +3,7 @@
 	<Name>reinforced pipe</Name>
 	<Desc>A Steel-shelled pipe bearing an internal lining of silicon carbide. It's resistant to pretty much everything, save for fluorine.</Desc>
 	<Index>heavy_pipe</Index>
+	<Parent>heavy</Parent>
 	<Texture_Type>modular</Texture_Type>
 	<Parts>6</Parts>
 	<Path>core/images/machines/r_pipe</Path>

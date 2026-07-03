@@ -3,6 +3,7 @@
 	<Name>hazard strip</Name>
 	<Desc>A strip of high-visibility dyed polycarbonate platic, used for marking hazardous zones.</Desc>
 	<Index>hazard_strip</Index>
+	<Parent>floors</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/h_strip</Path>
 	<Price>1</Price>

@@ -3,6 +3,7 @@
 	<Name>transmission tower</Name>
 	<Desc>Transmits binary signals on the 2kHz bandwidth. Required to call in transport submarines.</Desc>
 	<Index>signal_tower</Index>
+	<Parent>other</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/t_tower</Path>
 	<Price>121</Price>

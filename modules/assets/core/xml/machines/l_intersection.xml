@@ -3,6 +3,7 @@
 	<Name>large intersection</Name>
 	<Desc>Allows for two different large pipelines to cross over each other.</Desc>
 	<Index>large_intersection</Index>
+	<Parent>large</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/l_intersection</Path>
 	<Price>18</Price>

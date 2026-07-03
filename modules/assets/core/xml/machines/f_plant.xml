@@ -3,6 +3,7 @@
 	<Name>filtration plant</Name>
 	<Desc>Filters liquids, using very little electricity to operate.</Desc>
 	<Index>filtration_plant</Index>
+	<Parent>processing</Parent>
 	<Texture_Type>spinner</Texture_Type>
 	<Speed>10</Speed>
 	<Path>core/images/machines/f_plant</Path>

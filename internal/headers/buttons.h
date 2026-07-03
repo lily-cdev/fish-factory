@@ -41,7 +41,6 @@ void MSP_Empty(Parameter Pos, Parameter Unused);
 void TT_Call_Sub(Parameter Dock, Parameter Unused);
 void Shop_Category(Parameter Category, Parameter Unused);
 void Shop_Item(Parameter Subcategory, Parameter Unused);
-void Shop_Subcategory(Parameter Selection, Parameter Unused);
 void Shop_Subitem(Parameter Selection, Parameter Unused);
 void Click_Sidebar(Parameter Bar, Parameter Unused);
 void Loop_Back(Parameter Unused, Parameter Unused2);

@@ -3,6 +3,7 @@
 	<Name>turbine impulse block</Name>
 	<Desc>Expands the turbine, and generates torque at the cost of steam energy.</Desc>
 	<Index>turbine_impulse</Index>
+	<Parent>mod_turbine</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/stit_block</Path>
 	<Price>950</Price>

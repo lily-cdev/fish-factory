@@ -3,6 +3,7 @@
 	<Name>decoration</Name>
 	<Desc>A functionally inert slab of stainless Steel. Looks a whole heck of a lot prettier than raw seabed.</Desc>
 	<Index>plate</Index>
+	<Parent>floors</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/tile</Path>
 	<Price>1</Price>

@@ -3,6 +3,7 @@
 	<Name>radioisotopic generator</Name>
 	<Desc>Uses the thermal heat from a water-submerged chunk of plutonium-239 to produce a small amount of power.</Desc>
 	<Index>rtg</Index>
+	<Parent>generation</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/rtg</Path>
 	<Price>50</Price>

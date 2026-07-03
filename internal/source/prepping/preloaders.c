@@ -105,6 +105,7 @@ void Preload_Machines() {
 	Textures.Floor_Texture = Preload_Texture("core/images/tiles/ground");
 	Textures.Frame_Texture = Preload_Texture("core/images/tiles/frame");
 	Textures.Tile_Texture = Preload_Texture("core/images/tiles/tile");
+	Textures.Gene_Add= Preload_Texture("core/images/genes/add");
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
@@ -112,6 +113,9 @@ void Preload_Machines() {
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
+	}
+	for (int C1 = 0; C1 < Core.Genes; C1++) {
+		Metadata.Genes[C1].Icon = Preload_Texture(Metadata.Genes[C1].Path);
 	}
 }
 ~end;
@@ -206,6 +210,53 @@ void Preload_Assets() {
 		.V_Enthalpy = -2,
 		.Icon = Preload_Texture("core/images/items/none")
 	};
+	Metadata.Contents = calloc(Core.Categories, sizeof(char**));
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
+		int Index = 0;
+		for (int C2 = 0; C2 < Core.Subcategories; C2++) {
+			if (ktn_stricmp(Metadata.Subcategories[C2].Parent->Index, Metadata.Categories[C1].Index)) {
+				Metadata.Contents[C1] = realloc(Metadata.Contents[C1], (Index + 1) * sizeof(char*));
+				Metadata.Contents[C1][Index] = malloc(64);
+				strcpy(Metadata.Contents[C1][Index], Metadata.Subcategories[C2].Index);
+				Metadata.Contents[C1][Index][63] = '\0';
+				Index++;
+			}
+		}
+		for (int C2 = 0; C2 < Core.Machines; C2++) {
+			if (!Metadata.Machines[C2].Parent) {
+				continue;
+			}
+			if (ktn_stricmp(Metadata.Machines[C2].Parent->Index, Metadata.Categories[C1].Index)) {
+				Metadata.Contents[C1] = realloc(Metadata.Contents[C1], (Index + 1) * sizeof(char*));
+				Metadata.Contents[C1][Index] = malloc(64);
+				strcpy(Metadata.Contents[C1][Index], Metadata.Machines[C2].Index);
+				Metadata.Contents[C1][Index][63] = '\0';//group to a #define
+				Index++;
+			}
+		}
+		Metadata.Contents[C1] = realloc(Metadata.Contents[C1], (Index + 1) * sizeof(char*));
+		Metadata.Contents[C1][Index] = malloc(64);
+		strcpy(Metadata.Contents[C1][Index], ktn_null_string);
+	}
+	Metadata.Subcontents = calloc(Core.Subcategories, sizeof(char**));
+	for (int C1 = 0; C1 < Core.Subcategories; C1++) {
+		int Index = 0;
+		for (int C2 = 0; C2 < Core.Machines; C2++) {
+			if (!Metadata.Machines[C2].Parent) {
+				continue;
+			}
+			if (ktn_stricmp(Metadata.Machines[C2].Parent->Index, Metadata.Subcategories[C1].Index)) {
+				Metadata.Subcontents[C1] = realloc(Metadata.Subcontents[C1], (Index + 1) * sizeof(char*));
+				Metadata.Subcontents[C1][Index] = malloc(64);
+				strcpy(Metadata.Subcontents[C1][Index], Metadata.Machines[C2].Index);
+				Metadata.Subcontents[C1][Index][63] = '\0';
+				Index++;
+			}
+		}
+		Metadata.Subcontents[C1] = realloc(Metadata.Subcontents[C1], (Index + 1) * sizeof(char*));
+		Metadata.Subcontents[C1][Index] = malloc(64);
+		strcpy(Metadata.Subcontents[C1][Index], ktn_null_string);
+	}
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Interface.Tile_Centerpoint = (SDL_FPoint){ ktn_fscale((ktn_tile_size * 0.5f)), ktn_fscale((ktn_tile_size * 0.5f)) };
 	Preload_Machines();
@@ -309,26 +360,6 @@ void Preload_Assets() {
 	Rects.Next_Day.Data[0].y = ktn_fscale(300.0f);
 	Interface.Map_X = (ktn_tile_size * ktn_grid_size) - 640 + ktn_buffer_size;
 	Interface.Map_Y = (ktn_tile_size * ktn_grid_size) - 360 + ktn_buffer_size;
-	Rects.Subcategories.Length = ktn_categories;
-	Rects.Subcategories.Data = malloc(sizeof(Rect2_Array) * ktn_categories);
-	Textures.Subcategories.Length = ktn_categories;
-	Textures.Subcategories.Data = malloc(sizeof(Texture2_Array) * ktn_categories);
-	for (int C1 = 0; C1 < ktn_categories; C1++) {
-		int Length = ktn_intlen(Metadata.Subcategory_Positions[C1]);
-		Rects.Subcategories.Data[C1].Length = Length;
-		Rects.Subcategories.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
-		Textures.Subcategories.Data[C1].Length =  Length;
-		Textures.Subcategories.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
-		for (int C2 = 0; C2 < Length; C2++) {
-			Rects.Subcategories.Data[C1].Data[C2].Length = 2;
-			Rects.Subcategories.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
-			Rects.Subcategories.Data[C1].Data[C2].Data[0].x = ktn_invalid;
-			Rects.Subcategories.Data[C1].Data[C2].Data[0].y = ktn_fscale((C2 * 30.0f) + 40.0f);
-			Load_Button(F_Halftext, Metadata.Subcategories[Metadata.Subcategory_Positions[C1][C2]],
-				&Textures.Subcategories.Data[C1].Data[C2], Rects.Subcategories.Data[C1].Data[C2], Colors.Abyss_Black,
-				Colors.Cherry_Blossom);
-		}
-	}
 	Rects.Subcontents.Data = malloc(sizeof(Rect2_Array) * ktn_subcategories);
 	Rects.Subcontents.Length = ktn_subcategories;
 	Textures.Subcontents.Data = malloc(sizeof(Texture2_Array) * ktn_subcategories);
@@ -348,12 +379,12 @@ void Preload_Assets() {
 				Rects.Subcontents.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
-	Rects.Item_Labels.Length = ktn_categories;
-	Rects.Item_Labels.Data = malloc(sizeof(Rect2_Array) * ktn_categories);
-	Textures.Item_Labels.Data = malloc(sizeof(Texture2_Array) *	ktn_categories);
-	Textures.Item_Labels.Length = ktn_categories;
-	for (int C1 = 0; C1 < ktn_categories; C1++) {
-		int Length = ktn_veclen(Metadata.Item_Labels[C1]);
+	Rects.Item_Labels.Length = Core.Categories;
+	Rects.Item_Labels.Data = malloc(sizeof(Rect2_Array) * Core.Categories);
+	Textures.Item_Labels.Data = malloc(sizeof(Texture2_Array) *	Core.Categories);
+	Textures.Item_Labels.Length = Core.Categories;
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
+		int Length = ktn_veclen(Metadata.Contents[C1]);
 		Rects.Item_Labels.Data[C1].Data = malloc(sizeof(Rect_Array) * Length);
 		Rects.Item_Labels.Data[C1].Length = Length;
 		Textures.Item_Labels.Data[C1].Data = malloc(sizeof(Texture_Array) * Length);
@@ -362,10 +393,18 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[C1].Data[C2].Length = 2;
 			Rects.Item_Labels.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = ktn_invalid;
-			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = ktn_fscale(((C2 + ktn_intlen(Metadata.Subcategory_Positions[C1])) * 30.0f) +
-				40.0f);
-			Load_Button(F_Halftext, Get_Machine(Metadata.Item_Labels[C1][C2])->Name, &Textures.Item_Labels.Data[C1].Data[C2],
-				Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
+			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = ktn_fscale((C2 * 30.0f) + 40.0f);
+			char* Carrier;
+			Machine_Ptr Ptr1 = Get_Machine(Metadata.Contents[C1][C2]);
+			if (Ptr1) {
+				Carrier = Ptr1->Name;
+			}
+			Category_Ptr Ptr2 = Get_Category(Metadata.Contents[C1][C2]);
+			if (Ptr2) {
+				Carrier = Ptr2->Name;
+			}
+			Load_Button(F_Halftext, Carrier, &Textures.Item_Labels.Data[C1].Data[C2], Rects.Item_Labels.Data[C1].Data[C2],
+				Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
 	Interface.Max_Time_Frames = Interface.Frame_Rate;
@@ -598,17 +637,17 @@ void Preload_Assets() {
 		Load_Button(F_Subtext, Metadata.Buttons[26], &Textures.Clear.Data[C1], Rects.Clear.Data[C1], Colors.Abyss_Black,
 			Colors.Cherry_Blossom);
 	}
-	Textures.Categories.Data = malloc(sizeof(Texture_Array) * ktn_categories);
-	Textures.Categories.Length = ktn_categories;
-	Rects.Categories.Data = malloc(sizeof(Rect_Array) * ktn_categories);
-	Rects.Categories.Length = ktn_categories;
-	for (int C1 = 0; C1 < ktn_categories; C1++) {
+	Textures.Categories.Data = malloc(sizeof(Texture_Array) * Core.Categories);
+	Textures.Categories.Length = Core.Categories;
+	Rects.Categories.Data = malloc(sizeof(Rect_Array) * Core.Categories);
+	Rects.Categories.Length = Core.Categories;
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
 		Rects.Categories.Data[C1].Data = calloc(2, sizeof(SDL_FRect));
 		Rects.Categories.Data[C1].Length = 2;
 		Rects.Categories.Data[C1].Data[0].x = ktn_invalid;
 		Rects.Categories.Data[C1].Data[0].y = ktn_fscale((C1 * 30.0f) + 40.0f);
-		Load_Button(F_Text, Metadata.Categories[C1], &Textures.Categories.Data[C1], Rects.Categories.Data[C1],
-			Colors.Abyss_Black, Colors.Cherry_Blossom);
+		Load_Button(F_Text, Metadata.Categories[C1].Name, &Textures.Categories.Data[C1], Rects.Categories.Data[C1], Colors.Abyss_Black,
+			Colors.Cherry_Blossom);
 	}
 	char* Captions[ktn_captions] = {
 		Metadata.Buttons[43], Metadata.Buttons[44], Metadata.Buttons[45], Metadata.Buttons[46], Metadata.Buttons[47],

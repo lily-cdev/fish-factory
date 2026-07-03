@@ -3,6 +3,7 @@
 	<Name>silicone carpet</Name>
 	<Desc>A soft and fluffy carpet made from dyed silicone. Inflammable, pretty, and quite comfortable.</Desc>
 	<Index>carpet</Index>
+	<Parent>floors</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/s_carpet</Path>
 	<Price>13</Price>

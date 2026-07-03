@@ -19,6 +19,9 @@ struct Proto_Core {
 	int Items;
 	int Recipes;
 	int Fishes;
+	int Genes;
+	int Categories;
+	int Subcategories;
 	uint32_t State;
 };
 
@@ -41,19 +44,19 @@ struct Proto_Data {
 
 struct Proto_Metadata {
 	char Monitor_Size[64];
-	char* Categories[ktn_categories];
-	char* Subcategories[ktn_subcategories];
 	char* Buttons[ktn_buttons];
-	const char* Item_Labels[ktn_categories][16];
-	const int Subcategory_Positions[ktn_categories][8];
-	const char* Subcontents[ktn_subcategories][16];
 	char* Logs[ktn_logs];
+	char*** Contents;
+	char*** Subcontents;
 	const char* Days[ktn_days];
 	const Point Supported_Resolutions[ktn_supported_res];
 	const char Tool_Texts[ktn_tools][64];
 	Machine_Data* Machines;
 	Item_Data* Items;
 	Fish_Data* Fish;
+	Gene_Data* Genes;
+	Category_Data* Categories;
+	Category_Data* Subcategories;
 	Recipe* Recipes;
 	Item_Data Null_Item;
 };
@@ -131,6 +134,7 @@ struct Proto_Textures {
 	Texture_Array A_Bubble;
 	SDL_Texture* Floor_Texture;
 	SDL_Texture* Frame_Texture;
+	SDL_Texture* Gene_Add;
 	SDL_Texture* Tile_Texture;
 	SDL_Texture* Scrap;
 	SDL_Texture* Help_Sidebutton;
@@ -248,7 +252,7 @@ struct Proto_Temporary {
 	int Tutorial_Step;
 	Point Tutorial_Size;
 	Point Tutorial_Offset;
-	int Tutorial_Buffer;
+	char Tutorial_Selection[64];
 	int Temporary_FPS;
 	float Scroll_Percent;
 	bool Log_Inversions[3];
@@ -426,3 +430,4 @@ bool Load_Text();
 void Free_Text();
 Point Rotate_Pt(Point Input, Point Size, int Rot);
 Point Rotate_Px(Point Input, Point Size, int Rot);
+Category_Ptr Get_Category(const char* Index);

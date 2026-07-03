@@ -287,3 +287,17 @@ Point Rotate_Pt(Point Input, Point Size, int Rot) {
 Point Rotate_Px(Point Input, Point Size, int Rot) {
 	return Rotate_Internal(Input, Size, Rot, 0);
 }
+
+Category_Ptr Get_Category(const char* Index) {
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
+		if (ktn_stricmp(Metadata.Categories[C1].Index, Index)) {
+			return &Metadata.Categories[C1];
+		}
+	}
+	for (int C1 = 0; C1 < Core.Subcategories; C1++) {
+		if (ktn_stricmp(Metadata.Subcategories[C1].Index, Index)) {
+			return &Metadata.Subcategories[C1];
+		}
+	}
+	return NULL;
+}

@@ -61,8 +61,6 @@ bool Load_Text() {
 		}
 	}
 	snprintf(Metadata.Monitor_Size, sizeof(Metadata.Monitor_Size), "Detected Resolution: %s", Buffer);
-	Load_TXT("categories", Metadata.Categories, ktn_categories);
-	Load_TXT("subcategories", Metadata.Subcategories, ktn_subcategories);
 	Load_TXT("buttons", Metadata.Buttons, ktn_buttons);
 	Load_TXT("keybinds", Keybinds.Keybind_Texts, ktn_keybinds);
 	Load_Full("changes", &Metadata.Logs[Changelog]);
@@ -72,12 +70,6 @@ bool Load_Text() {
 }
 
 void Free_Text() {
-    for (int C1 = 0; C1 < ktn_categories; C1++) {
-		ktn_free(Metadata.Categories[C1]);
-	}
-    for (int C1 = 0; C1 < ktn_subcategories; C1++) {
-		ktn_free(Metadata.Subcategories[C1]);
-	}
     for (int C1 = 0; C1 < ktn_buttons; C1++) {
 		ktn_free(Metadata.Buttons[C1]);
 	}

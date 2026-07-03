@@ -3,6 +3,7 @@
 	<Name>spawning controller</Name>
 	<Desc>A controller required for the spawning pool to function. Up to 16 may be placed.</Desc>
 	<Index>spawning_controller</Index>
+	<Parent>cultivation</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/msp_controller</Path>
 	<Price>5</Price>

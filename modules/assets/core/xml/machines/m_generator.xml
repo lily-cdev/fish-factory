@@ -3,6 +3,7 @@
 	<Name>money generator</Name>
 	<Desc>Creates a set amount of money per second.</Desc>
 	<Index>money_cheat</Index>
+	<Parent>none</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/cheats/m_generator</Path>
 	<Price>0</Price>

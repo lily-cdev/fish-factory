@@ -44,6 +44,7 @@ add_executable(Fish_Factory
 	internal/source/other/ui.c
 	internal/source/other/tools.c
 	internal/source/other/machines.c
+	internal/source/other/parser.c
 	internal/source/connectables/general.c
 	internal/source/connectables/wires.c
 	internal/source/connectables/pipes.c
@@ -102,7 +103,6 @@ add_executable(Fish_Factory
 
 add_presource(Fish_Factory internal/source/prepping/preloaders.c)
 add_presource(Fish_Factory internal/source/prepping/setup.c)
-add_presource(Fish_Factory internal/source/other/parser.c)
 
 target_include_directories(Fish_Factory PRIVATE
     internal/core

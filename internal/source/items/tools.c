@@ -38,6 +38,8 @@ float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisat
 		return ktn_invalid;
 	} else if (Boiling_Point == -2 && H_Vaporisation == -2) {
 		return -2;
+	} else if (Boiling_Point == -3 && H_Vaporisation == -3) {
+		return -3;
 	} else {
 		float Boiling_Point_K = (Boiling_Point + 459.67f) / 1.8f;
 		float ATM = powf(M_E, ((H_Vaporisation * -1000.0f) / 8.314462618f) * ((1.0f / Temperature_K) - (1.0f / Boiling_Point_K)));

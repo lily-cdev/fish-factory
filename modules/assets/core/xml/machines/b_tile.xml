@@ -3,6 +3,7 @@
 	<Name>basalt tile</Name>
 	<Desc>Heavy floor tiles made of locally-sourced basalt. Inflammable, pretty, and slippery when wet.</Desc>
 	<Index>basalt_tile</Index>
+	<Parent>floors</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/b_tile</Path>
 	<Price>4</Price>

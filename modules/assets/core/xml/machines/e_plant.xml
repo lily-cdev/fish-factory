@@ -3,6 +3,7 @@
 	<Name>electrolytic cell</Name>
 	<Desc>Uses electrolysis to rip apart fluids into their separate ions.</Desc>
 	<Index>electro_cell</Index>
+	<Parent>processing</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/e_plant</Path>
 	<Price>400</Price>

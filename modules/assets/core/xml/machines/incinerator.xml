@@ -3,6 +3,7 @@
 	<Name>incinerator</Name>
 	<Desc>Disposes of unwanted fluids via incineration.</Desc>
 	<Index>incinerator</Index>
+	<Parent>other</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/incinerator</Path>
 	<Price>28</Price>

@@ -3,6 +3,7 @@
 	<Name>battery</Name>
 	<Desc>A device for storing large quantities of electricity. Though officially labelled a battery, its quick discharge time makes it a supercapacitor.</Desc>
 	<Index>battery</Index>
+	<Parent>logistics</Parent>
 	<Texture_Type>gauged</Texture_Type>
 	<Gauge_X>20</Gauge_X>
 	<Gauge_Y>20</Gauge_Y>

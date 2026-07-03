@@ -3,6 +3,7 @@
 	<Name>petrified wood</Name>
 	<Desc>A thick slab of synthetic petrified wood. Inflammable, pretty, and VERY expensive.</Desc>
 	<Index>petrified_wood</Index>
+	<Parent>floors</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/tiles/p_wood</Path>
 	<Price>350</Price>

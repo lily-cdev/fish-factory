@@ -8,34 +8,7 @@ struct Proto_Core Core = {
 };
 struct Proto_Data Data = { };
 struct Proto_Metadata Metadata = {
-	.Item_Labels = {
-		{ "sub_dock", "cable_node", ktn_null_string },
-		{ "ram_pump", ktn_null_string },
-		{ "algae_bed", ktn_null_string },
-		{ "filtration_plant", "distillery", "electro_cell", "fluid_mixer", ktn_null_string },
-		{ "rtg", "furnace", "geo_well", "hx", ktn_null_string },
-		{ "flowerpot", "ammo_rack", ktn_null_string },
-		{ "incinerator", "signal_tower", "battery", ktn_null_string },
-		{ "command_platform", ktn_null_string }
-	},
-	.Subcategory_Positions = {
-		{ Reinforced, Large, ktn_terminator },
-		{ ktn_terminator },
-		{ Modular_Spawning_Pool, ktn_terminator },
-		{ ktn_terminator },
-		{ Turbine, ktn_terminator },
-		{ Flooring, ktn_terminator },
-		{ ktn_terminator },
-		{ ktn_terminator }
-	},
-	.Subcontents = {
-		{ "spawning_controller", "spawning_output", "spawning_input", "spawning_pool", ktn_null_string },
-		{ "plate", "petrified_wood", "basalt_tile", "carpet", "hazard_strip", ktn_null_string },
-		{ "heavy_pipe", "heavy_intersection", ktn_null_string },
-		{ "large_pipe", "large_intersection", ktn_null_string },
-		{ "turbine_input", "turbine_impulse", "turbine_output", ktn_null_string }
-	},
-	.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
+.Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },
 	.Tool_Texts = { "building", "deleting", "inspecting", "wiring", "plumbing" }
 };

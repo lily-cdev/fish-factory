@@ -3,6 +3,7 @@
 	<Name>cable node</Name>
 	<Desc>A node able to group cables together.</Desc>
 	<Index>cable_node</Index>
+	<Parent>logistics</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/c_node</Path>
 	<Price>4</Price>

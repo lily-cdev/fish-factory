@@ -21,11 +21,11 @@ void Process_Tutorial(int Input) {
 			if ((SDL_Keycode)(Input) == Keybinds.Keybind_List[Tutorial_Stack[Temporary.Tutorial_Step].Hotkey]) {
 				Step_Completed = true;
 			}
-		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 1 && Input == ktn_invalid) {
-			if (Temporary.Tutorial_Buffer == Tutorial_Stack[Temporary.Tutorial_Step].Selection) {
+		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == T_Button && Input == ktn_invalid) {
+			if (ktn_stricmp(Temporary.Tutorial_Selection, Tutorial_Stack[Temporary.Tutorial_Step].Subselection)) {
 				Step_Completed = true;
 			}
-			Temporary.Tutorial_Buffer = ktn_invalid;
+			memset(Temporary.Tutorial_Selection, 0, sizeof(Temporary.Tutorial_Selection));
 		} else if (Tutorial_Stack[Temporary.Tutorial_Step].Type == 5 && Input == ktn_invalid) {
 			if (Tutorial_Stack[Temporary.Tutorial_Step].Hotkey < Tutorial_Stack[Temporary.Tutorial_Step].Selection) {
 				Tutorial_Stack[Temporary.Tutorial_Step].Hotkey++;
@@ -37,7 +37,7 @@ void Process_Tutorial(int Input) {
 			Progress_Tutorial();
 		}
 	}
-	Temporary.Tutorial_Buffer = ktn_invalid;
+	memset(Temporary.Tutorial_Selection, 0, sizeof(Temporary.Tutorial_Selection));
 }
 
 void Render_Tutorial() {

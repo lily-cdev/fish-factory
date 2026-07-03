@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>silicon transcriber mesh</Name>
+	<Index>transcriber_mesh</Index>
+	<ID></ID>
+	<Path>core/images/items/st_mesh</Path>
+	<Hazard>none</Hazard>
+	<Value>high</Value>
+	<Price>500</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>solid</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

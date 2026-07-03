@@ -3,6 +3,7 @@
 	<Name>power generator</Name>
 	<Desc>Creates a set amount of electricity per second.</Desc>
 	<Index>power_cheat</Index>
+	<Parent>none</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/cheats/p_generator</Path>
 	<Price>0</Price>

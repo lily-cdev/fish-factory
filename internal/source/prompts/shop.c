@@ -3,20 +3,15 @@
 void Render_Shop(Point Pos) {
 	Render_Box((Point){ 210, 10 }, 220, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	if (Interface.Subtab > 0) {
-		if (Interface.Subtab <= ktn_categories) {
-			int Subcategories = ktn_intlen(Metadata.Subcategory_Positions[Interface.Subtab - 1]);
-			for (int C1 = 0; C1 < Subcategories; C1++) {
-				Render_Button(&Textures.Subcategories.Data[Interface.Subtab - 1].Data[C1], &Rects.Subcategories.Data[
-					Interface.Subtab - 1].Data[C1], (UI_Link){ Shop_Subcategory, .Param.Integer = C1 }, Colors.Cherry_Blossom);
-			}
-			for (int C1 = 0; C1 < ktn_veclen(Metadata.Item_Labels[Interface.Subtab - 1]); C1++) {
+		if (Interface.Subtab <= Core.Categories) {
+			for (int C1 = 0; C1 < ktn_veclen(Metadata.Contents[Interface.Subtab - 1]); C1++) {
 				Render_Button(&Textures.Item_Labels.Data[Interface.Subtab - 1].Data[C1], &Rects.Item_Labels.Data[
 					Interface.Subtab - 1].Data[C1], (UI_Link){ Shop_Subitem, .Param.Integer = C1 }, Colors.Cherry_Blossom);
 			}
 		} else {
-			for (int C1 = 0; C1 < ktn_veclen(Metadata.Subcontents[Interface.Subtab - ktn_categories - 1]); C1++) {
-				Render_Button(&Textures.Subcontents.Data[Interface.Subtab - ktn_categories - 1].Data[C1], &Rects.Subcontents.Data[
-					Interface.Subtab - ktn_categories - 1].Data[C1], (UI_Link){ Shop_Item, .Param.Integer = C1 },
+			for (int C1 = 0; C1 < ktn_veclen(Metadata.Subcontents[Interface.Subtab - Core.Categories - 1]); C1++) {
+				Render_Button(&Textures.Subcontents.Data[Interface.Subtab - Core.Categories - 1].Data[C1], &Rects.Subcontents.Data[
+					Interface.Subtab - Core.Categories - 1].Data[C1], (UI_Link){ Shop_Item, .Param.Integer = C1 },
 					Colors.Cherry_Blossom);
 			}
 		}
@@ -101,9 +96,9 @@ void Render_Shop(Point Pos) {
 		snprintf(Buffer, sizeof(Buffer), "total: %iLA", Interface.Queried_Price);
 		Process_Supply(&Supplies.Shop5, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 110 });
 	} else {
-		for (int C1 = 0; C1 < ktn_categories; C1++) {
-			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category,
-				.Param.Integer = C1 }, Colors.Cherry_Blossom);
+		for (int C1 = 0; C1 < Core.Categories; C1++) {
+			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category, .Param.Integer = C1 },
+				Colors.Cherry_Blossom);
 		}
 	}
 }

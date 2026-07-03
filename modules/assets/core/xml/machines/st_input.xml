@@ -3,6 +3,7 @@
 	<Name>turbine input</Name>
 	<Desc>Intakes fresh steam and feeds it to the rest of the turbine.</Desc>
 	<Index>turbine_input</Index>
+	<Parent>mod_turbine</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/st_input</Path>
 	<Price>1280</Price>

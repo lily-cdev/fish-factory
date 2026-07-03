@@ -3,6 +3,7 @@
 	<Name>turbine output</Name>
 	<Desc>The last item in a turbine. Outputs low-temperature steam.</Desc>
 	<Index>turbine_output</Index>
+	<Parent>mod_turbine</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/st_output</Path>
 	<Price>800</Price>

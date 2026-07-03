@@ -3,6 +3,7 @@
 	<Name>fluid mixer</Name>
 	<Desc>Mixes fluids inside of an armored chamber.</Desc>
 	<Index>fluid_mixer</Index>
+	<Parent>processing</Parent>
 	<Texture_Type>spinner</Texture_Type>
 	<Path>core/images/machines/f_mixer</Path>
 	<Price>19</Price>

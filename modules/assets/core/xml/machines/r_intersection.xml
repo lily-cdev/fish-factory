@@ -3,6 +3,7 @@
 	<Name>reinforced intersection</Name>
 	<Desc>Allows for two different reinforced pipelines to cross over each other.</Desc>
 	<Index>heavy_intersection</Index>
+	<Parent>heavy</Parent>
 	<Texture_Type>rot</Texture_Type>
 	<Path>core/images/machines/r_intersection</Path>
 	<Price>21</Price>

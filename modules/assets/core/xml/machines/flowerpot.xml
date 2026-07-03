@@ -3,6 +3,7 @@
 	<Name>flowerpot</Name>
 	<Desc>A decorative soil basin bearing the oversized Ceracanth flower, selectively bred and genetically engineered for beauty.</Desc>
 	<Index>flowerpot</Index>
+	<Parent>decoration</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/flowerpot</Path>
 	<Price>10</Price>

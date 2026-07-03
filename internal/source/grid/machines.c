@@ -302,7 +302,6 @@ void Build_Grid() {
 			}
 			Update_Grid();
 			Recast_Machines();
-			Bake_Lights();
 			Find_Effect();
 			return;
 		}
@@ -391,7 +390,6 @@ bool Destroy_Grid() {
 					Clear_Unconnected_Bridges(&Pipes);
 					Update_Grid();
 					Recast_Machines();
-					Bake_Lights();
 					Find_Effect();
 					return true;
 				}

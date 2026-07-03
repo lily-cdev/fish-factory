@@ -3,6 +3,7 @@
 	<Name>distillery</Name>
 	<Desc>Distills fluids. Useful for purification jobs beyond what the filtration plant can handle.</Desc>
 	<Index>distillery</Index>
+	<Parent>processing</Parent>
 	<Texture_Type>none</Texture_Type>
 	<Path>core/images/machines/distillery</Path>
 	<Price>54</Price>

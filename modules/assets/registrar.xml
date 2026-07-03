@@ -79,4 +79,28 @@
 		<Fish>core/xml/fish/mojarra</Fish>
 		<Fish>core/xml/fish/menhaden</Fish>
 	</Fishes>
+	<Gene_Ct>3</Gene_Ct>
+	<Genes>
+		<Gene>core/xml/genes/longevous</Gene>
+		<Gene>core/xml/genes/compact</Gene>
+		<Gene>core/xml/genes/photosynthetic</Gene>
+	</Genes>
+	<Category_Ct>7</Category_Ct>
+	<Categories>
+		<Category>core/xml/categories/logistics</Category>
+		<Category>core/xml/categories/extraction</Category>
+		<Category>core/xml/categories/cultivation</Category>
+		<Category>core/xml/categories/processing</Category>
+		<Category>core/xml/categories/generation</Category>
+		<Category>core/xml/categories/decoration</Category>
+		<Category>core/xml/categories/other</Category>
+	</Categories>
+	<Subcategory_Ct>5</Subcategory_Ct>
+	<Subcategories>
+		<Subcategory>core/xml/subcategories/s_pool</Subcategory>
+		<Subcategory>core/xml/subcategories/flooring</Subcategory>
+		<Subcategory>core/xml/subcategories/reinforced</Subcategory>
+		<Subcategory>core/xml/subcategories/large</Subcategory>
+		<Subcategory>core/xml/subcategories/m_turbine</Subcategory>
+	</Subcategories>
 </Registrar>
