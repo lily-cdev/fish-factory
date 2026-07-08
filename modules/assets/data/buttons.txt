@@ -48,3 +48,4 @@ fullscreen
 toggles
 keybinds
 power generator
+dismiss sub

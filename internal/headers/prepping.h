@@ -145,7 +145,6 @@ struct Proto_Textures {
 	Texture_Array Submarine;
 	Texture2_Array Confirmation;
 	Texture_Array Pyramid;
-	SDL_Texture* Mesh;
 	Texture_Array Fire;
 	Texture_Array None;
 };
@@ -258,6 +257,8 @@ struct Proto_Temporary {
 	bool Log_Inversions[3];
 	Point First_Coordinate;
 	Node_d Docks;
+	SDL_Texture* Lighting[4];
+	int Pixels;
 	SDL_Texture* Spinner;
 	SDL_FRect Spinner_Rect;
 	SDL_Texture* Load_Text;
@@ -268,6 +269,7 @@ struct Proto_Cache {
 	int Wire_State;
 	Texture_Array Wire_Cache;
 	SDL_FRect Wire_Box;
+	SDL_Texture* Light_Grad;
 	SDL_Texture* Blueprint_Cache;
 	SDL_FRect Query[64];
 	int ID_Query[64];
@@ -401,6 +403,7 @@ void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2
 void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
 	SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos);
+void Bake_Lights();
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size);
 void Load_Rotational(const char* Path, Texture_Array* Yield);
 void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Rectangle);
@@ -415,6 +418,7 @@ void Truncate(float Number, int Depth, char* Buffer, int Size);
 int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, bool Disabled);
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
+void Preload_Lights();
 void Preclear_Temporaries();
 void Render_Loadscreen(const char* Line);
 void Reseed_State();

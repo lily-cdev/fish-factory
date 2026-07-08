@@ -47,21 +47,21 @@ void Preload_Machines() {
 			break;
 		case A_Spinner:
 			Metadata.Machines[C1].Depth = 3;
-			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y,
-				true);
+			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y, true);
 			break;
 		case A_Gauged:
 			Metadata.Machines[C1].Depth = 2;
 			Load_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture2);
+			break;
+		case A_Kiln:
+			Metadata.Machines[C1].Depth = 3;
+			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y, true);
 			break;
 		case A_None:
 			char* Index = Metadata.Machines[C1].Index;
 			if (ktn_stricmp(Index, "ram_pump")) {
 				Metadata.Machines[C1].Depth = 2;
 				Load_Animated("core/images/machines/r_pump", &Metadata.Machines[C1].Texture2, 1, true);
-			} else if (ktn_stricmp(Index, "incinerator")) {
-				Metadata.Machines[C1].Depth = 3;
-				Load_Animated_Rotational("core/images/machines/incinerator", &Metadata.Machines[C1].Texture3, 1, true);
 			} else if (ktn_stricmp(Index, "distillery")) {
 				Metadata.Machines[C1].Depth = 3;
 				Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[C1].Texture3, 2, false);
@@ -121,14 +121,18 @@ void Preload_Machines() {
 ~end;
 
 void Preload_Foundation() {
-	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
-	Textures.Pyramid.Length = 4;
 	float Full_Width = ktn_fscale((ktn_grid_size * ktn_tile_size) + (ktn_buffer_size * 2.0f));
 	int Candidate_Length = Full_Width * 0.25f;
+	Temporary.Pixels = ktn_fscale(ktn_grid_size * ktn_tile_size) * 0.5f;
+	for (int C1 = 0; C1 < 4; C1++) {
+		Temporary.Lighting[C1] = New_Texture(Temporary.Pixels, Temporary.Pixels);
+	}
+	Textures.Pyramid.Data = malloc(sizeof(SDL_Texture*) * 4);
+	Textures.Pyramid.Length = 4;
 	if (ktn_evn(Candidate_Length)) {
 		Candidate_Length--;
 	}
-	const int Resolution = 2001;
+	/*const int Resolution = 2001;
 	SDL_Surface* Mesh_Surface = SDL_CreateSurface(Resolution, Resolution, SDL_PIXELFORMAT_RGBA8888);
 	const SDL_PixelFormatDetails* Pixel_Format = SDL_GetPixelFormatDetails(SDL_PIXELFORMAT_RGBA8888);
 	SDL_LockSurface(Mesh_Surface);
@@ -146,7 +150,7 @@ void Preload_Foundation() {
 	SDL_UnlockSurface(Mesh_Surface);
 	Textures.Mesh = Surface_To_Texture(Mesh_Surface);
 	SDL_SetTextureScaleMode(Textures.Mesh, SDL_SCALEMODE_NEAREST);
-	SDL_DestroySurface(Mesh_Surface);
+	SDL_DestroySurface(Mesh_Surface); render to pyramid*/
 	for (int C1 = 0; C1 < 4; C1++) {
 		Textures.Pyramid.Data[C1] = New_Texture(Full_Width * 0.25, Full_Width * 0.25);
 		SDL_SetTextureBlendMode(Textures.Pyramid.Data[C1], SDL_BLENDMODE_BLEND);
@@ -582,11 +586,13 @@ void Preload_Assets() {
 	Preload_Terminal_Sidebar(&Carrier, &Textures.MSP_Buttons, &Rects.MSP_Buttons);
 	Free_String2(&Carrier);
 	Carrier.Length = 4;
-	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
+	Carrier.Data = malloc((Carrier.Length + 1) * sizeof(char*));
 	for (int C1 = 0; C1 < Carrier.Length; C1++) {
 		Carrier.Data[C1] = malloc(strlen(Metadata.Buttons[C1 + 31]) + 1);
 		strcpy(Carrier.Data[C1], Metadata.Buttons[C1 + 31]);
 	}
+	Carrier.Data[Carrier.Length] = Metadata.Buttons[50];
+	Carrier.Length++;
 	Preload_Terminal_Sidebar(&Carrier, &Textures.SD_Buttons, &Rects.SD_Buttons);
 	Free_String2(&Carrier);
 	Carrier.Length = 1;

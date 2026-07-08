@@ -73,7 +73,6 @@ void Preload_Noise() {
 	Textures.Fire.Data = malloc(sizeof(SDL_Texture*) * 10);
 	Textures.Fire.Length = 10;
 	SDL_Surface* Fire_Surfaces[10];
-	uint32_t Random = (uint32_t)(SDL_GetTicks() & 255);
 	for (int C1 = 0; C1 < 10; C1++) {
 		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Scalar * ktn_tile_size, Settings.Scalar * ktn_tile_size,
 			SDL_PIXELFORMAT_RGBA8888);
@@ -81,7 +80,7 @@ void Preload_Noise() {
 		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
 		for (int C2 = 0; C2 < ktn_sqr(Settings.Scalar * ktn_tile_size); C2++) {
 			ktn_tick();
-			Pixels[C2] = Fire_Colors[(Random & 3)];
+			Pixels[C2] = Fire_Colors[(Core.State & 3)];
 		}
 		SDL_UnlockSurface(Fire_Surfaces[C1]);
 		Textures.Fire.Data[C1] = Surface_To_Texture(Fire_Surfaces[C1]);
@@ -89,4 +88,31 @@ void Preload_Noise() {
 		SDL_SetTextureBlendMode(Textures.Fire.Data[C1], SDL_BLENDMODE_BLEND);
 		SDL_DestroySurface(Fire_Surfaces[C1]);
 	}
+}
+
+void Preload_Lights() {
+	int Max_Rad = 0;
+	for (int C1 = 0; C1 < Core.Machines; C1++) {
+		for (int C2 = 0; C2 < Metadata.Machines[C1].Light_Ct; C2++) {
+			Max_Rad = max(Metadata.Machines[C1].Light_Range[C2], Max_Rad);
+		}
+	}
+	Cache.Light_Grad = New_Texture(Max_Rad * 2, Max_Rad * 2);
+	SDL_SetRenderTarget(Core.Renderer, Cache.Light_Grad);
+	Set_Renderer_Color(Colors.Abyss_Black);
+	SDL_RenderClear(Core.Renderer);
+	for (int C1 = 0; C1 < ktn_sqr(Max_Rad * 2); C1++) {
+		Point Applied = { C1 % (Max_Rad * 2), floorf(C1 / (Max_Rad * 2)) };
+		float Distance = sqrtf(ktn_sqr(Applied.X - Max_Rad) + ktn_sqr(Applied.Y - Max_Rad));
+		if (Distance < Max_Rad) {
+			uint8_t Intensity = (Distance / Max_Rad) * 127.0f;
+			SDL_SetRenderDrawColor(Core.Renderer, 0, 0, 0, Intensity);
+			SDL_RenderPoint(Core.Renderer, Applied.X, Applied.Y);
+		}
+	}
+	SDL_SetRenderTarget(Core.Renderer, NULL);
+	SDL_BlendMode Lighting = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_MINIMUM,
+		SDL_BLENDFACTOR_ONE, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_MINIMUM);
+	SDL_SetTextureBlendMode(Cache.Light_Grad, Lighting);
+	Clear_Renderer();
 }

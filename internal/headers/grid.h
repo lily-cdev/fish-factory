@@ -16,6 +16,7 @@ void Update_Machines();
 void Recast_Machines();
 void Process_Movement();
 void Find_Effect();
+void Bake_Light(Point Pos);
 Point Find_Linked(const char* Identifier, Point Parent);
 int Get_Simple_Grid_Tile(int Grid[ktn_grid_size][ktn_grid_size], int Neutral);
 bool Place_Reinforced_Pipe(Point Pos);

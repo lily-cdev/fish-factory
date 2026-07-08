@@ -72,6 +72,8 @@ int main(int argc, char* args[]) {
 		memset(&(Interface.UI_Query), 0, sizeof(UI_Link));
 		switch (Interface.UI_Tab) {
 		case 0:
+			Render_Effects();
+			Render_Lighting();
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
 					if (Interface.Time_Frames < Interface.Max_Time_Frames) {
@@ -104,7 +106,6 @@ int main(int argc, char* args[]) {
 				snprintf(Buffer, sizeof(Buffer), "%i/%i FPS", Temporary.Temporary_FPS, Interface.Frame_Rate);
 				Process_Supply(&Supplies.FPS, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 10 });
 			}
-			Render_Effects();
 			Render_Game_UI();
 			Render_Prompts();
 			Render_Tutorial();

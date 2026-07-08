@@ -181,6 +181,10 @@ void Load_XML() {
 			Machine.Animation_Type = A_Gauged;
 			Machine.Gauge_Data.Pos = (Point){ get_int("Gauge_X"), get_int("Gauge_Y") };
 			Machine.Gauge_Data.Size = (Point){ get_int("Gauge_W"), get_int("Gauge_H") };
+		} else if (ktn_stricmp(Texture_Type, "kiln")) {
+			Machine.Animation_Type = A_Kiln;
+			Machine.Kiln_Data.Pos = (Point){ get_int("Kiln_X"), get_int("Kiln_Y") };
+			Machine.Kiln_Data.Size = (Point){ get_int("Kiln_W"), get_int("Kiln_H") };
 		} else {
 			ktn_jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
@@ -257,6 +261,20 @@ void Load_XML() {
 				snprintf(Carrier2, sizeof(Carrier2), "could not load a sound; %s", ma_result_description(Yield));
 				ktn_jump(I_No_Sound, Carrier2);
 			}
+		}
+		Machine.Has_Light = Get_Boolean(Machine_File, "Has_Light");
+		if (Machine.Has_Light) {
+			Machine.Light_Ct = get_int("Light_Ct");
+			Machine.Light_Pos = malloc(sizeof(Point) * Machine.Light_Ct);
+			Machine.Light_Range = malloc(sizeof(int) * Machine.Light_Ct);
+			char** Sublights = Find_Multiple(Raw_Names[C1], Machine_File, "Light", Machine.Light_Ct);
+			for (int C2 = 0; C2 < Machine.Light_Ct; C2++) {
+				Machine.Light_Pos[C2].X = Get_Integer(Raw_Names[C1], Sublights[C2], "X");
+				Machine.Light_Pos[C2].Y = Get_Integer(Raw_Names[C1], Sublights[C2], "Y");
+				Machine.Light_Range[C2] = Get_Integer(Raw_Names[C1], Sublights[C2], "Range");
+				ktn_free(Sublights[C2]);
+			}
+			ktn_free(Sublights);
 		}
 		ktn_free(Machine_File);
 		ktn_free(Raw_Names[C1]);

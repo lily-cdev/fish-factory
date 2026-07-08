@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>shallow drill</Name>
+	<Desc>Digs up large volumes of sand.</Desc>
+	<Index>shallow_drill</Index>
+	<Parent>extraction</Parent>
+	<Texture_Type>spinner</Texture_Type>
+	<Speed>90</Speed>
+	<Path>core/images/machines/s_drill</Path>
+	<Price>80</Price>
+	<Fee>2</Fee>
+	<Width>2</Width>
+	<Height>2</Height>
+	<Rot_ID />
+	<Visual_Left>142</Visual_Left>
+	<Visual_Up>143</Visual_Up>
+	<Visual_Right>144</Visual_Right>
+	<Visual_Down>145</Visual_Down>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>900</Power_Capacity>
+	<Anchor_X>27</Anchor_X>
+	<Anchor_Y>27</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>4</Cap>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>2</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

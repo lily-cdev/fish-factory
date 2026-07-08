@@ -277,6 +277,16 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 	Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 5] = ktn_invalid;
 }
 
+void SD_Free(Parameter Unused, Parameter Unused2) {
+	Print_Input();
+	if (Transition.Sub_Phase == 2) {
+		Print_Response("sub dismissed");
+		Transition.Sub_Phase = 3;
+	} else {
+		Print_Error(No_Docked_Sub);
+	}
+}
+
 void MSP_TInfo(Parameter Pos, Parameter Unused) {
 	Print_Input();
 	char Subbuffer[64];

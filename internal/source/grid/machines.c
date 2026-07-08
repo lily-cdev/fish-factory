@@ -302,6 +302,7 @@ void Build_Grid() {
 			}
 			Update_Grid();
 			Recast_Machines();
+			Bake_Light((Point){ Column, Row });
 			Find_Effect();
 			return;
 		}
@@ -390,6 +391,7 @@ bool Destroy_Grid() {
 					Clear_Unconnected_Bridges(&Pipes);
 					Update_Grid();
 					Recast_Machines();
+					Bake_Lights();
 					Find_Effect();
 					return true;
 				}
@@ -474,6 +476,47 @@ void Recast_Machines() {
 				}
 			}
 		}
+	}
+}
+
+void Bake_Light(Point Pos) {
+	Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+	if (!Chosen) {
+		return;
+	}
+	for (int C1 = 0; C1 < Chosen->Light_Ct; C1++) {
+		Point Subpx = Rotate_Px(Chosen->Light_Pos[C1], (Point){ Chosen->Size.X * ktn_tile_size, Chosen->Size.Y * ktn_tile_size },
+		Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]));
+		Point Subpos = { ktn_fscale((Pos.X * ktn_tile_size) + Subpx.X), ktn_fscale((Pos.Y * ktn_tile_size) + Subpx.Y) };
+		int Rad = ktn_fscale(Chosen->Light_Range[C1]);
+		for (int X = 0; X < 2; X++) {
+			for (int Y = 0; Y < 2; Y++) {
+				SDL_SetRenderTarget(Core.Renderer, Temporary.Lighting[(X * 2) + Y]);
+				SDL_FRect Rect = { Subpos.X - Rad - (X * Temporary.Pixels), Subpos.Y - Rad - (Y * Temporary.Pixels), Rad * 2, Rad * 2 };
+				Render_Texture(Cache.Light_Grad, &Rect);
+			}
+		}
+		SDL_SetRenderTarget(Core.Renderer, NULL);
+		Clear_Renderer();
+	}
+}
+
+void Bake_Lights() {
+	for (int C1 = 0; C1 < 4; C1++) {
+		SDL_SetRenderTarget(Core.Renderer, Temporary.Lighting[C1]);
+		SDL_SetTextureBlendMode(Temporary.Lighting[C1], SDL_BLENDMODE_NONE);
+		SDL_SetRenderDrawColor(Core.Renderer, 0, 0, 0, 127);
+		SDL_RenderClear(Core.Renderer);
+	}
+	Clear_Renderer();
+	SDL_SetRenderTarget(Core.Renderer, NULL);
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
+			Bake_Light((Point){ X, Y });
+		}
+	}
+	for (int C1 = 0; C1 < 4; C1++) {
+		SDL_SetTextureBlendMode(Temporary.Lighting[C1], SDL_BLENDMODE_BLEND);
 	}
 }
 

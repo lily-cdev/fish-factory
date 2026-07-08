@@ -57,7 +57,7 @@ struct Proto_Keybinds Keybinds = {
 };
 struct Proto_Temporary Temporary = {
 	.Tutorial_Step = ktn_invalid,
-	.Log_Inversions = { true, false, false }
+	.Log_Inversions = { true, false, false },
 };
 struct Proto_Cache Cache = {
 	.Wire_State = ktn_invalid

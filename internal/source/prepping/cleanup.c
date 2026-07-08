@@ -57,6 +57,9 @@ void Clear_File(const char* Path) {
 }
 
 void Cleanup_Assets() {
+	for (int C1 = 0; C1 < 4; C1++) {
+		ktn_free_texture(Temporary.Lighting[C1]);
+	}
 	ktn_free_texture(Core.Game_Texture);
 	for (int C1 = 0; C1 < ktn_fonts; C1++) {
 		TTF_CloseFont(Fonts.Faces[C1]);
@@ -80,6 +83,10 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Machines[C1].Index);
 		ktn_free(Metadata.Machines[C1].Desc);
 		ktn_free(Metadata.Machines[C1].Path);
+		if (Metadata.Machines[C1].Has_Light) {
+			ktn_free(Metadata.Machines[C1].Light_Pos);
+			ktn_free(Metadata.Machines[C1].Light_Range);
+		}
 		ma_sound_uninit(&Metadata.Machines[C1].Run);
 	}
 	for (int C1 = 0; C1 < Core.Items; C1++) {
@@ -200,7 +207,6 @@ void Cleanup_Assets() {
 	Clear_Texture2_Array(&Textures.Confirmation);
 	Clear_Rect2_Array(&Rects.Confirmation);
 	Clear_Texture_Array(&Textures.Pyramid);
-	ktn_free_texture(Textures.Mesh);
 	Clear_Texture_Array(&Textures.Fire);
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);

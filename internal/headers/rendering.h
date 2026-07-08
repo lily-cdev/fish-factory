@@ -19,3 +19,4 @@ void Wipe_Tile(const Point Pos);
 void Render_Particles(const Point Pos);
 void Wipe_Grid();
 void Init_Grid();
+void Render_Lighting();

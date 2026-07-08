@@ -161,6 +161,7 @@ bool Load_Data(int Slot) {
 	}
 	fclose(File);
 	Preclear_Temporaries();
+	Bake_Lights();
 	return true;
 }
 
@@ -190,6 +191,7 @@ void Reset_Statistics() {
 	Clear_Bridges(&Wires);
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
+	Bake_Lights();
 	Save_Data(Core.Selected_Save);
 	for (int C1 = 0; C1 < 16; C1++) {
 		ktn_free(Fishlinks[C1].Fish);
@@ -223,6 +225,7 @@ void Reload_All(bool Initialized) {
 		Free_Sounds();
 	}
 	Load_XML();
+	Preload_Lights();
 	Load_Text();
 	Load_Sounds();
 	for (int C1 = 0; C1 < Core.Items; C1++) {

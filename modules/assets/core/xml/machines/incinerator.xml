@@ -4,7 +4,11 @@
 	<Desc>Disposes of unwanted fluids via incineration.</Desc>
 	<Index>incinerator</Index>
 	<Parent>other</Parent>
-	<Texture_Type>none</Texture_Type>
+	<Texture_Type>kiln</Texture_Type>
+	<Kiln_X>10</Kiln_X>
+	<Kiln_Y>50</Kiln_Y>
+	<Kiln_W>20</Kiln_W>
+	<Kiln_H>20</Kiln_H>
 	<Path>core/images/machines/incinerator</Path>
 	<Price>28</Price>
 	<Fee>1</Fee>

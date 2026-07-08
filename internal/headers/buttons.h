@@ -34,6 +34,7 @@ void MT_Diagnostics(Parameter Pos, Parameter Unused);
 void SD_Link(Parameter Pos, Parameter Unused);
 void SD_Manifest(Parameter Pos, Parameter Unused);
 void SD_Drain(Parameter Pos, Parameter Tank);
+void SD_Free(Parameter Unused, Parameter Unused2);
 void MSP_TInfo(Parameter Pos, Parameter Unused);
 void MSP_FInfo(Parameter Pos, Parameter Unused);
 void MSP_Fill(Parameter Pos, Parameter Unused);

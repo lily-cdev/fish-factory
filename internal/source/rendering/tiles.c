@@ -101,6 +101,32 @@ void Render_Grid() {
 						SDL_RenderFillRect(Core.Renderer, &Rect);
 						Clear_Renderer();
 						break;
+					case A_Kiln:
+						Carrier = (SDL_FRect){
+							Rects.Tile_1x1.x,
+							Rects.Tile_1x1.y,
+							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
+							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
+						};
+						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
+							Data.Animation_Grid[Column][Row][1] += (float)ktn_static_rate / Interface.Frame_Rate;
+							if (Data.Animation_Grid[Column][Row][1] >= 9) {
+								Data.Animation_Grid[Column][Row][1] = 0;
+							}
+							Source = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(Machine->Kiln_Data.Size.X), ktn_fscale(
+								Machine->Kiln_Data.Size.Y) };
+							Destination = (SDL_FRect){
+								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(
+									Core.Camera.X),
+								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(
+									Core.Camera.Y),//fix l8er
+								ktn_fscale(Machine->Kiln_Data.Size.X),
+								ktn_fscale(Machine->Kiln_Data.Size.Y)
+							};
+							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][1])], &Source,
+								&Destination);
+						}
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
 					case A_None:
 						if (ktn_stricmp(Machine->Index, "ram_pump")) {
 							if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
@@ -114,23 +140,6 @@ void Render_Grid() {
 								&Rects.Tile_1x1, Data.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint,
 								SDL_FLIP_NONE);
 							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_1x1);
-						} else if (ktn_stricmp(Machine->Index, "incinerator")) {
-							Data.Animation_Grid[Column][Row][0] += ktn_static_rate / Interface.Frame_Rate;
-							if (Data.Animation_Grid[Column][Row][0] >= 9) {
-								Data.Animation_Grid[Column][Row][0] = 0;
-							}
-							Source = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(21.0f), ktn_fscale(21.0f) };
-							Destination = (SDL_FRect){
-								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(
-									Core.Camera.X),
-								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(
-									Core.Camera.Y),
-								ktn_fscale(21.0f),
-								ktn_fscale(21.0f)
-							};
-							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
-								&Source, &Destination);
-							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Rects.Tile_1x1);
 						} else if (ktn_stricmp(Machine->Index, "turbine_impulse")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
 							if (Data.Settings_Grid[Column][Row][3] == 1) {

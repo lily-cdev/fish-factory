@@ -82,6 +82,11 @@ typedef struct {
 
 typedef struct {
 	Point Pos;
+	Point Size;
+} Fire_Data;
+
+typedef struct {
+	Point Pos;
 	Flow_Type Flow;
 	Dir Connection;
 	int Cap;
@@ -131,6 +136,7 @@ typedef struct {
 		Modular_Data Mod_Data;
 		Spinner_Data Spin_Data;
 		Gauged_Data Gauge_Data;
+		Fire_Data Kiln_Data;
 	};
 	union {
 		int Visual_ID1;
@@ -147,6 +153,10 @@ typedef struct {
 	bool Command;
 	bool Has_Audio;
 	ma_sound Run;
+	bool Has_Light;
+	int Light_Ct;
+	Point* Light_Pos;
+	int* Light_Range;
 } Machine_Data;
 
 typedef Machine_Data* Machine_Ptr;

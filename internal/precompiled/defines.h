@@ -5,7 +5,7 @@
 #define ktn_audio_ct 4
 #define ktn_border_width 4
 #define ktn_buffer_size 360
-#define ktn_buttons 50
+#define ktn_buttons 51
 #define ktn_captions 6
 #define ktn_channels 1
 #define ktn_cmd_max 16

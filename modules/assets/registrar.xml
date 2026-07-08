@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>37</Machine_Ct>
+	<Machine_Ct>39</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -38,7 +38,9 @@
 		<Machine>core/xml/machines/st_input</Machine>
 		<Machine>core/xml/machines/stit_block</Machine>
 		<Machine>core/xml/machines/st_output</Machine>
+		<Machine>core/xml/machines/s_drill</Machine>
 		<Machine>core/xml/machines/p_generator</Machine>
+		<Machine>core/xml/machines/lamp</Machine>
 	</Machines>
 	<Item_Ct>19</Item_Ct>
 	<Items>

@@ -1,6 +1,11 @@
 #include <grid.h>
 
 void Cycle_Incinerator(Point Pos, const int Rotation) {
+	if (Data.Data_Grid[pt(Pos)][Stored_Fluids] > ktn_epsilon) {
+		Data.Animation_Grid[pt(Pos)][0] = 1.0f;
+	} else {
+		Data.Animation_Grid[pt(Pos)][0] = 0.0f;
+	}
 	Data.Data_Grid[pt(Pos)][Stored_Fluids] = max(Data.Data_Grid[pt(Pos)][Stored_Fluids] - 8.0, 0.0);
 }
 
