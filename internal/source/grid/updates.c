@@ -40,6 +40,7 @@ void Update_Machines() {
 			if (!Chosen) {
 				continue;
 			}
+			bool Yield = false;
 			for (int C1 = 0; C1 < Core.Recipes; C1++) {
 				if (!ktn_stricmp(Chosen->Index, Metadata.Recipes[C1].Machine->Index)) {
 					continue;
@@ -70,20 +71,23 @@ void Update_Machines() {
 					ktn_free(Outputs);
 				}
 				if (Yielded) {
-					Data.Animation_Grid[pt(Pos)][0] = 1.0f;
-					if (Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Has_Audio) {
-						ma_sound* Carrier = &Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Run;
-						ma_sound_set_volume(Carrier, 1.0f);
-						ma_result Result = ma_sound_start(Carrier);
-						if (Result != MA_SUCCESS) {
-							printf("%d\n", Result);//TMP
-						}
-					}
-					//play sound
-				} else {
-					Data.Animation_Grid[pt(Pos)][0] = 0.0f;
-					//stopsound
+					Yield = true;
 				}
+			}
+			if (Yield) {
+				Data.Animation_Grid[pt(Pos)][0] = 1.0f;
+				if (Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Has_Audio) {
+					ma_sound* Carrier = &Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Run;
+					ma_sound_set_volume(Carrier, 1.0f);
+					ma_result Result = ma_sound_start(Carrier);
+					if (Result != MA_SUCCESS) {
+						printf("%d\n", Result);//TMP
+					}
+				}
+				//play sound
+			} else {
+				Data.Animation_Grid[pt(Pos)][0] = 0.0f;
+				//stopsound
 			}
 			int Rotation = Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]);
 			for (int C1 = 0; C1 < sizeof(Cycle_Functions) / sizeof(Cycle_Functions[0]); C1++) {

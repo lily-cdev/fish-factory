@@ -240,8 +240,6 @@ void Render_Grid() {
 							}
 							Render_Particles((Point){ Column, Row });
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
-						} else if (ktn_stricmp(Machine->Index, "battery")) {	
-							Render_Texture(Machine->Texture2.Data[Rotation], &Rects.Tile_2x2);
 						} else if (ktn_stricmp(Machine->Index, "signal_tower")) {
 							Render_Texture(Machine->Texture2.Data[Rotation], &Rects.Tile_3x3);
 							if (Data.Settings_Grid[Column][Row][3] == 0) {
