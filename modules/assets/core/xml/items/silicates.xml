@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>granular silicates</Name>
+	<Index>silicates</Index>
+	<ID>21</ID>
+	<Path>core/images/items/silicates</Path>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>4000</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

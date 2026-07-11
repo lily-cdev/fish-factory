@@ -2,17 +2,17 @@
 <Recipe>
 	<Type>out</Type>
 	<Shuffling_Barred />
-	<Time>3</Time>
-	<Power>200</Power>
-	<Parent>algae_bed</Parent>
+	<Time>2</Time>
+	<Power>700</Power>
+	<Parent>shallow_drill</Parent>
 	<Outputs>
 		<Output>
-			<Item>algae</Item>
-			<Volume>0.6</Volume>
+			<Item>sediment</Item>
+			<Volume>20</Volume>
 		</Output>
 		<Output>
-			<Item>algae</Item>
-			<Volume>0.6</Volume>
+			<Item>sediment</Item>
+			<Volume>20</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

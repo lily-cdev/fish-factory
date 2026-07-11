@@ -429,8 +429,8 @@ void Preload_Assets() {
 	};
 	for (int C1 = 0; C1 < ktn_intlen(Queried); C1++) {
 		for (int C2 = 0; C2 < ktn_valve300_len; C2++) {
-			snprintf(Interface.Slider_Texts[Queried[C1]][C2], sizeof(Interface.Slider_Texts[Queried[C1]][C2]), "%iuFI/s",
-				Interface.Valve300_Postions[C2]);
+			snprintf(Interface.Slider_Texts[Queried[C1]][C2], sizeof(Interface.Slider_Texts[Queried[C1]][C2]), "%i%s/s",
+				Interface.Valve300_Postions[C2], ktn_unit);
 		}
 		strncpy(Interface.Slider_Texts[Queried[C1]][ktn_valve300_len], ktn_null_string, sizeof(Interface.Slider_Texts[Queried[C1]][
 			ktn_valve300_len]));

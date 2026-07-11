@@ -36,15 +36,15 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 	Machine_Ptr Machine = Get_Machine("geo_well");
 	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
 	Point Output = Get_Transformed(Machine, Machine->Outputs[0], Pos);
-	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 8 || Data.Data_Grid[pt(Output)][Stored_Fluids] > 4) {
+	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 10 || Data.Data_Grid[pt(Output)][Stored_Fluids] > 2) {
 		return;
 	}
 	if (!Get_ID_Item(Data.Items_Grid[pt(Input)])->Coolant) {
 		return;
 	}
 	Data.Data_Grid[pt(Pos)][Stored_Power] -= 2500;
-	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 8;
-	Data.Data_Grid[pt(Output)][Stored_Fluids] += 8;
+	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 10;
+	Data.Data_Grid[pt(Output)][Stored_Fluids] += 10;
 	int Temperature = Data.Temperature_Grid[pt(Input)];
 	if (Temperature == 328) {
 		Temperature = 327;
@@ -131,12 +131,12 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
-	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 2) {
+	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 20) {
 		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
 	Machine_Ptr Submachine = Get_Machine("turbine_output");
-	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 2;
+	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 20;
 	Point End = { Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] };
 	Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
 	float Temp = Data.Temperature_Grid[pt(Input)];
@@ -146,7 +146,7 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 	Data.Settings_Grid[pt(Pos)][9] = (Current > Target) ? max(Current - Delta, Target) : min(Current + Delta, Target);
 	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + Data.Settings_Grid[pt(Pos)][9],
 		Data.Data_Grid[pt(Pos)][Power_Cap]);
-	Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 2, Data.Data_Grid[pt(Output)][
+	Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 20, Data.Data_Grid[pt(Output)][
 		Fluid_Cap]);
 	Update_Item(Output, Get_Item("water")->ID, min(Temp, 90));
 	

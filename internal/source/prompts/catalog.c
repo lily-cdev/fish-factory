@@ -90,7 +90,7 @@ void Render_Catalog(Point Pos) {
 			}
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Input_Ct; C3++) {
 				Abbreviate_Number(Metadata.Recipes[C1].Input_Counts[C3] / Metadata.Recipes[C1].Time, Buffer, sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%suFI/s %s", Buffer, Metadata.Recipes[C1].Input_Items[C3]->Name);
+				snprintf(Candidate, sizeof(Candidate), "%s%s/s %s", Buffer, ktn_unit, Metadata.Recipes[C1].Input_Items[C3]->Name);
 				if (C3 < Metadata.Recipes[C1].Machine->Input_Ct - 1) {
 					strcat(Candidate, ", ");
 				}
@@ -108,7 +108,7 @@ void Render_Catalog(Point Pos) {
 				}
 				Abbreviate_Number(Metadata.Recipes[C1].Output_Counts[C3] / Metadata.Recipes[C1].Time, Buffer,
 					sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%suFI/s %s", Buffer, Metadata.Recipes[C1].Output_Items[C3]->Name);
+				snprintf(Candidate, sizeof(Candidate), "%s%s/s %s", Buffer, ktn_unit, Metadata.Recipes[C1].Output_Items[C3]->Name);
 				if (C3 < Metadata.Recipes[C1].Machine->Output_Ct - 1) {
 					strcat(Candidate, ", ");
 				}

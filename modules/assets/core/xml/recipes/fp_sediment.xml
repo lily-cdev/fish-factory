@@ -3,26 +3,26 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>1</Time>
-	<Power>250</Power>
+	<Power>210</Power>
 	<Parent>filtration_plant</Parent>
 	<Inputs>
 		<Input>
-			<Item>algae</Item>
+			<Item>sediment</Item>
 			<Volume>10</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
-			<Item>algae_paste</Item>
+			<Item>clay</Item>
 			<Volume>5</Volume>
 		</Output>
 		<Output>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
+			<Item>silicates</Item>
+			<Volume>4</Volume>
 		</Output>
 		<Output>
-			<Item>wet_waste</Item>
-			<Volume>5</Volume>
+			<Item>wet_marine_snow</Item>
+			<Volume>1</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

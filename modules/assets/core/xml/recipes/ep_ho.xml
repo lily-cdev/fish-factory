@@ -8,13 +8,13 @@
 	<Inputs>
 		<Input>
 			<Item>water</Item>
-			<Volume>2</Volume>
+			<Volume>4</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
 			<Item>hydrogen</Item>
-			<Volume>2</Volume>
+			<Volume>0.008</Volume>
 		</Output>
 		<Output>
 			<Item>none</Item>
@@ -22,7 +22,7 @@
 		</Output>
 		<Output>
 			<Item>oxygen</Item>
-			<Volume>1</Volume>
+			<Volume>0.06</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

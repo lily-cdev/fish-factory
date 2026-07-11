@@ -115,6 +115,7 @@ int main(int argc, char* args[]) {
 		default:
 			break;
 		}
+		
 		SDL_RenderPresent(Core.Renderer);
 		if (Cache.FPS_Tick >= Interface.Frame_Rate - 1) {
 			Cache.FPS_Tick = 0;

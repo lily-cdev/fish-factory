@@ -8,7 +8,7 @@
 	<Outputs>
 		<Output>
 			<Item>seawater</Item>
-			<Volume>0.25</Volume>
+			<Volume>0.5</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

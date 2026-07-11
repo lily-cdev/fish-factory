@@ -22,3 +22,4 @@
 #define ktn_tick() do { Core.State = (Core.State * 2891336453u) + 747796405u; Core.State ^= Core.State >> 16; } while (0)
 #define ktn_jump(Value, Text) do { strcpy(Exception_Text, Text); Exception_Value = Value; longjmp(Exception, Value); } while (0)
 #define ktn_stricmp(A, B) (_stricmp((A), (B)) == 0)//add unix support via ifdef
+#define ktn_reset_target() do { SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture); } while (0)

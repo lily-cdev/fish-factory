@@ -7,11 +7,11 @@
 	<Inputs>
 		<Input>
 			<Item>hydrogen</Item>
-			<Volume>20.0</Volume>
+			<Volume>2.0</Volume>
 		</Input>
 		<Input>
 			<Item>chlorine</Item>
-			<Volume>20.0</Volume>
+			<Volume>2.0</Volume>
 		</Input>
 		<Input>
 			<Item>none</Item>
@@ -33,7 +33,7 @@
 	<Outputs>
 		<Output>
 			<Item>hydrogen_chloride</Item>
-			<Volume>20.0</Volume>
+			<Volume>2.0</Volume>
 		</Output>
 		<Output>
 			<Item>none</Item>

@@ -8,17 +8,17 @@
 	<Inputs>
 		<Input>
 			<Item>saltwater</Item>
-			<Volume>2</Volume>
+			<Volume>20</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
 			<Item>water</Item>
-			<Volume>2</Volume>
+			<Volume>20</Volume>
 		</Output>
 		<Output>
 			<Item>wet_salt</Item>
-			<Volume>2</Volume>
+			<Volume>20</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

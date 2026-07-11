@@ -496,9 +496,9 @@ void Bake_Light(Point Pos) {
 				Render_Texture(Cache.Light_Grad, &Rect);
 			}
 		}
-		SDL_SetRenderTarget(Core.Renderer, NULL);
-		Clear_Renderer();
 	}
+	ktn_reset_target();
+	Clear_Renderer();
 }
 
 void Bake_Lights() {
@@ -509,7 +509,7 @@ void Bake_Lights() {
 		SDL_RenderClear(Core.Renderer);
 	}
 	Clear_Renderer();
-	SDL_SetRenderTarget(Core.Renderer, NULL);
+	ktn_reset_target();
 	for (int X = 0; X < ktn_grid_size; X++) {
 		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			Bake_Light((Point){ X, Y });

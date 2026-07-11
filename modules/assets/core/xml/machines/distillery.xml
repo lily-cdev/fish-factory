@@ -26,7 +26,7 @@
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>left</Dir>
-			<Cap>6</Cap>
+			<Cap>24</Cap>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -35,13 +35,13 @@
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>right</Dir>
-			<Cap>4</Cap>
+			<Cap>24</Cap>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>1</Y>
 			<Dir>right</Dir>
-			<Cap>4</Cap>
+			<Cap>24</Cap>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>	

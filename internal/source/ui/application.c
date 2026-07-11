@@ -1,7 +1,7 @@
 #include <ui.h>
 
 void Render_Application() {
-    SDL_SetRenderTarget(Core.Renderer, Core.Game_Texture);
+	ktn_reset_target();
 	Render_Ocean();
 	Render_Pyramid();
 	if (Interface.Building && Data.Funds - Interface.Item->Price >= 0 && Interface.Prompt_Identifier == P_None) {

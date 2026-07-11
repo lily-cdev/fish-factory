@@ -7,7 +7,7 @@
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>
-	<Chem_Energy>5000</Chem_Energy>
+	<Chem_Energy>2500</Chem_Energy>
 	<Boil_Pt>214</Boil_Pt>
 	<V_Enthalpy>41</V_Enthalpy>
 	<Nutrition>50</Nutrition>

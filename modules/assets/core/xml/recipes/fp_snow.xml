@@ -8,13 +8,13 @@
 	<Inputs>
 		<Input>
 			<Item>seawater</Item>
-			<Volume>1</Volume>
+			<Volume>10</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
 			<Item>wet_marine_snow</Item>
-			<Volume>0.1</Volume>
+			<Volume>1</Volume>
 		</Output>
 		<Output>
 			<Item>none</Item>
@@ -22,7 +22,7 @@
 		</Output>
 		<Output>
 			<Item>saltwater</Item>
-			<Volume>0.9</Volume>
+			<Volume>9</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

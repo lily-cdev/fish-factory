@@ -8,21 +8,21 @@
 	<Inputs>
 		<Input>
 			<Item>saltwater</Item>
-			<Volume>2</Volume>
+			<Volume>4</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
 			<Item>hydrogen</Item>
-			<Volume>2</Volume>
+			<Volume>0.008</Volume>
 		</Output>
 		<Output>
 			<Item>wet_lye</Item>
-			<Volume>1</Volume>
+			<Volume>0.08</Volume>
 		</Output>
 		<Output>
 			<Item>chlorine</Item>
-			<Volume>1</Volume>
+			<Volume>0.15</Volume>
 		</Output>
 	</Outputs>	
 </Recipe>

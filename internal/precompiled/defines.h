@@ -45,6 +45,6 @@
 #define ktn_tile_size 40
 #define ktn_tools 5
 #define ktn_turbine_coefficient 0.15
-#define ktn_unit "uFI"
-#define ktn_valve300_len 4
+#define ktn_unit "kg"
+#define ktn_valve300_len 7
 #define ktn_water_boil_pt 211.3

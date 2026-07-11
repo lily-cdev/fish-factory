@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>filtration plant</Name>
-	<Desc>Filters liquids, using very little electricity to operate.</Desc>
+	<Desc>Filters liquids and solids at a small energy cost.</Desc>
 	<Index>filtration_plant</Index>
 	<Parent>processing</Parent>
 	<Texture_Type>spinner</Texture_Type>
@@ -27,7 +27,7 @@
 			<X>0</X>
 			<Y>1</Y>
 			<Dir>left</Dir>
-			<Cap>2</Cap>
+			<Cap>12</Cap>
 		</Input>
 	</Inputs>
 	<Output_Ct>3</Output_Ct>
@@ -36,19 +36,19 @@
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>right</Dir>
-			<Cap>4</Cap>
+			<Cap>12</Cap>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>1</Y>
 			<Dir>right</Dir>
-			<Cap>2</Cap>
+			<Cap>12</Cap>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>2</Y>
 			<Dir>right</Dir>
-			<Cap>2</Cap>
+			<Cap>12</Cap>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

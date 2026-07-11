@@ -149,6 +149,7 @@ void Load_XML() {
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	int ID_Record = 0;
+	int Sub_ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
 		#define get_str(Victim) (Find_Element(Raw_Names[C1], Machine_File, Victim, NULL))
@@ -295,6 +296,7 @@ void Load_XML() {
 		Item.Path = get_str("Path");
 		Item.Coolant = Get_Boolean(Item_File, "Coolant");
 		Item.ID = get_int("ID");
+		Sub_ID_Record = max(Sub_ID_Record, Item.ID);
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
 		Item.Nutrition = get_int("Nutrition") * 0.01f;
@@ -437,7 +439,7 @@ void Load_XML() {
 	}
 	ktn_free(Raw_Names);
 	ktn_free(Registrar);
-	printf("debug info:\nlowest unreg. visual id -> %i\n", ID_Record + 1);
+	printf("debug info:\nlowest unreg. visual id -> %i\nlowest unreg. item id -> %i\n", ID_Record + 1, Sub_ID_Record + 1);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {

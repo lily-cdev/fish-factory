@@ -42,7 +42,7 @@
 		<Machine>core/xml/machines/p_generator</Machine>
 		<Machine>core/xml/machines/lamp</Machine>
 	</Machines>
-	<Item_Ct>19</Item_Ct>
+	<Item_Ct>22</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -63,8 +63,11 @@
 		<Item>core/xml/items/a_lye</Item>
 		<Item>core/xml/items/m_acid</Item>
 		<Item>core/xml/items/h_chloride</Item>
+		<Item>core/xml/items/sediment</Item>
+		<Item>core/xml/items/silicates</Item>
+		<Item>core/xml/items/clay</Item>
 	</Items>
-	<Recipe_Ct>8</Recipe_Ct>
+	<Recipe_Ct>10</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -74,6 +77,8 @@
 		<Recipe>core/xml/recipes/ep_hnaocl</Recipe>
 		<Recipe>core/xml/recipes/rp_seawater</Recipe>
 		<Recipe>core/xml/recipes/fm_hcl</Recipe>
+		<Recipe>core/xml/recipes/sd_sediment</Recipe>
+		<Recipe>core/xml/recipes/fp_sediment</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

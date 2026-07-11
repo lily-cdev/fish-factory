@@ -24,13 +24,13 @@
 			<X>0</X>
 			<Y>2</Y>
 			<Dir>down</Dir>
-			<Cap>3</Cap>
+			<Cap>24</Cap>
 		</Input>
 		<Input>
 			<X>3</X>
 			<Y>2</Y>
 			<Dir>down</Dir>
-			<Cap>3</Cap>
+			<Cap>24</Cap>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -39,13 +39,13 @@
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>3</Cap>
+			<Cap>24</Cap>
 		</Output>
 		<Output>
 			<X>3</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>3</Cap>
+			<Cap>24</Cap>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

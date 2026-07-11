@@ -170,13 +170,14 @@ void Process_Inputs() {
 						if (Interface.Engagement == 2) {
 							Data.Settings_Grid[pt(Pos)][3] = Interface.Valve300_Postions[Interface.Slider_Positions[7]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set primary valve to %iuFI/s", (int)Data.Settings_Grid[pt(Pos)][3]);
+							snprintf(Buffer, sizeof(Buffer), "set primary valve to %i%s/s", (int)Data.Settings_Grid[pt(Pos)][3],
+								ktn_unit);
 							Print_Response(Buffer);
 						} else {
 							Data.Settings_Grid[pt(Pos)][4] = Interface.Valve300_Postions[Interface.Slider_Positions[13]];
 							char Buffer[64];
-							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %iuFI/s", (int)Data.Settings_Grid[pt(Pos)][
-								4]);
+							snprintf(Buffer, sizeof(Buffer), "set feedwater valve to %i%s/s", (int)Data.Settings_Grid[pt(Pos)][4],
+								ktn_unit);
 							Print_Response(Buffer);
 						}
 						break;

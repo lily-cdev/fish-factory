@@ -192,7 +192,6 @@ void Reset_Statistics() {
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
 	Bake_Lights();
-	Save_Data(Core.Selected_Save);
 	for (int C1 = 0; C1 < 16; C1++) {
 		ktn_free(Fishlinks[C1].Fish);
 	}
