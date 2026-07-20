@@ -57,6 +57,9 @@ void Preload_Machines() {
 			Metadata.Machines[C1].Depth = 3;
 			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y, true);
 			break;
+		case A_RL_Drag:
+			Metadata.Machines[C1].Depth = 3;
+			Load_Animated_Rotational(Metadata.Machines[C1].Path, &Metadata.Machines[C1].Texture3, Metadata.Machines[C1].Size.Y, false);			
 		case A_None:
 			char* Index = Metadata.Machines[C1].Index;
 			if (ktn_stricmp(Index, "ram_pump")) {
@@ -105,7 +108,7 @@ void Preload_Machines() {
 	Textures.Floor_Texture = Preload_Texture("core/images/tiles/ground");
 	Textures.Frame_Texture = Preload_Texture("core/images/tiles/frame");
 	Textures.Tile_Texture = Preload_Texture("core/images/tiles/tile");
-	Textures.Gene_Add= Preload_Texture("core/images/genes/add");
+	Textures.Gene_Add = Preload_Texture("core/images/genes/add");
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
@@ -201,19 +204,6 @@ void Preload_Text(SDL_Texture** Texture, SDL_FRect* Rect, const char* Text, Font
 ~start;
 void Preload_Assets() {
 	SDL_Texture* Carrying_Texture = NULL;
-	Metadata.Null_Item = (Item_Data){
-		.Name = "none",
-		.Index = "none",
-		.ID = ktn_invalid,
-		.Worth = Worthless,
-		.Danger = Harmless,
-		.Price = 0,
-		.Nutrition = 0,
-		.Chem_Energy = 0,
-		.Boil_Pt = -2,
-		.V_Enthalpy = -2,
-		.Icon = Preload_Texture("core/images/items/none")
-	};
 	Metadata.Contents = calloc(Core.Categories, sizeof(char**));
 	for (int C1 = 0; C1 < Core.Categories; C1++) {
 		int Index = 0;
@@ -473,7 +463,7 @@ void Preload_Assets() {
 		(float)Carrying_Texture->h
 	};
 	Textures.Recipe_Content = Carrying_Texture;
-	Carrying_Texture = Render_Text(F_Large, "genetics", Colors.Abyss_Black);
+	Carrying_Texture = Render_Text(F_Large, /*"genetics"*/"coming soon!", Colors.Abyss_Black);
 	Rects.Genetics_Content = (SDL_FRect){
 		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
 		ktn_fscale(20.0f),
@@ -591,7 +581,8 @@ void Preload_Assets() {
 		Carrier.Data[C1] = malloc(strlen(Metadata.Buttons[C1 + 31]) + 1);
 		strcpy(Carrier.Data[C1], Metadata.Buttons[C1 + 31]);
 	}
-	Carrier.Data[Carrier.Length] = Metadata.Buttons[50];
+	Carrier.Data[Carrier.Length] = malloc(strlen(Metadata.Buttons[50]) + 1);
+	strcpy(Carrier.Data[Carrier.Length], Metadata.Buttons[50]);
 	Carrier.Length++;
 	Preload_Terminal_Sidebar(&Carrier, &Textures.SD_Buttons, &Rects.SD_Buttons);
 	Free_String2(&Carrier);

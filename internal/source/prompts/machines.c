@@ -11,7 +11,7 @@ void Render_MSP_Controller(Point Pos) {
 			(UI_Link){ MSP_Empty, .Param.Pos = Pos }
 		};
 		Render_Sidebuttons(&Textures.MSP_Buttons, &Rects.MSP_Buttons, Links);
-		Render_Slider(1, 1, 2, (Point){ 475, 210 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
+		Render_Slider(1, 1, 2, (Point){ 475, 240 }, 110, Colors.Cherry_Blossom, Colors.Pure_White, false);
 		if (Interface.Engagement == 0) {
 			char* Parameters[5][4] = {
 				{ "tank_info", ktn_null_string },

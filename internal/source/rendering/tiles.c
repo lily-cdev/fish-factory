@@ -108,18 +108,16 @@ void Render_Grid() {
 							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
 							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
 						};
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
 						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
 							Data.Animation_Grid[Column][Row][1] += (float)ktn_static_rate / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 9) {
 								Data.Animation_Grid[Column][Row][1] = 0;
 							}
-							Source = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(Machine->Kiln_Data.Size.X), ktn_fscale(
-								Machine->Kiln_Data.Size.Y) };
+							Source = (SDL_FRect){ 0, 0, ktn_fscale(Machine->Kiln_Data.Size.X), ktn_fscale(Machine->Kiln_Data.Size.Y) };
 							Destination = (SDL_FRect){
-								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(
-									Core.Camera.X),
-								((ktn_fscale(ktn_tile_size) - Source.w) * 0.5f) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(
-									Core.Camera.Y),//fix l8er
+								ktn_fscale(Machine->Kiln_Data.Pos.X) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(Core.Camera.X),
+								ktn_fscale(Machine->Kiln_Data.Pos.Y) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(Core.Camera.Y),
 								ktn_fscale(Machine->Kiln_Data.Size.X),
 								ktn_fscale(Machine->Kiln_Data.Size.Y)
 							};
@@ -127,6 +125,52 @@ void Render_Grid() {
 								&Destination);
 						}
 						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
+						break;
+					case A_RL_Drag:
+						Carrier = (SDL_FRect){
+							Rects.Tile_1x1.x,
+							Rects.Tile_1x1.y,
+							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
+							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
+						};
+						float Subcarrier;
+						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
+							if (Data.Animation_Grid[Column][Row][1] < Machine->RL_Drag_Data.Start) {
+								Subcarrier = 0;
+							} else if (Data.Animation_Grid[Column][Row][1] < Machine->RL_Drag_Data.Return) {
+								Subcarrier = ktn_fscale(Machine->RL_Drag_Data.Delta) * ((Data.Animation_Grid[Column][Row][1] -
+									Machine->RL_Drag_Data.Start) / (Machine->RL_Drag_Data.Return - Machine->RL_Drag_Data.Start));
+							} else if (Data.Animation_Grid[Column][Row][1] < Machine->RL_Drag_Data.End) {
+								Subcarrier = ktn_fscale(Machine->RL_Drag_Data.Delta);
+							} else if (Data.Animation_Grid[Column][Row][1] < 1.0f) {
+								Subcarrier = ktn_fscale(Machine->RL_Drag_Data.Delta) * (1.0f - ((Data.Animation_Grid[Column][Row][1] -
+									Machine->RL_Drag_Data.End) / (1.0f - Machine->RL_Drag_Data.End)));
+							} else {
+								Data.Animation_Grid[Column][Row][1] = 0.0f;
+							}
+							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;//MAKE ROTATABLE!!!
+						} else {
+							Data.Animation_Grid[Column][Row][1] = 0.0f;
+						}
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
+						switch (Rotation + 1) {
+						case Left:
+							Carrier.x += Subcarrier;
+							break;
+						case Up:
+							Carrier.y += Subcarrier;
+							break;
+						case Right:
+							Carrier.x -= Subcarrier;
+							break;
+						case Down:
+							Carrier.y -= Subcarrier;
+							break;
+						default:
+							break;
+						}
+						Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
+						break;
 					case A_None:
 						if (ktn_stricmp(Machine->Index, "ram_pump")) {
 							if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
@@ -229,13 +273,11 @@ void Render_Grid() {
 								if (Data.Animation_Grid[Column][Row][1] >= 0.5f) {
 									Data.Animation_Grid[Column][Row][1] = 0;
 									ktn_tick();
-									Point_f Coordinate = { (float)(Core.State % 52) + 16.0f };
+									Point Coordinate = { (Core.State % 52) + 16 };
 									ktn_tick();
-									Coordinate.Y = (float)(Core.State % 52) + 16.0f;
-									if (Rotation == 1) {
-										Coordinate.X += ktn_tile_size;
-									}
-									Push_Particle(P_Bubble, (Point){ Column, Row }, Coordinate);
+									Coordinate.Y = (Core.State % 52) + 16;
+									Push_Particle(P_Bubble, (Point){ Column, Row }, Rotate_Px(Coordinate, (Point){ Carrier.x, Carrier.y },
+										Rotation));
 								}
 							}
 							Render_Particles((Point){ Column, Row });

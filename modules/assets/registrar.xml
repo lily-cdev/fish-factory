@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>39</Machine_Ct>
+	<Machine_Ct>42</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -41,8 +41,11 @@
 		<Machine>core/xml/machines/s_drill</Machine>
 		<Machine>core/xml/machines/p_generator</Machine>
 		<Machine>core/xml/machines/lamp</Machine>
+		<Machine>core/xml/machines/kiln</Machine>
+		<Machine>core/xml/machines/molder</Machine>
+		<Machine>core/xml/machines/light</Machine>
 	</Machines>
-	<Item_Ct>22</Item_Ct>
+	<Item_Ct>26</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -66,8 +69,12 @@
 		<Item>core/xml/items/sediment</Item>
 		<Item>core/xml/items/silicates</Item>
 		<Item>core/xml/items/clay</Item>
+		<Item>core/xml/items/r_brick</Item>
+		<Item>core/xml/items/brick</Item>
+		<Item>core/xml/items/l_glass</Item>
+		<Item>core/xml/items/glass</Item>
 	</Items>
-	<Recipe_Ct>10</Recipe_Ct>
+	<Recipe_Ct>14</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -79,6 +86,10 @@
 		<Recipe>core/xml/recipes/fm_hcl</Recipe>
 		<Recipe>core/xml/recipes/sd_sediment</Recipe>
 		<Recipe>core/xml/recipes/fp_sediment</Recipe>
+		<Recipe>core/xml/recipes/m_rbrick</Recipe>
+		<Recipe>core/xml/recipes/m_lglass</Recipe>
+		<Recipe>core/xml/recipes/k_glass</Recipe>
+		<Recipe>core/xml/recipes/k_brick</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>light</Name>
+	<Desc>A low-power light. Its connection to the superstructure means it does not require external power.</Desc>
+	<Index>light</Index>
+	<Parent>decoration</Parent>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/light</Path>
+	<Price>10</Price>
+	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>1</Height>
+	<Nonrotatable />
+	<Single_ID />
+	<Visual_ID>158</Visual_ID>
+	<Power_Type>none</Power_Type>
+	<Has_Light />
+	<Light_Ct>1</Light_Ct>
+	<Lights>
+		<Light>
+			<X>20</X>
+			<Y>20</Y>
+			<Range>240</Range>
+		</Light>
+	</Lights>
+</Machine>

@@ -3,7 +3,7 @@
 	<Name>spawning input</Name>
 	<Desc>An input for fish-compatible biomass.</Desc>
 	<Index>spawning_input</Index>
-	<Parent>cultivation</Parent>
+	<Parent>mod_pool</Parent>
 	<Texture_Type>static</Texture_Type>
 	<Path>core/images/machines/msp_input</Path>
 	<Price>3</Price>

@@ -20,7 +20,11 @@ Point Find_Linked(const char* Index, Point Parent) {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Index) && Data.Settings_Grid[pt(Pos)][3] == Parent.X &&
+			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+			if (!Chosen) {
+				continue;
+			}
+			if (ktn_stricmp(Chosen->Index, Index) && Data.Settings_Grid[pt(Pos)][3] == Parent.X &&
 				Data.Settings_Grid[pt(Pos)][4] == Parent.Y) {
 				return Pos;
 			}

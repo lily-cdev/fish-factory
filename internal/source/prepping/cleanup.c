@@ -103,6 +103,14 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Genes[C1].Path);
 		ktn_free_texture(Metadata.Genes[C1].Icon);
 	}
+	for (int C1 = 0; C1 < Core.Categories; C1++) {
+		ktn_free(Metadata.Categories[C1].Name);
+		ktn_free(Metadata.Categories[C1].Index);
+	}
+	for (int C1 = 0; C1 < Core.Subcategories; C1++) {
+		ktn_free(Metadata.Subcategories[C1].Name);
+		ktn_free(Metadata.Subcategories[C1].Index);
+	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo);
 	ktn_free_texture(Textures.CMD_Warning1);
@@ -211,6 +219,7 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);
 	ktn_free_texture(Cache.Blueprint_Cache);
+	ktn_free_texture(Cache.Light_Grad);
 	ktn_free(Metadata.Machines);
 	ktn_free(Metadata.Items);
 	ktn_free(Metadata.Recipes);

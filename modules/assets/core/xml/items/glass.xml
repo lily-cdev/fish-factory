@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>clay</Name>
-	<Index>clay</Index>
-	<ID>22</ID>
-	<Path>core/images/items/clay</Path>
+	<Name>glass</Name>
+	<Index>glass</Index>
+	<ID>26</ID>
+	<Path>core/images/items/glass</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
-	<Price>10</Price>
+	<Value>mid</Value>
+	<Price>120</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>5400</Boil_Pt>
+	<Boil_Pt>4082</Boil_Pt>
 	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

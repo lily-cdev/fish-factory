@@ -113,7 +113,8 @@ enum Issues {
 	I_No_Hazard,
 	I_No_Value,
 	I_No_Type,
-	I_No_Float
+	I_No_Float,
+	I_No_Item
 };
 
 enum Error {
@@ -193,7 +194,8 @@ typedef enum {
 	A_Modular,
 	A_Spinner,
 	A_Gauged,
-	A_Kiln
+	A_Kiln,
+	A_RL_Drag
 } Anim_Type;
 
 typedef enum {

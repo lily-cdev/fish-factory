@@ -110,6 +110,19 @@ void Load_XML() {
 	Core.Subcategories = Get_Integer("registrar", Registrar, "Subcategory_Ct");
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Category", Core.Categories);
 	Metadata.Categories = calloc(Core.Categories, sizeof(Category_Data));
+	Metadata.Null_Item = (Item_Data){
+		.Name = "none",
+		.Index = "none",
+		.ID = ktn_invalid,
+		.Worth = Worthless,
+		.Danger = Harmless,
+		.Price = 0,
+		.Nutrition = 0,
+		.Chem_Energy = 0,
+		.Boil_Pt = -2,
+		.V_Enthalpy = -2,
+		.Icon = Preload_Texture("core/images/items/none")
+	};
 	for (int C1 = 0; C1 < Core.Categories; C1++) {
 		#define Category Metadata.Categories[C1]
 		#define get_str(Victim) (Find_Element(Raw_Names[C1], Category_File, Victim, NULL))
@@ -186,6 +199,12 @@ void Load_XML() {
 			Machine.Animation_Type = A_Kiln;
 			Machine.Kiln_Data.Pos = (Point){ get_int("Kiln_X"), get_int("Kiln_Y") };
 			Machine.Kiln_Data.Size = (Point){ get_int("Kiln_W"), get_int("Kiln_H") };
+		} else if (ktn_stricmp(Texture_Type, "rl_drag")) {
+			Machine.Animation_Type = A_RL_Drag;
+			Machine.RL_Drag_Data.Return = Get_Float(Raw_Names[C1], Machine_File, "Return");
+			Machine.RL_Drag_Data.Delta = Get_Float(Raw_Names[C1], Machine_File, "Delta");
+			Machine.RL_Drag_Data.Start = Get_Float(Raw_Names[C1], Machine_File, "Start");
+			Machine.RL_Drag_Data.End = Get_Float(Raw_Names[C1], Machine_File, "End");
 		} else {
 			ktn_jump(I_No_Animtype, "xml parser failed to process \"Texture_Type\"");
 		}
@@ -378,14 +397,28 @@ void Load_XML() {
 		Recipe.Machine = Get_Machine(get_str("Parent"));
 		char** IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Input", Recipe.Machine->Input_Ct);
 		for (int C2 = 0; C2 < Recipe.Machine->Input_Ct; C2++) {
-			Recipe.Input_Items[C2] = Get_Item(Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL));
+			char* Name = Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL);
+			Recipe.Input_Items[C2] = Get_Item(Name);
+			if (Recipe.Input_Items[C2]->ID == Metadata.Null_Item.ID && !ktn_stricmp(Name, "none")) {
+				char Carrier[128];
+				snprintf(Carrier, sizeof(Carrier), "xml parser failed to get \"%s\" at \"%s\"", Name, Raw_Names[C1]);
+				ktn_jump(I_No_Item, Carrier);
+			}
+			ktn_free(Name);
 			Recipe.Input_Counts[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Volume");
 			ktn_free(IO_Carrier[C2]);
 		}
 		ktn_free(IO_Carrier);
 		IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Output", Recipe.Machine->Output_Ct);
 		for (int C2 = 0; C2 < Recipe.Machine->Output_Ct; C2++) {
+			char* Name = Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL);
 			Recipe.Output_Items[C2] = Get_Item(Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL));
+			if (Recipe.Output_Items[C2]->ID == Metadata.Null_Item.ID && !ktn_stricmp(Name, "none")) {
+				char Carrier[128];
+				snprintf(Carrier, sizeof(Carrier), "xml parser failed to get \"%s\" at \"%s\"", Name, Raw_Names[C1]);
+				ktn_jump(I_No_Item, Carrier);
+			}
+			ktn_free(Name);
 			Recipe.Output_Counts[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Volume");
 			ktn_free(IO_Carrier[C2]);
 		}

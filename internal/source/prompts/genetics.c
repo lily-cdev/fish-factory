@@ -3,7 +3,7 @@
 void Render_Genetics(Point Pos) {
 	Render_Box((Point){ 10, 10 }, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	Render_Texture(Textures.Genetics_Content, &Rects.Genetics_Content);
-	for (int C1 = 0; C1 < Core.Genes; C1++) {
+	/*for (int C1 = 0; C1 < Core.Genes; C1++) {
 		SDL_FRect Bounding = { ktn_fscale(((ktn_tile_size + 12) * C1) + 120), ktn_fscale(50), ktn_fscale(ktn_tile_size), ktn_fscale(
 			ktn_tile_size) };
 		SDL_FRect Initial = Bounding;
@@ -35,5 +35,5 @@ void Render_Genetics(Point Pos) {
 		} else {
 			Render_Texture(Metadata.Genes[C1].Icon, &Subcarrier);
 		}
-	}
+	}*/
 }

@@ -78,7 +78,6 @@ void Update_Machines() {
 				Data.Animation_Grid[pt(Pos)][0] = 1.0f;
 				if (Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Has_Audio) {
 					ma_sound* Carrier = &Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Run;
-					ma_sound_set_volume(Carrier, 1.0f);
 					ma_result Result = ma_sound_start(Carrier);
 					if (Result != MA_SUCCESS) {
 						printf("%d\n", Result);//TMP

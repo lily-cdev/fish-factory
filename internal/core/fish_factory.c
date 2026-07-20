@@ -74,6 +74,7 @@ int main(int argc, char* args[]) {
 		case 0:
 			Render_Effects();
 			Render_Lighting();
+			Adjust_Audio();
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
 					if (Interface.Time_Frames < Interface.Max_Time_Frames) {

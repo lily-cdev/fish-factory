@@ -6,7 +6,7 @@
 	<Parent>other</Parent>
 	<Texture_Type>kiln</Texture_Type>
 	<Kiln_X>10</Kiln_X>
-	<Kiln_Y>50</Kiln_Y>
+	<Kiln_Y>10</Kiln_Y>
 	<Kiln_W>20</Kiln_W>
 	<Kiln_H>20</Kiln_H>
 	<Path>core/images/machines/incinerator</Path>

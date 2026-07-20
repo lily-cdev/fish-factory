@@ -8,7 +8,7 @@ Particle* Particle_Grid[ktn_grid_size][ktn_grid_size] = { };
 int Lengths[ktn_grid_size][ktn_grid_size] = { };
 int Full_Lengths[ktn_grid_size][ktn_grid_size] = { };
 
-void Push_Particle(const int Type, const Point Pos, const Point_f Subpos) {
+void Push_Particle(const int Type, const Point Pos, const Point Subpos) {
 	if (Lengths[pt(Pos)] >= Full_Lengths[pt(Pos)]) {
 		Full_Lengths[pt(Pos)] += 32;
 		Particle_Grid[pt(Pos)] = realloc(Particle_Grid[pt(Pos)], sizeof(Particle) * Full_Lengths[pt(Pos)]);

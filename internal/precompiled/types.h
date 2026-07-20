@@ -86,6 +86,13 @@ typedef struct {
 } Fire_Data;
 
 typedef struct {
+	float Return;
+	float Delta;
+	float Start;
+	float End;
+} RL_Blowback_Data;
+
+typedef struct {
 	Point Pos;
 	Flow_Type Flow;
 	Dir Connection;
@@ -137,6 +144,7 @@ typedef struct {
 		Spinner_Data Spin_Data;
 		Gauged_Data Gauge_Data;
 		Fire_Data Kiln_Data;
+		RL_Blowback_Data RL_Drag_Data;
 	};
 	union {
 		int Visual_ID1;

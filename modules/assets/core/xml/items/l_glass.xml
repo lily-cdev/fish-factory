@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>molten glass</Name>
+	<Index>liquid_glass</Index>
+	<ID>25</ID>
+	<Path>core/images/items/l_glass</Path>
+	<Hazard>none</Hazard>
+	<Value>low</Value>
+	<Price>60</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>4082</Boil_Pt>
+	<V_Enthalpy>900</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

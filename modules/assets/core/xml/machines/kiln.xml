@@ -5,13 +5,19 @@
 	<Index>kiln</Index>
 	<Parent>processing</Parent>
 	<Texture_Type>kiln</Texture_Type>
+	<Kiln_X>21</Kiln_X>
+	<Kiln_Y>32</Kiln_Y>
+	<Kiln_W>15</Kiln_W>
+	<Kiln_H>15</Kiln_H>
 	<Path>core/images/machines/kiln</Path>
 	<Price>600</Price>
 	<Fee>3</Fee>
 	<Width>2</Width>
 	<Height>2</Height>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>1</Power_Capacity>
+	<Power_Capacity>6000</Power_Capacity>
+	<Anchor_X>56</Anchor_X>
+	<Anchor_Y>40</Anchor_Y>
 	<Rot_ID />
 	<Visual_Left>150</Visual_Left>
 	<Visual_Up>151</Visual_Up>
@@ -37,4 +43,6 @@
 		</Output>		
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
+	<Has_Audio />
+	<Run_Audio>core/audio/machines/kiln</Run_Audio>
 </Machine>

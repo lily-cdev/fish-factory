@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>molder</Name>
+	<Desc>Casts materials, liquid or solid, into an ingot shape. Siphons power from the heat of molten metal, eliminating the need for an external power source.</Desc>
+	<Index>molder</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>rl_drag</Texture_Type>
+	<Start>0.2</Start>
+	<Return>0.5</Return>
+	<End>0.7</End>
+	<Delta>40</Delta>
+	<Path>core/images/machines/molder</Path>
+	<Price>240</Price>
+	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>1</Height>
+	<Rot_ID />
+	<Visual_Left>154</Visual_Left>
+	<Visual_Up>155</Visual_Up>
+	<Visual_Right>156</Visual_Right>
+	<Visual_Down>157</Visual_Down>
+	<Power_Type>none</Power_Type>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>down</Dir>
+			<Cap>3</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>down</Dir>
+			<Cap>3</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>
