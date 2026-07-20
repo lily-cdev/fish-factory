@@ -18,7 +18,6 @@ bool Place_Spawning_Controller(Point Pos) {
 			Data.Settings_Grid[pt(Pos)][5] = C1;
 			Fishlinks[C1] = (struct Fishlink){
 				.Allocated = true,
-				.Fish = malloc(0),
 				.Type = Get_Fish(0)
 			};
 			break;

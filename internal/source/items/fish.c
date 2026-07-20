@@ -42,4 +42,4 @@ char Growth_Phases[ktn_fish_phases][32] = { "egg", "larva", "fry", "fingerling",
 char Plural_Growth_Phases[ktn_fish_phases][32] = { "eggs", "larvae", "fries", "fingerlings", "juveniles", "near-adults" };
 int Growth_Weights[ktn_fish_phases] = { 0, 5, 20, 35, 55, 100 };
 int Pool_Ct = 0;
-struct Fishlink Fishlinks[16];
+struct Fishlink Fishlinks[ktn_fishlinks];

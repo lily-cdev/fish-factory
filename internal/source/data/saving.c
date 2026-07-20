@@ -86,6 +86,18 @@ bool Save_Data(int Slot) {
 			fputc((char)Subbridge.Orienation, File);
 		}
 	}
+	for (int C1 = 0; C1 < ktn_fishlinks; C1++) {
+		fputc((char)Fishlinks[C1].Allocated, File);
+		fputc((char)Fishlinks[C1].Autofill, File);
+		fputc((char)((Fishlinks[C1].Type) ? Fishlinks[C1].Type->Identifier : -1), File);
+		fwrite(&(float){ Fishlinks[C1].Nutrition }, sizeof(float), 1, File);
+		fwrite(&(int16_t){ Fishlinks[C1].Size }, sizeof(int16_t), 1, File);
+		fwrite(&(int16_t){ Fishlinks[C1].Fish_Ct }, sizeof(int16_t), 1, File);
+		for (int C2 = 0; C2 < Fishlinks[C1].Fish_Ct; C2++) {
+			fwrite(&(float){ Fishlinks[C1].Fish[C2].Damage }, sizeof(float), 1, File);
+			fwrite(&(int16_t){ Fishlinks[C1].Fish[C2].Growth }, sizeof(int16_t), 1, File);
+		}
+	}
 	fclose(File);
 	return true;
 }
@@ -102,7 +114,7 @@ bool Load_Data(int Slot) {
 	if (ftell(File) > 0) {
 		rewind(File);
 		uint8_t Version = (uint8_t)fgetc(File);
-		if (Version == 0) {
+		if (Version >= 0) {
 			Data.Day = (uint8_t)fgetc(File);
 			Data.CMD_Placed = (bool)fgetc(File);
 			fread(&Data.Time, sizeof(uint16_t), 1, File);
@@ -155,6 +167,27 @@ bool Load_Data(int Slot) {
 					Push_Bridge(((C1 == 0) ? &Wires : &Pipes), Subbridge);
 				}
 			}
+		}
+		if (Version >= 1) {
+			for (int C1 = 0; C1 < ktn_fishlinks; C1++) {
+				Fishlinks[C1].Allocated = (bool)fgetc(File);
+				Fishlinks[C1].Autofill = (bool)fgetc(File);
+				Fishlinks[C1].Type = Get_Fish((int)fgetc(File));
+				if (!Fishlinks[C1].Type) {
+					Fishlinks[C1].Type = &Metadata.Fish[0];
+				}
+				fread(&Fishlinks[C1].Nutrition, sizeof(float), 1, File);
+				fread(&Fishlinks[C1].Size, sizeof(int16_t), 1, File);
+				fread(&Fishlinks[C1].Fish_Ct, sizeof(int16_t), 1, File);
+				ktn_free(Fishlinks[C1].Fish);
+				Fishlinks[C1].Fish = calloc(Fishlinks[C1].Fish_Ct, sizeof(struct Subfish));
+				for (int C2 = 0; C2 < Fishlinks[C1].Fish_Ct; C2++) {
+					fread(&Fishlinks[C1].Fish[C2].Damage, sizeof(float), 1, File);
+					fread(&Fishlinks[C1].Fish[C2].Growth, sizeof(int16_t), 1, File);
+				}
+			}
+		} else {
+			memset(Fishlinks, 0, sizeof(Fishlinks));
 		}
 	} else {
 		Save_Data(Slot);

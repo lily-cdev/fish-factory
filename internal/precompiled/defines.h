@@ -15,6 +15,7 @@
 #define ktn_epsilon 1e-7
 #define ktn_errors 14
 #define ktn_fish_phases 6
+#define ktn_fishlinks 16
 #define ktn_fonts 7
 #define ktn_grid_size 48
 #define ktn_health 120

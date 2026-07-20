@@ -6,7 +6,9 @@ struct Proto_Core Core = {
 	.Selected_Save = ktn_invalid,
 	.Camera = { -140, 0 }
 };
-struct Proto_Data Data = { };
+struct Proto_Data Data = {
+	.Version = 1
+};
 struct Proto_Metadata Metadata = {
 .Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
 	.Supported_Resolutions = { { 640, 360 }, { 1280, 720 }, { 1920, 1080 }, { 2560, 1440 }, { 3200, 1800 }, { 3840, 2160 } },

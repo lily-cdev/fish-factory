@@ -31,7 +31,7 @@ void Render_Wires() {
 		Set_Renderer_Color(Colors.Copper_Wire);
 		for (int C2 = 0; C2 < Wires.Length; C2++) {
 			if (Wires.Data[C2].Filled) {
-				Render_Cable(Wires.Data[C2], (Point){ Offset_X, Offset_Y });
+				Render_Cable(Wires.Data[C2], (Point){ -Offset_X, -Offset_Y });
 			} else {
 				Rects.Node.x = ktn_fscale((Wires.Data[C2].X1 * ktn_tile_size) - Core.Camera.X);
 				Rects.Node.y = ktn_fscale((Wires.Data[C2].Y1 * ktn_tile_size) - Core.Camera.Y);

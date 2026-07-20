@@ -29,8 +29,8 @@ int main(int argc, char* args[]) {
 	Reseed_State();
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
+		//get exception text
 		snprintf(Carrier, sizeof(Carrier), "fatal error %d: %s", Exception_Value, Exception_Text);
-		//handle uwu
 		puts(Carrier);
 		exit(Exception_Value);
 	}
