@@ -366,12 +366,6 @@ void Remove_Machine(Point Pos) {
 			Wires.Data[C1].Filled = false;
 		}
 	}
-	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		if ((Pipes.Data[C1].X1 == Pos.X && Pipes.Data[C1].Y1 == Pos.Y) || (Pipes.Data[C1].X2 == Pos.X &&
-			Pipes.Data[C1].Y2 == Pos.Y)) {
-			Pipes.Data[C1].Filled = false;
-		}
-	}
 }
 
 bool Destroy_Grid() {
@@ -380,25 +374,26 @@ bool Destroy_Grid() {
 		Rects.Tile_1x1.x = ktn_fscale((Pos.X * ktn_tile_size) - Core.Camera.X);
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
 			Rects.Tile_1x1.y = ktn_fscale((Pos.Y * ktn_tile_size) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[pt(Pos)] != 0) {
-					Cache.Wire_State = Deep_Recache;
-					if (Data.Visual_Grid[pt(Pos)] == ktn_invalid) {
-						Remove_Machine((Point){
-							(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]),
-							(int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
-						});
-					} else {
-						Remove_Machine(Pos);
-					}
-					Clear_Unconnected_Bridges(&Wires);
-					Clear_Unconnected_Bridges(&Pipes);
-					Update_Grid();
-					Recast_Machines();
-					Bake_Lights();
-					Find_Effect();
-					return true;
+			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
+				continue;
+			}
+			if (Data.Visual_Grid[pt(Pos)] != 0) {
+				Cache.Wire_State = Deep_Recache;
+				if (Data.Visual_Grid[pt(Pos)] == ktn_invalid) {
+					Remove_Machine((Point){
+						(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]),
+						(int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
+					});
+				} else {
+					Remove_Machine(Pos);
 				}
+				Clear_Unconnected_Bridges(&Wires);
+				Clear_Unconnected_Bridges(&Pipes);
+				Update_Grid();
+				Recast_Machines();
+				Bake_Lights();
+				Find_Effect();
+				return true;
 			}
 		}
 	}

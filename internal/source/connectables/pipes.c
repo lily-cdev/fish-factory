@@ -99,67 +99,16 @@ void Render_Pipes() {
 	}
 }
 
-void Distribute_Fluid(Bridge** Grouped_List, int Grouped, int* Sizes) {
-	for (int C1 = 0; C1 < Grouped; C1++) {
-		float Remaining_Fluid = Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids];
-		float Used_Fluid = 0;
-		for (int C2 = 0; C2 < Sizes[C1]; C2++) {
-			if (Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2] == ktn_invalid || Data.Items_Grid[
-				Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1] == Data.Items_Grid[Grouped_List[C1][C2].X2][Grouped_List[
-				C1][C2].Y2]) {
-				float Minimum = min(Remaining_Fluid, Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][1] -
-					Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids]);
-				Data.Data_Grid[Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] = Data.Data_Grid[
-					Grouped_List[C1][C2].X2][Grouped_List[C1][C2].Y2][Stored_Fluids] + Minimum;
-				Update_Item((Point){ Grouped_List[C1][C2].X2, Grouped_List[C1][C2].Y2 }, Data.Items_Grid[Grouped_List[C1][C2].X1][
-					Grouped_List[C1][C2].Y1], Data.Temperature_Grid[Grouped_List[C1][C2].X1][Grouped_List[C1][C2].Y1]);
-				Remaining_Fluid = Remaining_Fluid - Minimum;
-				Used_Fluid = Used_Fluid + Minimum;
-			}
-		}
-		Data.Data_Grid[Grouped_List[C1][0].X1][Grouped_List[C1][0].Y1][Stored_Fluids] = Data.Data_Grid[Grouped_List[C1][
-			0].X1][Grouped_List[C1][0].Y1][Stored_Fluids] - Used_Fluid;
-	}
-}
-
 void Update_Pipes() {
-	Bridge** Grouped_List = calloc(Pipes.Length, sizeof(Bridge*));
-	int* Sizes = calloc(Pipes.Length, sizeof(int));
-	int Grouped = 0;
-	if (Pipes.Length > 0) {
-		for (int C1 = 0; C1 < Pipes.Length; C1++) {
-			if (Pipes.Data[C1].Filled) {
-				Bridge Pipe = Pipes.Data[C1];
-				if (Grouped > 0) {
-					bool Uncategorized = true;
-					for (int C2 = 0; C2 < Grouped; C2++) {
-						if (Pipe.X1 == Grouped_List[C2][0].X1 && Pipe.Y1 == Grouped_List[C2][0].Y1) {
-							Grouped_List[C2] = realloc(Grouped_List[C2], sizeof(Bridge) * (C2 + 1));
-							Grouped_List[C2][Sizes[C2]] = Pipe;
-							Sizes[C2]++;
-							Uncategorized = false;
-							break;
-						}
-					}
-					if (Uncategorized) {
-						Grouped_List[Grouped] = malloc(sizeof(Bridge));
-						Grouped_List[Grouped][0] = Pipe;
-						Sizes[Grouped] = 1;
-						Grouped++;
-					}
-				} else {
-					Grouped_List[Grouped] = malloc(sizeof(Bridge));
-					Grouped_List[Grouped][0] = Pipe;
-					Sizes[Grouped] = 1;
-					Grouped++;
-				}
-			}
+	for (int C1 = 0; C1 < Pipes.Length; C1++) {
+		Bridge Pipe = Pipes.Data[C1];
+		if (!Pipe.Filled) {
+			continue;
 		}
-		Distribute_Fluid(Grouped_List, Grouped, Sizes);
+		float Volume = Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids];
+		Volume = min(Volume, Data.Data_Grid[Pipe.X2][Pipe.Y2][Fluid_Cap] - Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids]);
+		Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids] -= Volume;
+		Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids] += Volume;
+		Update_Item((Point){ Pipe.X2, Pipe.Y2 }, Data.Items_Grid[Pipe.X1][Pipe.Y1], Data.Temperature_Grid[Pipe.X1][Pipe.Y1]);
 	}
-	for (int C1 = 0; C1 < Grouped; C1++) {
-		ktn_free(Grouped_List[C1]);
-	}
-	ktn_free(Grouped_List);
-	ktn_free(Sizes);
 }

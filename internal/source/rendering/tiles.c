@@ -89,8 +89,8 @@ void Render_Grid() {
 							Machine->Gauge_Data.Size.X;
 						Point Subsize = { Machine->Size.X * ktn_tile_size, Machine->Size.Y * ktn_tile_size };
 						Point Origin = Rotate_Px(Machine->Gauge_Data.Pos, Subsize, Rotation);
-						Point End = Rotate_Px((Point){ Machine->Gauge_Data.Pos.X + Width, Machine->Gauge_Data.Size.Y +
-							Machine->Gauge_Data.Pos.Y }, Subsize, Rotation);
+						Point End = Rotate_Px((Point){ Machine->Gauge_Data.Pos.X + Width, Machine->Gauge_Data.Pos.Y +
+							Machine->Gauge_Data.Size.Y }, Subsize, Rotation);
 						SDL_FRect Rect = {
 							ktn_fscale((Column * ktn_tile_size) + Origin.X - Core.Camera.X),
 							ktn_fscale((Row * ktn_tile_size) + Origin.Y - Core.Camera.Y),
@@ -115,11 +115,15 @@ void Render_Grid() {
 								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 							Source = (SDL_FRect){ 0, 0, ktn_fscale(Machine->Kiln_Data.Size.X), ktn_fscale(Machine->Kiln_Data.Size.Y) };
+							Point Subsize = { Machine->Size.X * ktn_tile_size, Machine->Size.Y * ktn_tile_size };
+							Point Origin = Rotate_Px(Machine->Kiln_Data.Pos, Subsize, Rotation);
+							Point End = Rotate_Px((Point){ Machine->Kiln_Data.Pos.X + Machine->Kiln_Data.Size.X, Machine->Kiln_Data.Pos.Y +
+								Machine->Kiln_Data.Size.Y }, Subsize, Rotation);
 							Destination = (SDL_FRect){
-								ktn_fscale(Machine->Kiln_Data.Pos.X) + ktn_fscale(Column * ktn_tile_size) - ktn_fscale(Core.Camera.X),
-								ktn_fscale(Machine->Kiln_Data.Pos.Y) + ktn_fscale(Row * ktn_tile_size) - ktn_fscale(Core.Camera.Y),
-								ktn_fscale(Machine->Kiln_Data.Size.X),
-								ktn_fscale(Machine->Kiln_Data.Size.Y)
+								ktn_fscale((Column * ktn_tile_size) + Origin.X - Core.Camera.X),
+								ktn_fscale((Row * ktn_tile_size) + Origin.Y - Core.Camera.Y),
+								ktn_fscale(End.X - Origin.X),
+								ktn_fscale(End.Y - Origin.Y)
 							};
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][1])], &Source,
 								&Destination);
@@ -148,7 +152,7 @@ void Render_Grid() {
 							} else {
 								Data.Animation_Grid[Column][Row][1] = 0.0f;
 							}
-							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;//MAKE ROTATABLE!!!
+							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
 						} else {
 							Data.Animation_Grid[Column][Row][1] = 0.0f;
 						}

@@ -54,10 +54,10 @@ void Render_Wire_Nodes() {
 				Settings.Scalar * ktn_tile_size * 0.5f,
 				Settings.Scalar * ktn_tile_size * 0.5f
 			};
-			Rects.Node.x = ktn_fscale((Wires.Data[C1].X1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][
-				5]) - Core.Camera.X - (ktn_tile_size * 0.5f));
-			Rects.Node.y = ktn_fscale((Wires.Data[C1].Y1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][
-				6]) - Core.Camera.Y - (ktn_tile_size * 0.5f));
+			Rects.Node.x = ktn_fscale((Wires.Data[C1].X1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][5]) -
+				Core.Camera.X - (ktn_tile_size * 0.5f));
+			Rects.Node.y = ktn_fscale((Wires.Data[C1].Y1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][6]) -
+				Core.Camera.Y - (ktn_tile_size * 0.5f));
 			SDL_RenderTextureRotated(Core.Renderer, Textures.Node, NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint,
 				SDL_FLIP_NONE);
 		}
