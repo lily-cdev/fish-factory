@@ -60,8 +60,6 @@ add_executable(Fish_Factory
 	internal/source/grid/updates.c
 	internal/source/grid/machines.c
 	internal/source/grid/movement.c
-	internal/source/actions/menus.c
-	internal/source/actions/none.c
 	internal/source/placing/cultivators.c
 	internal/source/placing/generators.c
 	internal/source/placing/other.c

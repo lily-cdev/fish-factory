@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>deep drill</Name>
+	<Desc>Digs up oceanic basalt from 3km below the seafloor.</Desc>
+	<Index>deep_drill</Index>
+	<Parent>extraction</Parent>
+	<Texture_Type>spinner</Texture_Type>
+	<Speed>90</Speed>
+	<Path>core/images/machines/d_drill</Path>
+	<Price>900</Price>
+	<Fee>3</Fee>
+	<Width>1</Width>
+	<Height>1</Height>
+	<Rot_ID />
+	<Visual_Left>159</Visual_Left>
+	<Visual_Up>160</Visual_Up>
+	<Visual_Right>161</Visual_Right>
+	<Visual_Down>162</Visual_Down>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>3700</Power_Capacity>
+	<Anchor_X>70</Anchor_X>
+	<Anchor_Y>40</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>2</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

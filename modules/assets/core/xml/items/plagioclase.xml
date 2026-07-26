@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>brick</Name>
+	<Index>brick</Index>
+	<ID>24</ID>
+	<Path>core/images/items/brick</Path>
+	<Hazard>none</Hazard>
+	<Value>low</Value>
+	<Price>12</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5400</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

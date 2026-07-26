@@ -8,8 +8,8 @@ void Render_Keybinds() {
 		SDL_FRect Prefix_Rectangle = {
 			ktn_fscale(370.0f),
 			ktn_fscale((C1 * 16.0f) + 40.0f),
-			(float)Prefix_Texture->w,
-			(float)Prefix_Texture->h
+			Prefix_Texture->w,
+			Prefix_Texture->h
 		};
 		Render_Texture(Prefix_Texture, &Prefix_Rectangle);
 		if (Interface.Registering_Keybind == C1) {
@@ -17,8 +17,8 @@ void Render_Keybinds() {
 			SDL_FRect Registering_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
-				(float)Registering_Texture->w,
-				(float)Registering_Texture->h
+				Registering_Texture->w,
+				Registering_Texture->h
 			};
 			Render_Texture(Registering_Texture, &Registering_Rectangle);
 			ktn_free_texture(Registering_Texture);
@@ -32,11 +32,11 @@ void Render_Keybinds() {
 			SDL_FRect Deadbutton_Rectangle = {
 				Prefix_Rectangle.x + Prefix_Rectangle.w + 20,
 				Prefix_Rectangle.y,
-				(float)Deadbutton_Texture->w,
-				(float)Deadbutton_Texture->h
+				Deadbutton_Texture->w,
+				Deadbutton_Texture->h
 			};
 			if (Detect_Mouse_Collision(Deadbutton_Rectangle)) {
-				Interface.UI_Selection = C1 + 6;
+				Interface.UI_Query = (UI_Link){ .Carrier = Set_Keybind, .Param.Integer = C1 };
 				char Alivebutton_Text[64];
 				snprintf(Alivebutton_Text, sizeof(Alivebutton_Text), "> %s <", Subcore);
 				SDL_Texture* Alivebutton_Texture = Render_Text(F_Subtext, Alivebutton_Text, Colors.Cherry_Blossom);
@@ -46,8 +46,8 @@ void Render_Keybinds() {
 				SDL_FRect Alivebutton_Rectangle = {
 					Deadbutton_Rectangle.x - Offset,
 					Deadbutton_Rectangle.y,
-					(float)Alivebutton_Texture->w,
-					(float)Alivebutton_Texture->h
+					Alivebutton_Texture->w,
+					Alivebutton_Texture->h
 				};
 				Render_Texture(Alivebutton_Texture, &Alivebutton_Rectangle);
 				SDL_FRect Underline_Rectangle = {
@@ -80,10 +80,10 @@ void Render_Settings() {
 	Render_Slider(4, 2, 4, (Point){ 50, 140 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Render_Slider(5, 3, 100, (Point){ 50, 210 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
 	Render_Slider(6, 4, 2, (Point){ 50, 280 }, 220, Colors.Abyss_Black, Colors.Cherry_Blossom, true);
-	Render_Button(&Textures.Anti_Aliasing.Data[(int)(!Settings.AA_Temporary)], &Rects.Anti_Aliasing.Data[(int)(
-		!Settings.AA_Temporary)], (UI_Link){ Swap_AA }, Colors.Cherry_Blossom);
-	Render_Button(&Textures.V_Sync.Data[(int)Settings.VS_Temporary], &Rects.V_Sync.Data[(int)Settings.VS_Temporary],
-		(UI_Link){ Swap_VS }, Colors.Cherry_Blossom);
+	Render_Button(&Textures.Anti_Aliasing.Data[(int)(!Settings.AA_Temporary)], &Rects.Anti_Aliasing.Data[(int)(!Settings.AA_Temporary)],
+		(UI_Link){ Swap_AA }, Colors.Cherry_Blossom);
+	Render_Button(&Textures.V_Sync.Data[(int)Settings.VS_Temporary], &Rects.V_Sync.Data[(int)Settings.VS_Temporary], (UI_Link){ Swap_VS },
+		Colors.Cherry_Blossom);
 	if (Temporary.Settings_Changed) {
 		Render_Button(&Textures.Save_Settings, &Rects.Save_Settings, (UI_Link){ Update_Settings }, Colors.Cherry_Blossom);
 	}

@@ -84,3 +84,16 @@ void Loop_Forward(Parameter Unused, Parameter Unused2) {
 	Cache_Price();
 	Cache_Blueprint();
 }
+
+void Set_Tool(Parameter Tool, Parameter Unused) {
+	if (Tool.Integer >= T_Building && Tool.Integer <= T_Plumbing) {
+		Interface.Tool = Tool.Integer;
+		Update_Cursor();
+	}
+}
+
+void Set_Keybind(Parameter Index, Parameter Unused) {
+	if (Interface.Registering_Keybind == ktn_invalid) {
+		Interface.Registering_Keybind = Index.Integer;
+	}
+}

@@ -44,7 +44,7 @@ void Render_Application() {
 	if (Interface.Tool == T_Plumbing) {
 		Render_Pipes();
 	}
-	if (Interface.Tool == T_Building && Interface.UI_Selection == 0 && Interface.Prompt_Identifier == P_None) {
+	if (Interface.Tool == T_Building && !Interface.UI_Query.Carrier && Interface.Prompt_Identifier == P_None) {
 		Point Pos;
 		ID_To_Size(Interface.Item, Interface.Rotation, &Pos.X, &Pos.Y);
 		if (Pos.X > 0 || Pos.Y > 0) {
@@ -216,7 +216,7 @@ void Render_Hotbar() {
 				Color = Colors.Cherry_Blossom;
 			}
 			if (Detect_Mouse_Collision(Pasting)) {
-				Interface.UI_Selection = C1;
+				Interface.UI_Query = (UI_Link){ .Carrier = Set_Tool, .Param.Integer = C1 };
 			}
 			Set_Renderer_Color(Color);
 			SDL_RenderFillRect(Core.Renderer, &Pasting);

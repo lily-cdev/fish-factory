@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>42</Machine_Ct>
+	<Machine_Ct>43</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -44,6 +44,7 @@
 		<Machine>core/xml/machines/kiln</Machine>
 		<Machine>core/xml/machines/molder</Machine>
 		<Machine>core/xml/machines/light</Machine>
+		<Machine>core/xml/machines/d_drill</Machine>
 	</Machines>
 	<Item_Ct>26</Item_Ct>
 	<Items>

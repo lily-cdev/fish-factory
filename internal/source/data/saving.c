@@ -243,6 +243,10 @@ void Reload_All(bool Initialized) {
 	Core.Screenhalfsize = (Point_f){ ktn_fscale(320.0f), ktn_fscale(180.0f) };
 	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);
 	SDL_SetWindowPosition(Core.Window, 0, 0);
+	if (Initialized) {
+		Cleanup_Assets();
+		Free_Sounds();
+	}
 	Preload_Fonts();
 	Temporary.Spinner = Preload_Texture("core/images/ui/other/spinner");
 	Temporary.Spinner_Rect = (SDL_FRect){
@@ -258,10 +262,6 @@ void Reload_All(bool Initialized) {
 		(float)Temporary.Load_Text->w,
 		(float)Temporary.Load_Text->h
 	};
-	if (Initialized) {
-		Cleanup_Assets();
-		Free_Sounds();
-	}
 	Load_XML();
 	Preload_Lights();
 	Load_Text();

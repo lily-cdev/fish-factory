@@ -403,3 +403,7 @@ void Shop_Subitem(Parameter Selection, Parameter Unused) {
 	}
 }
 #undef In_Shop
+
+void Set_Catalog_Machine(Parameter Index, Parameter Unused) {
+	Interface.Subprompt_Identifier = Index.Integer - 3;
+}

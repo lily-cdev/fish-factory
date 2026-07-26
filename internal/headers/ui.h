@@ -1,6 +1,7 @@
 #pragma once
 #include <core.h>
 #include <prepping.h>
+#include <buttons.h>
 #include <grid.h>
 #include <rendering.h>
 #include <tutorials.h>
@@ -19,8 +20,7 @@ void Render_Help(Point Pos);
 void Render_Shop(Point Pos);
 void Render_Catalog(Point Pos);
 void Render_Genetics(Point Pos);
-void Render_Slider(int ID, int Engagement, int Nodes, Point Pos, int Width, SDL_Color Primary, SDL_Color Secondary,
-	bool Text_Visible);
+void Render_Slider(int ID, int Engagement, int Nodes, Point Pos, int Width, SDL_Color Primary, SDL_Color Secondary, bool Text_Visible);
 void Render_Application();
 void Render_Main();
 void Render_Loader();

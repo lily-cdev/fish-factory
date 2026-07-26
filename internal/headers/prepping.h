@@ -326,7 +326,6 @@ struct Proto_Interface {
 	Point Looper;
 	int UI_Tab;
 	int Subtab;
-	int UI_Selection;
 	UI_Link UI_Query;
 	int Frame_Rate;
 	int Time_Frames;
@@ -435,3 +434,4 @@ void Free_Text();
 Point Rotate_Pt(Point Input, Point Size, int Rot);
 Point Rotate_Px(Point Input, Point Size, int Rot);
 Category_Ptr Get_Category(const char* Index);
+void Update_Cursor();

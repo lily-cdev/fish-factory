@@ -27,9 +27,9 @@ void Render_Catalog(Point Pos) {
 				Base_Subwidth,
 				Base_Subwidth
 			};
-			if (Detect_Mouse_Collision(Outer_Rectangle) && Interface.UI_Selection == 0) {
+			if (Detect_Mouse_Collision(Outer_Rectangle) && !Interface.UI_Query.Carrier) {
 				Set_Renderer_Color(Colors.Cherry_Blossom);
-				Interface.UI_Selection = C1 + 3;
+				Interface.UI_Query = (UI_Link){ .Carrier = Set_Catalog_Machine, .Param.Integer = C1 + 3 };
 			} else {
 				Set_Renderer_Color(Colors.Abyss_Black);
 			}
@@ -61,7 +61,7 @@ void Render_Catalog(Point Pos) {
 			Index++;
 		}
 	} else {
-		int Offset = 120;
+		int Offset = 60;
 		int Index = Interface.Subprompt_Identifier;
 		char Candidate[256];
 		int Number = 1;
@@ -83,36 +83,37 @@ void Render_Catalog(Point Pos) {
 			}
 			Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 16, Offset });
 			Offset += 20;
-			if (Metadata.Recipes[C1].Machine->Input_Ct > 0) {
-				strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
-				Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
-				Offset += 20;
-			}
+			strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Input_Ct; C3++) {
 				Abbreviate_Number(Metadata.Recipes[C1].Input_Counts[C3] / Metadata.Recipes[C1].Time, Buffer, sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%s%s/s %s", Buffer, ktn_unit, Metadata.Recipes[C1].Input_Items[C3]->Name);
+				strcat(Candidate, Buffer);
+				strcat(Candidate, ktn_unit);
+				strcat(Candidate, "/s ");
+				strcat(Candidate, Metadata.Recipes[C1].Input_Items[C3]->Name);
 				if (C3 < Metadata.Recipes[C1].Machine->Input_Ct - 1) {
 					strcat(Candidate, ", ");
 				}
-				Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 36, Offset });
+			}
+			if (Metadata.Recipes[C1].Machine->Input_Ct > 0) {
+				Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 				Offset += 20;
 			}
-			if (Metadata.Recipes[C1].Machine->Output_Ct > 0) {
-				strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
-				Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
-				Offset += 20;
-			}
+			strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Output_Ct; C3++) {
 				if (ktn_stricmp(Metadata.Recipes[C1].Output_Items[C3]->Name, "none")) {
 					continue;
 				}
-				Abbreviate_Number(Metadata.Recipes[C1].Output_Counts[C3] / Metadata.Recipes[C1].Time, Buffer,
-					sizeof(Buffer));
-				snprintf(Candidate, sizeof(Candidate), "%s%s/s %s", Buffer, ktn_unit, Metadata.Recipes[C1].Output_Items[C3]->Name);
+				Abbreviate_Number(Metadata.Recipes[C1].Output_Counts[C3] / Metadata.Recipes[C1].Time, Buffer, sizeof(Buffer));
+				strcat(Candidate, Buffer);
+				strcat(Candidate, ktn_unit);
+				strcat(Candidate, "/s ");
+				strcat(Candidate, Metadata.Recipes[C1].Output_Items[C3]->Name);
 				if (C3 < Metadata.Recipes[C1].Machine->Output_Ct - 1) {
 					strcat(Candidate, ", ");
 				}
-				Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 36, Offset });
+			}
+			if (Metadata.Recipes[C1].Machine->Output_Ct > 0) {
+				Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 				Offset += 20;
 			}
 			Number++;

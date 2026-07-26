@@ -46,3 +46,6 @@ void Shop_Subitem(Parameter Selection, Parameter Unused);
 void Click_Sidebar(Parameter Bar, Parameter Unused);
 void Loop_Back(Parameter Unused, Parameter Unused2);
 void Loop_Forward(Parameter Unused, Parameter Unused2);
+void Set_Tool(Parameter Tool, Parameter Unused);
+void Set_Catalog_Machine(Parameter Index, Parameter Unused);
+void Set_Keybind(Parameter Index, Parameter Unused);

@@ -10,6 +10,3 @@
 
 void Close_Prompt();
 void Process_Inputs();
-void Handle_None(Point Pos);
-void Handle_Help(Point Pos);
-void Handle_Catalog(Point Pos);

@@ -232,6 +232,7 @@ SDL_Texture* Render_Text(Font_Index Font, const char* Text, SDL_Color Color) {
 		Carrier = TTF_RenderText_Solid(Fonts.Faces[Font], Text, strlen(Text), Color);
 	}
 	SDL_Texture* Yield = Surface_To_Texture(Carrier);
+	SDL_DestroySurface(Carrier);
 	return Yield;
 }
 

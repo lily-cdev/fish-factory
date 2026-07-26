@@ -16,22 +16,6 @@ void Update_Cursor() {
 	(Interface.Tool == T_None || Interface.Tool == T_Building) ? SDL_ShowCursor() : SDL_HideCursor();
 }
 
-void (*Prompt_Functions[13])(Point Pos) = {
-    Handle_None,
-    Handle_Help,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    Handle_Catalog,
-    NULL,
-	NULL
-};
-
 void Process_Inputs() {
 	Point Pos = Interface.Tile;
 	SDL_Event Application_Event;
@@ -199,14 +183,17 @@ void Process_Inputs() {
 							Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
 							Play_Sound(Click, false);
 						} else {
-							if (Interface.Bar_Up) {
-								if (Interface.UI_Selection >= T_Building && Interface.UI_Selection <= T_Plumbing) {
-									Interface.Tool = Interface.UI_Selection;
-									Update_Cursor();//mov
-								}
-							} else {
-								if (Prompt_Functions[Interface.Prompt_Identifier + 1]) {
-									Prompt_Functions[Interface.Prompt_Identifier + 1](Pos);//rem
+							if (!Interface.Bar_Up && Interface.UI_Tab == 0) {
+								if (Interface.Tool == T_Building && Interface.Prompt_Identifier == P_None) {
+									Interface.Building = true;
+								} else if (Interface.Tool == T_Deleting) {
+									Destroy_Grid();
+									Update_Grid();
+								} else if (Interface.Tool == T_Wiring) {
+									Place_Wire();
+								} else if (Interface.Tool == T_Plumbing) {
+									Place_Pipe();
+									Update_Grid();
 								}
 							}
 						}
@@ -254,5 +241,4 @@ void Process_Inputs() {
 			break;
 		}
 	}
-	Interface.UI_Selection = 0;
 }
