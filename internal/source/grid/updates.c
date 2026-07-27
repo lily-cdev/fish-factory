@@ -64,7 +64,8 @@ void Update_Machines() {
 				default:
 					break;
 				}
-				if (Data.Settings_Grid[pt(Pos)][S_Time] > ktn_epsilon) {
+				if (Data.Settings_Grid[pt(Pos)][S_Time] > ktn_epsilon && ktn_stricmp(Data.Processing_Grid[pt(Pos)], Metadata.Recipes[
+					C1].Index)) {
 					Data.Settings_Grid[pt(Pos)][S_Time]--;
 					Extend_Recipe(Metadata.Recipes[C1], Pos, Outputs);
 					Yielded = true;

@@ -55,6 +55,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 					}
 				}
 				Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
+				strcpy(Data.Processing_Grid[pt(Pos)], Chosen.Index);
 				return true;
 			}
 		}
@@ -171,6 +172,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				Data.Data_Grid[pt(Inputs[C1])][Stored_Fluids] -= Chosen.Input_Counts[C1];
 			}
 			Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
+			strcpy(Data.Processing_Grid[pt(Pos)], Chosen.Index);
 		} else {
 			//later
 		}

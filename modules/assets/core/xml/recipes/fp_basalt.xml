@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
-	<Index>fp_msnow</Index>
+	<Index>fp_basalt</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>1</Time>
@@ -8,22 +8,22 @@
 	<Parent>filtration_plant</Parent>
 	<Inputs>
 		<Input>
-			<Item>seawater</Item>
+			<Item>basalt</Item>
 			<Volume>10</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
-			<Item>wet_marine_snow</Item>
-			<Volume>1</Volume>
+			<Item>plagioclase</Item>
+			<Volume>5</Volume>
 		</Output>
 		<Output>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
+			<Item>pyroxene</Item>
+			<Volume>3</Volume>
 		</Output>
 		<Output>
-			<Item>saltwater</Item>
-			<Volume>9</Volume>
+			<Item>metal_mix</Item>
+			<Volume>2</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

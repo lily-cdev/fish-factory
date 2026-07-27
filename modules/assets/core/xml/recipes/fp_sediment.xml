@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
+	<Index>fp_sediment</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>1</Time>

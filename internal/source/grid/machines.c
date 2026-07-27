@@ -33,8 +33,8 @@ Point Find_Linked(const char* Index, Point Parent) {
 	return (Point){ ktn_invalid, ktn_invalid };
 }
 
-bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
-	bool Yield = (Is_Bound(Pos) && ((Is_Pipe && (Data.Plumbing_Grid[pt(Pos)] == Direction || Data.Plumbing_Grid[pt(Pos)] == Any)) ||
+bool Match_Pipe(Point Pos, Point Og, int Direction, int Target, char* Machines[]) {
+	bool Yield = (Is_Bound(Pos) && ((Data.Plumbing_Grid[pt(Pos)] == Direction || Data.Plumbing_Grid[pt(Pos)] == Any) ||
 		Data.Behavior_Grid[pt(Pos)] == Target));
 	bool Unconnected = true;
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
@@ -47,58 +47,76 @@ bool Match(Point Pos, Point Og, int Direction, int Target, bool Is_Pipe) {
 	return (Unconnected) ? false : Yield;
 }
 
-#define Param(XM, YM, Direction) (Point){ Pos.X + (XM), Pos.Y + (YM) }, Pos, Direction, Target, Is_Pipe
-int Modular_Detection(Point Pos, int Target, bool Is_Pipe) {
-	if (Target == ktn_invalid) {
-		Target = -2;
+bool Match_Mod(Point Pos, Point Og, int Direction, int Length, char* Machines[]) {
+	if (!Is_Bound(Pos)) {
+		return false;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
+	for (int C1 = 0; C1 < Length; C1++) {
+		Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+		if (!Machine) {
+			continue;
+		}
+		if (ktn_stricmp(Machine->Index, Machines[C1])) {
+			return true;
+		}
+	}
+	return false;
+}
+
+#define Param(XM, YM, Direction) (Point){ Pos.X + (XM), Pos.Y + (YM) }, Pos, Direction, Target_Data, Machines
+#define Func(XM, YM, Direction) ((Is_Pipe) ? Match_Pipe(Param(XM, YM, Direction)) : Match_Mod(Param(XM, YM, Direction)))
+int Mod_Detection(Point Pos, int Target_Data, bool Is_Pipe, char* Machines[]) {
+	if (Target_Data == ktn_invalid) {
+		Target_Data = -2;
+	}
+	if (Func(-1, 0, Right) && Func(1, 0, Left) && Func(0, 1, Up) && Func(0, -1, Down)) {
 		return C_Omni;
 	}
-	if (Match(Param(1, 0, Left)) && Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
+	if (Func(1, 0, Left) && Func(0, 1, Up) && Func(0, -1, Down)) {
 		return C_LeftT;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(0, -1, Up)) && Match(Param(0, 1, Down))) {
+	if (Func(-1, 0, Right) && Func(0, -1, Up) && Func(0, 1, Down)) {
 		return C_RightT;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, 1, Up))) {
+	if (Func(-1, 0, Right) && Func(1, 0, Left) && Func(0, 1, Up)) {
 		return C_UpT;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left)) && Match(Param(0, -1, Down))) {
+	if (Func(-1, 0, Right) && Func(1, 0, Left) && Func(0, -1, Down)) {
 		return C_DownT;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(1, 0, Left))) {
+	if (Func(-1, 0, Right) && Func(1, 0, Left)) {
 		return C_Horizontal;
 	}
-	if (Match(Param(0, 1, Up)) && Match(Param(0, -1, Down))) {
+	if (Func(0, 1, Up) && Func(0, -1, Down)) {
 		return C_Vertical;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(0, -1, Down))) {
+	if (Func(-1, 0, Right) && Func(0, -1, Down)) {
 		return C_LeftTop;
 	}
-	if (Match(Param(1, 0, Left)) && Match(Param(0, -1, Down))) {
+	if (Func(1, 0, Left) && Func(0, -1, Down)) {
 		return C_TopRight;
 	}
-	if (Match(Param(1, 0, Left)) && Match(Param(0, 1, Up))) {
+	if (Func(1, 0, Left) && Func(0, 1, Up)) {
 		return C_RightBottom;
 	}
-	if (Match(Param(-1, 0, Right)) && Match(Param(0, 1, Up))) {
+	if (Func(-1, 0, Right) && Func(0, 1, Up)) {
 		return C_BottomLeft;
 	}
-	if (Match(Param(-1, 0, Right))) {
+	if (Func(-1, 0, Right)) {
 		return C_Left;
 	}
-	if (Match(Param(0, -1, Down))) {
+	if (Func(0, -1, Down)) {
 		return C_Top;
 	}
-	if (Match(Param(1, 0, Left))) {
+	if (Func(1, 0, Left)) {
 		return C_Right;
 	}
-	if (Match(Param(0, 1, Up))) {
+	if (Func(0, 1, Up)) {
 		return C_Bottom;
 	}
 	return C_None;
 }
+#undef Func
 #undef Param
 
 int Recursive_Detect(Point Pos, const char* Target, const char* Self, bool Grid[ktn_grid_size][ktn_grid_size], bool Self_Accounted,
@@ -193,9 +211,10 @@ void Update_Grid() {
 				continue;
 			}
 			if (ktn_stricmp(Machine->Index, "heavy_pipe")) {
-				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, ktn_invalid, true) + 1;
+				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, ktn_invalid, true, NULL) + 1;
 			} else if (Data.Visual_Grid[pt(Pos)] > 23 && Data.Visual_Grid[pt(Pos)] < 41) {
-				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, 0, false) + 24;
+				char* Params[4] = { "spawning_pool", "spawning_controller", "spawning_output", "spawning_input" };
+				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, 4, false, Params) + 24;
 			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
 				Temporary.First_Coordinate = Pos;
 				int ID = Data.Settings_Grid[pt(Pos)][5];
@@ -212,7 +231,7 @@ void Update_Grid() {
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
 			} else if (ktn_stricmp(Machine->Index, "large_pipe")) {
-				Temporary_Grid[pt(Pos)] = Modular_Detection(Pos, ktn_invalid, true) + 71;
+				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, ktn_invalid, true, NULL) + 71;
 			}
 		}
 	}
@@ -324,24 +343,15 @@ void Remove_Machine(Point Pos) {
 	ID_To_Size(Target, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
 		Wipe_Tile(Pos);
-		Data.Visual_Grid[pt(Pos)] = 0;
-		Data.Wiring_Grid[pt(Pos)] = ktn_invalid;
-		Data.Plumbing_Grid[pt(Pos)] = ktn_invalid;
-		Data.Behavior_Grid[pt(Pos)] = ktn_invalid;
-		memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
-		Data.Data_Grid[pt(Pos)][4] = ktn_invalid;
-		for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
-			Data.Settings_Grid[pt(Pos)][C1] = ktn_invalid;
-		}
-		for (int C1 = 0; C1 < sizeof(Data.Animation_Grid[pt(Pos)]) / sizeof(Data.Animation_Grid[pt(Pos)][0]); C1++) {
-			Data.Animation_Grid[pt(Pos)][C1] = ktn_invalid;
-		}
-		Update_Item(Pos, ktn_invalid, ktn_room_temp);
+		Reset_Tile(Pos);
 		if (ktn_stricmp(Target->Index, "spawning_controller")) {
 			Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Allocated = false;
 			ktn_free(Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Fish);
 			//rem fishlink
 			Pool_Ct--;
+		}
+		if (Interface.Item->Command) {
+			Data.CMD_Placed = false;
 		}
 	} else {
 		if (ktn_stricmp(Target->Index, "sub_dock")) {

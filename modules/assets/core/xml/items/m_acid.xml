@@ -3,7 +3,14 @@
 	<Name>muriatic acid</Name>
 	<Index>muriatic_acid</Index>
 	<ID>10</ID>
-	<Path>core/images/items/m_acid</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>202</R1>
+	<G1>230</G1>
+	<B1>77</B1>
+	<R2>168</R2>
+	<G2>200</G2>
+	<B2>43</B2>
 	<Hazard>mid</Hazard>
 	<Value>low</Value>
 	<Price>38</Price>

@@ -313,6 +313,15 @@ void Load_XML() {
 		Item.Name = get_str("Name");
 		Item.Index = get_str("Index");
 		Item.Path = get_str("Path");
+		Item.Uniform = Get_Boolean(Item_File, "Uniform");
+		if (Item.Uniform) {
+			Item.Primary.r = get_int("R1");
+			Item.Primary.g = get_int("G1");
+			Item.Primary.b = get_int("B1");
+			Item.Secondary.r = get_int("R2");
+			Item.Secondary.g = get_int("G2");
+			Item.Secondary.b = get_int("B2");
+		}
 		Item.Coolant = Get_Boolean(Item_File, "Coolant");
 		Item.ID = get_int("ID");
 		Sub_ID_Record = max(Sub_ID_Record, Item.ID);
@@ -377,6 +386,7 @@ void Load_XML() {
 		#define get_str(Victim) (Find_Element(Raw_Names[C1], Recipe_File, Victim, NULL))
 		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Recipe_File, Victim))
 		char* Recipe_File = Get_File(Raw_Names[C1]);
+		Recipe.Index = get_str("Index");
 		char* Subtype = get_str("Type");
 		if (ktn_stricmp(Subtype, "both")) {
 			Recipe.Type = 0;
@@ -394,7 +404,9 @@ void Load_XML() {
 		Recipe.Voiding_Excess = Get_Boolean(Recipe_File, "Voiding_Excess");
 		Recipe.Time = get_int("Time");
 		Recipe.Power = get_int("Power");
-		Recipe.Machine = Get_Machine(get_str("Parent"));
+		char* Carrier = get_str("Parent");
+		Recipe.Machine = Get_Machine(Carrier);
+		ktn_free(Carrier);
 		char** IO_Carrier = Find_Multiple(Raw_Names[C1], Recipe_File, "Input", Recipe.Machine->Input_Ct);
 		for (int C2 = 0; C2 < Recipe.Machine->Input_Ct; C2++) {
 			char* Name = Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL);

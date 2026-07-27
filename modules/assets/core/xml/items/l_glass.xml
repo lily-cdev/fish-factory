@@ -3,7 +3,14 @@
 	<Name>molten glass</Name>
 	<Index>liquid_glass</Index>
 	<ID>25</ID>
-	<Path>core/images/items/l_glass</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>169</R1>
+	<G1>200</G1>
+	<B1>204</B1>
+	<R2>208</R2>
+	<G2>223</G2>
+	<B2>228</B2>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
 	<Price>60</Price>

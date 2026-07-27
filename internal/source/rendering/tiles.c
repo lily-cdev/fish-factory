@@ -137,7 +137,7 @@ void Render_Grid() {
 							ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
 							ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
 						};
-						float Subcarrier;
+						float Subcarrier = 0;
 						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
 							if (Data.Animation_Grid[Column][Row][1] < Machine->RL_Drag_Data.Start) {
 								Subcarrier = 0;

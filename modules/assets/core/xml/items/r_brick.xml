@@ -3,7 +3,14 @@
 	<Name>unfired brick</Name>
 	<Index>raw_brick</Index>
 	<ID>23</ID>
-	<Path>core/images/items/r_brick</Path>
+	<Path>core/images/items/bar_base</Path>
+	<Uniform />
+	<R1>186</R1>
+	<G1>141</G1>
+	<B1>118</B1>
+	<R2>231</R2>
+	<G2>196</G2>
+	<B2>172</B2>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
 	<Price>12</Price>

@@ -1,13 +1,5 @@
 #pragma once
 
-enum Subcategories {
-	Modular_Spawning_Pool,
-	Flooring,
-	Reinforced,
-	Large,
-	Turbine
-};
-
 enum Prompts {
 	P_None = ktn_invalid,
 	P_Help,

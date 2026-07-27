@@ -3,7 +3,14 @@
 	<Name>drilling mud</Name>
 	<Index>drill_mud</Index>
 	<ID>7</ID>
-	<Path>core/images/items/d_mud</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>98</R1>
+	<G1>116</G1>
+	<B1>85</B1>
+	<R2>36</R2>
+	<G2>44</G2>
+	<B2>31</B2>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
 	<Price>40</Price>

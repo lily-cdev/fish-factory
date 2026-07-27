@@ -3,7 +3,14 @@
 	<Name>salt sol'n</Name>
 	<Index>wet_salt</Index>
 	<ID>16</ID>
-	<Path>core/images/items/s_solution</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>64</R1>
+	<G1>106</G1>
+	<B1>116</B1>
+	<R2>41</R2>
+	<G2>82</G2>
+	<B2>92</B2>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

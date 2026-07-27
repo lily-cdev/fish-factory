@@ -46,7 +46,7 @@
 		<Machine>core/xml/machines/light</Machine>
 		<Machine>core/xml/machines/d_drill</Machine>
 	</Machines>
-	<Item_Ct>26</Item_Ct>
+	<Item_Ct>34</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -74,8 +74,16 @@
 		<Item>core/xml/items/brick</Item>
 		<Item>core/xml/items/l_glass</Item>
 		<Item>core/xml/items/glass</Item>
+		<Item>core/xml/items/basalt</Item>
+		<Item>core/xml/items/plagioclase</Item>
+		<Item>core/xml/items/pyroxene</Item>
+		<Item>core/xml/items/m_metals</Item>
+		<Item>core/xml/items/r_iron</Item>
+		<Item>core/xml/items/r_calcium</Item>
+		<Item>core/xml/items/l_iron</Item>
+		<Item>core/xml/items/i_bar</Item>
 	</Items>
-	<Recipe_Ct>14</Recipe_Ct>
+	<Recipe_Ct>19</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -91,6 +99,11 @@
 		<Recipe>core/xml/recipes/m_lglass</Recipe>
 		<Recipe>core/xml/recipes/k_glass</Recipe>
 		<Recipe>core/xml/recipes/k_brick</Recipe>
+		<Recipe>core/xml/recipes/dd_basalt</Recipe>
+		<Recipe>core/xml/recipes/fp_basalt</Recipe>
+		<Recipe>core/xml/recipes/fp_mmetals</Recipe>
+		<Recipe>core/xml/recipes/m_liron</Recipe>
+		<Recipe>core/xml/recipes/k_riron</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

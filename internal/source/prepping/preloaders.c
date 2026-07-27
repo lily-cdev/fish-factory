@@ -115,7 +115,22 @@ void Preload_Machines() {
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(40.0f), ktn_fscale(40.0f) };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
 	for (int C1 = 0; C1 < Core.Items; C1++) {
-		Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
+		if (Metadata.Items[C1].Uniform) {
+			SDL_Texture* Base = Preload_Texture(Metadata.Items[C1].Path);
+			SDL_Texture* Yield = New_Texture(120, 120);
+			SDL_SetTextureColorMod(Base, Metadata.Items[C1].Primary.r, Metadata.Items[C1].Primary.g, Metadata.Items[C1].Primary.b);
+			SDL_SetRenderTarget(Core.Renderer, Yield);
+			SDL_FRect Subcarrier = { 0, 0, 120, 120 };
+			SDL_RenderTexture(Core.Renderer, Base, &Subcarrier, NULL);
+			SDL_SetTextureColorMod(Base, Metadata.Items[C1].Secondary.r, Metadata.Items[C1].Secondary.g, Metadata.Items[C1].Secondary.b);
+			Subcarrier = (SDL_FRect){ 0, 120, 120, 120 };
+			SDL_RenderTexture(Core.Renderer, Base, &Subcarrier, NULL);
+			SDL_SetRenderTarget(Core.Renderer, NULL);
+			Metadata.Items[C1].Icon = Yield;
+			ktn_free_texture(Base);
+		} else {
+			Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
+		}
 	}
 	for (int C1 = 0; C1 < Core.Genes; C1++) {
 		Metadata.Genes[C1].Icon = Preload_Texture(Metadata.Genes[C1].Path);

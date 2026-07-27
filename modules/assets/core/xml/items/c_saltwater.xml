@@ -3,7 +3,14 @@
 	<Name>saltwater</Name>
 	<Index>saltwater</Index>
 	<ID>5</ID>
-	<Path>core/images/items/saltwater</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>127</R1>
+	<G1>205</G1>
+	<B1>255</B1>
+	<R2>118</R2>
+	<G2>182</G2>
+	<B2>196</B2>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

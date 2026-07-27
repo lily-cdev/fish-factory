@@ -3,7 +3,14 @@
 	<Name>water</Name>
 	<Index>water</Index>
 	<ID>19</ID>
-	<Path>core/images/items/water</Path>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>122</R1>
+	<G1>214</G1>
+	<B1>255</B1>
+	<R2>127</R2>
+	<G2>205</G2>
+	<B2>255</B2>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>0</Price>

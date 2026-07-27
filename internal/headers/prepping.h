@@ -39,6 +39,7 @@ struct Proto_Data {
 	float Animation_Grid[ktn_grid_size][ktn_grid_size][3];
 	float Data_Grid[ktn_grid_size][ktn_grid_size][7];
 	float Settings_Grid[ktn_grid_size][ktn_grid_size][16];
+	char Processing_Grid[ktn_grid_size][ktn_grid_size][64];
 	int64_t Funds;
 };
 

@@ -173,6 +173,9 @@ typedef struct {
 	char* Name;
 	char* Index;
 	char* Path;
+	bool Uniform;
+	SDL_Color Primary;
+	SDL_Color Secondary;
 	bool Coolant;
 	SDL_Texture* Icon;
 	int ID;
@@ -213,6 +216,7 @@ typedef Gene_Data* Gene_Ptr;
 
 typedef struct {
 	int Type;
+	char* Index;
 	bool Shuffling_Barred;
 	bool Voiding_Excess;
 	int Time;

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
-	<Index>ep_ho</Index>
+	<Index>fp_mmetals</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
-	<Time>10</Time>
-	<Power>5000000</Power>
-	<Parent>electro_cell</Parent>
+	<Time>1</Time>
+	<Power>210</Power>
+	<Parent>filtration_plant</Parent>
 	<Inputs>
 		<Input>
-			<Item>water</Item>
-			<Volume>4</Volume>
+			<Item>metal_mix</Item>
+			<Volume>10</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
-			<Item>hydrogen</Item>
-			<Volume>0.008</Volume>
+			<Item>raw_iron</Item>
+			<Volume>5</Volume>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Output>
 		<Output>
-			<Item>oxygen</Item>
-			<Volume>0.06</Volume>
+			<Item>raw_calcium</Item>
+			<Volume>5</Volume>
 		</Output>
 	</Outputs>
 </Recipe>

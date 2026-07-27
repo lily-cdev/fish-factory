@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
+	<Index>fm_hcl</Index>
 	<Type>both</Type>
 	<Time>1</Time>
 	<Power>250</Power>

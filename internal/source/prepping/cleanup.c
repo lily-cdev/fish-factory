@@ -95,6 +95,9 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Items[C1].Path);
 		ktn_free_texture(Metadata.Items[C1].Icon);
 	}
+	for (int C1 = 0; C1 < Core.Recipes; C1++) {
+		ktn_free(Metadata.Recipes[C1].Index);
+	}
 	for (int C1 = 0; C1 < Core.Fishes; C1++) {
 		ktn_free(Metadata.Fish[C1].Name);
 	}

@@ -212,8 +212,7 @@ void Reset_Tile(Point Pos) {
 		Data.Settings_Grid[pt(Pos)][C1] = ktn_invalid;
 	}
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		if ((Pipes.Data[C1].X1 == Pos.X && Pipes.Data[C1].Y1 == Pos.Y) || (Pipes.Data[C1].X2 == Pos.X &&
-			Pipes.Data[C1].Y2 == Pos.Y)) {
+		if ((Pipes.Data[C1].X1 == Pos.X && Pipes.Data[C1].Y1 == Pos.Y) || (Pipes.Data[C1].X2 == Pos.X && Pipes.Data[C1].Y2 == Pos.Y)) {
 			Pipes.Data[C1].Filled = false;
 		}
 	}
