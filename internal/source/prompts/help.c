@@ -9,15 +9,6 @@ void Render_Help(Point Pos) {
 	switch (Interface.Slider_Positions[3]) {
 	case 0:
 		{
-			char Flavor[] = "[c]Welcome to Fish Factory! This game"
-				" is in the alpha phase, so don't expect much.|More gameplay"
-				" mechanics and customization options are planned for future updates."
-				"| | | |Thank you for playing, and have fun!";
-			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 60 }, false, false);
-		}
-		break;
-	case 1:
-		{
 			char Flavor[] = "[c]Tutorials involve placing items. The space occupied by the selected tutorial will be"
 				" marked by a bounding|box. For an optimal experience, please ensure that the indicated area is free of"
 				" obstructions.";
@@ -42,6 +33,15 @@ void Render_Help(Point Pos) {
 			}
 		} else {
 			Render_Button(&Textures.Clear_Tutorial, &Rects.Clear_Tutorial, (UI_Link){ Cancel_Tutorial }, Colors.Cherry_Blossom);
+		}
+		break;
+	case 1:
+		{
+			char Flavor[] = "[c]Welcome to Fish Factory! This game"
+				" is in the alpha phase, so don't expect much.|More gameplay"
+				" mechanics and customization options are planned for future updates."
+				"| | | |Thank you for playing, and have fun!";
+			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 60 }, false, false);
 		}
 		break;
 	case 2:

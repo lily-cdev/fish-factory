@@ -98,6 +98,7 @@ bool Save_Data(int Slot) {
 			fwrite(&(int16_t){ Fishlinks[C1].Fish[C2].Growth }, sizeof(int16_t), 1, File);
 		}
 	}
+	fwrite(Data.Processing_Grid, sizeof(Data.Processing_Grid), 1, File);
 	fclose(File);
 	return true;
 }
@@ -189,6 +190,11 @@ bool Load_Data(int Slot) {
 		} else {
 			memset(Fishlinks, 0, sizeof(Fishlinks));
 		}
+		if (Version >= 2) {
+			fread(Data.Processing_Grid, sizeof(Data.Processing_Grid), 1, File);
+		} else {
+			memset(Data.Processing_Grid, 0, sizeof(Data.Processing_Grid));
+		}
 	} else {
 		Save_Data(Slot);
 	}
@@ -207,6 +213,7 @@ void Reset_Tile(Point Pos) {
 	Data.Temperature_Grid[pt(Pos)] = ktn_room_temp;
 	memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
 	memset(Data.Animation_Grid[pt(Pos)], 0, sizeof(Data.Animation_Grid[pt(Pos)]));
+	Data.Processing_Grid[pt(Pos)][0] = '\0';
 	Data.Data_Grid[pt(Pos)][4] = ktn_invalid;
 	for (int C1 = 0; C1 < sizeof(Data.Settings_Grid[pt(Pos)]) / sizeof(Data.Settings_Grid[pt(Pos)][0]); C1++) {
 		Data.Settings_Grid[pt(Pos)][C1] = ktn_invalid;

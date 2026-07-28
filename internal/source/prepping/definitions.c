@@ -7,7 +7,7 @@ struct Proto_Core Core = {
 	.Camera = { -140, 0 }
 };
 struct Proto_Data Data = {
-	.Version = 1
+	.Version = 2
 };
 struct Proto_Metadata Metadata = {
 .Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
@@ -82,7 +82,7 @@ struct Proto_Interface Interface = {
 		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", ktn_null_string },
 		{ "Milkfish", "Mojarra", "Menhaden", ktn_null_string },
 		{ "credits", "legal", ktn_null_string },
-		{ "overview", "tutorials", "cheats", ktn_null_string },
+		{ "tutorials", "overview", "cheats", ktn_null_string },
 		{ "15 FPS", "30 FPS", "60 FPS", "120 FPS", "240 FPS", ktn_null_string },
 		{ ktn_null_string },
 		{ "windowed", "borderless", "fullscreen", ktn_null_string },

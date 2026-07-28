@@ -102,7 +102,7 @@ void Render_Pipes() {
 void Update_Pipes() {
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
 		Bridge Pipe = Pipes.Data[C1];
-		if (!Pipe.Filled) {
+		if (!Pipe.Filled || Data.Items_Grid[Pipe.X1][Pipe.Y1] == Metadata.Null_Item.ID) {
 			continue;
 		}
 		float Volume = Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids];
