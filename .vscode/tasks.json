@@ -3,19 +3,19 @@
 	"tasks": [{
 		"label": "debug fish factory",
 		"type": "shell",
-		"command": "${workspaceFolder}\\debug.bat",
+		"command": "${workspaceFolder}/debug.bat",
 		"group": "build",
 		"problemMatcher": []
 	}, {
 		"label": "release f2",
 		"type": "shell",
-		"command": "${workspaceFolder}\\release.bat",
+		"command": "${workspaceFolder}/release.bat",
 		"group": "build",
 		"problemMatcher": []
 	}, {
 		"label": "clean build folder",
 		"type": "shell",
-		"command": "${workspaceFolder}\\clean.bat",
+		"command": "${workspaceFolder}/clean.bat",
 		"group": "build",
 		"problemMatcher": []
 	}, {

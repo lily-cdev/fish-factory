@@ -51,6 +51,12 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 		Interface.Prompt_Identifier = P_Genetics;
 		break;
 	case 4:
+		Interface.Prompt_Identifier = P_Perks;
+		break;
+	case 5:
+		Interface.Prompt_Identifier = P_Time;
+		break;
+	case 6:
 		if (Interface.Tool == T_Building) {
 			Interface.Rotation = 0;
 			Clear_Unconnected_Bridges(&Wires);

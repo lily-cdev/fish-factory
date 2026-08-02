@@ -1,8 +1,9 @@
 #pragma once
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <miniaudio/miniaudio.h>
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <corecrt_math_defines.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

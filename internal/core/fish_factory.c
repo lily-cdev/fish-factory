@@ -1,4 +1,4 @@
-﻿#include <core.h>
+#include <core.h>
 #include <prepping.h>
 #include <transitions.h>
 #include <rendering.h>
@@ -27,6 +27,7 @@ void (*Menu_Functions[7])() = {
 
 int main(int argc, char* args[]) {
 	Reseed_State();
+	SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "x11");
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
 		//get exception text
@@ -73,7 +74,6 @@ int main(int argc, char* args[]) {
 		switch (Interface.UI_Tab) {
 		case 0:
 			Render_Effects();
-			Render_Lighting();
 			Adjust_Audio();
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
@@ -130,7 +130,7 @@ int main(int argc, char* args[]) {
 		}
 		uint64_t Total_Time = SDL_GetTicks() - Frame_Beginning;
 		float True_Rate = (Total_Time > 0) ? (1000.0f / Total_Time) : 99999;
-		Cache.FPS_Cache[Cache.FPS_Tick] = min(True_Rate, Interface.Frame_Rate);
+		Cache.FPS_Cache[Cache.FPS_Tick] = fminf(True_Rate, Interface.Frame_Rate);
 		SDL_Delay((uint32_t)(fmax((1000.0f / Interface.Frame_Rate) - Total_Time, 0.0f)));
 	}
 	Wipe_Grid();

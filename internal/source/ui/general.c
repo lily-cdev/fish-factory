@@ -208,7 +208,7 @@ void Cache_Blueprint() {
 	}
 	Point Size;
 	ID_To_Size(Interface.Item, Interface.Rotation, &Size.X, &Size.Y);
-	int Max = ktn_scale(max(Size.X, Size.Y) * ktn_tile_size);
+	int Max = ktn_scale(ktn_max(Size.X, Size.Y) * ktn_tile_size);
 	ktn_free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);

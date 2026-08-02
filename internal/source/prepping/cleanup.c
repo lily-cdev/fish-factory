@@ -127,6 +127,8 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.Door);
 	ktn_free_texture(Textures.Recipe_Content);
 	ktn_free_texture(Textures.Genetics_Content);
+	ktn_free_texture(Textures.Perks_Content);
+	ktn_free_texture(Textures.Time_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
 	Clear_Rect3_Array(&Rects.Subcategories);

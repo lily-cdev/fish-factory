@@ -1,6 +1,6 @@
 #include <transitions.h>
 
-TRANSITION Transition = {
+Proto_Transition Transition = {
 	.Queried_Tab = 0,
 	.Frames = 0,
 	.Max_Frames = 0,
@@ -96,6 +96,7 @@ void Render_Submarine() {
 		switch (Transition.Sub_Phase) {
 		case 0:
 			Transition.Sub_Offset -= (float)(ktn_sub_speed * ktn_tile_size) / Interface.Frame_Rate;
+			Transition.Sub_Frames++;
 			if (Transition.Sub_Offset < (Transition.Sub_Pos.X * ktn_tile_size) + 120) {
 				Transition.Sub_Offset = (Transition.Sub_Pos.X * ktn_tile_size) + 120;
 				Transition.Sub_Phase = 1;

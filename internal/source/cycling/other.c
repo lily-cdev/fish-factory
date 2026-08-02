@@ -6,7 +6,7 @@ void Cycle_Incinerator(Point Pos, const int Rotation) {
 	} else {
 		Data.Animation_Grid[pt(Pos)][0] = 0.0f;
 	}
-	Data.Data_Grid[pt(Pos)][Stored_Fluids] = max(Data.Data_Grid[pt(Pos)][Stored_Fluids] - 8.0, 0.0);
+	Data.Data_Grid[pt(Pos)][Stored_Fluids] = fmaxf(Data.Data_Grid[pt(Pos)][Stored_Fluids] - 8.0, 0.0);
 }
 
 void Cycle_Signal_Tower(Point Pos, const int Rotation) {
@@ -14,7 +14,7 @@ void Cycle_Signal_Tower(Point Pos, const int Rotation) {
 }
 
 void Cycle_Money_Generator(Point Pos, const int Rotation) {
-	Data.Funds = max(Data.Funds + (float)(Data.Settings_Grid[pt(Pos)][4]), 0.0f);
+	Data.Funds = fmaxf(Data.Funds + (float)(Data.Settings_Grid[pt(Pos)][4]), 0.0f);
 }
 
 void Cycle_Fluid_Generator(Point Pos, const int Rotation) {
@@ -24,11 +24,9 @@ void Cycle_Fluid_Generator(Point Pos, const int Rotation) {
 		Data.Items_Grid[pt(Pos)] = Item->ID;
 		Data.Temperature_Grid[pt(Pos)] = Data.Settings_Grid[pt(Pos)][4];
 	}
-	Data.Data_Grid[pt(Pos)][Stored_Fluids] = min(Data.Settings_Grid[pt(Pos)][5] + Data.Data_Grid[pt(Pos)][Stored_Fluids],
-		Data.Data_Grid[pt(Pos)][Fluid_Cap]);
+	Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Settings_Grid[pt(Pos)][5] + Data.Data_Grid[pt(Pos)][Stored_Fluids], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 }
 
 void Cycle_Power_Generator(Point Pos, const int Rotation) {
-	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Power_Cap], Data.Data_Grid[pt(Pos)][Stored_Power] +
-		(float)(Data.Settings_Grid[pt(Pos)][3]));
+	Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Power_Cap], Data.Data_Grid[pt(Pos)][Stored_Power] + (float)(Data.Settings_Grid[pt(Pos)][3]));
 }

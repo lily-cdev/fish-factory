@@ -106,7 +106,7 @@ void Update_Pipes() {
 			continue;
 		}
 		float Volume = Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids];
-		Volume = min(Volume, Data.Data_Grid[Pipe.X2][Pipe.Y2][Fluid_Cap] - Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids]);
+		Volume = fminf(Volume, Data.Data_Grid[Pipe.X2][Pipe.Y2][Fluid_Cap] - Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids]);
 		Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids] -= Volume;
 		Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids] += Volume;
 		Update_Item((Point){ Pipe.X2, Pipe.Y2 }, Data.Items_Grid[Pipe.X1][Pipe.Y1], Data.Temperature_Grid[Pipe.X1][Pipe.Y1]);

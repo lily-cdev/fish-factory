@@ -249,13 +249,13 @@ void Load_XML() {
 		if (Single_ID) {
 			Machine.Visual_Type = I_Single;
 			Machine.Visual_ID1 = get_int("Visual_ID");
-			ID_Record = max(ID_Record, Machine.Visual_ID1);
+			ID_Record = ktn_max(ID_Record, Machine.Visual_ID1);
 		} else if (Rot_ID) {
 			Machine.Visual_Type = I_Rot;
 			const char* Tags[4] = { "Visual_Left", "Visual_Up", "Visual_Right", "Visual_Down" };
 			for (int C2 = 0; C2 < 4; C2++) {
 				Machine.Visual_ID4[C2] = get_int(Tags[C2]);
-				ID_Record = max(ID_Record, Machine.Visual_ID4[C2]);
+				ID_Record = ktn_max(ID_Record, Machine.Visual_ID4[C2]);
 			}
 		} else {
 			Machine.Visual_Type = I_None_Vis;
@@ -324,7 +324,7 @@ void Load_XML() {
 		}
 		Item.Coolant = Get_Boolean(Item_File, "Coolant");
 		Item.ID = get_int("ID");
-		Sub_ID_Record = max(Sub_ID_Record, Item.ID);
+		Sub_ID_Record = ktn_max(Sub_ID_Record, Item.ID);
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
 		Item.Nutrition = get_int("Nutrition") * 0.01f;

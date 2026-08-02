@@ -64,7 +64,7 @@ void Render_T_Tower(Point Pos) {
 		Links[C1] = (UI_Link){ TT_Call_Sub, .Param.Integer = C1 };
 	}
 	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons, Links);
-	int Limiter = min(Temporary.Docks.Length, ktn_cmd_max - 1);
+	int Limiter = ktn_min(Temporary.Docks.Length, ktn_cmd_max - 1);
 	for (int C1 = 0; C1 < Limiter; C1++) {
 		Buffers.Commands[C1] = Execute;
 		char Buffer[32];

@@ -1,7 +1,7 @@
 #include <items.h>
 
 int Get_Phase(Fish_Ptr Fish, int Progress) {
-	float Percentage = min(((float)Progress / Fish->Max_Growth) * 100, 100.0);
+	float Percentage = fminf(((float)Progress / Fish->Max_Growth) * 100, 100.0);
 	int Phase = 0;
 	for (int C1 = 0; C1 < 5; C1++) {
 		if (Percentage > Growth_Weights[C1]) {
@@ -14,7 +14,7 @@ int Get_Phase(Fish_Ptr Fish, int Progress) {
 }
 
 void Get_Phase_Name(char* Buffer, int Length, Fish_Ptr Fish, int Progress, int Count) {
-	float Percentage = min(((float)Progress / Fish->Max_Growth) * 100, 100.0);
+	float Percentage = fminf(((float)Progress / Fish->Max_Growth) * 100, 100.0);
 	char Subbuffer[32];
 	snprintf(Subbuffer, sizeof(Subbuffer), " (%i%%)", (int)(floorf(Percentage)));
 	if (Count == 1) {

@@ -270,7 +270,7 @@ void Load_Animated_Rotational(const char* Path, Texture2_Array* Yield, int Heigh
 		float X = 0, Y = 0, Max = 0;
 		for (int C2 = 0; C2 < Subyield.Length; C2++) {
 			SDL_GetTextureSize(Subyield.Data[C2], &X, &Y);
-			Max = max(X, Y);
+			Max = fmaxf(X, Y);
 			SDL_FPoint Center = { Max * 0.5f, Max * 0.5f };
 			Yield->Data[C1].Data[C2] = New_Texture(Max, Max);
 			SDL_SetTextureBlendMode(Yield->Data[C1].Data[C2], SDL_BLENDMODE_BLEND);

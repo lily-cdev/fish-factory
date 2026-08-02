@@ -14,7 +14,9 @@ enum Prompts {
 	P_Catalog,
 	P_Turbine,
 	P_Power_Generator,
-	P_Genetics
+	P_Genetics,
+	P_Perks,
+	P_Time
 };
 
 enum Effect {
@@ -128,8 +130,6 @@ enum Error {
 
 typedef enum {
 	Ambience1,
-	Filtration1,
-	Ram1,
 	Click
 } Sound;
 

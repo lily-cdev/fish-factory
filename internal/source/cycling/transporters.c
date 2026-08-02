@@ -17,7 +17,7 @@ void Cycle_Intersection(Point Pos, const int Rotation) {
 		int IX = Input.X;
 		int IY = Input.Y;
 		float Difference = Data.Data_Grid[OX][OY][Fluid_Cap] - Data.Data_Grid[OX][OY][Stored_Fluids];
-		Difference = min(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
+		Difference = fminf(Difference, Data.Data_Grid[IX][IY][Stored_Fluids]);
 		if (Difference > 0 && (Data.Items_Grid[IX][IY] == Data.Items_Grid[OX][OY] || Data.Items_Grid[OX][OY] == ktn_invalid)) {
 			Data.Data_Grid[OX][OY][Stored_Fluids] += Difference;
 			Data.Data_Grid[IX][IY][Stored_Fluids] -= Difference;

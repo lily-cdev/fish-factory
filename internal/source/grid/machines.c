@@ -347,7 +347,6 @@ void Remove_Machine(Point Pos) {
 		if (ktn_stricmp(Target->Index, "spawning_controller")) {
 			Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Allocated = false;
 			ktn_free(Fishlinks[(int)Data.Settings_Grid[pt(Pos)][5]].Fish);
-			//rem fishlink
 			Pool_Ct--;
 		}
 		if (Interface.Item->Command) {
@@ -358,6 +357,7 @@ void Remove_Machine(Point Pos) {
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
 				if (Temporary.Docks.Data[C1].X == Pos.X && Temporary.Docks.Data[C1].Y == Pos.Y) {
 					Pull_Docks(C1);
+					//if sub docked, dismiss sub
 				}
 			}
 			if (Transition.Sub_Pos.X == Pos.X && Transition.Sub_Pos.X == Pos.Y) {
@@ -391,8 +391,7 @@ bool Destroy_Grid() {
 				Cache.Wire_State = Deep_Recache;
 				if (Data.Visual_Grid[pt(Pos)] == ktn_invalid) {
 					Remove_Machine((Point){
-						(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]),
-						(int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
+						(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
 					});
 				} else {
 					Remove_Machine(Pos);

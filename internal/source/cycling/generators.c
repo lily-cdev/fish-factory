@@ -1,7 +1,7 @@
 #include <grid.h>
 
 void Cycle_RTG(Point Pos, const int Rotation) {
-	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + 500, Data.Data_Grid[pt(Pos)][Power_Cap]);
+	Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Stored_Power] + 500, Data.Data_Grid[pt(Pos)][Power_Cap]);
 }
 
 void Cycle_Furnace(Point Pos, const int Rotation) {
@@ -22,8 +22,7 @@ void Cycle_Furnace(Point Pos, const int Rotation) {
 	Data.Animation_Grid[pt(Pos)][0] = 0;
 	if (Target->Chem_Energy > 0 && Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] >= 2) {
 		Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] -= 2;
-		Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target->Chem_Energy * 0.9f),
-			Data.Data_Grid[pt(Pos)][Power_Cap]);
+		Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target->Chem_Energy * 0.9f), Data.Data_Grid[pt(Pos)][Power_Cap]);
 		Data.Animation_Grid[pt(Pos)][0] = 1;
 	}
 }
@@ -69,9 +68,8 @@ void Cycle_HX(Point Pos, const int Rotation) {
 			pt(Output_Pos)] && !Boiling) || (Data.Items_Grid[pt(Output_Pos)] == Get_Item("steam")->ID && Boiling &&
 			C1 == 1)) && Data.Settings_Grid[pt(Pos)][C1 + 5] > 0) {
 			Data.Items_Grid[pt(Output_Pos)] = (Boiling && C1 == 1) ? Get_Item("steam")->ID : Data.Settings_Grid[pt(Pos)][C1 + 9];
-			float Draining_Amount = min(Data.Settings_Grid[pt(Pos)][C1 + 3], Data.Settings_Grid[pt(Pos)][C1 + 5]);
-			Draining_Amount = min(Draining_Amount, Data.Data_Grid[pt(Output_Pos)][Fluid_Cap] - Data.Data_Grid[pt(Output_Pos)][
-				Stored_Fluids]);
+			float Draining_Amount = fminf(Data.Settings_Grid[pt(Pos)][C1 + 3], Data.Settings_Grid[pt(Pos)][C1 + 5]);
+			Draining_Amount = fminf(Draining_Amount, Data.Data_Grid[pt(Output_Pos)][Fluid_Cap] - Data.Data_Grid[pt(Output_Pos)][Stored_Fluids]);
 			Data.Data_Grid[pt(Output_Pos)][Stored_Fluids] += Draining_Amount;
 			Data.Settings_Grid[pt(Pos)][C1 + 5] -= Draining_Amount;
 		}
@@ -122,17 +120,17 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 	float Delta = 750000;
 	Data.Settings_Grid[pt(Pos)][8] = 0;
 	if (Data.Settings_Grid[pt(Pos)][4] < ktn_epsilon) {
-		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
+		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
 	Machine_Ptr Machine = Get_Machine("turbine_input");
 	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
 	if (Data.Items_Grid[pt(Input)] != Get_Item("steam")->ID) {
-		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
+		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
 	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 20) {
-		Data.Settings_Grid[pt(Pos)][9] = max(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
+		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
 	Machine_Ptr Submachine = Get_Machine("turbine_output");
@@ -140,14 +138,11 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 	Point End = { Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] };
 	Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
 	float Temp = Data.Temperature_Grid[pt(Input)];
-	float Target = ((((min(Data.Settings_Grid[pt(Pos)][3], 5) * 0.1f) + 1.0f) * 120000000.0f) * Temp) / 600.0f;
+	float Target = ((((fminf(Data.Settings_Grid[pt(Pos)][3], 5) * 0.1f) + 1.0f) * 120000000.0f) * Temp) / 600.0f;
 	Data.Settings_Grid[pt(Pos)][8] = Target;
 	float Current = Data.Settings_Grid[pt(Pos)][9];
-	Data.Settings_Grid[pt(Pos)][9] = (Current > Target) ? max(Current - Delta, Target) : min(Current + Delta, Target);
-	Data.Data_Grid[pt(Pos)][Stored_Power] = min(Data.Data_Grid[pt(Pos)][Stored_Power] + Data.Settings_Grid[pt(Pos)][9],
-		Data.Data_Grid[pt(Pos)][Power_Cap]);
-	Data.Data_Grid[pt(Output)][Stored_Fluids] = min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 20, Data.Data_Grid[pt(Output)][
-		Fluid_Cap]);
-	Update_Item(Output, Get_Item("water")->ID, min(Temp, 90));
-	
+	Data.Settings_Grid[pt(Pos)][9] = (Current > Target) ? fmaxf(Current - Delta, Target) : fminf(Current + Delta, Target);
+	Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Stored_Power] + Data.Settings_Grid[pt(Pos)][9], Data.Data_Grid[pt(Pos)][Power_Cap]);
+	Data.Data_Grid[pt(Output)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Output)][Stored_Fluids] + 20, Data.Data_Grid[pt(Output)][Fluid_Cap]);
+	Update_Item(Output, Get_Item("water")->ID, fminf(Temp, 90));
 }

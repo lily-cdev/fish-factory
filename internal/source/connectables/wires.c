@@ -122,7 +122,7 @@ void Update_Power() {
 		Bridge Wire = Wires.Data[C1];
 		if (Wire.Filled) {
 			float Volume = Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Power];
-			Volume = min(Volume, Data.Data_Grid[Wire.X2][Wire.Y2][Power_Cap] - Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Power]);
+			Volume = fminf(Volume, Data.Data_Grid[Wire.X2][Wire.Y2][Power_Cap] - Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Power]);
 			Data.Data_Grid[Wire.X1][Wire.Y1][Stored_Power] -= Volume;
 			Data.Data_Grid[Wire.X2][Wire.Y2][Stored_Power] += Volume;
 		}

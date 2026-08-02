@@ -356,6 +356,7 @@ void TT_Call_Sub(Parameter Dock, Parameter Unused) {
 		Print_Response("submarine sent");
 		Transition.Sub_Pos = Temporary.Docks.Data[Dock.Integer];
 		Transition.Sub_Phase = 0;
+		Transition.Sub_Frames = 0;
 		Transition.Sub_Offset = 3000;
 		Transition.Sub_Vertical = 105;
 	} else {

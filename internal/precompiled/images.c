@@ -86,8 +86,7 @@ SDL_Surface* Load_BMP(const char* Path) {
 			if (Data[Index + 2] == TRANSPARENT && Data[Index + 1] == TRANSPARENT && Data[Index] == TRANSPARENT) {
 				Opacity = SDL_ALPHA_TRANSPARENT;
 			}
-			Pixels[((Height - Y - 1) * Width) + X] = SDL_MapRGBA(Details, NULL, Data[Index + 2], Data[Index + 1], Data[Index],
-				Opacity);
+			Pixels[((Height - Y - 1) * Width) + X] = SDL_MapRGBA(Details, NULL, Data[Index + 2], Data[Index + 1], Data[Index], Opacity);
 			Index += 3;
 		}
 		Index += Row_Size - (Width * 3);

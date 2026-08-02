@@ -55,6 +55,7 @@ void Render_Application() {
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_FRect Temporary_Rectangle = { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Render_Texture(Core.Game_Texture, &Temporary_Rectangle);
+	Render_Lighting();
 	if (Interface.Tool > 0) {
 		SDL_FRect Hitbox = {
 			0.0f,

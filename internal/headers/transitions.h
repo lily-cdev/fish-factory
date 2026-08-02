@@ -10,9 +10,10 @@ typedef struct {
 	Point Sub_Pos;
 	int Sub_Side;
 	int Sub_Phase;
+	float Sub_Frames;
 	float Sub_Offset;
 	float Sub_Vertical;
-} TRANSITION;
+} Proto_Transition;
 
 void Start_Transition(int Tab);
 void Force_Opening();
@@ -22,4 +23,4 @@ void Trigger_Ambiance();
 void Render_Submarine();
 void Render_Transitions();
 
-extern TRANSITION Transition;
+extern Proto_Transition Transition;

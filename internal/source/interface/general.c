@@ -118,11 +118,11 @@ void Process_Inputs() {
 				}
 				if (Application_Event.wheel.y > 0) {
 					if (Interface.Log_Offset > 0) {
-						Interface.Log_Offset = max(Interface.Log_Offset - (Settings.Scalar * 32), 0.0f);
+						Interface.Log_Offset = fmaxf(Interface.Log_Offset - (Settings.Scalar * 32), 0.0f);
 					}
 				} else if (Application_Event.wheel.y < 0) {
 					if (Interface.Log_Offset < Interface.Log_Heights[Log]) {
-						Interface.Log_Offset = min(Interface.Log_Offset + (Settings.Scalar * 32),
+						Interface.Log_Offset = fminf(Interface.Log_Offset + (Settings.Scalar * 32),
 							Interface.Log_Heights[Log]);
 					}
 				}

@@ -3,10 +3,8 @@
 AUDIO Audio = { };
 
 char* Paths[ktn_audio_ct] = {
-	"Ambient/Background",
-	"Machines/Filtration_Loop",
-	"Machines/Ram_Loop",
-	"UI/Click"
+	"ambient/background",
+	"ui/click"
 };
 
 void Startup_Miniaudio() {
@@ -28,9 +26,9 @@ void Load_Sounds() {
 		snprintf(Carrier, sizeof(Carrier), "assets/core/audio/%s.wav", Paths[C1]);
 		ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &(Audio.Data[C1].Data));
 		if (Yield != MA_SUCCESS) {
-			char Carrier[512];
-			snprintf(Carrier, sizeof(Carrier), "could not load a sound; %s", ma_result_description(Yield));
-			ktn_jump(I_No_Sound, Carrier);
+			char Subcarrier[512];
+			snprintf(Subcarrier, sizeof(Subcarrier), "could not load a sound; %s", ma_result_description(Yield));
+			ktn_jump(I_No_Sound, Subcarrier);
 		}
 		Audio.Data[C1].Volume = 0.5f;
 		Audio.Data[C1].Allocated = true;

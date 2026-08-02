@@ -330,7 +330,9 @@ void Preload_Assets() {
 	Textures.Save_Sidebutton = Preload_Sidebutton("save", &Rects.Save, 84);
 	Textures.Recipe_Sidebutton = Preload_Sidebutton("recipe", &Rects.Recipe, 108);
 	Textures.Genetics_Sidebutton = Preload_Sidebutton("genetics", &Rects.Genetics, 132);
-	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 156);
+	Textures.Perks_Sidebutton = Preload_Sidebutton("perks", &Rects.Perks, 156);
+	Textures.Time_Sidebutton = Preload_Sidebutton("time", &Rects.Time, 180);
+	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 204);
 	Rects.Return.Length = 2;
 	Rects.Return.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Return.Data[0].x = ktn_fscale(10.0f);
@@ -470,22 +472,19 @@ void Preload_Assets() {
 	Textures.Help_Content.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Help_Content.Length = 2;
 	Textures.Help_Content.Data[0] = Carrying_Texture;
-	Carrying_Texture = Render_Text(F_Large, "catalog", Colors.Abyss_Black);
-	Rects.Recipe_Content = (SDL_FRect){
-		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
-		ktn_fscale(20.0f),
-		(float)Carrying_Texture->w,
-		(float)Carrying_Texture->h
-	};
-	Textures.Recipe_Content = Carrying_Texture;
-	Carrying_Texture = Render_Text(F_Large, /*"genetics"*/"coming soon!", Colors.Abyss_Black);
-	Rects.Genetics_Content = (SDL_FRect){
-		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
-		ktn_fscale(20.0f),
-		(float)Carrying_Texture->w,
-		(float)Carrying_Texture->h
-	};
-	Textures.Genetics_Content = Carrying_Texture;
+	char* Texts[4] = { "catalog", "coming soon!", "perks", "coming soon!" };
+	SDL_Texture** Labels[4] = { &Textures.Recipe_Content, &Textures.Genetics_Content, &Textures.Perks_Content, &Textures.Time_Content };
+	SDL_FRect* Subrects[4] = { &Rects.Recipe_Content, &Rects.Genetics_Content, &Rects.Perks_Content, &Rects.Time_Content };
+	for (int C1 = 0; C1 < 4; C1++) {
+		Carrying_Texture = Render_Text(F_Large, Texts[C1], Colors.Abyss_Black);
+		(*Subrects[C1]) = (SDL_FRect){
+			Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
+			ktn_fscale(20.0f),
+			(float)Carrying_Texture->w,
+			(float)Carrying_Texture->h
+		};
+		(*Labels[C1]) = Carrying_Texture;
+	}
 	char Keycore[64];
 	char Subkeycore[64];
 	strncpy(Subkeycore, SDL_GetKeyName(Keybinds.Keybind_List[13]), sizeof(Subkeycore));

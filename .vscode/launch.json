@@ -3,9 +3,9 @@
     "configurations": [
         {
             "name": "Debug",
-            "type": "cppvsdbg",
+            "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Fish_Factory.exe",
+            "program": "${workspaceFolder}/build/Fish_Factory",
             "cwd": "${workspaceFolder}/build",
             "console": "integratedTerminal",
             "args": []

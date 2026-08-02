@@ -16,6 +16,7 @@ struct Proto_Metadata Metadata = {
 };
 struct Proto_Settings Settings = {
 	.AA_Temporary = true,
+	.Fullscreen = 2,
 	.Anti_Aliasing = 1,
 	.VS_Temporary = true,
 	.VSync = 1,

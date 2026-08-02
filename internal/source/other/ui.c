@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[13])(Point Pos) = {
+void (*Interface_Functions[15])(Point Pos) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -13,7 +13,9 @@ void (*Interface_Functions[13])(Point Pos) = {
 	Render_Catalog,
 	Render_MT_Input,
 	Render_P_Generator,
-	Render_Genetics
+	Render_Genetics,
+	Render_Perks,
+	Render_Time
 };
 
 void Clear_Renderer() {
@@ -94,11 +96,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 }
 
 void Render_Game_UI() {
-	SDL_FRect Rectangles[5] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Exit };
-	SDL_Texture* Bars[5] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton, Textures.Genetics_Sidebutton,
-		Textures.Exit_Sidebutton };
+	SDL_FRect Rectangles[7] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Perks, Rects.Time, Rects.Exit };
+	SDL_Texture* Bars[7] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton, Textures.Genetics_Sidebutton, Textures.Perks_Sidebutton,
+		Textures.Time_Sidebutton, Textures.Exit_Sidebutton };
 	if (Interface.Tool == T_None && Interface.Prompt_Identifier == ktn_invalid) {
-		for (int C1 = 0; C1 < 5; C1++) {
+		for (int C1 = 0; C1 < 7; C1++) {
 			if (Detect_Mouse_Collision(Rectangles[C1])) {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
 				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };
@@ -215,7 +217,7 @@ void Render_Game_UI() {
 		SDL_FRect Fragment_Rectangles[16];
 		for (int C1 = 0; C1 < Fragment_Size; C1++) {
 			SDL_Texture* Fragment_Texture = Render_Text(F_Subtext, Data_Fragments[C1], Colors.Abyss_Black);
-			Max_Width = max(Max_Width, Fragment_Texture->w);
+			Max_Width = ktn_max(Max_Width, Fragment_Texture->w);
 			Fragment_Textures[C1] = Fragment_Texture;
 			Fragment_Rectangles[C1] = (SDL_FRect){
 				ktn_fscale(630.0f) - Fragment_Texture->w,

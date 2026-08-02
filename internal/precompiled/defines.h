@@ -2,7 +2,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define NOMINMAX
 #define pt(Victim) (Victim.X)][(Victim.Y)
-#define ktn_audio_ct 4
+#define ktn_audio_ct 2
 #define ktn_border_width 4
 #define ktn_buffer_size 360
 #define ktn_buttons 51

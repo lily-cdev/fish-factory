@@ -120,6 +120,8 @@ struct Proto_Textures {
 	Texture_Array Help_Content;
 	SDL_Texture* Recipe_Content;
 	SDL_Texture* Genetics_Content;
+	SDL_Texture* Perks_Content;
+	SDL_Texture* Time_Content;
 	Texture_Array Door;
 	SDL_Texture* Emblem;
 	SDL_Texture* Crosshair;
@@ -142,6 +144,8 @@ struct Proto_Textures {
 	SDL_Texture* Save_Sidebutton;
 	SDL_Texture* Recipe_Sidebutton;
 	SDL_Texture* Genetics_Sidebutton;
+	SDL_Texture* Perks_Sidebutton;
+	SDL_Texture* Time_Sidebutton;
 	SDL_Texture* Exit_Sidebutton;
 	Texture_Array Submarine;
 	Texture2_Array Confirmation;
@@ -192,6 +196,8 @@ struct Proto_Rects {
 	SDL_FRect Help_Content[2];
 	SDL_FRect Recipe_Content;
 	SDL_FRect Genetics_Content;
+	SDL_FRect Perks_Content;
+	SDL_FRect Time_Content;
 	SDL_FRect Door[2];
 	SDL_FRect Emblem;
 	SDL_FRect Tile_1x1;
@@ -209,6 +215,8 @@ struct Proto_Rects {
 	SDL_FRect Save;
 	SDL_FRect Recipe;
 	SDL_FRect Genetics;
+	SDL_FRect Perks;
+	SDL_FRect Time;
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	Rect2_Array Confirmation;

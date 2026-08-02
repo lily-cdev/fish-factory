@@ -64,8 +64,7 @@ void Update_Machines() {
 				default:
 					break;
 				}
-				if (Data.Settings_Grid[pt(Pos)][S_Time] > ktn_epsilon && ktn_stricmp(Data.Processing_Grid[pt(Pos)], Metadata.Recipes[
-					C1].Index)) {
+				if (Data.Settings_Grid[pt(Pos)][S_Time] > ktn_epsilon && ktn_stricmp(Data.Processing_Grid[pt(Pos)], Metadata.Recipes[C1].Index)) {
 					Data.Settings_Grid[pt(Pos)][S_Time]--;
 					Extend_Recipe(Metadata.Recipes[C1], Pos, Outputs);
 					Yielded = true;
@@ -97,11 +96,20 @@ void Update_Machines() {
 			}
 			if (Data.Visual_Grid[pt(Pos)] == 21) {
 				for (int C1 = 0; C1 < 2; C1++) {
+					if (Data.Settings_Grid[pt(Pos)][C1 + 3] > ktn_dock_cap - ktn_epsilon) {
+						if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
+							Transition.Sub_Pos = Pos;
+							Transition.Sub_Phase = 0;
+							Transition.Sub_Frames = 0;
+							Transition.Sub_Offset = 3000;
+							Transition.Sub_Vertical = 105;
+						}
+					}
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
-						if ((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]) == Data.Items_Grid[Pos.X + C1][Pos.Y + 3] || Data.Settings_Grid[
-							pt(Pos)][C1 + 5] == ktn_invalid) {
-							Data.Settings_Grid[pt(Pos)][C1 + 3] = min(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[
-								Pos.X + C1][Pos.Y + 3][Stored_Fluids], ktn_dock_cap);
+						if ((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]) == Data.Items_Grid[Pos.X + C1][Pos.Y + 3] || Data.Settings_Grid[pt(Pos)][C1 + 5] ==
+							ktn_invalid) {
+							Data.Settings_Grid[pt(Pos)][C1 + 3] = fminf(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids],
+								ktn_dock_cap);
 							Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] = 0;
 							Data.Settings_Grid[pt(Pos)][C1 + 5] = Data.Items_Grid[Pos.X + C1][Pos.Y + 3];
 						}
@@ -125,14 +133,12 @@ void Update_Machines() {
 						continue;
 					}
 					Fishlinks[ID].Fish[C1].Growth++;
-					if (Fishlinks[ID].Fish[C1].Growth >= Fishlinks[ID].Type->Max_Growth && Fishlinks[ID].Fish[C1].Damage <= ktn_health *
-						0.5f) {
+					if (Fishlinks[ID].Fish[C1].Growth >= Fishlinks[ID].Type->Max_Growth && Fishlinks[ID].Fish[C1].Damage <= ktn_health * 0.5f) {
 						Fishlinks[ID].Fish_Ct--;
 						memcpy(Fishlinks[ID].Fish + C1, Fishlinks[ID].Fish + C1 + 1, (Fishlinks[ID].Fish_Ct - C1) *
 							sizeof(struct Subfish));
 						Point Output = Find_Linked("spawning_output", Pos);
-						Data.Data_Grid[pt(Output)][Stored_Fluids] = ktn_min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 1, Data.Data_Grid[
-							pt(Output)][Fluid_Cap]);
+						Data.Data_Grid[pt(Output)][Stored_Fluids] = ktn_min(Data.Data_Grid[pt(Output)][Stored_Fluids] + 1, Data.Data_Grid[pt(Output)][Fluid_Cap]);
 						Update_Item(Output, Fishlinks[ID].Type->Item->ID, 50);
 					}
 				}
@@ -140,8 +146,7 @@ void Update_Machines() {
 				Point Parent = { (int)(Data.Settings_Grid[pt(Pos)][3]), (int)(Data.Settings_Grid[pt(Pos)][4]) };
 				float Food_Multiplier = Get_ID_Item(Data.Items_Grid[pt(Pos)])->Nutrition;
 				if (Data.Data_Grid[pt(Pos)][Stored_Fluids] > 0 && Food_Multiplier > 0) {
-					Fishlinks[(int)(Data.Settings_Grid[pt(Parent)][5])].Nutrition += Data.Data_Grid[pt(Pos)][Stored_Fluids] *
-						Food_Multiplier * 120.0f;
+					Fishlinks[(int)(Data.Settings_Grid[pt(Parent)][5])].Nutrition += Data.Data_Grid[pt(Pos)][Stored_Fluids] * Food_Multiplier * 120.0f;
 					Data.Data_Grid[pt(Pos)][Stored_Fluids] = 0;
 				}
 			}
