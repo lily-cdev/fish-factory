@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Gene>
 	<Name>photosynthetic</Name>
+	<Index>photosynthetic</Index>
 	<Path>core/images/genes/photosynthetic</Path>
-	<ID>0</ID>
 	<Growth_Rate>1.0</Growth_Rate>
 	<Hunger>0.2</Hunger>
 	<Space>1.0</Space>

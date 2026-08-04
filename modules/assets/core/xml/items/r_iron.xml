@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>raw iron</Name>
+	<Name>crushed raw iron</Name>
 	<Index>raw_iron</Index>
 	<ID>31</ID>
 	<Path>core/images/items/r_iron</Path>

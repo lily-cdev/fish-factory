@@ -2,7 +2,7 @@
 
 char Errors[ktn_errors][32] = {
 	"no docked sub",
-	"sub docked",
+	"sub busy",
 	"target empty",
 	"file not found",
 	"low value",

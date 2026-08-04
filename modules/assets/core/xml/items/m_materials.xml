@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>mixed materials</Name>
+	<Index>material_mix</Index>
+	<ID>30</ID>
+	<Path>core/images/items/m_materials</Path>
+	<Hazard>none</Hazard>
+	<Value>low</Value>
+	<Price>10</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5180</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

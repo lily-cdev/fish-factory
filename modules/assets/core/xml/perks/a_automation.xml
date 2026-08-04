@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Perk>
+	<Name>Advanced Automation</Name>
+	<Index>adv_automation</Index>
+	<Path>core/images/perks/a_automation</Path>
+</Perk>

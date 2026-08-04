@@ -204,15 +204,24 @@ typedef Fish_Data* Fish_Ptr;
 
 typedef struct {
 	char* Name;
+	char* Index;
 	char* Path;
 	SDL_Texture* Icon;
-	int ID;
 	float Rate;
 	float Consumption;
 	float Space;
 } Gene_Data;
 
 typedef Gene_Data* Gene_Ptr;
+
+typedef struct {
+	char* Name;
+	char* Index;
+	char* Path;
+	SDL_Texture* Icon;
+} Perk_Data;
+
+typedef Perk_Data* Perk_Ptr;
 
 typedef struct {
 	int Type;

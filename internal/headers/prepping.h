@@ -20,6 +20,7 @@ struct Proto_Core {
 	int Recipes;
 	int Fishes;
 	int Genes;
+	int Perks;
 	int Categories;
 	int Subcategories;
 	uint32_t State;
@@ -56,6 +57,7 @@ struct Proto_Metadata {
 	Item_Data* Items;
 	Fish_Data* Fish;
 	Gene_Data* Genes;
+	Perk_Data* Perks;
 	Category_Data* Categories;
 	Category_Data* Subcategories;
 	Recipe* Recipes;
@@ -408,8 +410,7 @@ void Push_Docks(Point Input);
 void Pull_Docks(int Position);
 void Recache_TT_Commands();
 void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
-void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1,
-	SDL_Color Color2);
+void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos);
 void Bake_Lights();
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size);
@@ -444,3 +445,4 @@ Point Rotate_Pt(Point Input, Point Size, int Rot);
 Point Rotate_Px(Point Input, Point Size, int Rot);
 Category_Ptr Get_Category(const char* Index);
 void Update_Cursor();
+void Sell(Point Pos, bool Terminal);

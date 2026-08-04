@@ -104,6 +104,9 @@ void Update_Machines() {
 							Transition.Sub_Offset = 3000;
 							Transition.Sub_Vertical = 105;
 						}
+						if (Transition.Sub_Pos.X == Pos.X && Transition.Sub_Pos.Y == Pos.Y && Transition.Sub_Phase == 2) {
+							Sell(Pos, false);
+						}
 					}
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
 						if ((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]) == Data.Items_Grid[Pos.X + C1][Pos.Y + 3] || Data.Settings_Grid[pt(Pos)][C1 + 5] ==

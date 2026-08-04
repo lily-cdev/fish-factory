@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Perk>
+	<Name>Grand Oil Pipeline</Name>
+	<Index>grand_oil_line</Index>
+	<Path>core/images/perks/go_pipeline</Path>
+</Perk>

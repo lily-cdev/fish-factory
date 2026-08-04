@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fp_mmetals</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>210</Power>
+	<Parent>filtration_plant</Parent>
+	<Inputs>
+		<Input>
+			<Item>material_mix</Item>
+			<Volume>10</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>raw_iron</Item>
+			<Volume>5</Volume>
+		</Output>
+		<Output>
+			<Item>wet_waste</Item>
+			<Volume>1.25</Volume>
+		</Output>
+		<Output>
+			<Item>raw_fluorite</Item>
+			<Volume>3.75</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

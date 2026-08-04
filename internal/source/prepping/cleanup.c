@@ -103,8 +103,15 @@ void Cleanup_Assets() {
 	}
 	for (int C1 = 0; C1 < Core.Genes; C1++) {
 		ktn_free(Metadata.Genes[C1].Name);
+		ktn_free(Metadata.Genes[C1].Index);
 		ktn_free(Metadata.Genes[C1].Path);
 		ktn_free_texture(Metadata.Genes[C1].Icon);
+	}
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		ktn_free(Metadata.Perks[C1].Name);
+		ktn_free(Metadata.Perks[C1].Index);
+		ktn_free(Metadata.Perks[C1].Path);
+		ktn_free_texture(Metadata.Perks[C1].Icon);
 	}
 	for (int C1 = 0; C1 < Core.Categories; C1++) {
 		ktn_free(Metadata.Categories[C1].Name);

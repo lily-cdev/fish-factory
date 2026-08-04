@@ -1,8 +1,7 @@
 #include <prepping.h>
 
 bool Detect_Mouse_Collision(const SDL_FRect Target) {
-	return (Core.Mouse.X >= Target.x && Core.Mouse.X <= Target.x + Target.w &&
-		Core.Mouse.Y >= Target.y && Core.Mouse.Y <= Target.y + Target.h);
+	return (Core.Mouse.X >= Target.x && Core.Mouse.X <= Target.x + Target.w && Core.Mouse.Y >= Target.y && Core.Mouse.Y <= Target.y + Target.h);
 }
 
 bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2) {

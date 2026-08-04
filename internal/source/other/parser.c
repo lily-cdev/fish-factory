@@ -106,6 +106,7 @@ void Load_XML() {
 	Core.Recipes = Get_Integer("registrar", Registrar, "Recipe_Ct");
 	Core.Fishes = Get_Integer("registrar", Registrar, "Fish_Ct");
 	Core.Genes = Get_Integer("registrar", Registrar, "Gene_Ct");
+	Core.Perks = Get_Integer("registrar", Registrar, "Perk_Ct");
 	Core.Categories = Get_Integer("registrar", Registrar, "Category_Ct");
 	Core.Subcategories = Get_Integer("registrar", Registrar, "Subcategory_Ct");
 	char** Raw_Names = Find_Multiple("registrar", Registrar, "Category", Core.Categories);
@@ -471,8 +472,8 @@ void Load_XML() {
 		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Gene_File, Victim))
 		char* Gene_File = Get_File(Raw_Names[C1]);
 		Gene.Name = get_str("Name");
+		Gene.Index = get_str("Index");
 		Gene.Path = get_str("Path");
-		Gene.ID = get_int("ID");
 		Gene.Rate = Get_Float(Raw_Names[C1], Gene_File, "Growth_Rate");
 		Gene.Consumption = Get_Float(Raw_Names[C1], Gene_File, "Hunger");
 		Gene.Space = Get_Float(Raw_Names[C1], Gene_File, "Space");
@@ -480,6 +481,23 @@ void Load_XML() {
 		#undef get_int
 		#undef Gene
 		ktn_free(Gene_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Perk", Core.Perks);
+	Metadata.Perks = calloc(Core.Perks, sizeof(Gene_Data));
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		#define Perk Metadata.Perks[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Perk_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Perk_File, Victim))
+		char* Perk_File = Get_File(Raw_Names[C1]);
+		Perk.Name = get_str("Name");
+		Perk.Index = get_str("Index");
+		Perk.Path = get_str("Path");
+		#undef get_str
+		#undef get_int
+		#undef Perk
+		ktn_free(Perk_File);
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);

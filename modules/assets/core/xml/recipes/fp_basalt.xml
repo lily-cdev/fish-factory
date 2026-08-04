@@ -22,7 +22,7 @@
 			<Volume>3</Volume>
 		</Output>
 		<Output>
-			<Item>metal_mix</Item>
+			<Item>material_mix</Item>
 			<Volume>2</Volume>
 		</Output>
 	</Outputs>

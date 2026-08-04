@@ -80,5 +80,24 @@
     "C_Cpp.errorSquiggles": "disabled",
     "search.exclude": {
         "**/external": true
+    },
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            "function": "#795E26",
+            "types": "#267F99"
+        }
+    },
+    "editor.tokenColorCustomizations": {
+    "textMateRules": [{
+            "scope": [ "support.type", "storage.type" ],
+            "settings": {
+                "foreground": "#267F99"
+            }
+        }, {
+            "scope": [ "keyword" ],
+            "settings": {
+                "foreground": "#1c404a"
+            }
+        }]
     }
 }

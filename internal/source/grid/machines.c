@@ -357,7 +357,6 @@ void Remove_Machine(Point Pos) {
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
 				if (Temporary.Docks.Data[C1].X == Pos.X && Temporary.Docks.Data[C1].Y == Pos.Y) {
 					Pull_Docks(C1);
-					//if sub docked, dismiss sub
 				}
 			}
 			if (Transition.Sub_Pos.X == Pos.X && Transition.Sub_Pos.X == Pos.Y) {

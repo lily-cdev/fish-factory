@@ -46,7 +46,7 @@
 		<Machine>core/xml/machines/light</Machine>
 		<Machine>core/xml/machines/d_drill</Machine>
 	</Machines>
-	<Item_Ct>34</Item_Ct>
+	<Item_Ct>36</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -77,13 +77,15 @@
 		<Item>core/xml/items/basalt</Item>
 		<Item>core/xml/items/plagioclase</Item>
 		<Item>core/xml/items/pyroxene</Item>
-		<Item>core/xml/items/m_metals</Item>
+		<Item>core/xml/items/m_materials</Item>
 		<Item>core/xml/items/r_iron</Item>
-		<Item>core/xml/items/r_calcium</Item>
+		<Item>core/xml/items/r_fluorite</Item>
 		<Item>core/xml/items/l_iron</Item>
 		<Item>core/xml/items/i_bar</Item>
+		<Item>core/xml/items/lava</Item>
+		<Item>core/xml/items/tachylite</Item>
 	</Items>
-	<Recipe_Ct>19</Recipe_Ct>
+	<Recipe_Ct>21</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -95,15 +97,17 @@
 		<Recipe>core/xml/recipes/fm_hcl</Recipe>
 		<Recipe>core/xml/recipes/sd_sediment</Recipe>
 		<Recipe>core/xml/recipes/fp_sediment</Recipe>
-		<Recipe>core/xml/recipes/m_rbrick</Recipe>
+		<Recipe>core/xml/recipes/m_clay</Recipe>
 		<Recipe>core/xml/recipes/m_lglass</Recipe>
-		<Recipe>core/xml/recipes/k_glass</Recipe>
-		<Recipe>core/xml/recipes/k_brick</Recipe>
+		<Recipe>core/xml/recipes/k_silicates</Recipe>
+		<Recipe>core/xml/recipes/k_rbrick</Recipe>
 		<Recipe>core/xml/recipes/dd_basalt</Recipe>
 		<Recipe>core/xml/recipes/fp_basalt</Recipe>
-		<Recipe>core/xml/recipes/fp_mmetals</Recipe>
+		<Recipe>core/xml/recipes/fp_mmaterials</Recipe>
 		<Recipe>core/xml/recipes/m_liron</Recipe>
 		<Recipe>core/xml/recipes/k_riron</Recipe>
+		<Recipe>core/xml/recipes/k_basalt</Recipe>
+		<Recipe>core/xml/recipes/m_lava</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>
@@ -117,6 +121,11 @@
 		<Gene>core/xml/genes/compact</Gene>
 		<Gene>core/xml/genes/photosynthetic</Gene>
 	</Genes>
+	<Perk_Ct>0</Perk_Ct>
+	<Perks>
+		<Perk>core/xml/perks/a_automation</Perk>
+		<Perk>core/xml/perks/go_pipeline</Perk>
+	</Perks>
 	<Category_Ct>7</Category_Ct>
 	<Categories>
 		<Category>core/xml/categories/logistics</Category>

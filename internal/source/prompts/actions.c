@@ -196,36 +196,43 @@ void MT_Diagnostics(Parameter Pos, Parameter Unused) {
 	Print_JSON();
 }
 
+void Sell(Point Pos, bool Terminal) {
+	int Issues[2] = { 0, 0 };
+	for (int C1 = 0; C1 < 2; C1++) {
+		if (Get_ID_Item((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]))->Worth == Worthless && Data.Settings_Grid[pt(Pos)][C1 + 5] != ktn_invalid) {
+			Issues[C1] = 1;
+		}
+		if (Data.Settings_Grid[pt(Pos)][C1 + 5] == ktn_invalid) {
+			Issues[C1] = 2;
+		}
+	}
+	if (Issues[0] == 0 || Issues[1] == 0) {
+		for (int C2 = 0; C2 < 2; C2++) {
+			if (Issues[C2] == 0) {
+				Data.Funds += Data.Settings_Grid[pt(Pos)][C2 + 3] * Get_ID_Item((int)(Data.Settings_Grid[pt(Pos)][C2 + 5]))->Price;
+				Data.Settings_Grid[pt(Pos)][C2 + 3] = 0;
+				Data.Settings_Grid[pt(Pos)][C2 + 5] = ktn_invalid;
+			}
+		}
+		if (Terminal) {
+			Print_Response("Items sold");
+			Transition.Sub_Phase = 3;
+		}
+	} else if (Terminal) {
+		int Errors[2] = { Low_Value, Empty_Target };
+		for (int C2 = 0; C2 < 2; C2++) {
+			Print_Error(Errors[Issues[C2] - 1]);
+		}
+	}
+	if (!Terminal) {
+		Transition.Sub_Phase = 3;
+	}
+}
+
 void SD_Link(Parameter Pos, Parameter Unused) {
 	Print_Input();
 	if (Transition.Sub_Pos.X == Pos.Pos.X && Transition.Sub_Pos.Y == Pos.Pos.Y && Transition.Sub_Phase == 2) {
-		int Issues[2] = { 0, 0 };
-		for (int C1 = 0; C1 < 2; C1++) {
-			if (Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C1 + 5]))->Worth == Worthless && Data.Settings_Grid[pt(
-				Pos.Pos)][C1 + 5] != ktn_invalid) {
-				Issues[C1] = 1;
-			}
-			if (Data.Settings_Grid[pt(Pos.Pos)][C1 + 5] == ktn_invalid) {
-				Issues[C1] = 2;
-			}
-		}
-		if (Issues[0] == 0 || Issues[1] == 0) {
-			for (int C2 = 0; C2 < 2; C2++) {
-				if (Issues[C2] == 0) {
-					Data.Funds += Data.Settings_Grid[pt(Pos.Pos)][C2 + 3] * Get_ID_Item((int)(Data.Settings_Grid[pt(Pos.Pos)][C2 +
-						5]))->Price;
-					Data.Settings_Grid[pt(Pos.Pos)][C2 + 3] = 0;
-					Data.Settings_Grid[pt(Pos.Pos)][C2 + 5] = ktn_invalid;
-				}
-			}
-			Print_Response("Items sold");
-			Transition.Sub_Phase = 3;
-		} else {
-			int Errors[2] = { Low_Value, Empty_Target };
-			for (int C2 = 0; C2 < 2; C2++) {
-				Print_Error(Errors[Issues[C2] - 1]);
-			}
-		}
+		Sell(Pos.Pos, true);
 	} else {
 		Print_Error(No_Docked_Sub);
 	}

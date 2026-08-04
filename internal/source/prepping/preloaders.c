@@ -135,6 +135,9 @@ void Preload_Machines() {
 	for (int C1 = 0; C1 < Core.Genes; C1++) {
 		Metadata.Genes[C1].Icon = Preload_Texture(Metadata.Genes[C1].Path);
 	}
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		Metadata.Perks[C1].Icon = Preload_Texture(Metadata.Perks[C1].Path);
+	}
 }
 ~end;
 
