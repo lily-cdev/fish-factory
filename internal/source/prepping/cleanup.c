@@ -222,6 +222,7 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Frame_Texture);
 	ktn_free_texture(Textures.Tile_Texture);
 	ktn_free_texture(Textures.Gene_Add);
+	ktn_free_texture(Textures.Perk_Owned);
 	Clear_Texture_Array(&Textures.Submarine);
 	ktn_free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);

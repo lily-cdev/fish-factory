@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>molten steel</Name>
+	<Index>liquid_steel</Index>
+	<ID>37</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>255</R1>
+	<G1>155</G1>
+	<B1>53</B1>
+	<R2>189</R2>
+	<G2>55</G2>
+	<B2>10</B2>
+	<Hazard>mid</Hazard>
+	<Value>low</Value>
+	<Price>11</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5400</Boil_Pt>
+	<V_Enthalpy>354</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

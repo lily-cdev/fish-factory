@@ -49,3 +49,4 @@ void Loop_Forward(Parameter Unused, Parameter Unused2);
 void Set_Tool(Parameter Tool, Parameter Unused);
 void Set_Catalog_Machine(Parameter Index, Parameter Unused);
 void Set_Keybind(Parameter Index, Parameter Unused);
+void Buy_Perk(Parameter Perk, Parameter Unused);

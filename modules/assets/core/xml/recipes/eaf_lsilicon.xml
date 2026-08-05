@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>eaf_lsilicon</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>10</Time>
+	<Power>400000</Power>
+	<Parent>arc_furnace</Parent>
+	<Inputs>
+		<Input>
+			<Item>water</Item>
+			<Volume>10</Volume>
+		</Input>
+		<Input>
+			<Item>silicates</Item>
+			<Volume>2</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>wet_waste</Item>
+			<Volume>10</Volume>
+		</Output>
+		<Output>
+			<Item>liquid_silicon</Item>
+			<Volume>2</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

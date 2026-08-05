@@ -94,9 +94,9 @@ void Update_Machines() {
 					Cycle_Functions[C1](Pos, Rotation);
 				}
 			}
-			if (Data.Visual_Grid[pt(Pos)] == 21) {
+			if (Data.Visual_Grid[pt(Pos)] == 21) {//sub dock
 				for (int C1 = 0; C1 < 2; C1++) {
-					if (Data.Settings_Grid[pt(Pos)][C1 + 3] > ktn_dock_cap - ktn_epsilon) {
+					if (Data.Settings_Grid[pt(Pos)][C1 + 3] > ktn_dock_cap - ktn_epsilon && Get_Perk("adv_automation")->Owned) {
 						if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
 							Transition.Sub_Pos = Pos;
 							Transition.Sub_Phase = 0;

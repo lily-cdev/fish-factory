@@ -415,3 +415,10 @@ void Shop_Subitem(Parameter Selection, Parameter Unused) {
 void Set_Catalog_Machine(Parameter Index, Parameter Unused) {
 	Interface.Subprompt_Identifier = Index.Integer - 3;
 }
+
+void Buy_Perk(Parameter Perk, Parameter Unused) {
+	if (Data.Funds >= Metadata.Perks[Perk.Integer].Cost) {
+		Data.Funds -= Metadata.Perks[Perk.Integer].Cost;
+		Metadata.Perks[Perk.Integer].Owned = true;
+	}
+}

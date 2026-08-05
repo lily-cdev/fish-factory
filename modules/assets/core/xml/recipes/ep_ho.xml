@@ -3,8 +3,8 @@
 	<Index>ep_ho</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
-	<Time>10</Time>
-	<Power>5000000</Power>
+	<Time>5</Time>
+	<Power>10000000</Power>
 	<Parent>electro_cell</Parent>
 	<Inputs>
 		<Input>

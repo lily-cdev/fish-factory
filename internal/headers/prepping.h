@@ -140,6 +140,7 @@ struct Proto_Textures {
 	SDL_Texture* Floor_Texture;
 	SDL_Texture* Frame_Texture;
 	SDL_Texture* Gene_Add;
+	SDL_Texture* Perk_Owned;
 	SDL_Texture* Tile_Texture;
 	SDL_Texture* Scrap;
 	SDL_Texture* Help_Sidebutton;
@@ -446,3 +447,4 @@ Point Rotate_Px(Point Input, Point Size, int Rot);
 Category_Ptr Get_Category(const char* Index);
 void Update_Cursor();
 void Sell(Point Pos, bool Terminal);
+Perk_Ptr Get_Perk(const char* Index);

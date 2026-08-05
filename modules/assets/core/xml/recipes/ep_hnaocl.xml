@@ -3,7 +3,7 @@
 	<Index>ep_hnaocl</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
-	<Time>10</Time>
+	<Time>5</Time>
 	<Power>6000000</Power>
 	<Parent>electro_cell</Parent>
 	<Inputs>

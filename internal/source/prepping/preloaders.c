@@ -109,11 +109,13 @@ void Preload_Machines() {
 	Textures.Frame_Texture = Preload_Texture("core/images/tiles/frame");
 	Textures.Tile_Texture = Preload_Texture("core/images/tiles/tile");
 	Textures.Gene_Add = Preload_Texture("core/images/genes/add");
+	Textures.Perk_Owned = Preload_Texture("core/images/perks/owned");
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(40.0f), ktn_fscale(40.0f) };
 	Textures.Scrap = Preload_Texture("core/images/tiles/scrap");
+~end;
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		if (Metadata.Items[C1].Uniform) {
 			SDL_Texture* Base = Preload_Texture(Metadata.Items[C1].Path);
@@ -132,6 +134,7 @@ void Preload_Machines() {
 			Metadata.Items[C1].Icon = Preload_Texture(Metadata.Items[C1].Path);
 		}
 	}
+~start;
 	for (int C1 = 0; C1 < Core.Genes; C1++) {
 		Metadata.Genes[C1].Icon = Preload_Texture(Metadata.Genes[C1].Path);
 	}

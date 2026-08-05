@@ -35,5 +35,5 @@ void Render_Genetics(Point Pos) {
 		} else {
 			Render_Texture(Metadata.Genes[C1].Icon, &Subcarrier);
 		}
-	}*/
+	}*/ 
 }

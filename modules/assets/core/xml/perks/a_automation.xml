@@ -3,4 +3,5 @@
 	<Name>Advanced Automation</Name>
 	<Index>adv_automation</Index>
 	<Path>core/images/perks/a_automation</Path>
+	<Cost>7500</Cost>
 </Perk>

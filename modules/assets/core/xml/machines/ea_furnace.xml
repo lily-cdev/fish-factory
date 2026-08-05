@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>electric arc furnace</Name>
+	<Desc>A multipurpose furnace for smelting. Requires an additional input, depending on the material.</Desc>
+	<Index>arc_furnace</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>kiln</Texture_Type>
+	<Kiln_X>49</Kiln_X>
+	<Kiln_Y>34</Kiln_Y>
+	<Kiln_W>22</Kiln_W>
+	<Kiln_H>52</Kiln_H>
+	<Path>core/images/machines/ea_furnace</Path>
+	<Price>2700</Price>
+	<Fee>4</Fee>
+	<Width>3</Width>
+	<Height>3</Height>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>4200000</Power_Capacity>
+	<Anchor_X>28</Anchor_X>
+	<Anchor_Y>43</Anchor_Y>
+	<Rot_ID />
+	<Visual_Left>163</Visual_Left>
+	<Visual_Up>164</Visual_Up>
+	<Visual_Right>165</Visual_Right>
+	<Visual_Down>166</Visual_Down>
+	<Fluid_Processor />
+	<Input_Ct>2</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>2</Y>
+			<Cap>12</Cap>
+			<Dir>down</Dir>
+		</Input>
+		<Input>
+			<X>1</X>
+			<Y>2</Y>
+			<Cap>3</Cap>
+			<Dir>down</Dir>
+		</Input>
+	</Inputs>
+	<Output_Ct>2</Output_Ct>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Cap>12</Cap>
+			<Dir>up</Dir>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Cap>3</Cap>
+			<Dir>up</Dir>
+		</Output>
+	<Outputs>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

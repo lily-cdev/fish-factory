@@ -39,8 +39,7 @@ void Render_Shop(Point Pos) {
 		}
 		Quirk_Stack[Index] = ktn_terminator;
 		SDL_FRect Label_Rects[3] = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-		float Start = (float)(ktn_fscale(103.0f) - ((ktn_fscale(ktn_intlen(Quirk_Stack) * 20.0f) + (ktn_fscale(ktn_intlen(Quirk_Stack) - 1.0f) *
-			10.0f)) * 0.5f));
+		float Start = (float)(ktn_fscale(103.0f) - ((ktn_fscale(ktn_intlen(Quirk_Stack) * 20.0f) + (ktn_fscale(ktn_intlen(Quirk_Stack) - 1.0f) * 10.0f)) * 0.5f));
 		for (int C1 = 0; C1 < ktn_intlen(Quirk_Stack); C1++) {
 			SDL_FRect Quirk_Rectangle = {
 				ktn_fscale(C1 * 30.0f) + Start,
@@ -67,8 +66,7 @@ void Render_Shop(Point Pos) {
 		};
 		Render_Texture(Name_Texture, &Name_Rectangle);
 		ktn_free_texture(Name_Texture);
-		SDL_Surface* Desc_Surface = TTF_RenderText_Blended_Wrapped(Fonts.Faces[F_Subtext], Interface.Item->Desc, 0,
-			Colors.Abyss_Black, ktn_fscale(180));
+		SDL_Surface* Desc_Surface = TTF_RenderText_Blended_Wrapped(Fonts.Faces[F_Subtext], Interface.Item->Desc, 0, Colors.Abyss_Black, ktn_fscale(180));
 		SDL_Texture* Desc_Texture = Surface_To_Texture(Desc_Surface);
 		SDL_FRect Desc_Rect = { ktn_fscale(16.0f), ktn_fscale(Offset + 40.0f), (float)Desc_Texture->w, (float)Desc_Texture->h };
 		Render_Texture(Desc_Texture, &Desc_Rect);
@@ -97,8 +95,7 @@ void Render_Shop(Point Pos) {
 		Process_Supply(&Supplies.Shop5, Buffer, F_Subtext, Colors.Abyss_Black, (Point){ 456, 110 });
 	} else {
 		for (int C1 = 0; C1 < Core.Categories; C1++) {
-			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category, .Param.Integer = C1 },
-				Colors.Cherry_Blossom);
+			Render_Button(&Textures.Categories.Data[C1], &Rects.Categories.Data[C1], (UI_Link){ Shop_Category, .Param.Integer = C1 }, Colors.Cherry_Blossom);
 		}
 	}
 }

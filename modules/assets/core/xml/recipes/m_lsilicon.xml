@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>m_lsilicon</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>0</Power>
+	<Parent>molder</Parent>
+	<Inputs>
+		<Input>
+			<Item>liquid_silicon</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>silicon</Item>
+			<Volume>2.0</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>steel bar</Name>
+	<Index>steel</Index>
+	<ID>40</ID>
+	<Path>core/images/items/bar_base</Path>
+	<Uniform />
+	<R1>153</R1>
+	<G1>163</G1>
+	<B1>163</B1>
+	<R2>192</R2>
+	<G2>198</G2>
+	<B2>199</B2>
+	<Hazard>none</Hazard>
+	<Value>mid</Value>
+	<Price>200</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5400</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

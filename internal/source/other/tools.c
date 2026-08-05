@@ -301,3 +301,12 @@ Category_Ptr Get_Category(const char* Index) {
 	}
 	return NULL;
 }
+
+Perk_Ptr Get_Perk(const char* Index) {
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		if (ktn_stricmp(Metadata.Perks[C1].Index, Index)) {
+			return &Metadata.Perks[C1];
+		}
+	}
+	return NULL;
+}

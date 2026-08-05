@@ -219,6 +219,8 @@ typedef struct {
 	char* Index;
 	char* Path;
 	SDL_Texture* Icon;
+	bool Owned;
+	int Cost;
 } Perk_Data;
 
 typedef Perk_Data* Perk_Ptr;

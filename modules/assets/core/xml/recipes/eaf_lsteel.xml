@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>eaf_lsteel</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>10</Time>
+	<Power>400000</Power>
+	<Parent>arc_furnace</Parent>
+	<Inputs>
+		<Input>
+			<Item>oxygen</Item>
+			<Volume>0.12</Volume>
+		</Input>
+		<Input>
+			<Item>iron</Item>
+			<Volume>2</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>wet_waste</Item>
+			<Volume>0.5</Volume>
+		</Output>
+		<Output>
+			<Item>liquid_steel</Item>
+			<Volume>2</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

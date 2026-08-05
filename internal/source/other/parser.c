@@ -494,6 +494,7 @@ void Load_XML() {
 		Perk.Name = get_str("Name");
 		Perk.Index = get_str("Index");
 		Perk.Path = get_str("Path");
+		Perk.Cost = get_int("Cost");
 		#undef get_str
 		#undef get_int
 		#undef Perk
