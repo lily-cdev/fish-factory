@@ -197,11 +197,11 @@ void Destroy_Clearance(Point Pos, int Width, int Height) {
 }
 
 void Update_Grid() {
-	int Temporary_Grid[ktn_grid_size][ktn_grid_size];
+	char Temporary_Grid[ktn_grid_size][ktn_grid_size][64];
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			Temporary_Grid[pt(Pos)] = Data.Visual_Grid[pt(Pos)];
+			strcpy(Temporary_Grid[pt(Pos)], Data.Visual_Grid[pt(Pos)]);
 		}
 	}
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
@@ -211,11 +211,15 @@ void Update_Grid() {
 				continue;
 			}
 			if (ktn_stricmp(Machine->Index, "heavy_pipe")) {
-				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, ktn_invalid, true, NULL) + 1;
-			} else if (Data.Visual_Grid[pt(Pos)] > 23 && Data.Visual_Grid[pt(Pos)] < 41) {
+				char Carrier[64];
+				snprintf(Carrier, sizeof(Carrier), "heavy_pipe_%i", Mod_Detection(Pos, ktn_invalid, true, NULL));
+				strcpy(Temporary_Grid[pt(Pos)], Carrier);
+			} else if (ktn_stricmp(Machine->Index, "spawning_pool")) {
 				char* Params[4] = { "spawning_pool", "spawning_controller", "spawning_output", "spawning_input" };
-				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, 4, false, Params) + 24;
-			} else if (Data.Visual_Grid[pt(Pos)] == 45) {
+				char Carrier[64];
+				snprintf(Carrier, sizeof(Carrier), "spawning_pool_%i", Mod_Detection(Pos, 4, false, Params));
+				strcpy(Temporary_Grid[pt(Pos)], Carrier);
+			} else if (ktn_stricmp(Machine->Index, "spawning_controller")) {
 				Temporary.First_Coordinate = Pos;
 				int ID = Data.Settings_Grid[pt(Pos)][5];
 				Fishlinks[ID].Size = Find_Modular_Size(Pos, "spawning_pool", "spawning_controller", "spawning_output", "spawning_input");
@@ -231,13 +235,15 @@ void Update_Grid() {
 				Temporary.Modular1_Requirement = 0;
 				Temporary.Modular2_Requirement = 0;
 			} else if (ktn_stricmp(Machine->Index, "large_pipe")) {
-				Temporary_Grid[pt(Pos)] = Mod_Detection(Pos, ktn_invalid, true, NULL) + 71;
+				char Carrier[64];
+				snprintf(Carrier, sizeof(Carrier), "large_pipe_%i", Mod_Detection(Pos, ktn_invalid, true, NULL));
+				strcpy(Temporary_Grid[pt(Pos)], Carrier);
 			}
 		}
 	}
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			Data.Visual_Grid[pt(Pos)] = Temporary_Grid[pt(Pos)];
+			strcpy(Data.Visual_Grid[pt(Pos)], Temporary_Grid[pt(Pos)]);
 		}
 	}
 }
@@ -250,7 +256,7 @@ void Build_Grid() {
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
-			if (Data.Visual_Grid[Column][Row] != 0) {
+			if (!ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strzero)) {
 				return;
 			}
 			int Rotation = (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
@@ -265,13 +271,13 @@ void Build_Grid() {
 					return;
 				}
 				Destroy_Clearance(Pos, Size.X, Size.Y);
-				Fill_Clearance(ktn_invalid, Pos, Size.X, Size.Y);
+				Fill_Clearance(ktn_strnull, Pos, Size.X, Size.Y);
 			} else {
 				if (!Check_Clearance(Pos, Size.Y, Size.X)) {
 					return;
 				}
 				Destroy_Clearance(Pos, Size.Y, Size.X);
-				Fill_Clearance(ktn_invalid, Pos, Size.Y, Size.X);
+				Fill_Clearance(ktn_strnull, Pos, Size.Y, Size.X);
 			}
 			for (int C1 = 0; C1 < sizeof(Placing_Functions) / sizeof(Placing_Functions[0]); C1++) {
 				if (ktn_stricmp(Interface.Item->Index, Placing_Registers[C1])) {
@@ -297,9 +303,11 @@ void Build_Grid() {
 			}
 			Data.Funds -= Interface.Queried_Price;
 			if (Interface.Item->Visual_Type == I_Single) {
-				Data.Visual_Grid[Column][Row] = Interface.Item->Visual_ID1;
+				strcpy(Data.Visual_Grid[Column][Row], Interface.Item->Visual_ID1);
 			} else if (Interface.Item->Visual_Type == I_Rot) {
-				Data.Visual_Grid[Column][Row] = Interface.Item->Visual_ID4[Rotation];
+				strcpy(Data.Visual_Grid[Column][Row], Interface.Item->Visual_ID4[Rotation]);
+			} else if (Interface.Item->Visual_Type == I_Mod) {
+				strcpy(Data.Visual_Grid[Column][Row], Interface.Item->Visual_ID17[0]);
 			}
 			if (Interface.Item->Command) {
 				Data.CMD_Placed = true;
@@ -333,13 +341,13 @@ void Build_Grid() {
 }
 
 void Remove_Machine(Point Pos) {
-	Data.Funds += (int)(floorf(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Price * 0.75f));
-	int Width;
-	int Height;
 	Machine_Ptr Target = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 	if (!Target) {
 		return;
 	}
+	Data.Funds += (int)(floorf(Target->Price * 0.75f));
+	int Width;
+	int Height;
 	ID_To_Size(Target, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]), &Width, &Height);
 	if (Width == 1 && Height == 1) {
 		Wipe_Tile(Pos);
@@ -388,7 +396,7 @@ bool Destroy_Grid() {
 			}
 			if (Data.Visual_Grid[pt(Pos)] != 0) {
 				Cache.Wire_State = Deep_Recache;
-				if (Data.Visual_Grid[pt(Pos)] == ktn_invalid) {
+				if (ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strnull)) {
 					Remove_Machine((Point){
 						(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
 					});

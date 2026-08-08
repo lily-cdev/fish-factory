@@ -16,7 +16,7 @@ typedef struct {
 	int Hotkey;
 	int Selection;
 	char Label[128];
-	int Item;
+	char Item[64];
 	Point Placement_Locations[128];
 	Machine_Ptr ID_Override;
 	char Context[128];

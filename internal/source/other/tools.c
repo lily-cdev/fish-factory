@@ -79,7 +79,7 @@ bool Check_Clearance(Point Pos, const int W, const int H) {
 	} 
 	for (int C1 = 0; C1 < W; C1++) {
 		for (int C2 = 0; C2 < H; C2++) {
-			if (Data.Visual_Grid[Pos.X + C1][Pos.Y + C2] != 0) {
+			if (!ktn_stricmp(Data.Visual_Grid[Pos.X + C1][Pos.Y + C2], ktn_strzero)) {
 				return false;
 			}
 		}
@@ -87,10 +87,10 @@ bool Check_Clearance(Point Pos, const int W, const int H) {
 	return true;
 }
 
-void Fill_Clearance(const int Identifier, Point Pos, const int W, const int H) {
+void Fill_Clearance(const char* Identifier, Point Pos, const int W, const int H) {
 	for (int C1 = 0; C1 < W; C1++) {
 		for (int C2 = 0; C2 < H; C2++) {
-			Data.Visual_Grid[Pos.X + C1][Pos.Y + C2] = Identifier;
+			strcpy(Data.Visual_Grid[Pos.X + C1][Pos.Y + C2], Identifier);
 			if (C1 > 0 || C2 > 0) {
 				Data.Settings_Grid[Pos.X + C1][Pos.Y + C2][1] = Pos.X;
 				Data.Settings_Grid[Pos.X + C1][Pos.Y + C2][2] = Pos.Y;

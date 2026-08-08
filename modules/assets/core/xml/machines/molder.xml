@@ -15,10 +15,6 @@
 	<Width>2</Width>
 	<Height>1</Height>
 	<Rot_ID />
-	<Visual_Left>154</Visual_Left>
-	<Visual_Up>155</Visual_Up>
-	<Visual_Right>156</Visual_Right>
-	<Visual_Down>157</Visual_Down>
 	<Power_Type>none</Power_Type>
 	<Fluid_Processor />
 	<Input_Ct>1</Input_Ct>

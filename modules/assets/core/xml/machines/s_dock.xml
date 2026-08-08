@@ -29,6 +29,7 @@
 			<Cap>200</Cap>
 		</Input>
 	</Inputs>
+	<Single_ID />
 	<Output_Ct>0</Output_Ct>
 	<Neutral_Ct>0</Neutral_Ct>	
 </Machine>

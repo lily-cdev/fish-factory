@@ -193,7 +193,8 @@ typedef enum {
 typedef enum {
 	I_None_Vis,
 	I_Single,
-	I_Rot
+	I_Rot,
+	I_Mod
 } ID_Type;
 
 typedef enum {

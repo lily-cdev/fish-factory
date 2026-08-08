@@ -17,10 +17,6 @@
 	<Power_Type>none</Power_Type>
 	<Heating />
 	<Rot_ID />
-	<Visual_Left>18</Visual_Left>
-	<Visual_Up>114</Visual_Up>
-	<Visual_Right>115</Visual_Right>
-	<Visual_Down>116</Visual_Down>
 	<Fluid_Processor />
 	<Input_Ct>1</Input_Ct>
 	<Inputs>

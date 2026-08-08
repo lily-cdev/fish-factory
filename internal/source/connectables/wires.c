@@ -103,7 +103,7 @@ void Place_Wire() {
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
 			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				if (Data.Visual_Grid[Column][Row] == ktn_invalid) {
+				if (ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strnull)) {
 					Connect_Wire((Point){
 						(int)(Data.Settings_Grid[Column][Row][S_ParentX]),
 						(int)(Data.Settings_Grid[Column][Row][S_ParentY])

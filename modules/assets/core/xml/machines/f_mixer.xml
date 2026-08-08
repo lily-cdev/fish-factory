@@ -16,10 +16,6 @@
 	<Anchor_X>60</Anchor_X>
 	<Anchor_Y>60</Anchor_Y>
 	<Rot_ID />
-	<Visual_Left>49</Visual_Left>
-	<Visual_Up>99</Visual_Up>
-	<Visual_Right>100</Visual_Right>
-	<Visual_Down>101</Visual_Down>
 	<Fluid_Processor />
 	<Input_Ct>6</Input_Ct>
 	<Inputs>

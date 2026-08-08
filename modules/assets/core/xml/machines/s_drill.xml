@@ -12,10 +12,6 @@
 	<Width>2</Width>
 	<Height>2</Height>
 	<Rot_ID />
-	<Visual_Left>142</Visual_Left>
-	<Visual_Up>143</Visual_Up>
-	<Visual_Right>144</Visual_Right>
-	<Visual_Down>145</Visual_Down>
 	<Power_Type>in</Power_Type>
 	<Power_Capacity>1500</Power_Capacity>
 	<Anchor_X>70</Anchor_X>

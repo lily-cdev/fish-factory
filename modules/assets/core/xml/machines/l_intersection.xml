@@ -12,10 +12,6 @@
 	<Height>3</Height>
 	<Power_Type>none</Power_Type>
 	<Rot_ID />
-	<Visual_Left>109</Visual_Left>
-	<Visual_Up>110</Visual_Up>
-	<Visual_Right>111</Visual_Right>
-	<Visual_Down>112</Visual_Down>
 	<Fluid_Processor />
 	<Input_Ct>2</Input_Ct>
 	<Inputs>

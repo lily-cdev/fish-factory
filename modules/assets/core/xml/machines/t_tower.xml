@@ -13,8 +13,4 @@
 	<Height>3</Height>
 	<Power_Type>none</Power_Type>
 	<Rot_ID />
-	<Visual_Left>50</Visual_Left>
-	<Visual_Up>60</Visual_Up>
-	<Visual_Right>61</Visual_Right>
-	<Visual_Down>62</Visual_Down>	
 </Machine>

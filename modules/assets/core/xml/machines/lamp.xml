@@ -11,10 +11,6 @@
 	<Width>2</Width>
 	<Height>1</Height>
 	<Rot_ID />
-	<Visual_Left>146</Visual_Left>
-	<Visual_Up>147</Visual_Up>
-	<Visual_Right>148</Visual_Right>
-	<Visual_Down>149</Visual_Down>
 	<Power_Type>none</Power_Type>
 	<Has_Light />
 	<Light_Ct>2</Light_Ct>

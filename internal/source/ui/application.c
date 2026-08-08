@@ -143,8 +143,15 @@ void Render_Application() {
 		bool Targeting = false;
 		switch (Interface.Tool) {
 		case 1:
-			if (Get_Simple_Grid_Tile(Data.Visual_Grid, 0) != 0) {
-				Targeting = true;
+			Point Pos;
+			for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+				Rects.Tile_1x1.x = ktn_fscale((Pos.X * ktn_tile_size) - Core.Camera.X);
+				for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
+					Rects.Tile_1x1.y = ktn_fscale((Pos.Y * ktn_tile_size) - Core.Camera.Y);
+					if (Detect_Mouse_Collision(Rects.Tile_1x1) && !ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strzero)) {
+						Targeting = true;
+					}
+				}
 			}
 			break;
 		default:

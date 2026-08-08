@@ -147,8 +147,9 @@ typedef struct {
 		RL_Blowback_Data RL_Drag_Data;
 	};
 	union {
-		int Visual_ID1;
-		int Visual_ID4[4];
+		char Visual_ID1[64];
+		char Visual_ID4[4][64];
+		char Visual_ID17[17][64];
 	};
 	int Input_Ct;
 	Node_Data* Inputs;

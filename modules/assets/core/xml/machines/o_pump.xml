@@ -12,14 +12,10 @@
 	<Width>1</Width>
 	<Height>1</Height>
 	<Rot_ID />
-	<Visual_Left>167</Visual_Left>
-	<Visual_Up>168</Visual_Up>
-	<Visual_Right>169</Visual_Right>
-	<Visual_Down>170</Visual_Down>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>1500</Power_Capacity>
-	<Anchor_X>70</Anchor_X>
-	<Anchor_Y>40</Anchor_Y>
+	<Power_Capacity>100</Power_Capacity>
+	<Anchor_X>20</Anchor_X>
+	<Anchor_Y>20</Anchor_Y>
 	<Fluid_Processor />
 	<Input_Ct>0</Input_Ct>
 	<Output_Ct>2</Output_Ct>

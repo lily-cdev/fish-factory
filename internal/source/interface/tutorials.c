@@ -77,7 +77,7 @@ void Render_Tutorial() {
 					continue;
 				}
 			} else {
-				if (Data.Visual_Grid[pt(Step.Placement_Locations[C1])] == Step.Item) {
+				if (ktn_stricmp(Data.Visual_Grid[pt(Step.Placement_Locations[C1])], Step.Item)) {
 					continue;
 				}
 			}
@@ -100,7 +100,7 @@ void Render_Tutorial() {
 		if (Remaining == 1) {
 			strncpy(Suffix, " ", sizeof(Suffix));
 		}
-		if (Step.Item == 0 && !Step.ID_Override) {
+		if (ktn_stricmp(Step.Item, ktn_strzero) && !Step.ID_Override) {
 			snprintf(Carrier, sizeof(Carrier), "remove the %i machine%sshown.", Remaining, Suffix);
 			strcat(Text, Carrier);
 		} else {

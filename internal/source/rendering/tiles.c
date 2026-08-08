@@ -14,12 +14,12 @@ void Render_Grid() {
 				int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
 				switch (C1) {
 				case 0:
-					if (Data.Visual_Grid[Column][Row] != 0) {
+					if (!ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strzero)) {
 						Render_Texture(Textures.Tile_Texture, &Rects.Tile_1x1);
 					}
 					break;
 				case 1:
-					if (Data.Visual_Grid[Column][Row] == 0) {
+					if (ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strzero)) {
 						Render_Texture(Textures.Floor_Texture, &Rects.Tile_1x1);
 						Render_Texture(Textures.Frame_Texture, &Rects.Tile_1x1);
 					}
@@ -47,13 +47,15 @@ void Render_Grid() {
 						Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
 						break;
 					case A_Modular:
-						if (ktn_stricmp(Machine->Index, "heavy_pipe")) {
-							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 1], &Rects.Tile_1x1);
-						} else if (ktn_stricmp(Machine->Index, "large_pipe")) {	
-							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 71], &Rects.Tile_1x1);
-						} else if (ktn_stricmp(Machine->Index, "spawning_pool")) {
-							Render_Texture(Machine->Texture2.Data[Data.Visual_Grid[Column][Row] - 24], &Rects.Tile_1x1);
+						int Max = strlen(Data.Visual_Grid[Column][Row]);
+						char Buffer[3] = { 0 };
+						Buffer[0] = Data.Visual_Grid[Column][Row][Max - 2];
+						Buffer[1] = Data.Visual_Grid[Column][Row][Max - 1];
+						if (Data.Visual_Grid[Column][Row][Max - 2] == '_') {
+							Buffer[0] = Buffer[1];
+							Buffer[1] = '\0';
 						}
+						Render_Texture(Machine->Texture2.Data[atoi(Buffer)], &Rects.Tile_1x1);
 						break;
 					case A_Spinner:
 						Carrier = (SDL_FRect){

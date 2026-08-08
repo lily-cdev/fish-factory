@@ -94,7 +94,7 @@ void Update_Machines() {
 					Cycle_Functions[C1](Pos, Rotation);
 				}
 			}
-			if (Data.Visual_Grid[pt(Pos)] == 21) {//sub dock
+			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, "sub_dock")) {
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Settings_Grid[pt(Pos)][C1 + 3] > ktn_dock_cap - ktn_epsilon && Get_Perk("adv_automation")->Owned) {
 						if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
@@ -145,7 +145,7 @@ void Update_Machines() {
 						Update_Item(Output, Fishlinks[ID].Type->Item->ID, 50);
 					}
 				}
-			} else if (Data.Visual_Grid[pt(Pos)] == 47) {//msp input
+			} else if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, "spawning_input")) {
 				Point Parent = { (int)(Data.Settings_Grid[pt(Pos)][3]), (int)(Data.Settings_Grid[pt(Pos)][4]) };
 				float Food_Multiplier = Get_ID_Item(Data.Items_Grid[pt(Pos)])->Nutrition;
 				if (Data.Data_Grid[pt(Pos)][Stored_Fluids] > 0 && Food_Multiplier > 0) {

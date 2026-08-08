@@ -44,7 +44,7 @@ bool Save_Data(int Slot) {
 	fputc((uint8_t)Data.CMD_Placed, File);
 	fwrite(&(uint16_t){ Data.Time }, sizeof(uint16_t), 1, File);
 	fwrite(&(int64_t){ Data.Funds }, sizeof(uint64_t), 1, File);
-	Write_2D_Array(Data.Visual_Grid, File);
+	fwrite(Data.Visual_Grid, sizeof(Data.Visual_Grid), 1, File);
 	Write_2D_Array(Data.Behavior_Grid, File);
 	Write_2D_Array(Data.Wiring_Grid, File);
 	Write_2D_Array(Data.Plumbing_Grid, File);
@@ -127,7 +127,7 @@ bool Load_Data(int Slot) {
 			Data.CMD_Placed = (bool)fgetc(File);
 			fread(&Data.Time, sizeof(uint16_t), 1, File);
 			fread(&Data.Funds, sizeof(int64_t), 1, File);
-			Read_2D_Array(Data.Visual_Grid, File);
+			fread(Data.Visual_Grid, sizeof(Data.Visual_Grid), 1, File);
 			Read_2D_Array(Data.Behavior_Grid, File);
 			Read_2D_Array(Data.Wiring_Grid, File);
 			Read_2D_Array(Data.Plumbing_Grid, File);
@@ -212,7 +212,7 @@ bool Load_Data(int Slot) {
 }
 
 void Reset_Tile(Point Pos) {
-	Data.Visual_Grid[pt(Pos)] = 0;
+	strcpy(Data.Visual_Grid[pt(Pos)], ktn_strzero);
 	Data.Behavior_Grid[pt(Pos)] = ktn_invalid;
 	Data.Wiring_Grid[pt(Pos)] = ktn_invalid;
 	Data.Plumbing_Grid[pt(Pos)] = ktn_invalid;

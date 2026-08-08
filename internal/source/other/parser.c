@@ -162,7 +162,6 @@ void Load_XML() {
 	ktn_free(Raw_Names);
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
-	int ID_Record = 0;
 	int Sub_ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
@@ -247,20 +246,22 @@ void Load_XML() {
 		};
 		bool Single_ID = Get_Boolean(Machine_File, "Single_ID");
 		bool Rot_ID = Get_Boolean(Machine_File, "Rot_ID");
+		bool Mod_ID = Get_Boolean(Machine_File, "Mod_ID");
 		if (Single_ID) {
 			Machine.Visual_Type = I_Single;
-			Machine.Visual_ID1 = get_int("Visual_ID");
-			ID_Record = ktn_max(ID_Record, Machine.Visual_ID1);
+			strcpy(Machine.Visual_ID1, Machine.Index);
 		} else if (Rot_ID) {
 			Machine.Visual_Type = I_Rot;
-			const char* Tags[4] = { "Visual_Left", "Visual_Up", "Visual_Right", "Visual_Down" };
 			for (int C2 = 0; C2 < 4; C2++) {
-				Machine.Visual_ID4[C2] = get_int(Tags[C2]);
-				ID_Record = ktn_max(ID_Record, Machine.Visual_ID4[C2]);
+				snprintf(Machine.Visual_ID4[C2], sizeof(Machine.Visual_ID4[C2]), "%s_%i", Machine.Index, C2);
+			}
+		} else if (Mod_ID) {
+			Machine.Visual_Type = I_Mod;
+			for (int C2 = 0; C2 < 17; C2++) {
+				snprintf(Machine.Visual_ID4[C2], sizeof(Machine.Visual_ID4[C2]), "%s_%i", Machine.Index, C2);
 			}
 		} else {
 			Machine.Visual_Type = I_None_Vis;
-			//idk lol
 		}
 		Machine.Heating = Get_Boolean(Machine_File, "Heating");
 		Machine.Irradiating = Get_Boolean(Machine_File, "Irradiating");
@@ -503,7 +504,7 @@ void Load_XML() {
 	}
 	ktn_free(Raw_Names);
 	ktn_free(Registrar);
-	printf("debug info:\nlowest unreg. visual id -> %i\nlowest unreg. item id -> %i\n", ID_Record + 1, Sub_ID_Record + 1);
+	printf("debug info:\nlowest unreg. item id -> %i\n", Sub_ID_Record + 1);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {
