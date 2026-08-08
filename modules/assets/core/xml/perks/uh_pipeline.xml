@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Perk>
+	<Name>Uranium Hexafluoride Pipeline</Name>
+	<Index>uh6_pipeline</Index>
+	<Path>core/images/perks/uh_pipeline</Path>
+	<Cost>50000</Cost>
+</Perk>

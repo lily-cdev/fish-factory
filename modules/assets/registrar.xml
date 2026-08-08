@@ -130,9 +130,11 @@
 		<Gene>core/xml/genes/compact</Gene>
 		<Gene>core/xml/genes/photosynthetic</Gene>
 	</Genes>
-	<Perk_Ct>1</Perk_Ct>
+	<Perk_Ct>3</Perk_Ct>
 	<Perks>
 		<Perk>core/xml/perks/a_automation</Perk>
+		<Perk>core/xml/perks/o_pipeline</Perk>
+		<Perk>core/xml/perks/uh_pipeline</Perk>
 	</Perks>
 	<Category_Ct>7</Category_Ct>
 	<Categories>

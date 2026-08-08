@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Perk>
+	<Name>Oil Pipeline</Name>
+	<Index>oil_pipeline</Index>
+	<Path>core/images/perks/o_pipeline</Path>
+	<Cost>25000</Cost>
+</Perk>

@@ -99,6 +99,13 @@ bool Save_Data(int Slot) {
 		}
 	}
 	fwrite(Data.Processing_Grid, sizeof(Data.Processing_Grid), 1, File);
+	int Owned_Perks = 0;
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		if (Metadata.Perks[C1].Owned) {
+			Owned_Perks++;
+			//save ID
+		}
+	}
 	fclose(File);
 	return true;
 }

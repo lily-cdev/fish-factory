@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>oil pump</Name>
+	<Desc>Digs up large volumes of sediment.</Desc>
+	<Index>oil_pump</Index>
+	<Parent>extraction</Parent>
+	<Texture_Type>spinner</Texture_Type>
+	<Speed>45</Speed>
+	<Path>core/images/machines/o_pump</Path>
+	<Price>20</Price>
+	<Fee>1</Fee>
+	<Width>1</Width>
+	<Height>1</Height>
+	<Rot_ID />
+	<Visual_Left>167</Visual_Left>
+	<Visual_Up>168</Visual_Up>
+	<Visual_Right>169</Visual_Right>
+	<Visual_Down>170</Visual_Down>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>1500</Power_Capacity>
+	<Anchor_X>70</Anchor_X>
+	<Anchor_Y>40</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>24</Cap>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>24</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>
