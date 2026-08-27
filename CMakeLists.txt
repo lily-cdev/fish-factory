@@ -98,7 +98,6 @@ add_executable(Fish_Factory
 	internal/source/items/recipes.c
 	internal/precompiled/images.c
 	external/miniaudio/miniaudio.c
-	modules/resource.rc
 )
 
 add_presource(Fish_Factory internal/source/prepping/preloaders.c)
@@ -116,4 +115,4 @@ target_include_directories(Fish_Factory PUBLIC
 	external/SDL3_ttf/include
 )
 
-target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static)
+target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static atomic)

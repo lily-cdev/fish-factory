@@ -4,10 +4,13 @@ struct Proto_Core Core = {
 	.Is_Running = true,
 	.Suffixes = { 'J', 'k', 'M', 'G', 'T' },
 	.Selected_Save = ktn_invalid,
-	.Camera = { -140, 0 }
+	.Camera = { -140, 0 },
+	.Tile_Size = 40,
+	.Buffer_Size = 360,
+	.Ratio = 1
 };
 struct Proto_Data Data = {
-	.Version = 2
+	.Version = 4
 };
 struct Proto_Metadata Metadata = {
 .Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },
@@ -78,7 +81,8 @@ struct Proto_Interface Interface = {
 	.Item = NULL,
 	.Registering_Keybind = ktn_invalid,
 	.Valve300_Postions = { 0, 1, 2, 3, 5, 10, 20 },
-	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0 },
+	.Time_Positions = { 0.5f,  1.0f, 2.0f, 3.0f, 5.0f },
+	.Slider_Positions = { 0, 0, 0, 0, 0, 50, 0, 0, 5, 0, 13, 0, 0, 0, 0, 1, 0 },
 	.Slider_Texts = {
 		{ "nHD", "HD", "FHD", "QHD", "QHD+", "4K", ktn_null_string },
 		{ "Milkfish", "Mojarra", "Menhaden", ktn_null_string },
@@ -88,13 +92,14 @@ struct Proto_Interface Interface = {
 		{ ktn_null_string },
 		{ "windowed", "borderless", "fullscreen", ktn_null_string },
 		{ ktn_null_string },
-		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s",
-			ktn_null_string },
+		{ "-1TLA/s", "-1GLA/s", "-1MLA/s", "-1kLA/s", "-1LA/s", "0LA/s", "1LA/s", "1kLA/s", "1MLA/s", "1GLA/s", "1TLA/s", ktn_null_string },
 		{ ktn_null_string },
 		{ ktn_null_string },
 		{ ktn_null_string },
 		{ ktn_null_string },
 		{ ktn_null_string },
+		{ ktn_null_string },
+		{ "0.5x", "1.0x", "2.0x", "3.0x", "5.0x", ktn_null_string },
 		{ ktn_null_string }
 	}
 };

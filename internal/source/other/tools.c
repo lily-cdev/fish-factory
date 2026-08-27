@@ -205,9 +205,7 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 }
 
 void Reseed_State() {
-	struct timespec Spec;
-	timespec_get(&Spec, TIME_UTC);
-	Core.State = (uint32_t)Spec.tv_nsec;
+	Core.State = (uint32_t)time(NULL);
 }
 
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border) {

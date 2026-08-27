@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>liquid polyethylene</Name>
+	<Index>liquid_polyethylene</Index>
+	<ID>57</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>229</R1>
+	<G1>211</G1>
+	<B1>191</B1>
+	<R2>245</R2>
+	<G2>243</G2>
+	<B2>238</B2>
+	<Hazard>mid</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>1112</Boil_Pt>
+	<V_Enthalpy>3000</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

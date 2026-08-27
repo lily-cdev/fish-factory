@@ -160,6 +160,24 @@ void Load_XML() {
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);
+	Raw_Names = Find_Multiple("registrar", Registrar, "Perk", Core.Perks);
+	Metadata.Perks = calloc(Core.Perks, sizeof(Gene_Data));
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		#define Perk Metadata.Perks[C1]
+		#define get_str(Victim) (Find_Element(Raw_Names[C1], Perk_File, Victim, NULL))
+		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Perk_File, Victim))
+		char* Perk_File = Get_File(Raw_Names[C1]);
+		Perk.Name = get_str("Name");
+		Perk.Index = get_str("Index");
+		Perk.Path = get_str("Path");
+		Perk.Cost = get_int("Cost");
+		#undef get_str
+		#undef get_int
+		#undef Perk
+		ktn_free(Perk_File);
+		ktn_free(Raw_Names[C1]);
+	}
+	ktn_free(Raw_Names);
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
 	int Sub_ID_Record = 0;
@@ -178,6 +196,14 @@ void Load_XML() {
 			//throw error
 		}
 		ktn_free(Carrier);
+		if (Get_Boolean(Machine_File, "Requires_Perk")) {
+			char* Subcarrier = get_str("Prerequisite");
+			Machine.Prerequisite = Get_Perk(Subcarrier);
+			ktn_free(Subcarrier);
+		} else {
+			Machine.Prerequisite = NULL;
+		}
+		Machine.Edge_Needed = Get_Boolean(Machine_File, "Requires_Edge");
 		char* Texture_Type = get_str("Texture_Type");
 		if (ktn_stricmp(Texture_Type, "none")) {
 			Machine.Animation_Type = A_None;
@@ -241,8 +267,8 @@ void Load_XML() {
 		Machine.Rect = (SDL_FRect){
 			0.0f,
 			0.0f,
-			ktn_fscale(ktn_tile_size * Machine.Size.X),
-			ktn_fscale(ktn_tile_size * Machine.Size.Y)
+			ktn_fscale(Core.Tile_Size * Machine.Size.X),
+			ktn_fscale(Core.Tile_Size * Machine.Size.Y)
 		};
 		bool Single_ID = Get_Boolean(Machine_File, "Single_ID");
 		bool Rot_ID = Get_Boolean(Machine_File, "Rot_ID");
@@ -478,28 +504,11 @@ void Load_XML() {
 		Gene.Rate = Get_Float(Raw_Names[C1], Gene_File, "Growth_Rate");
 		Gene.Consumption = Get_Float(Raw_Names[C1], Gene_File, "Hunger");
 		Gene.Space = Get_Float(Raw_Names[C1], Gene_File, "Space");
+		Gene.Cost = get_int("Stability");
 		#undef get_str
 		#undef get_int
 		#undef Gene
 		ktn_free(Gene_File);
-		ktn_free(Raw_Names[C1]);
-	}
-	ktn_free(Raw_Names);
-	Raw_Names = Find_Multiple("registrar", Registrar, "Perk", Core.Perks);
-	Metadata.Perks = calloc(Core.Perks, sizeof(Gene_Data));
-	for (int C1 = 0; C1 < Core.Perks; C1++) {
-		#define Perk Metadata.Perks[C1]
-		#define get_str(Victim) (Find_Element(Raw_Names[C1], Perk_File, Victim, NULL))
-		#define get_int(Victim) (Get_Integer(Raw_Names[C1], Perk_File, Victim))
-		char* Perk_File = Get_File(Raw_Names[C1]);
-		Perk.Name = get_str("Name");
-		Perk.Index = get_str("Index");
-		Perk.Path = get_str("Path");
-		Perk.Cost = get_int("Cost");
-		#undef get_str
-		#undef get_int
-		#undef Perk
-		ktn_free(Perk_File);
 		ktn_free(Raw_Names[C1]);
 	}
 	ktn_free(Raw_Names);

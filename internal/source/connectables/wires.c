@@ -4,10 +4,10 @@ Bridges Wires = { };
 
 void Render_Subcable(Bridge Chosen, Point Pos, Point Offset) {
 	SDL_RenderLine(Core.Renderer,
-		ktn_fscale(Chosen.X1 * ktn_tile_size) + ktn_fscale(Data.Data_Grid[Chosen.X1][Chosen.Y1][5]) + (float)(Pos.X + Offset.X),
-		ktn_fscale(Chosen.Y1 * ktn_tile_size) + ktn_fscale(Data.Data_Grid[Chosen.X1][Chosen.Y1][6]) + (float)(Pos.Y + Offset.Y),
-		ktn_fscale(Chosen.X2 * ktn_tile_size) + ktn_fscale(Data.Data_Grid[Chosen.X2][Chosen.Y2][5]) + (float)(Pos.X + Offset.X),
-		ktn_fscale(Chosen.Y2 * ktn_tile_size) + ktn_fscale(Data.Data_Grid[Chosen.X2][Chosen.Y2][6]) + (float)(Pos.Y + Offset.Y)
+		ktn_fscale(Chosen.X1 * 40) + ktn_fscale(Data.Data_Grid[Chosen.X1][Chosen.Y1][5]) + (float)(Pos.X + Offset.X),
+		ktn_fscale(Chosen.Y1 * 40) + ktn_fscale(Data.Data_Grid[Chosen.X1][Chosen.Y1][6]) + (float)(Pos.Y + Offset.Y),
+		ktn_fscale(Chosen.X2 * 40) + ktn_fscale(Data.Data_Grid[Chosen.X2][Chosen.Y2][5]) + (float)(Pos.X + Offset.X),
+		ktn_fscale(Chosen.Y2 * 40) + ktn_fscale(Data.Data_Grid[Chosen.X2][Chosen.Y2][6]) + (float)(Pos.Y + Offset.Y)
 	);
 }
 
@@ -33,8 +33,8 @@ void Render_Wires() {
 			if (Wires.Data[C2].Filled) {
 				Render_Cable(Wires.Data[C2], (Point){ -Offset_X, -Offset_Y });
 			} else {
-				Rects.Node.x = ktn_fscale((Wires.Data[C2].X1 * ktn_tile_size) - Core.Camera.X);
-				Rects.Node.y = ktn_fscale((Wires.Data[C2].Y1 * ktn_tile_size) - Core.Camera.Y);
+				Rects.Node.x = ktn_fscale((Wires.Data[C2].X1 * Core.Tile_Size) - Core.Camera.X);
+				Rects.Node.y = ktn_fscale((Wires.Data[C2].Y1 * Core.Tile_Size) - Core.Camera.Y);
 				Render_Texture(Textures.Node, &Rects.Node);
 			}
 		}
@@ -51,13 +51,13 @@ void Render_Wire_Nodes() {
 				Interface.Node_Cycle = 0;
 			}
 			SDL_FPoint Centerpoint = {
-				Settings.Scalar * ktn_tile_size * 0.5f,
-				Settings.Scalar * ktn_tile_size * 0.5f
+				Settings.Scalar * Core.Tile_Size * 0.5f,
+				Settings.Scalar * Core.Tile_Size * 0.5f
 			};
-			Rects.Node.x = ktn_fscale((Wires.Data[C1].X1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][5]) -
-				Core.Camera.X - (ktn_tile_size * 0.5f));
-			Rects.Node.y = ktn_fscale((Wires.Data[C1].Y1 * ktn_tile_size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][6]) -
-				Core.Camera.Y - (ktn_tile_size * 0.5f));
+			Rects.Node.x = ktn_fscale((Wires.Data[C1].X1 * Core.Tile_Size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][5] * Core.Ratio) -
+				Core.Camera.X - (Core.Tile_Size * 0.5f));
+			Rects.Node.y = ktn_fscale((Wires.Data[C1].Y1 * Core.Tile_Size) + (Data.Data_Grid[Wires.Data[C1].X1][Wires.Data[C1].Y1][6] * Core.Ratio) -
+				Core.Camera.Y - (Core.Tile_Size * 0.5f));
 			SDL_RenderTextureRotated(Core.Renderer, Textures.Node, NULL, &Rects.Node, Interface.Node_Cycle, &Centerpoint,
 				SDL_FLIP_NONE);
 		}
@@ -99,9 +99,9 @@ void Connect_Wire(Point Pos) {
 
 void Place_Wire() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				if (ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strnull)) {
 					Connect_Wire((Point){

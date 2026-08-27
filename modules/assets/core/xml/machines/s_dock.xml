@@ -10,6 +10,7 @@
 	<Fee>1</Fee>
 	<Nonrotatable />
 	<Interactable />
+	<Requires_Edge />
 	<Width>6</Width>
 	<Height>4</Height>
 	<Power_Type>none</Power_Type>

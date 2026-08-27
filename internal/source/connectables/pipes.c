@@ -20,9 +20,9 @@ void Orient_Pipe(Bridge* Input) {
 
 void Place_Pipe() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
@@ -86,15 +86,13 @@ void Place_Pipe() {
 void Render_Pipes() {
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
 		if (Pipes.Data[C1].Filled) {
-			Rects.Tile_1x1.x = (int)((Pipes.Data[C1].X1 * ktn_tile_size) + Pipes.Data[C1].X_Offset - Core.Camera.X) *
-				Settings.Scalar;
-			Rects.Tile_1x1.y = (int)((Pipes.Data[C1].Y1 * ktn_tile_size) + Pipes.Data[C1].Y_Offset - Core.Camera.Y) *
-				Settings.Scalar;
+			Rects.Tile_1x1.x = ktn_fscale((Pipes.Data[C1].X1 * Core.Tile_Size) + (Pipes.Data[C1].X_Offset * Core.Ratio) - Core.Camera.X);
+			Rects.Tile_1x1.y = ktn_fscale((Pipes.Data[C1].Y1 * Core.Tile_Size) + (Pipes.Data[C1].Y_Offset * Core.Ratio) - Core.Camera.Y);
 			Render_Texture(Textures.Arrow.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
 		} else {
-			Rects.Sapling.x = ktn_fscale((Pipes.Data[C1].X1 * ktn_tile_size) - Core.Camera.X);
-			Rects.Sapling.y = ktn_fscale((Pipes.Data[C1].Y1 * ktn_tile_size) - Core.Camera.Y);
-			Render_Texture(Textures.Sapling, &Rects.Sapling);
+			Rects.Tile_1x1.x = ktn_fscale((Pipes.Data[C1].X1 * Core.Tile_Size) - Core.Camera.X);
+			Rects.Tile_1x1.y = ktn_fscale((Pipes.Data[C1].Y1 * Core.Tile_Size) - Core.Camera.Y);
+			Render_Texture(Textures.Sapling, &Rects.Tile_1x1);
 		}
 	}
 }
@@ -102,7 +100,7 @@ void Render_Pipes() {
 void Update_Pipes() {
 	for (int C1 = 0; C1 < Pipes.Length; C1++) {
 		Bridge Pipe = Pipes.Data[C1];
-		if (!Pipe.Filled || Data.Items_Grid[Pipe.X1][Pipe.Y1] == Metadata.Null_Item.ID) {
+		if (!Pipe.Filled || ktn_stricmp(Data.Items_Grid[Pipe.X1][Pipe.Y1], Metadata.Null_Item.Index)) {
 			continue;
 		}
 		float Volume = Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids];

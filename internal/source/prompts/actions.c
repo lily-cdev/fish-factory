@@ -28,8 +28,8 @@ void CMD_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Terminator }
 	};
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
-	Temporary.Tutorial_Size = (Point){ 320, 240 };
-	Temporary.Tutorial_Offset = (Point){ 0, 280 };
+	Temporary.Tutorial_Size = (Point){ 8, 6 };
+	Temporary.Tutorial_Offset = (Point){ 0, 7 };
 	Temporary.Tutorial_Step = 0;
 	Interface.Prompt_Identifier = P_None;
 }
@@ -50,7 +50,7 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Placement, 0, 0, "", "filtration_plant_0", { { 4, 7 }, ktn_null_point }, NULL, "filter water into fuel" },
 		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 0, "other", ktn_strzero, { ktn_null_point }, NULL, "open the \"other\" category", "other" },
-		{ T_Button, 0, 0, "incinerator", ktn_strzero, { ktn_null_point }, NULL, "select the \"incinerator\" item" },
+		{ T_Button, 0, 0, "incinerator", ktn_strzero, { ktn_null_point }, NULL, "select the \"incinerator\" item", "incinerator" },
 		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
 		{ T_Placement, 0, 0, "", "incinerator_0", { { 6, 9 }, ktn_null_point }, NULL, "dispose of unwanted byproducts" },
 		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
@@ -91,7 +91,7 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Terminator }
 	};
 	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
-	Temporary.Tutorial_Size = (Point){ 400, 280 };
+	Temporary.Tutorial_Size = (Point){ 10, 7 };
 	Temporary.Tutorial_Offset = (Point){ 0, 0 };
 	Temporary.Tutorial_Step = 0;
 	Interface.Prompt_Identifier = P_None;
@@ -273,10 +273,24 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 	char Buffer[64];
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 3], Subbuffer, sizeof(Subbuffer));
-	snprintf(Buffer, sizeof(Buffer), "%s liters drained from tank_%i", Subbuffer, Tank.Integer + 1);
+	snprintf(Buffer, sizeof(Buffer), "%skg drained from tank_%i", Subbuffer, Tank.Integer + 1);
 	Print_Response(Buffer);
 	Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 3] = 0;
 	Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 5] = ktn_invalid;
+}
+
+void SD_Call(Parameter Pos, Parameter Unused2) {
+	Print_Input();
+	if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
+		Print_Response("submarine sent");
+		Transition.Sub_Pos = Pos.Pos;
+		Transition.Sub_Phase = 0;
+		Transition.Sub_Frames = 0;
+		Transition.Sub_Offset = 3000;
+		Transition.Sub_Vertical = 105;
+	} else {
+		Print_Error(Docked_Sub);
+	}	
 }
 
 void SD_Free(Parameter Unused, Parameter Unused2) {
@@ -417,4 +431,8 @@ void Buy_Perk(Parameter Perk, Parameter Unused) {
 		Data.Funds -= Metadata.Perks[Perk.Integer].Cost;
 		Metadata.Perks[Perk.Integer].Owned = true;
 	}
+}
+
+void Set_Gene(Parameter Gene, Parameter Unused) {
+	Metadata.Fish[Interface.Slider_Positions[16]].Genes[Gene.Integer] = !Metadata.Fish[Interface.Slider_Positions[16]].Genes[Gene.Integer];
 }

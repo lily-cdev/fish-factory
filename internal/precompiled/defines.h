@@ -4,8 +4,7 @@
 #define pt(Victim) (Victim.X)][(Victim.Y)
 #define ktn_audio_ct 2
 #define ktn_border_width 4
-#define ktn_buffer_size 360
-#define ktn_buttons 51
+#define ktn_buttons 52
 #define ktn_captions 6
 #define ktn_channels 1
 #define ktn_cmd_max 16
@@ -36,7 +35,7 @@
 #define ktn_room_temp 65
 #define ktn_savefiles 4
 #define ktn_scalar_max 6
-#define ktn_sliders 15
+#define ktn_sliders 17
 #define ktn_static_rate 15
 #define ktn_strnull "_none"
 #define ktn_strzero "_zero"
@@ -45,7 +44,7 @@
 #define ktn_suffixes 5
 #define ktn_supported_res 6
 #define ktn_terminator -105
-#define ktn_tile_size 40
+#define ktn_time_len 5
 #define ktn_tools 5
 #define ktn_turbine_coefficient 0.15
 #define ktn_unit "kg"

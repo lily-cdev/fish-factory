@@ -101,9 +101,9 @@ void Verify_Settings() {
 
 void Render_Tile_Prompts() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
@@ -137,9 +137,9 @@ void Render_Tile_Prompts() {
 
 void Render_Interaction() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
@@ -207,31 +207,28 @@ void Cache_Blueprint() {
 		Interface.Item = Get_Machine("heavy_pipe");
 	}
 	Point Size;
-	ID_To_Size(Interface.Item, Interface.Rotation, &Size.X, &Size.Y);
-	int Max = ktn_scale(ktn_max(Size.X, Size.Y) * ktn_tile_size);
+	int Rotation = (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
+	ID_To_Size(Interface.Item, Rotation, &Size.X, &Size.Y);
+	int Max = ktn_scale(ktn_max(Size.X, Size.Y) * Core.Tile_Size);
 	ktn_free_texture(Cache.Blueprint_Cache);
 	Cache.Blueprint_Cache = New_Texture(Max, Max);
 	SDL_SetTextureBlendMode(Cache.Blueprint_Cache, SDL_BLENDMODE_BLEND);
-	SDL_Texture* Backing = New_Texture(ktn_scale(Size.X * ktn_tile_size), ktn_scale(Size.Y * ktn_tile_size));
+	SDL_Texture* Backing = New_Texture(ktn_scale(Size.X * Core.Tile_Size), ktn_scale(Size.Y * Core.Tile_Size));
 	SDL_SetTextureBlendMode(Backing, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(Core.Renderer, Backing);
 	for (int X = 0; X < Size.X; X++) {
 		for (int Y = 0; Y < Size.Y; Y++) {
 			SDL_FRect Pasting_Rectangle = Rects.Tile_1x1;
-			Pasting_Rectangle.x = ktn_fscale(X * ktn_tile_size);
-			Pasting_Rectangle.y = ktn_fscale(Y * ktn_tile_size);
+			Pasting_Rectangle.x = ktn_fscale(X * Core.Tile_Size);
+			Pasting_Rectangle.y = ktn_fscale(Y * Core.Tile_Size);
 			Render_Texture(Textures.Tile_Texture, &Pasting_Rectangle);
 		}
 	}
 	SDL_SetRenderTarget(Core.Renderer, Cache.Blueprint_Cache);
 	Render_Texture(Backing, NULL);
 	ktn_free_texture(Backing);
-	int Rotation = Interface.Rotation * 90;
-	if (Interface.Item->Quirks[Q_Non_Rotatable]) {
-		Rotation = 0;
-	}
 	SDL_FPoint Centerpoint = { Max * 0.5f, Max * 0.5f };
-	SDL_RenderTextureRotated(Core.Renderer, Interface.Item->Icon, NULL, NULL, Rotation, &Centerpoint, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(Core.Renderer, Interface.Item->Icon, NULL, NULL, Rotation * 90, &Centerpoint, SDL_FLIP_NONE);
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_SetTextureAlphaMod(Cache.Blueprint_Cache, 190);
 }

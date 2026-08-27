@@ -74,11 +74,11 @@ void Preload_Noise() {
 	Textures.Fire.Length = 10;
 	SDL_Surface* Fire_Surfaces[10];
 	for (int C1 = 0; C1 < 10; C1++) {
-		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Scalar * ktn_tile_size, Settings.Scalar * ktn_tile_size,
+		Fire_Surfaces[C1] = SDL_CreateSurface(Settings.Scalar * Core.Tile_Size, Settings.Scalar * Core.Tile_Size,
 			SDL_PIXELFORMAT_RGBA8888);
 		SDL_LockSurface(Fire_Surfaces[C1]);
 		uint32_t* Pixels = (uint32_t*)(Fire_Surfaces[C1]->pixels);
-		for (int C2 = 0; C2 < ktn_sqr(Settings.Scalar * ktn_tile_size); C2++) {
+		for (int C2 = 0; C2 < ktn_sqr(Settings.Scalar * Core.Tile_Size); C2++) {
 			ktn_tick();
 			Pixels[C2] = Fire_Colors[(Core.State & 3)];
 		}
@@ -94,7 +94,7 @@ void Preload_Lights() {
 	int Max_Rad = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		for (int C2 = 0; C2 < Metadata.Machines[C1].Light_Ct; C2++) {
-			Max_Rad = max(Metadata.Machines[C1].Light_Range[C2], Max_Rad);
+			Max_Rad = ktn_max(Metadata.Machines[C1].Light_Range[C2], Max_Rad);
 		}
 	}
 	Cache.Light_Grad = New_Texture(Max_Rad * 2, Max_Rad * 2);

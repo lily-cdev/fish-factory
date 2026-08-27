@@ -16,22 +16,6 @@ void Get_Filesizes() {
 	}
 }
 
-void Write_2D_Array(int Grid[ktn_grid_size][ktn_grid_size], FILE* File) {
-	for (int X = 0; X < ktn_grid_size; X++) {
-		for (int Y = 0; Y < ktn_grid_size; Y++) {
-			fwrite(&(int32_t){ Grid[X][Y] }, sizeof(int32_t), 1, File);
-		}
-	}
-}
-
-void Read_2D_Array(int Grid[ktn_grid_size][ktn_grid_size], FILE* File) {
-	for (int X = 0; X < ktn_grid_size; X++) {
-		for (int Y = 0; Y < ktn_grid_size; Y++) {
-			fread(&Grid[X][Y], sizeof(int32_t), 1, File);
-		}
-	}
-}
-
 bool Save_Data(int Slot) {
 	char Path[64];
 	snprintf(Path, sizeof(Path), "assets/data/slot%i.pkg", Slot);
@@ -45,11 +29,11 @@ bool Save_Data(int Slot) {
 	fwrite(&(uint16_t){ Data.Time }, sizeof(uint16_t), 1, File);
 	fwrite(&(int64_t){ Data.Funds }, sizeof(uint64_t), 1, File);
 	fwrite(Data.Visual_Grid, sizeof(Data.Visual_Grid), 1, File);
-	Write_2D_Array(Data.Behavior_Grid, File);
-	Write_2D_Array(Data.Wiring_Grid, File);
-	Write_2D_Array(Data.Plumbing_Grid, File);
-	Write_2D_Array(Data.Items_Grid, File);
-	Write_2D_Array(Data.Temperature_Grid, File);
+	fwrite(Data.Behavior_Grid, sizeof(Data.Behavior_Grid), 1, File);
+	fwrite(Data.Wiring_Grid, sizeof(Data.Wiring_Grid), 1, File);
+	fwrite(Data.Plumbing_Grid, sizeof(Data.Plumbing_Grid), 1, File);
+	fwrite(Data.Items_Grid, sizeof(Data.Items_Grid), 1, File);
+	fwrite(Data.Temperature_Grid, sizeof(Data.Temperature_Grid), 1, File);
 	for (int X = 0; X < ktn_grid_size; X++) {
 		for (int Y = 0; Y < ktn_grid_size; Y++) {
 			for (int Z = 0; Z < 3; Z++) {
@@ -103,9 +87,15 @@ bool Save_Data(int Slot) {
 	for (int C1 = 0; C1 < Core.Perks; C1++) {
 		if (Metadata.Perks[C1].Owned) {
 			Owned_Perks++;
-			//save ID
 		}
 	}
+	fputc((char)Owned_Perks, File);
+	for (int C1 = 0; C1 < Core.Perks; C1++) {
+		if (Metadata.Perks[C1].Owned) {
+			fwrite(Metadata.Perks[C1].Index, 64, 1, File);
+		}
+	}
+	fputc((char)Interface.Slider_Positions[15], File);
 	fclose(File);
 	return true;
 }
@@ -128,11 +118,21 @@ bool Load_Data(int Slot) {
 			fread(&Data.Time, sizeof(uint16_t), 1, File);
 			fread(&Data.Funds, sizeof(int64_t), 1, File);
 			fread(Data.Visual_Grid, sizeof(Data.Visual_Grid), 1, File);
-			Read_2D_Array(Data.Behavior_Grid, File);
-			Read_2D_Array(Data.Wiring_Grid, File);
-			Read_2D_Array(Data.Plumbing_Grid, File);
-			Read_2D_Array(Data.Items_Grid, File);
-			Read_2D_Array(Data.Temperature_Grid, File);
+			fread(Data.Behavior_Grid, sizeof(Data.Behavior_Grid), 1, File);
+			fread(Data.Wiring_Grid, sizeof(Data.Wiring_Grid), 1, File);
+			fread(Data.Plumbing_Grid, sizeof(Data.Plumbing_Grid), 1, File);
+			if (Version >= 4) {
+				fread(Data.Items_Grid, sizeof(Data.Items_Grid), 1, File);
+			} else {
+				memset(Data.Items_Grid, 0, sizeof(Data.Items_Grid));
+				int Sink[64][64];
+				for (int X = 0; X < ktn_grid_size; X++) {
+					for (int Y = 0; Y < ktn_grid_size; Y++) {
+						fread(&Sink[X][Y], sizeof(int32_t), 1, File);
+					}
+				}
+			}
+			fread(Data.Temperature_Grid, sizeof(Data.Temperature_Grid), 1, File);
 			for (int X = 0; X < ktn_grid_size; X++) {
 				for (int Y = 0; Y < ktn_grid_size; Y++) {
 					for (int Z = 0; Z < 3; Z++) {
@@ -199,8 +199,23 @@ bool Load_Data(int Slot) {
 		}
 		if (Version >= 2) {
 			fread(Data.Processing_Grid, sizeof(Data.Processing_Grid), 1, File);
+			int Owned_Perks = (int)fgetc(File);
+			for (int C1 = 0; C1 < Owned_Perks; C1++) {
+				char Buffer[64];
+				fread(&Buffer, 64, 1, File);
+				for (int C2 = 0; C2 < Core.Perks; C2++) {
+					if (ktn_stricmp(Buffer, Metadata.Perks[C1].Index)) {
+						Metadata.Perks[C1].Owned = true;
+					}
+				}
+			}
 		} else {
 			memset(Data.Processing_Grid, 0, sizeof(Data.Processing_Grid));
+		}
+		if (Version >= 3) {
+			Interface.Slider_Positions[15] = (int)fgetc(File);
+		} else {
+			Interface.Slider_Positions[15] = 1;
 		}
 	} else {
 		Save_Data(Slot);
@@ -216,7 +231,7 @@ void Reset_Tile(Point Pos) {
 	Data.Behavior_Grid[pt(Pos)] = ktn_invalid;
 	Data.Wiring_Grid[pt(Pos)] = ktn_invalid;
 	Data.Plumbing_Grid[pt(Pos)] = ktn_invalid;
-	Data.Items_Grid[pt(Pos)] = ktn_invalid;
+	strncpy(Data.Items_Grid[pt(Pos)], Metadata.Null_Item.Index, 64);
 	Data.Temperature_Grid[pt(Pos)] = ktn_room_temp;
 	memset(Data.Data_Grid[pt(Pos)], 0, sizeof(Data.Data_Grid[pt(Pos)]));
 	memset(Data.Animation_Grid[pt(Pos)], 0, sizeof(Data.Animation_Grid[pt(Pos)]));
@@ -233,7 +248,7 @@ void Reset_Tile(Point Pos) {
 }
 
 void Reset_Statistics() {
-	Data.Funds = 750;
+	Data.Funds = 2750;
 	Data.CMD_Placed = false;
 	for (int X = 0; X < ktn_grid_size; X++) {
 		for (int Y = 0; Y < ktn_grid_size; Y++) {

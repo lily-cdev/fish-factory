@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>diesel</Name>
+	<Index>diesel</Index>
+	<ID>46</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>81</R1>
+	<G1>72</G1>
+	<B1>65</B1>
+	<R2>50</R2>
+	<G2>44</G2>
+	<B2>43</B2>
+	<Hazard>none</Hazard>
+	<Value>mid</Value>
+	<Price>32</Price>
+	<Chem_Energy>45600000</Chem_Energy>
+	<Boil_Pt>716</Boil_Pt>
+	<V_Enthalpy>365</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

@@ -4,7 +4,7 @@ void Render_Perks(Point Pos) {
 	Render_Box((Point){ 10, 10 }, 620, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	Render_Texture(Textures.Perks_Content, &Rects.Perks_Content);
 	for (int C1 = 0; C1 < Core.Perks; C1++) {
-		SDL_FRect Bounding = { ktn_fscale(((ktn_tile_size + 12) * C1) + 20), ktn_fscale(50), ktn_fscale(ktn_tile_size), ktn_fscale(ktn_tile_size) };
+		SDL_FRect Bounding = { ktn_fscale((C1 * 52) + 20), ktn_fscale(50), ktn_fscale(40), ktn_fscale(40) };
 		SDL_FRect Initial = Bounding;
 		Set_Renderer_Color((Detect_Mouse_Collision(Initial)) ? Colors.Cherry_Blossom : Colors.Abyss_Black);
 		SDL_RenderFillRect(Core.Renderer, &Bounding);

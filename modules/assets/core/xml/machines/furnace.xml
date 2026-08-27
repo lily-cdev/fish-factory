@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>furnace</Name>
-	<Desc>Burns items for electricity.</Desc>
+	<Desc>Burns items for electricity. However, due to its small turbine, it is unable to efficiently burn heavier fuels, and caps off at 16kW.</Desc>
 	<Index>furnace</Index>
 	<Parent>generation</Parent>
 	<Texture_Type>spinner</Texture_Type>

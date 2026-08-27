@@ -81,30 +81,33 @@ void Render_T_Tower(Point Pos) {
 
 void Render_S_Dock(Point Pos) {
 	Render_Backing();
-	UI_Link Links[ktn_perm_buttons + 5] = {
+	UI_Link Links[ktn_perm_buttons + 7] = {
 		(UI_Link){ SD_Link, .Param.Pos = Pos },
 		(UI_Link){ SD_Manifest, .Param.Pos = Pos },
 		(UI_Link){ SD_Drain, .Param.Pos = Pos, .Param2.Integer = 0 },
 		(UI_Link){ SD_Drain, .Param.Pos = Pos, .Param2.Integer = 1 },
+		(UI_Link){ SD_Call, .Param.Pos = Pos },
 		(UI_Link){ SD_Free }
 	};
 	Render_Sidebuttons(&Textures.SD_Buttons, &Rects.SD_Buttons, Links);
-	char* Parameters[6][4] = {
+	char* Parameters[7][4] = {
 		{ "link", ktn_null_string },
 		{ "manifest", ktn_null_string },
 		{ "drain_silo", "1", ktn_null_string },
 		{ "drain_silo", "2", ktn_null_string },
+		{ "call_sub", ktn_null_string },
 		{ "dismiss_sub", ktn_null_string },
 		{ ktn_null_string }
 	};
-	for (int C1 = 0; C1 < 6; C1++) {
+	for (int C1 = 0; C1 < 7; C1++) {
 		for (int C2 = 0; C2 < ktn_veclen(Parameters[C1]) + 1; C2++) {
 			strncpy(Buffers.Parameters[C1][C2], Parameters[C1][C2], sizeof(Buffers.Parameters[C1][C2]));
 		}
 	}
-	int Command_Types[6] = {
+	int Command_Types[7] = {
 		Execute,
 		Get_Data,
+		Execute,
 		Execute,
 		Execute,
 		Execute,

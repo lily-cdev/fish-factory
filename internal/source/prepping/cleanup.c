@@ -100,6 +100,7 @@ void Cleanup_Assets() {
 	}
 	for (int C1 = 0; C1 < Core.Fishes; C1++) {
 		ktn_free(Metadata.Fish[C1].Name);
+		ktn_free(Metadata.Fish[C1].Genes);
 	}
 	for (int C1 = 0; C1 < Core.Genes; C1++) {
 		ktn_free(Metadata.Genes[C1].Name);
@@ -221,7 +222,7 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Floor_Texture);
 	ktn_free_texture(Textures.Frame_Texture);
 	ktn_free_texture(Textures.Tile_Texture);
-	ktn_free_texture(Textures.Gene_Add);
+	ktn_free_texture(Textures.Gene_Added);
 	ktn_free_texture(Textures.Perk_Owned);
 	Clear_Texture_Array(&Textures.Submarine);
 	ktn_free_texture(Textures.Scrap);

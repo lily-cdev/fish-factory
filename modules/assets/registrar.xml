@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>44</Machine_Ct>
+	<Machine_Ct>47</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -46,8 +46,11 @@
 		<Machine>core/xml/machines/light</Machine>
 		<Machine>core/xml/machines/d_drill</Machine>
 		<Machine>core/xml/machines/ea_furnace</Machine>
+		<Machine>core/xml/machines/o_pump</Machine>
+		<Machine>core/xml/machines/polymerizer</Machine>
+		<Machine>core/xml/machines/s_cracker</Machine>
 	</Machines>
-	<Item_Ct>40</Item_Ct>
+	<Item_Ct>57</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -89,13 +92,34 @@
 		<Item>core/xml/items/s_bar</Item>
 		<Item>core/xml/items/l_silicon</Item>
 		<Item>core/xml/items/si_bar</Item>
+		<Item>core/xml/items/c_oil</Item>
+		<Item>core/xml/items/naphtha</Item>
+		<Item>core/xml/items/lo_distillates</Item>
+		<Item>core/xml/items/ho_distillates</Item>
+		<Item>core/xml/items/kerosene</Item>
+		<Item>core/xml/items/diesel</Item>
+		<Item>core/xml/items/o_residue</Item>
+		<Item>core/xml/items/f_oil</Item>
+		<Item>core/xml/items/bitumen</Item>
+		<Item>core/xml/items/ethylene</Item>
+		<Item>core/xml/items/propylene</Item>
+		<Item>core/xml/items/pp_plastic</Item>
+		<Item>core/xml/items/pe_plastic</Item>
+		<Item>core/xml/items/pp_bar</Item>
+		<Item>core/xml/items/pe_bar</Item>
+		<Item>core/xml/items/l_polypropylene</Item>
+		<Item>core/xml/items/l_polyethylene</Item>
 	</Items>
-	<Recipe_Ct>25</Recipe_Ct>
+	<Recipe_Ct>37</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_snow</Recipe>
 		<Recipe>core/xml/recipes/d_water</Recipe>
+		<Recipe>core/xml/recipes/d_coil</Recipe>
+		<Recipe>core/xml/recipes/d_lodistillates</Recipe>
+		<Recipe>core/xml/recipes/d_hodistillates</Recipe>
+		<Recipe>core/xml/recipes/d_oresidue</Recipe>
 		<Recipe>core/xml/recipes/ep_ho</Recipe>
 		<Recipe>core/xml/recipes/ep_hnaocl</Recipe>
 		<Recipe>core/xml/recipes/rp_seawater</Recipe>
@@ -117,6 +141,14 @@
 		<Recipe>core/xml/recipes/eaf_lsilicon</Recipe>
 		<Recipe>core/xml/recipes/m_lsteel</Recipe>
 		<Recipe>core/xml/recipes/m_lsilicon</Recipe>
+		<Recipe>core/xml/recipes/op_crude</Recipe>
+		<Recipe>core/xml/recipes/p_ppplastic</Recipe>
+		<Recipe>core/xml/recipes/p_peplastic</Recipe>
+		<Recipe>core/xml/recipes/sc_naphtha</Recipe>
+		<Recipe>core/xml/recipes/k_ppplastic</Recipe>
+		<Recipe>core/xml/recipes/k_peplastic</Recipe>
+		<Recipe>core/xml/recipes/m_lpolypropylene</Recipe>
+		<Recipe>core/xml/recipes/m_lpolyethylene</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

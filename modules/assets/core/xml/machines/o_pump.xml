@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>oil pump</Name>
-	<Desc>Digs up large volumes of sediment.</Desc>
+	<Desc>Taps into the oil pipeline to extract crude.</Desc>
 	<Index>oil_pump</Index>
 	<Parent>extraction</Parent>
 	<Texture_Type>spinner</Texture_Type>
@@ -18,20 +18,16 @@
 	<Anchor_Y>20</Anchor_Y>
 	<Fluid_Processor />
 	<Input_Ct>0</Input_Ct>
-	<Output_Ct>2</Output_Ct>
+	<Output_Ct>1</Output_Ct>
 	<Outputs>
 		<Output>
-			<X>1</X>
+			<X>0</X>
 			<Y>0</Y>
-			<Dir>right</Dir>
-			<Cap>24</Cap>
-		</Output>
-		<Output>
-			<X>1</X>
-			<Y>1</Y>
 			<Dir>right</Dir>
 			<Cap>24</Cap>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
+	<Requires_Perk />
+	<Prerequisite>oil_pipeline</Prerequisite>
 </Machine>

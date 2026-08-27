@@ -111,7 +111,35 @@ void Process_Inputs() {
 			}
 			break;
 		case SDL_EVENT_MOUSE_WHEEL:
-			if (Interface.UI_Tab == 4 || Interface.UI_Tab == 5) {
+			if (Interface.UI_Tab == 0) {
+				if (Application_Event.wheel.y > 0) {
+					Core.Tile_Size = ktn_min(Core.Tile_Size + 5, 40);
+				} else if (Application_Event.wheel.y < 0) {
+					Core.Tile_Size = ktn_max(Core.Tile_Size - 5, 10);
+				}
+				Core.Ratio = Core.Tile_Size / 40.0f;
+				Core.Buffer_Size = Core.Ratio * 360;
+				Load_Rects();
+				Rects.Node = Rects.Tile_1x1;
+				for (int C1 = 0; C1 < Core.Machines; C1++) {
+					Metadata.Machines[C1].Rect = (SDL_FRect){
+						0.0f,
+						0.0f,
+						ktn_fscale(Core.Tile_Size * Metadata.Machines[C1].Size.X),
+						ktn_fscale(Core.Tile_Size * Metadata.Machines[C1].Size.Y)
+					};
+				}
+				Temporary.Pixels = ktn_fscale(ktn_grid_size * Core.Tile_Size) * 0.5f;
+				Rects.Tunnel.Data[0].w = ktn_fscale(Core.Ratio * 240.0f);
+				Rects.Tunnel.Data[0].h = ktn_fscale(Core.Ratio * 90.0f);
+				Rects.Tunnel.Data[1].w = ktn_fscale(Core.Ratio * 90.0f);
+				Rects.Tunnel.Data[1].h = ktn_fscale(Core.Ratio * 240.0f);
+				Cache.Wire_Box = (SDL_FRect) { 0, 0, ktn_fscale((Core.Tile_Size * 0.5f) * ktn_grid_size), ktn_fscale((Core.Tile_Size * 0.5f) * ktn_grid_size) };
+				Interface.Map_X = (Core.Tile_Size * ktn_grid_size) - 640 + Core.Buffer_Size;
+				Interface.Map_Y = (Core.Tile_Size * ktn_grid_size) - 360 + Core.Buffer_Size;
+				Core.Camera.X = fminf(fmax(Core.Camera.X, -Core.Buffer_Size), Interface.Map_X);
+				Core.Camera.Y = fminf(fmax(Core.Camera.Y, -Core.Buffer_Size), Interface.Map_Y);
+			} else if (Interface.UI_Tab == 4 || Interface.UI_Tab == 5) {
 				int Log = Changelog;
 				if (Interface.UI_Tab == 5) {
 					Log = (Interface.Slider_Positions[2] == 0) ? Credits : Legal;
@@ -207,12 +235,12 @@ void Process_Inputs() {
 					if (Interface.Prompt_Identifier == P_None && Interface.Tool == T_Building) {
 						Point Coordinates = { ktn_invalid, ktn_invalid };
 						for (int Column = 0; Column < ktn_grid_size; Column++) {
-							Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+							Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 							for (int Row = 0; Row < ktn_grid_size; Row++) {
-								Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+								Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 								if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-									if (Data.Visual_Grid[Column][Row] != 0) {
-										if (Data.Visual_Grid[Column][Row] == ktn_invalid) {
+									if (!ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strzero)) {
+										if (ktn_stricmp(Data.Visual_Grid[Column][Row], ktn_strnull)) {
 											Coordinates = (Point){
 												(int)(Data.Settings_Grid[Column][Row][S_ParentX]),
 												(int)(Data.Settings_Grid[Column][Row][S_ParentY])

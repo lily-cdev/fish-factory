@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>steam cracker</Name>
+	<Desc>Uses steam to break up hydrocarbons.</Desc>
+	<Index>steam_cracker</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>kiln</Texture_Type>
+	<Kiln_X>30</Kiln_X>
+	<Kiln_Y>16</Kiln_Y>
+	<Kiln_W>8</Kiln_W>
+	<Kiln_H>8</Kiln_H>
+	<Path>core/images/machines/s_cracker</Path>
+	<Price>900</Price>
+	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>3</Height>
+	<Power_Type>none</Power_Type>
+	<Heating />
+	<Rot_ID />
+	<Fluid_Processor />
+	<Input_Ct>2</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>12</Cap>
+		</Input>
+		<Input>
+			<X>0</X>
+			<Y>1</Y>
+			<Dir>left</Dir>
+			<Cap>2</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>3</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>2</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>4</Cap>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>4</Cap>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>2</Y>
+			<Dir>right</Dir>
+			<Cap>6</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

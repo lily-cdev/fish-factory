@@ -250,9 +250,9 @@ void Update_Grid() {
 
 void Build_Grid() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
@@ -262,8 +262,8 @@ void Build_Grid() {
 			int Rotation = (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation;
 			Point Pos = { Column, Row };
 			Point Size = Interface.Item->Size;
-			if ((Data.CMD_Placed && Interface.Item->Command) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index,
-				"spawning_controller"))) {
+			if ((Data.CMD_Placed && Interface.Item->Command) || (Interface.Item->Edge_Needed && Row != 0) || (Interface.Item->Prerequisite &&
+				!Interface.Item->Prerequisite->Owned) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller"))) {
 				return;
 			}
 			if (ktn_evn(Rotation)) {
@@ -388,18 +388,16 @@ void Remove_Machine(Point Pos) {
 bool Destroy_Grid() {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
-		Rects.Tile_1x1.x = ktn_fscale((Pos.X * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Pos.X * Core.Tile_Size) - Core.Camera.X);
 		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			Rects.Tile_1x1.y = ktn_fscale((Pos.Y * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Pos.Y * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
 			if (Data.Visual_Grid[pt(Pos)] != 0) {
 				Cache.Wire_State = Deep_Recache;
 				if (ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strnull)) {
-					Remove_Machine((Point){
-						(int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY])
-					});
+					Remove_Machine((Point){ (int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY]) });
 				} else {
 					Remove_Machine(Pos);
 				}
@@ -500,14 +498,14 @@ void Bake_Light(Point Pos) {
 		return;
 	}
 	for (int C1 = 0; C1 < Chosen->Light_Ct; C1++) {
-		Point Subpx = Rotate_Px(Chosen->Light_Pos[C1], (Point){ Chosen->Size.X * ktn_tile_size, Chosen->Size.Y * ktn_tile_size },
+		Point Subpx = Rotate_Px(Chosen->Light_Pos[C1], (Point){ Chosen->Size.X * 40, Chosen->Size.Y * 40 },
 		Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]));
-		Point Subpos = { ktn_fscale((Pos.X * ktn_tile_size) + Subpx.X), ktn_fscale((Pos.Y * ktn_tile_size) + Subpx.Y) };
+		Point Subpos = { ktn_fscale((Pos.X * 40) + Subpx.X), ktn_fscale((Pos.Y * 40) + Subpx.Y) };
 		int Rad = ktn_fscale(Chosen->Light_Range[C1]);
 		for (int X = 0; X < 2; X++) {
 			for (int Y = 0; Y < 2; Y++) {
 				SDL_SetRenderTarget(Core.Renderer, Temporary.Lighting[(X * 2) + Y]);
-				SDL_FRect Rect = { Subpos.X - Rad - (X * Temporary.Pixels), Subpos.Y - Rad - (Y * Temporary.Pixels), Rad * 2, Rad * 2 };
+				SDL_FRect Rect = { Subpos.X - Rad - ((Temporary.Pixels * X) / Core.Ratio), Subpos.Y - Rad - ((Temporary.Pixels * Y) / Core.Ratio), Rad * 2, Rad * 2 };
 				Render_Texture(Cache.Light_Grad, &Rect);
 			}
 		}
@@ -537,9 +535,9 @@ void Bake_Lights() {
 
 int Get_Simple_Grid_Tile(int Grid[ktn_grid_size][ktn_grid_size], int Neutral) {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				return Grid[Column][Row];
 			}
@@ -558,14 +556,14 @@ void Find_Effect() {
 			if (!Machine) {
 				continue;
 			}
-			if (Machine->Heating && Pos.X * ktn_tile_size > Core.Camera.X && Pos.Y * ktn_tile_size > Core.Camera.Y && Pos.X *
-				ktn_tile_size < Core.Camera.X + 640.0f && Pos.Y * ktn_tile_size < Core.Camera.Y + 360.0f) {
+			if (Machine->Heating && Pos.X * Core.Tile_Size > Core.Camera.X && Pos.Y * Core.Tile_Size > Core.Camera.Y && Pos.X *
+				Core.Tile_Size < Core.Camera.X + 640.0f && Pos.Y * Core.Tile_Size < Core.Camera.Y + 360.0f) {
 				Interface.Effects[E_Heat] += 0.1f;
 				return;
 			}
 			if (Machine->Irradiating) {
-				float A = ktn_fscale((Core.Camera.X + 320.0f) - (Pos.X * ktn_tile_size));
-				float B = ktn_fscale((Core.Camera.Y + 180.0f) - (Pos.Y * ktn_tile_size));
+				float A = ktn_fscale((Core.Camera.X + 320.0f) - (Pos.X * Core.Tile_Size));
+				float B = ktn_fscale((Core.Camera.Y + 180.0f) - (Pos.Y * Core.Tile_Size));
 				float Distance = sqrtf(ktn_sqr(A) + ktn_sqr(B));
 				Interface.Effects[E_Radiation] += fmaxf(35.0f - (Distance * 0.05f), 0.0f);
 			}

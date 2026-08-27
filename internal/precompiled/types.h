@@ -117,6 +117,17 @@ typedef struct {
 } Category_Bundle;
 
 typedef struct {
+	char* Name;
+	char* Index;
+	char* Path;
+	SDL_Texture* Icon;
+	bool Owned;
+	int Cost;
+} Perk_Data;
+
+typedef Perk_Data* Perk_Ptr;
+
+typedef struct {
 	SDL_Texture* Icon;
 	int Price;
 	int Fee;
@@ -125,6 +136,8 @@ typedef struct {
 	char* Desc;
 	char* Index;
 	Category_Ptr Parent;
+	Perk_Ptr Prerequisite;
+	bool Edge_Needed;
 	char* Path;
 	bool Quirks[ktn_quirks];
 	Point Size;
@@ -199,6 +212,7 @@ typedef struct {
 	float Size;
 	float Food_Consumption;
 	float Fragility;
+	bool* Genes;
 } Fish_Data;
 
 typedef Fish_Data* Fish_Ptr;
@@ -211,20 +225,10 @@ typedef struct {
 	float Rate;
 	float Consumption;
 	float Space;
+	int Cost;
 } Gene_Data;
 
 typedef Gene_Data* Gene_Ptr;
-
-typedef struct {
-	char* Name;
-	char* Index;
-	char* Path;
-	SDL_Texture* Icon;
-	bool Owned;
-	int Cost;
-} Perk_Data;
-
-typedef Perk_Data* Perk_Ptr;
 
 typedef struct {
 	int Type;

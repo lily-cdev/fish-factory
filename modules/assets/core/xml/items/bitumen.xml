@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>bitumen</Name>
+	<Index>bitumen</Index>
+	<ID>49</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>61</R1>
+	<G1>59</G1>
+	<B1>57</B1>
+	<R2>26</R2>
+	<G2>26</G2>
+	<B2>26</B2>
+	<Hazard>none</Hazard>
+	<Value>mid</Value>
+	<Price>31</Price>
+	<Chem_Energy>41500000</Chem_Energy>
+	<Boil_Pt>977</Boil_Pt>
+	<V_Enthalpy>300</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

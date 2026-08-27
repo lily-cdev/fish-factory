@@ -6,4 +6,5 @@
 	<Growth_Rate>1.0</Growth_Rate>
 	<Hunger>1.0</Hunger>
 	<Space>0.3</Space>
+	<Stability>2</Stability>
 </Gene>

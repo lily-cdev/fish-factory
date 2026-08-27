@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>op_crude</Index>
+	<Type>out</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>70</Power>
+	<Parent>oil_pump</Parent>
+	<Outputs>
+		<Output>
+			<Item>crude</Item>
+			<Volume>20</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

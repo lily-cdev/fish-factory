@@ -25,7 +25,7 @@ void Purge_Items() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
 			if (Data.Data_Grid[Column][Row][Stored_Fluids] < ktn_epsilon) {
-				Data.Items_Grid[Column][Row] = ktn_invalid;
+				strncpy(Data.Items_Grid[Column][Row], Metadata.Null_Item.Index, 64);
 				Data.Temperature_Grid[Column][Row] = ktn_room_temp;
 			}
 		}
@@ -47,7 +47,7 @@ float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisat
 	}
 }
 
-void Update_Item(Point Pos, int Identifier, int Temperature) {
-	Data.Items_Grid[pt(Pos)] = Identifier;
+void Update_Item(Point Pos, char Identifier[64], int Temperature) {
+	strncpy(Data.Items_Grid[pt(Pos)], Identifier, 64);
 	Data.Temperature_Grid[pt(Pos)] = Temperature;
 }

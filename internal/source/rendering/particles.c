@@ -68,8 +68,8 @@ void Render_Particles(const Point Pos) {
 		if (Carrier.Type == P_Bubble) {
 			float Increment = Carrier.Max / 3.0f;
 			Point_f Rootpos = {
-				ktn_fscale((Pos.X * ktn_tile_size) + Carrier.Pos.X - Core.Camera.X),
-				ktn_fscale((Pos.Y * ktn_tile_size) + Carrier.Pos.Y - Core.Camera.Y)
+				ktn_fscale((Pos.X * Core.Tile_Size) + Carrier.Pos.X - Core.Camera.X),
+				ktn_fscale((Pos.Y * Core.Tile_Size) + Carrier.Pos.Y - Core.Camera.Y)
 			};
 			float Rootsize = ktn_fscale(12.0f);
 			if (Carrier.Delta < (Increment * 2.0f)) {

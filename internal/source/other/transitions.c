@@ -69,8 +69,8 @@ void Render_Opening() {
 			SDL_FRect Indicator_Rectangle = {
 				ktn_fscale((Percentage * 320.0f) + 342.5f),
 				ktn_fscale((1471.0f / 6.0f) - 20.0f),
-				ktn_fscale(ktn_tile_size),
-				ktn_fscale(ktn_tile_size)
+				ktn_fscale(40),
+				ktn_fscale(40)
 			};
 			Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 		} else {
@@ -95,10 +95,10 @@ void Render_Submarine() {
 	if (Transition.Sub_Phase != ktn_invalid) {
 		switch (Transition.Sub_Phase) {
 		case 0:
-			Transition.Sub_Offset -= (float)(ktn_sub_speed * ktn_tile_size) / Interface.Frame_Rate;
+			Transition.Sub_Offset -= (ktn_sub_speed * 40.0f) / Interface.Frame_Rate;
 			Transition.Sub_Frames++;
-			if (Transition.Sub_Offset < (Transition.Sub_Pos.X * ktn_tile_size) + 120) {
-				Transition.Sub_Offset = (Transition.Sub_Pos.X * ktn_tile_size) + 120;
+			if (Transition.Sub_Offset < (Transition.Sub_Pos.X * 40) + 120) {
+				Transition.Sub_Offset = (Transition.Sub_Pos.X * 40) + 120;
 				Transition.Sub_Phase = 1;
 			}
 			break;
@@ -117,7 +117,7 @@ void Render_Submarine() {
 			}
 			break;
 		case 4:
-			Transition.Sub_Offset -= (float)(ktn_sub_speed * ktn_tile_size) / Interface.Frame_Rate;
+			Transition.Sub_Offset -= (ktn_sub_speed * 40.0f) / Interface.Frame_Rate;
 			if (Transition.Sub_Offset < -3000) {
 				Transition.Sub_Offset = 3000;
 				Transition.Sub_Phase = ktn_invalid;
@@ -128,14 +128,14 @@ void Render_Submarine() {
 		default:
 			break;
 		}
-		Rects.Submarine.x = ktn_fscale(Transition.Sub_Offset - Core.Camera.X - 900.0f);
-		Rects.Submarine.y = (ktn_fscale(-Transition.Sub_Vertical) - Rects.Submarine.h) - ktn_fscale(Core.Camera.Y);
+		Rects.Submarine.x = ktn_fscale(((Transition.Sub_Offset - 900.0f) * Core.Ratio) - Core.Camera.X);
+		Rects.Submarine.y = ((ktn_fscale(-Transition.Sub_Vertical) - Rects.Submarine.h) * Core.Ratio) - ktn_fscale(Core.Camera.Y);
 		for (int C1 = 0; C1 < 2; C1++) {
 			SDL_FRect Subrectangle = {
-				Rects.Submarine.x + ((Rects.Submarine.w * 0.5f) * C1),
+				Rects.Submarine.x + ((Rects.Submarine.w * Core.Ratio * 0.5f) * C1),
 				Rects.Submarine.y,
-				Rects.Submarine.w * 0.5f,
-				Rects.Submarine.h
+				Rects.Submarine.w * Core.Ratio * 0.5f,
+				Rects.Submarine.h * Core.Ratio
 			};
 			Render_Texture(Textures.Submarine.Data[C1], &Subrectangle);
 		}
@@ -158,8 +158,8 @@ void Render_Transitions() {
 		SDL_FRect Indicator_Rectangle = {
 			ktn_fscale(342.5f),
 			ktn_fscale((1471.0f / 6.0f) - 20.0f),
-			ktn_fscale(ktn_tile_size),
-			ktn_fscale(ktn_tile_size)
+			ktn_fscale(Core.Tile_Size),
+			ktn_fscale(Core.Tile_Size)
 		};
 		Render_Texture(Textures.R_Flash, &Indicator_Rectangle);
 	}

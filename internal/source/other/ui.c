@@ -48,7 +48,7 @@ void Render_Box(Point Pos, int W, int H, SDL_Color Inner_Color, SDL_Color Outer_
 	Clear_Renderer();
 }
 
-SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
+SDL_FRect Buffer_Rectangle(SDL_FRect Source, Point Pos) {
 	SDL_FRect Yield = {
 		Source.x - ktn_fscale(Pos.X),
 		Source.y - ktn_fscale(Pos.Y),
@@ -58,37 +58,50 @@ SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos) {
 	return Yield;
 }
 
+void Render_Alert(const char* Buffer) {
+	SDL_Texture* Carrier = Render_Text(F_Halftext, Buffer, Colors.Abyss_Black);
+	Render_Box((Point){ 310 - (Carrier->w / 6), 170 - (Carrier->h / 12) }, (Carrier->w / 3) + 20, (Carrier->h / 6) + 20, Colors.Light_Grey, Colors.Dark_Grey);
+	Render_Texture(Carrier, &(SDL_FRect){ Core.Screenhalfsize.X - (Carrier->w * 0.5f), Core.Screenhalfsize.Y - (Carrier->h * 0.5f), Carrier->w, Carrier->h });
+	ktn_free_texture(Carrier);
+}
+
 void Render_Blueprint(int Size_X, int Size_Y) {
 	if (!Cache.Blueprint_Cache) {
 		return;
 	}
-	SDL_FRect Hitbox = { 0.0f, 0.0f, ktn_fscale(Size_X * ktn_tile_size), ktn_fscale(Size_Y * ktn_tile_size) };
-	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, ktn_fscale(ktn_tile_size), ktn_fscale(ktn_tile_size) };
+	SDL_FRect Hitbox = { 0.0f, 0.0f, ktn_fscale(Size_X * Core.Tile_Size), ktn_fscale(Size_Y * Core.Tile_Size) };
+	SDL_FRect Invisible_Hitbox = { 0.0f, 0.0f, ktn_fscale(Core.Tile_Size), ktn_fscale(Core.Tile_Size) };
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Hitbox.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
-		Invisible_Hitbox.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+		Hitbox.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
+		Invisible_Hitbox.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Hitbox.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
-			Invisible_Hitbox.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+			Hitbox.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
+			Invisible_Hitbox.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 			if (!Detect_Mouse_Collision(Invisible_Hitbox)) {
 				continue;
 			}
-			if ((Hitbox.x + Hitbox.w <= ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.X) && Hitbox.y + Hitbox.h <=
-				ktn_fscale((ktn_grid_size * ktn_tile_size) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
+			if ((Hitbox.x + Hitbox.w <= ktn_fscale((ktn_grid_size * Core.Tile_Size) - Core.Camera.X) && Hitbox.y + Hitbox.h <= ktn_fscale((ktn_grid_size *
+				Core.Tile_Size) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
-				if ((Data.CMD_Placed && Interface.Item->Command) || (Row != 0 && ktn_stricmp(Interface.Item->Index, "sub_dock")) ||
-					Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller")) {
+				if ((Data.CMD_Placed && Interface.Item->Command) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller")) ||
+					(Interface.Item->Prerequisite && !Interface.Item->Prerequisite->Owned) || (Interface.Item->Edge_Needed && Row != 0)) {
 					Placeable = false;
 				}
 				if (Placeable) {
 					Render_Outline(Hitbox, Colors.Pure_White, 1);
 				} else {
-					SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r, Colors.Hostile_Red.g,
-						Colors.Hostile_Red.b);
+					SDL_SetTextureColorMod(Cache.Blueprint_Cache, Colors.Hostile_Red.r, Colors.Hostile_Red.g, Colors.Hostile_Red.b);
 					Render_Outline(Hitbox, Colors.Hostile_Red, 1);
 				}
 				Render_Texture(Cache.Blueprint_Cache, &Hitbox);
 				SDL_SetTextureColorMod(Cache.Blueprint_Cache, 255, 255, 255);
+				if (Interface.Item->Prerequisite && !Interface.Item->Prerequisite->Owned) {
+					char Carrier[64];
+					snprintf(Carrier, sizeof(Carrier), "\"%s\" perk needed!", Interface.Item->Prerequisite->Name);
+					Render_Alert(Carrier);
+				} else if (Interface.Item->Edge_Needed && Row != 0) {
+					Render_Alert("must be placed on factory edge!");
+				}
 				return;
 			}
 		}
@@ -110,6 +123,9 @@ void Render_Game_UI() {
 			Render_Texture(Bars[C1], &Rectangles[C1]);
 		}
 	}
+	if (!Data.Help_Clicked) {
+		Render_Texture(Textures.Subarrow, &Rects.Subarrow);
+	}
 	char Data_Fragments[16][128];
 	int Index = 0;
 	int Hour = Data.Time / 60;
@@ -128,21 +144,50 @@ void Render_Game_UI() {
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Funds, Subbuffer, sizeof(Subbuffer));
 	snprintf(Buffer, sizeof(Buffer), "%sLA", Subbuffer);
-	Process_Supply(&Supplies.Money, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 30 });
+	SDL_Texture* Carriers[2] = {
+		Render_Text(F_Subtext, Buffer, Colors.Abyss_Black)
+	};
 	memset(Buffer, 0, sizeof(Buffer));
 	snprintf(Buffer, sizeof(Buffer), "%s, %sday", Time, Metadata.Days[Data.Day]);
-	Process_Supply(&Supplies.Time, Buffer, F_Halftext, Colors.Abyss_Black, (Point){ 10, 50 });
+	Carriers[1] = Render_Text(F_Subtext, Buffer, Colors.Abyss_Black);
+	SDL_FRect Subcarriers[2] = {
+		{ ktn_fscale(10), ktn_fscale(10), Carriers[0]->w, Carriers[0]->h },
+		{ ktn_fscale(10), ktn_fscale(30), Carriers[1]->w, Carriers[1]->h }
+	};
+	Set_Renderer_Color(Colors.Dark_Grey);
+	int Width = ktn_max(Carriers[0]->w, Carriers[1]->w);
+	int Height = Subcarriers[1].y + Subcarriers[1].h;
+	SDL_FRect Background = {
+		0,
+		0,
+		ktn_fscale(25.0f) + Width,
+		ktn_fscale(15.0f) + Height
+	};
+	SDL_RenderFillRect(Core.Renderer, &Background);
+	Set_Renderer_Color(Colors.Light_Grey);
+	Background = (SDL_FRect){
+		0,
+		0,
+		ktn_fscale(20.0f) + Width,
+		ktn_fscale(10.0f) + Height
+	};
+	SDL_RenderFillRect(Core.Renderer, &Background);
+	Clear_Renderer();
+	Render_Texture(Carriers[0], &Subcarriers[0]);
+	Render_Texture(Carriers[1], &Subcarriers[1]);
+	ktn_free_texture(Carriers[0]);
+	ktn_free_texture(Carriers[1]);
 	if (Interface.Tool == T_Inspecting) {
 		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
 		Item_Ptr Item = NULL;
 		int Temperature;
 		for (int Column = 0; Column < ktn_grid_size; Column++) {
-			Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+			Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 			for (int Row = 0; Row < ktn_grid_size; Row++) {
-				Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+				Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 				if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
 					ktn_memcpy(Content_Vector, Data.Data_Grid[Column][Row], sizeof(Content_Vector));
-					Item = Get_ID_Item(Data.Items_Grid[Column][Row]);
+					Item = Get_Item(Data.Items_Grid[Column][Row]);
 					Temperature = Data.Temperature_Grid[Column][Row];
 					break;
 				}
@@ -228,7 +273,7 @@ void Render_Game_UI() {
 		}
 		int Total_Height = Fragment_Rectangles[Fragment_Size - 1].y + Fragment_Rectangles[Fragment_Size - 1].h;
 		Set_Renderer_Color(Colors.Dark_Grey);
-		SDL_FRect Background = {
+		Background = (SDL_FRect){
 			ktn_fscale(615.0f) - Max_Width,
 			0,
 			ktn_fscale(25.0f) + Max_Width,
@@ -293,15 +338,14 @@ void Drain_Query() {
 		} else if (Cache.ID_Query[C1] == 1) {
 			float Length = sqrtf(powf(Cache.Query[C1].x - Cache.Query[C1].w, 2) + powf(Cache.Query[C1].y - Cache.Query[C1].h, 2));
 			float Rotation = atan2f(Cache.Query[C1].y - Cache.Query[C1].h, Cache.Query[C1].x - Cache.Query[C1].w) / (M_PI / 180);
-			SDL_FPoint Centerpoint = { ktn_fscale(5.0f), ktn_fscale(5.0f) };
-			for (int C2 = 0; C2 < floorf(Length / ktn_fscale(10.0f)); C2++) {
-				SDL_FRect Tilebox = { 0.0f, 0.0f, ktn_fscale(10.0f), ktn_fscale(10.0f) };
-				Tilebox.x = (float)(Cache.Query[C1].x - (ktn_fscale(C2 * 10.0f) * cosf(Rotation * (M_PI / 180.0f))) - ktn_fscale(
-					5.0f));
-				Tilebox.y = (float)(Cache.Query[C1].y - (ktn_fscale(C2 * 10.0f) * sinf(Rotation * (M_PI / 180.0f))) - ktn_fscale(
-					5.0f));
-				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint,
-					SDL_FLIP_NONE);
+			SDL_FPoint Centerpoint = { ktn_fscale(Core.Tile_Size * 0.125f), ktn_fscale(Core.Tile_Size * 0.125f) };
+			for (int C2 = 0; C2 < floorf(Length / ktn_fscale(Core.Tile_Size * 0.25f)); C2++) {
+				SDL_FRect Tilebox = { 0.0f, 0.0f, ktn_fscale(Core.Tile_Size * 0.25f), ktn_fscale(Core.Tile_Size * 0.25f) };
+				Tilebox.x = (float)(Cache.Query[C1].x - (ktn_fscale((Core.Tile_Size * 0.25f) * C2) * cosf(Rotation * (M_PI / 180.0f))) -
+					ktn_fscale(Core.Tile_Size * 0.125f));
+				Tilebox.y = (float)(Cache.Query[C1].y - (ktn_fscale((Core.Tile_Size * 0.25f) * C2) * sinf(Rotation * (M_PI / 180.0f))) -
+					ktn_fscale(Core.Tile_Size * 0.125f));
+				SDL_RenderTextureRotated(Core.Renderer, Textures.Path_Arrow, NULL, &Tilebox, Rotation + 90, &Centerpoint, SDL_FLIP_NONE);
 			}
 		}
 	}

@@ -11,11 +11,11 @@ void Render_Ocean() {
 		(float)ktn_ocean_size,
 		(float)ktn_ocean_size
 	};
-	int Iterations = (int)ceilf(ktn_fscale((ktn_grid_size * ktn_tile_size) + (ktn_buffer_size * 2)) / ktn_ocean_size);
+	int Iterations = (int)ceilf(ktn_fscale((ktn_grid_size * Core.Tile_Size) + (Core.Buffer_Size * 2)) / ktn_ocean_size);
 	for (int C1 = 0; C1 < Iterations; C1++) {
 		for (int C2 = 0; C2 < Iterations; C2++) {
-			Ocean_Rectangle.x = (C1 * Ocean_Rectangle.w) - ktn_fscale(Core.Camera.X + ktn_buffer_size);
-			Ocean_Rectangle.y = (C2 * Ocean_Rectangle.h) - ktn_fscale(Core.Camera.Y + ktn_buffer_size);
+			Ocean_Rectangle.x = (C1 * Ocean_Rectangle.w) - ktn_fscale(Core.Camera.X + Core.Buffer_Size);
+			Ocean_Rectangle.y = (C2 * Ocean_Rectangle.h) - ktn_fscale(Core.Camera.Y + Core.Buffer_Size);
 			Render_Texture(Textures.None.Data[(int)(Interface.Ocean_Cycle)], &Ocean_Rectangle);
 		}
 	}

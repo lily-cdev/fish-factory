@@ -45,10 +45,10 @@ void Render_Tutorial() {
 		return;
 	}
 	SDL_FRect Bounding_Rectangle = {
-		ktn_fscale((120.0f - Core.Camera.X) + Temporary.Tutorial_Offset.X),
-		ktn_fscale((120.0f - Core.Camera.Y) + Temporary.Tutorial_Offset.Y),
-		ktn_fscale(Temporary.Tutorial_Size.X),
-		ktn_fscale(Temporary.Tutorial_Size.Y)
+		ktn_fscale(((Core.Tile_Size * 3) - Core.Camera.X) + (Temporary.Tutorial_Offset.X * Core.Tile_Size)),
+		ktn_fscale(((Core.Tile_Size * 3) - Core.Camera.Y) + (Temporary.Tutorial_Offset.Y * Core.Tile_Size)),
+		ktn_fscale(Temporary.Tutorial_Size.X * Core.Tile_Size),
+		ktn_fscale(Temporary.Tutorial_Size.Y * Core.Tile_Size)
 	};
 	Cache.ID_Query[Cache.Query_Length] = 0;
 	Cache.Query[Cache.Query_Length] = Bounding_Rectangle;
@@ -85,10 +85,10 @@ void Render_Tutorial() {
 			int Y;
 			ID_To_Size((Step.ID_Override) ? Get_Machine(Step.ID_Override->Index) : Visual_To_Machine(Step.Item), 0, &X, &Y);
 			SDL_FRect Outline_Rectangle = {
-				ktn_fscale((Step.Placement_Locations[C1].X * ktn_tile_size) - Core.Camera.X),
-				ktn_fscale((Step.Placement_Locations[C1].Y * ktn_tile_size) - Core.Camera.Y),
-				ktn_fscale(X * ktn_tile_size),
-				ktn_fscale(Y * ktn_tile_size)
+				ktn_fscale((Step.Placement_Locations[C1].X * Core.Tile_Size) - Core.Camera.X),
+				ktn_fscale((Step.Placement_Locations[C1].Y * Core.Tile_Size) - Core.Camera.Y),
+				ktn_fscale(X * Core.Tile_Size),
+				ktn_fscale(Y * Core.Tile_Size)
 			};
 			Cache.ID_Query[Cache.Query_Length] = 0;
 			Cache.Query[Cache.Query_Length] = Outline_Rectangle;
@@ -123,27 +123,25 @@ void Render_Tutorial() {
 			bool Incomplete = true;
 			if (Step.Type == 3) {
 				for (int C2 = 0; C2 < Pipes.Length; C2++) {
-					if (Pipes.Data[C2].X1 == Step.Placement_Locations[C1].X && Pipes.Data[C2].Y1 == Step.Placement_Locations[
-						C1].Y && Pipes.Data[C2].X2 == Step.Placement_Locations[C1 + 1].X && Pipes.Data[C2].Y2 ==
-						Step.Placement_Locations[C1 + 1].Y) {
+					if (Pipes.Data[C2].X1 == Step.Placement_Locations[C1].X && Pipes.Data[C2].Y1 == Step.Placement_Locations[C1].Y && Pipes.Data[C2].X2 ==
+						Step.Placement_Locations[C1 + 1].X && Pipes.Data[C2].Y2 == Step.Placement_Locations[C1 + 1].Y) {
 						Incomplete = false;
 					}
 				}
 			} else {
 				for (int C2 = 0; C2 < Wires.Length; C2++) {
-					if (Wires.Data[C2].X1 == Step.Placement_Locations[C1].X && Wires.Data[C2].Y1 == Step.Placement_Locations[
-						C1].Y && Wires.Data[C2].X2 == Step.Placement_Locations[C1 + 1].X && Wires.Data[C2].Y2 ==
-						Step.Placement_Locations[C1 + 1].Y) {
+					if (Wires.Data[C2].X1 == Step.Placement_Locations[C1].X && Wires.Data[C2].Y1 == Step.Placement_Locations[C1].Y && Wires.Data[C2].X2 ==
+						Step.Placement_Locations[C1 + 1].X && Wires.Data[C2].Y2 == Step.Placement_Locations[C1 + 1].Y) {
 						Incomplete = false;
 					}
 				}
 			}
 			if (Incomplete) {
 				SDL_FRect Temporary_Rectangle = {
-					ktn_fscale(Step.Placement_Locations[C1].X * ktn_tile_size) + ktn_fscale(20.0f - Core.Camera.X),
-					ktn_fscale(Step.Placement_Locations[C1].Y * ktn_tile_size) + ktn_fscale(20.0f - Core.Camera.Y),
-					ktn_fscale(Step.Placement_Locations[C1 + 1].X * ktn_tile_size) + ktn_fscale(20.0f - Core.Camera.X),
-					ktn_fscale(Step.Placement_Locations[C1 + 1].Y * ktn_tile_size) + ktn_fscale(20.0f - Core.Camera.Y)
+					ktn_fscale(Step.Placement_Locations[C1].X * Core.Tile_Size) + ktn_fscale((Core.Tile_Size * 0.5f) - Core.Camera.X),
+					ktn_fscale(Step.Placement_Locations[C1].Y * Core.Tile_Size) + ktn_fscale((Core.Tile_Size * 0.5f) - Core.Camera.Y),
+					ktn_fscale(Step.Placement_Locations[C1 + 1].X * Core.Tile_Size) + ktn_fscale((Core.Tile_Size * 0.5f) - Core.Camera.X),
+					ktn_fscale(Step.Placement_Locations[C1 + 1].Y * Core.Tile_Size) + ktn_fscale((Core.Tile_Size * 0.5f) - Core.Camera.Y)
 				};
 				Cache.Query[Cache.Query_Length] = Temporary_Rectangle;
 				Cache.ID_Query[Cache.Query_Length] = 1;
@@ -192,13 +190,10 @@ void Render_Tutorial() {
 		default:
 			break;
 		}
-		snprintf(Carrier, sizeof(Carrier), "hold down \"%c\" to drift the camera %i/%ipx %s.", (char)(tolower(
-			SDL_GetKeyName(Keybinds.Keybind_List[Keybind])[0])), (int)Position, (int)Tutorial_Stack[
-			Temporary.Tutorial_Step].Selection, Direction);
+		snprintf(Carrier, sizeof(Carrier), "hold down \"%c\" to drift the camera %i/%ipx %s.", (char)(tolower(SDL_GetKeyName(Keybinds.Keybind_List[
+			Keybind])[0])), (int)Position, (int)Tutorial_Stack[Temporary.Tutorial_Step].Selection, Direction);
 		strcat(Text, Carrier);
-		if ((Position < Step.Selection && Keybind == 2) ||
-			(Position < Step.Selection && Keybind == 0) ||
-			(Position > Step.Selection && Keybind == 3) ||
+		if ((Position < Step.Selection && Keybind == 2) || (Position < Step.Selection && Keybind == 0) || (Position > Step.Selection && Keybind == 3) ||
 			(Position > Step.Selection && Keybind == 1)) {
 			Progress_Tutorial();
 		}

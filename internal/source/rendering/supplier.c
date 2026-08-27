@@ -39,8 +39,6 @@ void Free_Supplies() {
 	ktn_free_texture(Supplies.Shop3.Data);
 	ktn_free_texture(Supplies.Shop4.Data);
 	ktn_free_texture(Supplies.Shop5.Data);
-	ktn_free_texture(Supplies.Money.Data);
-	ktn_free_texture(Supplies.Time.Data);
 	ktn_free_texture(Supplies.Save_Text.Data);
 	ktn_free_texture(Supplies.Terminal_Title.Data);
 	ktn_free_texture(Supplies.Terminal_Command.Data);

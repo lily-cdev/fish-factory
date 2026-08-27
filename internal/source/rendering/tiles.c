@@ -3,9 +3,9 @@
 void Render_Grid() {
 	for (int C1 = 0; C1 < 2; C1++) {
 		for (int Column = 0; Column < ktn_grid_size; Column++) {
-			Update_Tilestack(false, (int)((Column * ktn_tile_size) - Core.Camera.X), true, ktn_invalid);
+			Update_Tilestack(false, (int)((Column * Core.Tile_Size) - Core.Camera.X), true, ktn_invalid);
 			for (int Row = 0; Row < ktn_grid_size; Row++) {
-				Update_Tilestack(true, ktn_invalid, false, (int)((Row * ktn_tile_size) - Core.Camera.Y));
+				Update_Tilestack(true, ktn_invalid, false, (int)((Row * Core.Tile_Size) - Core.Camera.Y));
 				SDL_FRect Carrier;
 				SDL_FPoint Centerpoint;
 				Point Offset[4];
@@ -69,7 +69,8 @@ void Render_Grid() {
 							(ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w) * 0.5f
 						};
 						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
-							Data.Animation_Grid[Column][Row][1] += ((float)Machine->Spin_Data.Speed) / Interface.Frame_Rate;
+							Data.Animation_Grid[Column][Row][1] += (Interface.Time_Positions[Interface.Slider_Positions[15]] * (float)Machine->Spin_Data.Speed) /
+								Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 360) {
 								Data.Animation_Grid[Column][Row][1] = 0;
 							}
@@ -89,13 +90,13 @@ void Render_Grid() {
 						Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
 						float Width = (Data.Data_Grid[Column][Row][Stored_Power] / Data.Data_Grid[Column][Row][Power_Cap]) *
 							Machine->Gauge_Data.Size.X;
-						Point Subsize = { Machine->Size.X * ktn_tile_size, Machine->Size.Y * ktn_tile_size };
+						Point Subsize = { Machine->Size.X * Core.Tile_Size, Machine->Size.Y * Core.Tile_Size };
 						Point Origin = Rotate_Px(Machine->Gauge_Data.Pos, Subsize, Rotation);
 						Point End = Rotate_Px((Point){ Machine->Gauge_Data.Pos.X + Width, Machine->Gauge_Data.Pos.Y +
 							Machine->Gauge_Data.Size.Y }, Subsize, Rotation);
 						SDL_FRect Rect = {
-							ktn_fscale((Column * ktn_tile_size) + Origin.X - Core.Camera.X),
-							ktn_fscale((Row * ktn_tile_size) + Origin.Y - Core.Camera.Y),
+							ktn_fscale((Column * Core.Tile_Size) + Origin.X - Core.Camera.X),
+							ktn_fscale((Row * Core.Tile_Size) + Origin.Y - Core.Camera.Y),
 							ktn_fscale(End.X - Origin.X),
 							ktn_fscale(End.Y - Origin.Y)
 						};
@@ -112,20 +113,21 @@ void Render_Grid() {
 						};
 						Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
 						if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
-							Data.Animation_Grid[Column][Row][1] += (float)ktn_static_rate / Interface.Frame_Rate;
+							Data.Animation_Grid[Column][Row][1] += (Interface.Time_Positions[Interface.Slider_Positions[15]] * (float)ktn_static_rate) /
+								Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][1] >= 9) {
 								Data.Animation_Grid[Column][Row][1] = 0;
 							}
 							Source = (SDL_FRect){ 0, 0, ktn_fscale(Machine->Kiln_Data.Size.X), ktn_fscale(Machine->Kiln_Data.Size.Y) };
-							Point Subsize = { Machine->Size.X * ktn_tile_size, Machine->Size.Y * ktn_tile_size };
+							Point Subsize = { Machine->Size.X * Core.Tile_Size, Machine->Size.Y * Core.Tile_Size };
 							Point Origin = Rotate_Px(Machine->Kiln_Data.Pos, Subsize, Rotation);
-							Point End = Rotate_Px((Point){ Machine->Kiln_Data.Pos.X + Machine->Kiln_Data.Size.X, Machine->Kiln_Data.Pos.Y +
-								Machine->Kiln_Data.Size.Y }, Subsize, Rotation);
+							Point End = Rotate_Px((Point){ Machine->Kiln_Data.Pos.X + Machine->Kiln_Data.Size.X, Machine->Kiln_Data.Pos.Y + Machine->Kiln_Data.Size.Y },
+								Subsize, Rotation);
 							Destination = (SDL_FRect){
-								ktn_fscale((Column * ktn_tile_size) + Origin.X - Core.Camera.X),
-								ktn_fscale((Row * ktn_tile_size) + Origin.Y - Core.Camera.Y),
-								ktn_fscale(End.X - Origin.X),
-								ktn_fscale(End.Y - Origin.Y)
+								ktn_fscale((((Column * 40) + Origin.X) * Core.Ratio) - Core.Camera.X),
+								ktn_fscale((((Row * 40) + Origin.Y) * Core.Ratio) - Core.Camera.Y),
+								ktn_fscale((End.X - Origin.X) * Core.Ratio),
+								ktn_fscale((End.Y - Origin.Y) * Core.Ratio)
 							};
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][1])], &Source,
 								&Destination);
@@ -154,10 +156,11 @@ void Render_Grid() {
 							} else {
 								Data.Animation_Grid[Column][Row][1] = 0.0f;
 							}
-							Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
+							Data.Animation_Grid[Column][Row][1] += Interface.Time_Positions[Interface.Slider_Positions[15]] / Interface.Frame_Rate;
 						} else {
 							Data.Animation_Grid[Column][Row][1] = 0.0f;
 						}
+						Subcarrier *= Core.Ratio;
 						Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
 						switch (Rotation + 1) {
 						case Left:
@@ -196,15 +199,15 @@ void Render_Grid() {
 								Lightcolor = (SDL_Color){ 0, 255, 0 };
 							}
 							SDL_FRect Lightplate = {
-								ktn_fscale((Column * ktn_tile_size) - Core.Camera.X),
-								ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y + 21.0f),
+								ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X),
+								ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y + 21.0f),
 								ktn_fscale(120.0f),
 								ktn_fscale(38.0f)
 							};
 							if (ktn_evn(Rotation)) {
 								Lightplate = (SDL_FRect){
-									ktn_fscale((Column * ktn_tile_size)- Core.Camera.X + 21.0f),
-									ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y),
+									ktn_fscale((Column * Core.Tile_Size)- Core.Camera.X + 21.0f),
+									ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y),
 									ktn_fscale(38.0f),
 									ktn_fscale(120.0f)
 								};
@@ -241,8 +244,8 @@ void Render_Grid() {
 								break;
 							}
 							#undef Set_Lightplate
-							Lightplate.x += ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
-							Lightplate.y += ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+							Lightplate.x += ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
+							Lightplate.y += ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 							Set_Renderer_Color(Lightcolor);
 							SDL_RenderFillRect(Core.Renderer, &Lightplate);
 							Clear_Renderer();
@@ -251,7 +254,7 @@ void Render_Grid() {
 							Carrier = (ktn_evn(Rotation)) ? Rects.Tile_3x2 : Rects.Tile_2x3;
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[0], &Carrier);
 						} else if (ktn_stricmp(Machine->Index, "distillery")) {
-							Data.Animation_Grid[Column][Row][0] += ktn_static_rate / Interface.Frame_Rate;
+							Data.Animation_Grid[Column][Row][0] += (Interface.Time_Positions[Interface.Slider_Positions[15]] * ktn_static_rate) / Interface.Frame_Rate;
 							if (Data.Animation_Grid[Column][Row][0] >= 9) {
 								Data.Animation_Grid[Column][Row][0] = 0;
 							}
@@ -263,8 +266,8 @@ void Render_Grid() {
 							if (Rotation == 2 || Rotation == 3) {
 								Destination.y = 43.0f;
 							}
-							Destination.x = ktn_fscale((Column * ktn_tile_size) + Destination.x - Core.Camera.X);
-							Destination.y = ktn_fscale((Row * ktn_tile_size) + Destination.y - Core.Camera.Y);
+							Destination.x = ktn_fscale((Column * Core.Tile_Size) + Destination.x - Core.Camera.X);
+							Destination.y = ktn_fscale((Row * Core.Tile_Size) + Destination.y - Core.Camera.Y);
 							SDL_RenderTexture(Core.Renderer, Textures.Fire.Data[(int)(Data.Animation_Grid[Column][Row][0])],
 								&Source, &Destination);
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Rects.Tile_2x2);
@@ -275,7 +278,7 @@ void Render_Grid() {
 							Carrier = ktn_evn(Rotation) ? Rects.Tile_2x3 : Rects.Tile_3x2;
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[2], &Carrier);
 							if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
-								Data.Animation_Grid[Column][Row][1] += 1.0f / Interface.Frame_Rate;
+								Data.Animation_Grid[Column][Row][1] += Interface.Time_Positions[Interface.Slider_Positions[15]] / Interface.Frame_Rate;
 								if (Data.Animation_Grid[Column][Row][1] >= 0.5f) {
 									Data.Animation_Grid[Column][Row][1] = 0;
 									ktn_tick();
@@ -317,8 +320,8 @@ void Render_Grid() {
 						break;
 					}
 					if (ktn_stricmp(Machine->Index, "sub_dock")) {
-						Rects.Tunnel.Data[0].x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
-						Rects.Tunnel.Data[0].y = ktn_fscale(((Row - 2.25f) * ktn_tile_size) - Core.Camera.Y);
+						Rects.Tunnel.Data[0].x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
+						Rects.Tunnel.Data[0].y = ktn_fscale(((Row - 2.25f) * Core.Tile_Size) - Core.Camera.Y);
 						Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 					}
 					break;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>d_hodistillates</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>3</Time>
+	<Power>3200</Power>
+	<Parent>distillery</Parent>
+	<Inputs>
+		<Input>
+			<Item>heavy_oil</Item>
+			<Volume>20</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>diesel</Item>
+			<Volume>10</Volume>
+		</Output>
+		<Output>
+			<Item>residue</Item>
+			<Volume>10</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

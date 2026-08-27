@@ -23,20 +23,24 @@ struct Proto_Core {
 	int Perks;
 	int Categories;
 	int Subcategories;
+	int Tile_Size;
+	int Buffer_Size;
+	float Ratio;
 	uint32_t State;
 };
 
 struct Proto_Data {
 	bool CMD_Placed;
+	bool Help_Clicked;
 	int Version;
 	int Time;
 	int Day;
 	char Visual_Grid[ktn_grid_size][ktn_grid_size][64];
-	int Behavior_Grid[ktn_grid_size][ktn_grid_size];
-	int Wiring_Grid[ktn_grid_size][ktn_grid_size];
-	int Plumbing_Grid[ktn_grid_size][ktn_grid_size];
-	int Items_Grid[ktn_grid_size][ktn_grid_size];
-	int Temperature_Grid[ktn_grid_size][ktn_grid_size];
+	int32_t Behavior_Grid[ktn_grid_size][ktn_grid_size];
+	int32_t Wiring_Grid[ktn_grid_size][ktn_grid_size];
+	int32_t Plumbing_Grid[ktn_grid_size][ktn_grid_size];
+	char Items_Grid[ktn_grid_size][ktn_grid_size][64];
+	int32_t Temperature_Grid[ktn_grid_size][ktn_grid_size];
 	float Animation_Grid[ktn_grid_size][ktn_grid_size][3];
 	float Data_Grid[ktn_grid_size][ktn_grid_size][7];
 	float Settings_Grid[ktn_grid_size][ktn_grid_size][16];
@@ -139,7 +143,7 @@ struct Proto_Textures {
 	Texture_Array A_Bubble;
 	SDL_Texture* Floor_Texture;
 	SDL_Texture* Frame_Texture;
-	SDL_Texture* Gene_Add;
+	SDL_Texture* Gene_Added;
 	SDL_Texture* Perk_Owned;
 	SDL_Texture* Tile_Texture;
 	SDL_Texture* Scrap;
@@ -155,6 +159,7 @@ struct Proto_Textures {
 	Texture_Array Pyramid;
 	Texture_Array Fire;
 	Texture_Array None;
+	SDL_Texture* Subarrow;
 };
 
 struct Proto_Rects {
@@ -209,7 +214,6 @@ struct Proto_Rects {
 	SDL_FRect Tile_3x2;
 	SDL_FRect Tile_3x3;
 	SDL_FRect Tile_6x4;
-	SDL_FRect Sapling;
 	SDL_FRect Node;
 	SDL_FRect R_Flash;
 	SDL_FRect Log_Background;
@@ -223,6 +227,7 @@ struct Proto_Rects {
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	Rect2_Array Confirmation;
+	SDL_FRect Subarrow;
 };
 
 struct Proto_Colors {
@@ -307,8 +312,6 @@ struct Proto_Supplies {
 	Texture_Supply Shop3;
 	Texture_Supply Shop4;
 	Texture_Supply Shop5;
-	Texture_Supply Money;
-	Texture_Supply Time;
 	Texture_Supply Save_Text;
 	Texture_Supply Terminal_Title;
 	Texture_Supply Terminal_Command;
@@ -352,6 +355,7 @@ struct Proto_Interface {
 	SDL_FPoint Tile_Centerpoint;
 	float Log_Heights[ktn_logs];
 	int Valve300_Postions[ktn_valve300_len];
+	float Time_Positions[ktn_time_len];
 	char Slider_Texts[ktn_sliders][256][64];
 	float Effects[ktn_effects];
 	char Terminal_Logs[ktn_log_max][ktn_param_max];
@@ -448,3 +452,4 @@ Category_Ptr Get_Category(const char* Index);
 void Update_Cursor();
 void Sell(Point Pos, bool Terminal);
 Perk_Ptr Get_Perk(const char* Index);
+void Load_Rects();

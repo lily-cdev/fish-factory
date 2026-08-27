@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>polymerizer</Name>
+	<Desc>Reacts monomers with a catalyst to yield polymers. Used in the manufacture of plastics.</Desc>
+	<Index>polymerizer</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>spinner</Texture_Type>
+	<Path>core/images/machines/polymerizer</Path>
+	<Price>400</Price>
+	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>1</Height>
+	<Speed>30</Speed>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>150</Power_Capacity>
+	<Anchor_X>21</Anchor_X>
+	<Anchor_Y>11</Anchor_Y>
+	<Rot_ID />
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>3</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>3</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

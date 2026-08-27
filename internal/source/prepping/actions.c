@@ -12,6 +12,7 @@ void Load_Save(Parameter Slot, Parameter Unused) {
 	Wipe_Grid();
 	Cache_Price();
 	Cache_Blueprint();
+	Data.Help_Clicked = true;
 }
 
 void Free_Save(Parameter Slot, Parameter Unused) {
@@ -31,12 +32,14 @@ void New_Save(Parameter Slot, Parameter Unused) {
 	Cache_Price();
 	Cache_Blueprint();
 	Cache.Wire_State = Deep_Recache;
+	Data.Help_Clicked = false;
 }
 
 void Click_Sidebar(Parameter Bar, Parameter Unused) {
 	switch (Bar.Integer) {
 	case 0:
 		Interface.Prompt_Identifier = P_Help;
+		Data.Help_Clicked = true;
 		break;
 	case 1:
 		if (Interface.Save_Frames < 1) {

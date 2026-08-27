@@ -12,7 +12,7 @@ fluid generator
 cancel tutorial
 the command platform
 simple generator
-[NF] simple fish farm
+simple subfactory
 save settings
 go to bottom
 go to top
@@ -49,3 +49,4 @@ toggles
 keybinds
 power generator
 dismiss sub
+call sub

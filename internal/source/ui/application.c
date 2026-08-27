@@ -35,8 +35,8 @@ void Render_Application() {
 		default:
 			break;
 		}
-		Offset_X *= ktn_grid_size * 20;
-		Offset_Y *= ktn_grid_size * 20;
+		Offset_X *= Core.Tile_Size * ktn_grid_size * 0.5f;
+		Offset_Y *= Core.Tile_Size * ktn_grid_size * 0.5f;
 		Cache.Wire_Box.x = ktn_fscale(Offset_X - Core.Camera.X);
 		Cache.Wire_Box.y = ktn_fscale(Offset_Y - Core.Camera.Y);
 		Render_Texture(Cache.Wire_Cache.Data[C1], &Cache.Wire_Box);
@@ -44,32 +44,32 @@ void Render_Application() {
 	if (Interface.Tool == T_Plumbing) {
 		Render_Pipes();
 	}
-	if (Interface.Tool == T_Building && !Interface.UI_Query.Carrier && Interface.Prompt_Identifier == P_None) {
-		Point Pos;
-		ID_To_Size(Interface.Item, Interface.Rotation, &Pos.X, &Pos.Y);
-		if (Pos.X > 0 || Pos.Y > 0) {
-			Render_Blueprint(Pos.X, Pos.Y);
-		}
-	}
 	Render_Submarine();
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_FRect Temporary_Rectangle = { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Render_Texture(Core.Game_Texture, &Temporary_Rectangle);
 	Render_Lighting();
+	if (Interface.Tool == T_Building && !Interface.UI_Query.Carrier && Interface.Prompt_Identifier == P_None) {
+		Point Pos;
+		ID_To_Size(Interface.Item, (Interface.Item->Quirks[Q_Non_Rotatable]) ? 0 : Interface.Rotation, &Pos.X, &Pos.Y);
+		if (Pos.X > 0 || Pos.Y > 0) {
+			Render_Blueprint(Pos.X, Pos.Y);
+		}
+	}
 	if (Interface.Tool > 0) {
 		SDL_FRect Hitbox = {
 			0.0f,
 			0.0f,
-			ktn_fscale(ktn_tile_size),
-			ktn_fscale(ktn_tile_size)
+			ktn_fscale(Core.Tile_Size),
+			ktn_fscale(Core.Tile_Size)
 		};
 		Point Subpos = {
 			ktn_fscale(Core.Camera.X) + Core.Mouse.X,
 			ktn_fscale(Core.Camera.Y) + Core.Mouse.Y
 		};
-		Hitbox.x = (floorf(Subpos.X / ktn_fscale(ktn_tile_size)) * ktn_fscale(ktn_tile_size)) - ktn_fscale(Core.Camera.X);
-		Hitbox.y = (floorf(Subpos.Y / ktn_fscale(ktn_tile_size)) * ktn_fscale(ktn_tile_size)) - ktn_fscale(Core.Camera.Y);
-		int Limit = ktn_fscale(ktn_tile_size * ktn_grid_size);
+		Hitbox.x = (floorf(Subpos.X / ktn_fscale(Core.Tile_Size)) * ktn_fscale(Core.Tile_Size)) - ktn_fscale(Core.Camera.X);
+		Hitbox.y = (floorf(Subpos.Y / ktn_fscale(Core.Tile_Size)) * ktn_fscale(Core.Tile_Size)) - ktn_fscale(Core.Camera.Y);
+		int Limit = ktn_fscale(Core.Tile_Size * ktn_grid_size);
 		bool Rendering = false;
 		if (Subpos.X > 0 && Subpos.Y > 0 && Subpos.X < Limit && Subpos.Y < Limit) {
 			Render_Texture(Textures.Crosshair, &Hitbox);
@@ -81,9 +81,9 @@ void Render_Application() {
 			Point Pos = { };
 			bool Satiated = false;
 			for (int Column = 0; Column < ktn_grid_size; Column++) {
-				Rects.Tile_1x1.x = ktn_fscale((Column * ktn_tile_size) - Core.Camera.X);
+				Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 				for (int Row = 0; Row < ktn_grid_size; Row++) {
-					Rects.Tile_1x1.y = ktn_fscale((Row * ktn_tile_size) - Core.Camera.Y);
+					Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 					if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 						continue;
 					}
@@ -134,20 +134,20 @@ void Render_Application() {
 					ktn_fscale(20.0f),
 					ktn_fscale(20.0f)
 				};
-				Render_Texture(Get_ID_Item(Data.Items_Grid[pt(Pos)])->Icon, &Item_Rect);
+				Render_Texture(Get_Item(Data.Items_Grid[pt(Pos)])->Icon, &Item_Rect);
 			}
 		}
-		Hitbox.x = Core.Mouse.X - ktn_fscale(ktn_tile_size * 0.5f);
-		Hitbox.y = Core.Mouse.Y - ktn_fscale(ktn_tile_size * 0.5f);
+		Hitbox.x = Core.Mouse.X - ktn_fscale(Core.Tile_Size * 0.5f);
+		Hitbox.y = Core.Mouse.Y - ktn_fscale(Core.Tile_Size * 0.5f);
 		Render_Texture(Textures.Cursor, &Hitbox);
 		bool Targeting = false;
 		switch (Interface.Tool) {
 		case 1:
 			Point Pos;
 			for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
-				Rects.Tile_1x1.x = ktn_fscale((Pos.X * ktn_tile_size) - Core.Camera.X);
+				Rects.Tile_1x1.x = ktn_fscale((Pos.X * Core.Tile_Size) - Core.Camera.X);
 				for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-					Rects.Tile_1x1.y = ktn_fscale((Pos.Y * ktn_tile_size) - Core.Camera.Y);
+					Rects.Tile_1x1.y = ktn_fscale((Pos.Y * Core.Tile_Size) - Core.Camera.Y);
 					if (Detect_Mouse_Collision(Rects.Tile_1x1) && !ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strzero)) {
 						Targeting = true;
 					}

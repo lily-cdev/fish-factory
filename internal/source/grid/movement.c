@@ -6,8 +6,8 @@ void Process_Movement() {
 		if (Interface.UD_Input == 0) {
 			Core.Camera.Y = Core.Camera.Y - Increment;
 			Find_Effect();
-			if (Core.Camera.Y < -ktn_buffer_size) {
-				Core.Camera.Y = -ktn_buffer_size;
+			if (Core.Camera.Y < -Core.Buffer_Size) {
+				Core.Camera.Y = -Core.Buffer_Size;
 				Interface.UD_Input = ktn_invalid;
 			}
 		} else if (Interface.UD_Input == 1) {
@@ -21,8 +21,8 @@ void Process_Movement() {
 		if (Interface.LR_Input == 0) {
 			Core.Camera.X = Core.Camera.X - Increment;
 			Find_Effect();
-			if (Core.Camera.X < -ktn_buffer_size) {
-				Core.Camera.X = -ktn_buffer_size;
+			if (Core.Camera.X < -Core.Buffer_Size) {
+				Core.Camera.X = -Core.Buffer_Size;
 				Interface.LR_Input = ktn_invalid;
 			}
 		} else if (Interface.LR_Input == 1) {

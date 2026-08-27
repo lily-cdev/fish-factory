@@ -1,5 +1,5 @@
-@echo off
+#!/usr/bin/env bash
 echo cleaning fish factory
 
-rmdir /s /q "build"
+rm -rf "build"
 mkdir "build"

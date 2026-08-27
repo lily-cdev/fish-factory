@@ -5,23 +5,11 @@ void Cycle_RTG(Point Pos, const int Rotation) {
 }
 
 void Cycle_Furnace(Point Pos, const int Rotation) {
-    Point Offset = { 0, 2 };
-	switch (Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])) {
-	case 1:
-		Offset.Y = 0;
-		break;
-	case 2:
-		Offset.X = 2;
-		Offset.Y = 0;
-		break;
-	case 3:
-		Offset.X = 2;
-		break;
-	}
-	Item_Ptr Target = Get_ID_Item(Data.Items_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y]);
+	Point Input_Pos = Get_Transformed(Get_Machine("furnace")->Inputs[0], Pos);
+	Item_Ptr Target = Get_Item(Data.Items_Grid[pt(Input_Pos)]);
 	Data.Animation_Grid[pt(Pos)][0] = 0;
-	if (Target->Chem_Energy > 0 && Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] >= 2) {
-		Data.Data_Grid[Pos.X + Offset.X][Pos.Y + Offset.Y][Stored_Fluids] -= 2;
+	if (Target->Chem_Energy > 0 && Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] >= 2) {
+		Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] -= 2;
 		Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Stored_Power] + (Target->Chem_Energy * 0.9f), Data.Data_Grid[pt(Pos)][Power_Cap]);
 		Data.Animation_Grid[pt(Pos)][0] = 1;
 	}
@@ -32,13 +20,12 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 	if (Data.Data_Grid[pt(Pos)][Stored_Power] < 2500) {
 		return;
 	}
-	Machine_Ptr Machine = Get_Machine("geo_well");
-	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
-	Point Output = Get_Transformed(Machine, Machine->Outputs[0], Pos);
+	Point Input = Get_Transformed(Get_Machine("geo_well")->Inputs[0], Pos);
+	Point Output = Get_Transformed(Get_Machine("geo_well")->Outputs[0], Pos);
 	if (Data.Data_Grid[pt(Input)][Stored_Fluids] < 10 || Data.Data_Grid[pt(Output)][Stored_Fluids] > 2) {
 		return;
 	}
-	if (!Get_ID_Item(Data.Items_Grid[pt(Input)])->Coolant) {
+	if (!Get_Item(Data.Items_Grid[pt(Input)])->Coolant) {
 		return;
 	}
 	Data.Data_Grid[pt(Pos)][Stored_Power] -= 2500;
@@ -58,31 +45,23 @@ void Cycle_HX(Point Pos, const int Rotation) {
 	if (Data.Settings_Grid[pt(Interface.Tile)][8] >= ktn_water_boil_pt) {
 		Boiling = true;
 	}
-	Point Outputs[2][4] = {
-		{ { Pos.X + 3, Pos.Y }, { Pos.X + 2, Pos.Y + 3 }, { Pos.X, Pos.Y + 2 }, Pos },
-		{ Pos, { Pos.X + 2, Pos.Y }, { Pos.X + 3, Pos.Y + 2 }, { Pos.X, Pos.Y + 3 } }
-	};
 	for (int C1 = 0; C1 < 2; C1++) {
-		Point Output_Pos = Outputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
-		if ((Data.Items_Grid[pt(Output_Pos)] == ktn_invalid || (Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[
-			pt(Output_Pos)] && !Boiling) || (Data.Items_Grid[pt(Output_Pos)] == Get_Item("steam")->ID && Boiling &&
-			C1 == 1)) && Data.Settings_Grid[pt(Pos)][C1 + 5] > 0) {
-			Data.Items_Grid[pt(Output_Pos)] = (Boiling && C1 == 1) ? Get_Item("steam")->ID : Data.Settings_Grid[pt(Pos)][C1 + 9];
+		Point Output_Pos = Get_Transformed(Get_Machine("hx")->Outputs[C1], Pos);
+		if ((strncpy(Data.Items_Grid[pt(Output_Pos)], Metadata.Null_Item.Index, 64) || (Data.Settings_Grid[pt(Pos)][C1 + 9] == Get_Item(Data.Items_Grid[
+			pt(Output_Pos)])->ID && !Boiling) || (ktn_stricmp(Data.Items_Grid[pt(Output_Pos)], Get_Item("steam")->Index) && Boiling && C1 == 1)) && Data.Settings_Grid[
+			pt(Pos)][C1 + 5] > 0) {
+			strncpy(Data.Items_Grid[pt(Output_Pos)], (Boiling && C1 == 1) ? Get_Item("steam")->Index : Get_ID_Item(Data.Settings_Grid[pt(Pos)][C1 + 9])->Index, 64);
 			float Draining_Amount = fminf(Data.Settings_Grid[pt(Pos)][C1 + 3], Data.Settings_Grid[pt(Pos)][C1 + 5]);
 			Draining_Amount = fminf(Draining_Amount, Data.Data_Grid[pt(Output_Pos)][Fluid_Cap] - Data.Data_Grid[pt(Output_Pos)][Stored_Fluids]);
 			Data.Data_Grid[pt(Output_Pos)][Stored_Fluids] += Draining_Amount;
 			Data.Settings_Grid[pt(Pos)][C1 + 5] -= Draining_Amount;
 		}
 	}
-	Point Inputs[2][4] = {
-		{ { Pos.X + 3, Pos.Y + 2 }, { Pos.X, Pos.Y + 3 }, Pos, { Pos.X + 2, Pos.Y } },
-		{ { Pos.X, Pos.Y + 2 }, Pos, { Pos.X + 3, Pos.Y }, { Pos.X + 2, Pos.Y + 3 } }
-	};
 	for (int C1 = 0; C1 < 2; C1++) {
-		Point Input_Pos = Inputs[C1][Visual_To_Rotation(Data.Visual_Grid[pt(Pos)])];
-		if (Get_ID_Item(Data.Items_Grid[pt(Input_Pos)])->Coolant && (Data.Settings_Grid[pt(Pos)][C1 + 9] == ktn_invalid ||
-			Data.Settings_Grid[pt(Pos)][C1 + 9] == Data.Items_Grid[pt(Input_Pos)])) {
-			Data.Settings_Grid[pt(Pos)][C1 + 9] = Data.Items_Grid[pt(Input_Pos)];
+		Point Input_Pos = Get_Transformed(Get_Machine("hx")->Inputs[C1], Pos);
+		if (Get_Item(Data.Items_Grid[pt(Input_Pos)])->Coolant && (Data.Settings_Grid[pt(Pos)][C1 + 9] == ktn_invalid || Data.Settings_Grid[pt(Pos)][C1 + 9] ==
+			Get_Item(Data.Items_Grid[pt(Input_Pos)])->ID)) {
+			Data.Settings_Grid[pt(Pos)][C1 + 9] = Get_Item(Data.Items_Grid[pt(Input_Pos)])->ID;
 			int Volume = Data.Settings_Grid[pt(Pos)][C1 + 5], Intake = 0;
 			if (Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > 0 && Volume < ktn_hx_cap) {
 				if (Volume + Data.Data_Grid[pt(Input_Pos)][Stored_Fluids] > ktn_hx_cap) {
@@ -123,9 +102,8 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
-	Machine_Ptr Machine = Get_Machine("turbine_input");
-	Point Input = Get_Transformed(Machine, Machine->Inputs[0], Pos);
-	if (Data.Items_Grid[pt(Input)] != Get_Item("steam")->ID) {
+	Point Input = Get_Transformed(Get_Machine("turbine_input")->Inputs[0], Pos);
+	if (ktn_stricmp(Data.Items_Grid[pt(Input)], Get_Item("steam")->Index)) {
 		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
@@ -133,10 +111,9 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 		Data.Settings_Grid[pt(Pos)][9] = fmaxf(0, Data.Settings_Grid[pt(Pos)][9] - Delta);
 		return;
 	}
-	Machine_Ptr Submachine = Get_Machine("turbine_output");
 	Data.Data_Grid[pt(Input)][Stored_Fluids] -= 20;
 	Point End = { Data.Settings_Grid[pt(Pos)][5], Data.Settings_Grid[pt(Pos)][6] };
-	Point Output = Get_Transformed(Submachine, Submachine->Outputs[0], End);
+	Point Output = Get_Transformed(Get_Machine("turbine_output")->Outputs[0], End);
 	float Temp = Data.Temperature_Grid[pt(Input)];
 	float Target = ((((fminf(Data.Settings_Grid[pt(Pos)][3], 5) * 0.1f) + 1.0f) * 120000000.0f) * Temp) / 600.0f;
 	Data.Settings_Grid[pt(Pos)][8] = Target;
@@ -144,5 +121,5 @@ void Cycle_Turbine_Input(Point Pos, const int Rotation) {
 	Data.Settings_Grid[pt(Pos)][9] = (Current > Target) ? fmaxf(Current - Delta, Target) : fminf(Current + Delta, Target);
 	Data.Data_Grid[pt(Pos)][Stored_Power] = fminf(Data.Data_Grid[pt(Pos)][Stored_Power] + Data.Settings_Grid[pt(Pos)][9], Data.Data_Grid[pt(Pos)][Power_Cap]);
 	Data.Data_Grid[pt(Output)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Output)][Stored_Fluids] + 20, Data.Data_Grid[pt(Output)][Fluid_Cap]);
-	Update_Item(Output, Get_Item("water")->ID, fminf(Temp, 90));
+	Update_Item(Output, Get_Item("water")->Index, fminf(Temp, 90));
 }

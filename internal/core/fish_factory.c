@@ -27,7 +27,6 @@ void (*Menu_Functions[7])() = {
 
 int main(int argc, char* args[]) {
 	Reseed_State();
-	SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "x11");
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
 		//get exception text
@@ -36,7 +35,9 @@ int main(int argc, char* args[]) {
 		exit(Exception_Value);
 	}
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
-		ktn_jump(I_No_SDL3, "could not load SDL3");
+		char Carrier[128];
+		snprintf(Carrier, sizeof(Carrier), "could not load SDL3; %s", SDL_GetError());
+		ktn_jump(I_No_SDL3, Carrier);
 	}
 	if (!TTF_Init()) {
 		ktn_jump(I_No_SDL3_TTF, "could not load SDL3_ttf");
@@ -77,7 +78,7 @@ int main(int argc, char* args[]) {
 			Adjust_Audio();
 			if (Data.CMD_Placed) {
 				if (Data.Time < 1440) {
-					if (Interface.Time_Frames < Interface.Max_Time_Frames) {
+					if (Interface.Time_Frames < Interface.Max_Time_Frames / Interface.Time_Positions[Interface.Slider_Positions[15]]) {
 						Interface.Time_Frames++;
 					} else {
 						Interface.Time_Frames = 0;
@@ -90,6 +91,7 @@ int main(int argc, char* args[]) {
 					}
 				} else if (Interface.Prompt_Identifier != P_Daily_Report) {
 					Interface.Prompt_Identifier = P_Daily_Report;
+					SDL_ShowCursor();
 					Interface.Tool = ktn_invalid;
 				}
 			} else {

@@ -2,7 +2,8 @@
 
 #define check_output() if (Chosen.Output_Items[C1]->ID == Metadata.Null_Item.ID) { continue; }
 
-Point Get_Transformed(Machine_Ptr Machine, Node_Data Node, Point Pos) {
+Point Get_Transformed(Node_Data Node, Point Pos) {
+	Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 	Point Yield = Rotate_Pt(Node.Pos, Machine->Size, Visual_To_Rotation(Data.Visual_Grid[pt(Pos)]));
 	Yield.X += Pos.X;
 	Yield.Y += Pos.Y;
@@ -21,7 +22,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 	int Output_Ct = Chosen.Machine->Output_Ct;
 	Outputs = malloc(sizeof(Point) * Output_Ct);
 	for (int C1 = 0; C1 < Output_Ct; C1++) {
-		Outputs[C1] = Get_Transformed(Chosen.Machine, Chosen.Machine->Outputs[C1], Pos);
+		Outputs[C1] = Get_Transformed(Chosen.Machine->Outputs[C1], Pos);
 	}
 	if (Chosen.Time == 1) {
 		if (Data.Data_Grid[pt(Pos)][Stored_Power] >= Chosen.Power) {
@@ -35,7 +36,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 			Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
 				Point Pos = Outputs[C1];
 				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 			}
@@ -66,10 +67,10 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 	int Output_Ct = Chosen.Machine->Output_Ct;
 	Outputs = malloc(sizeof(Point) * Output_Ct);
 	for (int C1 = 0; C1 < Input_Ct; C1++) {
-		Inputs[C1] = Get_Transformed(Chosen.Machine, Chosen.Machine->Inputs[C1], Pos);
+		Inputs[C1] = Get_Transformed(Chosen.Machine->Inputs[C1], Pos);
 	}
 	for (int C1 = 0; C1 < Output_Ct; C1++) {
-		Outputs[C1] = Get_Transformed(Chosen.Machine, Chosen.Machine->Outputs[C1], Pos);
+		Outputs[C1] = Get_Transformed(Chosen.Machine->Outputs[C1], Pos);
 	}
 	if (Chosen.Time == 1) {
 		if (Data.Data_Grid[pt(Pos)][Stored_Power] < Chosen.Power) {
@@ -82,7 +83,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				}
 			}
 			for (int C1 = 0; C1 < Chosen.Machine->Input_Ct; C1++) {
-				if (Data.Items_Grid[pt(Inputs[C1])] != Chosen.Input_Items[C1]->ID) {
+				if (!ktn_stricmp(Data.Items_Grid[pt(Inputs[C1])], Chosen.Input_Items[C1]->Index)) {
 					return false;
 				}
 			}
@@ -98,7 +99,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			}
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
 				Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[
 					pt(Outputs[C1])][Fluid_Cap]);
 			}
@@ -107,7 +108,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			for (int C1 = 0; C1 < Input_Ct; C1++) {
 				bool Found = false;
 				for (int C2 = 0; C2 < Input_Ct; C2++) {
-					if (Chosen.Input_Items[C1]->ID == Data.Items_Grid[pt(Inputs[C2])]) {
+					if (ktn_stricmp(Chosen.Input_Items[C1]->Index, Data.Items_Grid[pt(Inputs[C2])])) {
 						Found = true;
 						Subinputs[C1] = Inputs[C2];
 						break;
@@ -131,7 +132,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			}
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
 				Point Pos = Outputs[C1];
 				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 			}
@@ -150,7 +151,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				}
 			}
 			for (int C1 = 0; C1 < Chosen.Machine->Input_Ct; C1++) {
-				if (Data.Items_Grid[pt(Inputs[C1])] != Chosen.Input_Items[C1]->ID) {
+				if (ktn_stricmp(Data.Items_Grid[pt(Inputs[C1])], Chosen.Input_Items[C1]->Index)) {
 					return false;
 				}
 			}
@@ -179,7 +180,7 @@ bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 	int Output_Ct = Chosen.Machine->Output_Ct;
 	Outputs = malloc(sizeof(Point) * Output_Ct);
 	for (int C1 = 0; C1 < Output_Ct; C1++) {
-		Outputs[C1] = Get_Transformed(Chosen.Machine, Chosen.Machine->Outputs[C1], Pos);
+		Outputs[C1] = Get_Transformed(Chosen.Machine->Outputs[C1], Pos);
 	}
 	Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 	if (Data.Settings_Grid[pt(Pos)][S_Time] < ktn_epsilon) {
@@ -187,7 +188,7 @@ bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 		Data.Animation_Grid[pt(Pos)][0] = 0.0f;
 		for (int C1 = 0; C1 < Output_Ct; C1++) {
 			check_output();
-			Update_Item(Outputs[C1], Chosen.Output_Items[C1]->ID, ktn_room_temp);
+			Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
 			Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[
 				pt(Outputs[C1])][Fluid_Cap]);
 		}
