@@ -17,7 +17,7 @@ void Cancel_Tutorial(Parameter Unused, Parameter Unused2);
 void Machine_Clear(Parameter Unused, Parameter Unused2);
 void CMD_Tutorial(Parameter Unused, Parameter Unused2);
 void Gen_Tutorial(Parameter Unused, Parameter Unused2);
-void Fish_Tutorial(Parameter Unused, Parameter Unused2);
+void Farm_Tutorial(Parameter Unused, Parameter Unused2);
 void Apply_M_Cheat(Parameter Machine, Parameter Unused);
 void Set_M_Cheat(Parameter Machine, Parameter Unused);
 void Apply_P_Cheat(Parameter Machine, Parameter Unused);

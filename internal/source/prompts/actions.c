@@ -72,10 +72,10 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
 		{ T_Placement, 0, 0, "", "cable_node", { { 6, 8 }, ktn_null_point }, NULL, "transport power between machines" },
 		{ T_Key, 8, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the plumbing tool" },
-		{ 3, 0, 0, "", ktn_strzero, { { 3, 5 }, { 3, 6 }, { 4, 5 }, { 4, 6 }, { 5, 5 }, { 5, 6 }, { 6, 5 }, { 6, 6 }, { 7, 5 }, { 7, 6 }, { 8, 5 }, { 8, 6 }, { 9, 5 },
-			{ 9, 6 }, { 10, 5 }, { 10, 6 }, { 11, 5 }, { 11, 6 }, { 12, 5 }, { 12, 6 }, { 3, 6 }, { 3, 7 }, { 3, 7 }, { 3, 8 }, { 12, 6 }, { 11, 6 }, { 11, 6 },
-			{ 10, 6 }, { 10, 6 }, { 9, 6 }, { 9, 6 }, { 8, 6 }, { 8, 6 }, { 7, 6 }, { 7, 6 }, { 6, 6 }, { 6, 6 }, { 5, 6 }, { 5, 6 }, { 4, 6 }, { 4, 6 }, { 3, 6 },
-			{ 3, 8 }, { 4, 8 }, { 5, 7 }, { 6, 7 }, { 6, 7 }, { 7, 7 }, { 5, 9 }, { 6, 9 }, ktn_null_point }, NULL, "allow fluids to flow" },
+		{ 3, 0, 0, "", ktn_strzero, { { 3, 5 }, { 3, 6 }, { 4, 5 }, { 4, 6 }, { 5, 5 }, { 5, 6 }, { 6, 5 }, { 6, 6 }, { 7, 5 }, { 7, 6 }, { 8, 5 }, { 8, 6 },
+			{ 9, 5 }, { 9, 6 }, { 10, 5 }, { 10, 6 }, { 11, 5 }, { 11, 6 }, { 12, 5 }, { 12, 6 }, { 3, 6 }, { 3, 7 }, { 3, 7 }, { 3, 8 }, { 12, 6 }, { 11, 6 },
+			{ 11, 6 }, { 10, 6 }, { 10, 6 }, { 9, 6 }, { 9, 6 }, { 8, 6 }, { 8, 6 }, { 7, 6 }, { 7, 6 }, { 6, 6 }, { 6, 6 }, { 5, 6 }, { 5, 6 }, { 4, 6 },
+			{ 4, 6 }, { 3, 6 }, { 3, 8 }, { 4, 8 }, { 5, 7 }, { 6, 7 }, { 6, 7 }, { 7, 7 }, { 5, 9 }, { 6, 9 }, ktn_null_point }, NULL, "allow items to flow" },
 		{ T_Key, 7, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the wiring tool" },
 		{ 4, 0, 0, "", ktn_strzero, { { 6, 8 }, { 3, 3 }, { 6, 8 }, { 5, 3 }, { 6, 8 }, { 7, 3 }, { 6, 8 }, { 9, 3 }, { 6, 8 }, { 11, 3 }, { 6, 8 }, { 4, 7 },
 			ktn_null_point }, NULL, "allow power to be distributed" },
@@ -83,7 +83,7 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
 		{ T_Button, 0, 0, "generation", ktn_strzero, { ktn_null_point }, NULL, "open the \"generation\" category", "generation" },
 		{ T_Button, 0, 0, "radioisotopic generator", ktn_strzero, { ktn_null_point }, NULL, "select the \"radioisotopic generator\" item", "rtg" },
-		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },//end
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
 		{ T_Placement, 0, 0, "", "rtg_0", { { 10, 7 }, { 11, 7 }, { 12, 7 }, ktn_null_point }, NULL, "generate a supply of power" },
 		{ T_Key, 7, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the wiring tool" },
 		{ 4, 0, 0, "", ktn_strzero, { { 10, 7 }, { 6, 8 }, { 11, 7 }, { 6, 8 }, { 12, 7 }, { 6, 8 }, ktn_null_point }, NULL, "power the setup" },
@@ -97,8 +97,78 @@ void Gen_Tutorial(Parameter Unused, Parameter Unused2) {
 	Interface.Prompt_Identifier = P_None;
 }
 
-void Fish_Tutorial(Parameter Unused, Parameter Unused2) {
-	Temporary.Tutorial_Step = ktn_invalid;
+void Farm_Tutorial(Parameter Unused, Parameter Unused2) {
+	Tutorial_Step Template[256] = {
+		{ T_Key, 4, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the build tool" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "extraction", ktn_strzero, { ktn_null_point }, NULL, "open the \"extraction\" category", "extraction" },
+		{ T_Button, 0, 0, "shallow drill", ktn_strzero, { ktn_null_point }, NULL, "select the \"shallow drill\" item", "shallow_drill" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "shallow_drill_0", { { 13, 0 }, ktn_null_point }, NULL, "dig up sediment" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "processing", ktn_strzero, { ktn_null_point }, NULL, "open the \"processing\" category", "processing" },
+		{ T_Button, 0, 0, "filtration plant", ktn_strzero, { ktn_null_point }, NULL, "select the \"filtration plant\" item", "filtration_plant" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "filtration_plant_0", { { 16, 0 }, ktn_null_point }, NULL, "filter items" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "other", ktn_strzero, { ktn_null_point }, NULL, "open the \"other\" category", "other" },
+		{ T_Button, 0, 0, "incinerator", ktn_strzero, { ktn_null_point }, NULL, "select the \"incinerator\" item", "incinerator" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "incinerator_0", { { 18, 2 }, ktn_null_point }, NULL, "dispose of unwanted byproducts" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "processing", ktn_strzero, { ktn_null_point }, NULL, "open the \"processing\" category", "processing" },
+		{ T_Button, 0, 0, "molder", ktn_strzero, { ktn_null_point }, NULL, "select the \"molder\" item", "molder" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Key, 11, 0, "", ktn_strzero, { ktn_null_point }, NULL, "rotate the machine" },
+		{ T_Placement, 0, 0, "", "molder_1", { { 20, 0 }, ktn_null_point }, NULL, "mold clay into unfired bricks" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "processing", ktn_strzero, { ktn_null_point }, NULL, "open the \"processing\" category", "processing" },
+		{ T_Button, 0, 0, "kiln", ktn_strzero, { ktn_null_point }, NULL, "select the \"kiln\" item", "kiln" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Key, 11, 0, "", ktn_strzero, { ktn_null_point }, NULL, "rotate the machine" },
+		{ T_Key, 11, 0, "", ktn_strzero, { ktn_null_point }, NULL, "rotate the machine" },
+		{ T_Placement, 0, 0, "", "kiln_2", { { 18, 3 }, ktn_null_point }, NULL, "cook unfired bricks" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "logistics", ktn_strzero, { ktn_null_point }, NULL, "open the \"logistics\" category", "logistics" },
+		{ T_Button, 0, 0, "cable node", ktn_strzero, { ktn_null_point }, NULL, "select the \"cable node\" item", "cable_node" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "cable_node", { { 15, 2 }, ktn_null_point }, NULL, "transport power between machines" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "logistics", ktn_strzero, { ktn_null_point }, NULL, "open the \"logistics\" category", "logistics" },
+		{ T_Button, 0, 0, "submarine dock", ktn_strzero, { ktn_null_point }, NULL, "select the \"submarine dock\" item", "sub_dock" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "sub_dock", { { 21, 0 }, ktn_null_point }, NULL, "sell finished products" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "logistics", ktn_strzero, { ktn_null_point }, NULL, "open the \"logistics\" category", "logistics" },
+		{ T_Button, 0, Core.Categories, "reinforced", ktn_strzero, { ktn_null_point }, NULL, "open the \"reinforced\" subcategory", "heavy" },
+		{ T_Button, 0, 0, "reinforced pipe", ktn_strzero, { ktn_null_point }, NULL, "select the \"reinforced pipe\" item", "heavy_pipe" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", ktn_strzero, { { 15, 0 }, { 15, 1 }, { 18, 0 }, { 19, 0 }, { 18, 1 }, { 19, 1 }, { 19, 2 }, { 19, 5 }, { 20, 5 }, { 21, 5 },
+			{ 21, 4 }, ktn_null_point }, Get_Machine("heavy_pipe"), "transport items between machines" },
+		{ T_Key, 8, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the plumbing tool" },
+		{ 3, 0, 0, "", ktn_strzero, { { 14, 0 }, { 15, 0 }, { 14, 1 }, { 15, 1 }, { 15, 1 }, { 16, 1 }, { 17, 0 }, { 18, 0 }, { 18, 0 }, { 19, 0 }, { 17, 1 },
+			{ 18, 1 }, { 17, 2 }, { 18, 2 }, { 19, 5 }, { 20, 5 }, { 20, 5 }, { 21, 5 }, { 18, 1 }, { 18, 2 }, { 19, 0 }, { 20, 0 }, { 20, 1 }, { 19, 1 },
+			{ 19, 1 }, { 19, 2 }, { 19, 2 }, { 19, 3 }, { 15, 0 }, { 15, 1 }, { 19, 4 }, { 19, 5 }, { 21, 5 }, { 21, 4 }, { 21, 4 }, { 21, 3 }, ktn_null_point },
+			NULL, "allow items to flow" },
+		{ T_Key, 7, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the wiring tool" },
+		{ 4, 0, 0, "", ktn_strzero, { { 15, 2 }, { 13, 0 }, { 15, 2 }, { 16, 0 }, { 15, 2 }, { 18, 3 }, ktn_null_point }, NULL,
+			"allow power to be distributed" },
+		{ T_Key, 4, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the build tool" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "open the catalog" },
+		{ T_Button, 0, 0, "generation", ktn_strzero, { ktn_null_point }, NULL, "open the \"generation\" category", "generation" },
+		{ T_Button, 0, 0, "radioisotopic generator", ktn_strzero, { ktn_null_point }, NULL, "select the \"radioisotopic generator\" item", "rtg" },
+		{ T_Key, 9, 0, "", ktn_strzero, { ktn_null_point }, NULL, "close the catalog" },
+		{ T_Placement, 0, 0, "", "rtg_0", { { 20, 2 }, { 20, 3 }, { 20, 4 }, ktn_null_point }, NULL, "generate a supply of power" },
+		{ T_Key, 7, 0, "", ktn_strzero, { ktn_null_point }, NULL, "enable the wiring tool" },
+		{ 4, 0, 0, "", ktn_strzero, { { 20, 2 }, { 15, 2 }, { 20, 3 }, { 15, 2 }, { 20, 4 }, { 15, 2 }, ktn_null_point }, NULL, "power the setup" },
+		{ T_Key, 7, 0, "", ktn_strzero, { ktn_null_point }, NULL, "disable the wiring tool" },
+		{ T_Terminator }
+	};
+	ktn_memcpy(Tutorial_Stack, Template, sizeof(Template));
+	Temporary.Tutorial_Size = (Point){ 14, 6 };
+	Temporary.Tutorial_Offset = (Point){ 10, -3 };
+	Temporary.Tutorial_Step = 0;
+	Interface.Prompt_Identifier = P_None;
 }
 
 void Apply_M_Cheat(Parameter Machine, Parameter Unused) {

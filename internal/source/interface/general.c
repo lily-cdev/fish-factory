@@ -44,6 +44,8 @@ void Process_Inputs() {
 							if (Interface.Tool == T_Building) {
 								Interface.Prompt_Identifier = P_Shop;
 								Interface.Building = false;
+								Interface.Rotation = 0;
+								Cache_Blueprint();
 							}
 						} else if (Application_Event.key.key == Keybinds.Keybind_List[10]) {
 							if (Interface.Tool == T_None) {
@@ -159,7 +161,7 @@ void Process_Inputs() {
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_UP:
 			if (Interface.UI_Tab == 0) {
-				if (Interface.Prompt_Identifier == P_None && Interface.Engagement == 0) {
+				if (Interface.Engagement == 0) {
 					Interface.Building = false;
 				} else if (Interface.Engagement > 0) {
 					switch (Interface.Prompt_Identifier) {
@@ -211,8 +213,8 @@ void Process_Inputs() {
 							Interface.UI_Query.Carrier(Interface.UI_Query.Param, Interface.UI_Query.Param2);
 							Play_Sound(Click, false);
 						} else {
-							if (!Interface.Bar_Up && Interface.UI_Tab == 0) {
-								if (Interface.Tool == T_Building && Interface.Prompt_Identifier == P_None) {
+							if (!Interface.Bar_Up && Interface.UI_Tab == 0 && Interface.Prompt_Identifier == P_None) {
+								if (Interface.Tool == T_Building) {
 									Interface.Building = true;
 								} else if (Interface.Tool == T_Deleting) {
 									Destroy_Grid();

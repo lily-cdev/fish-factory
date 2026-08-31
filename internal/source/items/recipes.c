@@ -100,8 +100,8 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
 				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
-				Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[
-					pt(Outputs[C1])][Fluid_Cap]);
+				Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1],
+					Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap]);
 			}
 		} else {
 			Point* Subinputs = malloc(sizeof(Point) * Input_Ct);
@@ -134,7 +134,8 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				check_output();
 				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
 				Point Pos = Outputs[C1];
-				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
+				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][
+					Fluid_Cap]);
 			}
 			ktn_free(Subinputs);
 		}
@@ -151,7 +152,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 				}
 			}
 			for (int C1 = 0; C1 < Chosen.Machine->Input_Ct; C1++) {
-				if (ktn_stricmp(Data.Items_Grid[pt(Inputs[C1])], Chosen.Input_Items[C1]->Index)) {
+				if (!ktn_stricmp(Data.Items_Grid[pt(Inputs[C1])], Chosen.Input_Items[C1]->Index)) {
 					return false;
 				}
 			}

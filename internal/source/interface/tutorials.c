@@ -84,11 +84,12 @@ void Render_Tutorial() {
 			int X;
 			int Y;
 			ID_To_Size((Step.ID_Override) ? Get_Machine(Step.ID_Override->Index) : Visual_To_Machine(Step.Item), 0, &X, &Y);
+			bool Inverted = ktn_evn((Step.ID_Override) ? 0 : Visual_To_Rotation(Step.Item));
 			SDL_FRect Outline_Rectangle = {
 				ktn_fscale((Step.Placement_Locations[C1].X * Core.Tile_Size) - Core.Camera.X),
 				ktn_fscale((Step.Placement_Locations[C1].Y * Core.Tile_Size) - Core.Camera.Y),
-				ktn_fscale(X * Core.Tile_Size),
-				ktn_fscale(Y * Core.Tile_Size)
+				ktn_fscale(((Inverted) ? X : Y) * Core.Tile_Size),
+				ktn_fscale(((Inverted) ? Y : X) * Core.Tile_Size)
 			};
 			Cache.ID_Query[Cache.Query_Length] = 0;
 			Cache.Query[Cache.Query_Length] = Outline_Rectangle;
