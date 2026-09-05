@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>lathe</Name>
+	<Desc>Can perform basic machining.</Desc>
+	<Index>lathe</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>rl_drag</Texture_Type>
+	<Start>0.1</Start>
+	<Return>1.0</Return>
+	<End>1.0</End>
+	<Delta>16</Delta>
+	<Path>core/images/machines/lathe</Path>
+	<Price>920</Price>
+	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>1</Height>
+	<Rot_ID />
+	<Power_Type>none</Power_Type>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>3</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>2</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>2</Cap>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>2</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

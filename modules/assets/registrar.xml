@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>47</Machine_Ct>
+	<Machine_Ct>48</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -49,8 +49,9 @@
 		<Machine>core/xml/machines/o_pump</Machine>
 		<Machine>core/xml/machines/polymerizer</Machine>
 		<Machine>core/xml/machines/s_cracker</Machine>
+		<Machine>core/xml/machines/lathe</Machine>
 	</Machines>
-	<Item_Ct>57</Item_Ct>
+	<Item_Ct>67</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -77,7 +78,7 @@
 		<Item>core/xml/items/r_brick</Item>
 		<Item>core/xml/items/brick</Item>
 		<Item>core/xml/items/l_glass</Item>
-		<Item>core/xml/items/glass</Item>
+		<Item>core/xml/items/g_bar</Item>
 		<Item>core/xml/items/basalt</Item>
 		<Item>core/xml/items/plagioclase</Item>
 		<Item>core/xml/items/pyroxene</Item>
@@ -109,8 +110,18 @@
 		<Item>core/xml/items/pe_bar</Item>
 		<Item>core/xml/items/l_polypropylene</Item>
 		<Item>core/xml/items/l_polyethylene</Item>
+		<Item>core/xml/items/s_rod</Item>
+		<Item>core/xml/items/s_scrap</Item>
+		<Item>core/xml/items/si_rod</Item>
+		<Item>core/xml/items/si_scrap</Item>
+		<Item>core/xml/items/g_rod</Item>
+		<Item>core/xml/items/g_scrap</Item>
+		<Item>core/xml/items/i_rod</Item>
+		<Item>core/xml/items/i_scrap</Item>
+		<Item>core/xml/items/pp_rod</Item>
+		<Item>core/xml/items/pe_rod</Item>
 	</Items>
-	<Recipe_Ct>37</Recipe_Ct>
+	<Recipe_Ct>47</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -149,6 +160,16 @@
 		<Recipe>core/xml/recipes/k_peplastic</Recipe>
 		<Recipe>core/xml/recipes/m_lpolypropylene</Recipe>
 		<Recipe>core/xml/recipes/m_lpolyethylene</Recipe>
+		<Recipe>core/xml/recipes/l_sbar</Recipe>
+		<Recipe>core/xml/recipes/k_sscrap</Recipe>
+		<Recipe>core/xml/recipes/l_gbar</Recipe>
+		<Recipe>core/xml/recipes/k_gscrap</Recipe>
+		<Recipe>core/xml/recipes/l_ibar</Recipe>
+		<Recipe>core/xml/recipes/k_iscrap</Recipe>
+		<Recipe>core/xml/recipes/l_sibar</Recipe>
+		<Recipe>core/xml/recipes/k_siscrap</Recipe>
+		<Recipe>core/xml/recipes/l_ppbar</Recipe>
+		<Recipe>core/xml/recipes/l_pebar</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

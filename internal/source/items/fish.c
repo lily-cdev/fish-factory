@@ -22,7 +22,6 @@ void Get_Phase_Name(char* Buffer, int Length, Fish_Ptr Fish, int Progress, int C
 		return;
 	}
 	snprintf(Buffer, Length, "%s%s", Plural_Growth_Phases[Get_Phase(Fish, Progress)], Subbuffer);
-	return;
 }
 
 Fish_Ptr Get_Fish(int Identifier) {

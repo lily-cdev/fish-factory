@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>l_pebar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>0</Power>
+	<Parent>lathe</Parent>
+	<Inputs>
+		<Input>
+			<Item>polyethylene_bar</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>polyethylene</Item>
+			<Volume>1.0</Volume>
+		</Output>
+		<Output>
+			<Item>polyethylene_rod</Item>
+			<Volume>1.0</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

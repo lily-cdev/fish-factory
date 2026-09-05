@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>k_siscrap</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>5</Time>
+	<Power>1000</Power>
+	<Parent>kiln</Parent>
+	<Inputs>
+		<Input>
+			<Item>silicon_scrap</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>liquid_silicon</Item>
+			<Volume>2.0</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

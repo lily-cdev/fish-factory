@@ -90,10 +90,9 @@ void Verify_Settings() {
 			break;
 		}
 	}
-	if (Settings.Scalar != Interface.Slider_Positions[0] + 1 || Keybinds_Altered || (int)(Settings.AA_Temporary) !=
-		Settings.Anti_Aliasing || (int)(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS !=
-		Interface.Slider_Positions[4] || Settings.Volume != Interface.Slider_Positions[5] || Interface.Slider_Positions[6] !=
-		Settings.Fullscreen) {
+	if (Settings.Scalar != Interface.Slider_Positions[0] + 1 || Keybinds_Altered || (int)(Settings.AA_Temporary) != Settings.Anti_Aliasing ||
+		(int)(Settings.VS_Temporary) != Settings.VSync || Settings.Raw_FPS != Interface.Slider_Positions[4] || Settings.Volume !=
+		Interface.Slider_Positions[5] || Interface.Slider_Positions[6] != Settings.Fullscreen) {
 		Render_Button(&Textures.Apply, &Rects.Apply, (UI_Link){ Apply_Configs }, Colors.Cherry_Blossom);
 		Render_Button(&Textures.Cancel, &Rects.Cancel, (UI_Link){ Clear_Configs }, Colors.Cherry_Blossom);
 	}
@@ -107,7 +106,11 @@ void Render_Tile_Prompts() {
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
-			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+			Point Pos = { Column, Row };
+			if (ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strnull)) {
+				Pos = (Point){ (int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY]) };
+			}
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				return;
 			}
@@ -125,9 +128,8 @@ void Render_Tile_Prompts() {
 			SDL_FRect Carrying_Rectangle = {
 				Core.Screenhalfsize.X - (Carrier->w * 0.5f), Core.Screenhalfsize.X, Carrier->w, Carrier->h
 			};
-			Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 },
-				(Carrying_Rectangle.w / Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
-				Colors.Dark_Grey);
+			Render_Box((Point){ (Carrying_Rectangle.x / Settings.Scalar) - 4, (Carrying_Rectangle.y / Settings.Scalar) - 4 }, (Carrying_Rectangle.w /
+				Settings.Scalar) + 8, (Carrying_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey, Colors.Dark_Grey);
 			Render_Texture(Carrier, &Carrying_Rectangle);
 			ktn_free_texture(Carrier);
 			return;
@@ -143,7 +145,11 @@ void Render_Interaction() {
 			if (!Detect_Mouse_Collision(Rects.Tile_1x1)) {
 				continue;
 			}
-			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+			Point Pos = { Column, Row };
+			if (ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strnull)) {
+				Pos = (Point){ (int)(Data.Settings_Grid[pt(Pos)][S_ParentX]), (int)(Data.Settings_Grid[pt(Pos)][S_ParentY]) };
+			}
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
 			if (!Machine) {
 				return;
 			}
@@ -160,18 +166,18 @@ void Render_Interaction() {
 				Interface.Prompt_Identifier = P_Exchanger;
 			} else if (ktn_stricmp((*Machine).Index, "money_cheat")) {
 				Interface.Prompt_Identifier = P_Money_Generator;
-				Apply_M_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+				Apply_M_Cheat((Parameter){ .Pos = Pos }, (Parameter){ });
 			} else if (ktn_stricmp((*Machine).Index, "fluid_cheat")) {
 				Interface.Prompt_Identifier = P_Fluid_Generator;
-				Apply_F_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+				Apply_F_Cheat((Parameter){ .Pos = Pos }, (Parameter){ });
 			} else if (ktn_stricmp((*Machine).Index, "turbine_input")) {
 				Interface.Prompt_Identifier = P_Turbine;
 			} else if (ktn_stricmp((*Machine).Index, "power_cheat")) {
 				Interface.Prompt_Identifier = P_Power_Generator;
-				Apply_P_Cheat((Parameter){ .Pos = (Point){ Column, Row } }, (Parameter){ });
+				Apply_P_Cheat((Parameter){ .Pos = Pos }, (Parameter){ });
 			}
 			Interface.Building = false;
-			Interface.Tile = (Point){ Column, Row };
+			Interface.Tile = Pos;
 			return;
 		}
 	}

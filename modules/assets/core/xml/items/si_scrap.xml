@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>silicon scrap</Name>
+	<Index>silicon_scrap</Index>
+	<ID>67</ID>
+	<Path>core/images/items/scrap_base</Path>
+	<Uniform />
+	<R1>17</R1>
+	<G1>23</G1>
+	<B1>94</B1>
+	<R2>128</R2>
+	<G2>130</G2>
+	<B2>133</B2>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5909</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

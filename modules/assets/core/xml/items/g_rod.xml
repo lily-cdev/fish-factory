@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>glass</Name>
-	<Index>glass</Index>
-	<ID>26</ID>
-	<Path>core/images/items/bar_base</Path>
+	<Name>glass rod</Name>
+	<Index>glass_rod</Index>
+	<ID>60</ID>
+	<Path>core/images/items/rod_base</Path>
 	<Uniform />
 	<R1>169</R1>
 	<G1>200</G1>
@@ -13,7 +13,7 @@
 	<B2>228</B2>
 	<Hazard>none</Hazard>
 	<Value>mid</Value>
-	<Price>120</Price>
+	<Price>140</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Boil_Pt>4082</Boil_Pt>
 	<V_Enthalpy>solid</V_Enthalpy>
