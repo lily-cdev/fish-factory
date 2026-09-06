@@ -140,6 +140,7 @@ int main(int argc, char* args[]) {
 	Free_Supplies();
 	SDL_ShowCursor();
 	Cleanup_Assets();
+	ma_engine_stop(&Audio.Engine);
 	Free_Sounds();
 	SDL_DestroyRenderer(Core.Renderer);
 	SDL_DestroyWindow(Core.Window);

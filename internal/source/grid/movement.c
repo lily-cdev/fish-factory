@@ -13,8 +13,8 @@ void Process_Movement() {
 		} else if (Interface.UD_Input == 1) {
 			Core.Camera.Y = Core.Camera.Y + Increment;
 			Find_Effect();
-			if (Core.Camera.Y > Interface.Map_Y) {
-				Core.Camera.Y = Interface.Map_Y;
+			if (Core.Camera.Y > Interface.Map_Y * 2) {
+				Core.Camera.Y = Interface.Map_Y * 2;
 				Interface.UD_Input = ktn_invalid;
 			}
 		}

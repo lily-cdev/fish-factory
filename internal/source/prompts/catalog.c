@@ -81,7 +81,15 @@ void Render_Catalog(Point Pos) {
 			if (Metadata.Recipes[C1].Voiding_Excess) {
 				strcat(Candidate, ", cannot overflow");
 			}
-			Process_Supply(&Supplies.Catalog1[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 16, Offset });
+			SDL_Texture* Carrier = Render_Text(F_Subtext, Candidate, Colors.Abyss_Black);
+			SDL_FRect Rect = {
+				ktn_fscale(16),
+				ktn_fscale(Offset),
+				Carrier->w,
+				Carrier->h
+			};
+			Render_Texture(Carrier, &Rect);
+			ktn_free_texture(Carrier);
 			Offset += 20;
 			strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Input_Ct; C3++) {
@@ -95,7 +103,15 @@ void Render_Catalog(Point Pos) {
 				}
 			}
 			if (Metadata.Recipes[C1].Machine->Input_Ct > 0) {
-				Process_Supply(&Supplies.Catalog2[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
+				SDL_Texture* Carrier = Render_Text(F_Subtext, Candidate, Colors.Abyss_Black);
+				SDL_FRect Rect = {
+					ktn_fscale(26),
+					ktn_fscale(Offset),
+					Carrier->w,
+					Carrier->h
+				};
+				Render_Texture(Carrier, &Rect);
+				ktn_free_texture(Carrier);
 				Offset += 20;
 			}
 			strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
@@ -113,7 +129,16 @@ void Render_Catalog(Point Pos) {
 				}
 			}
 			if (Metadata.Recipes[C1].Machine->Output_Ct > 0) {
-				Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
+				//Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
+				SDL_Texture* Carrier = Render_Text(F_Subtext, Candidate, Colors.Abyss_Black);
+				SDL_FRect Rect = {
+					ktn_fscale(26),
+					ktn_fscale(Offset),
+					Carrier->w,
+					Carrier->h
+				};
+				Render_Texture(Carrier, &Rect);
+				ktn_free_texture(Carrier);
 				Offset += 20;
 			}
 			Number++;

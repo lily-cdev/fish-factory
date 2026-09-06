@@ -272,6 +272,7 @@ void Reload_All(bool Initialized) {
 	SDL_SetWindowSize(Core.Window, (int)Core.Screensize.X, (int)Core.Screensize.Y);
 	SDL_SetWindowPosition(Core.Window, 0, 0);
 	if (Initialized) {
+		ma_engine_stop(&Audio.Engine);
 		Cleanup_Assets();
 		Free_Sounds();
 	}
@@ -320,6 +321,9 @@ void Reload_All(bool Initialized) {
 	(Settings.VSync == 0) ? SDL_SetRenderVSync(Core.Renderer, 0) : SDL_SetRenderVSync(Core.Renderer, 1);
 	Preload_Assets();
 	Preload_Noise();
+	if (Initialized) {
+		ma_engine_start(&Audio.Engine);
+	}
 	ktn_free_texture(Temporary.Spinner);
 	ktn_free_texture(Temporary.Load_Text);
 	float Loading_Time = (SDL_GetTicks() - Start) / 1000.0f;

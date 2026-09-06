@@ -155,8 +155,10 @@ struct Proto_Textures {
 	SDL_Texture* Time_Sidebutton;
 	SDL_Texture* Exit_Sidebutton;
 	Texture_Array Submarine;
+	Texture_Array Drydock_Base;
 	Texture2_Array Confirmation;
 	Texture_Array Pyramid;
+	Texture_Array Drydock;
 	Texture_Array Fire;
 	Texture_Array None;
 	SDL_Texture* Subarrow;
@@ -226,6 +228,7 @@ struct Proto_Rects {
 	SDL_FRect Time;
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
+	SDL_FRect Drydock_Base;
 	Rect2_Array Confirmation;
 	SDL_FRect Subarrow;
 };

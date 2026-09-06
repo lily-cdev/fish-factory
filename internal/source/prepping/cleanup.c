@@ -87,7 +87,9 @@ void Cleanup_Assets() {
 			ktn_free(Metadata.Machines[C1].Light_Pos);
 			ktn_free(Metadata.Machines[C1].Light_Range);
 		}
-		ma_sound_uninit(&Metadata.Machines[C1].Run);
+		if (Metadata.Machines[C1].Has_Audio) {
+			ma_sound_uninit(&Metadata.Machines[C1].Run);
+		}
 	}
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		ktn_free(Metadata.Items[C1].Name);
@@ -225,10 +227,12 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Gene_Added);
 	ktn_free_texture(Textures.Perk_Owned);
 	Clear_Texture_Array(&Textures.Submarine);
+	Clear_Texture_Array(&Textures.Drydock_Base);
 	ktn_free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);
 	Clear_Rect2_Array(&Rects.Confirmation);
 	Clear_Texture_Array(&Textures.Pyramid);
+	Clear_Texture_Array(&Textures.Drydock);
 	Clear_Texture_Array(&Textures.Fire);
 	Clear_Texture_Array(&Textures.None);
 	Clear_Texture_Array(&Cache.Wire_Cache);
