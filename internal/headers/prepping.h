@@ -45,6 +45,13 @@ struct Proto_Data {
 	float Data_Grid[ktn_grid_size][ktn_grid_size][7];
 	float Settings_Grid[ktn_grid_size][ktn_grid_size][16];
 	char Processing_Grid[ktn_grid_size][ktn_grid_size][64];
+	char Objective_Names[10][64];
+	char Objectives[10][8][64];
+	int16_t Objective_Amounts[10][8];
+	int8_t Objective_Ct[10];
+	int8_t Objective_Phase;
+	float Objective_Progress[8];
+	bool Objective_Placed;
 	int64_t Funds;
 };
 
@@ -96,7 +103,6 @@ struct Proto_Textures {
 	Texture2_Array MSP_Buttons;
 	Texture2_Array SD_Buttons;
 	Texture2_Array HX_Buttons;
-	Texture2_Array TT_Buttons;
 	Texture2_Array MT_Buttons;
 	Texture_Array Arrow;
 	Texture_Array S_Dock;
@@ -128,6 +134,8 @@ struct Proto_Textures {
 	SDL_Texture* Genetics_Content;
 	SDL_Texture* Perks_Content;
 	SDL_Texture* Time_Content;
+	SDL_Texture* Victory_Content;
+	SDL_Texture* Objective_Content;
 	Texture_Array Door;
 	SDL_Texture* Emblem;
 	SDL_Texture* Crosshair;
@@ -153,9 +161,11 @@ struct Proto_Textures {
 	SDL_Texture* Genetics_Sidebutton;
 	SDL_Texture* Perks_Sidebutton;
 	SDL_Texture* Time_Sidebutton;
+	SDL_Texture* Objective_Sidebutton;
 	SDL_Texture* Exit_Sidebutton;
 	Texture_Array Submarine;
 	Texture_Array Drydock_Base;
+	Texture_Array Drydock_Frames[10];
 	Texture2_Array Confirmation;
 	Texture_Array Pyramid;
 	Texture_Array Drydock;
@@ -182,7 +192,6 @@ struct Proto_Rects {
 	Rect2_Array SD_Buttons;
 	Rect2_Array HX_Buttons;
 	Rect2_Array MT_Buttons;
-	Rect2_Array TT_Buttons;
 	Rect_Array Tunnel;
 	Rect_Array Return;
 	Rect_Array New_Game;
@@ -208,6 +217,8 @@ struct Proto_Rects {
 	SDL_FRect Genetics_Content;
 	SDL_FRect Perks_Content;
 	SDL_FRect Time_Content;
+	SDL_FRect Victory_Content;
+	SDL_FRect Objective_Content;
 	SDL_FRect Door[2];
 	SDL_FRect Emblem;
 	SDL_FRect Tile_1x1;
@@ -226,9 +237,11 @@ struct Proto_Rects {
 	SDL_FRect Genetics;
 	SDL_FRect Perks;
 	SDL_FRect Time;
+	SDL_FRect Objective;
 	SDL_FRect Exit;
 	SDL_FRect Submarine;
 	SDL_FRect Drydock_Base;
+	SDL_FRect Drydock_Frames[10];
 	Rect2_Array Confirmation;
 	SDL_FRect Subarrow;
 };
@@ -416,11 +429,11 @@ bool Check_Clearance(Point Pos, const int W, const int H);
 void Fill_Clearance(const char* Identifier, Point Pos, const int W, const int H);
 void Push_Docks(Point Input);
 void Pull_Docks(int Position);
-void Recache_TT_Commands();
 void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles);
 void Load_Button(Font_Index Font, const char* Text, Texture_Array* Yield, Rect_Array Rectangles, SDL_Color Color1, SDL_Color Color2);
 SDL_FRect Buffer_Rectangle(const SDL_FRect Source, Point Pos);
 void Bake_Lights();
+void Check_Drydock();
 void Load_Modular(const char* Path, Texture_Array* Yield, int Size);
 void Load_Rotational(const char* Path, Texture_Array* Yield);
 void Load_Mirrored_Button(const char* Path, Texture2_Array* Yield, SDL_FRect* Rectangle);

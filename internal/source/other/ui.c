@@ -5,7 +5,6 @@ void (*Interface_Functions[15])(Point Pos) = {
 	Render_Shop,
 	Render_Daily_Report,
 	Render_MSP_Controller,
-	Render_T_Tower,
 	Render_S_Dock,
 	Render_H_Exchanger,
 	Render_M_Generator,
@@ -15,7 +14,8 @@ void (*Interface_Functions[15])(Point Pos) = {
 	Render_P_Generator,
 	Render_Genetics,
 	Render_Perks,
-	Render_Time
+	Render_Time,
+	Render_Objective
 };
 
 void Clear_Renderer() {
@@ -109,11 +109,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 }
 
 void Render_Game_UI() {
-	SDL_FRect Rectangles[7] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Perks, Rects.Time, Rects.Exit };
-	SDL_Texture* Bars[7] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton, Textures.Genetics_Sidebutton, Textures.Perks_Sidebutton,
-		Textures.Time_Sidebutton, Textures.Exit_Sidebutton };
+	SDL_FRect Rectangles[8] = { Rects.Help, Rects.Objective, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Perks, Rects.Time, Rects.Exit };
+	SDL_Texture* Bars[8] = { Textures.Help_Sidebutton, Textures.Objective_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton,
+		Textures.Genetics_Sidebutton, Textures.Perks_Sidebutton, Textures.Time_Sidebutton, Textures.Exit_Sidebutton };
 	if (Interface.Tool == T_None && Interface.Prompt_Identifier == ktn_invalid) {
-		for (int C1 = 0; C1 < 7; C1++) {
+		for (int C1 = 0; C1 < 8; C1++) {
 			if (Detect_Mouse_Collision(Rectangles[C1])) {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
 				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };

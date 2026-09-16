@@ -9,8 +9,34 @@ void Cycle_Incinerator(Point Pos, const int Rotation) {
 	Data.Data_Grid[pt(Pos)][Stored_Fluids] = fmaxf(Data.Data_Grid[pt(Pos)][Stored_Fluids] - 8.0, 0.0);
 }
 
-void Cycle_Signal_Tower(Point Pos, const int Rotation) {
-	Data.Settings_Grid[pt(Pos)][3] = (int)(!((bool)Data.Settings_Grid[pt(Pos)][3]));
+void Cycle_Drydock_Intake(Point Pos, const int Rotation) {
+	Machine_Ptr Machine = Get_Machine("signal_tower");
+	for (int C1 = 0; C1 < Machine->Input_Ct; C1++) {
+		Point Subpos = Get_Transformed(Machine->Inputs[C1], Pos);
+		if (Data.Data_Grid[pt(Subpos)][Stored_Fluids] > ktn_epsilon) {
+			float Amount = Data.Data_Grid[pt(Subpos)][Stored_Fluids];
+			Data.Data_Grid[pt(Subpos)][Stored_Fluids] = 0;
+			for (int C2 = 0; C2 < Data.Objective_Ct[Data.Objective_Phase]; C2++) {
+				if (ktn_stricmp(Data.Items_Grid[pt(Subpos)], Data.Objectives[Data.Objective_Phase][C2])) {
+					Data.Objective_Progress[C2] = fminf(Data.Objective_Progress[C2] + Amount, (float)Data.Objective_Amounts[Data.Objective_Phase][C2]);
+				}
+			}
+		}
+	}
+	bool Finished = true;
+	for (int C1 = 0; C1 < Data.Objective_Ct[Data.Objective_Phase]; C1++) {
+		if (Data.Objective_Progress[C1] < Data.Objective_Amounts[Data.Objective_Phase][C1] - ktn_epsilon) {
+			Finished = false;
+			break;
+		}
+	}
+	if (Finished && Data.Objective_Phase < 1) {
+		Data.Objective_Phase++;
+		for (int C1 = 0; C1 < 8; C1++) {
+			Data.Objective_Progress[C1] = 0;
+		}
+	}
+	//process inputs
 }
 
 void Cycle_Money_Generator(Point Pos, const int Rotation) {

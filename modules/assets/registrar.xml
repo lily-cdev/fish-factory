@@ -20,7 +20,7 @@
 		<Machine>core/xml/machines/msp_input</Machine>
 		<Machine>core/xml/machines/e_plant</Machine>
 		<Machine>core/xml/machines/f_mixer</Machine>
-		<Machine>core/xml/machines/t_tower</Machine>
+		<Machine>core/xml/machines/d_intake</Machine>
 		<Machine>core/xml/machines/flowerpot</Machine>
 		<Machine>core/xml/machines/a_shelf</Machine>
 		<Machine>core/xml/machines/c_node</Machine>
@@ -51,7 +51,7 @@
 		<Machine>core/xml/machines/s_cracker</Machine>
 		<Machine>core/xml/machines/lathe</Machine>
 	</Machines>
-	<Item_Ct>67</Item_Ct>
+	<Item_Ct>69</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -120,8 +120,10 @@
 		<Item>core/xml/items/i_scrap</Item>
 		<Item>core/xml/items/pp_rod</Item>
 		<Item>core/xml/items/pe_rod</Item>
+		<Item>core/xml/items/rivets</Item>
+		<Item>core/xml/items/s_plates</Item>
 	</Items>
-	<Recipe_Ct>47</Recipe_Ct>
+	<Recipe_Ct>48</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -170,6 +172,7 @@
 		<Recipe>core/xml/recipes/k_siscrap</Recipe>
 		<Recipe>core/xml/recipes/l_ppbar</Recipe>
 		<Recipe>core/xml/recipes/l_pebar</Recipe>
+		<Recipe>core/xml/recipes/l_irod</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

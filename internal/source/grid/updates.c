@@ -4,7 +4,7 @@ void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
 	Cycle_Incinerator,
 	Cycle_RTG,
 	Cycle_Furnace,
-	Cycle_Signal_Tower,
+	Cycle_Drydock_Intake,
 	Cycle_Geo_Well,
 	Cycle_Large_Pipe,
 	Cycle_HX,

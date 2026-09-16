@@ -288,29 +288,6 @@ void Render_Grid() {
 							}
 							Render_Particles((Point){ Column, Row });
 							Render_Texture(Machine->Texture3.Data[Rotation].Data[1], &Carrier);
-						} else if (ktn_stricmp(Machine->Index, "signal_tower")) {
-							Render_Texture(Machine->Texture2.Data[Rotation], &Rects.Tile_3x3);
-							if (Data.Settings_Grid[Column][Row][3] == 0) {
-								int X = 57;
-								int Y = 57;
-								switch (Rotation) {
-								case 0:
-									X = 23;
-									break;
-								case 1:
-									X = 23;
-									Y = 23;
-									break;
-								case 2:
-									Y = 23;
-									break;
-								default:
-									break;
-								}
-								Rects.R_Flash.x = ktn_fscale(X) + Rects.Tile_3x3.x;
-								Rects.R_Flash.y = ktn_fscale(Y) + Rects.Tile_3x3.y;
-								Render_Texture(Textures.R_Flash, &Rects.R_Flash);
-							}
 						}
 						break;
 					default:

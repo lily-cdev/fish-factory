@@ -15,7 +15,10 @@
 	<Width>3</Width>
 	<Height>1</Height>
 	<Rot_ID />
-	<Power_Type>none</Power_Type>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>12000</Power_Capacity>
+	<Anchor_X>80</Anchor_X>
+	<Anchor_Y>20</Anchor_Y>
 	<Fluid_Processor />
 	<Input_Ct>1</Input_Ct>
 	<Inputs>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>l_irod</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>9500</Power>
+	<Parent>lathe</Parent>
+	<Inputs>
+		<Input>
+			<Item>iron_rod</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>iron_scrap</Item>
+			<Volume>1.0</Volume>
+		</Output>
+		<Output>
+			<Item>rivets</Item>
+			<Volume>1.0</Volume>
+		</Output>
+	</Outputs>
+</Recipe>

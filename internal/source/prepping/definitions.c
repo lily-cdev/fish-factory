@@ -10,7 +10,37 @@ struct Proto_Core Core = {
 	.Ratio = 1
 };
 struct Proto_Data Data = {
-	.Version = 4
+	.Version = 4,
+	.Objective_Names = { "pressure hull", "turbine-engine assembly", "wiring", "nuclear reactor", "life support", "sensors", "command unit", "crew comfort",
+		"weaponry", "assembly" },
+	.Objectives = {
+		{ "steel", "rivets" },
+		{ "steel", "steel_plates", "steel_rod", "rivets" },
+		{ },
+		{ },
+		{ },
+		{ },
+		{ },
+		{ },
+		{ },
+		{ }
+	},
+	.Objective_Amounts = {
+		{ 2000, 500 },
+		{ 500, 200, 95, 100 }
+	},
+	.Objective_Ct = {
+		2,
+		4,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0,
+		0
+	}
 };
 struct Proto_Metadata Metadata = {
 .Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },

@@ -33,11 +33,6 @@ void Load_Sounds() {
 			snprintf(Subcarrier, sizeof(Subcarrier), "could not load a sound; %s", ma_result_description(Yield));
 			ktn_jump(I_No_Sound, Subcarrier);
 		}
-		//tmp
-ma_format fmt; ma_uint32 ch; ma_uint32 sr;
-ma_sound_get_data_format(&(Audio.Data[C1].Data), &fmt, &ch, &sr, NULL, 0);
-printf("Loaded %s: channels=%u, samplerate=%u\n", Paths[C1], ch, sr);
-		//fuck me
 		Audio.Data[C1].Volume = 0.5f;
 		Audio.Data[C1].Allocated = true;
 	}

@@ -437,20 +437,6 @@ void MSP_Empty(Parameter Pos, Parameter Unused) {
 	}
 }
 
-void TT_Call_Sub(Parameter Dock, Parameter Unused) {
-	Print_Input();
-	if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
-		Print_Response("submarine sent");
-		Transition.Sub_Pos = Temporary.Docks.Data[Dock.Integer];
-		Transition.Sub_Phase = 0;
-		Transition.Sub_Frames = 0;
-		Transition.Sub_Offset = 3000;
-		Transition.Sub_Vertical = 105;
-	} else {
-		Print_Error(Docked_Sub);
-	}
-}
-
 #define In_Shop (Interface.Engagement == 0 && Interface.Prompt_Identifier == P_Shop)
 void Shop_Category(Parameter Category, Parameter Unused) {
 	if (Category.Integer >= 0 && Category.Integer < Core.Categories && In_Shop) {

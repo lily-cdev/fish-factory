@@ -1,18 +1,12 @@
 #include <grid.h>
 
 bool (*Placing_Functions[])(Point Pos) = {
-	Place_Reinforced_Pipe, Place_Submarine_Dock, Place_Spawning_Pool,
-	Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
-	Place_Signal_Tower, Place_Large_Pipe, Place_Heat_Exchanger,
-	Place_Money_Generator, Place_Fluid_Generator,
-	Place_Turbine_Input, Place_Turbine_Impulse, Place_Power_Generator
+	Place_Reinforced_Pipe, Place_Submarine_Dock, Place_Spawning_Pool, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
+	Place_Large_Pipe, Place_Heat_Exchanger, Place_Money_Generator, Place_Fluid_Generator, Place_Turbine_Input, Place_Turbine_Impulse, Place_Power_Generator
 };
 
 const char* Placing_Registers[] = {
-	"heavy_pipe", "sub_dock", "spawning_pool",
-	"spawning_controller", "spawning_output", "spawning_input",
-	"signal_tower", "large_pipe", "hx",
-	"money_cheat", "fluid_cheat",
+	"heavy_pipe", "sub_dock", "spawning_pool", "spawning_controller", "spawning_output", "spawning_input", "large_pipe", "hx", "money_cheat", "fluid_cheat",
 	"turbine_input", "turbine_impulse", "power_cheat"
 };
 
@@ -187,7 +181,6 @@ void Restore_Cache() {
 			}
 		}
 	}
-	Recache_TT_Commands();
 }
 
 void Destroy_Clearance(Point Pos, int Width, int Height) {
@@ -335,6 +328,7 @@ void Build_Grid() {
 			}
 			Update_Grid();
 			Recast_Machines();
+			Check_Drydock();
 			Bake_Light((Point){ Column, Row });
 			Find_Effect();
 			return;
@@ -372,7 +366,6 @@ void Remove_Machine(Point Pos) {
 			if (Transition.Sub_Pos.X == Pos.X && Transition.Sub_Pos.X == Pos.Y) {
 				Transition.Sub_Phase = 3;
 			}
-			Recache_TT_Commands();
 		}
 		if (Interface.Item->Command) {
 			Data.CMD_Placed = false;
@@ -408,6 +401,7 @@ bool Destroy_Grid() {
 				Update_Grid();
 				Recast_Machines();
 				Bake_Lights();
+				Check_Drydock();
 				Find_Effect();
 				return true;
 			}
@@ -514,6 +508,23 @@ void Bake_Light(Point Pos) {
 	}
 	ktn_reset_target();
 	Clear_Renderer();
+}
+
+void Check_Drydock() {
+	Data.Objective_Placed = false;
+	Point Pos;
+	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
+		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+			if (!Machine) {
+				continue;
+			}
+			if (ktn_stricmp(Machine->Index, "signal_tower")) {
+				Data.Objective_Placed = true;
+				break;
+			}
+		}
+	}
 }
 
 void Bake_Lights() {

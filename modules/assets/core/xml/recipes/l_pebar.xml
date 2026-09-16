@@ -4,7 +4,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>1</Time>
-	<Power>0</Power>
+	<Power>3500</Power>
 	<Parent>lathe</Parent>
 	<Inputs>
 		<Input>

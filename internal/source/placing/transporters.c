@@ -11,7 +11,6 @@ bool Place_Submarine_Dock(Point Pos) {
 	Data.Settings_Grid[pt(Pos)][3] = 0;
 	Data.Settings_Grid[pt(Pos)][4] = 0;
 	Push_Docks(Pos);
-	Recache_TT_Commands();
 	return true;
 }
 

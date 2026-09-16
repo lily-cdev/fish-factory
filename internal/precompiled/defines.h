@@ -11,7 +11,7 @@
 #define ktn_days 7
 #define ktn_dock_cap 750.0
 #define ktn_effects 2
-#define ktn_epsilon 1e-7
+#define ktn_epsilon 1e-5
 #define ktn_errors 14
 #define ktn_fish_phases 6
 #define ktn_fishlinks 16

@@ -223,6 +223,7 @@ bool Load_Data(int Slot) {
 	fclose(File);
 	Preclear_Temporaries();
 	Bake_Lights();
+	Check_Drydock();
 	return true;
 }
 
@@ -259,6 +260,7 @@ void Reset_Statistics() {
 	Clear_Bridges(&Pipes);
 	Preclear_Temporaries();
 	Bake_Lights();
+	Check_Drydock();
 	for (int C1 = 0; C1 < 16; C1++) {
 		ktn_free(Fishlinks[C1].Fish);
 	}

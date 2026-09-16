@@ -1,10 +1,5 @@
 #include <grid.h>
 
-bool Place_Signal_Tower(Point Pos) {
-	Data.Settings_Grid[pt(Pos)][3] = 0;
-	return true;
-}
-
 bool Place_Money_Generator(Point Pos) {
 	Data.Settings_Grid[pt(Pos)][3] = 5;
 	Data.Settings_Grid[pt(Pos)][4] = 0;

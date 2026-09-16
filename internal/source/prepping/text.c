@@ -1,17 +1,5 @@
 #include <prepping.h>
 
-void Recache_TT_Commands() {
-	String2 Carrier;
-	Carrier.Length = ktn_min(Temporary.Docks.Length, ktn_cmd_max);
-	Carrier.Data = malloc(sizeof(char*) * Carrier.Length);
-	for (int C1 = 0; C1 < Carrier.Length; C1++) {
-		Carrier.Data[C1] = malloc(128);
-		snprintf(Carrier.Data[C1], 128, "Dock %d", C1 + 1);
-	}
-	Preload_Terminal_Sidebar(&Carrier, &Textures.TT_Buttons, &Rects.TT_Buttons);
-	Free_String2(&Carrier);
-}
-
 void Preload_Terminal_Sidebar(const String2* Texts, Texture2_Array* Yield, Rect2_Array* Rectangles) {
 	String2 Carrier;
 	Carrier.Length = Texts->Length + 2;

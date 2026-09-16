@@ -40,7 +40,6 @@ void MSP_TInfo(Parameter Pos, Parameter Unused);
 void MSP_FInfo(Parameter Pos, Parameter Unused);
 void MSP_Fill(Parameter Pos, Parameter Unused);
 void MSP_Empty(Parameter Pos, Parameter Unused);
-void TT_Call_Sub(Parameter Dock, Parameter Unused);
 void Shop_Category(Parameter Category, Parameter Unused);
 void Shop_Item(Parameter Subcategory, Parameter Unused);
 void Shop_Subitem(Parameter Selection, Parameter Unused);

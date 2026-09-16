@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>rivets</Name>
+	<Index>rivets</Index>
+	<ID>68</ID>
+	<Path>core/images/items/rivets</Path>
+	<Hazard>none</Hazard>
+	<Value>mid</Value>
+	<Price>90</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Boil_Pt>5180</Boil_Pt>
+	<V_Enthalpy>solid</V_Enthalpy>
+	<Nutrition>0</Nutrition>
+</Item>

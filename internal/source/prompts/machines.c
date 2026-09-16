@@ -57,28 +57,6 @@ void Render_MSP_Controller(Point Pos) {
 	}
 }
 
-void Render_T_Tower(Point Pos) {
-	Render_Backing();
-	UI_Link* Links = malloc(sizeof(UI_Link) * (ktn_perm_buttons + Temporary.Docks.Length));
-	for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
-		Links[C1] = (UI_Link){ TT_Call_Sub, .Param.Integer = C1 };
-	}
-	Render_Sidebuttons(&Textures.TT_Buttons, &Rects.TT_Buttons, Links);
-	int Limiter = ktn_min(Temporary.Docks.Length, ktn_cmd_max - 1);
-	for (int C1 = 0; C1 < Limiter; C1++) {
-		Buffers.Commands[C1] = Execute;
-		char Buffer[32];
-		snprintf(Buffer, sizeof(Buffer), "SEND_DOCK_%i", C1 + 1);
-		strncpy(Buffers.Parameters[C1][0], Buffer, sizeof(Buffers.Parameters[C1][0]));
-		strncpy(Buffers.Parameters[C1][1], ktn_null_string, sizeof(Buffers.Parameters[C1][1]));
-	}
-	Buffers.Commands[Limiter] = ktn_terminator;
-	strncpy(Buffers.Parameters[Limiter][0], ktn_null_string, sizeof(Buffers.Parameters[Limiter][0]));
-	Process_Commands();
-	Render_Necessities("transmitter", "tower");
-	ktn_free(Links);
-}
-
 void Render_S_Dock(Point Pos) {
 	Render_Backing();
 	UI_Link Links[ktn_perm_buttons + 7] = {

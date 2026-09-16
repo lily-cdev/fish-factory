@@ -124,6 +124,9 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Subcategories[C1].Name);
 		ktn_free(Metadata.Subcategories[C1].Index);
 	}
+	for (int C1 = 0; C1 < 10; C1++) {
+		Clear_Texture_Array(&Textures.Drydock_Frames[C1]);
+	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo);
 	ktn_free_texture(Textures.CMD_Warning1);
@@ -139,6 +142,8 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Genetics_Content);
 	ktn_free_texture(Textures.Perks_Content);
 	ktn_free_texture(Textures.Time_Content);
+	ktn_free_texture(Textures.Victory_Content);
+	ktn_free_texture(Textures.Objective_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
 	Clear_Rect3_Array(&Rects.Subcategories);
@@ -164,8 +169,6 @@ void Cleanup_Assets() {
 	Clear_Rect2_Array(&Rects.SD_Buttons);
 	Clear_Texture2_Array(&Textures.HX_Buttons);
 	Clear_Rect2_Array(&Rects.HX_Buttons);
-	Clear_Texture2_Array(&Textures.TT_Buttons);
-	Clear_Rect2_Array(&Rects.TT_Buttons);
 	Clear_Texture2_Array(&Textures.MT_Buttons);
 	Clear_Rect2_Array(&Rects.MT_Buttons);
 	Clear_Texture2_Array(&Textures.Anti_Aliasing);

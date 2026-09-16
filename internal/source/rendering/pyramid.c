@@ -28,6 +28,21 @@ void Render_Pyramid() {
 				Rects.Drydock_Base.h * Core.Ratio
 			};
 			Render_Texture(Textures.Drydock_Base.Data[C1], &Subrectangle);
+			if (Data.Objective_Phase > 0) {
+				Render_Texture(Textures.Drydock_Frames[Data.Objective_Phase - 1].Data[C1], &Subrectangle);
+			}
 		}
 	}
+	Rects.Tunnel.Data[0].x = ktn_fscale((Core.Tile_Size * 2) - Core.Camera.X);
+	Rects.Tunnel.Data[0].y = ktn_fscale((Core.Tile_Size * 48.25f) - Core.Camera.Y);
+	Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
+	Rects.Tunnel.Data[0].x = ktn_fscale((Core.Tile_Size * 2) - Core.Camera.X);
+	Rects.Tunnel.Data[0].y = ktn_fscale((Core.Tile_Size * 50.25f) - Core.Camera.Y);
+	Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
+	Rects.Tunnel.Data[0].x = ktn_fscale((Core.Tile_Size * 46) - (Rects.Tunnel.Data[0].w / Settings.Scalar) - Core.Camera.X);
+	Rects.Tunnel.Data[0].y = ktn_fscale((Core.Tile_Size * 48.25f) - Core.Camera.Y);
+	Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
+	Rects.Tunnel.Data[0].x = ktn_fscale((Core.Tile_Size * 46) - (Rects.Tunnel.Data[0].w / Settings.Scalar) - Core.Camera.X);
+	Rects.Tunnel.Data[0].y = ktn_fscale((Core.Tile_Size * 50.25f) - Core.Camera.Y);
+	Render_Texture(Textures.Tunnel.Data[0], &Rects.Tunnel.Data[0]);
 }

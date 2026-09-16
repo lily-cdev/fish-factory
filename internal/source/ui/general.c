@@ -156,9 +156,7 @@ void Render_Interaction() {
 			if (!(*Machine).Quirks[Q_Interactable]) {
 				return;
 			}
-			if (ktn_stricmp((*Machine).Index, "signal_tower")) {
-				Interface.Prompt_Identifier = P_Transmitter;
-			} else if (ktn_stricmp((*Machine).Index, "spawning_controller")) {
+			if (ktn_stricmp((*Machine).Index, "spawning_controller")) {
 				Interface.Prompt_Identifier = P_Spawning_Pool;
 			} else if (ktn_stricmp((*Machine).Index, "sub_dock")) {
 				Interface.Prompt_Identifier = P_Dock;

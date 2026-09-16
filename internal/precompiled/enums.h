@@ -6,7 +6,6 @@ enum Prompts {
 	P_Shop,
 	P_Daily_Report,
 	P_Spawning_Pool,
-	P_Transmitter,
 	P_Dock,
 	P_Exchanger,
 	P_Money_Generator,
@@ -16,7 +15,8 @@ enum Prompts {
 	P_Power_Generator,
 	P_Genetics,
 	P_Perks,
-	P_Time
+	P_Time,
+	P_Objective
 };
 
 enum Effect {

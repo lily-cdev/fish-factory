@@ -129,7 +129,6 @@ void Render_Catalog(Point Pos) {
 				}
 			}
 			if (Metadata.Recipes[C1].Machine->Output_Ct > 0) {
-				//Process_Supply(&Supplies.Catalog3[C1], Candidate, F_Subtext, Colors.Abyss_Black, (Point){ 26, Offset });
 				SDL_Texture* Carrier = Render_Text(F_Subtext, Candidate, Colors.Abyss_Black);
 				SDL_FRect Rect = {
 					ktn_fscale(26),
