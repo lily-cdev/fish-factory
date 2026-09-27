@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_strioxide</Index>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>250</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>sulfur_dioxide</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>oxygen</Item>
+			<Volume>0.5</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>sulfur_trioxide</Item>
+			<Volume>2.5</Volume>
+			<Temp>400</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

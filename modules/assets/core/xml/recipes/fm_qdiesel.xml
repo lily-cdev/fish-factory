@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_qdiesel</Index>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>100000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>diesel</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>hydrogen</Item>
+			<Volume>0.1</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>quality_diesel</Item>
+			<Volume>1.9</Volume>
+			<Temp>320</Temp>
+		</Output>
+		<Output>
+			<Item>hydrogen_sulfide</Item>
+			<Volume>0.1</Volume>
+			<Temp>250</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

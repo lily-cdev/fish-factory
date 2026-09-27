@@ -15,8 +15,7 @@ enum Prompts {
 	P_Power_Generator,
 	P_Genetics,
 	P_Perks,
-	P_Time,
-	P_Objective
+	P_Time
 };
 
 enum Effect {
@@ -147,6 +146,7 @@ enum Settings {
 };
 
 enum Particles {
+	P_Standard,
 	P_Bubble
 };
 

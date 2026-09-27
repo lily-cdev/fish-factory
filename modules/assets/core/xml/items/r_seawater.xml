@@ -6,9 +6,7 @@
 	<Path>core/images/items/seawater</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
-	<Price>0</Price>
+	<Price>1</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>220</Boil_Pt>
-	<V_Enthalpy>44</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>sulfuric acid</Name>
+	<Index>sulfuric_acid</Index>
+	<ID>81</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>187</R1>
+	<G1>207</G1>
+	<B1>73</B1>
+	<R2>122</R2>
+	<G2>167</G2>
+	<B2>0</B2>
+	<Hazard>mid</Hazard>
+	<Value>mid</Value>
+	<Price>94</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

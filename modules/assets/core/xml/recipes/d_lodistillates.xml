@@ -16,10 +16,12 @@
 		<Output>
 			<Item>naphtha</Item>
 			<Volume>10</Volume>
+			<Temp>300</Temp>
 		</Output>
 		<Output>
 			<Item>kerosene</Item>
 			<Volume>10</Volume>
+			<Temp>380</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

@@ -16,10 +16,12 @@
 		<Output>
 			<Item>silicon_scrap</Item>
 			<Volume>1.0</Volume>
+			<Temp>72</Temp>
 		</Output>
 		<Output>
 			<Item>silicon_rod</Item>
 			<Volume>1.0</Volume>
+			<Temp>95</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

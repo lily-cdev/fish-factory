@@ -16,6 +16,7 @@
 		<Output>
 			<Item>liquid_polyethylene</Item>
 			<Volume>2.0</Volume>
+			<Temp>500</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

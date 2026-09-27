@@ -16,10 +16,12 @@
 		<Output>
 			<Item>glass_scrap</Item>
 			<Volume>1.0</Volume>
+			<Temp>68</Temp>
 		</Output>
 		<Output>
 			<Item>glass_rod</Item>
 			<Volume>1.0</Volume>
+			<Temp>75</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

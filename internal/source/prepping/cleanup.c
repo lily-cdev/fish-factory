@@ -90,6 +90,22 @@ void Cleanup_Assets() {
 		if (Metadata.Machines[C1].Has_Audio) {
 			ma_sound_uninit(&Metadata.Machines[C1].Run);
 		}
+		if (Metadata.Machines[C1].Has_Emitter) {
+			for (int C2 = 0; C2 < Metadata.Machines[C1].Emitter_Ct; C2++) {
+				ktn_free(Metadata.Machines[C1].Emitter_Path[C2]);
+				ktn_free_texture(Metadata.Machines[C1].Emitter_Texture[C2]);
+			}
+			ktn_free(Metadata.Machines[C1].Emitter_Pos);
+			ktn_free(Metadata.Machines[C1].Emitter_Rate);
+			ktn_free(Metadata.Machines[C1].Emitter_Lifetime);
+			ktn_free(Metadata.Machines[C1].Emitter_Dir);
+			ktn_free(Metadata.Machines[C1].Emitter_Spread);
+			ktn_free(Metadata.Machines[C1].Emitter_Speed);
+			ktn_free(Metadata.Machines[C1].Emitter_Path);
+			ktn_free(Metadata.Machines[C1].Emitter_Texture);
+			ktn_free(Metadata.Machines[C1].Emitter_Endscale);
+			ktn_free(Metadata.Machines[C1].Emitter_Fading);
+		}
 	}
 	for (int C1 = 0; C1 < Core.Items; C1++) {
 		ktn_free(Metadata.Items[C1].Name);
@@ -124,9 +140,6 @@ void Cleanup_Assets() {
 		ktn_free(Metadata.Subcategories[C1].Name);
 		ktn_free(Metadata.Subcategories[C1].Index);
 	}
-	for (int C1 = 0; C1 < 10; C1++) {
-		Clear_Texture_Array(&Textures.Drydock_Frames[C1]);
-	}
 	ktn_free(Cache.FPS_Cache);
 	ktn_free_texture(Textures.Logo);
 	ktn_free_texture(Textures.CMD_Warning1);
@@ -142,8 +155,6 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Genetics_Content);
 	ktn_free_texture(Textures.Perks_Content);
 	ktn_free_texture(Textures.Time_Content);
-	ktn_free_texture(Textures.Victory_Content);
-	ktn_free_texture(Textures.Objective_Content);
 	Clear_Texture3_Array(&Textures.Item_Labels);
 	Clear_Rect3_Array(&Rects.Item_Labels);
 	Clear_Rect3_Array(&Rects.Subcategories);
@@ -213,6 +224,7 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Crosshair);
 	ktn_free_texture(Textures.Cursor_Core);
 	ktn_free_texture(Textures.Sapling);
+	ktn_free_texture(Textures.Link);
 	ktn_free_texture(Textures.Node);
 	ktn_free_texture(Textures.Log_Background);
 	ktn_free_texture(Textures.Saveloader);
@@ -230,7 +242,6 @@ void Cleanup_Assets() {
 	ktn_free_texture(Textures.Gene_Added);
 	ktn_free_texture(Textures.Perk_Owned);
 	Clear_Texture_Array(&Textures.Submarine);
-	Clear_Texture_Array(&Textures.Drydock_Base);
 	ktn_free_texture(Textures.Scrap);
 	Clear_Texture2_Array(&Textures.Confirmation);
 	Clear_Rect2_Array(&Rects.Confirmation);

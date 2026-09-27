@@ -16,10 +16,12 @@
 		<Output>
 			<Item>diesel</Item>
 			<Volume>10</Volume>
+			<Temp>420</Temp>
 		</Output>
 		<Output>
 			<Item>residue</Item>
 			<Volume>10</Volume>
+			<Temp>550</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

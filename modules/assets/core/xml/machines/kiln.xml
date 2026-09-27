@@ -26,7 +26,7 @@
 			<X>0</X>
 			<Y>1</Y>
 			<Dir>down</Dir>
-			<Cap>30</Cap>
+			<Cap>3</Cap>
 		</Input>
 	</Inputs>
 	<Output_Ct>1</Output_Ct>
@@ -35,10 +35,26 @@
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
-			<Cap>30</Cap>
+			<Cap>4</Cap>
 		</Output>		
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
 	<Has_Audio />
 	<Run_Audio>core/audio/machines/kiln</Run_Audio>
+	<Has_Emitter />
+	<Emitter_Ct>1</Emitter_Ct>
+	<Emitters>
+		<Emitter>
+			<X>29</X>
+			<Y>40</Y>
+			<Rate>2</Rate>
+			<Lifetime>3</Lifetime>
+			<Dir>120</Dir>
+			<Spread>5</Spread>
+			<Speed>50</Speed>
+			<Path>core/images/effects/smoke</Path>
+			<Endscale>2.5</Endscale>
+			<Fading />
+		</Emitter>
+	</Emitters>
 </Machine>

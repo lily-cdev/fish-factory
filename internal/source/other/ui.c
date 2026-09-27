@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[15])(Point Pos) = {
+void (*Interface_Functions[14])(Point Pos) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -14,8 +14,7 @@ void (*Interface_Functions[15])(Point Pos) = {
 	Render_P_Generator,
 	Render_Genetics,
 	Render_Perks,
-	Render_Time,
-	Render_Objective
+	Render_Time
 };
 
 void Clear_Renderer() {
@@ -109,11 +108,11 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 }
 
 void Render_Game_UI() {
-	SDL_FRect Rectangles[8] = { Rects.Help, Rects.Objective, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Perks, Rects.Time, Rects.Exit };
-	SDL_Texture* Bars[8] = { Textures.Help_Sidebutton, Textures.Objective_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton,
-		Textures.Genetics_Sidebutton, Textures.Perks_Sidebutton, Textures.Time_Sidebutton, Textures.Exit_Sidebutton };
+	SDL_FRect Rectangles[7] = { Rects.Help, Rects.Save, Rects.Recipe, Rects.Genetics, Rects.Perks, Rects.Time, Rects.Exit };
+	SDL_Texture* Bars[7] = { Textures.Help_Sidebutton, Textures.Save_Sidebutton, Textures.Recipe_Sidebutton, Textures.Genetics_Sidebutton, Textures.Perks_Sidebutton,
+		Textures.Time_Sidebutton, Textures.Exit_Sidebutton };
 	if (Interface.Tool == T_None && Interface.Prompt_Identifier == ktn_invalid) {
-		for (int C1 = 0; C1 < 8; C1++) {
+		for (int C1 = 0; C1 < 7; C1++) {
 			if (Detect_Mouse_Collision(Rectangles[C1])) {
 				Rectangles[C1].x = Core.Screensize.X - Rectangles[C1].w;
 				Interface.UI_Query = (UI_Link){ Click_Sidebar, .Param.Integer = C1 };
@@ -177,7 +176,33 @@ void Render_Game_UI() {
 	Render_Texture(Carriers[1], &Subcarriers[1]);
 	ktn_free_texture(Carriers[0]);
 	ktn_free_texture(Carriers[1]);
+	Point Subpos;
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
+			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
+				Subpos = (Point){ Column, Row };
+				break;
+			}
+		}
+	}
 	if (Interface.Tool == T_Inspecting) {
+		for (int C1 = 0; C1 < Temporary.Chain_Ct; C1++) {
+			for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
+				if (Temporary.Chains[C1][C2].X == Subpos.X && Temporary.Chains[C1][C2].Y == Subpos.Y) {
+					for (int C3 = 0; C3 < Temporary.Chain_Len[C1]; C3++) {
+						Render_Texture(Textures.Link, &(SDL_FRect){
+							ktn_fscale((Temporary.Chains[C1][C3].X * 40) - Core.Camera.X),
+							ktn_fscale((Temporary.Chains[C1][C3].Y * 40) - Core.Camera.Y),
+							ktn_fscale(40),
+							ktn_fscale(40)
+						});
+					}
+					break;
+				}
+			}
+		}
 		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
 		Item_Ptr Item = NULL;
 		int Temperature;
@@ -203,22 +228,6 @@ void Render_Game_UI() {
 			snprintf(Buffer, sizeof(Buffer), "%sF", Subbuffer);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
 			Index++;
-			float Pressure = Calculate_Pressure(Temperature, Item->Boil_Pt, Item->V_Enthalpy);
-			if (Pressure == ktn_invalid) {
-				strncpy(Data_Fragments[Index], "gas", sizeof(Data_Fragments[Index]));
-				Index++;
-			} else if (Pressure == -3) {
-				strncpy(Data_Fragments[Index], "solid", sizeof(Data_Fragments[Index]));
-				Index++;
-			} else {
-				Pressure = ktn_max(Pressure, 1);
-				char Buffer[64];
-				char Subbuffer[64];
-				Abbreviate_Number(Pressure, Subbuffer, sizeof(Subbuffer));
-				snprintf(Buffer, sizeof(Buffer), "%s bar liquid", Subbuffer);
-				strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));
-				Index++;
-			}
 			if (Content_Vector[1] != 0) {
 				char Buffer[64];
 				char Subbuffer1[64];

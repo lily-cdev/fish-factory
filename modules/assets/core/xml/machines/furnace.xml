@@ -4,13 +4,16 @@
 	<Desc>Burns items for electricity. However, due to its small turbine, it is unable to efficiently burn heavier fuels, and caps off at 16kW.</Desc>
 	<Index>furnace</Index>
 	<Parent>generation</Parent>
-	<Texture_Type>spinner</Texture_Type>
+	<Texture_Type>kiln</Texture_Type>
+	<Kiln_X>28</Kiln_X>
+	<Kiln_Y>28</Kiln_Y>
+	<Kiln_W>63</Kiln_W>
+	<Kiln_H>63</Kiln_H>
 	<Path>core/images/machines/furnace</Path>
 	<Price>65</Price>
 	<Fee>1</Fee>
 	<Width>3</Width>
 	<Height>3</Height>
-	<Speed>20</Speed>
 	<Power_Type>out</Power_Type>
 	<Power_Capacity>16000</Power_Capacity>
 	<Anchor_X>60</Anchor_X>
@@ -28,4 +31,32 @@
 	</Inputs>
 	<Output_Ct>0</Output_Ct>
 	<Neutral_Ct>0</Neutral_Ct>
+	<Has_Emitter />
+	<Emitter_Ct>2</Emitter_Ct>
+	<Emitters>
+		<Emitter>
+			<X>80</X>
+			<Y>40</Y>
+			<Rate>2</Rate>
+			<Lifetime>3</Lifetime>
+			<Dir>120</Dir>
+			<Spread>5</Spread>
+			<Speed>50</Speed>
+			<Path>core/images/effects/smoke</Path>
+			<Endscale>2.5</Endscale>
+			<Fading />
+		</Emitter>
+		<Emitter>
+			<X>40</X>
+			<Y>80</Y>
+			<Rate>2</Rate>
+			<Lifetime>3</Lifetime>
+			<Dir>120</Dir>
+			<Spread>5</Spread>
+			<Speed>50</Speed>
+			<Path>core/images/effects/smoke</Path>
+			<Endscale>2.5</Endscale>
+			<Fading />
+		</Emitter>
+	</Emitters>
 </Machine>

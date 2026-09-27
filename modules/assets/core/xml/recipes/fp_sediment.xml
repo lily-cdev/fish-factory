@@ -16,14 +16,17 @@
 		<Output>
 			<Item>clay</Item>
 			<Volume>5</Volume>
+			<Temp>72</Temp>
 		</Output>
 		<Output>
 			<Item>silicates</Item>
 			<Volume>4</Volume>
+			<Temp>75</Temp>
 		</Output>
 		<Output>
 			<Item>wet_marine_snow</Item>
 			<Volume>1</Volume>
+			<Temp>68</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

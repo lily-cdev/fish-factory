@@ -28,7 +28,6 @@ Item_Ptr Get_Item(const char* Index);
 Item_Ptr Get_ID_Item(const int ID);
 Fish_Ptr Get_Fish(int Identifier);
 void Purge_Items();
-float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation);
 int Get_Phase(Fish_Ptr Fish, int Progress);
 void Get_Phase_Name(char* Buffer, int Length, Fish_Ptr Fish, int Progress, int Count);
 Point Get_Transformed(Node_Data Node, Point Pos);

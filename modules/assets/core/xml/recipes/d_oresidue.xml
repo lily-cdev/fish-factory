@@ -16,10 +16,12 @@
 		<Output>
 			<Item>fuel_oil</Item>
 			<Volume>10</Volume>
+			<Temp>400</Temp>
 		</Output>
 		<Output>
 			<Item>bitumen</Item>
 			<Volume>10</Volume>
+			<Temp>550</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

@@ -13,10 +13,8 @@
 	<B2>196</B2>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
-	<Price>0</Price>
+	<Price>2</Price>
 	<Coolant />
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>215</Boil_Pt>
-	<V_Enthalpy>42</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

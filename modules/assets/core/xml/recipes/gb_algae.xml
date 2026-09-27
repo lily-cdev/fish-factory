@@ -10,10 +10,12 @@
 		<Output>
 			<Item>algae</Item>
 			<Volume>0.6</Volume>
+			<Temp>68</Temp>
 		</Output>
 		<Output>
 			<Item>algae</Item>
 			<Volume>0.6</Volume>
+			<Temp>68</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

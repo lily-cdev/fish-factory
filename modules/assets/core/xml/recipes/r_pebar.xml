@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>r_pebar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>7000</Power>
+	<Parent>roller</Parent>
+	<Inputs>
+		<Input>
+			<Item>polyethylene_bar</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>polyethylene_plates</Item>
+			<Volume>2.0</Volume>
+			<Temp>135</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

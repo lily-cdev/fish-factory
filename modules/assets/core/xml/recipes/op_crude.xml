@@ -10,6 +10,7 @@
 		<Output>
 			<Item>crude</Item>
 			<Volume>20</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

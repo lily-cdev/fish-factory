@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>r_ibar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>21000</Power>
+	<Parent>roller</Parent>
+	<Inputs>
+		<Input>
+			<Item>iron</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>iron_plates</Item>
+			<Volume>2.0</Volume>
+			<Temp>195</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

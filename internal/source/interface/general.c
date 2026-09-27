@@ -140,7 +140,7 @@ void Process_Inputs() {
 				Interface.Map_X = (Core.Tile_Size * ktn_grid_size) - 640 + Core.Buffer_Size;
 				Interface.Map_Y = (Core.Tile_Size * ktn_grid_size) - 360 + Core.Buffer_Size;
 				Core.Camera.X = fminf(fmax(Core.Camera.X, -Core.Buffer_Size), Interface.Map_X);
-				Core.Camera.Y = fminf(fmax(Core.Camera.Y, -Core.Buffer_Size), Interface.Map_Y);
+				Core.Camera.Y = fminf(fmax(Core.Camera.Y, -Core.Buffer_Size), Interface.Map_Y * 1.5);
 			} else if (Interface.UI_Tab == 4 || Interface.UI_Tab == 5) {
 				int Log = Changelog;
 				if (Interface.UI_Tab == 5) {

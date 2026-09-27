@@ -16,10 +16,12 @@
 		<Output>
 			<Item>iron_scrap</Item>
 			<Volume>1.0</Volume>
+			<Temp>75</Temp>
 		</Output>
 		<Output>
 			<Item>rivets</Item>
 			<Volume>1.0</Volume>
+			<Temp>110</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

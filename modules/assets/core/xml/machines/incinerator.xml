@@ -29,4 +29,20 @@
 	</Inputs>
 	<Output_Ct>0</Output_Ct>
 	<Neutral_Ct>0</Neutral_Ct>
+	<Has_Emitter />
+	<Emitter_Ct>1</Emitter_Ct>
+	<Emitters>
+		<Emitter>
+			<X>20</X>
+			<Y>20</Y>
+			<Rate>2</Rate>
+			<Lifetime>3</Lifetime>
+			<Dir>120</Dir>
+			<Spread>5</Spread>
+			<Speed>50</Speed>
+			<Path>core/images/effects/smoke</Path>
+			<Endscale>2.5</Endscale>
+			<Fading />
+		</Emitter>
+	</Emitters>
 </Machine>

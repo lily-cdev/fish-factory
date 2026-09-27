@@ -4,7 +4,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>5</Time>
-	<Power>10000000</Power>
+	<Power>150000</Power>
 	<Parent>electro_cell</Parent>
 	<Inputs>
 		<Input>
@@ -16,14 +16,17 @@
 		<Output>
 			<Item>hydrogen</Item>
 			<Volume>0.008</Volume>
+			<Temp>140</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
+			<Temp>65</Temp>
 		</Output>
 		<Output>
 			<Item>oxygen</Item>
 			<Volume>0.06</Volume>
+			<Temp>150</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

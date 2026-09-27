@@ -6,9 +6,7 @@
 	<Path>core/images/items/rivets</Path>
 	<Hazard>none</Hazard>
 	<Value>mid</Value>
-	<Price>90</Price>
+	<Price>22</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>5180</Boil_Pt>
-	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

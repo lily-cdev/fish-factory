@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>polypropylene plastic</Name>
+	<Name>polypropylene resin</Name>
 	<Index>polypropylene</Index>
 	<ID>53</ID>
 	<Path>core/images/items/polypropylene</Path>
 	<Hazard>none</Hazard>
 	<Value>none</Value>
-	<Price>0</Price>
+	<Price>145</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>896</Boil_Pt>
-	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

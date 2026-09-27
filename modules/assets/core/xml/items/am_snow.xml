@@ -6,9 +6,7 @@
 	<Path>core/images/items/am_snow</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
-	<Price>5</Price>
-	<Chem_Energy>30000</Chem_Energy>
-	<Boil_Pt>212</Boil_Pt>
-	<V_Enthalpy>45</V_Enthalpy>
+	<Price>2</Price>
+	<Chem_Energy>13600</Chem_Energy>
 	<Nutrition>35</Nutrition>
 </Item>

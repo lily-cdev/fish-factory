@@ -6,9 +6,7 @@
 	<Path>core/images/items/pyroxene</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
-	<Price>32</Price>
+	<Price>8</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>5630</Boil_Pt>
-	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

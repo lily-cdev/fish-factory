@@ -16,14 +16,17 @@
 		<Output>
 			<Item>plagioclase</Item>
 			<Volume>5</Volume>
+			<Temp>85</Temp>
 		</Output>
 		<Output>
 			<Item>pyroxene</Item>
 			<Volume>3</Volume>
+			<Temp>90</Temp>
 		</Output>
 		<Output>
 			<Item>material_mix</Item>
 			<Volume>2</Volume>
+			<Temp>80</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

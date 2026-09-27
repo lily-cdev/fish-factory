@@ -179,6 +179,18 @@ typedef struct {
 	int Light_Ct;
 	Point* Light_Pos;
 	int* Light_Range;
+	bool Has_Emitter;
+	int Emitter_Ct;
+	Point* Emitter_Pos;
+	int* Emitter_Rate;
+	float* Emitter_Lifetime;
+	int* Emitter_Dir;
+	float* Emitter_Spread;
+	float* Emitter_Speed;
+	char** Emitter_Path;
+	float* Emitter_Endscale;
+	bool* Emitter_Fading;
+	SDL_Texture** Emitter_Texture;
 } Machine_Data;
 
 typedef Machine_Data* Machine_Ptr;
@@ -197,8 +209,6 @@ typedef struct {
 	enum Value Worth;
 	int Price;
 	int Chem_Energy;
-	int Boil_Pt;
-	int V_Enthalpy;
 	float Nutrition;
 } Item_Data;
 
@@ -241,6 +251,7 @@ typedef struct {
 	Item_Ptr Input_Items[16];
 	float Input_Counts[16];
 	Item_Ptr Output_Items[16];
+	float Output_Temps[16];
 	float Output_Counts[16];
 } Recipe;
 

@@ -44,7 +44,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 		}
 	} else {
 		if (Data.Settings_Grid[pt(Pos)][S_Time] <= 0) {
-			if (Data.Data_Grid[pt(Pos)][Stored_Power] > Chosen.Power * Chosen.Time) {
+			if (Data.Data_Grid[pt(Pos)][Stored_Power] > Chosen.Power) {
 				if (!Chosen.Voiding_Excess) {
 					for (int C1 = 0; C1 < Output_Ct; C1++) {
 						if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] > Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap] - Chosen.Output_Counts[C1]) {
@@ -142,7 +142,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 		Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 		return true;
 	} else {
-		if (Data.Settings_Grid[pt(Pos)][S_Time] > 0 || Data.Data_Grid[pt(Pos)][Stored_Power] < Chosen.Power * Chosen.Time) {
+		if (Data.Settings_Grid[pt(Pos)][S_Time] > 0 || Data.Data_Grid[pt(Pos)][Stored_Power] < Chosen.Power) {
 			return false;
 		}
 		if (Chosen.Shuffling_Barred) {
@@ -183,7 +183,7 @@ bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 	for (int C1 = 0; C1 < Output_Ct; C1++) {
 		Outputs[C1] = Get_Transformed(Chosen.Machine->Outputs[C1], Pos);
 	}
-	Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
+	Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power / Chosen.Time;
 	if (Data.Settings_Grid[pt(Pos)][S_Time] < ktn_epsilon) {
 		Data.Settings_Grid[pt(Pos)][S_Time] = 0;
 		Data.Animation_Grid[pt(Pos)][0] = 0.0f;

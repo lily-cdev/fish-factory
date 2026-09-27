@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>sulfur trioxide</Name>
+	<Index>sulfur_trioxide</Index>
+	<ID>78</ID>
+	<Path>core/images/items/s_trioxide</Path>
+	<Hazard>mid</Hazard>
+	<Value>none</Value>
+	<Price>231</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

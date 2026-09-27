@@ -343,7 +343,7 @@ void SD_Drain(Parameter Pos, Parameter Tank) {
 	char Buffer[64];
 	char Subbuffer[64];
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 3], Subbuffer, sizeof(Subbuffer));
-	snprintf(Buffer, sizeof(Buffer), "%skg drained from tank_%i", Subbuffer, Tank.Integer + 1);
+	snprintf(Buffer, sizeof(Buffer), "%s%s drained from tank_%i", Subbuffer, ktn_unit, Tank.Integer + 1);
 	Print_Response(Buffer);
 	Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 3] = 0;
 	Data.Settings_Grid[pt(Pos.Pos)][Tank.Integer + 5] = ktn_invalid;

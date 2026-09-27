@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_qdiesel</Index>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>100000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>sulfur_dioxide</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>chlorine</Item>
+			<Volume>2.3</Volume>
+		</Input>
+		<Input>
+			<Item>water</Item>
+			<Volume>1.1</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>sulfuric_acid</Item>
+			<Volume>3</Volume>
+			<Temp>180</Temp>
+		</Output>
+		<Output>
+			<Item>muriatic_acid</Item>
+			<Volume>2.3</Volume>
+			<Temp>210</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

@@ -8,7 +8,5 @@
 	<Value>mid</Value>
 	<Price>105</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>none</Boil_Pt>
-	<V_Enthalpy>none</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

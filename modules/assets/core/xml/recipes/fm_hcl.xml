@@ -3,7 +3,7 @@
 	<Index>fm_hcl</Index>
 	<Type>both</Type>
 	<Time>1</Time>
-	<Power>250</Power>
+	<Power>25000</Power>
 	<Parent>fluid_mixer</Parent>
 	<Inputs>
 		<Input>
@@ -35,10 +35,12 @@
 		<Output>
 			<Item>hydrogen_chloride</Item>
 			<Volume>2.0</Volume>
+			<Temp>300</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

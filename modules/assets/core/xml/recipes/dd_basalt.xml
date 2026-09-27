@@ -4,12 +4,13 @@
 	<Type>out</Type>
 	<Shuffling_Barred />
 	<Time>3</Time>
-	<Power>1200</Power>
+	<Power>30000</Power>
 	<Parent>deep_drill</Parent>
 	<Outputs>
 		<Output>
 			<Item>basalt</Item>
 			<Volume>20</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

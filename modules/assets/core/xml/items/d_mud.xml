@@ -13,9 +13,7 @@
 	<B2>31</B2>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
-	<Price>40</Price>
+	<Price>10</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>260</Boil_Pt>
-	<V_Enthalpy>50</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

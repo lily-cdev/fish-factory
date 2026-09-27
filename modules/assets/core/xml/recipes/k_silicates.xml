@@ -4,7 +4,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>5</Time>
-	<Power>1000</Power>
+	<Power>7500</Power>
 	<Parent>kiln</Parent>
 	<Inputs>
 		<Input>
@@ -16,6 +16,7 @@
 		<Output>
 			<Item>liquid_glass</Item>
 			<Volume>2.0</Volume>
+			<Temp>2200</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

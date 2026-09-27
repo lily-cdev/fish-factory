@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>20% oleum</Name>
+	<Index>oleum</Index>
+	<ID>80</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>81</R1>
+	<G1>94</G1>
+	<B1>4</B1>
+	<R2>44</R2>
+	<G2>50</G2>
+	<B2>10</B2>
+	<Hazard>mid</Hazard>
+	<Value>mid</Value>
+	<Price>145</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

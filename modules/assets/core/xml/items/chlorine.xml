@@ -6,9 +6,7 @@
 	<Path>core/images/items/chlorine</Path>
 	<Hazard>mid</Hazard>
 	<Value>none</Value>
-	<Price>0</Price>
+	<Price>1</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>gas</Boil_Pt>
-	<V_Enthalpy>gas</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

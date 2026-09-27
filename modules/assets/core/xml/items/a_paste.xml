@@ -6,9 +6,7 @@
 	<Path>core/images/items/a_paste</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
-	<Price>24</Price>
-	<Chem_Energy>12000</Chem_Energy>
-	<Boil_Pt>220</Boil_Pt>
-	<V_Enthalpy>45</V_Enthalpy>
+	<Price>2</Price>
+	<Chem_Energy>5500</Chem_Energy>
 	<Nutrition>70</Nutrition>
 </Item>

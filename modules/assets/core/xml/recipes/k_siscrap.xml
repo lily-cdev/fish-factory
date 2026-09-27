@@ -16,6 +16,7 @@
 		<Output>
 			<Item>liquid_silicon</Item>
 			<Volume>2.0</Volume>
+			<Temp>2900</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

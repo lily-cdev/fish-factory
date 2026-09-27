@@ -6,9 +6,7 @@
 	<Path>core/images/items/r_iron</Path>
 	<Hazard>none</Hazard>
 	<Value>low</Value>
-	<Price>20</Price>
+	<Price>10</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>5180</Boil_Pt>
-	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

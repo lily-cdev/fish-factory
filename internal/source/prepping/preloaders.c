@@ -104,6 +104,11 @@ void Preload_Machines() {
 			break;
 		}
 		Metadata.Machines[C1].Icon = Carrier;
+		if (Metadata.Machines[C1].Has_Emitter) {
+			for (int C2 = 0; C2 < Metadata.Machines[C1].Emitter_Ct; C2++) {
+				Metadata.Machines[C1].Emitter_Texture[C2] = Preload_Texture(Metadata.Machines[C1].Emitter_Path[C2]);
+			}
+		}
 	}
 	Textures.Floor_Texture = Preload_Texture("core/images/tiles/ground");
 	Textures.Frame_Texture = Preload_Texture("core/images/tiles/frame");
@@ -357,6 +362,7 @@ void Preload_Assets() {
 	Textures.Cursor = Preload_Texture("core/images/ui/other/cursor");
 	Textures.Cursor_Core = Preload_Texture("core/images/ui/other/cursor_core");
 	Textures.Sapling = Preload_Texture("core/images/ui/other/sapling");
+	Textures.Link = Preload_Texture("core/images/ui/other/link");
 	Textures.Node = Preload_Texture("core/images/ui/other/node");
 	Rects.Node = Rects.Tile_1x1;
 	Textures.Path_Arrow = Preload_Texture("core/images/ui/other/path_arrow");
@@ -364,7 +370,6 @@ void Preload_Assets() {
 	Textures.Genetics = Preload_Texture("core/images/ui/other/dna");
 	Rects.Saveloader = (SDL_FRect) { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Textures.Help_Sidebutton = Preload_Sidebutton("help", &Rects.Help, 60);
-	Textures.Objective_Sidebutton = Preload_Sidebutton("objective", &Rects.Objective, 84);
 	Textures.Save_Sidebutton = Preload_Sidebutton("save", &Rects.Save, 108);
 	Textures.Recipe_Sidebutton = Preload_Sidebutton("recipe", &Rects.Recipe, 132);
 	Textures.Genetics_Sidebutton = Preload_Sidebutton("genetics", &Rects.Genetics, 156);
@@ -512,12 +517,10 @@ void Preload_Assets() {
 	Textures.Help_Content.Data = malloc(sizeof(SDL_Texture*) * 2);
 	Textures.Help_Content.Length = 2;
 	Textures.Help_Content.Data[0] = Carrying_Texture;
-	char* Texts[6] = { "objective", "catalog", "coming soon!", "perks", "game speed", "victory!" };
-	SDL_Texture** Labels[6] = { &Textures.Objective_Content, &Textures.Recipe_Content, &Textures.Genetics_Content, &Textures.Perks_Content, &Textures.Time_Content,
-		&Textures.Victory_Content };
-	SDL_FRect* Subrects[6] = { &Rects.Objective_Content, &Rects.Recipe_Content, &Rects.Genetics_Content, &Rects.Perks_Content, &Rects.Time_Content,
-		&Rects.Victory_Content };
-	for (int C1 = 0; C1 < 6; C1++) {
+	char* Texts[4] = { "catalog", "coming soon!", "perks", "game speed" };
+	SDL_Texture** Labels[4] = { &Textures.Recipe_Content, &Textures.Genetics_Content, &Textures.Perks_Content, &Textures.Time_Content };
+	SDL_FRect* Subrects[4] = { &Rects.Recipe_Content, &Rects.Genetics_Content, &Rects.Perks_Content, &Rects.Time_Content };
+	for (int C1 = 0; C1 < 4; C1++) {
 		Carrying_Texture = Render_Text(F_Large, Texts[C1], Colors.Abyss_Black);
 		(*Subrects[C1]) = (SDL_FRect){
 			Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
@@ -784,12 +787,5 @@ void Preload_Assets() {
 			(Rects.TBW_Rectangle.Data[C1].Data[1].w * 0.5f);
 	}
 	Load_Heavy("assets/core/images/other/submarine.bmp", &Textures.Submarine, &Rects.Submarine);
-	Load_Heavy("assets/core/images/other/base.bmp", &Textures.Drydock_Base, &Rects.Drydock_Base);
-	char Subcarriers[10][64] = { "frame", "engine", "wiring", "reactor", "support", "sensors", "command", "comfort", "weaponry", "final" };
-	for (int C1 = 0; C1 < 10; C1++) {
-		char Buffer[128];
-		snprintf(Buffer, sizeof(Buffer), "assets/core/images/other/%s.bmp", Subcarriers[C1]);
-		Load_Heavy(Buffer, &Textures.Drydock_Frames[C1], &Rects.Drydock_Base);
-	}
 }
 ~end;

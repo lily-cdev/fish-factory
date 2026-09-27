@@ -16,6 +16,7 @@
 		<Output>
 			<Item>lava</Item>
 			<Volume>2.0</Volume>
+			<Temp>2200</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

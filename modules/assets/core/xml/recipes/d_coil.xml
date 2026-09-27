@@ -16,10 +16,12 @@
 		<Output>
 			<Item>light_oil</Item>
 			<Volume>10</Volume>
+			<Temp>300</Temp>
 		</Output>
 		<Output>
 			<Item>heavy_oil</Item>
 			<Volume>10</Volume>
+			<Temp>500</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

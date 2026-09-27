@@ -42,27 +42,24 @@ void Click_Sidebar(Parameter Bar, Parameter Unused) {
 		Data.Help_Clicked = true;
 		break;
 	case 1:
-		Interface.Prompt_Identifier = P_Objective;
-		break;
-	case 2:
 		if (Interface.Save_Frames < 1) {
 			Interface.Save_Frames = Interface.Frame_Rate * 2;
 			Save_Data(Core.Selected_Save);
 		}
 		break;
-	case 3:
+	case 2:
 		Interface.Prompt_Identifier = P_Catalog;
 		break;
-	case 4:
+	case 3:
 		Interface.Prompt_Identifier = P_Genetics;
 		break;
-	case 5:
+	case 4:
 		Interface.Prompt_Identifier = P_Perks;
 		break;
-	case 6:
+	case 5:
 		Interface.Prompt_Identifier = P_Time;
 		break;
-	case 7:
+	case 6:
 		if (Interface.Tool == T_Building) {
 			Interface.Rotation = 0;
 			Clear_Unconnected_Bridges(&Wires);

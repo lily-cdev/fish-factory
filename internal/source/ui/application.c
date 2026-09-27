@@ -45,6 +45,7 @@ void Render_Application() {
 		Render_Pipes();
 	}
 	Render_Submarine();
+	Render_Emitters();
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 	SDL_FRect Temporary_Rectangle = { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Render_Texture(Core.Game_Texture, &Temporary_Rectangle);

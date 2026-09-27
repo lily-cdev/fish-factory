@@ -16,14 +16,17 @@
 		<Output>
 			<Item>algae_paste</Item>
 			<Volume>5</Volume>
+			<Temp>70</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
+			<Temp>65</Temp>
 		</Output>
 		<Output>
 			<Item>wet_waste</Item>
 			<Volume>5</Volume>
+			<Temp>68</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

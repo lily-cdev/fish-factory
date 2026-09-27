@@ -1,17 +1,17 @@
 #include <rendering.h>
 
-const float Deltas[1] = { 5.0f };
-
 Particle* Particle_Grid[ktn_grid_size][ktn_grid_size] = { };
 int Lengths[ktn_grid_size][ktn_grid_size] = { };
 int Full_Lengths[ktn_grid_size][ktn_grid_size] = { };
 
-void Push_Particle(const int Type, const Point Pos, const Point Subpos) {
+void Push_Particle(const int Type, const Point Pos, const Point Subpos, const float Lifetime, const float Direction, const float Velocity, SDL_Texture* Icon,
+	float Endscale, bool Fading) {
 	if (Lengths[pt(Pos)] >= Full_Lengths[pt(Pos)]) {
 		Full_Lengths[pt(Pos)] += 32;
 		Particle_Grid[pt(Pos)] = realloc(Particle_Grid[pt(Pos)], sizeof(Particle) * Full_Lengths[pt(Pos)]);
 	}
-	Particle_Grid[pt(Pos)][Lengths[pt(Pos)]] = (Particle){ .Type = Type, .Pos = Subpos, .Max = Deltas[Type] };
+	Particle_Grid[pt(Pos)][Lengths[pt(Pos)]] = (Particle){ .Type = Type, .Pos = (Point_f){ Subpos.X, Subpos.Y }, .Max = Lifetime, .Dir = Direction, .Vel = Velocity,
+		.Icon = Icon, .Endscale = Endscale, .Fading = Fading };
 	Lengths[pt(Pos)]++;
 }
 
@@ -59,7 +59,22 @@ void Render_Particles(const Point Pos) {
 			C1--;
 			continue;
 		}
-		if (Carrier.Type == P_Bubble) {
+		if (Carrier.Type == P_Standard) {
+			Carrier.Pos.X -= cosf((ktn_pi / 180) * Carrier.Dir) * Carrier.Vel / Interface.Frame_Rate;
+			Carrier.Pos.Y += sinf((ktn_pi / 180) * Carrier.Dir) * Carrier.Vel / Interface.Frame_Rate;
+			Point_f Rootpos = {
+				ktn_fscale((((Pos.X * 40) + Carrier.Pos.X) * Core.Ratio) - Core.Camera.X),
+				ktn_fscale((((Pos.Y * 40) + Carrier.Pos.Y) * Core.Ratio) - Core.Camera.Y)
+			};
+			float Span = Carrier.Delta / Carrier.Max;
+			float Size_Mul = ((Carrier.Endscale - 1) * Span) + 1;
+			Point_f Size = {
+				ktn_fscale(Carrier.Icon->w / 6) * Core.Ratio * Size_Mul,
+				ktn_fscale(Carrier.Icon->h / 6) * Core.Ratio * Size_Mul
+			};
+			SDL_SetTextureAlphaMod(Carrier.Icon, (Carrier.Fading) ? 255 - (Span * 255) : 255);
+			Render_Texture(Carrier.Icon, &(SDL_FRect){ Rootpos.X - (Size.X * 0.5f), Rootpos.Y - (Size.Y * 0.5f), Size.X, Size.Y });
+		} else if (Carrier.Type == P_Bubble) {
 			float Increment = Carrier.Max / 3.0f;
 			Point_f Rootpos = {
 				ktn_fscale((((Pos.X * 40) + Carrier.Pos.X) * Core.Ratio) - Core.Camera.X),
@@ -85,5 +100,42 @@ void Render_Particles(const Point Pos) {
 			}
 		}
 		Particle_Grid[pt(Pos)][C1] = Carrier;
+	}
+}
+
+void Render_Emitters() {
+	for (int Column = 0; Column < ktn_grid_size; Column++) {
+		Update_Tilestack(false, (int)((Column * Core.Tile_Size) - Core.Camera.X), true, ktn_invalid);
+		for (int Row = 0; Row < ktn_grid_size; Row++) {
+			Update_Tilestack(true, ktn_invalid, false, (int)((Row * Core.Tile_Size) - Core.Camera.Y));
+			int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
+			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+			if (!Machine) {
+				continue;
+			}
+			if (Machine->Has_Emitter) {
+				for (int C2 = 0; C2 < Machine->Emitter_Ct; C2++) {
+					if (Data.Animation_Grid[Column][Row][0] > ktn_epsilon) {
+						Data.Animation_Grid[Column][Row][C2 + 2] += Interface.Time_Positions[Interface.Slider_Positions[15]] / Interface.Frame_Rate;
+						if (Data.Animation_Grid[Column][Row][C2 + 2] >= 1.0f / Machine->Emitter_Rate[C2]) {
+							Data.Animation_Grid[Column][Row][C2 + 2] = 0;
+							SDL_FRect Carrier = {
+								Rects.Tile_1x1.x,
+								Rects.Tile_1x1.y,
+								ktn_evn(Rotation) ? Machine->Rect.w : Machine->Rect.h,
+								ktn_evn(Rotation) ? Machine->Rect.h : Machine->Rect.w
+							};
+							ktn_tick();
+							Point Subsize = { Machine->Size.X * 40, Machine->Size.Y * 40 };
+							Point Subcarrier = Rotate_Px((Point){ Machine->Emitter_Pos[C2].X, Machine->Emitter_Pos[C2].Y }, Subsize, Rotation);
+							float Direction = fmodf(Core.State, Machine->Emitter_Spread[C2] * 2) - (Machine->Emitter_Spread[C2]) + Machine->Emitter_Dir[C2];
+							Push_Particle(P_Standard, (Point){ Column, Row }, Subcarrier, Machine->Emitter_Lifetime[C2], Direction, Machine->Emitter_Speed[C2],
+								Machine->Emitter_Texture[C2], Machine->Emitter_Endscale[C2], Machine->Emitter_Fading[C2]);
+						}
+					}
+				}
+			}
+			Render_Particles((Point){ Column, Row });
+		}
 	}
 }

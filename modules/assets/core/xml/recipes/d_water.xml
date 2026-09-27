@@ -15,11 +15,13 @@
 	<Outputs>
 		<Output>
 			<Item>water</Item>
-			<Volume>20</Volume>
+			<Volume>10</Volume>
+			<Temp>212</Temp>
 		</Output>
 		<Output>
 			<Item>wet_salt</Item>
-			<Volume>20</Volume>
+			<Volume>10</Volume>
+			<Temp>180</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

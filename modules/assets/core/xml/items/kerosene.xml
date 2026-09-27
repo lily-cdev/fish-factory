@@ -13,9 +13,7 @@
 	<B2>252</B2>
 	<Hazard>none</Hazard>
 	<Value>mid</Value>
-	<Price>24</Price>
-	<Chem_Energy>43100000</Chem_Energy>
-	<Boil_Pt>617</Boil_Pt>
-	<V_Enthalpy>345</V_Enthalpy>
+	<Price>101</Price>
+	<Chem_Energy>19546485</Chem_Energy>
 	<Nutrition>0</Nutrition>
 </Item>

@@ -116,7 +116,7 @@ void Render_Catalog(Point Pos) {
 			}
 			strncpy(Candidate, "Outputs -> ", sizeof(Candidate));
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Output_Ct; C3++) {
-				if (ktn_stricmp(Metadata.Recipes[C1].Output_Items[C3]->Name, "none")) {
+				if (ktn_stricmp(Metadata.Recipes[C1].Output_Items[C3]->Index, ktn_strnull)) {
 					continue;
 				}
 				Abbreviate_Number(Metadata.Recipes[C1].Output_Counts[C3] / Metadata.Recipes[C1].Time, Buffer, sizeof(Buffer));

@@ -10,6 +10,7 @@
 		<Output>
 			<Item>seawater</Item>
 			<Volume>0.5</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

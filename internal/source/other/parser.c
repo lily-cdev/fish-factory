@@ -113,15 +113,13 @@ void Load_XML() {
 	Metadata.Categories = calloc(Core.Categories, sizeof(Category_Data));
 	Metadata.Null_Item = (Item_Data){
 		.Name = "none",
-		.Index = "none",
+		.Index = ktn_strnull,
 		.ID = ktn_invalid,
 		.Worth = Worthless,
 		.Danger = Harmless,
 		.Price = 0,
 		.Nutrition = 0,
 		.Chem_Energy = 0,
-		.Boil_Pt = -2,
-		.V_Enthalpy = -2,
 		.Icon = Preload_Texture("core/images/items/none")
 	};
 	for (int C1 = 0; C1 < Core.Categories; C1++) {
@@ -324,6 +322,37 @@ void Load_XML() {
 			}
 			ktn_free(Sublights);
 		}
+		Machine.Has_Emitter = Get_Boolean(Machine_File, "Has_Emitter");
+		if (Machine.Has_Emitter) {
+			Machine.Emitter_Ct = get_int("Emitter_Ct");
+			Machine.Emitter_Pos = malloc(sizeof(Point) * Machine.Emitter_Ct);
+			Machine.Emitter_Rate = malloc(sizeof(int) * Machine.Emitter_Ct);
+			Machine.Emitter_Lifetime = malloc(sizeof(float) * Machine.Emitter_Ct);
+			Machine.Emitter_Dir = malloc(sizeof(float) * Machine.Emitter_Ct);
+			Machine.Emitter_Spread = malloc(sizeof(float) * Machine.Emitter_Ct);
+			Machine.Emitter_Speed = malloc(sizeof(float) * Machine.Emitter_Ct);
+			Machine.Emitter_Path = malloc(sizeof(char*) * Machine.Emitter_Ct);
+			Machine.Emitter_Texture = malloc(sizeof(SDL_Texture*) * Machine.Emitter_Ct);
+			Machine.Emitter_Endscale = malloc(sizeof(float) * Machine.Emitter_Ct);
+			Machine.Emitter_Fading = malloc(sizeof(bool) * Machine.Emitter_Ct);
+			char** Subemitters = Find_Multiple(Raw_Names[C1], Machine_File, "Emitter", Machine.Emitter_Ct);
+			for (int C2 = 0; C2 < Machine.Emitter_Ct; C2++) {
+				Machine.Emitter_Pos[C2] = (Point){
+					Get_Integer(Raw_Names[C1], Subemitters[C2], "X"),
+					Get_Integer(Raw_Names[C1], Subemitters[C2], "Y")
+				};
+				Machine.Emitter_Rate[C2] = Get_Integer(Raw_Names[C1], Subemitters[C2], "Rate");
+				Machine.Emitter_Lifetime[C2] = Get_Float(Raw_Names[C1], Subemitters[C2], "Lifetime");
+				Machine.Emitter_Dir[C2] = Get_Integer(Raw_Names[C1], Subemitters[C2], "Dir");
+				Machine.Emitter_Spread[C2] = Get_Float(Raw_Names[C1], Subemitters[C2], "Spread");
+				Machine.Emitter_Speed[C2] = Get_Float(Raw_Names[C1], Subemitters[C2], "Speed");
+				Machine.Emitter_Path[C2] = Find_Element(Raw_Names[C1], Subemitters[C2], "Path", NULL);
+				Machine.Emitter_Endscale[C2] = Get_Float(Raw_Names[C1], Subemitters[C2], "Endscale");
+				Machine.Emitter_Fading[C2] = Get_Boolean(Subemitters[C2], "Fading");
+				ktn_free(Subemitters[C2]);
+			}
+			ktn_free(Subemitters);
+		}
 		ktn_free(Machine_File);
 		ktn_free(Raw_Names[C1]);
 		#undef get_str
@@ -356,22 +385,6 @@ void Load_XML() {
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
 		Item.Nutrition = get_int("Nutrition") * 0.01f;
-		if (ktn_stricmp(get_str("Boil_Pt"), "none")) {
-			Item.Boil_Pt = -2;
-		} else if (ktn_stricmp(get_str("Boil_Pt"), "gas")) {
-			Item.Boil_Pt = ktn_invalid;
-		} else {
-			Item.Boil_Pt = get_int("Boil_Pt");
-		}
-		if (ktn_stricmp(get_str("V_Enthalpy"), "none")) {
-			Item.V_Enthalpy = -2;
-		} else if (ktn_stricmp(get_str("V_Enthalpy"), "gas")) {
-			Item.V_Enthalpy = ktn_invalid;
-		} else if (ktn_stricmp(get_str("V_Enthalpy"), "solid")) {
-			Item.V_Enthalpy = -3;
-		} else {
-			Item.V_Enthalpy = get_int("V_Enthalpy");
-		}
 		char* Danger = get_str("Hazard");
 		if (ktn_stricmp(Danger, "none")) {
 			Item.Danger = Harmless;
@@ -460,6 +473,7 @@ void Load_XML() {
 			}
 			ktn_free(Name);
 			Recipe.Output_Counts[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Volume");
+			Recipe.Output_Temps[C2] = Get_Float(Raw_Names[C1], IO_Carrier[C2], "Temp");
 			ktn_free(IO_Carrier[C2]);
 		}
 		ktn_free(IO_Carrier);

@@ -32,21 +32,6 @@ void Purge_Items() {
 	}
 }
 
-float Calculate_Pressure(int Temperature, float Boiling_Point, float H_Vaporisation) {
-	float Temperature_K = (Temperature + 459.67f) / 1.8f;
-	if (Boiling_Point == ktn_invalid && H_Vaporisation == ktn_invalid) {
-		return ktn_invalid;
-	} else if (Boiling_Point == -2 && H_Vaporisation == -2) {
-		return -2;
-	} else if (Boiling_Point == -3 && H_Vaporisation == -3) {
-		return -3;
-	} else {
-		float Boiling_Point_K = (Boiling_Point + 459.67f) / 1.8f;
-		float ATM = powf(M_E, ((H_Vaporisation * -1000.0f) / 8.314462618f) * ((1.0f / Temperature_K) - (1.0f / Boiling_Point_K)));
-		return ATM * 1.01325f;
-	}
-}
-
 void Update_Item(Point Pos, char Identifier[64], int Temperature) {
 	strncpy(Data.Items_Grid[pt(Pos)], Identifier, 64);
 	Data.Temperature_Grid[pt(Pos)] = Temperature;

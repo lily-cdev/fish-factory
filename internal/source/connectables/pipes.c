@@ -73,6 +73,7 @@ void Place_Pipe() {
 			}
 		}
 	}
+	Get_Chains();
 }
 
 void Render_Pipes() {
@@ -90,15 +91,23 @@ void Render_Pipes() {
 }
 
 void Update_Pipes() {
-	for (int C1 = 0; C1 < Pipes.Length; C1++) {
-		Bridge Pipe = Pipes.Data[C1];
-		if (!Pipe.Filled || ktn_stricmp(Data.Items_Grid[Pipe.X1][Pipe.Y1], Metadata.Null_Item.Index)) {
-			continue;
+	for (int C1 = 0; C1 < Temporary.Chain_Ct; C1++) {
+		float Carrier = 0;
+		char Item[64];
+		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
+			Carrier += Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids];
+			if (!ktn_stricmp(Data.Items_Grid[pt(Temporary.Chains[C1][C2])], ktn_strnull)) {
+				strcpy(Item, Data.Items_Grid[pt(Temporary.Chains[C1][C2])]);
+			}
 		}
-		float Volume = Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids];
-		Volume = fminf(Volume, Data.Data_Grid[Pipe.X2][Pipe.Y2][Fluid_Cap] - Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids]);
-		Data.Data_Grid[Pipe.X1][Pipe.Y1][Stored_Fluids] -= Volume;
-		Data.Data_Grid[Pipe.X2][Pipe.Y2][Stored_Fluids] += Volume;
-		Update_Item((Point){ Pipe.X2, Pipe.Y2 }, Data.Items_Grid[Pipe.X1][Pipe.Y1], Data.Temperature_Grid[Pipe.X1][Pipe.Y1]);
+		float Temp = 0;
+		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
+			Temp += (Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] / Carrier) * Data.Temperature_Grid[pt(Temporary.Chains[C1][C2])];
+		}
+		Carrier /= Temporary.Chain_Len[C1];
+		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
+			Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] = Carrier;
+			Update_Item(Temporary.Chains[C1][C2], Item, Temp);
+		}
 	}
 }

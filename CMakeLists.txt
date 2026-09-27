@@ -69,7 +69,6 @@ add_executable(Fish_Factory
 	internal/source/prompts/genetics.c
 	internal/source/prompts/perks.c
 	internal/source/prompts/time.c
-	internal/source/prompts/objective.c
 	internal/source/prompts/cheats.c
 	internal/source/prompts/daily_report.c
 	internal/source/prompts/help.c

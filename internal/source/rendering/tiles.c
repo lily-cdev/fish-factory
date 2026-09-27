@@ -9,6 +9,7 @@ void Render_Grid() {
 				SDL_FRect Carrier;
 				SDL_FPoint Centerpoint;
 				Point Offset[4];
+				Machine_Ptr Machine;
 				SDL_FRect Source;
 				SDL_FRect Destination;
 				int Rotation = Visual_To_Rotation(Data.Visual_Grid[Column][Row]);
@@ -23,7 +24,7 @@ void Render_Grid() {
 						Render_Texture(Textures.Floor_Texture, &Rects.Tile_1x1);
 						Render_Texture(Textures.Frame_Texture, &Rects.Tile_1x1);
 					}
-					Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
+					Machine = Visual_To_Machine(Data.Visual_Grid[Column][Row]);
 					if (!Machine) {
 						break;
 					}
@@ -89,10 +90,14 @@ void Render_Grid() {
 						};
 						Render_Texture(Machine->Texture2.Data[Rotation], &Carrier);
 						float Width = (Data.Data_Grid[Column][Row][Stored_Power] / Data.Data_Grid[Column][Row][Power_Cap]) * Machine->Gauge_Data.Size.X;
-						Point Subsize = { Machine->Size.X * Core.Tile_Size, Machine->Size.Y * Core.Tile_Size };
+						Point Subsize = { Machine->Size.X * 40, Machine->Size.Y * 40 };
 						Point Origin = Rotate_Px(Machine->Gauge_Data.Pos, Subsize, Rotation);
+						Origin.X *= Core.Ratio;
+						Origin.Y *= Core.Ratio;
 						Point End = Rotate_Px((Point){ Machine->Gauge_Data.Pos.X + Width, Machine->Gauge_Data.Pos.Y + Machine->Gauge_Data.Size.Y }, Subsize,
 							Rotation);
+						End.X *= Core.Ratio;
+						End.Y *= Core.Ratio;
 						SDL_FRect Rect = {
 							ktn_fscale((Column * Core.Tile_Size) + Origin.X - Core.Camera.X),
 							ktn_fscale((Row * Core.Tile_Size) + Origin.Y - Core.Camera.Y),
@@ -283,7 +288,8 @@ void Render_Grid() {
 									Point Coordinate = { (Core.State % 52) + 16 };
 									ktn_tick();
 									Coordinate.Y = (Core.State % 52) + 16;
-									Push_Particle(P_Bubble, (Point){ Column, Row }, Rotate_Px(Coordinate, (Point){ Carrier.x, Carrier.y }, Rotation));
+									Push_Particle(P_Bubble, (Point){ Column, Row }, Rotate_Px(Coordinate, (Point){ Carrier.w, Carrier.h }, Rotation), 5, 0, 0, NULL,
+										0, false);
 								}
 							}
 							Render_Particles((Point){ Column, Row });

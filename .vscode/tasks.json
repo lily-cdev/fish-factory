@@ -24,5 +24,11 @@
 		"command": "${workspaceFolder}/update.bat",
 		"group": "build",
 		"problemMatcher": []
+	}, {
+		"label": "autobalance",
+		"type": "shell",
+		"command": "${workspaceFolder}/autobalance.bat",
+		"group": "build",
+		"problemMatcher": []
 	}]
 }

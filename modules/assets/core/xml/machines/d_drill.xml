@@ -13,7 +13,7 @@
 	<Height>1</Height>
 	<Rot_ID />
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>3700</Power_Capacity>
+	<Power_Capacity>32000</Power_Capacity>
 	<Anchor_X>7</Anchor_X>
 	<Anchor_Y>18</Anchor_Y>
 	<Fluid_Processor />

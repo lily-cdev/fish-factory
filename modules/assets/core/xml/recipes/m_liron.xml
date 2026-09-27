@@ -16,6 +16,7 @@
 		<Output>
 			<Item>iron</Item>
 			<Volume>2.0</Volume>
+			<Temp>70</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

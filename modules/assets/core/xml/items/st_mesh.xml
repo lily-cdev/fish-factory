@@ -6,9 +6,7 @@
 	<Path>core/images/items/st_mesh</Path>
 	<Hazard>none</Hazard>
 	<Value>high</Value>
-	<Price>500</Price>
+	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
-	<Boil_Pt>solid</Boil_Pt>
-	<V_Enthalpy>solid</V_Enthalpy>
 	<Nutrition>0</Nutrition>
 </Item>

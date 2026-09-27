@@ -20,10 +20,12 @@
 		<Output>
 			<Item>wet_waste</Item>
 			<Volume>10</Volume>
+			<Temp>160</Temp>
 		</Output>
 		<Output>
 			<Item>liquid_silicon</Item>
 			<Volume>2</Volume>
+			<Temp>2190</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

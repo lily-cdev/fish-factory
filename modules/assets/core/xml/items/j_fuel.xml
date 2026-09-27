@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>jet fuel</Name>
+	<Index>jet_fuel</Index>
+	<ID>75</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>234</R1>
+	<G1>234</G1>
+	<B1>193</B1>
+	<R2>229</R2>
+	<G2>248</G2>
+	<B2>255</B2>
+	<Hazard>none</Hazard>
+	<Value>mid</Value>
+	<Price>242</Price>
+	<Chem_Energy>19590000</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

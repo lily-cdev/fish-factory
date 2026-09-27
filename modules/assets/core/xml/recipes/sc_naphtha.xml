@@ -4,7 +4,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>3</Time>
-	<Power>0</Power>
+	<Power>10000000</Power>
 	<Parent>steam_cracker</Parent>
 	<Inputs>
 		<Input>
@@ -20,14 +20,17 @@
 		<Output>
 			<Item>ethylene</Item>
 			<Volume>3</Volume>
+			<Temp>900</Temp>
 		</Output>
 		<Output>
 			<Item>propylene</Item>
 			<Volume>2</Volume>
+			<Temp>850</Temp>
 		</Output>
 		<Output>
 			<Item>wet_waste</Item>
 			<Volume>5</Volume>
+			<Temp>400</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

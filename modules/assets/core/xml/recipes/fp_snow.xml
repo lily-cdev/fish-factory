@@ -16,14 +16,17 @@
 		<Output>
 			<Item>wet_marine_snow</Item>
 			<Volume>1</Volume>
+			<Temp>65</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
+			<Temp>65</Temp>
 		</Output>
 		<Output>
 			<Item>saltwater</Item>
 			<Volume>9</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

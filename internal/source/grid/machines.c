@@ -328,8 +328,8 @@ void Build_Grid() {
 			}
 			Update_Grid();
 			Recast_Machines();
-			Check_Drydock();
 			Bake_Light((Point){ Column, Row });
+			Get_Chains();
 			Find_Effect();
 			return;
 		}
@@ -401,7 +401,7 @@ bool Destroy_Grid() {
 				Update_Grid();
 				Recast_Machines();
 				Bake_Lights();
-				Check_Drydock();
+				Get_Chains();
 				Find_Effect();
 				return true;
 			}
@@ -510,23 +510,6 @@ void Bake_Light(Point Pos) {
 	Clear_Renderer();
 }
 
-void Check_Drydock() {
-	Data.Objective_Placed = false;
-	Point Pos;
-	for (Pos.X = 0; Pos.X < ktn_grid_size; Pos.X++) {
-		for (Pos.Y = 0; Pos.Y < ktn_grid_size; Pos.Y++) {
-			Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
-			if (!Machine) {
-				continue;
-			}
-			if (ktn_stricmp(Machine->Index, "signal_tower")) {
-				Data.Objective_Placed = true;
-				break;
-			}
-		}
-	}
-}
-
 void Bake_Lights() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		SDL_SetRenderTarget(Core.Renderer, Temporary.Lighting[C1]);
@@ -544,6 +527,63 @@ void Bake_Lights() {
 	for (int C1 = 0; C1 < 4; C1++) {
 		SDL_SetTextureBlendMode(Temporary.Lighting[C1], SDL_BLENDMODE_BLEND);
 	}
+}
+
+
+void Get_Chains() {
+	if (Temporary.Chains) {
+		for (int C1 = 0; C1 < Temporary.Chain_Max; C1++) {
+			ktn_free(Temporary.Chains[C1]);
+		}
+		ktn_free(Temporary.Chains);
+	}
+	ktn_free(Temporary.Chain_Len);
+	Temporary.Chain_Ct = 0;
+	Temporary.Chain_Max = Pipes.Length;
+	Temporary.Chains = calloc(Pipes.Length, sizeof(Point*));
+	Temporary.Chain_Len = calloc(Pipes.Length, sizeof(int));
+	bool* Used = calloc(Pipes.Length, sizeof(bool));
+	int* Queue = malloc(sizeof(int) * Pipes.Length);
+	for (int Start = 0; Start < Pipes.Length; Start++) {
+		if (Used[Start]) {
+			continue;
+		}
+		int Chain_Index = Temporary.Chain_Ct;
+		Temporary.Chains[Chain_Index] = malloc(sizeof(Point) * Pipes.Length * 2);
+		int Len = 0;
+		int Q_Head = 0;
+		int Q_Tail = 0;
+		Queue[0] = Start;
+		Q_Tail++;
+		Used[Start] = true;
+		while (Q_Head < Q_Tail) {	
+			int Cursor = Queue[Q_Head];
+			Q_Head++;
+			Point P1 = { Pipes.Data[Cursor].X1, Pipes.Data[Cursor].Y1 };
+			Point P2 = { Pipes.Data[Cursor].X2, Pipes.Data[Cursor].Y2 };
+			Temporary.Chains[Chain_Index][Len] = P1;
+			Len++;
+			Temporary.Chains[Chain_Index][Len] = P2;
+			Len++;
+			for (int Candidate = 0; Candidate < Pipes.Length; Candidate++) {
+				if (Used[Candidate]) {
+					continue;
+				}
+				bool Shares = (Pipes.Data[Candidate].X1 == P1.X && Pipes.Data[Candidate].Y1 == P1.Y) || (Pipes.Data[Candidate].X2 == P1.X &&
+					Pipes.Data[Candidate].Y2 == P1.Y) || (Pipes.Data[Candidate].X1 == P2.X && Pipes.Data[Candidate].Y1 == P2.Y) || (Pipes.Data[Candidate].X2 ==
+					P2.X && Pipes.Data[Candidate].Y2 == P2.Y);
+				if (Shares) {
+					Used[Candidate] = true;
+					Queue[Q_Tail] = Candidate;
+					Q_Tail++;
+				}
+			}
+		}
+		Temporary.Chain_Len[Chain_Index] = Len;
+		Temporary.Chain_Ct++;
+	}
+	ktn_free(Queue);
+	ktn_free(Used);
 }
 
 int Get_Simple_Grid_Tile(int Grid[ktn_grid_size][ktn_grid_size], int Neutral) {

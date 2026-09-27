@@ -16,6 +16,7 @@
 		<Output>
 			<Item>polypropylene</Item>
 			<Volume>2.0</Volume>
+			<Temp>270</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

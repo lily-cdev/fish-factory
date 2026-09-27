@@ -23,15 +23,16 @@
 #define ktn_invalid -1
 #define ktn_json_max 8
 #define ktn_keybinds 14
-#define ktn_large_cap 150
+#define ktn_large_cap 30
 #define ktn_log_max 11
 #define ktn_logs 3
 #define ktn_ocean_size 1024
 #define ktn_param_max 128
 #define ktn_perm_buttons 2
+#define ktn_pi 3.141592658579f
 #define ktn_quirks 4
 #define ktn_recipe_types 3
-#define ktn_reinforced_cap 30
+#define ktn_reinforced_cap 5
 #define ktn_room_temp 65
 #define ktn_savefiles 4
 #define ktn_scalar_max 6
@@ -47,6 +48,6 @@
 #define ktn_time_len 5
 #define ktn_tools 5
 #define ktn_turbine_coefficient 0.15
-#define ktn_unit "kg"
+#define ktn_unit "lbs"
 #define ktn_valve300_len 7
 #define ktn_water_boil_pt 211.3

@@ -16,14 +16,17 @@
 		<Output>
 			<Item>raw_iron</Item>
 			<Volume>5</Volume>
+			<Temp>72</Temp>
 		</Output>
 		<Output>
 			<Item>wet_waste</Item>
 			<Volume>1.25</Volume>
+			<Temp>68</Temp>
 		</Output>
 		<Output>
 			<Item>raw_fluorite</Item>
 			<Volume>3.75</Volume>
+			<Temp>75</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

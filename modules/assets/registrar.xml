@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>48</Machine_Ct>
+	<Machine_Ct>49</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -50,8 +50,9 @@
 		<Machine>core/xml/machines/polymerizer</Machine>
 		<Machine>core/xml/machines/s_cracker</Machine>
 		<Machine>core/xml/machines/lathe</Machine>
+		<Machine>core/xml/machines/roller</Machine>
 	</Machines>
-	<Item_Ct>69</Item_Ct>
+	<Item_Ct>81</Item_Ct>
 	<Items>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
@@ -84,7 +85,7 @@
 		<Item>core/xml/items/pyroxene</Item>
 		<Item>core/xml/items/m_materials</Item>
 		<Item>core/xml/items/r_iron</Item>
-		<Item>core/xml/items/r_fluorite</Item>
+		<Item>core/xml/items/r_limestone</Item>
 		<Item>core/xml/items/l_iron</Item>
 		<Item>core/xml/items/i_bar</Item>
 		<Item>core/xml/items/lava</Item>
@@ -122,8 +123,20 @@
 		<Item>core/xml/items/pe_rod</Item>
 		<Item>core/xml/items/rivets</Item>
 		<Item>core/xml/items/s_plates</Item>
+		<Item>core/xml/items/si_plates</Item>
+		<Item>core/xml/items/pp_plates</Item>
+		<Item>core/xml/items/pe_plates</Item>
+		<Item>core/xml/items/i_plates</Item>
+		<Item>core/xml/items/h_sulfide</Item>
+		<Item>core/xml/items/q_diesel</Item>
+		<Item>core/xml/items/j_fuel</Item>
+		<Item>core/xml/items/s_dioxide</Item>
+		<Item>core/xml/items/s_trioxide</Item>
+		<Item>core/xml/items/slugs</Item>
+		<Item>core/xml/items/oleum</Item>
+		<Item>core/xml/items/s_acid</Item>
 	</Items>
-	<Recipe_Ct>48</Recipe_Ct>
+	<Recipe_Ct>61</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -173,6 +186,19 @@
 		<Recipe>core/xml/recipes/l_ppbar</Recipe>
 		<Recipe>core/xml/recipes/l_pebar</Recipe>
 		<Recipe>core/xml/recipes/l_irod</Recipe>
+		<Recipe>core/xml/recipes/r_ibar</Recipe>
+		<Recipe>core/xml/recipes/r_pebar</Recipe>
+		<Recipe>core/xml/recipes/r_ppbar</Recipe>
+		<Recipe>core/xml/recipes/r_sbar</Recipe>
+		<Recipe>core/xml/recipes/r_sibar</Recipe>
+		<Recipe>core/xml/recipes/fm_qdiesel</Recipe>
+		<Recipe>core/xml/recipes/fm_jfuel</Recipe>
+		<Recipe>core/xml/recipes/k_sdioxide</Recipe>
+		<Recipe>core/xml/recipes/fm_strioxide</Recipe>
+		<Recipe>core/xml/recipes/l_srod</Recipe>
+		<Recipe>core/xml/recipes/fm_sacid1</Recipe>
+		<Recipe>core/xml/recipes/fm_sacid2</Recipe>
+		<Recipe>core/xml/recipes/fm_oleum</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>
@@ -186,11 +212,12 @@
 		<Gene>core/xml/genes/compact</Gene>
 		<Gene>core/xml/genes/photosynthetic</Gene>
 	</Genes>
-	<Perk_Ct>3</Perk_Ct>
+	<Perk_Ct>4</Perk_Ct>
 	<Perks>
 		<Perk>core/xml/perks/a_automation</Perk>
 		<Perk>core/xml/perks/o_pipeline</Perk>
 		<Perk>core/xml/perks/uh_pipeline</Perk>
+		<Perk>core/xml/perks/c_pipeline</Perk>
 	</Perks>
 	<Category_Ct>7</Category_Ct>
 	<Categories>

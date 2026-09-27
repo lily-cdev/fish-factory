@@ -16,10 +16,12 @@
 		<Output>
 			<Item>polyethylene</Item>
 			<Volume>1.0</Volume>
+			<Temp>85</Temp>
 		</Output>
 		<Output>
 			<Item>polyethylene_rod</Item>
 			<Volume>1.0</Volume>
+			<Temp>110</Temp>
 		</Output>
 	</Outputs>
 </Recipe>
