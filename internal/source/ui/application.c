@@ -112,6 +112,32 @@ void Render_Application() {
 				Clear_Renderer();
 			}
 			if (Satiated && Data.Data_Grid[pt(Pos)][Fluid_Cap] >= 0.1f) {
+				Point Subpos;
+				for (int Column = 0; Column < ktn_grid_size; Column++) {
+					Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
+					for (int Row = 0; Row < ktn_grid_size; Row++) {
+						Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
+						if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
+							Subpos = (Point){ Column, Row };
+							break;
+						}
+					}
+				}
+				for (int C1 = 0; C1 < Temporary.Chain_Ct; C1++) {
+					for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
+						if (Temporary.Chains[C1][C2].X == Subpos.X && Temporary.Chains[C1][C2].Y == Subpos.Y) {
+							for (int C3 = 0; C3 < Temporary.Chain_Len[C1]; C3++) {
+								Render_Texture(Textures.Link, &(SDL_FRect){
+									ktn_fscale((Temporary.Chains[C1][C3].X * Core.Tile_Size) - Core.Camera.X),
+									ktn_fscale((Temporary.Chains[C1][C3].Y * Core.Tile_Size) - Core.Camera.Y),
+									ktn_fscale(Core.Tile_Size),
+									ktn_fscale(Core.Tile_Size)
+								});
+							}
+							break;
+						}
+					}
+				}
 				SDL_FRect Item = {
 					0,
 					0,

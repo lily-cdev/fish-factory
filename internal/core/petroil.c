@@ -44,7 +44,7 @@ int main(int argc, char* args[]) {
 	}
 	Startup_Miniaudio();
 	Scaling_Quality = SDL_SCALEMODE_LINEAR;
-	SDL_CreateWindowAndRenderer("Fish Factory", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY, &Core.Window, &Core.Renderer);
+	SDL_CreateWindowAndRenderer("petroil", 640, 360, SDL_WINDOW_HIGH_PIXEL_DENSITY, &Core.Window, &Core.Renderer);
 	if (Core.Window == NULL) {
 		ktn_jump(I_No_Window, "window creation failed");
 	}

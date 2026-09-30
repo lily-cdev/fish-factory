@@ -1,13 +1,13 @@
 {
 	"version": "2.0.0",
 	"tasks": [{
-		"label": "debug fish factory",
+		"label": "debug petroil",
 		"type": "shell",
 		"command": "${workspaceFolder}/debug.bat",
 		"group": "build",
 		"problemMatcher": []
 	}, {
-		"label": "release f2",
+		"label": "release petroil",
 		"type": "shell",
 		"command": "${workspaceFolder}/release.bat",
 		"group": "build",

@@ -96,7 +96,7 @@ void Update_Pipes() {
 		char Item[64];
 		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
 			Carrier += Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids];
-			if (!ktn_stricmp(Data.Items_Grid[pt(Temporary.Chains[C1][C2])], ktn_strnull)) {
+			if (!ktn_stricmp(Get_Item(Data.Items_Grid[pt(Temporary.Chains[C1][C2])])->Index, Metadata.Null_Item.Index)) {
 				strcpy(Item, Data.Items_Grid[pt(Temporary.Chains[C1][C2])]);
 			}
 		}

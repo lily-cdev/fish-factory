@@ -39,6 +39,7 @@ void Cycle_HX(Point Pos, const int Rotation);
 void Cycle_Turbine_Input(Point Pos, const int Rotation);
 void Cycle_Large_Pipe(Point Pos, const int Rotation);
 void Cycle_Intersection(Point Pos, const int Rotation);
+void Cycle_Pump(Point Pos, const int Rotation);
 void Cycle_Incinerator(Point Pos, const int Rotation);
 void Cycle_Drydock_Intake(Point Pos, const int Rotation);
 void Cycle_Money_Generator(Point Pos, const int Rotation);

@@ -14,7 +14,10 @@
 	<Fee>1</Fee>
 	<Width>3</Width>
 	<Height>3</Height>
-	<Power_Type>none</Power_Type>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>11000000</Power_Capacity>
+	<Anchor_X>35</Anchor_X>
+	<Anchor_Y>80</Anchor_Y>
 	<Heating />
 	<Rot_ID />
 	<Fluid_Processor />

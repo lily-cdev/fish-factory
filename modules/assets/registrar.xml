@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Registrar>
-	<Machine_Ct>49</Machine_Ct>
+	<Machine_Ct>52</Machine_Ct>
 	<Machines>
 		<Machine>core/xml/machines/r_pipe</Machine>
 		<Machine>core/xml/machines/r_pump</Machine>
@@ -51,9 +51,57 @@
 		<Machine>core/xml/machines/s_cracker</Machine>
 		<Machine>core/xml/machines/lathe</Machine>
 		<Machine>core/xml/machines/roller</Machine>
+		<Machine>core/xml/machines/uh_pump</Machine>
+		<Machine>core/xml/machines/c_cascade</Machine>
+		<Machine>core/xml/machines/pump</Machine>
 	</Machines>
-	<Item_Ct>81</Item_Ct>
+	<Item_Ct>90</Item_Ct>
 	<Items>
+		<Item>core/xml/items/bars/pp_bar</Item>
+		<Item>core/xml/items/bars/pe_bar</Item>
+		<Item>core/xml/items/bars/r_brick</Item>
+		<Item>core/xml/items/bars/brick</Item>
+		<Item>core/xml/items/bars/tachylite</Item>
+		<Item>core/xml/items/bars/s_bar</Item>
+		<Item>core/xml/items/bars/si_bar</Item>
+		<Item>core/xml/items/bars/g_bar</Item>
+		<Item>core/xml/items/plates/s_plates</Item>
+		<Item>core/xml/items/plates/si_plates</Item>
+		<Item>core/xml/items/plates/pp_plates</Item>
+		<Item>core/xml/items/plates/pe_plates</Item>
+		<Item>core/xml/items/plates/i_plates</Item>
+		<Item>core/xml/items/rods/s_rod</Item>
+		<Item>core/xml/items/rods/si_rod</Item>
+		<Item>core/xml/items/rods/g_rod</Item>
+		<Item>core/xml/items/rods/i_rod</Item>
+		<Item>core/xml/items/rods/pp_rod</Item>
+		<Item>core/xml/items/rods/pe_rod</Item>
+		<Item>core/xml/items/rods/t_rod</Item>
+		<Item>core/xml/items/scraps/pp_plastic</Item>
+		<Item>core/xml/items/scraps/pe_plastic</Item>
+		<Item>core/xml/items/scraps/s_scrap</Item>
+		<Item>core/xml/items/scraps/si_scrap</Item>
+		<Item>core/xml/items/scraps/g_scrap</Item>
+		<Item>core/xml/items/scraps/i_scrap</Item>
+		<Item>core/xml/items/scraps/t_scrap</Item>
+		<Item>core/xml/items/sulfur/h_sulfide</Item>
+		<Item>core/xml/items/sulfur/s_dioxide</Item>
+		<Item>core/xml/items/sulfur/s_trioxide</Item>
+		<Item>core/xml/items/sulfur/s_acid</Item>
+		<Item>core/xml/items/sulfur/oleum</Item>
+		<Item>core/xml/items/uranium/uh_depleted</Item>
+		<Item>core/xml/items/uranium/uh_unenriched</Item>
+		<Item>core/xml/items/uranium/uhb_enriched</Item>
+		<Item>core/xml/items/uranium/uhp_enriched</Item>
+		<Item>core/xml/items/uranium/uhm_enriched</Item>
+		<Item>core/xml/items/uranium/uh_enriched</Item>
+		<Item>core/xml/items/l_steel</Item>
+		<Item>core/xml/items/l_polypropylene</Item>
+		<Item>core/xml/items/l_polyethylene</Item>
+		<Item>core/xml/items/rivets</Item>
+		<Item>core/xml/items/q_diesel</Item>
+		<Item>core/xml/items/j_fuel</Item>
+		<Item>core/xml/items/slugs</Item>
 		<Item>core/xml/items/am_snow</Item>
 		<Item>core/xml/items/r_seawater</Item>
 		<Item>core/xml/items/c_saltwater</Item>
@@ -76,24 +124,17 @@
 		<Item>core/xml/items/sediment</Item>
 		<Item>core/xml/items/silicates</Item>
 		<Item>core/xml/items/clay</Item>
-		<Item>core/xml/items/r_brick</Item>
-		<Item>core/xml/items/brick</Item>
-		<Item>core/xml/items/l_glass</Item>
-		<Item>core/xml/items/g_bar</Item>
 		<Item>core/xml/items/basalt</Item>
+		<Item>core/xml/items/l_glass</Item>
 		<Item>core/xml/items/plagioclase</Item>
 		<Item>core/xml/items/pyroxene</Item>
 		<Item>core/xml/items/m_materials</Item>
 		<Item>core/xml/items/r_iron</Item>
 		<Item>core/xml/items/r_limestone</Item>
 		<Item>core/xml/items/l_iron</Item>
-		<Item>core/xml/items/i_bar</Item>
+		<Item>core/xml/items/bars/i_bar</Item>
 		<Item>core/xml/items/lava</Item>
-		<Item>core/xml/items/tachylite</Item>
-		<Item>core/xml/items/l_steel</Item>
-		<Item>core/xml/items/s_bar</Item>
 		<Item>core/xml/items/l_silicon</Item>
-		<Item>core/xml/items/si_bar</Item>
 		<Item>core/xml/items/c_oil</Item>
 		<Item>core/xml/items/naphtha</Item>
 		<Item>core/xml/items/lo_distillates</Item>
@@ -105,38 +146,9 @@
 		<Item>core/xml/items/bitumen</Item>
 		<Item>core/xml/items/ethylene</Item>
 		<Item>core/xml/items/propylene</Item>
-		<Item>core/xml/items/pp_plastic</Item>
-		<Item>core/xml/items/pe_plastic</Item>
-		<Item>core/xml/items/pp_bar</Item>
-		<Item>core/xml/items/pe_bar</Item>
-		<Item>core/xml/items/l_polypropylene</Item>
-		<Item>core/xml/items/l_polyethylene</Item>
-		<Item>core/xml/items/s_rod</Item>
-		<Item>core/xml/items/s_scrap</Item>
-		<Item>core/xml/items/si_rod</Item>
-		<Item>core/xml/items/si_scrap</Item>
-		<Item>core/xml/items/g_rod</Item>
-		<Item>core/xml/items/g_scrap</Item>
-		<Item>core/xml/items/i_rod</Item>
-		<Item>core/xml/items/i_scrap</Item>
-		<Item>core/xml/items/pp_rod</Item>
-		<Item>core/xml/items/pe_rod</Item>
-		<Item>core/xml/items/rivets</Item>
-		<Item>core/xml/items/s_plates</Item>
-		<Item>core/xml/items/si_plates</Item>
-		<Item>core/xml/items/pp_plates</Item>
-		<Item>core/xml/items/pe_plates</Item>
-		<Item>core/xml/items/i_plates</Item>
-		<Item>core/xml/items/h_sulfide</Item>
-		<Item>core/xml/items/q_diesel</Item>
-		<Item>core/xml/items/j_fuel</Item>
-		<Item>core/xml/items/s_dioxide</Item>
-		<Item>core/xml/items/s_trioxide</Item>
-		<Item>core/xml/items/slugs</Item>
-		<Item>core/xml/items/oleum</Item>
-		<Item>core/xml/items/s_acid</Item>
+		<Item>core/xml/items/p_coke</Item>
 	</Items>
-	<Recipe_Ct>61</Recipe_Ct>
+	<Recipe_Ct>69</Recipe_Ct>
 	<Recipes>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
 		<Recipe>core/xml/recipes/fp_algae</Recipe>
@@ -162,6 +174,7 @@
 		<Recipe>core/xml/recipes/m_liron</Recipe>
 		<Recipe>core/xml/recipes/k_riron</Recipe>
 		<Recipe>core/xml/recipes/k_basalt</Recipe>
+		<Recipe>core/xml/recipes/k_bitumen</Recipe>
 		<Recipe>core/xml/recipes/m_lava</Recipe>
 		<Recipe>core/xml/recipes/eaf_lsteel</Recipe>
 		<Recipe>core/xml/recipes/eaf_lsilicon</Recipe>
@@ -199,6 +212,13 @@
 		<Recipe>core/xml/recipes/fm_sacid1</Recipe>
 		<Recipe>core/xml/recipes/fm_sacid2</Recipe>
 		<Recipe>core/xml/recipes/fm_oleum</Recipe>
+		<Recipe>core/xml/recipes/l_tbar</Recipe>
+		<Recipe>core/xml/recipes/k_tscrap</Recipe>
+		<Recipe>core/xml/recipes/uhp_uf6</Recipe>
+		<Recipe>core/xml/recipes/cc_beuf6</Recipe>
+		<Recipe>core/xml/recipes/cc_peuf6</Recipe>
+		<Recipe>core/xml/recipes/cc_meuf6</Recipe>
+		<Recipe>core/xml/recipes/cc_euf6</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>
@@ -217,7 +237,7 @@
 		<Perk>core/xml/perks/a_automation</Perk>
 		<Perk>core/xml/perks/o_pipeline</Perk>
 		<Perk>core/xml/perks/uh_pipeline</Perk>
-		<Perk>core/xml/perks/c_pipeline</Perk>
+		<Perk>core/xml/perks/zs_pipeline</Perk>
 	</Perks>
 	<Category_Ct>7</Category_Ct>
 	<Categories>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
-	<Index>fm_qdiesel</Index>
+	<Index>fm_oleum</Index>
 	<Type>both</Type>
 	<Time>1</Time>
 	<Power>50000</Power>
@@ -35,7 +35,7 @@
 		<Output>
 			<Item>oleum</Item>
 			<Volume>10</Volume>
-			<Temp>290</Temp>
+			<Temp>460</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>cc_euf6</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>20</Time>
+	<Power>7500000</Power>
+	<Parent>centrifuge</Parent>
+	<Inputs>
+		<Input>
+			<Item>mostly_enriched_uf6</Item>
+			<Volume>2</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>enriched_uf6</Item>
+			<Volume>1</Volume>
+			<Temp>250</Temp>
+		</Output>
+		<Output>
+			<Item>depleted_uf6</Item>
+			<Volume>1</Volume>
+			<Temp>250</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

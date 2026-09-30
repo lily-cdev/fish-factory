@@ -15,7 +15,7 @@ void Render_Help(Point Pos) {
 		}
 		if (Temporary.Tutorial_Step == ktn_invalid) {
 			if (Data.CMD_Placed) {
-				for (int C1 = 1; C1 < Textures.Tutorials.Length; C1++) {
+				for (int C1 = 1; C1 < /*Textures.Tutorials.Length*/2; C1++) {
 					for (int C2 = 0; C2 < 2; C2++) {
 						Rects.Tutorials.Data[C1].Data[C2].y -= ktn_fscale(Core.Tile_Size);
 					}
@@ -35,7 +35,7 @@ void Render_Help(Point Pos) {
 		break;
 	case 1:
 		{
-			char Flavor[] = "[c]Welcome to Fish Factory! This game is in the alpha phase, so don't expect much.|More gameplay mechanics and customization"
+			char Flavor[] = "[c]Welcome to petroil! This game is in the alpha phase, so don't expect much.|More gameplay mechanics and customization"
 				" options are planned for future updates.| | | |Thank you for playing, and have fun!";
 			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 60 }, false, false);
 		}

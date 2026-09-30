@@ -14,8 +14,6 @@
 	<Hazard>none</Hazard>
 	<Value>none</Value>
 	<Price>1</Price>
-	<Coolant />
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>
-	<Coolant />
 </Item>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Perk>
+	<Name>zirconium sulfate pipeline</Name>
+	<Index>zirconium_pipeline</Index>
+	<Path>core/images/perks/zs_pipeline</Path>
+	<Cost>90000</Cost>
+</Perk>

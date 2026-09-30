@@ -30,8 +30,10 @@ void Clear_Bridges(Bridges* List) {
 }
 
 void Clear_Unconnected_Bridges(Bridges* List) {
-	for (int C1 = 0; C1 < List->Length; C1++) {
-		if (!List->Data[C1].Filled) {
+	for (int C1 = 0; C1 < List->Length;) {
+		if (List->Data[C1].Filled) {
+			C1++;
+		} else {
 			Pull_Bridge(List, C1);
 		}
 	}

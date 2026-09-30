@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo building fish factory release x64
+echo building petroil release x64
 
 rm -rf "build"
 mkdir "build"

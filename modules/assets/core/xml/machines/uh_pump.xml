@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>UF6 pump</Name>
+	<Desc>Taps into the UF6 pipeline to extract unenriched UF6.</Desc>
+	<Index>uf6_pump</Index>
+	<Parent>extraction</Parent>
+	<Texture_Type>spinner</Texture_Type>
+	<Speed>180</Speed>
+	<Path>core/images/machines/uh_pump</Path>
+	<Price>20</Price>
+	<Fee>1</Fee>
+	<Width>1</Width>
+	<Height>1</Height>
+	<Rot_ID />
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>100</Power_Capacity>
+	<Anchor_X>20</Anchor_X>
+	<Anchor_Y>8</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>0</Input_Ct>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>3</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+	<Requires_Perk />
+	<Prerequisite>uh6_pipeline</Prerequisite>
+</Machine>

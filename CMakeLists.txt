@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Fish_Factory LANGUAGES C CXX)
+project(petroil LANGUAGES C CXX)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 set(PREPROCESSOR "${CMAKE_SOURCE_DIR}/pre2processor.py")
@@ -38,8 +38,8 @@ set(SDLTTF_VENDORED ON)
 set(SDLTTF_PLUTOSVG OFF)
 add_subdirectory(external/SDL3_ttf)
 
-add_executable(Fish_Factory
-	internal/core/fish_factory.c
+add_executable(petroil
+	internal/core/petroil.c
 	internal/source/other/transitions.c
 	internal/source/other/ui.c
 	internal/source/other/tools.c
@@ -100,19 +100,19 @@ add_executable(Fish_Factory
 	external/miniaudio/miniaudio.c
 )
 
-add_presource(Fish_Factory internal/source/prepping/preloaders.c)
-add_presource(Fish_Factory internal/source/prepping/setup.c)
+add_presource(petroil internal/source/prepping/preloaders.c)
+add_presource(petroil internal/source/prepping/setup.c)
 
-target_include_directories(Fish_Factory PRIVATE
+target_include_directories(petroil PRIVATE
     internal/core
     internal/precompiled
 	internal/headers
 )
 
-target_include_directories(Fish_Factory PUBLIC
+target_include_directories(petroil PUBLIC
     external
 	external/SDL3/include
 	external/SDL3_ttf/include
 )
 
-target_link_libraries(Fish_Factory PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static atomic)
+target_link_libraries(petroil PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static atomic)

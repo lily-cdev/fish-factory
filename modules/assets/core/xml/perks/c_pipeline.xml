@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<Perk>
-	<Name>copper sulfate pipeline</Name>
-	<Index>copper_pipeline</Index>
-	<Path>core/images/perks/c_pipeline</Path>
-	<Cost>40000</Cost>
-</Perk>

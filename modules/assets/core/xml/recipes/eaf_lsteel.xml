@@ -8,7 +8,7 @@
 	<Parent>arc_furnace</Parent>
 	<Inputs>
 		<Input>
-			<Item>oxygen</Item>
+			<Item>coke</Item>
 			<Volume>0.12</Volume>
 		</Input>
 		<Input>

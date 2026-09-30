@@ -13,10 +13,11 @@ void (*Cycle_Functions[])(Point Pos, const int Rotation) = {
 	Cycle_Intersection,
 	Cycle_Intersection,
 	Cycle_Turbine_Input,
-	Cycle_Power_Generator
+	Cycle_Power_Generator,
+	Cycle_Pump
 };
 
-const char* Cycle_Matches[13] = {
+const char* Cycle_Matches[14] = {
 	"incinerator",
 	"rtg",
 	"furnace",
@@ -29,7 +30,8 @@ const char* Cycle_Matches[13] = {
 	"large_intersection",
 	"heavy_intersection",
 	"turbine_input",
-	"power_cheat"
+	"power_cheat",
+	"pump"
 };
 
 void Update_Machines() {

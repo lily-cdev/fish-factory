@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
-	<Index>fm_qdiesel</Index>
+	<Index>fm_sacid2</Index>
 	<Type>both</Type>
 	<Time>1</Time>
 	<Power>100000</Power>
@@ -35,7 +35,7 @@
 		<Output>
 			<Item>sulfuric_acid</Item>
 			<Volume>15</Volume>
-			<Temp>200</Temp>
+			<Temp>340</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>

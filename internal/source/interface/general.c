@@ -43,6 +43,7 @@ void Process_Inputs() {
 						if (Application_Event.key.key == Keybinds.Keybind_List[9]) {
 							if (Interface.Tool == T_Building) {
 								Interface.Prompt_Identifier = P_Shop;
+								Interface.Scroll = 0;
 								Interface.Building = false;
 								Interface.Rotation = 0;
 								Cache_Blueprint();

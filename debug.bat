@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo building fish factory debug
+echo building petroil debug
 
 rm -rf "build/assets"
 

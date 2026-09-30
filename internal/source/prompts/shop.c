@@ -4,15 +4,25 @@ void Render_Shop(Point Pos) {
 	Render_Box((Point){ 210, 10 }, 220, 340, Colors.Light_Grey, Colors.Dark_Grey);
 	if (Interface.Subtab > 0) {
 		if (Interface.Subtab <= Core.Categories) {
-			for (int C1 = 0; C1 < ktn_veclen(Metadata.Contents[Interface.Subtab - 1]); C1++) {
-				Render_Button(&Textures.Item_Labels.Data[Interface.Subtab - 1].Data[C1], &Rects.Item_Labels.Data[
-					Interface.Subtab - 1].Data[C1], (UI_Link){ Shop_Subitem, .Param.Integer = C1 }, Colors.Cherry_Blossom);
+			for (int C1 = 0; C1 < ktn_veclen(Metadata.Contents[Interface.Subtab - 1]) - (Interface.Scroll * 8); C1++) {
+				int Offset = Interface.Scroll * 8;
+				Rects.Item_Labels.Data[Interface.Subtab - 1].Data[C1 + Offset].Data[0].y = ktn_fscale((C1 * 30.0f) + 40.0f);
+				Rects.Item_Labels.Data[Interface.Subtab - 1].Data[C1 + Offset].Data[1].y = ktn_fscale((C1 * 30.0f) + 40.0f);
+				Render_Button(&Textures.Item_Labels.Data[Interface.Subtab - 1].Data[C1 + Offset], &Rects.Item_Labels.Data[Interface.Subtab - 1].Data[C1 + Offset],
+					(UI_Link){ Shop_Subitem, .Param.Integer = C1 + Offset }, Colors.Cherry_Blossom);
+				if (C1 > 6) {
+					Rects.Item_Continue.Data[0].y = ktn_fscale(280);
+					Rects.Item_Continue.Data[1].y = ktn_fscale(280);
+					Render_Button(&Textures.Item_Continue, &Rects.Item_Continue, (UI_Link){ More_Item }, Colors.Cherry_Blossom);
+					break;
+				}
 			}
 		} else {
 			for (int C1 = 0; C1 < ktn_veclen(Metadata.Subcontents[Interface.Subtab - Core.Categories - 1]); C1++) {
-				Render_Button(&Textures.Subcontents.Data[Interface.Subtab - Core.Categories - 1].Data[C1], &Rects.Subcontents.Data[
-					Interface.Subtab - Core.Categories - 1].Data[C1], (UI_Link){ Shop_Item, .Param.Integer = C1 },
-					Colors.Cherry_Blossom);
+				Rects.Item_Labels.Data[Interface.Subtab - Core.Categories - 1].Data[C1].Data[0].y = ktn_fscale((C1 * 30.0f) + 40.0f);
+				Rects.Item_Labels.Data[Interface.Subtab - Core.Categories - 1].Data[C1].Data[1].y = ktn_fscale((C1 * 30.0f) + 40.0f);
+				Render_Button(&Textures.Subcontents.Data[Interface.Subtab - Core.Categories - 1].Data[C1], &Rects.Subcontents.Data[Interface.Subtab -
+					Core.Categories - 1].Data[C1], (UI_Link){ Shop_Item, .Param.Integer = C1 }, Colors.Cherry_Blossom);
 			}
 		}
 		Render_Box((Point){ 10, 10 }, 186, 340, Colors.Light_Grey, Colors.Dark_Grey);
@@ -25,9 +35,8 @@ void Render_Shop(Point Pos) {
 			Icon_Rectangle.h * Multiplier
 		};
 		int Offset = (Icon_Rectangle.y + Icon_Rectangle.h) / Settings.Scalar;
-		Render_Box((Point){ ((int)Icon_Rectangle.x / Settings.Scalar) - 4, (Icon_Rectangle.y / Settings.Scalar) - 4 },
-			(Icon_Rectangle.w / Settings.Scalar) + 8, (Icon_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey,
-			Colors.Dark_Grey);
+		Render_Box((Point){ ((int)Icon_Rectangle.x / Settings.Scalar) - 4, (Icon_Rectangle.y / Settings.Scalar) - 4 }, (Icon_Rectangle.w / Settings.Scalar) + 8,
+			(Icon_Rectangle.h / Settings.Scalar) + 8, Colors.Light_Grey, Colors.Dark_Grey);
 		Render_Texture(Interface.Item->Icon, &Icon_Rectangle);
 		int Quirk_Stack[ktn_quirks + 1];
 		int Index = 0;

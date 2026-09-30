@@ -4,7 +4,7 @@
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>5</Time>
-	<Power>1000</Power>
+	<Power>12000</Power>
 	<Parent>kiln</Parent>
 	<Inputs>
 		<Input>

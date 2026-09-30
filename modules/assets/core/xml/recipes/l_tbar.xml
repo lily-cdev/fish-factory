@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>l_tbar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>7000</Power>
+	<Parent>lathe</Parent>
+	<Inputs>
+		<Input>
+			<Item>tachylite</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>tachylite_scrap</Item>
+			<Volume>1.0</Volume>
+			<Temp>85</Temp>
+		</Output>
+		<Output>
+			<Item>tachylite_rods</Item>
+			<Volume>1.0</Volume>
+			<Temp>130</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

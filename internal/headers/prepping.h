@@ -86,6 +86,7 @@ struct Proto_Textures {
 	SDL_Texture* CMD_Warning1;
 	SDL_Texture* CMD_Warning2;
 	Texture3_Array Item_Labels;
+	Texture_Array Item_Continue;
 	Texture3_Array Subcategories;
 	Texture3_Array Subcontents;
 	Texture2_Array New;
@@ -170,6 +171,7 @@ struct Proto_Rects {
 	SDL_FRect CMD_Warning1;
 	SDL_FRect CMD_Warning2;
 	Rect3_Array Item_Labels;
+	Rect_Array Item_Continue;
 	Rect3_Array Subcategories;
 	Rect3_Array Subcontents;
 	Rect2_Array New;
@@ -347,6 +349,7 @@ struct Proto_Interface {
 	int Engagement;
 	Point Looper;
 	int UI_Tab;
+	float Scroll;
 	int Subtab;
 	UI_Link UI_Query;
 	int Frame_Rate;

@@ -31,7 +31,7 @@
 		<Output>
 			<X>1</X>
 			<Y>0</Y>
-			<Dir>left</Dir>
+			<Dir>right</Dir>
 			<Cap>3</Cap>
 		</Output>
 	</Outputs>

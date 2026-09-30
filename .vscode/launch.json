@@ -5,7 +5,7 @@
             "name": "Debug",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Fish_Factory",
+            "program": "${workspaceFolder}/build/petroil",
             "cwd": "${workspaceFolder}/build",
             "console": "integratedTerminal",
             "args": []

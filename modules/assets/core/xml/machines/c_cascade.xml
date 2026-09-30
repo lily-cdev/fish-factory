@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>centrifuge cascade</Name>
+	<Desc>36 70krpm 8in centrifuges in a cascade formation. Multiple cascades are needed to produce reactor-viable fuel.</Desc>
+	<Index>centrifuge</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/c_cascade</Path>
+	<Price>10000</Price>
+	<Fee>20</Fee>
+	<Width>4</Width>
+	<Height>1</Height>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>8000000</Power_Capacity>
+	<Anchor_X>28</Anchor_X>
+	<Anchor_Y>43</Anchor_Y>
+	<Rot_ID />
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Cap>12</Cap>
+			<Dir>left</Dir>
+		</Input>
+	</Inputs>
+	<Output_Ct>2</Output_Ct>
+		<Output>
+			<X>3</X>
+			<Y>0</Y>
+			<Cap>2</Cap>
+			<Dir>right</Dir>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>0</Y>
+			<Cap>3</Cap>
+			<Dir>up</Dir>
+		</Output>
+	<Outputs>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

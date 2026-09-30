@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo cleaning fish factory
+echo cleaning petroil
 
 rm -rf "build"
 mkdir "build"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>pump</Name>
+	<Desc>Forces liquids from one side to the other. Useful for flow control.</Desc>
+	<Index>pump</Index>
+	<Parent>logistics</Parent>
+	<Texture_Type>rot</Texture_Type>
+	<Path>core/images/machines/pump</Path>
+	<Price>90</Price>
+	<Fee>1</Fee>
+	<Width>2</Width>
+	<Height>1</Height>
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>50</Power_Capacity>
+	<Anchor_X>31</Anchor_X>
+	<Anchor_Y>20</Anchor_Y>
+	<Rot_ID />
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>0</Y>
+			<Dir>left</Dir>
+			<Cap>30</Cap>
+		</Input>
+	</Inputs>
+	<Output_Ct>1</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>right</Dir>
+			<Cap>30</Cap>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

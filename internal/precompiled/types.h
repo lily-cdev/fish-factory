@@ -202,7 +202,6 @@ typedef struct {
 	bool Uniform;
 	SDL_Color Primary;
 	SDL_Color Secondary;
-	bool Coolant;
 	SDL_Texture* Icon;
 	int ID;
 	enum Hazard Danger;

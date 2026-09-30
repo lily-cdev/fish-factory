@@ -176,33 +176,7 @@ void Render_Game_UI() {
 	Render_Texture(Carriers[1], &Subcarriers[1]);
 	ktn_free_texture(Carriers[0]);
 	ktn_free_texture(Carriers[1]);
-	Point Subpos;
-	for (int Column = 0; Column < ktn_grid_size; Column++) {
-		Rects.Tile_1x1.x = ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
-		for (int Row = 0; Row < ktn_grid_size; Row++) {
-			Rects.Tile_1x1.y = ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
-			if (Detect_Mouse_Collision(Rects.Tile_1x1)) {
-				Subpos = (Point){ Column, Row };
-				break;
-			}
-		}
-	}
 	if (Interface.Tool == T_Inspecting) {
-		for (int C1 = 0; C1 < Temporary.Chain_Ct; C1++) {
-			for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
-				if (Temporary.Chains[C1][C2].X == Subpos.X && Temporary.Chains[C1][C2].Y == Subpos.Y) {
-					for (int C3 = 0; C3 < Temporary.Chain_Len[C1]; C3++) {
-						Render_Texture(Textures.Link, &(SDL_FRect){
-							ktn_fscale((Temporary.Chains[C1][C3].X * 40) - Core.Camera.X),
-							ktn_fscale((Temporary.Chains[C1][C3].Y * 40) - Core.Camera.Y),
-							ktn_fscale(40),
-							ktn_fscale(40)
-						});
-					}
-					break;
-				}
-			}
-		}
 		float Content_Vector[7] = { 0, 0, 0, 0, ktn_invalid, 0, 0 };
 		Item_Ptr Item = NULL;
 		int Temperature;

@@ -545,7 +545,7 @@ void Get_Chains() {
 	bool* Used = calloc(Pipes.Length, sizeof(bool));
 	int* Queue = malloc(sizeof(int) * Pipes.Length);
 	for (int Start = 0; Start < Pipes.Length; Start++) {
-		if (Used[Start]) {
+		if (Used[Start] || !Pipes.Data[Start].Filled) {
 			continue;
 		}
 		int Chain_Index = Temporary.Chain_Ct;

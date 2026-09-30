@@ -334,7 +334,7 @@ void Preload_Assets() {
 	SDL_SetRenderTarget(Core.Renderer, NULL);
 ~start;
 	ktn_free_texture(Carrying_Texture);
-	Preload_Text(&Textures.Logo, &Rects.Logo, "fish factory", F_Logo, Colors.Abyss_Black, (Point){ 47, 44 });
+	Preload_Text(&Textures.Logo, &Rects.Logo, "petroil", F_Logo, Colors.Abyss_Black, (Point){ 47, 44 });
 	Preload_Text(&Textures.CMD_Warning1, &Rects.CMD_Warning1, "time will not progress until the command platform is installed",
 		F_Text, Colors.Cherry_Blossom, (Point){ ktn_invalid, ktn_invalid });
 	Preload_Text(&Textures.CMD_Warning2, &Rects.CMD_Warning2, "install the command platform for complete tutorial access",
@@ -370,12 +370,12 @@ void Preload_Assets() {
 	Textures.Genetics = Preload_Texture("core/images/ui/other/dna");
 	Rects.Saveloader = (SDL_FRect) { 0, 0, Core.Screensize.X, Core.Screensize.Y };
 	Textures.Help_Sidebutton = Preload_Sidebutton("help", &Rects.Help, 60);
-	Textures.Save_Sidebutton = Preload_Sidebutton("save", &Rects.Save, 108);
-	Textures.Recipe_Sidebutton = Preload_Sidebutton("recipe", &Rects.Recipe, 132);
-	Textures.Genetics_Sidebutton = Preload_Sidebutton("genetics", &Rects.Genetics, 156);
-	Textures.Perks_Sidebutton = Preload_Sidebutton("perks", &Rects.Perks, 180);
-	Textures.Time_Sidebutton = Preload_Sidebutton("time", &Rects.Time, 204);
-	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 228);
+	Textures.Save_Sidebutton = Preload_Sidebutton("save", &Rects.Save, 84);
+	Textures.Recipe_Sidebutton = Preload_Sidebutton("recipe", &Rects.Recipe, 108);
+	Textures.Genetics_Sidebutton = Preload_Sidebutton("genetics", &Rects.Genetics, 132);
+	Textures.Perks_Sidebutton = Preload_Sidebutton("perks", &Rects.Perks, 156);
+	Textures.Time_Sidebutton = Preload_Sidebutton("time", &Rects.Time, 180);
+	Textures.Exit_Sidebutton = Preload_Sidebutton("exit", &Rects.Exit, 204);
 	Rects.Return.Length = 2;
 	Rects.Return.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Return.Data[0].x = ktn_fscale(10.0f);
@@ -447,7 +447,6 @@ void Preload_Assets() {
 			Rects.Item_Labels.Data[C1].Data[C2].Length = 2;
 			Rects.Item_Labels.Data[C1].Data[C2].Data = calloc(2, sizeof(SDL_FRect));
 			Rects.Item_Labels.Data[C1].Data[C2].Data[0].x = ktn_invalid;
-			Rects.Item_Labels.Data[C1].Data[C2].Data[0].y = ktn_fscale((C2 * 30.0f) + 40.0f);
 			char* Carrier;
 			Machine_Ptr Ptr1 = Get_Machine(Metadata.Contents[C1][C2]);
 			if (Ptr1) {
@@ -460,6 +459,10 @@ void Preload_Assets() {
 			Load_Button(F_Halftext, Carrier, &Textures.Item_Labels.Data[C1].Data[C2], Rects.Item_Labels.Data[C1].Data[C2], Colors.Abyss_Black, Colors.Cherry_Blossom);
 		}
 	}
+	Rects.Item_Continue.Length = 2;
+	Rects.Item_Continue.Data = calloc(2, sizeof(SDL_FRect));
+	Rects.Item_Continue.Data[0].x = ktn_invalid;
+	Load_Button(F_Halftext, "more", &Textures.Item_Continue, Rects.Item_Continue, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Interface.Max_Time_Frames = Interface.Frame_Rate;
 	Cache.FPS_Cache = malloc(sizeof(float) * Interface.Frame_Rate);
 	Cache.FPS_Tick = 0;
@@ -507,7 +510,7 @@ void Preload_Assets() {
 		Rects.Tool[C1].h = (float)Text_Texture->h;
 		Textures.Tool.Data[C1] = Text_Texture;
 	}
-	Carrying_Texture = Render_Text(F_Large, "fish factory help", Colors.Abyss_Black);
+	Carrying_Texture = Render_Text(F_Large, "petroil help", Colors.Abyss_Black);
 	Rects.Help_Content[0] = (SDL_FRect) {
 		Core.Screenhalfsize.X - (float)(Carrying_Texture->w * 0.5f),
 		ktn_fscale(20.0f),

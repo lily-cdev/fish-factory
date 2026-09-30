@@ -57,7 +57,7 @@ float Get_Float(const char* Path, const char* Text, const char* Element) {
 }
 
 bool Get_Boolean(const char* Text, const char* Element) {
-	char Elements[2][64] = { };
+	char Elements[2][128] = { };
 	snprintf(Elements[0], sizeof(Elements[0]), "<%s/>", Element);
 	snprintf(Elements[1], sizeof(Elements[1]), "<%s />", Element);
 	for (int C1 = 0; C1 < strlen(Text) - strlen(Elements[1]); C1++) {
@@ -379,7 +379,6 @@ void Load_XML() {
 			Item.Secondary.g = get_int("G2");
 			Item.Secondary.b = get_int("B2");
 		}
-		Item.Coolant = Get_Boolean(Item_File, "Coolant");
 		Item.ID = get_int("ID");
 		Sub_ID_Record = ktn_max(Sub_ID_Record, Item.ID);
 		Item.Price = get_int("Price");
