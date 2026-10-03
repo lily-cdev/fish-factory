@@ -35,32 +35,21 @@ int main() {
         getbuf();
         Output_Amounts[C1] = atoi(Buffer);
     }
-
-    //TMP!!!
-    double* Output_Prices = malloc(sizeof(double) * Output_Ct);
- double Total_Input_Value = 0.0;
+    float* Output_Prices = malloc(sizeof(float) * Output_Ct);
+    float Total_Input = 0;
     for (int C1 = 0; C1 < Input_Ct; C1++) {
-        Total_Input_Value += (double)Input_Amounts[C1] * (double)Input_Prices[C1];
+        Total_Input += (float)Input_Amounts[C1] * (float)Input_Prices[C1];
     }
-    double Total_Output_Value = Total_Input_Value * 1.2;
-
-    // Split that value across outputs, weighted by how many units each output produces.
-    // Default: split evenly across output *types*, then divide by quantity to get per-unit price.
-    // (Change this if some outputs should get a bigger cut than others.)
-    int Total_Output_Units = 0;
+    float Total_Output = Total_Input * 1.2f;
+    float Total_Output_Units = 0;
     for (int C1 = 0; C1 < Output_Ct; C1++) {
         Total_Output_Units += Output_Amounts[C1];
     }
-
-    double Value_Per_Unit = (Total_Output_Units > 0)
-        ? Total_Output_Value / Total_Output_Units
-        : 0.0;
-
+    float Value_Unit = (Total_Output_Units > 0) ? Total_Output / Total_Output_Units : 0;
     for (int C1 = 0; C1 < Output_Ct; C1++) {
-        Output_Prices[C1] = Value_Per_Unit; // per-unit sell price for this output
+        Output_Prices[C1] = Value_Unit;
     }
-
-    // --- PRINT RESULTS ---
+    //TMP, stolen from some random-axe website!!!
     printf("\nTotal input value: %.2f\n", Total_Input_Value);
     printf("Total output value (with %.1fx margin): %.2f\n", 1.2, Total_Output_Value);
     for (int C1 = 0; C1 < Output_Ct; C1++) {

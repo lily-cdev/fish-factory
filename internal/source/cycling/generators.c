@@ -42,10 +42,38 @@ void Cycle_Geo_Well(Point Pos, const int Rotation) {
 
 void Cycle_HX(Point Pos, const int Rotation) {
 	bool Boiling = false;
-	if (Data.Settings_Grid[pt(Pos)][8] >= ktn_water_boil_pt) {
+	if (Data.Settings_Grid[pt(Pos)][8]/*exchanger pool temperature*/ >= ktn_water_boil_pt) {
 		Boiling = true;
 	}
-	
+	Point Feedwater_Intake = Get_Transformed(Get_Machine("hx")->Inputs[0], Pos);
+	Point Hmed_Intake = Get_Transformed(Get_Machine("hx")->Inputs[1], Pos);
+	Point Feedwater_Yield = Get_Transformed(Get_Machine("hx")->Outputs[0], Pos);
+	Point Hmed_Yield = Get_Transformed(Get_Machine("hx")->Outputs[1], Pos);
+	float Pot_Water = fminf(Data.Data_Grid[pt(Hmed_Intake)][Stored_Fluids], Data.Data_Grid[pt(Hmed_Yield)][Fluid_Cap] - Data.Data_Grid[pt(Hmed_Yield)][Stored_Fluids]);
+	Pot_Water = fminf(Data.Settings_Grid[pt(Pos)][3], Pot_Water);
+	if (Pot_Water > 0) {
+		float Hot_In = Data.Temperature_Grid[pt(Hmed_Intake)];
+		float Hot_Out = Hot_In - (Hot_In - Data.Settings_Grid[pt(Pos)][8]) * 0.8f;
+		float Q2P = (Hot_In - Hot_Out) * Pot_Water * ktn_c_water;
+		Data.Settings_Grid[pt(Pos)][8] += Q2P / (ktn_hx_pool_mass * ktn_c_water);
+		Data.Data_Grid[pt(Hmed_Intake)][Stored_Fluids] -= Pot_Water;
+		Data.Data_Grid[pt(Hmed_Yield)][Stored_Fluids] += Pot_Water;
+		Update_Item(Hmed_Yield, "water", Hot_Out);
+	}
+	float Pot_Steam = fminf(Data.Data_Grid[pt(Feedwater_Intake)][Stored_Fluids], Data.Data_Grid[pt(Feedwater_Yield)][Fluid_Cap] - Data.Data_Grid[pt(Feedwater_Yield)][
+		Stored_Fluids]);
+	Pot_Steam = fminf(Data.Settings_Grid[pt(Pos)][4], Pot_Steam);
+	if (Pot_Steam > 0 && Boiling) {
+		float QPlb = (fmaxf(ktn_water_boil_pt - Data.Temperature_Grid[pt(Feedwater_Intake)], 0) * ktn_c_water) + ktn_h_fg;
+		float Q_Ava = (Data.Settings_Grid[pt(Pos)][8] - ktn_water_boil_pt) * ktn_hx_pool_mass * ktn_c_water;
+		float Steam = fminf(Pot_Steam, Q_Ava / QPlb);
+		if (Steam > 0) {
+			Data.Settings_Grid[pt(Pos)][8] -= (Steam * QPlb) / (ktn_hx_pool_mass * ktn_c_water);
+			Data.Data_Grid[pt(Feedwater_Intake)][Stored_Fluids] -= Steam;
+			Data.Data_Grid[pt(Feedwater_Yield)][Stored_Fluids] += Steam;
+			Update_Item(Feedwater_Yield, "steam", Data.Settings_Grid[pt(Pos)][8]);
+		}
+	}
 }
 
 void Cycle_Turbine_Input(Point Pos, const int Rotation) {

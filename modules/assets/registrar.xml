@@ -55,40 +55,47 @@
 		<Machine>core/xml/machines/c_cascade</Machine>
 		<Machine>core/xml/machines/pump</Machine>
 	</Machines>
-	<Item_Ct>90</Item_Ct>
+	<Item_Ct>100</Item_Ct>
 	<Items>
-		<Item>core/xml/items/bars/pp_bar</Item>
-		<Item>core/xml/items/bars/pe_bar</Item>
-		<Item>core/xml/items/bars/r_brick</Item>
 		<Item>core/xml/items/bars/brick</Item>
-		<Item>core/xml/items/bars/tachylite</Item>
+		<Item>core/xml/items/bars/g_bar</Item>
+		<Item>core/xml/items/bars/i_bar</Item>
+		<Item>core/xml/items/bars/pe_bar</Item>
+		<Item>core/xml/items/bars/pp_bar</Item>
+		<Item>core/xml/items/bars/pvc_bar</Item>
+		<Item>core/xml/items/bars/r_brick</Item>
 		<Item>core/xml/items/bars/s_bar</Item>
 		<Item>core/xml/items/bars/si_bar</Item>
-		<Item>core/xml/items/bars/g_bar</Item>
+		<Item>core/xml/items/bars/tachylite</Item>
+		<Item>core/xml/items/plates/i_plates</Item>
+		<Item>core/xml/items/plates/pe_plates</Item>
+		<Item>core/xml/items/plates/pp_plates</Item>
+		<Item>core/xml/items/plates/pvc_plates</Item>
 		<Item>core/xml/items/plates/s_plates</Item>
 		<Item>core/xml/items/plates/si_plates</Item>
-		<Item>core/xml/items/plates/pp_plates</Item>
-		<Item>core/xml/items/plates/pe_plates</Item>
-		<Item>core/xml/items/plates/i_plates</Item>
-		<Item>core/xml/items/rods/s_rod</Item>
-		<Item>core/xml/items/rods/si_rod</Item>
 		<Item>core/xml/items/rods/g_rod</Item>
 		<Item>core/xml/items/rods/i_rod</Item>
-		<Item>core/xml/items/rods/pp_rod</Item>
 		<Item>core/xml/items/rods/pe_rod</Item>
+		<Item>core/xml/items/rods/pp_rod</Item>
+		<Item>core/xml/items/rods/pvc_rod</Item>
+		<Item>core/xml/items/rods/s_rod</Item>
+		<Item>core/xml/items/rods/si_rod</Item>
 		<Item>core/xml/items/rods/t_rod</Item>
-		<Item>core/xml/items/scraps/pp_plastic</Item>
-		<Item>core/xml/items/scraps/pe_plastic</Item>
-		<Item>core/xml/items/scraps/s_scrap</Item>
-		<Item>core/xml/items/scraps/si_scrap</Item>
 		<Item>core/xml/items/scraps/g_scrap</Item>
 		<Item>core/xml/items/scraps/i_scrap</Item>
+		<Item>core/xml/items/scraps/pe_plastic</Item>
+		<Item>core/xml/items/scraps/pp_plastic</Item>
+		<Item>core/xml/items/scraps/pvc_plastic</Item>
+		<Item>core/xml/items/scraps/s_scrap</Item>
+		<Item>core/xml/items/scraps/si_scrap</Item>
 		<Item>core/xml/items/scraps/t_scrap</Item>
 		<Item>core/xml/items/sulfur/h_sulfide</Item>
 		<Item>core/xml/items/sulfur/s_dioxide</Item>
 		<Item>core/xml/items/sulfur/s_trioxide</Item>
 		<Item>core/xml/items/sulfur/s_acid</Item>
 		<Item>core/xml/items/sulfur/oleum</Item>
+		<Item>core/xml/items/uranium/u_dioxide</Item>
+		<Item>core/xml/items/uranium/u_fluoride</Item>
 		<Item>core/xml/items/uranium/uh_depleted</Item>
 		<Item>core/xml/items/uranium/uh_unenriched</Item>
 		<Item>core/xml/items/uranium/uhb_enriched</Item>
@@ -98,6 +105,7 @@
 		<Item>core/xml/items/l_steel</Item>
 		<Item>core/xml/items/l_polypropylene</Item>
 		<Item>core/xml/items/l_polyethylene</Item>
+		<Item>core/xml/items/l_pvc</Item>
 		<Item>core/xml/items/rivets</Item>
 		<Item>core/xml/items/q_diesel</Item>
 		<Item>core/xml/items/j_fuel</Item>
@@ -132,7 +140,6 @@
 		<Item>core/xml/items/r_iron</Item>
 		<Item>core/xml/items/r_limestone</Item>
 		<Item>core/xml/items/l_iron</Item>
-		<Item>core/xml/items/bars/i_bar</Item>
 		<Item>core/xml/items/lava</Item>
 		<Item>core/xml/items/l_silicon</Item>
 		<Item>core/xml/items/c_oil</Item>
@@ -147,78 +154,90 @@
 		<Item>core/xml/items/ethylene</Item>
 		<Item>core/xml/items/propylene</Item>
 		<Item>core/xml/items/p_coke</Item>
+		<Item>core/xml/items/h_fluoride</Item>
+		<Item>core/xml/items/e_dichloride</Item>
+		<Item>core/xml/items/v_chloride</Item>
 	</Items>
-	<Recipe_Ct>69</Recipe_Ct>
+	<Recipe_Ct>78</Recipe_Ct>
 	<Recipes>
+		<Recipe>core/xml/recipes/centrifuge/cc_beuf6</Recipe>
+		<Recipe>core/xml/recipes/centrifuge/cc_peuf6</Recipe>
+		<Recipe>core/xml/recipes/centrifuge/cc_meuf6</Recipe>
+		<Recipe>core/xml/recipes/centrifuge/cc_euf6</Recipe>
+		<Recipe>core/xml/recipes/distillery/d_coil</Recipe>
+		<Recipe>core/xml/recipes/distillery/d_hodistillates</Recipe>
+		<Recipe>core/xml/recipes/distillery/d_lodistillates</Recipe>
+		<Recipe>core/xml/recipes/distillery/d_oresidue</Recipe>
+		<Recipe>core/xml/recipes/distillery/d_water</Recipe>
+		<Recipe>core/xml/recipes/filter/fp_algae</Recipe>
+		<Recipe>core/xml/recipes/filter/fp_basalt</Recipe>
+		<Recipe>core/xml/recipes/filter/fp_mmaterials</Recipe>
+		<Recipe>core/xml/recipes/filter/fp_sediment</Recipe>
+		<Recipe>core/xml/recipes/filter/fp_snow</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_basalt</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_bitumen</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_gscrap</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_iscrap</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_peplastic</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_ppplastic</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_pvc</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_rbrick</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_riron</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_sdioxide</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_silicates</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_siscrap</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_sscrap</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_tscrap</Recipe>
+		<Recipe>core/xml/recipes/kiln/k_edichloride</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_gbar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_ibar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_irod</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_pebar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_ppbar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_pvcbar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_sbar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_sibar</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_srod</Recipe>
+		<Recipe>core/xml/recipes/lathe/l_tbar</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_edichloride</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_hcl</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_jfuel</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_oleum</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_qdiesel</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_sacid1</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_sacid2</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_strioxide</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_udioxide</Recipe>
+		<Recipe>core/xml/recipes/mixer/fm_ufluoride</Recipe>
+		<Recipe>core/xml/recipes/molder/m_clay</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lava</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lglass</Recipe>
+		<Recipe>core/xml/recipes/molder/m_liron</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lpolyethylene</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lpolypropylene</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lpvc</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lsilicon</Recipe>
+		<Recipe>core/xml/recipes/molder/m_lsteel</Recipe>
+		<Recipe>core/xml/recipes/polymerizer/p_peplastic</Recipe>
+		<Recipe>core/xml/recipes/polymerizer/p_ppplastic</Recipe>
+		<Recipe>core/xml/recipes/polymerizer/p_pvc</Recipe>
+		<Recipe>core/xml/recipes/roller/r_ibar</Recipe>
+		<Recipe>core/xml/recipes/roller/r_pebar</Recipe>
+		<Recipe>core/xml/recipes/roller/r_ppbar</Recipe>
+		<Recipe>core/xml/recipes/roller/r_pvcbar</Recipe>
+		<Recipe>core/xml/recipes/roller/r_sbar</Recipe>
+		<Recipe>core/xml/recipes/roller/r_sibar</Recipe>
 		<Recipe>core/xml/recipes/gb_algae</Recipe>
-		<Recipe>core/xml/recipes/fp_algae</Recipe>
-		<Recipe>core/xml/recipes/fp_snow</Recipe>
-		<Recipe>core/xml/recipes/d_water</Recipe>
-		<Recipe>core/xml/recipes/d_coil</Recipe>
-		<Recipe>core/xml/recipes/d_lodistillates</Recipe>
-		<Recipe>core/xml/recipes/d_hodistillates</Recipe>
-		<Recipe>core/xml/recipes/d_oresidue</Recipe>
 		<Recipe>core/xml/recipes/ep_ho</Recipe>
 		<Recipe>core/xml/recipes/ep_hnaocl</Recipe>
 		<Recipe>core/xml/recipes/rp_seawater</Recipe>
-		<Recipe>core/xml/recipes/fm_hcl</Recipe>
 		<Recipe>core/xml/recipes/sd_sediment</Recipe>
-		<Recipe>core/xml/recipes/fp_sediment</Recipe>
-		<Recipe>core/xml/recipes/m_clay</Recipe>
-		<Recipe>core/xml/recipes/m_lglass</Recipe>
-		<Recipe>core/xml/recipes/k_silicates</Recipe>
-		<Recipe>core/xml/recipes/k_rbrick</Recipe>
 		<Recipe>core/xml/recipes/dd_basalt</Recipe>
-		<Recipe>core/xml/recipes/fp_basalt</Recipe>
-		<Recipe>core/xml/recipes/fp_mmaterials</Recipe>
-		<Recipe>core/xml/recipes/m_liron</Recipe>
-		<Recipe>core/xml/recipes/k_riron</Recipe>
-		<Recipe>core/xml/recipes/k_basalt</Recipe>
-		<Recipe>core/xml/recipes/k_bitumen</Recipe>
-		<Recipe>core/xml/recipes/m_lava</Recipe>
 		<Recipe>core/xml/recipes/eaf_lsteel</Recipe>
 		<Recipe>core/xml/recipes/eaf_lsilicon</Recipe>
-		<Recipe>core/xml/recipes/m_lsteel</Recipe>
-		<Recipe>core/xml/recipes/m_lsilicon</Recipe>
 		<Recipe>core/xml/recipes/op_crude</Recipe>
-		<Recipe>core/xml/recipes/p_ppplastic</Recipe>
-		<Recipe>core/xml/recipes/p_peplastic</Recipe>
 		<Recipe>core/xml/recipes/sc_naphtha</Recipe>
-		<Recipe>core/xml/recipes/k_ppplastic</Recipe>
-		<Recipe>core/xml/recipes/k_peplastic</Recipe>
-		<Recipe>core/xml/recipes/m_lpolypropylene</Recipe>
-		<Recipe>core/xml/recipes/m_lpolyethylene</Recipe>
-		<Recipe>core/xml/recipes/l_sbar</Recipe>
-		<Recipe>core/xml/recipes/k_sscrap</Recipe>
-		<Recipe>core/xml/recipes/l_gbar</Recipe>
-		<Recipe>core/xml/recipes/k_gscrap</Recipe>
-		<Recipe>core/xml/recipes/l_ibar</Recipe>
-		<Recipe>core/xml/recipes/k_iscrap</Recipe>
-		<Recipe>core/xml/recipes/l_sibar</Recipe>
-		<Recipe>core/xml/recipes/k_siscrap</Recipe>
-		<Recipe>core/xml/recipes/l_ppbar</Recipe>
-		<Recipe>core/xml/recipes/l_pebar</Recipe>
-		<Recipe>core/xml/recipes/l_irod</Recipe>
-		<Recipe>core/xml/recipes/r_ibar</Recipe>
-		<Recipe>core/xml/recipes/r_pebar</Recipe>
-		<Recipe>core/xml/recipes/r_ppbar</Recipe>
-		<Recipe>core/xml/recipes/r_sbar</Recipe>
-		<Recipe>core/xml/recipes/r_sibar</Recipe>
-		<Recipe>core/xml/recipes/fm_qdiesel</Recipe>
-		<Recipe>core/xml/recipes/fm_jfuel</Recipe>
-		<Recipe>core/xml/recipes/k_sdioxide</Recipe>
-		<Recipe>core/xml/recipes/fm_strioxide</Recipe>
-		<Recipe>core/xml/recipes/l_srod</Recipe>
-		<Recipe>core/xml/recipes/fm_sacid1</Recipe>
-		<Recipe>core/xml/recipes/fm_sacid2</Recipe>
-		<Recipe>core/xml/recipes/fm_oleum</Recipe>
-		<Recipe>core/xml/recipes/l_tbar</Recipe>
-		<Recipe>core/xml/recipes/k_tscrap</Recipe>
 		<Recipe>core/xml/recipes/uhp_uf6</Recipe>
-		<Recipe>core/xml/recipes/cc_beuf6</Recipe>
-		<Recipe>core/xml/recipes/cc_peuf6</Recipe>
-		<Recipe>core/xml/recipes/cc_meuf6</Recipe>
-		<Recipe>core/xml/recipes/cc_euf6</Recipe>
 	</Recipes>
 	<Fish_Ct>3</Fish_Ct>
 	<Fishes>

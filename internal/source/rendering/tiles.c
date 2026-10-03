@@ -192,9 +192,8 @@ void Render_Grid() {
 								}
 							}
 							Render_Texture(Machine->Texture2.Data[3], &Rects.Tile_1x1);
-							SDL_RenderTextureRotated(Core.Renderer, Machine->Texture2.Data[2], NULL,
-								&Rects.Tile_1x1, Data.Animation_Grid[Column][Row][1], &Interface.Tile_Centerpoint,
-								SDL_FLIP_NONE);
+							SDL_RenderTextureRotated(Core.Renderer, Machine->Texture2.Data[2], NULL, &Rects.Tile_1x1, Data.Animation_Grid[Column][Row][1],
+								&(SDL_FPoint){ ktn_fscale(Core.Ratio * 20), ktn_fscale(Core.Ratio * 20) }, SDL_FLIP_NONE);
 							Render_Texture(Machine->Texture2.Data[1], &Rects.Tile_1x1);
 						} else if (ktn_stricmp(Machine->Index, "turbine_impulse")) {
 							SDL_Color Lightcolor = { 255, 0, 0 };
@@ -203,16 +202,16 @@ void Render_Grid() {
 							}
 							SDL_FRect Lightplate = {
 								ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X),
-								ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y + 21.0f),
-								ktn_fscale(120.0f),
-								ktn_fscale(38.0f)
+								ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y + (Core.Ratio * 21.0f)),
+								ktn_fscale(Core.Ratio * 120.0f),
+								ktn_fscale(Core.Ratio * 38.0f)
 							};
 							if (ktn_evn(Rotation)) {
 								Lightplate = (SDL_FRect){
-									ktn_fscale((Column * Core.Tile_Size)- Core.Camera.X + 21.0f),
+									ktn_fscale((Column * Core.Tile_Size)- Core.Camera.X + (Core.Ratio * 21.0f)),
 									ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y),
-									ktn_fscale(38.0f),
-									ktn_fscale(120.0f)
+									ktn_fscale(Core.Ratio * 38.0f),
+									ktn_fscale(Core.Ratio * 120.0f)
 								};
 							}
 							Set_Renderer_Color(Lightcolor);
@@ -247,6 +246,10 @@ void Render_Grid() {
 								break;
 							}
 							#undef Set_Lightplate
+							Lightplate.x *= Core.Ratio;
+							Lightplate.y *= Core.Ratio;
+							Lightplate.w *= Core.Ratio;
+							Lightplate.h *= Core.Ratio;
 							Lightplate.x += ktn_fscale((Column * Core.Tile_Size) - Core.Camera.X);
 							Lightplate.y += ktn_fscale((Row * Core.Tile_Size) - Core.Camera.Y);
 							Set_Renderer_Color(Lightcolor);

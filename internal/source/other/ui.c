@@ -1,6 +1,6 @@
 #include <ui.h>
 
-void (*Interface_Functions[14])(Point Pos) = {
+void (*Interface_Functions[15])(Point Pos) = {
 	Render_Help,
 	Render_Shop,
 	Render_Daily_Report,
@@ -14,7 +14,8 @@ void (*Interface_Functions[14])(Point Pos) = {
 	Render_P_Generator,
 	Render_Genetics,
 	Render_Perks,
-	Render_Time
+	Render_Time,
+	Render_Start_Game
 };
 
 void Clear_Renderer() {

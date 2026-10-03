@@ -33,6 +33,7 @@ void New_Save(Parameter Slot, Parameter Unused) {
 	Cache_Blueprint();
 	Cache.Wire_State = Deep_Recache;
 	Data.Help_Clicked = false;
+	Interface.Prompt_Identifier = P_Start;
 }
 
 void Click_Sidebar(Parameter Bar, Parameter Unused) {

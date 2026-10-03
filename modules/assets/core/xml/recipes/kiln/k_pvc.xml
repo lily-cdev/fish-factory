@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>k_pvc</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>5</Time>
+	<Power>11000</Power>
+	<Parent>kiln</Parent>
+	<Inputs>
+		<Input>
+			<Item>pvc</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>liquid_pvc</Item>
+			<Volume>2.0</Volume>
+			<Temp>385</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

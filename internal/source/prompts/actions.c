@@ -226,6 +226,11 @@ void Forward_Day(Parameter Unused, Parameter Unused2) {
 	}
 }
 
+void Start_Game(Parameter Unused, Parameter Unused2) {
+	Interface.Prompt_Identifier = P_None;
+	Interface.Subprompt_Identifier = ktn_invalid;
+}
+
 void Machine_Exit(Parameter Unused, Parameter Unused2) {
 	Interface.Prompt_Identifier = P_None;
 	Interface.Subprompt_Identifier = ktn_invalid;
@@ -241,17 +246,9 @@ void HX_Diagnostics(Parameter Pos, Parameter Unused) {
 	char Buffer2[128];
 	snprintf(Buffers.JSON[0], sizeof(Buffers.JSON[0]), "primary_valve\", \"%i "ktn_unit"/s", (int)Data.Settings_Grid[pt(Pos.Pos)][3]);
 	snprintf(Buffers.JSON[1], sizeof(Buffers.JSON[1]), "feedwater_valve\", \"%i "ktn_unit"/s", (int)Data.Settings_Grid[pt(Pos.Pos)][4]);
-	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][5], Buffer1, sizeof(Buffer1));
-	Truncate(ktn_hx_cap, 0, Buffer2, sizeof(Buffer2));
-	snprintf(Buffers.JSON[2], sizeof(Buffers.JSON[2]), "primary_loop\", \"%s/%s "ktn_unit, Buffer1, Buffer2);
-	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][6], Buffer1, sizeof(Buffer1));
-	Truncate(ktn_hx_cap, 0, Buffer2, sizeof(Buffer2));
-	snprintf(Buffers.JSON[3], sizeof(Buffers.JSON[3]), "feedwater_loop\", \"%s/%s "ktn_unit, Buffer1, Buffer2);
-	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][7], Buffer1, sizeof(Buffer1));
-	snprintf(Buffers.JSON[4], sizeof(Buffers.JSON[4]), "primary_temp\", \"%sF", Buffer1);
 	Abbreviate_Number(Data.Settings_Grid[pt(Pos.Pos)][8], Buffer1, sizeof(Buffer1)); 
-	snprintf(Buffers.JSON[5], sizeof(Buffers.JSON[5]), "feedwater_temp\", \"%sF", Buffer1);
-	strncpy(Buffers.JSON[6], ktn_null_string, sizeof(Buffers.JSON[6]));
+	snprintf(Buffers.JSON[2], sizeof(Buffers.JSON[2]), "exchanger_temp\", \"%sF", Buffer1);
+	strncpy(Buffers.JSON[3], ktn_null_string, sizeof(Buffers.JSON[3]));
 	Print_JSON();
 }
 

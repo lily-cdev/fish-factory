@@ -36,7 +36,7 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 			Data.Data_Grid[pt(Pos)][Stored_Power] -= Chosen.Power;
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, Chosen.Output_Temps[C1]);
 				Point Pos = Outputs[C1];
 				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 			}
@@ -99,7 +99,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			}
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, Chosen.Output_Temps[C1]);
 				Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1],
 					Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap]);
 			}
@@ -132,7 +132,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			}
 			for (int C1 = 0; C1 < Output_Ct; C1++) {
 				check_output();
-				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
+				Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, Chosen.Output_Temps[C1]);
 				Point Pos = Outputs[C1];
 				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][
 					Fluid_Cap]);
@@ -158,8 +158,7 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			}
 			if (!Chosen.Voiding_Excess) {
 				for (int C1 = 0; C1 < Output_Ct; C1++) {
-					if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] > Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap] -
-						Chosen.Output_Counts[C1]) {
+					if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] > Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap] - Chosen.Output_Counts[C1]) {
 						return false;
 					}
 				}
@@ -189,7 +188,7 @@ bool Extend_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 		Data.Animation_Grid[pt(Pos)][0] = 0.0f;
 		for (int C1 = 0; C1 < Output_Ct; C1++) {
 			check_output();
-			Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, ktn_room_temp);
+			Update_Item(Outputs[C1], Chosen.Output_Items[C1]->Index, Chosen.Output_Temps[C1]);
 			Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] = fminf(Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[
 				pt(Outputs[C1])][Fluid_Cap]);
 		}

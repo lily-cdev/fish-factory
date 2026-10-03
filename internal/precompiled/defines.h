@@ -5,6 +5,7 @@
 #define ktn_audio_ct 2
 #define ktn_border_width 4
 #define ktn_buttons 52
+#define ktn_c_water 1
 #define ktn_captions 6
 #define ktn_channels 1
 #define ktn_cmd_max 16
@@ -17,9 +18,9 @@
 #define ktn_fishlinks 16
 #define ktn_fonts 7
 #define ktn_grid_size 48
+#define ktn_h_fg 970
 #define ktn_health 120
-#define ktn_hx_cap 1200
-#define ktn_hx_efficiency 1200
+#define ktn_hx_pool_mass 500
 #define ktn_invalid -1
 #define ktn_json_max 8
 #define ktn_keybinds 14
@@ -50,4 +51,4 @@
 #define ktn_turbine_coefficient 0.15
 #define ktn_unit "lbs"
 #define ktn_valve300_len 7
-#define ktn_water_boil_pt 211.3
+#define ktn_water_boil_pt 212

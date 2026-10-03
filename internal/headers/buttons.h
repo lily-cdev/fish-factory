@@ -25,6 +25,7 @@ void Set_F_Cheat(Parameter Machine, Parameter Unused);
 void Apply_F_Cheat(Parameter Machine, Parameter Unused);
 void Set_P_Cheat(Parameter Machine, Parameter Unused);
 void Forward_Day(Parameter Unused, Parameter Unused2);
+void Start_Game(Parameter Unused, Parameter Unused2);
 void Load_Save(Parameter Slot, Parameter Unused);
 void Free_Save(Parameter Slot, Parameter Unused);
 void New_Save(Parameter Slot, Parameter Unused);

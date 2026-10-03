@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>uranyl fluoride</Name>
+	<Index>uranyl_fluoride</Index>
+	<ID>91</ID>
+	<Path>core/images/items/u_fluoride</Path>
+	<Hazard>mid</Hazard>
+	<Value>high</Value>
+	<Price>248</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

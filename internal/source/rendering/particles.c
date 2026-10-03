@@ -134,8 +134,8 @@ void Render_Emitters() {
 						}
 					}
 				}
+				Render_Particles((Point){ Column, Row });
 			}
-			Render_Particles((Point){ Column, Row });
 		}
 	}
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>ethylene dichloride</Name>
+	<Index>ethylene_dichloride</Index>
+	<ID>94</ID>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>226</R1>
+	<G1>232</G1>
+	<B1>240</B1>
+	<R2>201</R2>
+	<G2>207</G2>
+	<B2>214</B2>
+	<Hazard>mid</Hazard>
+	<Value>mid</Value>
+	<Price>145</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

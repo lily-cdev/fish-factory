@@ -74,6 +74,7 @@ add_executable(petroil
 	internal/source/prompts/help.c
 	internal/source/prompts/machines.c
 	internal/source/prompts/shop.c
+	internal/source/prompts/start.c
 	internal/source/prepping/actions.c
 	internal/source/prepping/cleanup.c
 	internal/source/prepping/definitions.c

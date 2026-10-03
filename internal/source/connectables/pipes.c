@@ -93,20 +93,22 @@ void Render_Pipes() {
 void Update_Pipes() {
 	for (int C1 = 0; C1 < Temporary.Chain_Ct; C1++) {
 		float Carrier = 0;
+		float Max = 0;
 		char Item[64];
 		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
 			Carrier += Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids];
+			Max += Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Fluid_Cap];
 			if (!ktn_stricmp(Get_Item(Data.Items_Grid[pt(Temporary.Chains[C1][C2])])->Index, Metadata.Null_Item.Index)) {
 				strcpy(Item, Data.Items_Grid[pt(Temporary.Chains[C1][C2])]);
 			}
 		}
+		float Fill = Carrier / Max;
 		float Temp = 0;
 		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
 			Temp += (Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] / Carrier) * Data.Temperature_Grid[pt(Temporary.Chains[C1][C2])];
 		}
-		Carrier /= Temporary.Chain_Len[C1];
 		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
-			Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] = Carrier;
+			Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] = Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Fluid_Cap] * Fill;
 			Update_Item(Temporary.Chains[C1][C2], Item, Temp);
 		}
 	}

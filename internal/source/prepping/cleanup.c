@@ -218,6 +218,8 @@ void Cleanup_Assets() {
 	ktn_free(Rects.Cancel.Data);
 	Clear_Texture_Array(&Textures.Next_Day);
 	ktn_free(Rects.Next_Day.Data);
+	Clear_Texture_Array(&Textures.Start_Game);
+	ktn_free(Rects.Start_Game.Data);
 	Clear_Texture_Array(&Textures.Quirk);
 	Clear_Texture_Array(&Textures.Quirk_Label);
 	ktn_free_texture(Textures.Emblem);

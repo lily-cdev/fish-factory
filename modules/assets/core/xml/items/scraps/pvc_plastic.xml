@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>pvc resin</Name>
+	<Index>pvc</Index>
+	<ID>97</ID>
+	<Path>core/images/items/pvc</Path>
+	<Hazard>none</Hazard>
+	<Value>none</Value>
+	<Price>209</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

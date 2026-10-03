@@ -412,6 +412,10 @@ void Preload_Assets() {
 	Rects.Next_Day.Data = calloc(2, sizeof(SDL_FRect));
 	Rects.Next_Day.Data[0].x = ktn_invalid;
 	Rects.Next_Day.Data[0].y = ktn_fscale(300.0f);
+	Rects.Start_Game.Length = 2;
+	Rects.Start_Game.Data = calloc(2, sizeof(SDL_FRect));
+	Rects.Start_Game.Data[0].x = ktn_invalid;
+	Rects.Start_Game.Data[0].y = ktn_fscale(300.0f);
 	Interface.Map_X = (Core.Tile_Size * ktn_grid_size) - 640 + Core.Buffer_Size;
 	Interface.Map_Y = (Core.Tile_Size * ktn_grid_size) - 360 + Core.Buffer_Size;
 	Rects.Subcontents.Data = malloc(sizeof(Rect2_Array) * ktn_subcategories);
@@ -657,6 +661,7 @@ void Preload_Assets() {
 	Load_Button(F_Subtext, Metadata.Buttons[6], &Textures.Apply, Rects.Apply, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(F_Subtext, Metadata.Buttons[7], &Textures.Cancel, Rects.Cancel, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Load_Button(F_Subtext, Metadata.Buttons[8], &Textures.Next_Day, Rects.Next_Day, Colors.Abyss_Black, Colors.Cherry_Blossom);
+	Load_Button(F_Subtext, "start game", &Textures.Start_Game, Rects.Start_Game, Colors.Abyss_Black, Colors.Cherry_Blossom);
 	Textures.New.Data = malloc(sizeof(Texture_Array) * 4);
 	Textures.Load.Data = malloc(sizeof(Texture_Array) * 4);
 	Textures.Clear.Data = malloc(sizeof(Texture_Array) * 4);

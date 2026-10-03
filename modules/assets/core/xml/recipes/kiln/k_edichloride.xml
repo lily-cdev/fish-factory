@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Recipe>
-	<Index>p_peplastic</Index>
+	<Index>k_edichloride</Index>
 	<Type>both</Type>
 	<Shuffling_Barred />
 	<Time>5</Time>
-	<Power>20</Power>
-	<Parent>polymerizer</Parent>
+	<Power>55000</Power>
+	<Parent>kiln</Parent>
 	<Inputs>
 		<Input>
-			<Item>ethylene</Item>
+			<Item>ethylene_dichloride</Item>
 			<Volume>2.0</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
-			<Item>polyethylene</Item>
+			<Item>vinyl_chloride</Item>
 			<Volume>2.0</Volume>
-			<Temp>250</Temp>
+			<Temp>850</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

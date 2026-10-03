@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Machine>
 	<Name>drydock intake</Name>
-	<Desc>Transports items into the drydock.</Desc>
+	<Desc>Not functional.</Desc>
 	<Index>signal_tower</Index>
 	<Parent>other</Parent>
 	<Texture_Type>rot</Texture_Type>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>r_pvcbar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>8500</Power>
+	<Parent>roller</Parent>
+	<Inputs>
+		<Input>
+			<Item>pvc_bar</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>pvc_plates</Item>
+			<Volume>2.0</Volume>
+			<Temp>265</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

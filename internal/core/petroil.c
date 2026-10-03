@@ -24,9 +24,53 @@ void (*Menu_Functions[7])() = {
 	Render_Changelog,
 	Render_Credits
 };
+/*
+void Crash_Handler(int Signal) {
+	int Log = open("crash.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (Log < 0) {
+		Log = STDERR_FILENO;
+	}
+	char Carrier[64];
+	#define subwrite(String) do { write(Log, String, sizeof(String) - 1); } while (0)
+	subwrite("---crash report---\nsignal -> ");
+	switch (Signal) {
+	case SIGSEGV:
+		subwrite("sigsegv (segmentation fault)");
+		break;
+	case SIGABRT:
+		subwrite("sigabrt (failed assert/abort called)");
+		break;
+	case SIGILL:
+		subwrite("sigill (memory corruption/undefined behavior)");
+		break;
+	case SIGFPE:
+		subwrite("sigfpe (division by zero)");
+		break;
+	default:
+		break;
+	}
+	subwrite("\n");
+	#undef subwrite
+	if (Log != STDERR_FILENO) {
+		close(Log);
+	}
+	_exit(EXIT_FAILURE);
+}
 
+void Init_Handler() {
+	struct sigaction Action;
+	Action.sa_handler = Crash_Handler;
+	sigemptyset(&Action.sa_mask);
+	Action.sa_flags = 0;
+	sigaction(SIGSEGV, &Action, NULL);
+	sigaction(SIGABRT, &Action, NULL);
+	sigaction(SIGILL, &Action, NULL);
+	sigaction(SIGFPE, &Action, NULL);
+}
+*/
 int main(int argc, char* args[]) {
 	Reseed_State();
+	//Init_Handler();
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
 		//get exception text

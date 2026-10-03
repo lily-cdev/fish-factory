@@ -26,7 +26,7 @@ void Adjust_Audio() {
 			float A = ktn_fscale((Core.Camera.X + 320.0f) - (Pos.X * Core.Tile_Size));
 			float B = ktn_fscale((Core.Camera.Y + 180.0f) - (Pos.Y * Core.Tile_Size));
 			float Volume = ktn_sqr(1.0f - fminf((sqrtf(ktn_sqr(A) + ktn_sqr(B)) / ktn_fscale(2000)), 1.0f));
-			ma_sound_set_volume(Carrier, Volume);
+			ma_sound_set_volume(Carrier, Volume * Settings.Volume * 0.01f);
 		}	
 	}
 }

@@ -12,7 +12,7 @@
 	<Height>1</Height>
 	<Speed>30</Speed>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>150</Power_Capacity>
+	<Power_Capacity>12000</Power_Capacity>
 	<Anchor_X>21</Anchor_X>
 	<Anchor_Y>11</Anchor_Y>
 	<Rot_ID />

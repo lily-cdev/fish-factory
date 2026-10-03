@@ -15,7 +15,8 @@ enum Prompts {
 	P_Power_Generator,
 	P_Genetics,
 	P_Perks,
-	P_Time
+	P_Time,
+	P_Start
 };
 
 enum Effect {

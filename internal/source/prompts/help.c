@@ -11,7 +11,7 @@ void Render_Help(Point Pos) {
 		{
 			char Flavor[] = "[c]Tutorials involve placing items. The space occupied by the selected tutorial will be marked by a bounding|box. For an optimal"
 				" experience, please ensure that the indicated area is free of obstructions.";
-			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 60 }, false, false);
+			Render_Rich_Text(F_Subtext, Flavor, (Point){ 20, 70 }, false, false);
 		}
 		if (Temporary.Tutorial_Step == ktn_invalid) {
 			if (Data.CMD_Placed) {

@@ -8,6 +8,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <ctype.h>
+#include <signal.h>
 #include <setjmp.h>
+#include <string.h>
+#include <fcntl.h>
+#include <ctype.h>
 #include <time.h>
+#include <unistd.h>

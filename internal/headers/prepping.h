@@ -110,6 +110,7 @@ struct Proto_Textures {
 	Texture_Array Apply;
 	Texture_Array Cancel;
 	Texture_Array Next_Day;
+	Texture_Array Start_Game;
 	Texture_Array Cap;
 	Texture2_Array Anti_Aliasing;
 	Texture2_Array V_Sync;
@@ -193,6 +194,7 @@ struct Proto_Rects {
 	Rect_Array Apply;
 	Rect_Array Cancel;
 	Rect_Array Next_Day;
+	Rect_Array Start_Game;
 	Rect2_Array Anti_Aliasing;
 	Rect2_Array V_Sync;
 	Rect2_Array Sort;

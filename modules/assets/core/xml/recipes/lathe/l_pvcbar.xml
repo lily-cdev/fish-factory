@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>l_pvcbar</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>5000</Power>
+	<Parent>lathe</Parent>
+	<Inputs>
+		<Input>
+			<Item>pvc_bar</Item>
+			<Volume>2.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>pvc</Item>
+			<Volume>1.0</Volume>
+			<Temp>110</Temp>
+		</Output>
+		<Output>
+			<Item>pvc_rods</Item>
+			<Volume>1.0</Volume>
+			<Temp>150</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

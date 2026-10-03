@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_ufluoride</Index>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>50000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>enriched_uf6</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>steam</Item>
+			<Volume>0.2</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>uranyl_fluoride</Item>
+			<Volume>1.75</Volume>
+			<Temp>130</Temp>
+		</Output>
+		<Output>
+			<Item>hydrogen_fluoride</Item>
+			<Volume>0.5</Volume>
+			<Temp>140</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

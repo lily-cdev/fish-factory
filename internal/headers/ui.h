@@ -16,6 +16,7 @@ void Render_Effects();
 void Cache_Blueprint();
 void Cache_Price();
 void Render_Daily_Report(Point Pos);
+void Render_Start_Game(Point Pos);
 void Render_Help(Point Pos);
 void Render_Shop(Point Pos);
 void Render_Catalog(Point Pos);
