@@ -2,10 +2,8 @@
 <Item>
 	<Name>clay</Name>
 	<Index>clay</Index>
-	<ID>22</ID>
 	<Path>core/images/items/clay</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>4</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -8,11 +8,20 @@
 	<Parent>kiln</Parent>
 	<Inputs>
 		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+		<Input>
 			<Item>hydrogen_sulfide</Item>
 			<Volume>2.0</Volume>
 		</Input>
 	</Inputs>
 	<Outputs>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
 		<Output>
 			<Item>sulfur_dioxide</Item>
 			<Volume>3.75</Volume>

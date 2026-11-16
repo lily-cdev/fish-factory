@@ -2,11 +2,9 @@
 <Item>
     <Name>0.7%-enriched UF6</Name>
     <Index>unenriched_uf6</Index>
-    <ID>84</ID>
     <Path>core/images/items/u_hexafluoride</Path>
-    <Price>100</Price>
+    <Price>300</Price>
 	<Hazard>high</Hazard>
-	<Value>mid</Value>
     <Chem_Energy>0</Chem_Energy>
     <Nutrition>0</Nutrition>
 </Item>

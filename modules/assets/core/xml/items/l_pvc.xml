@@ -2,7 +2,6 @@
 <Item>
 	<Name>liquid pvc</Name>
 	<Index>liquid_pvc</Index>
-	<ID>96</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>249</R1>
@@ -12,7 +11,6 @@
 	<G2>211</G2>
 	<B2>217</B2>
 	<Hazard>low</Hazard>
-	<Value>mid</Value>
 	<Price>250</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

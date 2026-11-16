@@ -27,6 +27,7 @@
 			<Y>2</Y>
 			<Dir>down</Dir>
 			<Cap>2</Cap>
+			<Type>liquid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>0</Output_Ct>

@@ -96,6 +96,11 @@ bool Save_Data(int Slot) {
 		}
 	}
 	fputc((char)Interface.Slider_Positions[15], File);
+	for (int C1 = 0; C1 < ktn_docklinks; C1++) {
+		fputc((char)Docklinks[C1].Allocated, File);
+		fwrite(Docklinks[C1].Items, sizeof(char), sizeof(Docklinks[C1].Items), File);
+	}
+	fwrite(Data.Animation_Grid, sizeof(float), ktn_sqr(ktn_grid_size) * 16, File);
 	fclose(File);
 	return true;
 }
@@ -217,11 +222,29 @@ bool Load_Data(int Slot) {
 		} else {
 			Interface.Slider_Positions[15] = 1;
 		}
+		if (Version >= 5) {
+			for (int C1 = 0; C1 < ktn_docklinks; C1++) {
+				Docklinks[C1].Allocated = (bool)fgetc(File);
+				fread(Docklinks[C1].Items, sizeof(char), sizeof(Docklinks[C1].Items), File);
+			}
+		} else {
+			memset(Docklinks, 0, sizeof(Docklinks));
+		}
+		if (Version >= 6) {
+			fread(Data.Animation_Grid, sizeof(float), ktn_sqr(ktn_grid_size) * 16, File);
+		} else {
+			for (int X = 0; X < ktn_grid_size; X++) {
+				for (int Y = 0; Y < ktn_grid_size; Y++) {
+					for (int Z = 0; Z < 16; Z++) {
+						Data.Animation_Grid[X][Y][Z] = ktn_invalid;
+					}
+				}
+			}
+		}
 	} else {
 		Save_Data(Slot);
 	}
 	fclose(File);
-	Preclear_Temporaries();
 	Bake_Lights();
 	Get_Chains();
 	return true;
@@ -258,13 +281,13 @@ void Reset_Statistics() {
 	}
 	Clear_Bridges(&Wires);
 	Clear_Bridges(&Pipes);
-	Preclear_Temporaries();
 	Bake_Lights();
 	Get_Chains();
 	for (int C1 = 0; C1 < 16; C1++) {
 		ktn_free(Fishlinks[C1].Fish);
 	}
-	memset(Fishlinks, 0, 16);
+	memset(Fishlinks, 0, sizeof(Fishlinks));
+	memset(Docklinks, 0, sizeof(Docklinks));
 }
 
 void Reload_All(bool Initialized) {

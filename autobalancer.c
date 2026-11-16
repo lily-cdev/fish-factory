@@ -18,7 +18,7 @@ int main() {
         snprintf(Carrier, sizeof(Carrier), "---input quantity %i---", C1 + 1);
         puts(Carrier);
         getbuf();
-        Input_Amounts[C1] = atoi(Buffer);
+        Input_Amounts[C1] = atof(Buffer);
         snprintf(Carrier, sizeof(Carrier), "---input sell val. %i---", C1 + 1);
         puts(Carrier);
         getbuf();
@@ -27,13 +27,13 @@ int main() {
     puts("---output ct---");
     getbuf();
     int Output_Ct = atoi(Buffer);
-    int* Output_Amounts = malloc(sizeof(int) * Output_Ct);
+    float* Output_Amounts = malloc(sizeof(float) * Output_Ct);
     for (int C1 = 0; C1 < Output_Ct; C1++) {
         char Carrier[64];
         snprintf(Carrier, sizeof(Carrier), "---output quantity %i---", C1 + 1);
         puts(Carrier);
         getbuf();
-        Output_Amounts[C1] = atoi(Buffer);
+        Output_Amounts[C1] = atof(Buffer);
     }
     float* Output_Prices = malloc(sizeof(float) * Output_Ct);
     float Total_Input = 0;
@@ -49,15 +49,10 @@ int main() {
     for (int C1 = 0; C1 < Output_Ct; C1++) {
         Output_Prices[C1] = Value_Unit;
     }
-    //TMP, stolen from some random-axe website!!!
-    printf("\nTotal input value: %.2f\n", Total_Input_Value);
-    printf("Total output value (with %.1fx margin): %.2f\n", 1.2, Total_Output_Value);
+    printf("\ntotal input value: %.2f\ntotal output value (with 1.2x margin): %.2f\n", Total_Input, Total_Output);
     for (int C1 = 0; C1 < Output_Ct; C1++) {
-        printf("Output %d: %d units @ %.2f each (batch value %.2f)\n",
-               C1 + 1, Output_Amounts[C1], Output_Prices[C1],
-               Output_Prices[C1] * Output_Amounts[C1]);
+        printf("output %i: %.2flbs @ %.2f each (batch value %.2f)\n", C1 + 1, Output_Amounts[C1], Output_Prices[C1], Output_Prices[C1] * Output_Amounts[C1]);
     }
-    //ENDTMP!!!
     free(Input_Prices);
     free(Input_Amounts);
     free(Output_Amounts);

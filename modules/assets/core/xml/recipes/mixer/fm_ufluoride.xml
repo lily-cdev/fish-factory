@@ -26,21 +26,22 @@
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Input>
-		<Input>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
-		</Input>
 	</Inputs>
 	<Outputs>
-		<Output>
-			<Item>uranyl_fluoride</Item>
-			<Volume>1.75</Volume>
-			<Temp>130</Temp>
-		</Output>
 		<Output>
 			<Item>hydrogen_fluoride</Item>
 			<Volume>0.5</Volume>
 			<Temp>140</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+		<Output>
+			<Item>uranyl_fluoride</Item>
+			<Volume>1.75</Volume>
+			<Temp>130</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

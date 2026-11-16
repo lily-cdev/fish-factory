@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>sorter</Name>
+	<Desc>TBA.</Desc>
+	<Index>sorter</Index>
+	<Parent>processing</Parent>
+	<Texture_Type>rl_drag</Texture_Type>
+	<Start>0.1</Start>
+	<Return>0.7</Return>
+	<End>0.9</End>
+	<Delta>40</Delta>
+	<Path>core/images/machines/sorter</Path>
+	<Price>186</Price>
+	<Fee>1</Fee>
+	<Width>3</Width>
+	<Height>3</Height>
+	<Rot_ID />
+	<Power_Type>in</Power_Type>
+	<Power_Capacity>325</Power_Capacity>
+	<Anchor_X>32</Anchor_X>
+	<Anchor_Y>32</Anchor_Y>
+	<Fluid_Processor />
+	<Input_Ct>1</Input_Ct>
+	<Inputs>
+		<Input>
+			<X>0</X>
+			<Y>1</Y>
+			<Dir>left</Dir>
+			<Cap>12</Cap>
+			<Type>solid</Type>
+		</Input>
+	</Inputs>
+	<Output_Ct>3</Output_Ct>
+	<Outputs>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>12</Cap>
+			<Type>solid</Type>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>12</Cap>
+			<Type>solid</Type>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>2</Y>
+			<Dir>down</Dir>
+			<Cap>12</Cap>
+			<Type>solid</Type>
+		</Output>
+	</Outputs>
+	<Neutral_Ct>0</Neutral_Ct>
+</Machine>

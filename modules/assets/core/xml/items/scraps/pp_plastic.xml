@@ -2,11 +2,9 @@
 <Item>
 	<Name>polypropylene resin</Name>
 	<Index>polypropylene</Index>
-	<ID>53</ID>
 	<Path>core/images/items/polypropylene</Path>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
-	<Price>145</Price>
+	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>
 </Item>

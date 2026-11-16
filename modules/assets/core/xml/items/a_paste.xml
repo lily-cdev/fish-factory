@@ -2,10 +2,8 @@
 <Item>
 	<Name>algae paste</Name>
 	<Index>algae_paste</Index>
-	<ID>2</ID>
 	<Path>core/images/items/a_paste</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>2</Price>
 	<Chem_Energy>55000</Chem_Energy>
 	<Nutrition>70</Nutrition>

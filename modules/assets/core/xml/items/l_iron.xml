@@ -2,7 +2,6 @@
 <Item>
 	<Name>molten iron</Name>
 	<Index>liquid_iron</Index>
-	<ID>33</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>255</R1>
@@ -12,7 +11,6 @@
 	<G2>55</G2>
 	<B2>10</B2>
 	<Hazard>mid</Hazard>
-	<Value>low</Value>
 	<Price>12</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

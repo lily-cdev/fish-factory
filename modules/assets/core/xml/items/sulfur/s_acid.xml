@@ -2,7 +2,6 @@
 <Item>
 	<Name>sulfuric acid</Name>
 	<Index>sulfuric_acid</Index>
-	<ID>81</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>187</R1>
@@ -12,7 +11,6 @@
 	<G2>167</G2>
 	<B2>0</B2>
 	<Hazard>mid</Hazard>
-	<Value>mid</Value>
 	<Price>94</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

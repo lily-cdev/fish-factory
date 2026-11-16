@@ -2,7 +2,6 @@
 <Item>
 	<Name>glass scraps</Name>
 	<Index>glass_scrap</Index>
-	<ID>61</ID>
 	<Path>core/images/items/scrap_base</Path>
 	<Uniform />
 	<R1>169</R1>
@@ -12,8 +11,7 @@
 	<G2>223</G2>
 	<B2>228</B2>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
-	<Price>12</Price>
+	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>
 </Item>

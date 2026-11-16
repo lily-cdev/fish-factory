@@ -2,10 +2,8 @@
 <Item>
 	<Name>crushed plagioclase</Name>
 	<Index>plagioclase</Index>
-	<ID>28</ID>
 	<Path>core/images/items/plagioclase</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>8</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

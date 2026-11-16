@@ -81,7 +81,17 @@ void Render_Pipes() {
 		if (Pipes.Data[C1].Filled) {
 			Rects.Tile_1x1.x = ktn_fscale((Pipes.Data[C1].X1 * Core.Tile_Size) + (Pipes.Data[C1].X_Offset * Core.Ratio) - Core.Camera.X);
 			Rects.Tile_1x1.y = ktn_fscale((Pipes.Data[C1].Y1 * Core.Tile_Size) + (Pipes.Data[C1].Y_Offset * Core.Ratio) - Core.Camera.Y);
-			Render_Texture(Textures.Arrow.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
+			Point Start = { Pipes.Data[C1].X1, Pipes.Data[C1].Y1 };
+			Point End = { Pipes.Data[C1].X2, Pipes.Data[C1].Y2 };
+			if ((Data.Types_Grid[pt(Start)] == T_Solid && Data.Types_Grid[pt(End)] != T_Liquid) || (Data.Types_Grid[pt(End)] == T_Solid && Data.Types_Grid[
+				pt(Start)] != T_Liquid)) {
+				Render_Texture(Textures.Arrow2.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
+			} else if ((Data.Types_Grid[pt(Start)] == T_Solid && Data.Types_Grid[pt(End)] == T_Liquid) || (Data.Types_Grid[pt(End)] == T_Solid && Data.Types_Grid[
+				pt(Start)] == T_Liquid)) {
+				Render_Texture(Textures.Arrow3.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
+			} else {
+				Render_Texture(Textures.Arrow.Data[Pipes.Data[C1].Orienation], &Rects.Tile_1x1);
+			}
 		} else {
 			Rects.Tile_1x1.x = ktn_fscale((Pipes.Data[C1].X1 * Core.Tile_Size) - Core.Camera.X);
 			Rects.Tile_1x1.y = ktn_fscale((Pipes.Data[C1].Y1 * Core.Tile_Size) - Core.Camera.Y);
@@ -110,6 +120,20 @@ void Update_Pipes() {
 		for (int C2 = 0; C2 < Temporary.Chain_Len[C1]; C2++) {
 			Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Stored_Fluids] = Data.Data_Grid[pt(Temporary.Chains[C1][C2])][Fluid_Cap] * Fill;
 			Update_Item(Temporary.Chains[C1][C2], Item, Temp);
+		}
+	}
+	for (int C1 = 0; C1 < Pipes.Length; C1++) {
+		Point Start = { Pipes.Data[C1].X1, Pipes.Data[C1].Y1 };
+		Point End = { Pipes.Data[C1].X2, Pipes.Data[C1].Y2 };
+		if ((Data.Types_Grid[pt(Start)] == T_Solid && Data.Types_Grid[pt(End)] != T_Liquid) || (Data.Types_Grid[pt(End)] == T_Solid && Data.Types_Grid[
+			pt(Start)] != T_Liquid)) {
+			float Allowed = Data.Data_Grid[Pipes.Data[C1].X1][Pipes.Data[C1].Y1][Stored_Fluids];
+			Allowed = fminf(Data.Data_Grid[Pipes.Data[C1].X2][Pipes.Data[C1].Y2][Fluid_Cap] - Data.Data_Grid[Pipes.Data[C1].X2][Pipes.Data[C1].Y2][Stored_Fluids],
+				Allowed);
+			Data.Data_Grid[Pipes.Data[C1].X1][Pipes.Data[C1].Y1][Stored_Fluids] -= Allowed;
+			Data.Data_Grid[Pipes.Data[C1].X2][Pipes.Data[C1].Y2][Stored_Fluids] += Allowed;
+			strcpy(Data.Items_Grid[Pipes.Data[C1].X2][Pipes.Data[C1].Y2], Data.Items_Grid[Pipes.Data[C1].X1][Pipes.Data[C1].Y1]);
+			Data.Temperature_Grid[Pipes.Data[C1].X2][Pipes.Data[C1].Y2] = Data.Temperature_Grid[Pipes.Data[C1].X1][Pipes.Data[C1].Y1];
 		}
 	}
 }

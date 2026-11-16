@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Fish>
 	<Name>menhaden</Name>
-	<ID>2</ID>
+	<ID>1</ID>
 	<Item>menhaden</Item>
 	<Max_Growth>100</Max_Growth>
 	<Hunger>0.15</Hunger>

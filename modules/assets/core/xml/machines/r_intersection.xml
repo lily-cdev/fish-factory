@@ -20,12 +20,14 @@
 			<Y>1</Y>
 			<Dir>left</Dir>
 			<Cap>30</Cap>
+			<Type>liquid</Type>
 		</Input>
 		<Input>
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>30</Cap>
+			<Type>liquid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -35,12 +37,14 @@
 			<Y>1</Y>
 			<Dir>right</Dir>
 			<Cap>30</Cap>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>2</Y>
 			<Dir>down</Dir>
 			<Cap>30</Cap>
+			<Type>liquid</Type>
 		</Output>		
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

@@ -2,10 +2,8 @@
 <Item>
 	<Name>granular silicon dioxide</Name>
 	<Index>silicates</Index>
-	<ID>21</ID>
 	<Path>core/images/items/silicates</Path>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
 	<Price>4</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -26,10 +26,6 @@
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Input>
-		<Input>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
-		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
@@ -40,6 +36,11 @@
 		<Output>
 			<Item>none</Item>
 			<Volume>0.0</Volume>
+			<Temp>65</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
 			<Temp>65</Temp>
 		</Output>
 	</Outputs>

@@ -9,7 +9,7 @@ bool Place_Spawning_Controller(Point Pos) {
 	if (Pool_Ct >= 16) {
 		return false;
 	}
-	Pool_Ct++;
+	Pool_Ct++; 
 	Data.Settings_Grid[pt(Pos)][4] = 0;
 	for (int C1 = 0; C1 < 16; C1++) {
 		if (!Fishlinks[C1].Allocated) {
@@ -31,6 +31,7 @@ bool Place_Spawning_Output(Point Pos) {
 	Data.Plumbing_Grid[pt(Pos)] = Down;
 	Data.Behavior_Grid[pt(Pos)] = 0;
 	Data.Settings_Grid[pt(Pos)][0] = F_Out;
+	Data.Types_Grid[pt(Pos)] = T_Liquid;
 	return true;
 }
 
@@ -39,5 +40,6 @@ bool Place_Spawning_Input(Point Pos) {
 	Data.Plumbing_Grid[pt(Pos)] = Down;
 	Data.Behavior_Grid[pt(Pos)] = 0;
 	Data.Settings_Grid[pt(Pos)][0] = F_In;
+	Data.Types_Grid[pt(Pos)] = T_Liquid;
 	return true;
 }

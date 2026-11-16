@@ -25,6 +25,7 @@
 			<Y>0</Y>
 			<Dir>right</Dir>
 			<Cap>24</Cap>
+			<Type>solid</Type>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_zhydroxide</Index>
+	<Type>both</Type>
+	<Time>1</Time>
+	<Power>30000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>zirconium_sulfate</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>wet_lye</Item>
+			<Volume>0.5</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>wet_waste</Item>
+			<Volume>2</Volume>
+			<Temp>130</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+		<Output>
+			<Item>zirconium_hydroxide</Item>
+			<Volume>0.5</Volume>
+			<Temp>120</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

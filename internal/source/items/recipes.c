@@ -1,6 +1,9 @@
 #include <items.h>
 
-#define check_output() if (Chosen.Output_Items[C1]->ID == Metadata.Null_Item.ID) { continue; }
+struct Docklink Docklinks[ktn_docklinks];
+int Dock_Ct = 0;
+
+#define check_output() if (ktn_stricmp(Chosen.Output_Items[C1]->Index, ktn_strnull)) { continue; }
 
 Point Get_Transformed(Node_Data Node, Point Pos) {
 	Machine_Ptr Machine = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
@@ -40,6 +43,13 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 				Point Pos = Outputs[C1];
 				Data.Data_Grid[pt(Pos)][Stored_Fluids] = fminf(Data.Data_Grid[pt(Pos)][Stored_Fluids] + Chosen.Output_Counts[C1], Data.Data_Grid[pt(Pos)][Fluid_Cap]);
 			}
+			if (Chosen.Has_Cost) {
+				if (Data.Funds >= Chosen.Cost) {
+					Data.Funds -= Chosen.Cost;
+				} else {
+					return false;
+				}
+			}
 			return true;
 		}
 	} else {
@@ -54,6 +64,13 @@ bool Process_O_Recipe(Recipe Chosen, Point Pos, Point* Outputs) {
 				}
 				Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
 				strcpy(Data.Processing_Grid[pt(Pos)], Chosen.Index);
+				if (Chosen.Has_Cost) {
+					if (Data.Funds >= Chosen.Cost) {
+						Data.Funds -= Chosen.Cost;
+					} else {
+						return false;
+					}
+				}
 				return true;
 			}
 		}
@@ -169,7 +186,35 @@ bool Process_IO_Recipe(Recipe Chosen, Point Pos, Point* Inputs, Point* Outputs) 
 			Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
 			strcpy(Data.Processing_Grid[pt(Pos)], Chosen.Index);
 		} else {
-			//later
+			Point* Subinputs = malloc(sizeof(Point) * Input_Ct);
+			for (int C1 = 0; C1 < Input_Ct; C1++) {
+				bool Found = false;
+				for (int C2 = 0; C2 < Input_Ct; C2++) {
+					if (ktn_stricmp(Chosen.Input_Items[C1]->Index, Data.Items_Grid[pt(Inputs[C2])])) {
+						Found = true;
+						Subinputs[C1] = Inputs[C2];
+						break;
+					}
+				}
+				if (!Found || Data.Data_Grid[pt(Subinputs[C1])][Stored_Fluids] < Chosen.Input_Counts[C1]) {
+					ktn_free(Subinputs);
+					return false;
+				}
+			}
+			if (!Chosen.Voiding_Excess) {
+				for (int C1 = 0; C1 < Output_Ct; C1++) {
+					if (Data.Data_Grid[pt(Outputs[C1])][Stored_Fluids] > Data.Data_Grid[pt(Outputs[C1])][Fluid_Cap] - Chosen.Output_Counts[C1]) {
+						ktn_free(Subinputs);
+						return false;
+					}
+				}
+			}
+			for (int C1 = 0; C1 < Input_Ct; C1++) {
+				Data.Data_Grid[pt(Subinputs[C1])][Stored_Fluids] -= Chosen.Input_Counts[C1];
+			}
+			Data.Settings_Grid[pt(Pos)][S_Time] = Chosen.Time;
+			strcpy(Data.Processing_Grid[pt(Pos)], Chosen.Index);
+			ktn_free(Subinputs);
 		}
 		return true;
 	}

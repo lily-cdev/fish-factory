@@ -2,10 +2,8 @@
 <Item>
 	<Name>crushed raw iron</Name>
 	<Index>raw_iron</Index>
-	<ID>31</ID>
 	<Path>core/images/items/r_iron</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>10</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

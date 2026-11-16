@@ -2,7 +2,6 @@
 <Item>
 	<Name>bitumen</Name>
 	<Index>bitumen</Index>
-	<ID>49</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>61</R1>
@@ -12,7 +11,6 @@
 	<G2>26</G2>
 	<B2>26</B2>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>121</Price>
 	<Chem_Energy>18860000</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -71,6 +71,9 @@ void Init_Handler() {
 int main(int argc, char* args[]) {
 	Reseed_State();
 	//Init_Handler();
+	#ifdef __unix__
+	SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, "0");
+	#endif
 	if (setjmp(Exception) != 0) {
 		char Carrier[128];
 		//get exception text

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+    <Name>unfired uo2 pellets</Name>
+    <Index>raw_uo2_pellets</Index>
+    <Path>core/images/items/ud_pellets</Path>
+    <Price>1071</Price>
+	<Hazard>mid</Hazard>
+    <Chem_Energy>0</Chem_Energy>
+    <Nutrition>0</Nutrition>
+</Item>

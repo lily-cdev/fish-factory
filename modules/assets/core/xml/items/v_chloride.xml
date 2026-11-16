@@ -2,10 +2,8 @@
 <Item>
 	<Name>vinyl chloride</Name>
 	<Index>vinyl_chloride</Index>
-	<ID>95</ID>
 	<Path>core/images/items/v_chloride</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>174</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -38,6 +38,12 @@ typedef enum {
 	Any
 } Dir;
 
+typedef enum {
+	T_Any,
+	T_Liquid,
+	T_Solid
+} Type;
+
 enum Data_Grid {
 	Stored_Fluids,
 	Fluid_Cap,
@@ -108,7 +114,8 @@ enum Issues {
 	I_No_Value,
 	I_No_Type,
 	I_No_Float,
-	I_No_Item
+	I_No_Item,
+	I_No_Parent
 };
 
 enum Error {

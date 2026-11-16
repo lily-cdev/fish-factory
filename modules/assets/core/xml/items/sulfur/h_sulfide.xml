@@ -2,10 +2,8 @@
 <Item>
 	<Name>hydrogen sulfide</Name>
 	<Index>hydrogen_sulfide</Index>
-	<ID>74</ID>
 	<Path>core/images/items/h_sulfide</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>242</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

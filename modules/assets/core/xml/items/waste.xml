@@ -2,10 +2,8 @@
 <Item>
 	<Name>liquid waste</Name>
 	<Index>wet_waste</Index>
-	<ID>18</ID>
 	<Path>core/images/items/waste</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

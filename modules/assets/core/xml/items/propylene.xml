@@ -2,10 +2,8 @@
 <Item>
 	<Name>propylene</Name>
 	<Index>propylene</Index>
-	<ID>52</ID>
 	<Path>core/images/items/propylene</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>121</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

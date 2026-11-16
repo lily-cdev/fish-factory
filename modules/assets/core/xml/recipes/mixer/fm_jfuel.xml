@@ -26,10 +26,6 @@
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Input>
-		<Input>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
-		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
@@ -41,6 +37,11 @@
 			<Item>hydrogen_sulfide</Item>
 			<Volume>0.1</Volume>
 			<Temp>280</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

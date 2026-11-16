@@ -2,10 +2,8 @@
 <Item>
 	<Name>crushed pyroxene</Name>
 	<Index>pyroxene</Index>
-	<ID>29</ID>
 	<Path>core/images/items/pyroxene</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>8</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

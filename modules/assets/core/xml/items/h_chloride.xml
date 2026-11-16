@@ -2,10 +2,8 @@
 <Item>
 	<Name>hydrogen chloride</Name>
 	<Index>hydrogen_chloride</Index>
-	<ID>8</ID>
 	<Path>core/images/items/h_chloride</Path>
 	<Hazard>high</Hazard>
-	<Value>none</Value>
 	<Price>3</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -2,10 +2,8 @@
 <Item>
 	<Name>raw algae</Name>
 	<Index>algae</Index>
-	<ID>3</ID>
 	<Path>core/images/items/w_algae</Path>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
 	<Price>1</Price>
 	<Chem_Energy>1130</Chem_Energy>
 	<Nutrition>50</Nutrition>

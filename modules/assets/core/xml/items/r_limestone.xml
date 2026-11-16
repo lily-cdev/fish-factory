@@ -2,10 +2,8 @@
 <Item>
 	<Name>crushed raw limestone</Name>
 	<Index>raw_fluorite</Index>
-	<ID>32</ID>
 	<Path>core/images/items/r_limestone</Path>
 	<Hazard>low</Hazard>
-	<Value>mid</Value>
 	<Price>10</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

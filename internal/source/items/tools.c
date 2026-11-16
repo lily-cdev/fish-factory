@@ -12,15 +12,6 @@ Item_Ptr Get_Item(const char* Index) {
 	return &Metadata.Null_Item;
 }
 
-Item_Ptr Get_ID_Item(const int ID) {
-	for (int C1 = 0; C1 < Core.Items; C1++) {
-		if (Metadata.Items[C1].ID == ID) {
-			return &Metadata.Items[C1];
-		}
-	}
-	return &Metadata.Null_Item;
-}
-
 void Purge_Items() {
 	for (int Column = 0; Column < ktn_grid_size; Column++) {
 		for (int Row = 0; Row < ktn_grid_size; Row++) {

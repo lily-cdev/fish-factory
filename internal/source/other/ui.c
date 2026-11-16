@@ -84,7 +84,8 @@ void Render_Blueprint(int Size_X, int Size_Y) {
 				Core.Tile_Size) - Core.Camera.Y)) || (Size_X != 2 && Size_Y != 2)) {
 				bool Placeable = Check_Clearance((Point){ Column, Row }, Size_X, Size_Y);
 				if ((Data.CMD_Placed && Interface.Item->Command) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller")) ||
-					(Interface.Item->Prerequisite && !Interface.Item->Prerequisite->Owned) || (Interface.Item->Edge_Needed && Row != 0)) {
+					(Interface.Item->Prerequisite && !Interface.Item->Prerequisite->Owned) || (Interface.Item->Edge_Needed && Row != 0) || (Dock_Ct >= 16 &&
+					ktn_stricmp(Interface.Item->Index, "sub_dock"))) {
 					Placeable = false;
 				}
 				if (Placeable) {
@@ -193,7 +194,7 @@ void Render_Game_UI() {
 				}
 			}
 		}
-		if (Item && Item->ID != ktn_invalid) {
+		if (Item && !ktn_stricmp(Item->Index, ktn_strnull)) {
 			char Buffer[64];
 			snprintf(Buffer, sizeof(Buffer), "item: %s", Item->Name);
 			strncpy(Data_Fragments[Index], Buffer, sizeof(Data_Fragments[Index]));

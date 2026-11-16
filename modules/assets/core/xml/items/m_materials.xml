@@ -2,10 +2,8 @@
 <Item>
 	<Name>mixed materials</Name>
 	<Index>material_mix</Index>
-	<ID>30</ID>
 	<Path>core/images/items/m_materials</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>8</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

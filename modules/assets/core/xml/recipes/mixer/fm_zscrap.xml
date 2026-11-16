@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_zscrap</Index>
+	<Type>both</Type>
+	<Time>10</Time>
+	<Power>120000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>zirconium_tetrachloride</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>liquid_sodium</Item>
+			<Volume>0.8</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>liquid_salt</Item>
+			<Volume>2</Volume>
+			<Temp>1600</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+		<Output>
+			<Item>zirconium_scraps</Item>
+			<Volume>0.8</Volume>
+			<Temp>?</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

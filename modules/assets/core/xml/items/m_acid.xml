@@ -2,7 +2,6 @@
 <Item>
 	<Name>muriatic acid</Name>
 	<Index>muriatic_acid</Index>
-	<ID>10</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>202</R1>
@@ -12,7 +11,6 @@
 	<G2>200</G2>
 	<B2>43</B2>
 	<Hazard>mid</Hazard>
-	<Value>low</Value>
 	<Price>16</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>zsp_zsulfate</Index>
+	<Type>out</Type>
+	<Shuffling_Barred />
+	<Time>1</Time>
+	<Power>90</Power>
+	<Parent>zirconium_pump</Parent>
+	<Money_Required />
+	<Cost>108</Cost>
+	<Outputs>
+		<Output>
+			<Item>zirconium_sulfate</Item>
+			<Volume>2</Volume>
+			<Temp>65</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

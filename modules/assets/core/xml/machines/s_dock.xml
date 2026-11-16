@@ -22,12 +22,14 @@
 			<Y>3</Y>
 			<Dir>down</Dir>
 			<Cap>200</Cap>
+			<Type>liquid</Type>
 		</Input>
 		<Input>
 			<X>1</X>
 			<Y>3</Y>
 			<Dir>down</Dir>
 			<Cap>200</Cap>
+			<Type>solid</Type>
 		</Input>
 	</Inputs>
 	<Single_ID />

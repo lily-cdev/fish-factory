@@ -94,6 +94,17 @@ void Get_Node(const char* Path, const char* Data, const char* Label, int* Ct_Ptr
 			break;
 		}
 		ktn_free(Direction);
+		char* Type = Find_Element(Path, Subnodes[C1], "Type", NULL);
+		if (ktn_stricmp(Type, "any")) {
+			(*Node_Ptr)[C1].Type = 0;
+		} else if (ktn_stricmp(Type, "liquid")) {
+			(*Node_Ptr)[C1].Type = 1;
+		} else if (ktn_stricmp(Type, "solid")) {
+			(*Node_Ptr)[C1].Type = 2;
+		} else {
+			//fail
+		}
+		ktn_free(Type);
 		ktn_free(Subnodes[C1]);
 	}
 	ktn_free(Subnodes);
@@ -114,7 +125,6 @@ void Load_XML() {
 	Metadata.Null_Item = (Item_Data){
 		.Name = "none",
 		.Index = ktn_strnull,
-		.ID = ktn_invalid,
 		.Worth = Worthless,
 		.Danger = Harmless,
 		.Price = 0,
@@ -148,7 +158,7 @@ void Load_XML() {
 		char* Carrier = get_str("Parent");
 		Subcategory.Parent = Get_Category(Carrier);
 		if (!Subcategory.Parent && !ktn_stricmp(Carrier, "none")) {
-			//throw error
+			ktn_jump(I_No_Parent, "xml parser failed to process \"Parent\"");
 		}
 		ktn_free(Carrier);
 		#undef get_str
@@ -178,7 +188,6 @@ void Load_XML() {
 	ktn_free(Raw_Names);
 	Metadata.Machines = calloc(Core.Machines, sizeof(Machine_Data));
 	Raw_Names = Find_Multiple("registrar", Registrar, "Machine", Core.Machines);
-	int Sub_ID_Record = 0;
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		#define Machine Metadata.Machines[C1]
 		#define get_str(Victim) (Find_Element(Raw_Names[C1], Machine_File, Victim, NULL))
@@ -190,8 +199,7 @@ void Load_XML() {
 		char* Carrier = get_str("Parent");
 		Machine.Parent = Get_Category(Carrier);
 		if (!Machine.Parent && !ktn_stricmp(Carrier, "none")) {
-
-			//throw error
+			ktn_jump(I_No_Parent, "xml parser failed to process \"Parent\"");
 		}
 		ktn_free(Carrier);
 		if (Get_Boolean(Machine_File, "Requires_Perk")) {
@@ -297,16 +305,9 @@ void Load_XML() {
 		}
 		Machine.Has_Audio = Get_Boolean(Machine_File, "Has_Audio");
 		if (Machine.Has_Audio) {
-			char Carrier[128];
 			char* Subcarrier = get_str("Run_Audio");
-			snprintf(Carrier, sizeof(Carrier), "assets/%s.wav", Subcarrier);
+			snprintf(Machine.Audio_Path, sizeof(Machine.Audio_Path), "assets/%s.wav", Subcarrier);
 			ktn_free(Subcarrier);
-			ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Carrier, 0, NULL, NULL, &Machine.Run);
-			if (Yield != MA_SUCCESS) {
-				char Carrier2[512];
-				snprintf(Carrier2, sizeof(Carrier2), "could not load a sound; %s", ma_result_description(Yield));
-				ktn_jump(I_No_Sound, Carrier2);
-			}
 		}
 		Machine.Has_Light = Get_Boolean(Machine_File, "Has_Light");
 		if (Machine.Has_Light) {
@@ -379,8 +380,6 @@ void Load_XML() {
 			Item.Secondary.g = get_int("G2");
 			Item.Secondary.b = get_int("B2");
 		}
-		Item.ID = get_int("ID");
-		Sub_ID_Record = ktn_max(Sub_ID_Record, Item.ID);
 		Item.Price = get_int("Price");
 		Item.Chem_Energy = get_int("Chem_Energy");
 		Item.Nutrition = get_int("Nutrition") * 0.01f;
@@ -397,21 +396,15 @@ void Load_XML() {
 			ktn_jump(I_No_Hazard, "xml parser failed to process \"Hazard\"");
 		}
 		ktn_free(Danger);
-		char* Value = get_str("Value");
-		if (ktn_stricmp(Value, "none")) {
+		if (Item.Price < 10) {
 			Item.Worth = Worthless;
-		} else if (ktn_stricmp(Value, "low")) {
+		} else if (Item.Price < 150) {
 			Item.Worth = Normal;
-		} else if (ktn_stricmp(Value, "mid")) {
+		} else if (Item.Price < 300) {
 			Item.Worth = Expensive;
-		} else if (ktn_stricmp(Value, "high")) {
-			Item.Worth = Exotic;
 		} else {
-			char Carrier[128];
-			snprintf(Carrier, sizeof(Carrier), "xml parser failed to process \"Value\" at \"%s\"", Raw_Names[C1]);
-			ktn_jump(I_No_Value, Carrier);
+			Item.Worth = Exotic;
 		}
-		ktn_free(Value);
 		#undef get_str
 		#undef get_int
 		#undef Item
@@ -442,6 +435,10 @@ void Load_XML() {
 		ktn_free(Subtype);
 		Recipe.Shuffling_Barred = Get_Boolean(Recipe_File, "Shuffling_Barred");
 		Recipe.Voiding_Excess = Get_Boolean(Recipe_File, "Voiding_Excess");
+		Recipe.Has_Cost = Get_Boolean(Recipe_File, "Money_Required");
+		if (Recipe.Has_Cost) {
+			Recipe.Cost = get_int("Cost");
+		}
 		Recipe.Time = get_int("Time");
 		Recipe.Power = get_int("Power");
 		char* Carrier = get_str("Parent");
@@ -451,7 +448,7 @@ void Load_XML() {
 		for (int C2 = 0; C2 < Recipe.Machine->Input_Ct; C2++) {
 			char* Name = Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL);
 			Recipe.Input_Items[C2] = Get_Item(Name);
-			if (Recipe.Input_Items[C2]->ID == Metadata.Null_Item.ID && !ktn_stricmp(Name, "none")) {
+			if (ktn_stricmp(Recipe.Input_Items[C2]->Index, ktn_strnull) && !ktn_stricmp(Name, "none")) {
 				char Carrier[128];
 				snprintf(Carrier, sizeof(Carrier), "xml parser failed to get \"%s\" at \"%s\"", Name, Raw_Names[C1]);
 				ktn_jump(I_No_Item, Carrier);
@@ -465,7 +462,7 @@ void Load_XML() {
 		for (int C2 = 0; C2 < Recipe.Machine->Output_Ct; C2++) {
 			char* Name = Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL);
 			Recipe.Output_Items[C2] = Get_Item(Find_Element(Raw_Names[C1], IO_Carrier[C2], "Item", NULL));
-			if (Recipe.Output_Items[C2]->ID == Metadata.Null_Item.ID && !ktn_stricmp(Name, "none")) {
+			if (ktn_stricmp(Recipe.Output_Items[C2]->Index, ktn_strnull) && !ktn_stricmp(Name, "none")) {
 				char Carrier[128];
 				snprintf(Carrier, sizeof(Carrier), "xml parser failed to get \"%s\" at \"%s\"", Name, Raw_Names[C1]);
 				ktn_jump(I_No_Item, Carrier);
@@ -526,7 +523,6 @@ void Load_XML() {
 	}
 	ktn_free(Raw_Names);
 	ktn_free(Registrar);
-	printf("debug info:\nlowest unreg. item id -> %i\n", Sub_ID_Record + 1);
 }
 
 char* Find_Element(const char* Path, const char* Text, const char* Element, int* End_Yield) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>liquid sodium</Name>
+	<Index>liquid_sodium</Index>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>243</R1>
+	<G1>108</G1>
+	<B1>0</B1>
+	<R2>191</R2>
+	<G2>59</G2>
+	<B2>17</B2>
+	<Hazard>mid</Hazard>
+	<Price>24</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

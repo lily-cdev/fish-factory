@@ -2,10 +2,8 @@
 <Item>
 	<Name>milkfish</Name>
 	<Index>milkfish</Index>
-	<ID>12</ID>
 	<Path>core/images/items/milkfish</Path>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>100</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

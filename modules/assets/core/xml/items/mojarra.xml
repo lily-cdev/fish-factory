@@ -2,10 +2,8 @@
 <Item>
 	<Name>mojarra</Name>
 	<Index>mojarra</Index>
-	<ID>13</ID>
 	<Path>core/images/items/mojarra</Path>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>120</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

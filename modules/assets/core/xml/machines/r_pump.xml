@@ -26,6 +26,7 @@
 			<Y>0</Y>
 			<Dir>any</Dir>
 			<Cap>3</Cap>
+			<Type>liquid</Type>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

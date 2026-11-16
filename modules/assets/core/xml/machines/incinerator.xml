@@ -5,10 +5,10 @@
 	<Index>incinerator</Index>
 	<Parent>other</Parent>
 	<Texture_Type>kiln</Texture_Type>
-	<Kiln_X>10</Kiln_X>
-	<Kiln_Y>10</Kiln_Y>
-	<Kiln_W>20</Kiln_W>
-	<Kiln_H>20</Kiln_H>
+	<Kiln_X>2</Kiln_X>
+	<Kiln_Y>2</Kiln_Y>
+	<Kiln_W>36</Kiln_W>
+	<Kiln_H>36</Kiln_H>
 	<Path>core/images/machines/incinerator</Path>
 	<Price>28</Price>
 	<Fee>1</Fee>
@@ -25,6 +25,7 @@
 			<Y>0</Y>
 			<Dir>any</Dir>
 			<Cap>10</Cap>
+			<Type>any</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>0</Output_Ct>

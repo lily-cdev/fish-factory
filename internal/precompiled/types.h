@@ -97,6 +97,7 @@ typedef struct {
 	Flow_Type Flow;
 	Dir Connection;
 	int Cap;
+	int Type;
 } Node_Data;
 
 typedef struct Category_Data {
@@ -174,7 +175,7 @@ typedef struct {
 	bool Irradiating;
 	bool Command;
 	bool Has_Audio;
-	ma_sound Run;
+	char Audio_Path[128];
 	bool Has_Light;
 	int Light_Ct;
 	Point* Light_Pos;
@@ -203,7 +204,6 @@ typedef struct {
 	SDL_Color Primary;
 	SDL_Color Secondary;
 	SDL_Texture* Icon;
-	int ID;
 	enum Hazard Danger;
 	enum Value Worth;
 	int Price;
@@ -244,6 +244,8 @@ typedef struct {
 	char* Index;
 	bool Shuffling_Barred;
 	bool Voiding_Excess;
+	bool Has_Cost;
+	int Cost;
 	int Time;
 	int Power;
 	Machine_Ptr Machine;

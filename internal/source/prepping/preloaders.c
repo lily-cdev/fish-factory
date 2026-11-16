@@ -1,4 +1,5 @@
 #include <prepping.h>
+#include <data.h>
 
 void Load_Rects() {
 	Rects.Tile_1x1.w = ktn_fscale(Core.Tile_Size);
@@ -25,6 +26,25 @@ void Preload_Fonts() {
 			char Subcarrier[128];
 			snprintf(Subcarrier, sizeof(Subcarrier), "could not load font \"%s\"; \"%s\"", Carrier, SDL_GetError());
 			ktn_jump(I_No_Font, Subcarrier);
+		}
+	}
+}
+
+void Preload_Audio() {
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
+			Data.Audio_Grid[X][Y] = malloc(sizeof(ma_sound) * Core.Machines);
+			for (int C1 = 0; C1 < Core.Machines; C1++) {
+				if (!Metadata.Machines[C1].Has_Audio) {
+					continue;
+				}
+				ma_result Yield = ma_sound_init_from_file(&Audio.Engine, Metadata.Machines[C1].Audio_Path, 0, NULL, NULL, &Data.Audio_Grid[X][Y][C1]);
+				if (Yield != MA_SUCCESS) {
+					char Carrier2[512];
+					snprintf(Carrier2, sizeof(Carrier2), "could not load a sound; %s", ma_result_description(Yield));
+					ktn_jump(I_No_Sound, Carrier2);
+				}
+			}
 		}
 	}
 }
@@ -65,9 +85,6 @@ void Preload_Machines() {
 			if (ktn_stricmp(Index, "ram_pump")) {
 				Metadata.Machines[C1].Depth = 2;
 				Load_Animated("core/images/machines/r_pump", &Metadata.Machines[C1].Texture2, 1, true);
-			} else if (ktn_stricmp(Index, "distillery")) {
-				Metadata.Machines[C1].Depth = 3;
-				Load_Animated_Rotational("core/images/machines/distillery", &Metadata.Machines[C1].Texture3, 2, false);
 			} else if (ktn_stricmp(Index, "electro_cell")) {
 				Metadata.Machines[C1].Depth = 3;
 				Load_Animated_Rotational("core/images/machines/e_plant", &Metadata.Machines[C1].Texture3, 2, true);
@@ -116,6 +133,8 @@ void Preload_Machines() {
 	Textures.Gene_Added = Preload_Texture("core/images/perks/owned");
 	Textures.Perk_Owned = Preload_Texture("core/images/perks/owned");
 	Load_Rotational("core/images/ui/other/direction", &Textures.Arrow);
+	Load_Rotational("core/images/ui/other/direction2", &Textures.Arrow2);
+	Load_Rotational("core/images/ui/other/direction3", &Textures.Arrow3);
 	Textures.R_Flash = Preload_Texture("core/images/effects/light");
 	Load_Subanimated("core/images/effects/bubble", &Textures.A_Bubble, 2);
 	Rects.R_Flash = (SDL_FRect){ 0.0f, 0.0f, ktn_fscale(40.0f), ktn_fscale(40.0f) };
@@ -317,6 +336,7 @@ void Preload_Assets() {
 	Core.Game_Texture = New_Texture((int)Core.Screensize.X, (int)Core.Screensize.Y);
 	Interface.Tile_Centerpoint = (SDL_FPoint){ ktn_fscale((Core.Tile_Size * 0.5f)), ktn_fscale((Core.Tile_Size * 0.5f)) };
 	Preload_Machines();
+	Preload_Audio();
 	Preload_Foundation();
 	Carrying_Texture = Preload_Texture("core/images/ui/backgrounds/doors");
 	Textures.Door.Data = malloc(sizeof(SDL_Texture*) * 2);

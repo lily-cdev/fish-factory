@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+    <Name>50% zirconium sulfate</Name>
+    <Index>zirconium_sulfate</Index>
+	<Path>core/images/items/liquid_base</Path>
+	<Uniform />
+	<R1>238</R1>
+	<G1>230</G1>
+	<B1>184</B1>
+	<R2>196</R2>
+	<G2>191</G2>
+	<B2>119</B2>
+    <Price>36</Price>
+	<Hazard>low</Hazard>
+    <Chem_Energy>0</Chem_Energy>
+    <Nutrition>0</Nutrition>
+</Item>

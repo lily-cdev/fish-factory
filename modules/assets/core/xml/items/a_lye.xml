@@ -2,10 +2,8 @@
 <Item>
 	<Name>lye</Name>
 	<Index>wet_lye</Index>
-	<ID>1</ID>
 	<Path>core/images/items/a_lye</Path>
 	<Hazard>mid</Hazard>
-	<Value>low</Value>
 	<Price>1</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

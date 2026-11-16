@@ -18,15 +18,14 @@ void Adjust_Audio() {
 	Point Pos;
 	for (Pos.X = 0; Pos.X < Core.Tile_Size; Pos.X++) {
 		for (Pos.Y = 0; Pos.Y < Core.Tile_Size; Pos.Y++) {
-			Machine_Ptr Chosen = Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
-			if (!Chosen || !Chosen->Has_Audio) {
-				continue;
-			}
-			ma_sound* Carrier = &Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Run;
 			float A = ktn_fscale((Core.Camera.X + 320.0f) - (Pos.X * Core.Tile_Size));
 			float B = ktn_fscale((Core.Camera.Y + 180.0f) - (Pos.Y * Core.Tile_Size));
 			float Volume = ktn_sqr(1.0f - fminf((sqrtf(ktn_sqr(A) + ktn_sqr(B)) / ktn_fscale(2000)), 1.0f));
-			ma_sound_set_volume(Carrier, Volume * Settings.Volume * 0.01f);
+			for (int C1 = 0; C1 < Core.Machines; C1++) {
+				if (Metadata.Machines[C1].Has_Audio) {
+					ma_sound_set_volume(&Data.Audio_Grid[pt(Pos)][C1], Settings.Volume * Volume * 0.01f);
+				}
+			}
 		}	
 	}
 }

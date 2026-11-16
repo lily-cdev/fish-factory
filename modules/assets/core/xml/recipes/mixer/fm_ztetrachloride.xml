@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>fm_ztetrachloride</Index>
+	<Type>both</Type>
+	<Time>15</Time>
+	<Power>200000</Power>
+	<Parent>fluid_mixer</Parent>
+	<Inputs>
+		<Input>
+			<Item>zirconium_dioxide</Item>
+			<Volume>2</Volume>
+		</Input>
+		<Input>
+			<Item>coke</Item>
+			<Volume>0.2</Volume>
+		</Input>
+		<Input>
+			<Item>chlorine</Item>
+			<Volume>2.5</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>carbon_monoxide</Item>
+			<Volume>0.75</Volume>
+			<Temp>710</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+		<Output>
+			<Item>zirconium_tetrachloride</Item>
+			<Volume>3.75</Volume>
+			<Temp>695</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

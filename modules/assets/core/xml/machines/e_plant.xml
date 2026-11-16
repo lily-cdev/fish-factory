@@ -11,7 +11,7 @@
 	<Width>3</Width>
 	<Height>2</Height>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>160000</Power_Capacity>
+	<Power_Capacity>520000</Power_Capacity>
 	<Anchor_X>0</Anchor_X>
 	<Anchor_Y>0</Anchor_Y>
 	<Rot_ID />
@@ -23,6 +23,7 @@
 			<Y>1</Y>
 			<Dir>down</Dir>
 			<Cap>3</Cap>
+			<Type>liquid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>3</Output_Ct>
@@ -32,18 +33,21 @@
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>5</Cap>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>5</Cap>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>2</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>5</Cap>
+			<Type>liquid</Type>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

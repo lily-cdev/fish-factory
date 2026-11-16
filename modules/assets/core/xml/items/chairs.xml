@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>chairs</Name>
+	<Index>chairs</Index>
+	<Path>core/images/items/chairs</Path>
+	<Hazard>none</Hazard>
+	<Price>361</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

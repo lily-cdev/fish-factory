@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>cnc_ufassemblies</Index>
+	<Type>both</Type>
+	<Time>30</Time>
+	<Power>90000</Power>
+	<Parent>signal_tower</Parent>
+	<Inputs>
+		<Input>
+			<Item>fuel_rods</Item>
+			<Volume>48</Volume>
+		</Input>
+		<Input>
+			<Item>zirconium_plates</Item>
+			<Volume>6</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>fuel_assemblies</Item>
+			<Volume>54</Volume>
+			<Temp>95</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+			<Temp>65</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

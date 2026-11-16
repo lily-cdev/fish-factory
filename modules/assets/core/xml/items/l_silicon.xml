@@ -2,7 +2,6 @@
 <Item>
 	<Name>molten silicon</Name>
 	<Index>liquid_silicon</Index>
-	<ID>38</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>17</R1>
@@ -12,7 +11,6 @@
 	<G2>130</G2>
 	<B2>133</B2>
 	<Hazard>mid</Hazard>
-	<Value>low</Value>
 	<Price>7</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

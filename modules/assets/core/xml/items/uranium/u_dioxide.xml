@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>uranium dioxide</Name>
+	<Name>uo2</Name>
 	<Index>uranium_dioxide</Index>
-	<ID>92</ID>
 	<Path>core/images/items/u_dioxide</Path>
 	<Hazard>mid</Hazard>
-	<Value>high</Value>
-	<Price>298</Price>
+	<Price>894</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>
 </Item>

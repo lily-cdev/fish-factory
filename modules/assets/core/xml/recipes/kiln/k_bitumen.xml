@@ -8,6 +8,10 @@
 	<Parent>kiln</Parent>
 	<Inputs>
 		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+		<Input>
 			<Item>bitumen</Item>
 			<Volume>2.0</Volume>
 		</Input>
@@ -17,6 +21,11 @@
 			<Item>coke</Item>
 			<Volume>1.0</Volume>
 			<Temp>2200</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

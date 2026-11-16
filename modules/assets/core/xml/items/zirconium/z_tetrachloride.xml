@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+    <Name>zirconium tetrachloride</Name>
+    <Index>zirconium_tetrachloride</Index>
+	<Path>core/images/items/z_tetrachloride</Path>
+    <Price>110</Price>
+	<Hazard>low</Hazard>
+    <Chem_Energy>0</Chem_Energy>
+    <Nutrition>0</Nutrition>
+</Item>

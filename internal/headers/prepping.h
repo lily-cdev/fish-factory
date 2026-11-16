@@ -41,11 +41,13 @@ struct Proto_Data {
 	int32_t Plumbing_Grid[ktn_grid_size][ktn_grid_size];
 	char Items_Grid[ktn_grid_size][ktn_grid_size][64];
 	int32_t Temperature_Grid[ktn_grid_size][ktn_grid_size];
-	float Animation_Grid[ktn_grid_size][ktn_grid_size][3];
+	float Animation_Grid[ktn_grid_size][ktn_grid_size][32];
 	float Data_Grid[ktn_grid_size][ktn_grid_size][7];
 	float Settings_Grid[ktn_grid_size][ktn_grid_size][16];
 	char Processing_Grid[ktn_grid_size][ktn_grid_size][64];
+	int8_t Types_Grid[ktn_grid_size][ktn_grid_size];
 	int64_t Funds;
+	ma_sound* Audio_Grid[ktn_grid_size][ktn_grid_size];
 };
 
 struct Proto_Metadata {
@@ -99,6 +101,8 @@ struct Proto_Textures {
 	Texture2_Array HX_Buttons;
 	Texture2_Array MT_Buttons;
 	Texture_Array Arrow;
+	Texture_Array Arrow2;
+	Texture_Array Arrow3;
 	Texture_Array S_Dock;
 	Texture_Array Tunnel;
 	Texture_Array Return;
@@ -419,6 +423,7 @@ bool Render_Button(const Texture_Array* Button, const Rect_Array* Hitbox, UI_Lin
 void Preload_Assets();
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y);
 bool Detect_Mouse_Collision(const SDL_FRect Target);
+Machine_Ptr Get_Parent(Point Pos);
 bool Is_Bound(Point Input);
 bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2);
 bool Check_Clearance(Point Pos, const int W, const int H);
@@ -445,7 +450,6 @@ int Render_Rich_Text(Font_Index Font, char* Raw_Text, Point Pos, bool Inverted, 
 void Render_Texture(SDL_Texture* Texture, SDL_FRect* Rect);
 void Preload_Noise();
 void Preload_Lights();
-void Preclear_Temporaries();
 void Render_Loadscreen(const char* Line);
 void Reseed_State();
 SDL_FRect Inline_Rect(SDL_FRect Input, const int Border);

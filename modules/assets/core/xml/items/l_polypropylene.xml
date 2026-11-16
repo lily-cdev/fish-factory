@@ -2,7 +2,6 @@
 <Item>
 	<Name>liquid polypropylene</Name>
 	<Index>liquid_polypropylene</Index>
-	<ID>58</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>235</R1>
@@ -12,7 +11,6 @@
 	<G2>208</G2>
 	<B2>212</B2>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>174</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

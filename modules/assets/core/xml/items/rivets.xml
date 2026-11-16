@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <Item>
-	<Name>rivets</Name>
+	<Name>screws</Name>
 	<Index>rivets</Index>
-	<ID>68</ID>
-	<Path>core/images/items/rivets</Path>
+	<Path>core/images/items/screws</Path>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>22</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -6,6 +6,8 @@
 	<Time>1</Time>
 	<Power>70</Power>
 	<Parent>oil_pump</Parent>
+	<Money_Required />
+	<Cost>105</Cost>
 	<Outputs>
 		<Output>
 			<Item>crude</Item>

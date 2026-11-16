@@ -2,10 +2,8 @@
 <Item>
 	<Name>ethylene</Name>
 	<Index>ethylene</Index>
-	<ID>51</ID>
 	<Path>core/images/items/ethylene</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>121</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

@@ -17,15 +17,21 @@ struct Fishlink {
     bool Autofill;
 };
 
+struct Docklink {
+    bool Allocated;
+    char Items[2][64];
+};
+
 extern char Growth_Phases[ktn_fish_phases][32];
 extern char Plural_Growth_Phases[ktn_fish_phases][32];
 extern int Growth_Weights[ktn_fish_phases];
 extern int Pool_Ct;
-extern struct Fishlink Fishlinks[16];
+extern int Dock_Ct;
+extern struct Fishlink Fishlinks[ktn_fishlinks];
+extern struct Docklink Docklinks[ktn_docklinks];
 
 void Update_Item(Point Pos, char Identifier[64], int Temperature);
 Item_Ptr Get_Item(const char* Index);
-Item_Ptr Get_ID_Item(const int ID);
 Fish_Ptr Get_Fish(int Identifier);
 void Purge_Items();
 int Get_Phase(Fish_Ptr Fish, int Progress);

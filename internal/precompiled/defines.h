@@ -9,7 +9,9 @@
 #define ktn_captions 6
 #define ktn_channels 1
 #define ktn_cmd_max 16
+#define ktn_cnc_swipe 1.0f
 #define ktn_days 7
+#define ktn_docklinks 16
 #define ktn_dock_cap 750.0
 #define ktn_effects 2
 #define ktn_epsilon 1e-5

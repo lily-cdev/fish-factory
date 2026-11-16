@@ -2,10 +2,8 @@
 <Item>
 	<Name>hydrogen</Name>
 	<Index>hydrogen</Index>
-	<ID>9</ID>
 	<Path>core/images/items/hydrogen</Path>
 	<Hazard>mid</Hazard>
-	<Value>none</Value>
 	<Price>1</Price>
 	<Chem_Energy>286000</Chem_Energy>
 	<Nutrition>0</Nutrition>

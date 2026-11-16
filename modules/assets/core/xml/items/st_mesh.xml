@@ -5,7 +5,6 @@
 	<ID></ID>
 	<Path>core/images/items/st_mesh</Path>
 	<Hazard>none</Hazard>
-	<Value>high</Value>
 	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

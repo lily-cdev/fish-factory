@@ -26,16 +26,17 @@
 			<Item>none</Item>
 			<Volume>0.0</Volume>
 		</Input>
-		<Input>
-			<Item>none</Item>
-			<Volume>0.0</Volume>
-		</Input>
 	</Inputs>
 	<Outputs>
 		<Output>
 			<Item>sulfur_trioxide</Item>
 			<Volume>2.5</Volume>
 			<Temp>400</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
 		</Output>
 		<Output>
 			<Item>none</Item>

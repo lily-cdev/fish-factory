@@ -8,6 +8,15 @@ bool Compare_Colors(const SDL_Color Color1, const SDL_Color Color2) {
 	return (Color1.r == Color2.r && Color1.g == Color2.g && Color1.b == Color2.b && Color1.a == Color2.a);
 }
 
+Machine_Ptr Get_Parent(Point Pos) {
+	if (ktn_stricmp(Data.Visual_Grid[pt(Pos)], ktn_strnull)) {
+		return Visual_To_Machine(Data.Visual_Grid[(int)Data.Settings_Grid[pt(Pos)][S_ParentX]][(int)Data.Settings_Grid[pt(Pos)][S_ParentY]]);
+	} else {
+		return Visual_To_Machine(Data.Visual_Grid[pt(Pos)]);
+	}
+	return NULL;
+}
+
 void Update_Tilestack(bool X_Lock, int X, bool Y_Lock, int Y) {
 	X *= Settings.Scalar;
 	Y *= Settings.Scalar;

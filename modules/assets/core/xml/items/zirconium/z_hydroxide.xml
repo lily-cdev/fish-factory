@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+    <Name>zirconium hydroxide</Name>
+    <Index>zirconium_hydroxide</Index>
+	<Path>core/images/items/z_hydroxide</Path>
+    <Price>171</Price>
+	<Hazard>low</Hazard>
+    <Chem_Energy>0</Chem_Energy>
+    <Nutrition>0</Nutrition>
+</Item>

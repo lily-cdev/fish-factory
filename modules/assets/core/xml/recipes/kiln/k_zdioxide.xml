@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>k_zdioxide</Index>
+	<Type>both</Type>
+	<Shuffling_Barred />
+	<Time>5</Time>
+	<Power>120000</Power>
+	<Parent>kiln</Parent>
+	<Inputs>
+		<Input>
+			<Item>zirconium_hydroxide</Item>
+			<Volume>2.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>zirconium_dioxide</Item>
+			<Volume>2.0</Volume>
+			<Temp>900</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0</Volume>
+			<Temp>65</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

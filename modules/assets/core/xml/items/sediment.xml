@@ -2,10 +2,8 @@
 <Item>
 	<Name>raw sediment</Name>
 	<Index>sediment</Index>
-	<ID>20</ID>
 	<Path>core/images/items/sediment</Path>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
 	<Price>3</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

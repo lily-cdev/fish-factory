@@ -2,10 +2,8 @@
 <Item>
 	<Name>aqueous marine snow</Name>
 	<Index>wet_marine_snow</Index>
-	<ID>4</ID>
 	<Path>core/images/items/am_snow</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>2</Price>
 	<Chem_Energy>13600</Chem_Energy>
 	<Nutrition>35</Nutrition>

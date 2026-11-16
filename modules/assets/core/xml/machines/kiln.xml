@@ -15,28 +15,44 @@
 	<Width>2</Width>
 	<Height>2</Height>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>210000</Power_Capacity>
+	<Power_Capacity>370000</Power_Capacity>
 	<Anchor_X>56</Anchor_X>
 	<Anchor_Y>40</Anchor_Y>
 	<Rot_ID />
 	<Fluid_Processor />
-	<Input_Ct>1</Input_Ct>
+	<Input_Ct>2</Input_Ct>
 	<Inputs>
 		<Input>
 			<X>0</X>
 			<Y>1</Y>
 			<Dir>down</Dir>
 			<Cap>3</Cap>
+			<Type>solid</Type>
+		</Input>
+		<Input>
+			<X>1</X>
+			<Y>1</Y>
+			<Dir>down</Dir>
+			<Cap>3</Cap>
+			<Type>liquid</Type>
 		</Input>
 	</Inputs>
-	<Output_Ct>1</Output_Ct>
+	<Output_Ct>2</Output_Ct>
 	<Outputs>
 		<Output>
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>4</Cap>
-		</Output>		
+			<Type>solid</Type>
+		</Output>
+		<Output>
+			<X>1</X>
+			<Y>0</Y>
+			<Dir>up</Dir>
+			<Cap>4</Cap>
+			<Type>liquid</Type>
+		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
 	<Has_Audio />

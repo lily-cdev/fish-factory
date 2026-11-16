@@ -2,7 +2,6 @@
 <Item>
 	<Name>ethylene dichloride</Name>
 	<Index>ethylene_dichloride</Index>
-	<ID>94</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>226</R1>
@@ -12,7 +11,6 @@
 	<G2>207</G2>
 	<B2>214</B2>
 	<Hazard>mid</Hazard>
-	<Value>mid</Value>
 	<Price>145</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

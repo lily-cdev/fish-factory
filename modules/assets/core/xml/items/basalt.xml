@@ -2,10 +2,8 @@
 <Item>
 	<Name>crushed basalt</Name>
 	<Index>basalt</Index>
-	<ID>27</ID>
 	<Path>core/images/items/basalt</Path>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>5</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

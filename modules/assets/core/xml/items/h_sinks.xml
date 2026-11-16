@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>heat sinks</Name>
+	<Index>heat_sinks</Index>
+	<Path>core/images/items/h_sinks</Path>
+	<Hazard>none</Hazard>
+	<Price>43</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

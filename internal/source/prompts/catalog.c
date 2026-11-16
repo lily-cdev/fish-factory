@@ -75,8 +75,8 @@ void Render_Catalog(Point Pos) {
 			}
 			char Buffer[128];
 			char Subbuffer[64];
-			Abbreviate_Number(Metadata.Recipes[C1].Power, Subbuffer, sizeof(Subbuffer));
-			snprintf(Buffer, sizeof(Buffer), "%i -> %sJ/s, %is", Number, Subbuffer, Metadata.Recipes[C1].Time);
+			Abbreviate_Number(Metadata.Recipes[C1].Power / Metadata.Recipes[C1].Time, Subbuffer, sizeof(Subbuffer));
+			snprintf(Buffer, sizeof(Buffer), "%i -> %sW, %is", Number, Subbuffer, Metadata.Recipes[C1].Time);
 			strcat(Candidate, Buffer);
 			if (Metadata.Recipes[C1].Voiding_Excess) {
 				strcat(Candidate, ", cannot overflow");
@@ -93,6 +93,9 @@ void Render_Catalog(Point Pos) {
 			Offset += 20;
 			strncpy(Candidate, "Inputs -> ", sizeof(Candidate));
 			for (int C3 = 0; C3 < Metadata.Recipes[C1].Machine->Input_Ct; C3++) {
+				if (Metadata.Recipes[C1].Input_Counts[C3] < ktn_epsilon) {
+					continue;
+				}
 				Abbreviate_Number(Metadata.Recipes[C1].Input_Counts[C3] / Metadata.Recipes[C1].Time, Buffer, sizeof(Buffer));
 				strcat(Candidate, Buffer);
 				strcat(Candidate, ktn_unit);

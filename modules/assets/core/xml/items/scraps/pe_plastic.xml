@@ -2,11 +2,9 @@
 <Item>
 	<Name>polyethylene resin</Name>
 	<Index>polyethylene</Index>
-	<ID>54</ID>
 	<Path>core/images/items/polyethylene</Path>
 	<Hazard>none</Hazard>
-	<Value>none</Value>
-	<Price>145</Price>
+	<Price>0</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>
 </Item>

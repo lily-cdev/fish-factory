@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Machine>
+	<Name>conveyor belt</Name>
+	<Desc>A conveyor belt used for transporting solids of any kind.</Desc>
+	<Index>belt</Index>
+	<Parent>logistics</Parent>
+	<Texture_Type>modular</Texture_Type>
+	<Parts>6</Parts>
+	<Path>core/images/machines/belt</Path>
+	<Price>10</Price>
+	<Fee>1</Fee>
+	<Nonrotatable />
+	<Modular />
+	<Omnidirectional />
+	<Width>1</Width>
+	<Height>1</Height>
+	<Power_Type>none</Power_Type>
+	<Mod_ID />
+</Machine>

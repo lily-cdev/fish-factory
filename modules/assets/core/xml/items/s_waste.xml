@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>waste</Name>
+	<Index>waste</Index>
+	<Path>core/images/items/s_waste</Path>
+	<Hazard>mid</Hazard>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

@@ -2,12 +2,13 @@
 
 bool (*Placing_Functions[])(Point Pos) = {
 	Place_Reinforced_Pipe, Place_Submarine_Dock, Place_Spawning_Pool, Place_Spawning_Controller, Place_Spawning_Output, Place_Spawning_Input,
-	Place_Large_Pipe, Place_Heat_Exchanger, Place_Money_Generator, Place_Fluid_Generator, Place_Turbine_Input, Place_Turbine_Impulse, Place_Power_Generator
+	Place_Large_Pipe, Place_Heat_Exchanger, Place_Money_Generator, Place_Fluid_Generator, Place_Turbine_Input, Place_Turbine_Impulse, Place_Power_Generator,
+	Place_Belt, Place_CNC
 };
 
 const char* Placing_Registers[] = {
 	"heavy_pipe", "sub_dock", "spawning_pool", "spawning_controller", "spawning_output", "spawning_input", "large_pipe", "hx", "money_cheat", "fluid_cheat",
-	"turbine_input", "turbine_impulse", "power_cheat"
+	"turbine_input", "turbine_impulse", "power_cheat", "belt", "signal_tower"
 };
 
 Point Find_Linked(const char* Index, Point Parent) {
@@ -233,6 +234,10 @@ void Update_Grid() {
 				char Carrier[64];
 				snprintf(Carrier, sizeof(Carrier), "large_pipe_%i", Mod_Detection(Pos, ktn_invalid, true, NULL));
 				strcpy(Temporary_Grid[pt(Pos)], Carrier);
+			} else if (ktn_stricmp(Machine->Index, "belt")) {
+				char Carrier[64];
+				snprintf(Carrier, sizeof(Carrier), "belt_%i", Mod_Detection(Pos, ktn_invalid, true, NULL));
+				strcpy(Temporary_Grid[pt(Pos)], Carrier);
 			}
 		}
 	}
@@ -258,7 +263,8 @@ void Build_Grid() {
 			Point Pos = { Column, Row };
 			Point Size = Interface.Item->Size;
 			if ((Data.CMD_Placed && Interface.Item->Command) || (Interface.Item->Edge_Needed && Row != 0) || (Interface.Item->Prerequisite &&
-				!Interface.Item->Prerequisite->Owned) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller"))) {
+				!Interface.Item->Prerequisite->Owned) || (Pool_Ct >= 16 && ktn_stricmp(Interface.Item->Index, "spawning_controller")) || (Dock_Ct >= 16 &&
+				ktn_stricmp(Interface.Item->Index, "sub_dock"))) {
 				return;
 			}
 			if (ktn_evn(Rotation)) {
@@ -324,6 +330,7 @@ void Build_Grid() {
 					}
 					Data.Settings_Grid[pt(Tile)][0] = Node_Ptrs[C1][C2].Flow;
 					Data.Data_Grid[pt(Tile)][Fluid_Cap] = Node_Ptrs[C1][C2].Cap;
+					Data.Types_Grid[pt(Tile)] = Node_Ptrs[C1][C2].Type;
 				}
 			}
 			Update_Grid();
@@ -358,6 +365,8 @@ void Remove_Machine(Point Pos) {
 		}
 	} else {
 		if (ktn_stricmp(Target->Index, "sub_dock")) {
+			Docklinks[(int)Data.Settings_Grid[pt(Pos)][5]].Allocated = false;
+			Dock_Ct--;
 			for (int C1 = 0; C1 < Temporary.Docks.Length; C1++) {
 				if (Temporary.Docks.Data[C1].X == Pos.X && Temporary.Docks.Data[C1].Y == Pos.Y) {
 					Pull_Docks(C1);
@@ -561,6 +570,9 @@ void Get_Chains() {
 			Q_Head++;
 			Point P1 = { Pipes.Data[Cursor].X1, Pipes.Data[Cursor].Y1 };
 			Point P2 = { Pipes.Data[Cursor].X2, Pipes.Data[Cursor].Y2 };
+			if (Data.Types_Grid[pt(P1)] == T_Solid || Data.Types_Grid[pt(P2)] == T_Solid) {
+				continue;
+			}
 			Temporary.Chains[Chain_Index][Len] = P1;
 			Len++;
 			Temporary.Chains[Chain_Index][Len] = P2;
@@ -569,9 +581,9 @@ void Get_Chains() {
 				if (Used[Candidate]) {
 					continue;
 				}
-				bool Shares = (Pipes.Data[Candidate].X1 == P1.X && Pipes.Data[Candidate].Y1 == P1.Y) || (Pipes.Data[Candidate].X2 == P1.X &&
-					Pipes.Data[Candidate].Y2 == P1.Y) || (Pipes.Data[Candidate].X1 == P2.X && Pipes.Data[Candidate].Y1 == P2.Y) || (Pipes.Data[Candidate].X2 ==
-					P2.X && Pipes.Data[Candidate].Y2 == P2.Y);
+				bool Shares = (Pipes.Data[Candidate].X1 == P1.X && Pipes.Data[Candidate].Y1 == P1.Y) || (Pipes.Data[Candidate].X2 == P1.X && Pipes.Data[
+					Candidate].Y2 == P1.Y) || (Pipes.Data[Candidate].X1 == P2.X && Pipes.Data[Candidate].Y1 == P2.Y) || (Pipes.Data[Candidate].X2 == P2.X &&
+					Pipes.Data[Candidate].Y2 == P2.Y);
 				if (Shares) {
 					Used[Candidate] = true;
 					Queue[Q_Tail] = Candidate;

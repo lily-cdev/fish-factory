@@ -2,11 +2,9 @@
 <Item>
     <Name>1.8%-enriched UF6</Name>
     <Index>barely_enriched_uf6</Index>
-    <ID>85</ID>
     <Path>core/images/items/u_hexafluoride</Path>
-    <Price>120</Price>
+    <Price>360</Price>
 	<Hazard>high</Hazard>
-	<Value>mid</Value>
     <Chem_Energy>0</Chem_Energy>
     <Nutrition>0</Nutrition>
 </Item>

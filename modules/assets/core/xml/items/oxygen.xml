@@ -2,10 +2,8 @@
 <Item>
 	<Name>oxygen</Name>
 	<Index>oxygen</Index>
-	<ID>14</ID>
 	<Path>core/images/items/oxygen</Path>
 	<Hazard>low</Hazard>
-	<Value>none</Value>
 	<Price>1</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

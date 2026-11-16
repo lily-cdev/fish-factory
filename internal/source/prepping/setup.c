@@ -1,15 +1,5 @@
 #include <prepping.h>
 
-void Preclear_Temporaries() {
-	for (int X = 0; X < ktn_grid_size; X++) {
-		for (int Y = 0; Y < ktn_grid_size; Y++) {
-			for (int Z = 0; Z < sizeof(Data.Animation_Grid[X][Y]) / sizeof(Data.Animation_Grid[X][Y][0]); Z++) {
-				Data.Animation_Grid[X][Y][Z] = ktn_invalid;
-			}
-		}
-	}
-}
-
 void Render_Loadscreen(const char* Line) {
 	Set_Renderer_Color(Colors.Pure_White);
 	SDL_RenderClear(Core.Renderer);

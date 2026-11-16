@@ -12,8 +12,8 @@
 	<Height>1</Height>
 	<Power_Type>in</Power_Type>
 	<Power_Capacity>8000000</Power_Capacity>
-	<Anchor_X>28</Anchor_X>
-	<Anchor_Y>43</Anchor_Y>
+	<Anchor_X>10</Anchor_X>
+	<Anchor_Y>10</Anchor_Y>
 	<Rot_ID />
 	<Fluid_Processor />
 	<Input_Ct>1</Input_Ct>
@@ -23,6 +23,7 @@
 			<Y>0</Y>
 			<Cap>12</Cap>
 			<Dir>left</Dir>
+			<Type>liquid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -31,12 +32,14 @@
 			<Y>0</Y>
 			<Cap>2</Cap>
 			<Dir>right</Dir>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>2</X>
 			<Y>0</Y>
 			<Cap>3</Cap>
 			<Dir>up</Dir>
+			<Type>liquid</Type>
 		</Output>
 	<Outputs>
 	</Outputs>

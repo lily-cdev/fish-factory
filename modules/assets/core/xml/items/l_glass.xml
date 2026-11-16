@@ -2,7 +2,6 @@
 <Item>
 	<Name>molten glass</Name>
 	<Index>liquid_glass</Index>
-	<ID>25</ID>
 	<Path>core/images/items/liquid_base</Path>
 	<Uniform />
 	<R1>169</R1>
@@ -12,7 +11,6 @@
 	<G2>223</G2>
 	<B2>228</B2>
 	<Hazard>none</Hazard>
-	<Value>low</Value>
 	<Price>5</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

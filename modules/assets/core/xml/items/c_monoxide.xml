@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>carbon monoxide</Name>
+	<Index>carbon_monoxide</Index>
+	<Path>core/images/items/c_monoxide</Path>
+	<Hazard>low</Hazard>
+	<Price>0</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

@@ -27,6 +27,7 @@
 			<Y>0</Y>
 			<Dir>left</Dir>
 			<Cap>3</Cap>
+			<Type>solid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -36,12 +37,14 @@
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>2</Cap>
+			<Type>solid</Type>
 		</Output>
 		<Output>
 			<X>2</X>
 			<Y>0</Y>
 			<Dir>right</Dir>
 			<Cap>2</Cap>
+			<Type>solid</Type>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>

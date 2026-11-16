@@ -6,11 +6,13 @@
 	<Time>1</Time>
 	<Power>70</Power>
 	<Parent>uf6_pump</Parent>
+	<Money_Required />
+	<Cost>450</Cost>
 	<Outputs>
 		<Output>
 			<Item>unenriched_uf6</Item>
 			<Volume>2</Volume>
-			<Temp>65</Temp>
+			<Temp>150</Temp>
 		</Output>
 	</Outputs>
 </Recipe>

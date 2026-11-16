@@ -79,10 +79,14 @@ void Update_Machines() {
 			if (Yield) {
 				Data.Animation_Grid[pt(Pos)][0] = 1.0f;
 				if (Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Has_Audio) {
-					ma_sound* Carrier = &Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Run;
-					ma_result Result = ma_sound_start(Carrier);
-					if (Result != MA_SUCCESS) {
-						printf("%d\n", Result);//TMP
+					for (int C1 = 0; C1 < Core.Machines; C1++) {
+						if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, Metadata.Machines[C1].Index)) {
+							ma_result Result = ma_sound_start(&Data.Audio_Grid[pt(Pos)][C1]);
+							if (Result != MA_SUCCESS) {
+								printf("%d\n", Result);//TMP
+							}
+							break;
+						}
 					}
 				}
 				//play sound
@@ -97,6 +101,7 @@ void Update_Machines() {
 				}
 			}
 			if (ktn_stricmp(Visual_To_Machine(Data.Visual_Grid[pt(Pos)])->Index, "sub_dock")) {
+				int ID = Data.Settings_Grid[pt(Pos)][5];
 				for (int C1 = 0; C1 < 2; C1++) {
 					if (Data.Settings_Grid[pt(Pos)][C1 + 3] > ktn_dock_cap - ktn_epsilon && Get_Perk("adv_automation")->Owned) {
 						if (Transition.Sub_Pos.X == ktn_invalid && Transition.Sub_Pos.Y == ktn_invalid) {
@@ -111,12 +116,11 @@ void Update_Machines() {
 						}
 					}
 					if (Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] > 0) {
-						if ((int)(Data.Settings_Grid[pt(Pos)][C1 + 5]) == Get_Item(Data.Items_Grid[Pos.X + C1][Pos.Y + 3])->ID || Data.Settings_Grid[pt(Pos)][
-							C1 + 5] == ktn_invalid) {
+						if (ktn_stricmp(Docklinks[ID].Items[C1], Data.Items_Grid[Pos.X + C1][Pos.Y + 3]) || ktn_stricmp(Docklinks[ID].Items[C1], ktn_strnull)) {
 							Data.Settings_Grid[pt(Pos)][C1 + 3] = fminf(Data.Settings_Grid[pt(Pos)][C1 + 3] + Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids],
 								ktn_dock_cap);
 							Data.Data_Grid[Pos.X + C1][Pos.Y + 3][Stored_Fluids] = 0;
-							Data.Settings_Grid[pt(Pos)][C1 + 5] = Get_Item(Data.Items_Grid[Pos.X + C1][Pos.Y + 3])->ID;
+							strcpy(Docklinks[ID].Items[C1], Data.Items_Grid[Pos.X + C1][Pos.Y + 3]);
 						}
 					}
 				}

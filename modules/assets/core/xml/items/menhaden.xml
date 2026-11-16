@@ -2,10 +2,8 @@
 <Item>
 	<Name>menhaden</Name>
 	<Index>menhaden</Index>
-	<ID>11</ID>
 	<Path>core/images/items/menhaden</Path>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>105</Price>
 	<Chem_Energy>0</Chem_Energy>
 	<Nutrition>0</Nutrition>

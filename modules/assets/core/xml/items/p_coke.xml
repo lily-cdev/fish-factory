@@ -2,10 +2,8 @@
 <Item>
 	<Name>petroleum coke</Name>
 	<Index>coke</Index>
-	<ID>90</ID>
 	<Path>core/images/items/p_coke</Path>
 	<Hazard>none</Hazard>
-	<Value>mid</Value>
 	<Price>145</Price>
 	<Chem_Energy>13380000</Chem_Energy>
 	<Nutrition>0</Nutrition>

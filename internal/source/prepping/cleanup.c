@@ -64,6 +64,16 @@ void Cleanup_Assets() {
 	for (int C1 = 0; C1 < ktn_fonts; C1++) {
 		TTF_CloseFont(Fonts.Faces[C1]);
 	}
+	for (int X = 0; X < ktn_grid_size; X++) {
+		for (int Y = 0; Y < ktn_grid_size; Y++) {
+			for (int C1 = 0; C1 < Core.Machines; C1++) {
+				if (Metadata.Machines[C1].Has_Audio) {
+					ma_sound_uninit(&Data.Audio_Grid[X][Y][C1]);
+				}
+			}
+			ktn_free(Data.Audio_Grid[X][Y]);
+		}
+	}
 	for (int C1 = 0; C1 < Core.Machines; C1++) {
 		switch (Metadata.Machines[C1].Depth) {
 		case 1:
@@ -86,9 +96,6 @@ void Cleanup_Assets() {
 		if (Metadata.Machines[C1].Has_Light) {
 			ktn_free(Metadata.Machines[C1].Light_Pos);
 			ktn_free(Metadata.Machines[C1].Light_Range);
-		}
-		if (Metadata.Machines[C1].Has_Audio) {
-			ma_sound_uninit(&Metadata.Machines[C1].Run);
 		}
 		if (Metadata.Machines[C1].Has_Emitter) {
 			for (int C2 = 0; C2 < Metadata.Machines[C1].Emitter_Ct; C2++) {
@@ -197,6 +204,8 @@ void Cleanup_Assets() {
 	Clear_Texture_Array(&Textures.Save_Settings);
 	ktn_free(Rects.Save_Settings.Data);
 	Clear_Texture_Array(&Textures.Arrow);
+	Clear_Texture_Array(&Textures.Arrow2);
+	Clear_Texture_Array(&Textures.Arrow3);
 	Clear_Texture_Array(&Textures.S_Dock);
 	Clear_Texture_Array(&Textures.Tunnel);
 	ktn_free(Rects.Tunnel.Data);

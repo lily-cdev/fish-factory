@@ -27,12 +27,14 @@
 			<Y>2</Y>
 			<Cap>12</Cap>
 			<Dir>down</Dir>
+			<Type>solid</Type>
 		</Input>
 		<Input>
 			<X>1</X>
 			<Y>2</Y>
 			<Cap>3</Cap>
 			<Dir>down</Dir>
+			<Type>solid</Type>
 		</Input>
 	</Inputs>
 	<Output_Ct>2</Output_Ct>
@@ -41,12 +43,14 @@
 			<Y>0</Y>
 			<Cap>12</Cap>
 			<Dir>up</Dir>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>0</Y>
 			<Cap>3</Cap>
 			<Dir>up</Dir>
+			<Type>liquid</Type>
 		</Output>
 	<Outputs>
 	</Outputs>

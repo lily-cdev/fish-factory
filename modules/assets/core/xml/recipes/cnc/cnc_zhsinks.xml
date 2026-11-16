@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Recipe>
+	<Index>cnc_zhsinks</Index>
+	<Type>both</Type>
+	<Time>10</Time>
+	<Power>65000</Power>
+	<Parent>signal_tower</Parent>
+	<Inputs>
+		<Input>
+			<Item>zirconium_plates</Item>
+			<Volume>2.0</Volume>
+		</Input>
+		<Input>
+			<Item>zirconium_sheets</Item>
+			<Volume>0.5</Volume>
+		</Input>
+		<Input>
+			<Item>rivets</Item>
+			<Volume>0.25</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+		<Input>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+		</Input>
+	</Inputs>
+	<Outputs>
+		<Output>
+			<Item>heat_sinks</Item>
+			<Volume>2.75</Volume>
+			<Temp>90</Temp>
+		</Output>
+		<Output>
+			<Item>none</Item>
+			<Volume>0.0</Volume>
+			<Temp>65</Temp>
+		</Output>
+	</Outputs>
+</Recipe>

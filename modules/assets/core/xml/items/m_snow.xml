@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>marine snow</Name>
+	<Index>marine_snow</Index>
+	<Path>core/images/items/m_snow</Path>
+	<Hazard>none</Hazard>
+	<Price>5</Price>
+	<Chem_Energy>27200</Chem_Energy>
+	<Nutrition>70</Nutrition>
+</Item>

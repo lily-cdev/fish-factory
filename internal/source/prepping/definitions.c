@@ -10,7 +10,7 @@ struct Proto_Core Core = {
 	.Ratio = 1
 };
 struct Proto_Data Data = {
-	.Version = 4
+	.Version = 6
 };
 struct Proto_Metadata Metadata = {
 .Days = { "Mon", "Tues", "Wednes", "Thurs", "Fri", "Satur", "Sun" },

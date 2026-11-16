@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<Item>
+	<Name>uranium fuel assemblies</Name>
+	<Index>fuel_assemblies</Index>
+	<Path>core/images/items/uf_assembly</Path>
+	<Hazard>low</Hazard>
+	<Price>1596</Price>
+	<Chem_Energy>0</Chem_Energy>
+	<Nutrition>0</Nutrition>
+</Item>

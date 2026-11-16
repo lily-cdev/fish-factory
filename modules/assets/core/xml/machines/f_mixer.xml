@@ -12,63 +12,71 @@
 	<Height>3</Height>
 	<Speed>90</Speed>
 	<Power_Type>in</Power_Type>
-	<Power_Capacity>120000</Power_Capacity>
+	<Power_Capacity>240000</Power_Capacity>
 	<Anchor_X>60</Anchor_X>
 	<Anchor_Y>60</Anchor_Y>
 	<Rot_ID />
 	<Fluid_Processor />
-	<Input_Ct>6</Input_Ct>
+	<Input_Ct>5</Input_Ct>
 	<Inputs>
 		<Input>
 			<X>0</X>
 			<Y>0</Y>
 			<Dir>left</Dir>
 			<Cap>24</Cap>
+			<Type>liquid</Type>
 		</Input>
 		<Input>
 			<X>0</X>
 			<Y>1</Y>
 			<Dir>left</Dir>
 			<Cap>24</Cap>
+			<Type>liquid</Type>
 		</Input>
 		<Input>
 			<X>0</X>
 			<Y>2</Y>
 			<Dir>left</Dir>
 			<Cap>24</Cap>
+			<Type>liquid</Type>
 		</Input>
 		<Input>
 			<X>2</X>
 			<Y>0</Y>
 			<Dir>right</Dir>
 			<Cap>24</Cap>
-		</Input>
-		<Input>
-			<X>2</X>
-			<Y>1</Y>
-			<Dir>right</Dir>
-			<Cap>24</Cap>
+			<Type>solid</Type>
 		</Input>
 		<Input>
 			<X>2</X>
 			<Y>2</Y>
 			<Dir>right</Dir>
 			<Cap>24</Cap>
+			<Type>solid</Type>
 		</Input>
 	</Inputs>
-	<Output_Ct>2</Output_Ct>
+	<Output_Ct>3</Output_Ct>
 	<Outputs>
 		<Output>
 			<X>1</X>
 			<Y>0</Y>
 			<Dir>up</Dir>
 			<Cap>36</Cap>
+			<Type>liquid</Type>
 		</Output>
 		<Output>
 			<X>1</X>
 			<Y>2</Y>
 			<Dir>down</Dir>
 			<Cap>36</Cap>
+			<Type>liquid</Type>
+		</Output>
+		<Output>
+			<X>2</X>
+			<Y>1</Y>
+			<Dir>right</Dir>
+			<Cap>36</Cap>
+			<Type>solid</Type>
 		</Output>
 	</Outputs>
 	<Neutral_Ct>0</Neutral_Ct>
